@@ -141,9 +141,7 @@ export class CityThreatSheet extends CityActorSheet {
 		const actor = this.actor;
 		let status = actor.hasStatus(name2);
 		if (status) {
-			// const {name ,data: {tier, pips}} = status.data;
 			const obj = await status.addStatus(tier2);
-			// await this.reportStatsuChange(actor, tier2,  {name, tier, pips}, status);
 		} else {
 			const obj = await actor.createNewStatus(name2, tier2);
 		}

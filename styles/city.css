@@ -912,3 +912,6 @@ input.character-residence {
 	font-size: larger;
 }
 
+faded {
+	opacity: 0.25;
+}
