@@ -6,6 +6,8 @@
 
 * You won't need to create any items in Foundry, everything is handled via the actor classes barring specific exceptions (like wanting to create a custom Themebook)
 
+* There is no drag-and-drop functionality (yet), everything is handled through buttons on the character sheet
+
 ## Characters
 
 * To edit the sheet click the lock icon to unlock it. This will allow adding additional themes. For normal play it should be locked.
