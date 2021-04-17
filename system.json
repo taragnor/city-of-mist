@@ -2,7 +2,7 @@
 	"name": "city-of-mist",
 	"title": "City of Mist",
 	"description": "City of Mist RPG",
-	"version": "1.2.1",
+	"version": "2.0.1",
 	"minimumCoreVersion": "0.7.9",
 	"compatibleCoreVersion": "0.7.9",
 	"templateVersion": 2,
@@ -11,7 +11,7 @@
 	"styles": ["styles/city.css"],
 	"url": "https://github.com/taragnor/city-of-mist/",
 	"manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
-	"download": "https://github.com/taragnor/city-of-mist/archive/v.1.2.1.zip",
+	"download": "https://github.com/taragnor/city-of-mist/archive/v.2.0.1.zip",
 	"packs": [
 		{
 			"name": "themebook",
