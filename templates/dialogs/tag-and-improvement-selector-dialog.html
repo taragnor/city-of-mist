@@ -1,0 +1,25 @@
+<div class="single-choice-box">
+	<table class="single-choice-table">
+		{{#each list as |e|}}
+		<tr>
+			<div class="item-to-add">
+				<td>
+					<input type="radio" name="select_items" value="{{e.id}}">
+				</td>
+			</div>
+			{{#each e.data as |d|}}
+			<td>
+				{{#if (eq d e.data.[0])}}
+				<span class="single-choice-item-data" title="{{e.description}}">
+					{{else}}
+					<span class="single-choice-item-data">
+						{{/if}}
+						{{d}}
+					</span>
+			</td>
+			{{/each}}
+		</tr>
+		{{/each}}
+	</table>
+</div>
+

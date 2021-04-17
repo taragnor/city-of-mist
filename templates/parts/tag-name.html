@@ -1,0 +1,46 @@
+<!-- Template ::
+	tag
+	direction
+	activated
+	locked -->
+	<span class="tag-name-block">
+		<span class="tag-symbols">
+			{{#if (eq tag.data.subtype "story")}}
+			<a title="Story Tag" ><i class="fas fa-tag"></i> </a>
+			{{/if}}
+			{{#if (eq tag.data.subtype "power")}}
+			<a title="Power Tag" ><i class="fas fa-bolt"></i> </a>
+			{{/if}}
+			{{#if (eq tag.data.subtype "weakness")}}
+			<a title="Weakness Tag" ><i class="fas fa-angle-double-down"></i> </a>
+			{{/if}}
+			{{#if tag.data.crispy }}
+			<a title="Crispy Tag" ><i class="fas fa-leaf"></i> </a>
+			{{/if}}
+			{{#if tag.data.custom_tag }}
+			<a title="Bonus Tag" ><i class="fas fa-star"></i> </a>
+			{{/if}}
+			{{#if tag.data.broad }}
+			<a title="Broad Tag" ><i class="fas fa-globe"></i> </a>
+			{{/if}}
+		</span>
+		<span class="flex-tag-name
+						 {{tag.data.subtype}}-tag
+						 {{#if (and locked (eq tag.data.burned 0))}} active-tag {{/if}}
+						 {{#if (ne direction 0)}} selected-tag {{/if}}
+						 {{#if (gt direction 0)}} positive-selected-tag{{/if}}
+						 {{#if (lt direction 0)}} negative-selected-tag{{/if}}
+						 {{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
+						 {{#if (and (not tag.data.burned) locked)}} tag-select-button  {{/if}}
+						 {{#if (gt (defaultTagDirection tag._id owner._id sheetowner._id) 0)}}
+					    default-positive {{else}} default-negative
+						 {{/if}}
+						 {{#if (gt tag.data.burned 0)}} burned-tag burn-level-{{tag.data.burned}}  {{/if}}
+						 " title= "{{tag.data.question}}" > {{tag.name}}
+						 {{#if tag.location}}
+						 <span class="story-tag-location">
+							 ( {{tag.location}} )
+						 </span>
+						 {{/if}}
+		</span>
+	</span>

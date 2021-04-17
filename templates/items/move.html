@@ -1,0 +1,11 @@
+<form class="{{cssClass}} theme-book-sheet" autocomplete="off" data-owner-id="{{item._id}}" data-sheet-owner-id="{{item._id}}" data-owner-class="item">
+	<header class="sheet-header">
+		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}">
+		<div class="header-fields">
+			<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+		</div>
+	</header>
+	<section id="move-core">
+		{{> "systems/city-of-mist/templates/parts/move-display.html" move=item data=item.data owner=item locked=false sheetowner=item}}
+	</section>
+</form>

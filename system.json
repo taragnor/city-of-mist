@@ -1,0 +1,45 @@
+{
+	"name": "city-of-mist",
+	"title": "City of Mist",
+	"description": "City of Mist RPG",
+	"version": "1.2.1",
+	"minimumCoreVersion": "0.7.9",
+	"compatibleCoreVersion": "0.7.9",
+	"templateVersion": 2,
+	"author": "taragnor",
+	"esmodules": ["module/city.js"],
+	"styles": ["styles/city.css"],
+	"url": "https://github.com/taragnor/city-of-mist/",
+	"manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
+	"download": "https://github.com/taragnor/city-of-mist/archive/v.1.2.1.zip",
+	"packs": [
+		{
+			"name": "themebook",
+			"label": "Themebooks",
+			"system": "city-of-mist",
+			"path": "./packs/themebooks.db",
+			"entity": "Item"
+		},
+		{
+			"name": "move",
+			"label": "Moves",
+			"system": "city-of-mist",
+			"path": "./packs/moves.db",
+			"entity": "Item"
+		},
+		{
+			"name": "improvement",
+			"label": "Moments of Evolution",
+			"system": "city-of-mist",
+			"path": "./packs/BUImprovements.db",
+			"entity": "Item"
+		}
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	]
+}

@@ -1,0 +1,8 @@
+<form class="{{cssClass}} gmmove-sheet flex-col item-edit-dialog">
+	<label class="dialog-label" for="name"> Name </label>
+	<input type="text" name="name" value="{{item.name}}">
+	{{createSelect (getGMMoveTypes) "data.subtype" data.subtype "select-gmmove-subtype" }}
+	<hr>
+	<label class="dialog-label" for="description"> Description </label>
+	<textarea class="gmmove-description" name="data.description">{{data.description}}</textarea>
+</form>

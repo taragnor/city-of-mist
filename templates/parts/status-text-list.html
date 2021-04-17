@@ -1,0 +1,34 @@
+<div class="status-text-list">
+	<div class="status-text-list-header"> Statuses
+		<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+	</div>
+	{{#each actor.items as |status id|}}
+	{{#if (eq status.type "status")}}
+	<div class="status-line" data-status-id="{{status._id}}" data-owner-id="{{../owner._id}}" data-tier="{{status.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+		{{#if (eq owner sheetowner)}}
+		<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
+		{{/if}}
+		<span class="status-name status-select-button {{#if (eq (activatedDirection ../sheetowner._id ../owner._id status._id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection ../sheetowner._id ../owner._id status._id) -1)}} negative-selected-status {{/if}}">
+			{{status.name}}-{{status.data.tier}}
+		</span>
+		<a class="item-control status-add" title="Add Status"><i class="fas fa-plus"></i></a>
+	</div>
+	{{/if}}
+	{{/each}}
+	{{#each sheetowner.data.otherStatuses as |character id|}}
+	<div class="{{#if (eq character.type "character")}}ally-status{{/if}}
+					{{#if (eq character.type "threat")}}enemy-status{{/if}}
+													  {{#if (eq character.type "extra")}}ally-status{{/if}} ">
+		{{#each character.statuses as |status id|}}
+		<div class="status-line" data-status-id="{{status._id}}" data-owner-id="{{character._id}}" data-tier="{{status.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+			<span class="status-name status-select-button {{#if (eq (activatedDirection ../../sheetowner._id ../character._id status._id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection ../../sheetowner._id ../character._id status._id) -1)}} negative-selected-status {{/if}}">
+				<span class="status-owner"> ({{character.name}}) </span>
+				{{status.name}}-{{status.data.tier}}
+			</span>
+		</div>
+		{{/each}}
+	</div>
+	{{/each}}
+
+</div>
+

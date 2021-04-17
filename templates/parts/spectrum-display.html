@@ -1,0 +1,8 @@
+<div class="spectrum {{#if (not locked)}}spectrum-editable{{/if}}" data-spectrum-id="{{spectrum._id}}">
+	{{#if (not locked)}}
+	<a class="item-control spectrum-delete" title="Delete Spectrum"><i class="fas fa-trash"></i></a>
+	{{/if}}
+	<span class="spectrum-name"> {{spectrum.name}} </span> :
+	<span class="spectrum-tier"> {{spectrum.data.max_tier}} </span>
+</div>
+

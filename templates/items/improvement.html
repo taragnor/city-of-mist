@@ -1,0 +1,9 @@
+<form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item._id}}" data-sheet-owner-id="{{item._id}}" data-owner-class="item">
+	<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+	<label> Uses </label>
+	<input name="data.uses.max" value="{{data.uses.max}}">
+	<label class="dialog-label" for="free-content"> Allow Override </label>
+	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
+	<label> Description </label>
+	<textarea  type="text" name="data.description">{{item.data.description}}</textarea>
+</form>

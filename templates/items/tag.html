@@ -1,0 +1,15 @@
+<form class="{{cssClass}} tag-sheet flex-col {{#if (eq actor.data.selectedMoveGroup "SHB")}}stop-holding-back-sheet {{/if}} " autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" data-owner-class="actor">
+	<label> Tag Name </label>
+	<input type="text" class="tag-name" name="name" value="{{item.name}}">
+	<label> Tag Question </label>
+	{{#if (not item.data.custom_tag) }}
+	<div class="question" > {{item.data.question_letter}} - {{item.data.question}} </div>
+	{{else}}
+	<input type="text" class="tag-question-entry" name="data.question" value="{{item.data.question}}">
+	{{/if}}
+	<label for="crispy"> Crispy Tag </label>
+	<input type="checkbox" class="item-checkbox" name="data.crispy" {{#if data.crispy}} checked{{/if}}>
+	<label for="broad"> Broad Tag </label>
+	<input type="checkbox" class="item-checkbox" name="data.broad" {{#if data.broad}} checked{{/if}} >
+
+</form>

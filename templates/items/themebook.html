@@ -1,0 +1,66 @@
+<form class="{{cssClass}} theme-book-sheet" autocomplete="off">
+	<header class="sheet-header">
+		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}">
+		<div class="header-fields">
+			<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+		</div>
+	</header>
+	<section class="sheet-body flex-vertical">
+		<select name="data.type" data-dtype="String">
+			{{#select data.type}}
+			<option value="">—</option>
+			<option value="Crew">Crew</option>
+			<option value="Logos">Logos</option>
+			<option value="Mythos">Mythos</option>
+			{{/select}}
+		</select>
+	<label class="dialog-label" for="free-content"> Allow Override </label>
+	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
+		<textarea name="data.description">{{data.description}}</textarea>
+		<div id="power-questions">
+			<h1 id="power-tags-header"> Power Tags
+				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="power_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+			</h1>
+			{{#each data.power_questions as |question ind|}}
+			{{#if (ne question "_DELETED_")}}
+			<div id="power-question-{ind}">
+				<span class="question-letter">	{{ind}} </span>
+				<input class="question-entry" name="data.power_questions.{{ind}}" type="text" value="{{question}}" placeholder=""/>
+				<a class="delete-tag-question" data-tag-type="power_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+			</div>
+			{{/if}}
+			{{/each}}
+		</div>
+		<div id="weakness-questions">
+			<h1 id="weakness-tags-header"> Weakness Tags
+				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+			</h1>
+			{{#each data.weakness_questions as |question ind|}}
+			{{#if (ne question "_DELETED_")}}
+			<div id="weakness-question-{ind}">
+				<span class="question-letter">	{{ind}} </span>
+				<input class="question-entry" name="data.weakness_questions.{{ind}}" type="text" value="{{question}}" placeholder=""/>
+				<a class="delete-tag-question" data-tag-type="weakness_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+			</div>
+			{{/if}}
+			{{/each}}
+		</div>
+		<div id="improvements">
+			<h1 id="improvements-header"> Improvements
+				<a class="add-improvement" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+			</h1>
+			{{#each data.improvements as |imp ind|}}
+			{{#if (ne imp "_DELETED_")}}
+			<div id="improvement-question-{ind}">
+				<input class="improvement-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
+				<input class="improvement-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
+				<input class="improvement-uses" name="data.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder=""/>
+				<a class="delete-improvement" data-improvement-index="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+			</div>
+			{{/if}}
+			{{/each}}
+		</div>
+	</section>
+
+</form>
+

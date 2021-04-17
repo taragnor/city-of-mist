@@ -1,0 +1,12 @@
+<form class="{{cssClass}} themebook-selection-dialog flex-col" autocomplete="off">
+	<div id="themebook-choices">
+		{{#each themebooks as |themebook|}}
+		<div>
+			<input type="radio" value="{{themebook.name}}">
+			<label class="themebook-selector-themebook-name">
+				{{themebook.name}}
+			</label>
+		</div>
+		{{/each}}
+	</div>
+</form>

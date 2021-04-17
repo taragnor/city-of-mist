@@ -1,0 +1,122 @@
+<div class="{{theme.data.themebook.data.type}}-theme" id="theme-id-{{id}}" data-theme-id="{{theme._id}}" data-owner-id="{{owner._id}}" data-theme-type=themetype>
+	<div class ="theme-text">
+		{{#if (ne themetype "character")}}
+		<div class="non-char-theme-header" title="{{themetype}} theme"> {{owner.name}} </div>
+		{{/if}}
+		{{#if (ne themetype "extra")}}
+		<img class="theme-img" src="{{theme.data.themebook.img}}" title="{{theme.name}}" width="24" height="24"/>
+		{{else}}
+		<img class="theme-img" src="{{owner.img}}" title="{{owner.name}}" width="24" height="24"/>
+		{{/if}}
+		<input class="theme-name-input" type="text" data-theme-id="{{theme._id}}" value="{{theme.name}}" {{#if locked}} disabled {{/if}} />
+	</div>
+	{{#if (eq locked false)}}
+	<a class="item-control theme-delete" data-theme-id="{{theme._id}}" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
+	{{/if}}
+	{{#if (eq theme.data.themebook.data.type "Logos")}}
+	<div class="themebook-name-logos"> {{theme.data.themebook.name}}</div>
+	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity: </b> </div>
+	<textarea class="themebook-identity identity-input" type="text" value="{{theme.data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.data.mystery}}</textarea>
+	{{else}}
+	<div class="themebook-name-mythos"> {{theme.data.themebook.name}}</div>
+	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery : </b> </div>
+	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.data.mystery}}</textarea>
+	{{/if}}
+
+	<div class="att-fade-section">
+		<div class="attention-block flex-line">
+			<span class="attention-text flex-std"> Attention: </span>
+			<div class="dots-section flex-std">
+				{{#each theme.data.attention as |attention rank|}}
+				{{#if (eq attention 1)}}
+				<span class="filled-circle tracker-circle"></span>
+				{{else}}
+				<span class="empty-circle tracker-circle"></span>
+				{{/if}}
+				{{/each}}
+				{{#if (ne theme.data.unspent_upgrades 0)}}
+				<span class="unspent-upgrades"> (+{{theme.data.unspent_upgrades}}) </span>
+				{{/if}}
+				<a class="theme-add-attention"  data-type="attention" > <i class="fas fa-plus-square"></i></a>
+				{{#if (ne locked true)}}
+				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
+				{{/if}}
+			</div>
+		</div>
+		<div class="fade-block flex-line">
+			<span class="fade-text flex-std">
+				{{#if (eq theme.data.themebook.data.type "Logos")}}
+				Crack:
+				{{else}}
+				Fade:
+				{{/if}}
+			</span>
+			<div class="dots-section flex-std">
+				{{#each theme.data.crack as |crack rank|}}
+				{{#if (eq crack 1)}}
+				<span class="filled-circle tracker-circle"></span>
+				{{else}}
+				<span class="empty-circle tracker-circle"></span>
+				{{/if}}
+				{{/each}}
+				<a class="theme-add-fade"  data-type="crack" > <i class="fas fa-plus-square"></i></a>
+				{{#if (gt theme.data.unspent_upgrades 0)}}
+				<a class="theme-reset-fade"  data-type="crack" title="Reset Fade"> <i class="fas fa-undo"></i></a>
+				{{/if}}
+				{{#if (ne locked true)}}
+				<a class="theme-remove-fade"  data-type="crack" > <i class="fas fa-minus-square"></i></a></p>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+	<div class="tag-add-icons">
+		<div id="tags-header" class="tags-header"> Tags
+			{{#if (gt theme.data.unspent_upgrades 0)}}
+			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
+			{{/if}}
+			{{#if (eq locked false)}}
+			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" > <i class="fas fa-star"></i></a>
+			<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" > <i class="fas fa-anchor" ></i></a>
+			{{/if}}
+		</div>
+	</div>
+	<ul class="tag-list">
+		{{#each owner.items as |tag tid|}}
+		{{#if (eq tag.type "tag")}}
+		{{#if (eq tag.data.theme_id ../theme._id)}}
+		{{#if (eq tag.data.subtype "power")}}
+		<li>
+			{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=../owner locked=../locked sheetowner=../sheetowner canBurn=true}}
+		</li>
+		{{/if}}
+		{{/if}}
+		{{/if}}
+		{{/each}}
+		{{#each owner.items as |tag tid|}}
+		{{#if (eq tag.type "tag")}}
+		{{#if (eq tag.data.theme_id ../theme._id)}}
+		{{#if (eq tag.data.subtype "weakness")}}
+		<li>
+			{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=../owner locked=../locked sheetowner=../sheetowner canBurn=false}}
+		</li>
+		{{/if}}
+		{{/if}}
+		{{/if}}
+		{{/each}}
+		<h3 id="improvements-header" class="improvements-header"> Improvements
+			{{#if (gt theme.data.unspent_upgrades 0)}}
+			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner._id}}" data-theme-id="{{theme._id}}" > <i class="fas fa-plus-square"></i></a></p>
+			{{/if}}
+		</h3>
+		<ul class="improvement-list">
+			{{#each owner.items as |tag tid|}}
+			{{#if (eq tag.type "improvement")}}
+			{{#if (eq tag.data.theme_id ../theme._id)}}
+			<li>
+				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=tag owner=../owner locked=../locked sheetowner=../sheetowner}}
+			</li>
+			{{/if}}
+			{{/if}}
+			{{/each}}
+		</ul>
+</div>

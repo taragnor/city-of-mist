@@ -1,0 +1,40 @@
+	<h1 class="gm-moves-header"> Moves
+		{{#if (eq actor.data.locked false)}}
+		<a class="create-gm-move" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+		{{/if}}
+	</h1>
+	{{#each actor.items as |item id|}}
+	{{#if (eq item.type "gmmove")}}
+	{{#if (eq item.data.subtype "intrusion")}}
+	<!-- get moves in for loop -->
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../actor.data.locked sheetowner=../actor movetype=move.data.subtype }}
+	{{/if}}
+	{{/if}}
+	{{/each}}
+	{{#each actor.items as |item id|}}
+	{{#if (eq item.type "gmmove")}}
+	{{#if (eq item.data.subtype "custom")}}
+	<!-- get moves in for loop -->
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../actor.data.locked sheetowner=../actor movetype=move.data.subtype}}
+	{{/if}}
+	{{/if}}
+	{{/each}}
+	<br><hr>
+	{{#each actor.items as |item id|}}
+	{{#if (eq item.type "gmmove")}}
+	{{#if (eq item.data.subtype "hard")}}
+	<!-- get moves in for loop -->
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../actor.data.locked sheetowner=../actor movetype=move.data.subtype}}
+	{{/if}}
+	{{/if}}
+	{{/each}}
+	<br><hr>
+	{{#each actor.items as |item id|}}
+	{{#if (eq item.type "gmmove")}}
+	{{#if (eq item.data.subtype "soft")}}
+	<!-- get moves in for loop -->
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../actor.data.locked sheetowner=../actor movetype=move.data.subtype}}
+	{{/if}}
+	{{/if}}
+	{{/each}}
+

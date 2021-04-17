@@ -1,0 +1,27 @@
+<div class="theme-destruction-message">
+	<div class="main-destruction-message">
+		{{theme.name}} ({{theme.data.themebook.data.type}}) destroyed!
+	</div>
+	<div class="tags-header"> Tags </div>
+	<ul class="tag-list">
+		{{#each tags as |tag tid|}}
+		<li>
+			{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=owner locked=true sheetowner=null canBurn=false}}
+		</li>
+		{{/each}}
+	</ul>
+	<div class="improvements-header"> Improvements </div>
+	<ul class="improvement-list">
+		{{#each improvements as |imp tid|}}
+		<li>
+			{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=true sheetowner=null}}
+		</li>
+		{{/each}}
+	</ul>
+	<div class="build-up-gain">
+		Build Up Points Gained: {{BUGenerated}}
+		{{#if (gt BUImpGained 0)}}
+		({{BUImpGained}} NEW IMPROVEMENTS!)
+		{{/if}}
+	</div>
+</div>

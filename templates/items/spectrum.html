@@ -1,0 +1,17 @@
+<form class="{{cssClass}} spectrum-sheet flex-col item-edit-dialog" autocomplete="off">
+	<label class="dialog-label" for="name"> Name </label>
+	<input type="text" name="name" value="{{item.name}}">
+	<hr>
+	<span>
+	<label class="dialog-label" for="name"> Max Tier </label>
+	<input type="radio" name="data.max_tier" value="1" {{#if (eq "1" data.max_tier)}} checked {{/if}} > 1 </input>
+	<input type="radio" name="data.max_tier" value="2" {{#if (eq "2" data.max_tier)}} checked {{/if}}  > 2 </input>
+	<input type="radio" name="data.max_tier" value="3" {{#if (eq "3" data.max_tier)}} checked {{/if}}  > 3 </input>
+	<input type="radio" name="data.max_tier" value="4" {{#if (eq "4" data.max_tier)}} checked {{/if}}  >4 </input>
+	<input type="radio" name="data.max_tier" value="5" {{#if (eq "5" data.max_tier)}} checked {{/if}}  >5 </input>
+	<input type="radio" name="data.max_tier" value="6" {{#if (eq "6" data.max_tier)}} checked {{/if}}  >6 </input>
+	<input type="radio" name="data.max_tier" value="-" {{#if (eq "-" data.max_tier)}} checked {{/if}}  >- </input>
+	</span>
+</form>
+
+

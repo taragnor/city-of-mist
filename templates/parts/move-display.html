@@ -1,0 +1,51 @@
+<section id="data-init" data-move-id="{{move._id}}" data-owner-id="{{owner._id}}">
+	<div class="description-header"> Description </div>
+	<textarea name="data.description" type="text">{{data.description}}</textarea>
+	<label class="type-header"> Type </div>
+	<select name="data.type">
+		<option value="standard" {{#if (eq data.type "standard")}} selected {{/if}} >Standard </option>
+		<option value="noroll" {{#if (eq data.type "noroll")}} selected {{/if}}> No Roll </option>
+		<option value="logosroll" {{#if (eq data.type "logosroll")}} selected {{/if}}> Logos Roll </option>
+		<option value="mythosroll" {{#if (eq data.type "mythosroll")}} selected {{/if}}> Mythos Roll </option>
+	</select>
+	<label class="type-header"> Category </div>
+	<select name="data.category">
+		<option value="Core" {{#if (eq data.category "Core")}} selected {{/if}} >Core </option>
+		<option value="Advanced" {{#if (eq data.category "Advanced")}} selected {{/if}}> Advanced </option>
+		<option value="SHB" {{#if (eq data.category "SHB")}} selected {{/if}}> Stop.Holding.Back </option>
+	</select>
+	<div class="move-result-header"> Always Displayed</div>
+	<textarea type="text" name="data.always">{{data.always}}</textarea>
+	<div class="move-result-header"> On Miss </div>
+	<textarea type="text" name="data.onMiss">{{data.onMiss}}</textarea>
+	<div class="move-result-header"> On Partial </div>
+	<textarea type="text" name="data.onPartial">{{data.onPartial}}</textarea>
+	<div class="move-result-header"> On Success </div>
+	<textarea type="text" name="data.onSuccess">{{data.onSuccess}}</textarea>
+	<div class="move-result-header"> On Dynamite </div>
+	<textarea type="text" name="data.onDynamite">{{data.onDynamite}}</textarea>
+	<div class="move-list-section">
+		<div class="move-list-header"> List Elements
+			{{#if (eq locked false)}}
+			<a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
+			{{/if}}
+		</div>
+		{{#each move.data.listConditionals as |li id|}}
+		<div class="move-conditonal-block" data-index="{{id}}">
+			<select class="move-condition-input">
+				<option value="gtPartial" {{#if (eq li.condition "gtPartial")}}  selected {{/if}} > &gt;= Partial </option>
+				<option value="gtSuccess" {{#if (eq li.condition "gtSuccess")}}  selected {{/if}} > &gt;= Success </option>
+				<option value="eqDynamite" {{#if (eq li.condition "eqDynamite")}}  selected {{/if}}> Dynamite </option>
+				<option value="eqPartial" {{#if (eq li.condition "eqPartial")}}  selected {{/if}} > Partial </option>
+				<option value="eqSuccess" {{#if (eq li.condition "eqSuccess")}}  selected {{/if}}>  Success </option>
+				<option value="Always" {{#if (eq li.condition "Always")}}  selected {{/if}}>  Always </option>
+				<option value="Miss" {{#if (eq li.condition "Miss")}}  selected {{/if}}>  Miss </option>
+			</select>
+			<input class="move-list-input" type="text" value="{{li.text}}"/>
+			<a class="delete-move-list-element" title="Delete List Element"><i class="theme-trash fas fa-trash"></i></a>
+		</div>
+		{{/each}}
+	</div>
+	<label> Move Special Identifiers </label>
+	<input type="text" value="{{data.effect_class}}" name="data.effect_class">
+</section>

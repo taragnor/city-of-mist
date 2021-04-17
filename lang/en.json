@@ -1,0 +1,18 @@
+{
+"ACTOR.TypeCharacter": "Player Character",
+"ACTOR.TypeThreat": "Danger",
+"ACTOR.TypeCrew": "Crew",
+"ACTOR.TypeExtra": "Extra",
+"ACTOR.TypeStorytagcontainer": "Story Tag Container",
+"ITEM.TypeTheme" : "Theme",
+"ITEM.TypeThemebook" : "Themebook",
+"ITEM.TypeTag" : "Tag",
+"ITEM.TypeImprovement" : "Improvement",
+"ITEM.TypeTag_question" : "Tag Question",
+"ITEM.TypeStatus" : "Status",
+"ITEM.TypeClue" : "Clue",
+"ITEM.TypeJuice" : "Juice",
+"ITEM.TypeMove" : "Player Move",
+"ITEM.TypeGmmove" : "MC Move",
+"ITEM.TypeSpectrum" : "Danger Spectrum"
+}

@@ -1,0 +1,13 @@
+{{#each sheetowner.data.otherStatuses as |character id|}}
+<section class="card-style {{#if (eq character.type "character")}}ally-card{{/if}}
+{{#if (eq character.type "threat")}}enemy-card{{/if}}
+{{#if (eq character.type "extra")}}ally-card{{/if}} 
+">
+<div class="other-status-owner-name">
+	{{character.name}}
+</div>
+	{{#each character.statuses as |status id|}}
+	{{> "systems/city-of-mist/templates/parts/status-display.html" owner=character locked=true sheetowner=../../sheetowner status=status}}
+	{{/each}}
+</section>
+{{/each}}

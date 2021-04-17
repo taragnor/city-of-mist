@@ -1,0 +1,176 @@
+{
+	"Actor": {
+		"types": ["character", "extra" ,"crew", "threat", "storyTagContainer"],
+		"templates": {
+			"default": {
+				"locked": true,
+				"biography": "",
+				"description": "",
+				"gmnotes": "",
+				"crewThemes": [],
+				"version": 1.0
+			},
+			"themeholder": {
+				"num_themes": 0,
+				"finalized": false
+			},
+			"TagSelector": {
+				"selectedTags": [],
+				"selectedMove": "",
+				"selectedMoveGroup": "core"
+			},
+			"activateable": {
+				"activated": false
+			},
+			"aliasable": {
+				"alias": "?????",
+				"useAlias": true
+			},
+			"person": {
+				"age": 0,
+				"residence": ""
+			}
+
+		},
+		"character": {
+			"templates": ["default", "themeholder", "TagSelector", "person"],
+			"mythos": "",
+			"alias": "",
+			"activeExtraId": "",
+			"activeExtra": null,
+			"buildup": [0, 0, 0, 0, 0],
+			"unspentBU": 0,
+			"flashback_used": false
+		},
+		"extra": {
+			"templates": ["default", "themeholder", "aliasable"],
+			"mythos": "",
+			"useAlias": false
+		},
+		"crew": {
+			"templates": ["default", "themeholder"]
+		},
+		"threat": {
+			"templates": ["default", "aliasable"]
+		},
+		"storyTagContainer": {
+			"templates": ["default", "activateable"]
+		}
+
+	},
+	"Item": {
+		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum"],
+		"templates": {
+			"default": {
+				"description": "",
+				"locked": false,
+				"version": 1.0,
+				"free_content": false
+			},
+			"ability": {
+				"description": "",
+				"class": "",
+				"price": 1
+			},
+			"tiered": {
+				"tier": 0,
+				"pips": 0
+			},
+			"expendable" : {
+				"isExpendable": false,
+				"maxUses": 0,
+				"currentUses": 0
+			}
+		},
+		"themebook": {
+			"templates": ["default"],
+			"type": "Logos",
+			"power_questions": [],
+			"weakness_questions": [],
+			"improvements": []
+		},
+		"tag": {
+			"templates": ["default", "actorSelectable"],
+			"question": "",
+			"question_letter": "",
+			"subtype" : "",
+			"burned": 0,
+			"crispy": 0,
+			"theme_id": 0,
+			"custom_tag": false,
+			"broad": false
+		},
+		"theme": {
+			"templates": ["default"],
+			"tags": [],
+			"improvements": {},
+			"attention": [0, 0, 0],
+			"crack": [0, 0, 0],
+			"mystery": "",
+			"themebook_id":"",
+			"themebook_name":"",
+			"unspent_upgrades":0,
+			"img": "",
+			"ownerId" : "",
+			"nascent" : false
+		},
+		"improvement": {
+			"templates": ["default", "expendable"],
+			"uses": {
+				"current" : 0,
+				"max": 0,
+				"expended": false
+			},
+			"theme_id": "",
+			"free_content": false
+		},
+		"tag_question": {
+			"templates": [],
+			"letter": "",
+			"question": ""
+		},
+		"status": {
+			"templates": ["default", "tiered", "actorSelectable"],
+			"type": 0,
+			"hidden": false,
+			"spectrum_status": ""
+		},
+		"spectrum" : {
+			"max_tier" : 0
+		},
+		"clue" :{
+			"templates": ["default"],
+			"amount": 0,
+			"source": "",
+			"method": "",
+			"partial": false
+		},
+		"juice": {
+			"templates": ["default", "actorSelectable"],
+			"amount": 0,
+			"source": "",
+			"method": "",
+			"tagsUsed": []
+		},
+		"move": {
+			"templates": ["default"],
+			"onSuccess": "",
+			"onDynamite": "",
+			"onMiss": "MC Move.",
+			"onPartial": "",
+			"always": "",
+			"listConditionals": [],
+			"type": "standard",
+			"category": "Core",
+			"effect_class": ""
+		},
+		"gmmove": {
+			"templates": ["default"],
+			"subtype": "",
+			"html": "",
+			"taglist": [],
+			"statuslist": []
+
+		}
+	}
+}
