@@ -1,7 +1,6 @@
 # City of Mist for Foundry VTT
 
-![character](https://user-images.githubusercontent.com/31339311/115492469-decbe880-a22f-11eb-8dae-1312f4476503.jpg)
-![Chat](https://user-images.githubusercontent.com/31339311/115492488-e4293300-a22f-11eb-8116-f635bb3f939f.jpg)
+![character](https://user-images.githubusercontent.com/31339311/115492469-decbe880-a22f-11eb-8dae-1312f4476503.jpg) ![Chat](https://user-images.githubusercontent.com/31339311/115492488-e4293300-a22f-11eb-8116-f635bb3f939f.jpg)
 
 
 ## Usage Intructions
