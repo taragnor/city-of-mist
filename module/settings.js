@@ -16,7 +16,7 @@ export const registerSystemSettings = function() {
 		scope: "world",
 		config: true,
 		type: Number,
-		default: "None",
+		default: Infinity,
 		choices: {
 			Infinity : "None",
 			3: "+3",
