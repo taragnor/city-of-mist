@@ -33,7 +33,7 @@ This is the unofficial Foundry System for City of Mist RPG by Son of Oak.
 
 * Add your themes and then add in power tags. The sheet automatically tracks improvements you have, so will limit how many power tags you can add. As your theme gets attention more improvements are added.
 
-* At 3 crack/fade, a theme will be destroyed and removed, and appropriate build-up points will be added.
+* At 3 crack/fade, a theme will be destroyed and removed, and appropriate build-up points will be added towards a moment of evolution. 
 
 * If you get a power tag from a special source (like an improvement), you can add it as a bonus tag (the star icon).
 
@@ -48,6 +48,10 @@ This is the unofficial Foundry System for City of Mist RPG by Son of Oak.
 ### Improvements
 
 * Improvements with uses are tracked by the system. To refresh them, use the End of Session move, this will restore flashback and depleted improvements. Note that only improvements that can be used a specific number of times per game session are tracked, per scene usage is left to the MC.
+
+### Advancement
+
+* Characters have to "level up" their theme before it will allow additional power tags or improvements to be selected. 
 
 ## Crew Theme
 
