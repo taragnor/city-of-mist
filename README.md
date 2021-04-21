@@ -15,7 +15,7 @@ This is the unofficial Foundry System for City of Mist RPG by Son of Oak.
 * Semi-directed character development and creation. No drag-and-drop required, everything is accessible from the main character sheet. 
 
 
-## Usage Intructions
+## Usage Instructions
 
 ### General
 
