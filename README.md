@@ -4,6 +4,15 @@
 <img src="https://user-images.githubusercontent.com/31339311/115492488-e4293300-a22f-11eb-8116-f635bb3f939f.jpg" height=600px>
   </span>
 
+This is the unofficial Foundry System for City of Mist RPG by Son of Oak.
+
+### Features
+
+* Ability to select tags, statuses and story tags for moves. Will automatically burn crew or extra tags if used. 
+* Organizes tags/statuses for crew themes, extra themes, allied Characters and visible Danger tokens on one character sheet making it easy to select the modifiers to your rolls. 
+* Allows GM moves to place statuses and create story tags on the dangers that invoke them. 
+* Support for grit mode optional rule.
+* Semi-directed character development and creation. No drag-and-drop required, everything is accessible from the main character sheet. 
 
 
 ## Usage Intructions
