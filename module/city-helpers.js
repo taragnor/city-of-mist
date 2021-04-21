@@ -133,9 +133,23 @@ export class CityHelpers {
 
   /* -------------------------------------------- */
 
-	static async modificationLog(actor, action, object = null, aftermsg ) {
+	// static async modificationLog(actor, action, object = null, aftermsg = "" ) {
+	static async modificationLog(...args) {
 		if (!game.settings.get("city-of-mist", "loggedActions"))
 			return;
+		await this.logToChat(...args);
+		// if (action != undefined) {
+		// 	const object_part = object ? `${object.type} ${object.name}` : "";
+		// 	const after_message = aftermsg ? `(${aftermsg})` : "";
+		// 	const message = `${actor.getDisplayedName()} : ${action} ${object_part} ${after_message}`;
+		// 	await this.gmMessage(message, null);
+		// } else {
+		// 	console.warn(`Deprecated usage of modification Log: ${actor}`);
+		// 	await this.gmMessage(actor);
+		// }
+	}
+
+	static async logToChat(actor, action, object = null, aftermsg = "") {
 		if (action != undefined) {
 			const object_part = object ? `${object.type} ${object.name}` : "";
 			const after_message = aftermsg ? `(${aftermsg})` : "";
@@ -145,6 +159,8 @@ export class CityHelpers {
 			console.warn(`Deprecated usage of modification Log: ${actor}`);
 			await this.gmMessage(actor);
 		}
+
+
 	}
 
 	static async gmMessage(text, actor = null) {

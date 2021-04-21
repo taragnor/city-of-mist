@@ -139,6 +139,15 @@ Hooks.once("init", async function() {
 		}
 	});
 
+	// Handlebars.registerHelper('defaultTagDirection', function (tagId, tagOwnerId, sheetownerId) {
+	Handlebars.registerHelper('defaultTagDirection', function (sheetownerId, tagOwnerId, tagId) {
+		const tagowner = game.actors.find(x=> x._id == tagOwnerId);
+		const sheetowner = game.actors.find(x=> x._id == sheetownerId);
+		const tag = tagowner.items.find(x=> x._id == tagId);
+		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
+	});
+
+
   // Equals handlebar.
 
 	Handlebars.registerHelper('createSelect', function (dataList, locationOfNew, currentValue = "", cssclass = "") {
@@ -188,13 +197,6 @@ Hooks.once("init", async function() {
 				console.warn("No default move group for actor");
 				return actor.data.coremoves;
 		}
-	});
-
-	Handlebars.registerHelper('defaultTagDirection', function (tagId, tagOwnerId, sheetownerId) {
-		const tagowner = game.actors.find(x=> x._id == tagOwnerId);
-		const sheetowner = game.actors.find(x=> x._id == sheetownerId);
-		const tag = tagowner.items.find(x=> x._id == tagId);
-		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
 	});
 
 	Handlebars.registerHelper('applyNameSubstitution', function (move, dangerId, options) {

@@ -32,7 +32,7 @@
 						 {{#if (lt direction 0)}} negative-selected-tag{{/if}}
 						 {{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
 						 {{#if (and (not tag.data.burned) locked)}} tag-select-button  {{/if}}
-						 {{#if (gt (defaultTagDirection tag._id owner._id sheetowner._id) 0)}}
+						 {{#if (gt (defaultTagDirection sheetowner._id owner._id tag._id ) 0)}}
 					    default-positive {{else}} default-negative
 						 {{/if}}
 						 {{#if (gt tag.data.burned 0)}} burned-tag burn-level-{{tag.data.burned}}  {{/if}}

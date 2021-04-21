@@ -419,7 +419,7 @@ export class CityActorSheet extends CitySheet {
 						const BUV = theme.getBuildUpValue();
 						const imp = await this.actor.incBuildUp(BUV);
 
-						await CityHelpers.modificationLog(this.actor, await theme.printDestructionManifest(imp));
+						await CityHelpers.logToChat(this.actor, await theme.printDestructionManifest(imp));
 					}
 					await this.forceRefresh();
 				}
