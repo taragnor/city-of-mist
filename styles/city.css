@@ -746,6 +746,13 @@ div.narrated-text {
 	padding: 10px;
 	background: linear-gradient(to right, rgba(191,85,236, 0.4), rgba(191,85,236, 0.7), rgba(191,85,236, 0.4));
 	text-shadow: 3px 3px 3px black;
+	user-select: text;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
 
 span.narrated-story-tag {

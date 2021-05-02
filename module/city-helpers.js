@@ -479,7 +479,7 @@ export class CityHelpers {
 		for (const tagName of tags)
 			processed_html  =	processed_html.replaceAll(`[${tagName}]`, `<span class="narrated-story-tag">${tagName}</span>`);
 		processed_html = CityHelpers.statusClassSubstitution(processed_html);
-		processed_html = processed_html.replaceAll("\n", "<br>");
+		// processed_html = processed_html.replaceAll("\n", "<br>");
 		const speaker = {alias:"Narration"};
 		const messageData = {
 			speaker: speaker,

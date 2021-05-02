@@ -111,7 +111,6 @@
 			"themebook_name":"",
 			"unspent_upgrades":0,
 			"img": "",
-			"ownerId" : "",
 			"nascent" : false
 		},
 		"improvement": {

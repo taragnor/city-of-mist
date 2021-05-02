@@ -61,11 +61,9 @@
 				<div class="theme-block-group">
 					{{#each actor.items as |item id|}}
 					{{#if (eq item.type "theme")}}
-					{{#if (eq item.data.ownerId ../actor._id)}}
 					<div class="flex-theme-block">
 						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.data.locked sheetowner=../actor themetype="character"}}
 					</div>
-					{{/if}}
 					{{/if}}
 					{{/each}}
 				</div>

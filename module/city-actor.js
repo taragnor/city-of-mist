@@ -158,12 +158,13 @@ export class CityActor extends Actor {
 		const img = themebook.img;
 		if (!img )
 			throw new Error(`Themebook ID #${themebook_id} not found`);
-		const ownerId = this._id;
+		// const ownerId = this._id;
 		const nascent = !this.isNewCharacter();
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
 		const obj = {
-			name, type: "theme", img, data: {themebook_id, themebook_name, ownerId, unspent_upgrades, nascent}
+			// name, type: "theme", img, data: {themebook_id, themebook_name, ownerId, unspent_upgrades, nascent} //REMOVED OWNER ID
+			name, type: "theme", img, data: {themebook_id, themebook_name, unspent_upgrades, nascent}
 		};
 		await this.createEmbeddedEntity("OwnedItem", obj);
 		console.log(`creating themebook ${themebook.name}`)

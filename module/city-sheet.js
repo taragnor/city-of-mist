@@ -55,7 +55,7 @@ export class CitySheet extends ActorSheet {
 				acc.push(x);
 			return acc;
 		}, []);
-		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name));
+		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
 		const templateData = {actor: this.actor.data, data: this.actor.data.data, themebooks};
 		const title = "Select Themebook";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
@@ -67,8 +67,8 @@ export class CitySheet extends ActorSheet {
 				buttons: {
 					one: {
 						label: "Select",
-						callback: () => {
-							const selected = $("#themebook-choices input[type='radio']:checked");
+						callback: (html) => {
+							const selected = $(html).find("#themebook-choices input[type='radio']:checked");
 							if (selected.length == 0) {
 								console.log("Nothing selected");
 								conf(null);

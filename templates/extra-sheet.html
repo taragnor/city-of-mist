@@ -44,6 +44,9 @@
 					{{/if}}
 					{{/each}}
 					<div class="flex-theme-block" >
+						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.data.locked sheetowner=actor}}
+					</div>
+					<div class="flex-theme-block" >
 						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=false sheetowner=actor canBurn=true}}
 					</div>
 				</div>
