@@ -18,6 +18,14 @@ import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
 import { CityStoryTagContainerSheet } from "./city-story-tag-container-sheet.js";
 
+//Fix for electron browser lacking replaceAll method
+if (String.prototype.replaceAll == undefined) {
+	String.prototype.replaceAll = function (regex, replacementString) {
+		const REnew = new RegExp(regex.toString(), "g");
+		return this.replace(REnew, replacementString);
+	}
+}
+
 window.CityHelpers = CityHelpers;
 
 window.Debug = function (str) {
