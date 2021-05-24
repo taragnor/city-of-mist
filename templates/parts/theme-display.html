@@ -18,9 +18,16 @@
 	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity: </b> </div>
 	<textarea class="themebook-identity identity-input" type="text" value="{{theme.data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.data.mystery}}</textarea>
 	{{else}}
+	{{#if (eq theme.data.themebook.data.type "Mythos")}}
 	<div class="themebook-name-mythos"> {{theme.data.themebook.name}}</div>
 	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery : </b> </div>
 	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.data.mystery}}</textarea>
+	{{else}}
+<!-- Crew and Extra -->
+	<div class="themebook-name-crew"> {{theme.data.themebook.name}}</div>
+	<div class="themebook-crew-label"> <b class="themebook-mystery"> Mystery/ Identity : </b> </div>
+	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.data.mystery}}</textarea>
+	{{/if}}
 	{{/if}}
 
 	<div class="att-fade-section">

@@ -75,7 +75,7 @@ div.Logos-theme {
 	height:100%;
 }
 
-div.Crew-theme {
+div.Crew-theme, div.Extra-theme {
 	border: 1px;
 	border-style: solid;
 	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
@@ -122,6 +122,9 @@ div.themebook-identity-label {
 }
 
 div.themebook-mystery-label {
+}
+
+div.themebook-crew-label {
 }
 
 div.tag-add-icons {
@@ -411,6 +414,11 @@ div.themebook-name-mythos  {
 
 div.themebook-name-logos {
 	background: linear-gradient(to right, rgba(255, 140, 0, 0.4), rgba(255, 140, 0, 0.9), rgba(255, 140, 0, 0.4));
+	color: white;
+}
+
+div.themebook-name-crew {
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
 	color: white;
 }
 
