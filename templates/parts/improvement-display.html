@@ -1,7 +1,7 @@
-<div class="improvement-block" data-imp-id="{{improvement._id}}">
+<div class="improvement-block" data-imp-id="{{improvement.id}}">
 	{{#if (eq locked false)}}
 	<a class="item-control imp-delete" title="Delete Improvement" ><i class="fas fa-trash"></i></a>
 	{{/if}}
-	<span class="improvement-name {{#if improvement.data.uses.expended}} improvement-expended {{/if}}" title="{{improvement.data.description}}" > {{improvement.name}} </span>
+	<span class="improvement-name {{#if data.uses.expended}} improvement-expended {{/if}}" title="{{data.description}}" > {{improvement.name}} </span>
 </div>
 

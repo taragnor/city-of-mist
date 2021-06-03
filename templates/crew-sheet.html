@@ -1,12 +1,11 @@
-<form class="{{cssClass}} crew-sheet" autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" >
-
+<form class="{{cssClass}} crew-sheet" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" >
 	<section id="basic-info" class="flex-horizontal">
 		<div class="grow-two">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
 			<div id="name">
 				<label for="crew-name">Name</label>
 				<a class="sheet-lock-button" title="Delete Theme">
-					{{#if actor.data.locked}}
+					{{#if data.locked}}
 					<i class="fas fa-lock"></i>
 					{{else}}
 					<i class="fas fa-unlock"></i>
@@ -19,18 +18,18 @@
 	<section id="theme-section" class="theme-section">
 		<h1 id="Theme Header" class="flex-horizontal item-block">
 			<p>Themes
-			{{#if (eq actor.data.locked false)}}
-			{{#if (lt actor.data.num_themes 3)}}
-			<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+			{{#if (eq data.locked false)}}
+			{{#if (lt data.num_themes 3)}}
+			<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 			{{/if}}
 			{{/if}}
 			</p>
 		</h1>
 		<div class="theme-block-group">
-			{{#each actor.items as |item id|}}
+			{{#each actor.items as |item|}}
 			{{#if (eq item.type "theme")}}
 			<div class="flex-theme-block">
-				{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.data.locked sheetowner=../actor themetype="crew"}}
+				{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="crew" data=item.data.data themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
 			</div>
 			{{/if}}
 			{{/each}}

@@ -12,6 +12,16 @@ export class CityItemSheet extends ItemSheet {
 
 	/* -------------------------------------------- */
 
+	getData(options) {
+		let  data = super.getData();
+		//FIx for compatibility with .0.8
+		const itemData = this.item.data.toObject(false);
+		data.item = this.item;
+		data.data = itemData.data;
+		// data.items = this.item.items.map(x=>x);
+		return data;
+	}
+
 	/** @override */
 	get template() {
 		const path = "systems/city-of-mist/templates/items";
@@ -47,6 +57,7 @@ export class CityItemSheet extends ItemSheet {
 		html.find('.move-condition-input, .move-list-input').change (this._moveListUpdater.bind(this));
 		html.find('.delete-move-list-element').click (this._deleteMoveListElement.bind(this));
 		html.find('.custom-tag-check').click(this._makeTagCustom.bind(this));
+		html.keydown(this.quickClose.bind(this));
 	}
 
 	/* -------------------------------------------- */
@@ -103,7 +114,7 @@ export class CityItemSheet extends ItemSheet {
 		for (let i = 0; i< 10000; i++) {
 			if (i2[i] == undefined){
 				i2[i] = {name: "", description: ""};
-				console.log(`inserted at ${i}`);
+				// console.log(`inserted at ${i}`);
 				break;
 			}
 		}
@@ -162,4 +173,13 @@ export class CityItemSheet extends ItemSheet {
 		const actor = this.item.options.actor;
 		await actor.onTagMadeBonus();
 	}
+
+	quickClose(event) {
+		//closes on Ctrl+S
+		if (!(event.which == 83 && event.ctrlKey)) return true;
+		this.close();
+		event.preventDefault();
+		return false;
+	}
+
 }

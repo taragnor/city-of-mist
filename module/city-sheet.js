@@ -2,6 +2,17 @@ export class CitySheet extends ActorSheet {
 
 	/* -------------------------------------------- */
 
+	getData(options) {
+		let  data = super.getData();
+
+		//Fix for compatibility with .0.8.6
+		const actorData = this.actor.data.toObject(false);
+		data.actor = this.actor;
+		data.data = actorData.data;
+		data.items = this.actor.items.map(x=>x);
+		return data;
+	}
+
 	/** @override */
 	activateListeners(html) {
 		super.activateListeners(html);
@@ -32,7 +43,7 @@ export class CitySheet extends ActorSheet {
 	async _addThemeBook(event) {
 		const themebook = await this.themeBookSelector();
 		if (themebook)
-			await this.actor.createNewTheme("Unnamed Theme", themebook._id);
+			await this.actor.createNewTheme("Unnamed Theme", themebook.id);
 	}
 
 	async themeBookSelector() {
@@ -103,6 +114,32 @@ export class CitySheet extends ActorSheet {
 		});
 	}
 
+	themeDeleteChoicePrompt(themename) {
+		return new Promise( (conf, rej) => {
+			const options = {};
+			let dialog = new Dialog({
+				title: `Destroy ${themename}`,
+				content: `Destroy ${themename}`,
+				buttons: {
+					one: {
+						label: "Just Delete",
+						callback: () => conf("delete")
+					},
+					two: {
+						label: "Replace (award build-up)",
+						callback: () => conf("replace")
+					},
+					cancel: {
+						label: "Cancel",
+						callback: () => conf (null)
+					}
+				},
+				default: "two",
+			}, options);
+			dialog.render(true);
+		});
+	}
+
 	sendToChatBox(title, text, options = {}) {
 		const label = options?.label ?? "Send to Chat";
 		const render = options?.disable ? (args) => {
@@ -113,32 +150,31 @@ export class CitySheet extends ActorSheet {
 
 		const sender = options?.speaker ?? {};
 		return new Promise( (conf, rej) => {
-		const options = {};
-		let dialog = new Dialog({
-			title: `${title}`,
-			content: text,
-			buttons: {
-				one: {
-					icon: '<i class="fas fa-check"></i>',
-					label: label,
-					callback: async() => await conf(CityHelpers.sendToChat(text, sender)),
+			const options = {};
+			let dialog = new Dialog({
+				title: `${title}`,
+				content: text,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: label,
+						callback: async() => await conf(CityHelpers.sendToChat(text, sender)),
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: "Cancel",
+						callback: async () => conf(null)
+					}
 				},
-				two: {
-					icon: '<i class="fas fa-times"></i>',
-					label: "Cancel",
-					callback: async () => conf(null)
-				}
-			},
-			default: "two",
-			render
-		}, options);
-		dialog.render(true);
-	});
+				default: "two",
+				render
+			}, options);
+			dialog.render(true);
+		});
 	}
 
 	static async singleChoiceBox( list, headerText) {
 		//List is in form of {id, data: [rows], description}
-		//TODO: add timeout code or code on closure to prevent memory leak
 		const options = {};
 		const input_type = "Radio";
 		const templateData = {list};

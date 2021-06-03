@@ -29,7 +29,6 @@ if (String.prototype.replaceAll == undefined) {
 window.CityHelpers = CityHelpers;
 
 window.Debug = function (str) {
-	// throw new Error("FInd me");
 	if (self._DList == null)
 		self._DList= [];
    self._DList.unshift(str);
@@ -67,19 +66,25 @@ window.getClosestData.convertForm = function (str) {
 	}).join("");
 }
 
-
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 //Replaces the Timed update
 Hooks.on('updateActor', CityHelpers.onActorUpdate);
-Hooks.on('updateOwnedItem', CityHelpers.onActorUpdate);
-Hooks.on('createOwnedItem', CityHelpers.onActorUpdate);
-Hooks.on('deleteOwnedItem', CityHelpers.onActorUpdate);
+Hooks.on('updateItem', CityHelpers.onItemUpdate);
+Hooks.on('createItem', CityHelpers.onItemUpdate);
+Hooks.on('deleteItem', CityHelpers.onItemUpdate);
 Hooks.on('createToken', CityHelpers.onTokenCreate);
 Hooks.on('updateToken', CityHelpers.onTokenUpdate);
 Hooks.on('deleteToken', CityHelpers.onTokenUpdate);
 Hooks.on('updateScene', CityHelpers.onSceneUpdate);
+
+////Debug code to trace what hooks are being called
+//Hooks.callAll_orig = Hooks.callAll
+//Hooks.callAll = function(...args) {
+//	console.log(`called ${args[0]}`);
+//	Hooks.callAll_orig.apply(this, args);
+//}
 
 Hooks.on('renderChatLog', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
@@ -91,8 +96,10 @@ Hooks.once("ready", async function() {
 	} catch (e) {
 		console.error("Unable to cach Themebooks and Moves" + e);
 	}
-	if (game.user.isGM)
+	if (game.user.isGM) {
+		await CityHelpers.convertExtras()
 		await CityHelpers.updateDangers();
+	}
 	return true;
 });
 
@@ -101,7 +108,6 @@ Hooks.once("init", async function() {
   console.log(`Initializing City of Mist System`);
   console.log(`***********************************`);
 
-
 	registerSystemSettings();
 
 	game.city = {
@@ -109,8 +115,8 @@ Hooks.once("init", async function() {
 		CityItem
 	};
 
-  CONFIG.Item.entityClass = CityItem;
-  CONFIG.Actor.entityClass = CityActor;
+  CONFIG.Item.documentClass = CityItem;
+  CONFIG.Actor.documentClass = CityActor;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
@@ -149,9 +155,9 @@ Hooks.once("init", async function() {
 
 	// Handlebars.registerHelper('defaultTagDirection', function (tagId, tagOwnerId, sheetownerId) {
 	Handlebars.registerHelper('defaultTagDirection', function (sheetownerId, tagOwnerId, tagId) {
-		const tagowner = game.actors.find(x=> x._id == tagOwnerId);
-		const sheetowner = game.actors.find(x=> x._id == sheetownerId);
-		const tag = tagowner.items.find(x=> x._id == tagId);
+		const tagowner = game.actors.find(x=> x.id == tagOwnerId);
+		const sheetowner = game.actors.find(x=> x.id == sheetownerId);
+		const tag = tagowner.items.find(x=> x.id == tagId);
 		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
 	});
 
@@ -161,23 +167,27 @@ Hooks.once("init", async function() {
 	Handlebars.registerHelper('createSelect', function (dataList, locationOfNew, currentValue = "", cssclass = "") {
 		let html = new String();
 		html += `<select class="${cssclass}" name="${locationOfNew}">`;
-		for (const {_id, name} of dataList) {
-			const selected = (currentValue == _id) ? "selected" : "";
-			html += `<option value="${_id}" ${selected}> ${name} </option>`;
+		try {
+			for (const {id, name} of dataList) {
+				const selected = (currentValue == id) ? "selected" : "";
+				html += `<option value="${id}" ${selected}> ${name} </option>`;
+			}
+		} catch (e) {
+			throw e;
 		}
 		html += "</select>";
 		return new Handlebars.SafeString(html);
 	});
 
 	Handlebars.registerHelper('getMoveGroups', function (actor) {
-		let data = [
+		const data = [
 			["core" , "Core Moves"],
 			["special" , "Special Moves"],
 			["SHB", "Stop. Holding. Back."]
 		];
 		return data.map( x=> {
 			return {
-				_id: x[0],
+				id: x[0],
 				name: x[1]
 			};
 		});
@@ -187,33 +197,35 @@ Hooks.once("init", async function() {
 		const data = ["Soft", "Hard", "Intrusion", "Custom"];
 		return data.map( x => {
 			return {
-				_id: x.toLowerCase(),
+				id: x.toLowerCase(),
 				name: x
 			};
 		});
 	});
 
-	Handlebars.registerHelper('getMoveGroup', function (actor) {
-		switch (actor.data.selectedMoveGroup) {
-			case "core": return actor.data.coremoves;
+	Handlebars.registerHelper('getMoveGroup', function (actordata) {
+		// const data = actor?.data?.data;
+		const data = actordata;
+		if (!data)
+			throw new Error(`NO Data for ${actor.name}`)
+		switch (data?.data?.selectedMoveGroup) {
+			case "core": return data.coremoves;
 				break;
-			case "special": return actor.data.specialmoves;
+			case "special": return data.specialmoves;
 				break;
-			case "SHB": return actor.data.shbmoves;
+			case "SHB": return data.shbmoves;
 				break;
 			default:
-				console.warn("No default move group for actor");
-				return actor.data.coremoves;
+				Debug(actordata);
+				console.warn(`No default move group for actor group: ${data?.data?.selectedMoveGroup}`);
+				return data.coremoves;
 		}
 	});
 
 	Handlebars.registerHelper('applyNameSubstitution', function (move, dangerId, options) {
-		const danger = game.actors.find(x=> x._id == dangerId);
-		const name = danger?.getDisplayedName() || "Danger Name";
-		const formatted = CityHelpers.nameSubstitution(move.data.html, {name});
+		const formatted = move.getFormattedText();
 		return new Handlebars.SafeString(formatted);
 	});
-
 
 	// NotEquals handlebar.
 	Handlebars.registerHelper('noteq', (a, b, options) => {
@@ -239,7 +251,7 @@ Hooks.once("init", async function() {
 	});
 
 	Handlebars.registerHelper("displayAlias", (actor, options) => {
-		return game.actors.get(actor._id).getDisplayedName();
+		return game.actors.get(actor.id).getDisplayedName();
 	});
 });
 

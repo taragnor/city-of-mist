@@ -13,7 +13,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/actor-sheet.html",
 			width: 990,
-			height: 1170,
+			height: 1125,
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "themes"}]
 		});
 	}
@@ -28,21 +28,19 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.data.extras = this.getExtras();
 		data.data.activeExtra = this.getActiveExtra();
 
-		//Story Container
-		data.data.storyTags = this.getStoryTags();
+		//Status Container
 		data.data.otherStatuses = this.getOtherStatuses();
 
-		//
 		const moveList = CityHelpers.getMoves();
-		data.data.coremoves = moveList.filter(x=> x.data.category == "Core");
-		data.data.specialmoves = moveList.filter(x=> x.data.category == "Advanced");
-		data.data.shbmoves = moveList.filter(x=> x.data.category == "SHB");
+		data.data.coremoves = moveList.filter( x=> x.data.data.category == "Core");
+		data.data.specialmoves = moveList.filter( x=> x.data.data.category == "Advanced");
+		data.data.shbmoves = moveList.filter( x=> x.data.data.category == "SHB");
 		return data;
 	}
 
 	getCrewThemes() {
 		const crew = game.actors.find(actor =>
-			actor.data.type == "crew" && actor.owner
+			actor.data.type == "crew" && actor.isOwner
 		);
 		let crewThemes = [];
 		if (!crew) {
@@ -51,50 +49,46 @@ export class CityCharacterSheet extends CityActorSheet {
 		}
 
 		for (const theme of crew.items.filter(x=> x.type == "theme")) {
-			this.linkThemebook(theme.data);
-			const fakeThemeData = {
-				name: theme.data.name,
-				_id: theme._id,
-				data: JSON.parse(JSON.stringify(theme.data.data))
-			}
-			fakeThemeData.data.owner = {
-				_id: crew._id,
+			this.linkThemebook(theme);
+			theme.data.data.owner = {
+				id: crew.id,
 				name: crew.name,
 				data: crew.data,
 				items: crew.data.items,
 				img: crew.data.img
 			};
-			crewThemes.push(fakeThemeData);
+			crewThemes.push(theme);
 		}
-		// }
-		return [crewThemes[0]]; //TODO: limit to first crew theme, need a switching mechanism
+		const selected = (this.actor.data.data.crewThemeSelected % crewThemes.length) || 0;
+		if (crewThemes[selected])
+			return [crewThemes[selected]];
+		else
+			return [crewThemes[0]];
 	}
 
 	getExtras() {
 		return game.actors
-			.filter( actor => actor.data.type == "extra" && actor.owner && actor.items.find(x=> x.type == "theme"))
-			.map (x => x.data); //shallow copy, don't do much with this besides get names and Ids (don't try to get tag access)
+			.filter( actor => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && actor.items.find(x=> x.data.type == "theme"));
 	}
 
 	getActiveExtra() {
 		const filterList = game.actors.filter( actor =>
-			actor.data.type == "extra" && actor.owner
-			&& this.actor.data.data.activeExtraId == actor._id
+			actor.isExtra() && actor.isOwner
+			&& this.actor.data.data.activeExtraId == actor.id
 		);
-		if (filterList.length == 0) {
+		if (filterList.length == 0)
 			return null;
-		}
 		const activeExtra = filterList[0];
 		if (activeExtra != undefined)	 {
 			for (let theme of activeExtra.items.filter(x=> x.type== "theme")) {
-				this.linkThemebook(theme.data);
+				this.linkThemebook(theme);
 				let fakeExtraData = {
-					name: theme.data.name,
-					_id: theme._id,
-					data: JSON.parse(JSON.stringify(theme.data.data))
+					name: theme.name,
+					id: theme.id,
+					data: theme.data
 				};
 				fakeExtraData.data.owner = {
-					_id: activeExtra._id,
+					id: activeExtra.id,
 					name: activeExtra.name,
 					data: activeExtra.data,
 					items: activeExtra.data.items,
@@ -108,29 +102,36 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getStoryTags() {
 		let retTags = [];
-		const tokenActors = CityHelpers.getActiveSceneTokenActors()
-			.filter(x => !x._hidden && x._id != this.actor._id && x.items.find(y => y.type == "tag" && y.data.data.subtype == "story"));
-		const tokenTagData = tokenActors.map( actor => {
-			const storyTags = actor.items.filter(x => x.type == "tag" && x.data.data.subtype == "story");
+		const tokens = CityHelpers.getActiveSceneTokens()
+			.filter(tok => !tok.data.hidden
+				&& tok.actor?.id != this.actor.id
+				&& tok.actor.items.find(y =>
+					y.type == "tag" && y.data.data.subtype == "story"
+				)
+			);
+		const tokenTagData = tokens.map( token => {
+			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.data.data.subtype == "story");
 			return storyTags.map( x=> {
 				return {
 					type: x.data.type,
 					name: x.name,
-					location: this.getLocationName(actor),
-					_id: x._id,
-					data: x.data.data,
-					ownerId: actor._id,
-					owner: actor,
-					_tokenId: actor?.token?.id,
-					_sceneId: actor?.token?.scene?.id
+					location: this.getLocationName(token.actor, token),
+					id: x.id,
+					data: x.data,
+					ownerId: token.actor.id,
+					owner: token.actor,
+					_tokenId: token?.id,
+					_sceneId: token?.scene?.id
 				};
 			});
 		});
 		retTags = retTags.concat(tokenTagData.flat(1));
 		const storyContainers =  game.actors.filter( actor => {
-			if (actor.data.type != "storyTagContainer" && actor.data.type != "character")
+			if (actor.data.type != "storyTagContainer"
+				// && actor.data.type != "character"
+			)
 				return false;
-			if (retTags.find( x=> x.ownerId == actor._id ))
+			if (retTags.find( x=> x.ownerId == actor.id ))
 				return false;
 			return true;
 		});
@@ -140,19 +141,21 @@ export class CityCharacterSheet extends CityActorSheet {
 					type: x.data.type,
 					name: x.name,
 					location: this.getLocationName(cont),
-					_id: x._id,
-					data: x.data.data,
-					ownerId: cont._id,
+					id: x.id,
+					data: x.data,
+					ownerId: cont.id,
 					owner: cont,
-					_tokenId: cont?.token?.id,
-					_sceneId: cont?.token?.scene?.id
+					_tokenId: undefined,
+					_sceneId: undefined
 				};
 			});
 		});
 		retTags = retTags.concat(tagData.flat(1));
+		const mytags= super.getStoryTags();
+		retTags = retTags.concat(mytags.flat(1));
 		retTags = retTags.sort( (a, b) => {
-			if (a.ownerId == this.actor._id) return -1;
-			if (b.ownerId == this.actor._id) return 1;
+			if (a.ownerId == this.actor.id) return -1;
+			if (b.ownerId == this.actor.id) return 1;
 			if (a.owner.data.type == "character" && b.owner.data.type != "character")
 				return -1;
 			if (b.owner.data.type == "character" && a.owner.data.type != "character")
@@ -162,26 +165,26 @@ export class CityCharacterSheet extends CityActorSheet {
 		return retTags;
 	}
 
-	getLocationName(cont) {
+	getLocationName(cont, token) {
 		switch (cont.data.type)	 {
 			case "character":
-				if (cont._id == this.actor._id)
+				if (cont.id == this.actor.id)
 					return "";
-				if (cont?._tokenname)
-					return cont._tokenname
+				if (token?.name)
+					return token.name
 				else return cont.name;
 			case "storyTagContainer":
 				return "Scene"
 			default:
-				if (cont?._tokenname)
-					return cont._tokenname
+				if (token?.name)
+					return token.name;
 				else return cont.name;
 		}
 		return "";
 	}
 
 	getOtherStatuses() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || (x.data.type == "character" && x._id != this.actor._id));
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || (x.data.type == "character" && x.id != this.actor.id));
 		const applicableTargets = tokenActors;
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.data.type == "status"));
@@ -189,9 +192,9 @@ export class CityCharacterSheet extends CityActorSheet {
 			return {
 				name: x.getDisplayedName(),
 				data: x.data,
-				_id: x._id,
+				id: x.id,
 				type: x.data.type,
-				statuses: x.items.filter(x => x.type == "status" && !x.data.data.hidden).map (x=>x.data)
+				statuses: x.items.filter(x => x.type == "status" && !x.data.data.hidden)
 			};
 		});
 		return statusblock;
@@ -201,6 +204,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		super.activateListeners(html);
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
+		html.find(".non-char-theme-name"	).click( this.openOwnerSheet.bind(this));
+		html.find(".crew-prev").click(this.crewPrevious.bind(this));
+		html.find(".crew-next").click(this.crewNext.bind(this));
 		if (!this.actor.hasFlashbackAvailable()) {
 			let ret = html.find(`option`).filter(function () {return $(this).html() == " Flashback "}).remove();
 		}
@@ -220,7 +226,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		else {
 			const listData = lowestDeveloped.map( x => {
 				return  {
-					id: x._id,
+					id: x.id,
 					data: [x.data.name],
 					description: ""
 				};
@@ -236,9 +242,8 @@ export class CityCharacterSheet extends CityActorSheet {
 			throw new Error("No Theme presented for Monologue bonus");
 		const actor = this.actor;
 		const themeName = theme.data.name;
-		await actor.addAttention(theme._id);
+		await actor.addAttention(theme.id);
 		await CityHelpers.modificationLog(actor, `Attention Added`, theme, `Opening Monologue - Current ${await theme.getAttention()}`);
-		// await CityHelpers.modificationLog(`${actor.name}: Attention added to ${themeName} (Opening Monologue) (Current ${await theme.getAttention()})`);
 	}
 
 	async monologueDialog () {
@@ -248,8 +253,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	async sessionEnd() {
 		const refreshedItems = await this.actor.sessionEnd();
-		CityHelpers.modificationLog(actor, "Abilities Refreshed", null, `${refreshedItems.join(",")}`);
-		// CityHelpers.modificationLog(`${this.actor.name}: Abilities Refreshed: ${refreshedItems.join(",")}`);
+		CityHelpers.modificationLog(this.actor, "Abilities Refreshed", null, `${refreshedItems.join(",")}`);
 		return true;
 	}
 
@@ -258,6 +262,26 @@ export class CityCharacterSheet extends CityActorSheet {
 			await this.actor.expendFlashback();
 		} else
 			throw new Error ("Trying to use Flashback while it's expended!");
+	}
+
+	async openOwnerSheet(event) {
+		const ownerId = getClosestData(event, "ownerId");
+		const owner = game.actors.get(ownerId);
+		owner.sheet.render(true);
+	}
+
+	async crewNext(event) {
+		await this.actor.moveCrewSelector(1);
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		return false;
+	}
+
+	async crewPrevious(event) {
+		await this.actor.moveCrewSelector(-1);
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		return false;
 	}
 
 }

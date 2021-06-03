@@ -1,8 +1,8 @@
 {
 "ACTOR.TypeCharacter": "Player Character",
-"ACTOR.TypeThreat": "Danger",
+"ACTOR.TypeThreat": "Danger / Extra",
 "ACTOR.TypeCrew": "Crew",
-"ACTOR.TypeExtra": "Extra",
+"ACTOR.TypeExtra": "Extra (Deprecated)",
 "ACTOR.TypeStorytagcontainer": "Story Tag Container",
 "ITEM.TypeTheme" : "Theme",
 "ITEM.TypeThemebook" : "Themebook",

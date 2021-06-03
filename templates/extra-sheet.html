@@ -1,4 +1,4 @@
-<form class="{{cssClass}} extra-sheet flex-col" autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" data-owner-class="actor">
+<form class="{{cssClass}} extra-sheet flex-col" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 
 	<section id="basic-info" class="flex-horizontal">
 		<div class="grow-two">
@@ -6,7 +6,7 @@
 			<div id="name">
 				<label for="extra-name">Name</label>
 				<a class="sheet-lock-button" title="Delete Theme">
-					{{#if actor.data.locked}}
+					{{#if data.locked}}
 					<i class="fas fa-lock"></i>
 					{{else}}
 					<i class="fas fa-unlock"></i>
@@ -28,9 +28,9 @@
 			<section id="theme-section" class="theme-section">
 				<h1 id="Theme Header" class="item-block section-header">
 					<p>Themes
-					{{#if (eq actor.data.locked false)}}
-					{{#if (lt actor.data.num_themes 1)}}
-					<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+					{{#if (eq data.locked false)}}
+					{{#if (lt data.num_themes 1)}}
+					<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 					{{/if}}
 					{{/if}}
 					</p>
@@ -39,7 +39,7 @@
 					{{#each actor.items as |item id|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.data.locked sheetowner=../actor themetype="extra"}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.data.locked sheetowner=../actor themetype="extra" data=item.data.data themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
 					</div>
 					{{/if}}
 					{{/each}}
@@ -47,14 +47,14 @@
 						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.data.locked sheetowner=actor}}
 					</div>
 					<div class="flex-theme-block" >
-						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=false sheetowner=actor canBurn=true}}
+						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=false sheetowner=actor canBurn=true taglist=data.storyTags}}
 					</div>
 				</div>
 			</section>
 		</div>
 		<div class="tab tab-content" data-group="primary" data-tab="status">
 			<div class="section-header"> Status
-				<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+				<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 			</div>
 			{{#each actor.items as |item id|}}
 			{{#if (eq item.type "status")}}

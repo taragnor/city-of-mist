@@ -15,22 +15,7 @@ export class CityThreatSheet extends CityActorSheet {
 
 	getData() {
 		let data = super.getData();
-		data.data.storyTags = this.getStoryTags();
 		return data;
-	}
-
-	getStoryTags() {
-		return this.actor.items.filter( x=> x.data.type == "tag" && x.data.data.subtype == "story").map( x=> {
-			return {
-				type: x.data.type,
-				name: x.data.name,
-				location: "",
-				_id: x._id,
-				data: x.data.data,
-				ownerId: this.actor._id,
-				owner: this.actor
-			};
-		});
 	}
 
 	activateListeners(html) {
@@ -50,6 +35,25 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.create-spectrum').click(this._createSpectrum.bind(this));
 		html.find('.spectrum-editable').click(this._editSpectrum.bind(this));
 		html.find('.spectrum-delete').click(this._deleteSpectrum.bind(this));
+		html.find('.alias-input-unlinked-token').change(this._changeunlikedtokenName.bind(this));
+		html.find('.alias-input-prototype').change(this._changelinkedtokenName.bind(this));
+	}
+
+	async _changelinkedtokenName (event) {
+		const val =  $(event.currentTarget).val();
+		if (val)
+			for (let tok of this.actor.getLinkedTokens()) {
+				console.log(`Re-aliasing: ${val}`);
+				await tok.update({name: val});
+			}
+		return true;
+	}
+
+	async _changeunlikedtokenName (event) {
+		const val =  $(event.currentTarget).val();
+		if (val)
+			await this.actor.token.update({name: val});
+		return true;
 	}
 
 	async _createSpectrum (event) {
@@ -98,7 +102,6 @@ export class CityThreatSheet extends CityActorSheet {
 		event.stopImmediatePropagation();
 		const move_id = getClosestData(event, "moveId");
 		const actorId = getClosestData(event, "ownerId");
-		console.log(actorId);
 		const owner = await this.getOwner(actorId);
 		const move = await owner.getGMMove(move_id);
 		if (await this.confirmBox("Delete Move", `Delete ${move.name}`)) {

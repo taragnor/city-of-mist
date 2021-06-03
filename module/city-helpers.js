@@ -1,22 +1,25 @@
+import { CityActor } from "./city-actor.js";
+
 export class CityHelpers {
 
   static async getAllItemsByType(item_type ="", game= window.game) {
 	  //has caused some errors related to opening compendiums, don't want to call this all the time
 	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : (e => true);
-	  const game_items = game.items.filter(std_finder).map(e => {return e.data});
+	  const game_items = game.items.filter(std_finder);
+	  // const game_items = game.items.filter(std_finder).map(e => {return e.data});
 	  // const pack_finder = (item_type.length > 0) ? (e => e.metadata.entity == "Item") : (e => true);
 	  const pack_finder = (e => e.metadata.entity == "Item");
 
 	  let packs = game.packs.filter(pack_finder);
 	  let compendium_content = [];
 	  for (const pack of packs) {
-		  const content = (await pack.getContent()).filter( x=> {
+		  const content = (await pack.getDocuments()).filter( x=> {
 			  return x.data.type == item_type;
 		  });;
 		  compendium_content = compendium_content.concat(content);
 	  }
-	  const compendium_items = compendium_content.map(e => {return e.data});
-	  const list_of_items = game_items.concat(compendium_items);
+	  const list_of_items = game_items.concat(compendium_content);
+	  // return list_of_items.map( e=> e.data);
 	  return list_of_items;
   }
 
@@ -28,9 +31,9 @@ export class CityHelpers {
 		try {
 			for (const pack of game.packs.filter(x=> x.metadata.entity == type)) {
 			const index = await pack.getIndex();
-			if (index.find( x=> x._id == id)) {
-				const content = await pack.getContent();
-				return content.find( x=> x._id == id);
+			if (index.find( x=> x.id == id)) {
+				const content = await pack.getDocuments();
+				return content.find( x=> x.id == id);
 			}
 		}
 		return null;
@@ -66,6 +69,61 @@ export class CityHelpers {
 			}
 	}
 
+	static async convertExtras() {
+		//Changes all extras into Dangers
+		const extras = game.actors.filter( x=> x.type == "extra");
+		for (let extra of extras) {
+			let danger = await CityActor.create( {
+				name: extra.name,
+				type: "threat",
+				img: extra.img,
+				data: extra.data.data,
+				permission: extra.data.permission,
+				folder: extra.data.folder,
+				sort: extra.data.sort,
+				flags: extra.data.flags,
+				effects: extra.data.effects,
+				token: extra.data.token
+			});
+			danger.update({"token.actorLink":true});
+			for (let theme of await extra.getThemes()) {
+				const [themenew] = await danger.createEmbeddedDocuments( "Item",[ theme.data]);
+				for (let tag of await extra.getTags(theme.id)) {
+					const tagdata = tag.data.data;
+					let newtag = await danger.addTag(themenew.id, tagdata.subtype, tagdata.question_letter, true)
+					await newtag.update( {"name": tag.name, "data.burned": tagdata.burned});
+					await tag.delete();
+				}
+				for (let imp of await extra.getImprovements(theme.id)) {
+					const impdata = imp.data.data;
+					const tbarray = (await theme.getThemebook()).data.data.improvements;
+					const index = Object.entries(tbarray)
+						.reduce( (a, [i, d]) => d.name == imp.name ? i : a , -1);
+					// const index = tbarray.indexOf(tbarray.find( x=> x.name == imp.name));
+					let newimp = await danger.addImprovement(themenew.id, index)
+					await newimp.update( {"name": imp.name});
+					await imp.delete();
+				}
+				await themenew.update( {
+					"data.unspent_upgrades": theme.data.data.unspent_upgrades,
+					"data.nascent": theme.data.data.nascent
+				});
+				await theme.delete();
+			}
+			for (const item of extra.items) {
+				await danger.createEmbeddedDocuments( "Item",[ item.data]);
+			}
+			await extra.delete();
+			for (let tok of extra.getActiveTokens()) {
+				const td = await danger.getTokenData({x: tok.x, y: tok.y, hidden: tok.data.hidden});
+				const cls = getDocumentClass("Token");
+				await cls.create(td, {parent: tok.scene});
+				tok.scene.deleteEmbeddedDocuments("Token", [tok.id]);
+			}
+			console.log(`Converted ${extra.name} to Danger`);
+		}
+	}
+
 	static getThemebooks() {
 		if (this.themebooks == undefined)
 			throw new Error("ERROR: No Valid themebooks found")
@@ -87,7 +145,7 @@ export class CityHelpers {
 		const themebooks = CityHelpers.getThemebooks();
 		let book;
 		if (tname && tname != "") { //if there's premium content, get it
-			book = themebooks.find( item => item.name == tname && !item.data.free_content);
+			book = themebooks.find( item => item.name == tname && !item.data.data.free_content);
 			if (!book) { //search expands to free content
 				book = themebooks.find( item => item.name == tname);
 			}
@@ -224,7 +282,7 @@ export class CityHelpers {
 		if (!sceneId) {
 			return await CityHelpers.findAllById(ownerId);
 		} else {
-			const scene = game.scenes.find (x=> x._id == sceneId);
+			const scene = game.scenes.find (x=> x.id == sceneId);
 			if (!scene)
 				throw new Error(` Couldn't find Scene ID ${sceneId}`);
 			if (!tokenId)
@@ -240,13 +298,14 @@ export class CityHelpers {
 	}
 
 	static getActiveSceneTokens() {
-		return this.getSceneTokens(this.getActiveScene());
+		return this.getSceneTokens(this.getActiveScene())
+			.filter(x=>x.actor);
 	}
 
 	static getSceneTokens( scene) {
 		if (!scene || !scene.data)
 			return [];
-		return scene.data.tokens;
+		return scene.data.tokens.filter(x=>x.actor);
 	}
 
 	static getActiveSceneTokenActors() {
@@ -254,13 +313,15 @@ export class CityHelpers {
 	}
 
 	static getVisibleActiveSceneTokenActors() {
-		return this.getSceneTokenActors(this.getActiveScene()).filter (x=> !x._hidden);
+		return this.getSceneTokens(this.getActiveScene())
+			.filter (x=> !x.data.hidden)
+			.map(x=> x.actor);
 
 	}
 
 	static getSceneTokenActors(scene) {
 		const tokens = this.getSceneTokens(scene);
-		return tokens.map( x=> this.createTokenActorData(x));
+		return tokens.map ( x=> x.actor);
 	}
 
 	static createTokenActorData(tokendata) {
@@ -284,7 +345,6 @@ export class CityHelpers {
 			return !item.data.free_content;
 		};
 		const list = (await this.getAllItemsByType("improvement", window.game)).map(x=> x);
-		// return list.filter( x=> x.type == "improvement" && x?.data?.theme_id?.length == 0);
 		return list.filter((x, i, arr)=> isPreferredChoice(x,arr));
 	}
 
@@ -503,6 +563,19 @@ export class CityHelpers {
 		});
 	}
 
+	static async onItemUpdate(item, updatedItem, data, diff) {
+		const actor = item.actor;
+		if (actor)
+			for (const dep of actor.getDependencies()) {
+				const state = dep.sheet._state
+				if (state > 0) {
+					CityHelpers.refreshSheet(dep);
+				}
+			}
+		return true;
+	}
+
+
 	static async onActorUpdate(actor, updatedItem, data, diff) {
 		for (const dep of actor.getDependencies()) {
 			const state = dep.sheet._state
@@ -513,22 +586,24 @@ export class CityHelpers {
 		return true;
 	}
 
-	static async onTokenUpdate(scene, updatedItem, data, diff) {
-		const token = updatedItem;
+	// static async onTokenUpdate(scene, updatedItem, data, diff) {
+
+	static async onTokenUpdate(token) {
+		// const token = updatedItem;
 		// if (token.hidden) return;
-		if (game.scenes.active != scene)
+		if (game.scenes.active != token.parent)
 			return;
-		await CityHelpers.refreshTokenActorsInScene(scene);
+		await CityHelpers.refreshTokenActorsInScene(token.parent);
 		return true;
 	}
 
-	static async onTokenCreate(scene, updatedItem, data, diff) {
-		const token = updatedItem;
-		const type = game.actors.get(token.actorId).data.type;
+	static async onTokenCreate(token) {
+	// static async onTokenCreate(scene, updatedItem, data, diff) {
+		const type = game.actors.get(token.actor.id).data.type;
 		if (type == "character" || type == "extra" || type == "crew" || type == "storyTagContainer")
-			await CityHelpers.ensureTokenLinked(scene, token);
+			await CityHelpers.ensureTokenLinked(token.scene, token);
 		if (type == "threat")
-			await CityHelpers.onTokenUpdate(scene, updatedItem, data, diff);
+			await CityHelpers.onTokenUpdate(token);
 		return true;
 	}
 
@@ -540,9 +615,10 @@ export class CityHelpers {
 
 	static async refreshTokenActorsInScene(scene) {
 		const scenetokens = scene.data.tokens;
-		const characterActors = scenetokens.filter( x => x.actorLink )
-		.map( x => game.actors.get(x.actorId))
-		.filter( x=> x.data.type == "character");
+		const characterActors = scenetokens
+			.filter( x => x.isLinked &&
+				x.actor.data.type == "character")
+			.map (x => x.actor);
 		for (const dep of characterActors) {
 			const state = dep.sheet._state
 			if (state > 0) {
@@ -558,10 +634,7 @@ export class CityHelpers {
 
 	static async ensureTokenLinked(scene, token) {
 		if (token.actorLink) return;
-		await scene.updateEmbeddedEntity ( "Token", {
-			_id : token._id,
-			actorLink: true
-		});
+		await token.update ({ actorLink: true });
 		return true;
 	}
 
@@ -582,7 +655,6 @@ export class CityHelpers {
 			});
 			if (array[arrlen - 1] == 1) {
 				array = new Array(arrlen).fill(0);
-				// array = [0, 0, 0];
 				improvements++;
 			}
 		}
@@ -596,7 +668,6 @@ export class CityHelpers {
 			});
 			if (array[arrlen-1] == 0 && amount < 0) {
 				array = new Array(arrlen).fill(1);
-				// array = [1, 1, 1];
 				improvements--;
 			}
 			array = array.reverse();
@@ -637,10 +708,4 @@ export class CityHelpers {
 		return -1;
 	}
 
-}
-
-BaseEntitySheet.prototype.forceRefresh = async function () {
-	// TODO: Probably isnt' even needed
-	// console.warn("Force Render");
-	// await this.render(true, {});
 }

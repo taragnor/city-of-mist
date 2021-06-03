@@ -1,35 +1,36 @@
-<form class="{{cssClass}} actor-sheet flex-col {{#if (eq actor.data.selectedMoveGroup "SHB")}}stop-holding-back-sheet {{/if}} " autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" data-owner-class="actor">
+<form class="{{cssClass}} actor-sheet flex-col {{#if (eq data.selectedMoveGroup "SHB")}}stop-holding-back-sheet {{/if}} " autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<section id="basic-info" class="">
-		<div class="">
-			<img class="profile-img" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" height="100" width="100"/>
-			<div id="name">
-				<label for="character-name">Name</label>
-				<a class="sheet-lock-button" title="Toggle Sheet Lock">
-					{{#if actor.data.locked}}
-					<i class="fas fa-lock"></i>
-					{{else}}
-					<i class="fas fa-unlock"></i>
-					{{/if}}
-				</a>
-				<input type="text" class="character-name" name="name" value="{{actor.name}}">
+		<div class="flex-row">
+			<img class="profile-img flex-narrow" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" height="100" width="100"/>
+			<div class="flex-col flex-wide">
+				<div id="name">
+					<label for="character-name">Name</label>
+					<input type="text" class="character-name" name="name" value="{{actor.name}}">
+				</div>
+				<div id="mythos">
+					<label for="character-mythos">Mythos</label>
+					<input type="text" class="mythos-name" name="data.mythos" value="{{data.mythos}}">
+				</div>
+				<div class="age-section">
+					<label for="age">Age</label>
+					<input type="number" class="character-age" name="data.age" value="{{data.age}}">
+				</div>
+				<div class="residence-section">
+					<label for="residence">Residence</label>
+					<input type="text" class="character-residence" name="data.residence" value="{{data.residence}}">
+				</div>
 			</div>
-			<div id="mythos">
-				<label for="character-mythos">Mythos</label>
-				<input type="text" class="mythos-name" name="data.mythos" value="{{data.mythos}}">
-			</div>
-			<div class="age-section">
-				<label for="age">Age</label>
-				<input type="number" class="character-age" name="data.age" value="{{data.age}}">
-			</div>
-			<div class="residence-section">
-				<label for="residence">Residence</label>
-				<input type="text" class="character-residence" name="data.residence" value="{{data.residence}}">
-			</div>
+			<a class="sheet-lock-button flex-narrow" title="Toggle Sheet Lock">
+				{{#if data.locked}}
+				<i class="fas fa-lock"></i>
+				{{else}}
+				<i class="fas fa-unlock"></i>
+				{{/if}}
+			</a>
 		</div>
 	</section>
 	<nav class="sheet-tabs tabs" data-group="primary">
 		<a class="item" data-tab="themes"> Tags/Themes </a>
-		<a class="item" data-tab="status"> Status </a>
 		<a class="item" data-tab="juice"> Juice </a>
 		<a class="item" data-tab="clues"> Clues </a>
 		<a class="item" data-tab="build-up"> Moments of Evolution </a>
@@ -41,44 +42,52 @@
 			<section id="active-extra-selection">
 				<label for="extra-drop-down"> Active Extra Theme </label>
 				<select class="active-extra-drop-down" name="active-extra-drop-down" id="active-extra-drop-down">
-					<option value="" {{#if (eq actor.data.activeExtraId "")}} selected="selected" {{/if}}>- </option>
-					{{#each actor.data.extras as |extra id|}}
-					<option value="{{extra._id}}" {{#if (eq extra._id ../actor.data.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
+					<option value="" {{#if (eq data.activeExtraId "")}} selected="selected" {{/if}}>- </option>
+					{{#each data.extras as |extra| }}
+					xxxx
+					<option value="{{extra.id}}" {{#if (eq extra.id ../data.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
 					{{/each}}
 				</select>
 			</section>
 			{{/if}}
 			<div name="Personal Themes">
-				<h1 id="Theme-header" class="item-block section-header">
-					<p>Themes
-					{{#if (eq actor.data.locked false)}}
-					{{#if (lt actor.data.num_themes 4)}}
-					<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
-					{{/if}}
-					{{/if}}
-					</p>
-				</h1>
+				<div class="flexrow section-header">
+					<h1 id="Theme-header" class="item-block no-border">
+						Themes
+						{{#if (eq data.locked false)}}
+						{{#if (lt data.num_themes 4)}}
+						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+						{{/if}}
+						{{/if}}
+					</h1>
+					<section class="move-section">
+						<span class="move-section-header"> Moves </span>
+						{{createSelect (getMoveGroups) "data.data.selectedMoveGroup" data.data.selectedMoveGroup "select-move-group"}}
+						{{createSelect (getMoveGroup data) "data.data.selectedMove" data.data.selectedMove  "select-move" }}
+						<button class="execute-move-button" type="button"> Execute Move </button>
+					</section>
+				</div>
 				<div class="theme-block-group">
-					{{#each actor.items as |item id|}}
+					{{#each items as |item|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.data.locked sheetowner=../actor themetype="character"}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.data.data locked=../data.locked sheetowner=../actor themetype="character" themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
 					</div>
 					{{/if}}
 					{{/each}}
 				</div>
 			</div>
-			{{#if (gt actor.data.num_themes 2)}}
+			{{#if (gt data.num_themes 2)}}
 			<div class="theme-block-group">
-				{{#each actor.data.crewThemes as |item id|}}
+				{{#each data.crewThemes as |item |}}
 				<!-- Should be max of 1 -->
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.data.owner theme=item locked=true sheetowner=../actor themetype="crew"}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.data.data.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data data=item.data.data}}
 				</div>
 				{{/each}}
-				{{#if actor.data.activeExtra}}
+				{{#if data.activeExtra}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.data.activeExtra.data.owner theme=actor.data.activeExtra locked=true sheetowner=actor themetype="extra" }}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.data.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.data.data.themebook data=data.activeExtra.data.data tbdata=data.activeExtra.data.data.themebook.data.data}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block">
@@ -86,37 +95,22 @@
 				</div>
 				{{/if}}
 				<div class="flex-theme-block" >
-					{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.data.locked sheetowner=actor}}
+					{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=data.locked sheetowner=actor otherStatuses=data.otherStatuses}}
 				</div>
 				<div class="flex-theme-block" >
-					{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=actor.data.locked sheetowner=actor canBurn=true}}
+					{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=data.storyTags}}
 				</div>
 			</div>
 			{{/if}}
 		</div>
-		<div class="tab tab-content status-section" data-group="primary" data-tab="status">
-			<section id="status-section">
-				<div class="section-header"> Status
-					<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
-				</div>
-				{{#each actor.items as |item id|}}
-				{{#if (eq item.type "status")}}
-				<section class="card-style player-card">
-					{{> "systems/city-of-mist/templates/parts/status-display.html" owner=../actor locked=../data.locked sheetowner=../actor status=item}}
-				</section>
-				{{/if}}
-				{{/each}}
-			</section>
-			{{> "systems/city-of-mist/templates/parts/other-status-layout.html" owner=actor locked=data.locked sheetowner=actor}}
-		</div>
 		<div class="tab tab-content juice-section" data-group="primary" data-tab="juice">
 			<section id="juice-section">
-				<div class="section-header"> Juice
-					<a class="create-juice" data-item-type="juice" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+				<div class="section-header"> Clues
+					<a class="create-juice" data-item-type="juice" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 				</div>
-				{{#each actor.items as |item id|}}
+				{{#each items as |item id|}}
 				{{#if (eq item.type "juice")}}
-				{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item}}
+				{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
 				{{/if}}
 				{{/each}}
 			</section>
@@ -124,11 +118,11 @@
 		<div class="tab tab-content clues-section" data-group="primary" data-tab="clues">
 			<section id="clue-section">
 				<div class="section-header"> Clues
-					<a class="create-clue" data-item-type="clue" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a>
+					<a class="create-clue" data-item-type="clue" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 				</div>
-				{{#each actor.items as |item id|}}
+				{{#each items as |item id|}}
 				{{#if (eq item.type "clue")}}
-				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item}}
+				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item data=item.data.data}}
 				{{/if}}
 				{{/each}}
 			</section>
@@ -138,32 +132,32 @@
 				<div class="BUPoints">
 					<div class="BUPoints-header"> Build-Up Points
 					</div>
-					{{#each actor.data.buildup as |pt rank|}}
+					{{#each data.buildup as |pt rank|}}
 					{{#if (eq pt 1)}}
 					<span class="filled-circle tracker-circle"></span>
 					{{else}}
 					<span class="empty-circle tracker-circle"></span>
 					{{/if}}
 					{{/each}}
-					{{#if (ne actor.data.unspentBU 0)}}
-					({{actor.data.unspentBU}})
+					{{#if (ne data.unspentBU 0)}}
+					({{data.unspentBU}})
 					{{/if}}
-					{{#if (eq actor.data.locked false)}}
+					{{#if (eq data.locked false)}}
 					<a class="increment-buildup"  data-type="buildup" > <i class="fas fa-plus-square"></i></a>
 					<a class="decrement-buildup"  data-type="buildup" > <i class="fas fa-minus-square"></i></a>
 					{{/if}}
 				</div>
 				<div class="BU-improvement-header"> Moments of Evolution
-					{{#if (gt actor.data.unspentBU 0)}}
+					{{#if (gt data.unspentBU 0)}}
 					<a class="add-buildup-improvement" data-type="buildup"> <i class="fas fa-plus-square"></i></a>
 					{{/if}}
 				</div>
 				<ul class="evolutions-list">
-					{{#each actor.items as |item id|}}
+					{{#each items as |item id|}}
 					{{#if (eq item.type "improvement")}}
-					{{#if (eq item.data.theme_id "")}}
+					{{#if (eq item.data.data.theme_id "")}}
 					<li class="evolution-list-item">
-						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../data.locked sheetowner=../actor}}
+						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../data.locked sheetowner=../actor data=item.data.data}}
 					</li>
 					{{/if}}
 					{{/if}}
@@ -171,15 +165,8 @@
 				</ul>
 			</section>
 		</div>
-		<div class="tab tab-content flexcol" data-group="primary" data-tab="bio">
-			{{> "systems/city-of-mist/templates/parts/bio-display.html" actor=actor data=data locked=data.locked sheetowner=actor owner=owner}}
+		<div class="tab tab-content flexcol space-between bio-section" data-group="primary" data-tab="bio">
+			{{> "systems/city-of-mist/templates/parts/bio-display.html" actor=actor data=data locked=data.locked sheetowner=actor owner=isOwner}}
 		</div>
-	</section>
-	<section class="move-section">
-		<div class="move-section-header"> Moves </div>
-		{{createSelect (getMoveGroups) "data.selectedMoveGroup" data.selectedMoveGroup "select-move-group"}}
-
-		{{createSelect (getMoveGroup actor) "data.selectedMove" data.selectedMove  "select-move" }}
-		<button class="execute-move-button" type="button"> Execute Move </button>
 	</section>
 </form>

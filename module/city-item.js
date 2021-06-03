@@ -14,7 +14,7 @@ export class CityItem extends Item {
 		const themebook = this.getThemebook();
 		if (themebook == null)
 			throw new Error("ERROR Can't find themebook!");
-		return themebook.data.type;
+		return themebook.data.data.type;
 	}
 
 	getThemebook() {
@@ -22,11 +22,11 @@ export class CityItem extends Item {
 	}
 
 	tags() {
-		return this.actor.items.filter( x => x.type == "tag" && x.data.data.theme_id == this._id);
+		return this.actor.items.filter( x => x.type == "tag" && x.data.data.theme_id == this.id);
 	}
 
 	improvements () {
-		return this.actor.items.filter( x => x.type == "improvement" && x.data.data.theme_id == this._id);
+		return this.actor.items.filter( x => x.type == "improvement" && x.data.data.theme_id == this.id);
 
 	}
 
@@ -77,7 +77,7 @@ export class CityItem extends Item {
 		const BUGenerated = this.getBuildUpValue();
 		const tagdata = this.tags().map(x=> x.data);
 		const impdata = this.improvements().map(x=> x.data);
-		const manifest = await renderTemplate("systems/city-of-mist/templates/theme-destruction.html", { BUGenerated, owner: this.options.actor, theme: this.data, tags: tagdata, improvements: impdata, BUImpGained} );
+		const manifest = await renderTemplate("systems/city-of-mist/templates/theme-destruction.html", { BUGenerated, owner: this.parent, theme: this.data, tags: tagdata, improvements: impdata, BUImpGained} );
 		return manifest.replaceAll("\n", "");
 	}
 
@@ -227,8 +227,8 @@ export class CityItem extends Item {
 
 	async unselectForAll() {
 		game.actors.forEach( actor => {
-			if (actor.hasActivatedTag(this._id))
-				 actor.toggleTagActivation(this._id);
+			if (actor.hasActivatedTag(this.id))
+				 actor.toggleTagActivation(this.id);
 		});
 	}
 
@@ -240,7 +240,7 @@ export class CityItem extends Item {
 
 	static generateMoveText(movedata, result, power = 1) {
 		const numRes = CityItem.convertTextResultToNumeric(result);
-		const data = movedata.data;
+		const data = movedata.data.data;
 		let html = "";
 		html += data.always;
 		if (numRes == 2)
@@ -253,6 +253,10 @@ export class CityItem extends Item {
 				html += data.onMiss;
 		html = CityItem.substitutePower(html, power);
 		return html;
+	}
+	getFormattedText () {
+		const name = this.actor.getDisplayedName();
+		return CityHelpers.nameSubstitution(this.data.data.html, {name});
 	}
 
 	static substitutePower(txt, power) {
@@ -267,7 +271,7 @@ export class CityItem extends Item {
 	}
 
 	static generateMoveList(movedata, result, power = 1) {
-		const lists =  movedata.data.listConditionals;
+		const lists =  movedata.data.data.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
 			const text = CityItem.substitutePower(x.text, power);

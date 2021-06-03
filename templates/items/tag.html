@@ -7,9 +7,20 @@
 	{{else}}
 	<input type="text" class="tag-question-entry" name="data.question" value="{{item.data.question}}">
 	{{/if}}
+	{{#if (eq data.subtype "power")}}
 	<label for="crispy"> Crispy Tag </label>
 	<input type="checkbox" class="item-checkbox" name="data.crispy" {{#if data.crispy}} checked{{/if}}>
+	{{/if}}
+	{{#if (eq data.subtype "power")}}
 	<label for="broad"> Broad Tag </label>
 	<input type="checkbox" class="item-checkbox" name="data.broad" {{#if data.broad}} checked{{/if}} >
-
+	{{/if}}
+	{{#if (eq data.subtype "story")}}
+	<label for="broad"> Temporary Tag </label>
+	<input type="checkbox" class="item-checkbox" name="data.temporary" {{#if data.temporary}} checked{{/if}} >
+	{{/if}}
+	{{#if (eq data.subtype "story")}}
+	<label for="broad"> Permanent Story Tag </label>
+	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if data.permanent}} checked{{/if}} >
+	{{/if}}
 </form>

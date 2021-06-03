@@ -1,13 +1,13 @@
-<section class="card-style juice-data-block" data-juice-id="{{juice._id}}" data-owner-id="{{owner._id}}">
+<section class="card-style juice-data-block" data-juice-id="{{juice.id}}" data-owner-id="{{owner.id}}">
 	<a class="item-control juice-delete" title="Delete Juice"><i class="fas fa-trash"></i></a>
-	<span id="juice-name-{{juice._id}}" class="card-name juice-name {{#if locked}} juice-select-button {{else}} juice-edit-button {{/if}}">
-		({{juice.data.amount}}) {{juice.name}}
+	<span id="juice-name-{{juice.id}}" class="card-name juice-name {{#if locked}} juice-select-button {{else}} juice-edit-button {{/if}}">
+		({{data.amount}}) {{juice.name}}
 	</span>
 	<div class="juice-source">
-		<b>Source:</b> {{juice.data.source}}
+		<b>Source:</b> {{data.source}}
 	</div>
 	<div class="juice-method">
-		<b>Method:</b> {{juice.data.method}}
+		<b>Method:</b> {{data.method}}
 	</div>
 </section>
 

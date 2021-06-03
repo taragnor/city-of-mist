@@ -1,5 +1,4 @@
-
-<form class="{{cssClass}} story-tag-container-sheet" autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" >
+<form class="{{cssClass}} story-tag-container-sheet" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" >
 
 	<section id="basic-info" class="flex-horizontal">
 		<div class="grow-two">
@@ -10,15 +9,10 @@
 			</div>
 		</div>
 	</section>
-	{{#if actor.data.activated}}
-	<a class="toggle-activate-story" title="Activate Tags"> <i class="fas fa-check"></i></a>
-	{{else}}
-	<a class="toggle-activate-story" title="Deactivate Tags"> <i class="fas fa-times"></i></a>
-	{{/if}}
 	<section>
 		<button class="create-scene-descriptor" type="button"> Narration Box </button>
 	</section>
 	<section name="tags-section">
-		{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=actor.data.locked sheetowner=actor canBurn=true}}
+		{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=data.storyTags}}
 	</section>
 </form>

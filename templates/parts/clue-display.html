@@ -1,13 +1,13 @@
-<section class="card-style clue-data-block" data-clue-id="{{clue._id}}" data-owner-id="{{owner._id}}">
+<section class="card-style clue-data-block" data-clue-id="{{clue.id}}" data-owner-id="{{owner.id}}">
 	<a class="item-control clue-delete" title="Delete Clue"><i class="fas fa-trash"></i></a>
-	<span id="clue-name-{{clue._id}}" class="card-name clue-name {{#if locked}} clue-select-button {{else}} clue-edit-button {{/if}}">
-		{{#if (gt clue.data.amount 1)}}
-		({{clue.data.amount}}) {{/if}} {{clue.name}} {{#if clue.data.partial}} (partial) {{/if}}
+	<span id="clue-name-{{clue.id}}" class="card-name clue-name {{#if locked}} clue-select-button {{else}} clue-edit-button {{/if}}">
+		{{#if (gt data.amount 1)}}
+		({{data.amount}}) {{/if}} {{clue.name}} {{#if data.partial}} (partial) {{/if}}
 	</span>
 	<div class="clue-source">
-		<b>Source:</b> {{clue.data.source}}
+		<b>Source:</b> {{data.source}}
 	</div>
 	<div class="clue-method">
-		<b>Method:</b> {{clue.data.method}}
+		<b>Method:</b> {{data.method}}
 	</div>
 </section>

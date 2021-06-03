@@ -100,14 +100,37 @@ export class CityActorSheet extends CitySheet {
 		let data = super.getData();
 		for (let item of data.items) {
 			if (item.type == "theme") {
-				this.linkThemebook(item);
+				try {
+					this.linkThemebook(item);
+				} catch (e) {
+					Debug(item);
+					throw e;
+				}
 			}
 		}
+		data.data.storyTags = this.getStoryTags();
 		return data;
 	}
 
+	getStoryTags() {
+		// return this.actor.items.filter( x=> x.data.type == "tag" && x.data.data.subtype == "story").map( x=> {
+		return this.actor.getStoryTags().map( x=> {
+			return {
+				type: x.data.type,
+				name: x.data.name,
+				location: "",
+				id: x.id,
+				data: x.data,
+				ownerId: this.actor.id,
+				owner: this.actor
+			};
+		});
+	}
+
+
 	linkThemebook(theme) {
-		theme.data.themebook = CityHelpers.getThemebook(theme.data.themebook_name, theme.data.themebook_id);
+		const themedata = theme.data.data;
+		themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
 	}
 
 	/* -------------------------------------------- */
@@ -119,7 +142,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async getOwner(id, tokenId, sceneId) {
-		if (!id || id == this.actor._id)
+		if (!id || id == this.actor.id)
 			return this.actor;
 		else return CityHelpers.getOwner(id, tokenId, sceneId);
 	}
@@ -132,7 +155,6 @@ export class CityActorSheet extends CitySheet {
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
 		await theme.setField(field, val);
-		await this.forceRefresh();
 	}
 
 	async _themebookNameInput (event) {
@@ -142,7 +164,6 @@ export class CityActorSheet extends CitySheet {
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
 		await theme.update ({name});
-		await this.forceRefresh();
 	}
 
 	async _modifyThemeField(event) {
@@ -154,7 +175,6 @@ export class CityActorSheet extends CitySheet {
 		var obj = {};
 		obj.field = $(event.currentTarget).val();
 		await theme.update({obj});
-		await this.forceRefresh();
 	}
 
 	async _listGenFunction(event) {
@@ -183,12 +203,12 @@ export class CityActorSheet extends CitySheet {
 					default:
 						throw new Error(`Unknown Tag Subtype ${subtype}`);
 				}
-				for (const [key, values] of Object.entries(themebook.data[subtypex])) {
+				for (const [key, values] of Object.entries(themebook.data.data[subtypex])) {
 					list.push({_id: key, name: values, theme_id: themeId, subtype, description: ""});
 				}
 				break;
 			case "improvement":
-				for (let [key, values] of Object.entries(themebook.data.improvements)) {
+				for (let [key, values] of Object.entries(themebook.data.data.improvements)) {
 					list.push({_id: key, orig_obj: values,  name:values.name, theme_id: themeId, description: values.description});
 				}
 				break;
@@ -218,13 +238,13 @@ export class CityActorSheet extends CitySheet {
 		if (itemtype == "tag") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.data.data.question_letter == x._id && a.data.data.theme_id == x.theme_id && a.data.data.subtype == x.subtype
+					return a.data.data.question_letter == x._id && a.data.data.theme_id == themeId && a.data.data.subtype == subtype;
 				});
 			});
 		} else if (itemtype == "improvement") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.data.name == x.name && a.data.data.theme_id == x.theme_id
+					return a.name == x.name && a.data.data.theme_id == themeId;
 				});
 			});
 			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
@@ -258,12 +278,12 @@ export class CityActorSheet extends CitySheet {
 		if (itemtype == "tag")  {
 			const subtype = bonus ? "bonus" : getClosestData(event, "subType");
 			retobj = await owner.addTag(themeId, subtype, idChoice);
-			tag = await owner.getTag(retobj._id);
+			tag = await owner.getTag(retobj.id);
 			await this.tagDialog(tag);
 			await CityHelpers.modificationLog(owner, "Created",  tag);
 		} else {
 			retobj = await owner.addImprovement(themeId, idChoice);
-			improvement = await owner.getImprovement(retobj._id);
+			improvement = await owner.getImprovement(retobj.id);
 			await CityHelpers.modificationLog(owner,  "Created", improvement);
 			return;
 		}
@@ -274,7 +294,6 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _deleteTag (event) {
-		const themeId = getClosestData(event, "themeId");
 		const tagId = getClosestData(event, "tagId");
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
@@ -298,12 +317,6 @@ export class CityActorSheet extends CitySheet {
 			await CityHelpers.modificationLog(actor, `Deleted`, tag);
 		}
 	}
-
-	// async _tagMouseDown(event) {
-	// 	event.preventDefault();
-	// 	if (event.which == 3)
-	// 		this._tagSelect(event, true);
-	// }
 
 	async _tagSelect(event, invert = false) {
 		const id = getClosestData(event, "tagId");
@@ -355,12 +368,33 @@ export class CityActorSheet extends CitySheet {
 		const themeId = getClosestData( event, "themeId");
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
-		const tag = await actor.getTheme(themeId);
-		const themeName = tag.data.name;
-		if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
-			await	actor.deleteTheme(themeId);
-			await CityHelpers.modificationLog(actor, "Deleted", tag);
-			// await CityHelpers.modificationLog(`${actor.name}: Deleted Theme ${themeName}`);
+		const theme = await actor.getTheme(themeId);
+		const themeName = theme.data.name;
+		if (actor.isNewCharacter()) {
+			if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
+				await	actor.deleteTheme(themeId);
+				await CityHelpers.modificationLog(actor, "Deleted", theme);
+				// await CityHelpers.modificationLog(`${actor.name}: Deleted Theme ${themeName}`);
+			}
+		} else {
+			let ret;
+			if (ret = await this.themeDeleteChoicePrompt(themeName)) {
+				switch (ret) {
+					case "replace":
+						const BUV = theme.getBuildUpValue();
+						const imp = await this.actor.incBuildUp(BUV);
+						await CityHelpers.logToChat(this.actor, await theme.printDestructionManifest(imp));
+						await	actor.deleteTheme(themeId);
+						await CityHelpers.modificationLog(actor, "Deleted", theme);
+						break;
+					case "delete":
+						await	actor.deleteTheme(themeId);
+						await CityHelpers.modificationLog(actor, "Deleted", theme);
+						break;
+					default:
+						return true;
+				}
+			}
 		}
 	}
 
@@ -375,7 +409,6 @@ export class CityActorSheet extends CitySheet {
 		await actor.burnTag(id);
 		CityHelpers.modificationLog(actor, "Burned", tag);
 		// CityHelpers.modificationLog(`${actor.name}: Burned ${tagname}`);
-		await this.forceRefresh();
 	}
 
 	async _unburnTag (event) {
@@ -385,7 +418,6 @@ export class CityActorSheet extends CitySheet {
 		const tag = await actor.getTag(id);
 		if (await this.confirmBox("Unburn Tag", `unburning ${tag.name}`)) {
 			await actor.burnTag(id, 0);
-			await this.forceRefresh();
 		}
 		CityHelpers.modificationLog(actor, `Unburned`, tag);
 		// CityHelpers.modificationLog(`${actor.name}: Unburned ${tag.name}`);
@@ -403,7 +435,6 @@ export class CityActorSheet extends CitySheet {
 				if (await this.confirmBox("Add Attention", `Add Attention to ${themeName}`)) {
 					await actor.addAttention(id);
 					await CityHelpers.modificationLog(actor, `Attention Gained `, theme, `Current ${await theme.getAttention()}`);
-					await this.forceRefresh();
 				}
 				break;
 			case "crack":
@@ -421,7 +452,6 @@ export class CityActorSheet extends CitySheet {
 
 						await CityHelpers.logToChat(this.actor, await theme.printDestructionManifest(imp));
 					}
-					await this.forceRefresh();
 				}
 				break;
 			default:
@@ -451,7 +481,6 @@ export class CityActorSheet extends CitySheet {
 					await actor.removeAttention(id);
 					await CityHelpers.modificationLog(actor,  `Attention removed`, theme, `Current ${await theme.getAttention()}`);
 					// CityHelpers.modificationLog(`${actor.name}: Attention removed to ${themeName} (Current ${await theme.getAttention()})`);
-					await this.forceRefresh();
 				}
 				break;
 			case "crack":
@@ -463,7 +492,6 @@ export class CityActorSheet extends CitySheet {
 					else
 						txt += ` (Current ${await theme.getCrack()})`;
 					CityHelpers.modificationLog(actor, txt);
-					await this.forceRefresh();
 				}
 				break;
 			default:
@@ -518,8 +546,7 @@ export class CityActorSheet extends CitySheet {
 			throw new Error("value is undefined!");
 		if (this.actor.data.data.activeExtraId != val) {
 			await this.actor.setExtraThemeId(val);
-			await this.forceRefresh()
-			const extra = game.actors.find(x => x._id == val);
+			const extra = game.actors.find(x => x.id == val);
 			const name  = extra ? extra.name : "None";
 			if (extra)
 				await CityHelpers.modificationLog(this.actor, `Activated`, extra);
@@ -532,12 +559,12 @@ export class CityActorSheet extends CitySheet {
 	async _createStatus (event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewStatus("Unnamed Status")
-		const status = await owner.getStatus(obj._id);
+		const status = await owner.getStatus(obj.id);
 		const updateObj = await this.statusDialog(status);
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
 		} else {
-			await owner.deleteStatus(obj._id);
+			await owner.deleteStatus(obj.id);
 		}
 	}
 
@@ -579,7 +606,6 @@ export class CityActorSheet extends CitySheet {
 			await CityHelpers.playTagOn();
 		else
 			await CityHelpers.playTagOff();
-		await this.forceRefresh();
 	}
 
 	//async _statusRightMouseDown(event) {
@@ -592,13 +618,13 @@ export class CityActorSheet extends CitySheet {
 	async _createClue (event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewClue("Unnamed Clue");
-		const clue = await owner.getClue(obj._id);
+		const clue = await owner.getClue(obj.id);
 		const updateObj = await this.CJDialog("clue", clue);
 		if (updateObj) {
 			const partialstr = clue.data.data.partial ? ", partial": "";
 			CityHelpers.modificationLog(owner, "Created", clue, `${clue.data.data.amount}${partialstr}` );
 		} else  {
-			await owner.deleteClue(obj._id);
+			await owner.deleteClue(obj.id);
 		}
 	}
 
@@ -616,12 +642,12 @@ export class CityActorSheet extends CitySheet {
 	async _createJuice (event) {
 		const owner = this.actor;
 		const obj = await owner.createNewJuice("Unnamed Juice");
-		const juice = await owner.getJuice(obj._id);
+		const juice = await owner.getJuice(obj.id);
 		const updateObj = await this.CJDialog("juice", juice);
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Created", juice, `${juice.data.data.amount}` );
 		} else  {
-			await owner.deleteJuice(obj._id);
+			await owner.deleteJuice(obj.id);
 		}
 	}
 
@@ -692,7 +718,7 @@ export class CityActorSheet extends CitySheet {
 	async _createStoryTag(event) {
 		const owner = this.actor;
 		const retobj = await owner.createStoryTag();
-		const tag = await owner.getTag(retobj._id);
+		const tag = await owner.getTag(retobj.id);
 		await this.tagDialog(tag);
 		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
@@ -712,7 +738,7 @@ export class CityActorSheet extends CitySheet {
 		const list = await CityHelpers.getBuildUpImprovements();
 		const choiceList = list.map ( x => {
 			return {
-				id: x._id,
+				id: x.id,
 				data: [x.name],
 				description: x.data.description
 			}
@@ -720,7 +746,7 @@ export class CityActorSheet extends CitySheet {
 		const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
 		if (!choice)
 			return;
-		const improvementName = list.find(x => x._id == choice).name;
+		const improvementName = list.find(x => x.id == choice).name;
 		const imp = await this.actor.addBuildUpImprovement(choice);
 		await CityHelpers.modificationLog(this.actor, "Added", imp);
 	}
@@ -743,8 +769,6 @@ export class CityActorSheet extends CitySheet {
 			unspentBU = actor.data.data.unspentBU;
 			refresh = true;
 		}
-		if (refresh)
-			this.forceRefresh();
 	}
 
 	async chooseBuildUpImprovement (owner) {
@@ -754,7 +778,7 @@ export class CityActorSheet extends CitySheet {
 		const inputList = filteredChoices.map( x => {
 			const data = [x.name];
 			return {
-				id : x._id,
+				id : x.id,
 				data,
 				description: x.data.description
 			};
@@ -814,10 +838,10 @@ export class CityActorSheet extends CitySheet {
 				return;
 			newtype = SHBType;
 		}
-		const move = CityHelpers.getMoves().find(x=> x._id == move_id);
+		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
 		if (!move_id)
 			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
-		switch (newtype ?? move.data.type) {
+		switch (newtype ?? move.data.data.type) {
 			case "standard":
 				await CityRoll.modifierPopup(move_id, this.actor);
 				break;
@@ -831,9 +855,9 @@ export class CityActorSheet extends CitySheet {
 				await CityRoll.noRoll(move_id, this.actor);
 				break;
 			default:
-				throw new Error(`Unknown Move Type ${newtype ?? move.data.type}`);
+				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
 		}
-		const effectClass = move.data?.effect_class ?? "";
+		const effectClass = move.data?.data?.effect_class ?? "";
 		if (effectClass.includes("MONOLOGUE"))
 			if (this.monologue)
 				this.monologue();
@@ -843,7 +867,6 @@ export class CityActorSheet extends CitySheet {
 		if (effectClass.includes("FLASHBACK"))
 			if (this.flashback)
 				this.flashback();
-		await this.forceRefresh();
 	}
 
 	async statusDialog(obj) {

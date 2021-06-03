@@ -1,15 +1,20 @@
 <div class="bio-subsection description-area">
 	<div class="bio-section-label"> Description </div>
+	<div class="editor-box">
 		{{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+	</div>
 </div>
 <div class="bio-subsection bio-area">
 	<div class="bio-section-label"> Biography </div>
-	{{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
+	<div class="editor-box">
+	{{editor content=data.biography target="data.biography" button=true owner=isOwner editable=true}}
+	</div>
 </div>
-<!-- TODO: check lockout chagnes -->
 {{#if (and (isGM) (not lockout))}}
 <div class="bio-subsection gmnotes-area">
 	<div class="bio-section-label"> MC Notes </div>
-	{{editor content=data.gmnotes target="data.gmnotes" button=true owner=owner editable=true}}
+	<div class="editor-box">
+	{{editor content=data.gmnotes target="data.gmnotes" button=true owner=isOwner editable=true}}
+	</div>
 </div>
 {{/if}}

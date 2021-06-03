@@ -2,7 +2,7 @@ import { CityItem } from "./city-item.js";
 
 export async function CityRoll(moveId, actor, options = {}) {
 	const {modifiers, tags} = await CityRoll.prepareModifiers(actor, options);
-	const roll = CityRoll.getRoll(options);
+	const roll = await CityRoll.getRoll(options);
 	const actorName = actor.name;
 	const templateModifiers = modifiers.map ( x=> {
 		const subtype = x.tag ? x.tag.data.data.subtype : "";
@@ -24,7 +24,7 @@ CityRoll.getContent = async function (roll, templateData) {
 	const options = templateData.options;
 	const power = CityRoll.getPower(templateData.modifiers);
 	const moveId = templateData.moveId;
-	const move = (await CityHelpers.getMoves()).find(x=> x._id == moveId);
+	const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 	const total = roll.total + power;
 	const roll_status = CityRoll.getRollStatus(total, options);
 	templateData = Object.assign({}, templateData);
@@ -57,7 +57,6 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	const activated = actor.getActivated();
 	const modifiersPromises = activated.map( async(x) => {
 		const tagOwner = await CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-		// const tagOwner = game.actors.find(y=> y._id == x.tagOwnerId);
 		const tag = tagOwner ? await tagOwner.getSelectable(x.tagId) : null;
 		return {
 			name: x.name,
@@ -80,7 +79,7 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	if (!options.noTags) {
 		tags = allModifiers.filter( x=> x.type == "tag");
 		if (options.burnTag && options.burnTag.length) {
-			tags = tags.filter(x => x.tag._id == options.burnTag);
+			tags = tags.filter(x => x.tag.id == options.burnTag);
 			tags[0].amount = 3;
 		}
 	}
@@ -158,7 +157,7 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	return {modifiers, tags};
 }
 
-CityRoll.getRoll = function (options) {
+CityRoll.getRoll = async function (options) {
 	let rstring;
 	if (options.noRoll) {
 		rstring =`0d6+1000`;
@@ -168,7 +167,7 @@ CityRoll.getRoll = function (options) {
 		rstring = `2d6`;
 	}
 	let r = new Roll(rstring, {});
-	r.roll();
+	await r.roll({async:true});
 	return r;
 }
 
@@ -191,16 +190,16 @@ CityRoll.getPower = function (modifiers) {
 CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 	if (options.burnTag && options.burnTag.length)
 		for (let {owner, tag} of tags)
-			await owner.burnTag(tag._id);
+			await owner.burnTag(tag.id);
 	for (let {owner, tag, amount} of tags) {
-		if (tag.data.data.crispy) {
-			try {await owner.burnTag(tag._id);}
+		if (tag.data.data.crispy || tag.data.data.temporary) {
+			try {await owner.burnTag(tag.id);}
 			catch (e) {
 				console.warn(`Unable to Burn tag ${tag.name}`);
 			}
 		}
 		if (tag.data.data.subtype == "weakness" && amount < 0 ) {
-			await owner.grantAttentionForWeaknessTag(tag._id);
+			await owner.grantAttentionForWeaknessTag(tag.id);
 		}
 	}
 }
