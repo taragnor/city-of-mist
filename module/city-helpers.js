@@ -696,13 +696,21 @@ export class CityHelpers {
 	}
 
 	static getDefaultTagDirection(tag, tagowner, actor) {
+		const subtype = tag?.data?.data?.subtype;
 		try {
-			if (tag.data.data.subtype == "power")
-				return 1;
-			if (tag.data.data.subtype == "story")
-				if (tagowner.data.type == "character")
-					return 1;
+			switch (subtype) {
+				case "power": return 1;
+				case "story":
+					if (tagowner.type == "character")
+						return 1;
+					break;
+				case null: throw new Error(`Resolution Error subtype ${subtype}, tag name: ${tag?.name}, owner: ${tagowner}`);
+				default:
+					return -1;
+			}
 		} catch(e) {
+			Debug(tag);
+			Debug(tagowner);
 			console.warn(e);
 		}
 		return -1;

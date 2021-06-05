@@ -105,6 +105,9 @@ section.card-style {
 }
 
 div.non-char-theme-header {
+	font-weight: bold;
+	font-size: larger;
+	text-decoration: underline;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -112,9 +115,19 @@ div.non-char-theme-header {
 	flex:10;
 }
 
-span.non-char-theme-name:hover {
-	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.non-char-theme-name:hover {
+	text-shadow: 0 0 10px red;
 	cursor: pointer;
+}
+
+.gmmove-type-label {
+	display: block;
+	font-variant: small-caps;
+	text-align: center;
+	border-bottom: 1px grey;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: larger;
 }
 
 section.card-style:hover {
@@ -199,7 +212,8 @@ textarea.theme-name-input:hover:not([disabled]){
 }
 
 div.tag-question {
-	font-weight: bold; text-decoration: underline;
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 .card-name {
@@ -557,12 +571,6 @@ span.status-with-pips {
 }
 
 div.crew-member-list {
-}
-
-div.non-char-theme-header {
-	font-weight: bold;
-	font-size: larger;
-	text-decoration: underline;
 }
 
 div.type-header {

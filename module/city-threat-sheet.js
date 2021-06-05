@@ -93,7 +93,7 @@ export class CityThreatSheet extends CityActorSheet {
 	async _createGMMove(event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewGMMove("Unnamed Move")
-		const move = await owner.getGMMove(obj._id);
+		const move = await owner.getGMMove(obj.id);
 		await this.moveDialog(move);
 		await move.updateGMMoveHTML();
 	}

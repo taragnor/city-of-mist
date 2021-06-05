@@ -1,4 +1,4 @@
-<div class="{{tbdata.type}}-theme" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type=themetype>
+<div class="{{tbdata.type}}-theme" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}">
 	<div class ="theme-title">
 		{{#if (ne themetype "character")}}
 		<div class="non-char-theme-header" title="{{themetype}} theme">
@@ -7,7 +7,7 @@
 				<i class="fas fa-arrow-left"></i>
 			</a>
 			{{/if}}
-			<span class="non-char-theme-name" > {{owner.name}}</span>
+			<span class="non-char-theme-name"> {{owner.name}}</span>
 			{{#if (eq themetype "crew")}}
 			<a class="item-control crew-next">
 				<i class="fas fa-arrow-right"></i>

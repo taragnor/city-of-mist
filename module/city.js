@@ -222,6 +222,10 @@ Hooks.once("init", async function() {
 		}
 	});
 
+	Handlebars.registerHelper('hasGMMoveOfType', function (actor, subtype, options) {
+		return actor.items.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
+	});
+
 	Handlebars.registerHelper('applyNameSubstitution', function (move, dangerId, options) {
 		const formatted = move.getFormattedText();
 		return new Handlebars.SafeString(formatted);

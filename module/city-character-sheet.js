@@ -127,9 +127,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 		retTags = retTags.concat(tokenTagData.flat(1));
 		const storyContainers =  game.actors.filter( actor => {
-			if (actor.data.type != "storyTagContainer"
-				// && actor.data.type != "character"
-			)
+			if (actor.data.type != "storyTagContainer")
 				return false;
 			if (retTags.find( x=> x.ownerId == actor.id ))
 				return false;
