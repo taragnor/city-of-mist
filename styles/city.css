@@ -810,7 +810,15 @@ form.stop-holding-back-sheet span {
 	}
 }
 
-.tab-content {
+.crew-sheet .tab-content {
+	min-height: 850px;
+}
+
+.actor-sheet .tab-content {
+	min-height: 850px;
+}
+
+.threat-sheet .tab-content {
 	min-height: 850px;
 }
 

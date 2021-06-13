@@ -14,7 +14,7 @@ export class CityItemSheet extends ItemSheet {
 
 	getData(options) {
 		let  data = super.getData();
-		//FIx for compatibility with .0.8
+		//Fix for compatibility with .0.8
 		const itemData = this.item.data.toObject(false);
 		data.item = this.item;
 		data.data = itemData.data;
@@ -25,8 +25,8 @@ export class CityItemSheet extends ItemSheet {
 	/** @override */
 	get template() {
 		const path = "systems/city-of-mist/templates/items";
-		let simple_item_types = [];
-		const template_name = `${this.item.data.type}`;
+		const simple_item_types = [];
+		let template_name = `${this.item.data.type}`;
 		if (simple_item_types.indexOf(this.item.data.type) >= 0) {
 			template_name = "simple";
 		}

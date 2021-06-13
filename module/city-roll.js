@@ -127,9 +127,9 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {
 		const cap = game.settings.get("city-of-mist", "weaknessCap");
 		let capPenalty = -(modifiersTotal - cap);
-		if (capPenalty != 0 && modifiersTotal > 0)
+		if (capPenalty < 0 && modifiersTotal > cap)
 			modifiers.push( {
-				name: "Weakness Cap Penalty",
+				name: "Weakness Cap Exceeded",
 				amount: capPenalty,
 				owner: null,
 				tag: null,
