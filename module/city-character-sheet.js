@@ -18,6 +18,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 	}
 
+
 	getData() {
 		let data = super.getData();
 

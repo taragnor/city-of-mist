@@ -218,6 +218,17 @@ export class CityItem extends Item {
 		return await this.update( {name:newname, data: {tier, pips}});
 	}
 
+	async subtractStatus (ntier, newname=null) {
+		const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
+		newname = newname ?? this.data.name;
+		let tier = this.data.data.tier;
+		let pips = this.data.data.pips;
+		pips = 0;
+		tier = Math.max(tier - ntier, 0);
+		return await this.update( {name:newname, data: {tier, pips}});
+
+	}
+
 	async decUnspentUpgrades() {
 		const newval = this.data.data.unspent_upgrades-1;
 		if (newval < 0)

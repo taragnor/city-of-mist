@@ -20,7 +20,8 @@
 			<span class="status-name {{#if ../locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) -1)}} negative-selected-status {{/if}} {{#if (gt status.data.data.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.data.data.pips 0)}} {{status.data.data.pips}} pips {{/if}}">
 				{{status.name}}-{{status.data.data.tier}}
 			</span>
-			<a class="item-control status-add" title="Add Status"><i class="fas fa-plus"></i></a>
+			<a class="item-control status-add" title="Add to Status"><i class="fas fa-plus"></i></a>
+			<a class="item-control status-subtract" title="Subtract from Status"><i class="fas fa-minus"></i></a>
 		</div>
 	</div>
 	{{/if}}
