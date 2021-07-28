@@ -31,7 +31,7 @@
 	</section>
 	<nav class="sheet-tabs tabs" data-group="primary">
 		<a class="item" data-tab="themes"> Tags/Themes </a>
-		<a class="item" data-tab="juice"> Juice </a>
+		<a class="item" data-tab="juice"> Juice/Help/Hurt </a>
 		<a class="item" data-tab="clues"> Clues </a>
 		<a class="item" data-tab="build-up"> Moments of Evolution </a>
 		<a class="item" data-tab="bio"> Bio </a>
@@ -103,16 +103,38 @@
 			</div>
 			{{/if}}
 		</div>
-		<div class="tab tab-content juice-section" data-group="primary" data-tab="juice">
+		<div class="tab tab-content juice-tab" data-group="primary" data-tab="juice">
 			<section id="juice-section">
-				<div class="section-header"> Clues
+				<div class="section-header"> Juice
 					<a class="create-juice" data-item-type="juice" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 				</div>
-				{{#each items as |item id|}}
+				<div class="flex-row-left">
+				{{#each (getJuiceList actor) as |item id|}}
 				{{#if (eq item.type "juice")}}
 				{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
 				{{/if}}
 				{{/each}}
+				</div>
+			</section>
+			<section id="help-section">
+				<div class="section-header"> Help
+					<a class="create-help" data-item-type="juice" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+				</div>
+				<div class="flex-row-left">
+				{{#each (getHelpList actor) as |item id|}}
+				{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
+				{{/each}}
+				</div>
+			</section>
+			<section id="hurt-section">
+				<div class="section-header"> Hurt
+					<a class="create-hurt" data-item-type="juice" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+				</div>
+				<div class="flex-row-left">
+				{{#each (getHurtList actor) as |item id|}}
+				{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
+				{{/each}}
+				</div>
 			</section>
 		</div>
 		<div class="tab tab-content clues-section" data-group="primary" data-tab="clues">

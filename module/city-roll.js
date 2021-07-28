@@ -67,7 +67,7 @@ CityRoll.prepareModifiers = async function (actor, options) {
 			type: x.type
 		};
 	});
-	const allModifiers = (await Promise.all(modifiersPromises)).filter (x =>{
+	let allModifiers = (await Promise.all(modifiersPromises)).filter (x =>{
 		if (x.tag != null) {
 			if (x.tag.isBurned())
 				console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
@@ -82,6 +82,21 @@ CityRoll.prepareModifiers = async function (actor, options) {
 			tags = tags.filter(x => x.tag.id == options.burnTag);
 			tags[0].amount = 3;
 		}
+	}
+	if (options.helpId && options.helpAmount > 0) {
+		const helper = game.actors.find( x =>
+			x.type == "character"
+			&& x.items.find( i => i.id == options.helpId)
+		);
+		const helpJuice = helper.items.find( i => i.id == options.helpId);
+			allModifiers.push( {
+				name: `Help From ${helper.name} (must be deducted manually)`,
+				id: options.helpId,
+				amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
+				owner: helper,
+				tag: null,
+				type: "status",
+			});
 	}
 	let usedStatus = [];
 	if (!options.noStatus) {
@@ -188,6 +203,16 @@ CityRoll.getPower = function (modifiers) {
 }
 
 CityRoll.rollCleanupAndAftermath = async function (tags, options) {
+	if (options.helpId) {
+		const amount = options.helpAmount;
+		const helper = game.actors.find( x =>
+			x.type == "character"
+			&& x.items.find( i => i.id == options.helpId)
+		);
+		const helpJuice = helper.items.find( i => i.id == options.helpId);
+		//TODO: FInd better way to request that juice be spent for token you do't own, may need to signal owner
+		// await helper.spendJuice(helpJuice.id, amount);
+	}
 	if (options.burnTag && options.burnTag.length)
 		for (let {owner, tag} of tags)
 			await owner.burnTag(tag.id);
@@ -207,13 +232,44 @@ CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 CityRoll.modifierPopup = async function (move_id, actor) {
 	const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 	const title = `Make Roll`;
-	const templateData = {burnableTags, actor: actor.data, data: actor.data.data};
+	const templateData = {burnableTags, actor: actor, data: actor.data.data};
 	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
-	const rollOptions =await  new Promise ( (conf, reject) => {
+	const rollOptions =await new Promise ( (conf, reject) => {
 		const options ={};
+		const updateSliderValMax = function (html) {
+			const itemId = $(html).find("#help-dropdown").val();
+			if (!itemId) {
+				$(html).find("#help-slider-container").hide();
+				return;
+			}
+			const clue = game.actors.find( x =>
+				x.type == "character"
+				&& x.items.find( i => i.id == itemId)
+			).items
+				.find(i => i.id == itemId);
+			const amount = clue.data.data.amount;
+			$(html).find("#help-slider").val(1);
+			$(html).find("#help-slider").prop("max", amount);
+			$(html).find(".slidervalue").html(1);
+			if (amount)
+				$(html).find("#help-slider-container").show().prop("max", amount);
+			else
+				$(html).find("#help-slider-container").hide();
+			return amount;
+		}
 		const dialog = new Dialog({
 			title:`${title}`,
 			content: html,
+			render: (html) => {
+				updateSliderValMax(html);
+				$(html).find("#help-dropdown").change( function (ev) {
+					const amt= updateSliderValMax(html);
+				});
+				$(html).find("#help-slider").change( function (ev) {
+					$(html).find(".slidervalue").html(this.value);
+				});
+
+			},
 			buttons: {
 				one: {
 					icon: '<i class="fas fa-check"></i>',
@@ -223,7 +279,9 @@ CityRoll.modifierPopup = async function (move_id, actor) {
 						const dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 						const burnTag = $(html).find("#roll-burn-tag option:selected").val();
 						const setRoll = burnTag.length ? 7 : 0;
-						const retObj  = {modifier, dynamiteAllowed, burnTag, setRoll};
+						const helpId = $(html).find("#help-dropdown").val();
+						const helpAmount = (helpId) ? $(html).find("#help-slider").val(): 0;
+						const retObj  = {modifier, dynamiteAllowed, burnTag, setRoll, helpId, helpAmount };
 						conf(retObj);
 					},
 				},

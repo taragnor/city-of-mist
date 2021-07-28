@@ -1,12 +1,26 @@
 <form class="{{cssClass}} juice-sheet flex-col item-edit-dialog">
+	{{#if (isHelpHurt item)}}
+	<label class="dialog-label" for="target"> Target </label>
+	<select name="data.targetCharacterId" data-dtype="String">
+		{{#select data.targetCharacterId}}
+		{{#each (PCList) as |pc|}}
+		<option value="{{pc.id}}">{{displayAlias pc}}</option>
+	   {{/each}}
+		{{/select}}
+	</select>
+
+	{{else}}
 	<label class="dialog-label" for="name"> Name </label>
 	<input type="text" name="name" value="{{item.name}}">
+	{{/if}}
 	<label class="dialog-label" for="amount"> Amount </label>
 	<input type="number"  name="data.amount" value="{{data.amount}}">
+	{{#if (not (isHelpHurt item))}}
 	<label class="dialog-label" for="source"> Source </label>
 	<input type="text" name="data.source" value="{{data.source}}">
 	<label class="dialog-label" for="method"> Method </label>
 	<input type="text" name="data.method" value="{{data.method}}">
+	{{/if}}
 	<hr>
 </form>
 

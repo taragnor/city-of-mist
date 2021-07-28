@@ -198,7 +198,6 @@ export class CityHelpers {
 
   /* -------------------------------------------- */
 
-	// static async modificationLog(actor, action, object = null, aftermsg = "" ) {
 	static async modificationLog(...args) {
 		if (!game.settings.get("city-of-mist", "loggedActions"))
 			return;
@@ -207,7 +206,7 @@ export class CityHelpers {
 
 	static async logToChat(actor, action, object = null, aftermsg = "") {
 		if (action != undefined) {
-			const object_part = object ? `${object.type} ${object.name}` : "";
+			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
 			const after_message = aftermsg ? `(${aftermsg})` : "";
 			const message = `${actor.getDisplayedName()} : ${action} ${object_part} ${after_message}`;
 			await this.gmMessage(message, null);
@@ -215,8 +214,6 @@ export class CityHelpers {
 			console.warn(`Deprecated usage of modification Log: ${actor}`);
 			await this.gmMessage(actor);
 		}
-
-
 	}
 
 	static async gmMessage(text, actor = null) {
@@ -232,7 +229,6 @@ export class CityHelpers {
 	}
 
 	static async sendToChat(text, sender={}) {
-		Debug(sender);
 		const speaker = ChatMessage.getSpeaker(sender);
 		let messageData = {
 			speaker: speaker,
@@ -274,7 +270,6 @@ export class CityHelpers {
 	}
 
 	static async getOwner(ownerId, tokenId, sceneId) {
-		// console.warn (`getOwner Called on City Helpers (${ownerId}, ${tokenId}, ${sceneId})`);
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
 		if (!sceneId) {
@@ -290,7 +285,6 @@ export class CityHelpers {
 		}
 	}
 
-	//TODO: fix active scene searcher
 	static getActiveScene() {
 		return window.game.scenes.active;
 	}

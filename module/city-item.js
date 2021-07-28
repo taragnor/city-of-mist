@@ -226,7 +226,6 @@ export class CityItem extends Item {
 		pips = 0;
 		tier = Math.max(tier - ntier, 0);
 		return await this.update( {name:newname, data: {tier, pips}});
-
 	}
 
 	async decUnspentUpgrades() {
@@ -265,6 +264,7 @@ export class CityItem extends Item {
 		html = CityItem.substitutePower(html, power);
 		return html;
 	}
+
 	getFormattedText () {
 		const name = this.actor.getDisplayedName();
 		return CityHelpers.nameSubstitution(this.data.data.html, {name});
@@ -334,5 +334,63 @@ export class CityItem extends Item {
 		return {html, taglist, statuslist};
 	}
 
+	isHelpHurt() {
+		if (this.type != "juice") return false;
+		const subtype = this.data.data?.subtype;
+		return subtype == "help" || subtype == "hurt";
+	}
+
+	getSubtype() {
+		return this.type == "juice" && this.data.data?.subtype;
+	}
+
+	getTarget() {
+		const targetId = this.data.data?.targetCharacterId;
+		if (targetId)
+			return game.actors.get(targetId);
+		else return null;
+	}
+
+	getTargetName() {
+		const target= this.getTarget();
+		if (target)
+			return target.name;
+		else return "";
+	}
+
+	isHurt() {
+		return this.type == "juice" && this.getSubtype() == "hurt";
+	}
+
+	isHelp() {
+		return this.type == "juice" && this.getSubtype() == "help";
+	}
+
+	isJuice() {
+		return this.type == "juice" && this.getSubtype() == "";
+	}
+
+	getDisplayedName() {
+		if (!this.isHelpHurt())
+			return this.name
+		if (this.isHelp())
+			return "Help " + this.getTargetName()
+		if (this.isHurt())
+			return "Hurt "+ this.getTargetName();
+		else
+			throw new Error("Something odd happened?");
+	}
+
+	async spend(amount) {
+		const curr = this.getAmount();
+		if (amount > curr)
+			console.error("${this.name}: Trying to spend more juice (${amount}) than you have ${curr}");
+		console.log("Spent ${amount} of ${curr} juice");
+		return await this.update( {"data.amount": curr - amount});
+	}
+
+	getAmount() {
+		return this.data.data.amount;
+	}
 }
 

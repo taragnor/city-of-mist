@@ -257,5 +257,43 @@ Hooks.once("init", async function() {
 	Handlebars.registerHelper("displayAlias", (actor, options) => {
 		return game.actors.get(actor.id).getDisplayedName();
 	});
-});
 
+	Handlebars.registerHelper("isHelpHurt", (juice, options) => {
+		return juice.isHelpHurt();
+	});
+
+	Handlebars.registerHelper("helpHurtTarget", (juice, options) => {
+		return juice.getTargetName();
+	});
+
+	Handlebars.registerHelper("getHurtList", (actor, options) => {
+		return actor.items.filter( i => i.isHurt());
+	});
+
+	Handlebars.registerHelper("getHelpList", (actor, options) => {
+		return actor.items.filter( i => i.isHelp());
+	});
+
+	Handlebars.registerHelper("getJuiceList", (actor, options) => {
+		return actor.items.filter( i => i.isJuice());
+	});
+
+	Handlebars.registerHelper("PCList", (actor, options) => {
+		return game.actors.filter( x => x.type == "character" && x.permission > 0);
+	});
+
+	Handlebars.registerHelper("getHelpFor", (targetactor, options) => {
+		return game.actors.filter( x => x.type == "character" &&
+			x.items.find(i => i.isHelp() && i.getTarget() == targetactor)
+		).map( x => x.items
+			.filter ( i => i.isHelp() && i.getTarget() == targetactor)
+			.map( i => {
+				return {
+					owner: x,
+					id: i.id,
+					amount : i.data.data.amount
+				};
+			})
+		).flat();
+	});
+});

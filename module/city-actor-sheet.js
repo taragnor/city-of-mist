@@ -77,6 +77,8 @@ export class CityActorSheet extends CitySheet {
 		html.find('.clue-delete').click(this._deleteClue.bind(this));
 		html.find('.create-juice').click(this._createJuice.bind(this));
 		html.find('.juice-delete').click(this._deleteJuice.bind(this));
+		html.find('.create-help').click(this._createHelp.bind(this));
+		html.find('.create-hurt').click(this._createHurt.bind(this));
 		html.find('.clue-name').click( this._clueEdit.bind(this) );
 		html.find('.clue-name').mousedown(CityHelpers.middleClick ( this._clueEdit.bind(this)));
 		html.find('.juice-name').click( this._juiceEdit.bind(this) );
@@ -633,8 +635,20 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _createJuice (event) {
+		return await this._createJuiceOfType("Unnamed Juice");
+	}
+
+	async _createHelp (event) {
+		return await this._createJuiceOfType("Help", "help");
+	}
+
+	async _createHurt (event) {
+		return await this._createJuiceOfType("hurt", "hurt");
+	}
+
+	async _createJuiceOfType (basename, subtype = "") {
 		const owner = this.actor;
-		const obj = await owner.createNewJuice("Unnamed Juice");
+		const obj = await owner.createNewJuice(basename, subtype);
 		const juice = await owner.getJuice(obj.id);
 		const updateObj = await this.CJDialog("juice", juice);
 		if (updateObj) {

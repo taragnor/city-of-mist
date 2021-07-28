@@ -96,8 +96,16 @@ img.theme-img {
 	display: inline-block;
 }
 
+
+div.flex-row-left {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+
 section.card-style {
-	float: left;
+	/* float: left; */
 	margin: 0 10px 10px 0;
 	padding: 10px 10px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -136,6 +144,10 @@ section.card-style:hover {
 
 span.clue-name:hover {
 	text-shadow: 0 0 10px red;
+}
+
+span.juice-name {
+	text-transform: capitalize;
 }
 
 span.juice-name:hover {
@@ -630,6 +642,11 @@ div.bio-header {
 	justify-content: flex-start;
 }
 
+div.juice-tab {
+	display: flex;
+	flex-direction: column;
+}
+
 textarea.bio-input {
 	min-height: 40em;
 	max-height: 40em;
@@ -1052,4 +1069,38 @@ input.character-residence {
 
 faded {
 	opacity: 0.25;
+}
+
+.hide {
+	display:none;
+}
+
+.slidecontainer {
+	width: 50%; /* Width of the outside container */
+}
+
+.slider {
+	-webkit-appearance: none;  /* Override default CSS styles */
+	appearance: none;
+	width: 100%; /* Full-width */
+	height: 25px; /* Specified height */
+	background: #d3d3d3; /* Grey background */
+	outline: none; /* Remove outline */
+	opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+	-webkit-transition: .2s; /* 0.2 seconds transition on hover */
+	transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+	opacity: 1; /* Fully shown on mouse-over */
+}
+
+.slidervalue {
+	text-align: center;
+}
+
+.help-selection {
+
+	min-height: 4rem;
 }

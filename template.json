@@ -150,7 +150,9 @@
 			"amount": 0,
 			"source": "",
 			"method": "",
-			"tagsUsed": []
+			"tagsUsed": [],
+			"subtype": "",
+			"targetCharacterId": ""
 		},
 		"move": {
 			"templates": ["default"],

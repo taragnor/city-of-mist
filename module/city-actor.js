@@ -117,6 +117,13 @@ export class CityActor extends Actor {
 		return await this.deleteEmbeddedById(id);
 	}
 
+	async spendJuice (id, amount =1) {
+		const juice = this.items.find( x=> x.id == id);
+		await juice.spend(amount);
+		if (juice.getAmount() <= 0)
+			await this.deleteJuice(id);
+	}
+
 	getActivated() {
 		if (this.data.data.selectedTags)
 			return this.data.data.selectedTags;
@@ -188,9 +195,9 @@ export class CityActor extends Actor {
 		return await this.createNewItem(obj);
 	}
 
-	async createNewJuice (name) {
+	async createNewJuice (name, subtype = "") {
 		const obj = {
-			name, type: "juice", data : {amount:1}};
+			name, type: "juice", data : {amount:1, subtype}};
 		return await this.createNewItem(obj);
 	}
 
