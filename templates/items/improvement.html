@@ -1,9 +1,21 @@
-<form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item._id}}" data-sheet-owner-id="{{item._id}}" data-owner-class="item">
+<form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item.id}}" data-sheet-owner-id="{{item.id}}" data-owner-class="item">
+	{{#if (not data.chosen)}}
 	<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 	<label> Uses </label>
 	<input name="data.uses.max" value="{{data.uses.max}}">
 	<label class="dialog-label" for="free-content"> Allow Override </label>
 	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
 	<label> Description </label>
-	<textarea  type="text" name="data.description">{{item.data.description}}</textarea>
+	<textarea  type="text" name="data.description">{{data.description}}</textarea>
+	{{else}}
+	<div class="improvement-name-send"> Description </div>
+	<div >{{data.description}}</div>
+	<hr>
+	<label> Choice </label>
+	<input class="input-small" type="text" name="data.choice_item" value="{{data.choice_item}}">
+	{{#if data.uses.max}}
+	<div> Uses {{data.uses.current}} / {{data.uses.max}} </div>
+	{{/if}}
+	{{/if}}
+
 </form>

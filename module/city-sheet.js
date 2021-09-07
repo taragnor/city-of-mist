@@ -101,17 +101,7 @@ export class CitySheet extends ActorSheet {
 	}
 
 	async confirmBox(title, text, defaultYes = false) {
-		const templateData = {text};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
-		return await new Promise( (conf, reject) => {
-			Dialog.confirm({
-				title,
-				content: html,
-				yes: conf.bind(this, true),
-				no: conf.bind(this, false),
-				defaultYes
-			});
-		});
+		return await CityHelpers.confirmBox(title, text, defaultYes);
 	}
 
 	themeDeleteChoicePrompt(themename) {
@@ -144,7 +134,6 @@ export class CitySheet extends ActorSheet {
 		const label = options?.label ?? "Send to Chat";
 		const render = options?.disable ? (args) => {
 			console.log("Trying to disable");
-			Debug(args);
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		} : () => 0;
 

@@ -44,7 +44,6 @@
 				<select class="active-extra-drop-down" name="active-extra-drop-down" id="active-extra-drop-down">
 					<option value="" {{#if (eq data.activeExtraId "")}} selected="selected" {{/if}}>- </option>
 					{{#each data.extras as |extra| }}
-					xxxx
 					<option value="{{extra.id}}" {{#if (eq extra.id ../data.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
 					{{/each}}
 				</select>

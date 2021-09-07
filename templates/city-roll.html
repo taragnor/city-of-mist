@@ -5,7 +5,7 @@
 	{{#if (ne options.noRoll true)}}
 	<section class="roll-block">
 		<ol class="dice-rolls">
-		{{#if (eq options.setRoll 0)}}
+			{{#if (eq options.setRoll 0)}}
 			{{#each this.rolls}}
 			{{#if this.result}}
 			<li class="roll die d6">{{{this.result}}}</li>
@@ -40,8 +40,15 @@
 	<div class="move-text"> {{moveText}} </div>
 	<ul class="move-list">
 		{{#each moveList as |li id|}}
-		<li class="move-list-item"> {{li.text}} </li>
-		{{/each}}
+		{{#if (ne li.cost 0)}}
+		<li class="move-list-item">
+			<input class="roll-selector-checkbox" type="checkbox" {{#if li.checked}} checked {{/if}} data-listitem="{{li.text}}">
+			{{else}}
+			<li class="move-list-bullets">
+				{{/if}}
+				{{li.text}} </li>
+			{{/each}}
 	</ul>
 	<hr>
 </div>
+

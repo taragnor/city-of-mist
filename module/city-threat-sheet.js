@@ -7,7 +7,7 @@ export class CityThreatSheet extends CityActorSheet {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/threat-sheet.html",
-			width: 700,
+			width: 990,
 			height: 970,
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "moves"}]
 		});

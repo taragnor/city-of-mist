@@ -12,14 +12,15 @@
 			<option value="Extra">Extra</option>
 			<option value="Logos">Logos</option>
 			<option value="Mythos">Mythos</option>
+			<option value="Mist">Mist</option>
 			{{/select}}
 		</select>
 	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
+	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
 		<textarea name="data.description">{{data.description}}</textarea>
 		<div id="power-questions">
 			<h1 id="power-tags-header"> Power Tags
-				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="power_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="power_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
 			</h1>
 			{{#each data.power_questions as |question ind|}}
 			{{#if (ne question "_DELETED_")}}
@@ -33,7 +34,7 @@
 		</div>
 		<div id="weakness-questions">
 			<h1 id="weakness-tags-header"> Weakness Tags
-				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
 			</h1>
 			{{#each data.weakness_questions as |question ind|}}
 			{{#if (ne question "_DELETED_")}}
@@ -47,7 +48,7 @@
 		</div>
 		<div id="improvements">
 			<h1 id="improvements-header"> Improvements
-				<a class="add-improvement" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor._id}}> <i class="fas fa-plus-square"></i></a></p>
+				<a class="add-improvement" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
 			</h1>
 			{{#each data.improvements as |imp ind|}}
 			{{#if (ne imp "_DELETED_")}}

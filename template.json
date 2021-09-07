@@ -74,9 +74,11 @@
 				"pips": 0
 			},
 			"expendable" : {
-				"isExpendable": false,
-				"maxUses": 0,
-				"currentUses": 0
+				"uses": {
+					"current" : 0,
+					"max": 0,
+					"expended": false
+				}
 			}
 		},
 		"themebook": {
@@ -114,13 +116,10 @@
 		},
 		"improvement": {
 			"templates": ["default", "expendable"],
-			"uses": {
-				"current" : 0,
-				"max": 0,
-				"expended": false
-			},
 			"theme_id": "",
-			"free_content": false
+			"free_content": false,
+			"choice_item": "",
+			"chosen": false
 		},
 		"tag_question": {
 			"templates": [],

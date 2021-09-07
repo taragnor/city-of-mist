@@ -9,7 +9,7 @@ import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
-import { CityItemSheet } from "./city-item-sheet.js";
+import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import { CityCrewSheet } from "./city-crew-sheet.js";
 import { CityExtraSheet } from "./city-extra-sheet.js";
@@ -99,6 +99,7 @@ Hooks.once("ready", async function() {
 	if (game.user.isGM) {
 		await CityHelpers.convertExtras()
 		await CityHelpers.updateDangers();
+		await CityHelpers.updateImprovements();
 	}
 	return true;
 });
@@ -126,6 +127,8 @@ Hooks.once("init", async function() {
 	Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
 	Actors.registerSheet("city", CityStoryTagContainerSheet, { types: ["storyTagContainer"], makeDefault: true });
 	Items.unregisterSheet("core", ItemSheet);
+	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
+	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
 	Items.registerSheet("city", CityItemSheet, {makeDefault: true});
 	preloadHandlebarsTemplates();
 

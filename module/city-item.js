@@ -1,6 +1,5 @@
 export class CityItem extends Item {
 
-
 	async getCrack() {
 		return this.data.data.crack.reduce( (acc, i) => acc+i, 0);
 	}
@@ -135,7 +134,6 @@ export class CityItem extends Item {
 		let unspent_upgrades = this.data.data.unspent_upgrades + extra_upgrades;
 		let nascent = this.data.data.nascent;
 		if (nascent && newArr[0] == 0)  {
-			console.log("removing extra upgrade");
 			extra_upgrades--;
 			unspent_upgrades--;
 		}
@@ -286,8 +284,34 @@ export class CityItem extends Item {
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
 			const text = CityItem.substitutePower(x.text, power);
-			return {	text};
+			const cost = x.cost; //change for some moves
+			return {	text, cost};
 		});
+	}
+
+	static getMaxChoices (movedata, result, power = 1) {
+		const effectClass = movedata.data.data.effect_class ?? "";
+		let resstr = null;
+		switch (result) {
+			case "Dynamite": resstr = "DYN"; break;
+			case "Success": resstr = "HIT"; break;
+			case "Partial": resstr = "PAR"; break;
+			case "Failure": resstr = "MIS"; break;
+			default: throw new Error(`Unknown Result ${result}`);
+		}
+		//TODO: replace wtih regex
+		let str = "CHOICE"+resstr;
+		if (effectClass.includes(str + "1") )
+			return 1;
+		if (effectClass.includes(str + "2") )
+			return 2;
+		if (effectClass.includes(str + "3") )
+			return 3;
+		if (effectClass.includes(str + "4") )
+			return 4;
+		if (effectClass.includes(str + "PWR") )
+			return power;
+		return Infinity;
 	}
 
 	static convertTextResultToNumeric(result) {
@@ -385,12 +409,55 @@ export class CityItem extends Item {
 		const curr = this.getAmount();
 		if (amount > curr)
 			console.error("${this.name}: Trying to spend more juice (${amount}) than you have ${curr}");
-		console.log("Spent ${amount} of ${curr} juice");
 		return await this.update( {"data.amount": curr - amount});
 	}
 
 	getAmount() {
 		return this.data.data.amount;
+	}
+
+	async reloadImprovementFromCompendium() {
+		const themeId = this.data.data.theme_id;
+		const owner =this.actor;
+		let max_uses, description;
+		if (themeId) {
+			const theme = await owner.getTheme(themeId);
+			if (!theme) {
+				console.log(`Deleting Dead Improvement ${this.name} (${owner.name})`);
+				await this.delete();
+				return null;
+			}
+			const themebook = await theme.getThemebook();
+			const impobj = themebook.data.data.improvements;
+			for (let ind in impobj) {
+				if (impobj[ind].name == this.name) {
+					let imp = impobj[ind];
+					max_uses = imp.uses;
+					description = imp.description;
+					break;
+				}
+			}
+		} else {
+			const BUList = await CityHelpers.getBuildUpImprovements();
+			const imp = BUList.find ( x => x.name == this.name);
+			description = imp.data.data.description;
+			max_uses = imp.data.data.uses.max;
+		}
+			if (!description)
+				throw new Error(`Can't find improvmenet ${this.name}`);
+			const curruses = this.data.data.uses.current;
+			const updateObj = {
+				data: {
+					uses: {
+						current: curruses ??  max_uses,
+						max: max_uses,
+						expended: (curruses ?? max_uses.max) < 1 && max_uses > 0
+					},
+					description: description,
+					chosen: true
+				}
+			};
+			return await this.update(updateObj);
 	}
 }
 

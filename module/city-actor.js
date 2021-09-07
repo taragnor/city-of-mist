@@ -347,11 +347,12 @@ export class CityActor extends Actor {
 					max: imp?.uses ?? 0,
 					current: imp?.uses ?? 0,
 				},
-				theme_id
+				theme_id,
+				chosen: true
 			}
 		};
 		try {
-			const docs=	await this.createNewItem(obj);
+			const docs =	await this.createNewItem(obj);
 			await theme.decUnspentUpgrades();
 			return docs;
 		}

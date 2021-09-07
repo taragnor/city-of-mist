@@ -3,7 +3,7 @@ import { CityItem } from "./city-item.js";
 export async function CityRoll(moveId, actor, options = {}) {
 	const {modifiers, tags} = await CityRoll.prepareModifiers(actor, options);
 	const roll = await CityRoll.getRoll(options);
-	const actorName = actor.name;
+	const actorName = actor?.name ?? "";
 	const templateModifiers = modifiers.map ( x=> {
 		const subtype = x.tag ? x.tag.data.data.subtype : "";
 		return {
@@ -17,7 +17,8 @@ export async function CityRoll(moveId, actor, options = {}) {
 	const html = await CityRoll.getContent(roll, templateData);
 	const msg = await CityRoll.sendRollToChat(roll, html);
 	await CityRoll.rollCleanupAndAftermath(tags, options);
-   await actor.clearAllSelectedTags();
+	if (actor)
+		await actor.clearAllSelectedTags();
 }
 
 CityRoll.getContent = async function (roll, templateData) {
@@ -27,9 +28,19 @@ CityRoll.getContent = async function (roll, templateData) {
 	const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 	const total = roll.total + power;
 	const roll_status = CityRoll.getRollStatus(total, options);
+	templateData.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 	templateData = Object.assign({}, templateData);
 	templateData.moveName = move.name;
-	templateData.moveList = CityItem.generateMoveList(move, roll_status, power);
+	const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
+	if (templateData.moveList == undefined || templateData.curr_choices > templateData.max_choices) {
+		templateData.moveList = moveListRaw;
+		templateData.curr_choices = 0;
+	} else {
+		templateData.moveList = templateData.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
+		const unadded = moveListRaw.filter(x=> !templateData.moveList.some ( y=> x.text == y.text))
+		templateData.moveList = templateData.moveList.concat(unadded);
+	}
+	// templateData.moveList = CityItem.generateMoveList(move, roll_status, power);
 	templateData.moveText = CityItem.generateMoveText(move, roll_status, power);
 	templateData.rolls = (roll.terms)[0].results;
 	templateData.total = total;
@@ -54,6 +65,7 @@ CityRoll.sendRollToChat = async function (roll, html, messageOptions = {}) {
 }
 
 CityRoll.prepareModifiers = async function (actor, options) {
+	if (options.noRoll) return {modifiers: [], tags: []};
 	const activated = actor.getActivated();
 	const modifiersPromises = activated.map( async(x) => {
 		const tagOwner = await CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
@@ -210,7 +222,7 @@ CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 			&& x.items.find( i => i.id == options.helpId)
 		);
 		const helpJuice = helper.items.find( i => i.id == options.helpId);
-		//TODO: FInd better way to request that juice be spent for token you do't own, may need to signal owner
+		//TODO: Find better way to request that juice be spent for token you do't own, may need to signal owner
 		// await helper.spendJuice(helpJuice.id, amount);
 	}
 	if (options.burnTag && options.burnTag.length)
@@ -345,6 +357,7 @@ CityRoll.noRoll = async function (move_id, actor) {
 
 CityRoll.diceModListeners = async function (app, html, data) {
 	html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
+	html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
 }
 
 CityRoll.showEditButton = async function (app, html, data) {
@@ -353,19 +366,65 @@ CityRoll.showEditButton = async function (app, html, data) {
 	}
 }
 
-CityRoll._editRoll = async function(event) {
+CityRoll._checkOption = async function (event) {
+	event.preventDefault();
+	const listitem = getClosestData(event, "listitem");
+	let templateData  = getClosestData(event, "templateData");
+	const item = templateData.moveList.find( x=> x.text == listitem);
+	if (item.cost == undefined)
+		item.cost = 1;
+	if (item.cost < 0) {
+		if (!game.user.isGM) {
+			event.preventDefault();
+			return false;
+		}
+	} else {
+		if (game.user.isGM) {
+			event.preventDefault(); //NOTE: remove for testing
+			return false;
+		}
+	}
+	if (!item)
+		throw new Error(`Item ${listitem} not found`);
+	const power = CityRoll.getPower(templateData.modifiers);
+	const roll_status = CityRoll.getRollStatus(templateData.total, templateData.options);
+	const move = (await CityHelpers.getMoves()).find(x=> x.id == templateData.moveId);
+	templateData.max_choices = CityItem.getMaxChoices(move, roll_status, power);
+	const truecost = Math.abs(item.cost);
+	if (!item.checked && templateData.curr_choices + truecost <= templateData.max_choices) {
+		templateData.curr_choices += truecost;
+		item.checked = true;
+	} else if (item.checked) {
+		item.checked = false;
+		templateData.curr_choices -= truecost;
+	}
+	return await CityRoll._updateMessage(event, templateData);
+}
+
+CityRoll._editRoll = async function (event) {
 	if (!game.user.isGM)
 		return;
 	const modifiers = getClosestData(event, "modifiers");
-	let templateData  = getClosestData(event, "templateData");
-	templateData = await CityRoll.getModifierBox(templateData);
-	if (!templateData) return;
+	const templateData  = getClosestData(event, "templateData");
+	const newTemplateData = await CityRoll.getModifierBox(templateData);
+	await CityRoll._updateMessage(event, newTemplateData);
+}
+
+CityRoll._updateMessage = async function (event, templateData) {
+	if (!templateData) return false;
 	const messageId  = getClosestData(event, "messageId");
 	const message = game.messages.get(messageId);
 	const roll = message.roll;
-	const newContent = await CityRoll.getContent(roll, templateData);
-	const msg = await message.update( {content: newContent});
-	await ui.chat.updateMessage( msg, false);
+	try {
+		const newContent = await CityRoll.getContent(roll, templateData);
+		const msg = await message.update( {content: newContent});
+		const upd = await ui.chat.updateMessage( msg, false);
+		console.log("Update thing");
+	} catch (e) {
+		console.log("No Permissions");
+		return false;
+	}
+	return true;
 }
 
 CityRoll.getModifierBox = async function (templateData) {

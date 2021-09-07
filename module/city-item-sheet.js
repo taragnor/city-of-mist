@@ -2,10 +2,11 @@ export class CityItemSheet extends ItemSheet {
 
 	/** @override */
 	static get defaultOptions() {
+		const [width, height] = [600,500];
 		return mergeObject(super.defaultOptions, {
 			classes: ["city-of-mist", "sheet", "item"],
-			width: 600,
-			height: 500,
+			width,
+			height,
 			tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
 		});
 	}
@@ -18,7 +19,6 @@ export class CityItemSheet extends ItemSheet {
 		const itemData = this.item.data.toObject(false);
 		data.item = this.item;
 		data.data = itemData.data;
-		// data.items = this.item.items.map(x=>x);
 		return data;
 	}
 
@@ -54,7 +54,7 @@ export class CityItemSheet extends ItemSheet {
 		html.find(".add-improvement").click(this._addImprovement.bind(this));
 		html.find(".delete-improvement").click(this._deleteImprovement.bind(this));
 		html.find('.move-add-list-item').click (this._addMoveListItem.bind(this));
-		html.find('.move-condition-input, .move-list-input').change (this._moveListUpdater.bind(this));
+		html.find('.move-condition-input, .move-list-input, .move-choiceAmt-input').change (this._moveListUpdater.bind(this));
 		html.find('.delete-move-list-element').click (this._deleteMoveListElement.bind(this));
 		html.find('.custom-tag-check').click(this._makeTagCustom.bind(this));
 		html.keydown(this.quickClose.bind(this));
@@ -80,7 +80,6 @@ export class CityItemSheet extends ItemSheet {
 		}
 		let letter2 = letters[currentlet];
 		pq2[letter2] = "_DELETED_";
-		// console.log(pq2);
 		let obj = {data: {}};
 		obj.data[type] = pq2;
 		return this.item.update(obj);
@@ -114,7 +113,6 @@ export class CityItemSheet extends ItemSheet {
 		for (let i = 0; i< 10000; i++) {
 			if (i2[i] == undefined){
 				i2[i] = {name: "", description: ""};
-				// console.log(`inserted at ${i}`);
 				break;
 			}
 		}
@@ -122,7 +120,6 @@ export class CityItemSheet extends ItemSheet {
 	}
 	async _deleteImprovement (event) {
 		const index = $(event.currentTarget).data("improvementIndex");
-		console.log(` deleting improvent at ${index}`);
 		const improvements = this.item.data.data.improvements;
 		let i2 = Object.assign({}, improvements);
 		i2[index]= "_DELETED_";
@@ -134,7 +131,7 @@ export class CityItemSheet extends ItemSheet {
 		const moveId = getClosestData(event, "ownerId");
 		const move = game.items.get(moveId);
 		let lists = move.data.data.listConditionals.slice();
-		lists.push( {condition: "gtPartial", text:""});
+		lists.push( {condition: "gtPartial", text:"", cost: 1});
 		await move.update({"data.listConditionals": lists});
 	}
 
@@ -153,6 +150,9 @@ export class CityItemSheet extends ItemSheet {
 			elem.condition = val;
 		else if (target.hasClass("move-list-input"))
 			elem.text = val;
+		else if (target.hasClass("move-choiceAmt-input")) {
+			elem.cost = Number(val);
+		}
 		else throw new Error("Unknown Class for element");
 		await move.update({"data.listConditionals": lists});
 	}
@@ -166,7 +166,6 @@ export class CityItemSheet extends ItemSheet {
 		let lists = move.data.data.listConditionals.slice();
 		lists.splice(index,1);
 		await move.update({"data.listConditionals": lists});
-		console.log(`Deleting ${index} list`);
 	}
 
 	async _makeTagCustom (event) {
@@ -183,3 +182,31 @@ export class CityItemSheet extends ItemSheet {
 	}
 
 }
+
+export class CityItemSheetLarge extends CityItemSheet {
+	/** @override */
+	static get defaultOptions() {
+		const [width, height] = [800, 1000];
+		return mergeObject(super.defaultOptions, {
+			classes: ["city-of-mist", "sheet", "item"],
+			width,
+			height,
+			tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
+		});
+	}
+}
+
+
+export class CityItemSheetSmall extends CityItemSheet {
+		/** @override */
+		static get defaultOptions() {
+					const [width, height] = [600, 300 ];
+					return mergeObject(super.defaultOptions, {
+									classes: ["city-of-mist", "sheet", "item"],
+									width,
+									height,
+									tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
+								});
+				}
+}
+

@@ -1,18 +1,22 @@
-<section id="data-init" data-move-id="{{move._id}}" data-owner-id="{{owner._id}}">
+<section data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
 	<div class="description-header"> Description </div>
 	<textarea name="data.description" type="text">{{data.description}}</textarea>
 	<label class="type-header"> Type </div>
 	<select name="data.type">
-		<option value="standard" {{#if (eq data.type "standard")}} selected {{/if}} >Standard </option>
-		<option value="noroll" {{#if (eq data.type "noroll")}} selected {{/if}}> No Roll </option>
-		<option value="logosroll" {{#if (eq data.type "logosroll")}} selected {{/if}}> Logos Roll </option>
-		<option value="mythosroll" {{#if (eq data.type "mythosroll")}} selected {{/if}}> Mythos Roll </option>
+		{{#select data.type}}
+		<option value="standard">Standard </option>
+		<option value="noroll"> No Roll </option>
+		<option value="logosroll"> Logos Roll </option>
+		<option value="mythosroll">  Mythos Roll </option>
+		{{/select}}
 	</select>
 	<label class="type-header"> Category </div>
 	<select name="data.category">
-		<option value="Core" {{#if (eq data.category "Core")}} selected {{/if}} >Core </option>
-		<option value="Advanced" {{#if (eq data.category "Advanced")}} selected {{/if}}> Advanced </option>
-		<option value="SHB" {{#if (eq data.category "SHB")}} selected {{/if}}> Stop.Holding.Back </option>
+		{{#select data.category}}
+		<option value="Core">Core </option>
+		<option value="Advanced"> Advanced </option>
+		<option value="SHB"> Stop.Holding.Back </option>
+		{{/select}}
 	</select>
 	<div class="move-result-header"> Always Displayed</div>
 	<textarea type="text" name="data.always">{{data.always}}</textarea>
@@ -30,22 +34,33 @@
 			<a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
 			{{/if}}
 		</div>
-		{{#each move.data.listConditionals as |li id|}}
-		<div class="move-conditonal-block" data-index="{{id}}">
+		{{#each data.listConditionals as |li index| }}
+		<div class="move-conditonal-block" data-index="{{index}}">
 			<select class="move-condition-input">
-				<option value="gtPartial" {{#if (eq li.condition "gtPartial")}}  selected {{/if}} > &gt;= Partial </option>
-				<option value="gtSuccess" {{#if (eq li.condition "gtSuccess")}}  selected {{/if}} > &gt;= Success </option>
-				<option value="eqDynamite" {{#if (eq li.condition "eqDynamite")}}  selected {{/if}}> Dynamite </option>
-				<option value="eqPartial" {{#if (eq li.condition "eqPartial")}}  selected {{/if}} > Partial </option>
-				<option value="eqSuccess" {{#if (eq li.condition "eqSuccess")}}  selected {{/if}}>  Success </option>
-				<option value="Always" {{#if (eq li.condition "Always")}}  selected {{/if}}>  Always </option>
-				<option value="Miss" {{#if (eq li.condition "Miss")}}  selected {{/if}}>  Miss </option>
+				{{#select li.condition}}
+				<option value="gtPartial"> &gt;= Partial </option>
+				<option value="gtSuccess"> &gt;= Success </option>
+				<option value="eqDynamite"> Dynamite </option>
+				<option value="eqPartial"> Partial </option>
+				<option value="eqSuccess">  Success </option>
+				<option value="Always">  Always </option>
+				<option value="Miss" >  Miss </option>
+				{{/select}}
 			</select>
 			<input class="move-list-input" type="text" value="{{li.text}}"/>
+			<select class="move-choiceAmt-input" title="Number of choices from list">
+				{{#select li.cost}}
+				<option value="1"> 1 </option>
+				<option value="2"> 2 </option>
+				<option value="3"> 3 </option>
+				<option value="0"> 0 </option>
+				<option value="-1"> GM </option>
+				{{/select}}
+			</select>
 			<a class="delete-move-list-element" title="Delete List Element"><i class="theme-trash fas fa-trash"></i></a>
 		</div>
 		{{/each}}
 	</div>
 	<label> Move Special Identifiers </label>
-	<input type="text" value="{{data.effect_class}}" name="data.effect_class">
+	<input type="text" value="{{data.effect_class}}" name="data.effect_class" title="Advanced Uses (special coded)">
 </section>

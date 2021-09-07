@@ -12,7 +12,7 @@ export class CityActorSheet extends CitySheet {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/actor-sheet.html",
-			width: 700,
+			width: 990,
 			height: 1070,
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "themes"}]
 		});
@@ -57,6 +57,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.theme-add-fade').click(this._addAttentionOrFade.bind(this));
 		html.find('.theme-remove-fade').click( this._removeAttentionOrFade.bind(this) );
 		html.find('.improvement-name').click(this._sendImprovementToChat.bind(this));
+		html.find('.improvement-edit').click(this._improvementEdit.bind(this));
 		html.find('.theme-reset-fade').click( this._resetFade.bind(this) );
 
 		html.find('.identity-input').change(this._themeChangeInput.bind(this));
@@ -263,6 +264,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _createTagOrImprovement (event, bonus = false) {
+		//TODO: allow for text string attachment to improvements
 		let idChoice;
 		if (!bonus) {
 			idChoice  = await this.improvementOrTagChoiceList(event);
@@ -287,6 +289,9 @@ export class CityActorSheet extends CitySheet {
 		} else {
 			retobj = await owner.addImprovement(themeId, idChoice);
 			improvement = await owner.getImprovement(retobj.id);
+
+			Debug(improvement);
+			await this.improvementDialog(improvement);
 			await CityHelpers.modificationLog(owner,  "Created", improvement);
 			return;
 		}
@@ -359,12 +364,27 @@ export class CityActorSheet extends CitySheet {
 		return await CityHelpers.itemDialog(obj);
 	}
 
+	async improvementDialog(obj) {
+		return await CityHelpers.itemDialog(obj);
+	}
+
+
 	async _tagEdit(event) {
 		const id = getClosestData(event, "tagId");
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
 		const tag = await owner.getTag(id);
 		await this.tagDialog(tag);
+	}
+
+	async _improvementEdit(event) {
+		const id = getClosestData(event, "impId");
+		const actorId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(actorId);
+		const imp = await owner.getImprovement(id);
+		if (!imp.data.data.chosen)
+			await imp.reloadImprovementFromCompendium();
+		await this.improvementDialog(imp);
 	}
 
 	async _deleteTheme(event) {

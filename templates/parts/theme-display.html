@@ -22,25 +22,24 @@
 		<textarea class="theme-name-input" type="text" data-theme-id="{{theme.id}}">{{theme.name}}</textarea>
 		{{/if}}
 	</div>
+	<div class="themebook-name"> {{themebook.name}}</div>
 	{{#if (eq locked false)}}
 	<a class="item-control theme-delete" data-theme-id="{{theme.id}}" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
 	{{/if}}
 	{{#if (eq tbdata.type "Logos")}}
-	<div class="themebook-name-logos"> {{themebook.name}}</div>
 	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity: </b> </div>
-	<textarea class="themebook-identity identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
-	{{else}}
+	{{/if}}
 	{{#if (eq tbdata.type "Mythos")}}
-	<div class="themebook-name-mythos"> {{themebook.name}}</div>
-	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery : </b> </div>
-	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
-	{{else}}
+	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery: </b> </div>
+	{{/if}}
+	{{#if (eq tbdata.type "Mist")}}
+	<div class="themebook-mist-label"> <b class="themebook-directive"> Directive: </b> </div>
+	{{/if}}
 	<!-- Crew and Extra -->
-	<div class="themebook-name-crew"> {{themebook.name}}</div>
+	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
 	<div class="themebook-crew-label"> <b class="themebook-mystery"> Mystery/ Identity : </b> </div>
+	{{/if}}
 	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
-	{{/if}}
-	{{/if}}
 
 	<div class="att-fade-section">
 		<div class="attention-block flex-line">
@@ -64,11 +63,11 @@
 		</div>
 		<div class="fade-block flex-line">
 			<span class="fade-text flex-std">
-				{{#if (eq tbdata.type "Logos")}}
-				Crack:
-				{{else}}
-				Fade:
-				{{/if}}
+				{{#if (eq tbdata.type "Logos")}} Crack: {{/if}}
+				{{#if (eq tbdata.type "Mythos")}} Fade: {{/if}}
+				{{#if (eq tbdata.type "Mist")}} Strike: {{/if}}
+				{{#if (eq tbdata.type "Crew")}} Crack: {{/if}}
+				{{#if (eq tbdata.type "Extra")}} Crack: {{/if}}
 			</span>
 			<div class="dots-section flex-std">
 				{{#each data.crack as |crack rank|}}

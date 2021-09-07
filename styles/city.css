@@ -21,6 +21,7 @@ input.alias-input {
 input.improvement-name {
 	width: 15%;
 }
+
 input.improvement-description {
 	width: 70%;
 	max-width: 70%;
@@ -28,6 +29,10 @@ input.improvement-description {
 
 input.improvement-uses {
 	width: 5%;
+}
+
+input.input-small {
+	width: 25%;
 }
 
 section.theme-section {
@@ -90,6 +95,16 @@ div.Crew-theme, div.Extra-theme {
 	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
 	text-color: black;
 	color: black;
+	height:100%;
+}
+
+div.Mist-theme {
+	border: 1px;
+	border-style: solid;
+	background: linear-gradient(to right, DimGrey, Grey, DimGrey);
+	text-color: black;
+	color: black;
+	height:100%;
 }
 
 img.theme-img {
@@ -387,6 +402,7 @@ span.tag-symbols {
 
 
 div.att-fade-section {
+	margin-left: 10px;
 }
 
 div.dots-section {
@@ -475,35 +491,39 @@ div.improvement-description-send {
 	font-family: "Times New Roman", Times, serif;
 }
 
-div.themebook-name-mythos  {
-	background: linear-gradient(to right, rgba(102, 51, 153, 0.4), rgba(102, 51, 153, 0.9), rgba(102, 51, 153, 0.4));
-	color: white;
+div.themebook-name {
 	text-align: center;
 	flex-wrap: wrap;
 	word-wrap: normal;
 	height: auto;
 	min-height: 1em;
 	max-height: 2em;
+	color: white;
 }
 
-div.themebook-name-logos {
+.Mythos-theme div.themebook-name {
+	background: linear-gradient(to right, rgba(102, 51, 153, 0.4), rgba(102, 51, 153, 0.9), rgba(102, 51, 153, 0.4));
+}
+
+.Logos-theme div.themebook-name {
 	background: linear-gradient(to right, rgba(255, 140, 0, 0.4), rgba(255, 140, 0, 0.9), rgba(255, 140, 0, 0.4));
-	color: white;
-	text-align: center;
-	flex-wrap: wrap;
-	word-wrap: normal;
-	min-height: 1em;
-	max-height: 2em;
 }
 
-div.themebook-name-crew {
+.Crew-theme div.themebook-name {
 	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
-	color: white;
-	text-align: center;
-	flex-wrap: wrap;
-	word-wrap: normal;
-	min-height: 1em;
-	max-height: 2em;
+}
+
+.Crew-theme div.themebook-name {
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
+}
+
+.Extra-theme div.themebook-name {
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
+}
+
+.Mist-theme div.themebook-name {
+	background: linear-gradient(to right, DimGrey, DarkGrey, DimGrey);
+	/* color: black; */
 }
 
 .sheet-lock-button {
@@ -659,7 +679,19 @@ span.story-tag-header-label {
 }
 
 input.move-list-input {
-	width: 80%;
+	width: 75%;
+}
+
+input.move-choiceAmt-input {
+	width: 5%;
+}
+
+li.move-list-item {
+	list-style-type: none;
+	/* removes bullets */
+}
+
+li.move-list-bullets {
 }
 
 *.gmmove-name {

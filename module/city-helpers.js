@@ -1,4 +1,5 @@
 import { CityActor } from "./city-actor.js";
+import { CityRoll } from "./city-roll.js";
 
 export class CityHelpers {
 
@@ -67,6 +68,21 @@ export class CityHelpers {
 					console.log(`Updating ${danger.name}`);
 					await gmmove.updateGMMoveHTML();
 			}
+	}
+
+	static async updateImprovements() {
+		const players = game.actors;
+		for (const player of players)
+			for (const improvement of player.items.filter( x=> x.type == "improvement")) {
+				if (!improvement.data.data.chosen)
+					try {
+						await improvement.reloadImprovementFromCompendium();
+					} catch (e) {
+						Debug(improvement);
+						console.error(e);
+					}
+			}
+
 	}
 
 	static async convertExtras() {
@@ -361,6 +377,8 @@ export class CityHelpers {
 
 	static async narratorDialog(container= null) {
 		if (game.users.current.role != 4)
+			return;
+		if (!game.user.isGM)
 			return;
 		// support function
 		const getCaret = function getCaret(el) {
@@ -667,6 +685,20 @@ export class CityHelpers {
 		return [array, improvements];
 	}
 
+	static async confirmBox(title, text, defaultYes = false) {
+		const templateData = {text};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
+		return await new Promise( (conf, reject) => {
+			Dialog.confirm({
+				title,
+				content: html,
+				yes: conf.bind(null, true),
+				no: conf.bind(null, false),
+				defaultYes
+			});
+		});
+	}
+
 	static middleClick (handler) {
 		return function (event) {
 			if (event.which == 2) {
@@ -708,7 +740,17 @@ export class CityHelpers {
 		return -1;
 	}
 
-}
+	static async sessionEnd() {
+		if (!game.user.isGM) return;
+		if	(await CityHelpers.confirmBox( "End Session", "Execute End of Session Move?", true)) {
+			const move = CityHelpers.getMoves().find (x=> x.data.data.effect_class.includes("SESSION_END") )
+			await CityRoll.noRoll(move.id, null);
+			for (let actor of game.actors)
+				await actor.sessionEnd();
+		}
+	}
+
+} //end of class
 
 //Start of fix for actors directory and private names
 ActorDirectory.prototype._getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
