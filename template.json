@@ -32,7 +32,9 @@
 		},
 		"character": {
 			"templates": ["default", "themeholder", "TagSelector", "person"],
-			"mythos": "",
+			"mythos": "Mythos",
+			"logos": "Logos",
+			"shortDescription": "Description",
 			"alias": "",
 			"activeExtraId": "",
 			"activeExtra": null,

@@ -1,24 +1,35 @@
 <form class="{{cssClass}} actor-sheet flex-col {{#if (eq data.selectedMoveGroup "SHB")}}stop-holding-back-sheet {{/if}} " autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<section id="basic-info" class="">
 		<div class="flex-row">
-			<img class="profile-img flex-narrow" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" height="100" width="100"/>
-			<div class="flex-col flex-wide">
-				<div id="name">
-					<label for="character-name">Name</label>
+			<img class="profile-img flex-none" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}"/>
+			<div class="flex-col flex-wide bio">
+				<div class="name">
+					{{#if data.locked}}
+					<span class="character-name">{{actor.name}}</span>
+					{{else}}
 					<input type="text" class="character-name" name="name" value="{{actor.name}}">
+					{{/if}}
 				</div>
-				<div id="mythos">
-					<label for="character-mythos">Mythos</label>
-					<input type="text" class="mythos-name" name="data.mythos" value="{{data.mythos}}">
+				<hr>
+				<div class="mythos-logos">
+					{{#if data.locked}}
+					<span class="character-mythos">{{data.mythos}}</span>
+					<span class="character-logos">&bull; {{data.logos}}</span>
+					{{else}}
+					<input type="text" class="character-mythos" name="data.mythos" value="{{data.mythos}}">
+					<span>&bull;</span>
+					<input type="text" class="character-mythos" name="data.logos" value="{{data.logos}}">
+					{{/if}}
 				</div>
-				<div class="age-section">
-					<label for="age">Age</label>
-					<input type="number" class="character-age" name="data.age" value="{{data.age}}">
+				<hr>
+				<div class="desc">
+					{{#if data.locked}}
+					<span class="character-desc">{{data.shortDescription}}</span>
+					{{else}}
+					<input type="text" class="character-desc" name="data.shortDescription" value="{{data.shortDescription}}">
+					{{/if}}
 				</div>
-				<div class="residence-section">
-					<label for="residence">Residence</label>
-					<input type="text" class="character-residence" name="data.residence" value="{{data.residence}}">
-				</div>
+				<hr>
 			</div>
 			<a class="sheet-lock-button flex-narrow" title="Toggle Sheet Lock">
 				{{#if data.locked}}
