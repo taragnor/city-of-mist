@@ -1,16 +1,77 @@
+.profile-img {
+	border: none;
+	width: 128px;
+	height: 128px;
+	margin-right: 5px;
+}
+
 input.question-entry {
 	width: 80%;
 }
-input.mythos-name {
-	width: 35%;
+
+div.name {
+	margin-bottom: -7px;
+}
+
+span.character-name {
+	width: auto;
+	height: auto;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 48px;
 }
 
 input.character-name {
-	width:35%;
+	width: 100%;
+	height: auto;
+	font-size: 56px;
 }
 
-input.alias-input {
-	width:35%;
+.bio hr {
+	border: 1px solid black;
+	margin: 2px;
+}
+
+input.character-mythos {
+	width: 49%;
+	height: auto;
+	font-size: 13px;
+}
+
+span.character-mythos {
+	width: auto;
+	height: auto;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+input.character-logos {
+	width: 49%;
+	height: auto;
+	font-size: 13px;
+}
+
+span.character-logos {
+	width: auto;
+	height: auto;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+input.character-desc {
+	width: 100%;
+	height: auto;
+	font-size: 13px;
+}
+
+span.character-desc {
+	width: auto;
+	height: auto;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 13px;
 }
 
 .question-letter {
@@ -527,7 +588,9 @@ div.themebook-name {
 }
 
 .sheet-lock-button {
-	float:right;
+	float: right;
+	font-size: x-large;
+	text-align: center;
 }
 
 .burn-level-1 {
