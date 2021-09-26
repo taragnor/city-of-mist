@@ -57,6 +57,16 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "autoWeakness", {
+		name: "Auto-apply Weakness Attention",
+		hint: "Automatically Add an attention when a weakness tag is used",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true
+	});
+
 }
 
 // Example Getter

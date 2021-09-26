@@ -13,6 +13,7 @@ export async function CityRoll(moveId, actor, options = {}) {
 			name: x.name
 		};
 	});
+	options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
 	const templateData = {actorName, moveId, modifiers: templateModifiers, options};
 	const html = await CityRoll.getContent(roll, templateData);
 	const msg = await CityRoll.sendRollToChat(roll, html);
@@ -235,7 +236,7 @@ CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 				console.warn(`Unable to Burn tag ${tag.name}`);
 			}
 		}
-		if (tag.data.data.subtype == "weakness" && amount < 0 ) {
+		if (tag.data.data.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
 			await owner.grantAttentionForWeaknessTag(tag.id);
 		}
 	}

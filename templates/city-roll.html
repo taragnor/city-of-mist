@@ -24,7 +24,11 @@
 				{{#if (eq modifier.type "tag")}}
 				{{#if (lt modifier.amount 0)}}
 				{{#if (eq modifier.subtype "weakness")}}
+				{{#if (eq ../options.autoAttention true)}}
 				<span class="attention-award"> (+1 Attention to theme)</span>
+				{{else}}
+				<span class="attention-award"> (Must add Attention manually)</span>
+				{{/if}}
 				{{/if}}
 				{{/if}}
 				{{/if}}
