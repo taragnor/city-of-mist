@@ -1023,16 +1023,17 @@ input.number-modifier-box {
 }
 
 .threat-spectrums {
-	margin-left: 15%;
-	margin-right: 15%;
+	margin-left: 2%;
+	margin-right: 2%;
 	text-align: center;
 }
 
-.spectrum-section-label {
-	font-size: 2em;
+.spectrum-label {
+	font-size: 13px;
 	font-weight: bold;
-	text-align: center;
+	font-style: italic;
 	text-decoration: underline;
+	margin-right: 5px;
 }
 
 .spectrum {
@@ -1047,10 +1048,27 @@ input.number-modifier-box {
 }
 
 .spectrum-list {
-	display: flex;
+	display: inline-flex;
 	flex-direction: row;
-	justify-content: center;
 	flex-wrap: wrap;
+}
+
+.spectrum-bullet {
+	font-size: 13px;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.spectrum-item {
+	font-size: 13px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.create-spectrum {
+	margin-left: 5px;
 }
 
 .BU-improvement-header {

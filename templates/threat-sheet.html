@@ -1,35 +1,47 @@
-<form class="{{cssClass}} threat-sheet flexcol" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
-	<header class="sheet-header">
-		<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
-		<div class="header-fields">
-			<a class="sheet-lock-button" title="Lock/Unlock Sheet">
+<form class="{{cssClass}} threat-sheet" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
+	<section id="basic-info" class="">
+		<div class="flex-row">
+			<img class="profile-img flex-none" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}"/>
+			<div class="flex-col flex-wide bio">
+				<div class="name">
+					{{#if data.locked}}
+					<span class="character-name">{{actor.name}}</span>
+					{{else}}
+					<input type="text" class="character-name" name="name" value="{{actor.name}}">
+					{{/if}}
+				</div>
+				<hr>
+				<div class="desc">
+					{{#if data.locked}}
+					<span class="character-desc">{{data.shortDescription}}</span>
+					{{else}}
+					<input type="text" class="character-desc" name="data.shortDescription" value="{{data.shortDescription}}">
+					{{/if}}
+				</div>
+				<hr>
+				<div class="spectrum-list">
+					<span class="spectrum-label"> Spectrums: </span>
+
+					{{#each items as |spectrum id|}}
+					{{#if (eq spectrum.type "spectrum")}}
+					{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.data.data }}
+					{{#unless @last}} <span class="spectrum-bullet">&bull;</span> {{/unless}}
+					{{/if}}
+					{{/each}}
+
+					{{#if (not data.locked)}}
+					<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+					{{/if}}
+				</div>
+				<hr>
+			</div>
+			<a class="sheet-lock-button flex-narrow" title="Toggle Sheet Lock">
 				{{#if data.locked}}
 				<i class="fas fa-lock"></i>
 				{{else}}
 				<i class="fas fa-unlock"></i>
 				{{/if}}
 			</a>
-			<h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-			<label for="alias"> Alias / Token Name </label>
-			{{#if actor.isToken}}
-			<input class="alias-input-unlinked-token" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}">
-			{{else}}
-			<input class="alias-input-prototype" type="text" name="token.name" value="{{actor.data.token.name}}">
-			{{/if}}
-		</div>
-	</header>
-	<section class="threat-spectrums">
-		<div class="spectrum-section-label"> Spectrums
-			{{#if (not data.locked)}}
-			<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-			{{/if}}
-		</div>
-		<div class="spectrum-list">
-			{{#each items as |spectrum id|}}
-			{{#if (eq spectrum.type "spectrum")}}
-			{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.data.data }}
-			{{/if}}
-			{{/each}}
 		</div>
 	</section>
 	<nav class="sheet-tabs tabs" data-group="primary">
