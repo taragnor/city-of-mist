@@ -252,7 +252,7 @@ div.tag-add-icons {
 	width: 95%;
 	height: auto;
 	display: block;
-	font-size: smaller;
+	font-size: small;
 	resize: none;
 	cursor: text;
 }
@@ -571,15 +571,15 @@ div.themebook-name {
 }
 
 .Crew-theme div.themebook-name {
-	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.3), rgba(20,20,155, 0.2));
 }
 
 .Crew-theme div.themebook-name {
-	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.3), rgba(20,20,155, 0.2));
 }
 
 .Extra-theme div.themebook-name {
-	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.5), rgba(20,20,155, 0.2));
+	background: linear-gradient(to right, rgba(20,20,155, 0.2), rgba(0, 0, 255,  0.3), rgba(20,20,155, 0.2));
 }
 
 .Mist-theme div.themebook-name {
@@ -684,7 +684,7 @@ div.bio-subsection {
 	border-top-color: black;
 	border-top-style: solid;
 	margin-top: 5px;
-	font-size: 12px;
+	font-size: 13px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -923,15 +923,15 @@ form.stop-holding-back-sheet span {
 }
 
 .crew-sheet .tab-content {
-	min-height: 850px;
+	
 }
 
 .actor-sheet .tab-content {
-	min-height: 850px;
+	
 }
 
 .threat-sheet .tab-content {
-	min-height: 850px;
+	
 }
 
 * .tooltip .tooltiptext {
@@ -957,9 +957,8 @@ form.stop-holding-back-sheet span {
 }
 
 .sheet-body {
-	min-height: 700px;
-	max-height: 900px;
-	overflow: auto;
+	min-height: 500px;
+	max-height: 800px;
 }
 
 div.tox-tinymce {
