@@ -4,6 +4,7 @@
 		"templates": {
 			"default": {
 				"locked": true,
+				"shortDescription": "Description",
 				"biography": "",
 				"description": "",
 				"gmnotes": "",
@@ -34,7 +35,6 @@
 			"templates": ["default", "themeholder", "TagSelector", "person"],
 			"mythos": "Mythos",
 			"logos": "Logos",
-			"shortDescription": "Description",
 			"alias": "",
 			"activeExtraId": "",
 			"activeExtra": null,
