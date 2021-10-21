@@ -859,10 +859,10 @@ div.bio-section {
 }
 
 div.bio-subsection {
-	overflow: auto;
-	border-top: 4px;
-	border-top-color: black;
-	border-top-style: solid;
+	overflow: hidden;
+	/* border-top: 4px; */
+	/* border-top-color: black; */
+	/* border-top-style: solid; */
 	margin-top: 5px;
 	font-size: 12px;
 	display: flex;
@@ -974,7 +974,7 @@ div.space-between {
 }
 
 section.move-section {
-	flex-grow:4;
+	flex-grow:7;
 	justify-content: left;
 	align-items: left;
 	text-align: left;
@@ -986,8 +986,12 @@ section.move-section {
 }
 
 button.execute-move-button {
-	width: 25%;
-	display: inline-block;
+    width: 25%;
+    display: inline-block;
+    font-family: 'Fira Sans Condensed';
+    font-weight: bold;
+    font-size: large;
+    padding: 5px 0px;
 }
 
 div.actor-name {
@@ -1197,7 +1201,7 @@ span.narrated-status-name {
 	font-weight: bold;
 	text-decoration: underline;
 	text-align: center;
-	border-bottom: 4px solid black;
+	/* border-bottom: 4px solid black; */
 }
 
 input.number-modifier-box {
@@ -1383,9 +1387,10 @@ faded {
 /* Sheet Restyling */
 
 .sheet .tabs .item.active {
-    color: var(--mythos-pink);
-	font-weight: bold;
-	text-shadow: none;
+    color: white;
+    font-weight: normal;
+    text-shadow: none;
+    background-color: var(--mythos-pink);
 }
 
 .sheet nav.sheet-tabs {
@@ -1402,22 +1407,21 @@ faded {
 	text-shadow: none;
 }
 
+.select-move, 
 .select-move-group {
     height: 95%;
     font-family: 'Rubik';
     font-weight: bold;
+	font-size: 1.2em;
 }
 
-.select-move {
-    height: 95%;
+.select-move-group option {
     font-family: 'Rubik';
     font-weight: bold;
 }
 
-button.execute-move-button {
-    width: 25%;
-    display: inline-block;
-    font-family: 'Fira Sans Condensed';
+.select-group option {
+    font-family: 'Rubik';
     font-weight: bold;
 }
 
