@@ -52,7 +52,6 @@
 			<div name="Personal Themes">
 				<div class="flexrow section-header">
 					<h1 id="Theme-header" class="item-block no-border">
-						Themes
 						{{#if (eq data.locked false)}}
 						{{#if (lt data.num_themes 4)}}
 						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
@@ -60,7 +59,7 @@
 						{{/if}}
 					</h1>
 					<section class="move-section">
-						<span class="move-section-header"> Moves </span>
+						<span class="move-section-header"></span>
 						{{createSelect (getMoveGroups) "data.data.selectedMoveGroup" data.data.selectedMoveGroup "select-move-group"}}
 						{{createSelect (getMoveGroup data) "data.data.selectedMove" data.data.selectedMove  "select-move" }}
 						<button class="execute-move-button" type="button"> Execute Move </button>

@@ -164,6 +164,11 @@
        url('../fonts/Fort Foundry - Rift-Bold.otf') format('otf'); /* Chrome 26+, Opera 23+, Firefox 39+ */
 }
 
+.window-app .window-content {
+    background-image: url(../images/paperbg.png);
+    background-size: cover;
+}
+
 input.question-entry {
 	width: 80%;
 }
@@ -346,6 +351,7 @@ div.themebook-identity-label {
 	font-size: 1.4em;
 	font-family: 'PT Serif';
 	font-weight: bold;
+    margin-left: 0.3em;
 }
 
 div.themebook-mystery-label {
@@ -394,8 +400,8 @@ h1.no-border {
 }
 
 div.section-header {
-	border-bottom: 2px solid green;
-	font-size: larger;
+	/* border-bottom: 2px solid green; */
+	/* font-size: larger; */
 }
 
 *.identity-input:disabled{
@@ -416,6 +422,7 @@ div.theme-name {
     word-break: break-word;
     height: auto;
 	padding: 0 0.2em;
+	text-shadow: 0px 2px 7px #ffffffd1;
 }
 
 textarea.theme-name-input {
@@ -968,10 +975,11 @@ div.space-between {
 
 section.move-section {
 	flex-grow:4;
-	justify-content: right;
-	align-items: right;
-	text-align: right;
+	justify-content: left;
+	align-items: left;
+	text-align: left;
 	margin: auto;
+	margin: 0.2em 0;
 	/* clear: both; */
 	/* display: inline; */
 	/* border-top: 2px solid green; */
@@ -1265,7 +1273,7 @@ input.number-modifier-box {
 }
 
 .status-text-list {
-	margin: 5px;
+	/* margin: 5px; */
 }
 
 .status-owner {
@@ -1371,6 +1379,46 @@ faded {
 .help-selection {
 
 	min-height: 4rem;
+}
+/* Sheet Restyling */
+
+.sheet .tabs .item.active {
+    color: var(--mythos-pink);
+	font-weight: bold;
+	text-shadow: none;
+}
+
+.sheet nav.sheet-tabs {
+    border-top: 2px solid var(--mythos-pink);
+    border-bottom: 2px solid var(--mythos-pink);
+    font-family: 'Fira Sans Condensed';
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-bottom: 1.8em;
+}
+
+.sheet a:hover {
+    color: var(--logos-orange);
+	text-shadow: none;
+}
+
+.select-move-group {
+    height: 95%;
+    font-family: 'Rubik';
+    font-weight: bold;
+}
+
+.select-move {
+    height: 95%;
+    font-family: 'Rubik';
+    font-weight: bold;
+}
+
+button.execute-move-button {
+    width: 25%;
+    display: inline-block;
+    font-family: 'Fira Sans Condensed';
+    font-weight: bold;
 }
 
 ::-webkit-scrollbar-thumb {
