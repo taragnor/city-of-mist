@@ -29,7 +29,6 @@
 
 	<div class="att-fade-section">
 		<div class="attention-block flex-line">
-			<span class="attention-text flex-std"> Attention </span>
 			<div class="dots-section flex-std">
 				{{#each data.attention as |attention rank|}}
 				{{#if (eq attention 1)}}
@@ -45,17 +44,11 @@
 				{{#if (ne locked true)}}
 				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
 				{{/if}}
+			<span class="attention-text flex-std"> Attention </span>
 			</div>
 		</div>
 		<div class="fade-block flex-line">
-			<span class="fade-text flex-std">
-				{{#if (eq tbdata.type "Logos")}} Crack {{/if}}
-				{{#if (eq tbdata.type "Mythos")}} Fade {{/if}}
-				{{#if (eq tbdata.type "Mist")}} Strike {{/if}}
-				{{#if (eq tbdata.type "Crew")}} Crack {{/if}}
-				{{#if (eq tbdata.type "Extra")}} Crack {{/if}}
-			</span>
-			<div class="dots-section flex-std">
+					<div class="dots-section flex-std">
 				{{#each data.crack as |crack rank|}}
 				{{#if (eq crack 1)}}
 				<span class="filled-circle tracker-circle"></span>
@@ -71,6 +64,13 @@
 				<a class="theme-remove-fade"  data-type="crack" > <i class="fas fa-minus-square"></i></a></p>
 				{{/if}}
 			</div>
+			<span class="fade-text flex-std">
+				{{#if (eq tbdata.type "Logos")}} Crack {{/if}}
+				{{#if (eq tbdata.type "Mythos")}} Fade {{/if}}
+				{{#if (eq tbdata.type "Mist")}} Strike {{/if}}
+				{{#if (eq tbdata.type "Crew")}} Crack {{/if}}
+				{{#if (eq tbdata.type "Extra")}} Crack {{/if}}
+			</span>
 		</div>
 	</div>
 		{{#if (eq tbdata.type "Logos")}}
