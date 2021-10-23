@@ -911,11 +911,13 @@ div.att-fade-section {
 }
 .attention-block.flex-line {
     margin: 0 0.4em;
-	width: 45%; // Dirty fix
+	width: 50%;
+	padding-top: 0.1em;
 }
 
 .fade-block.flex-line {
     margin: 0 0.4em;
+	padding-top: 0.1em;
 }
 
 div.dots-section {
@@ -925,6 +927,7 @@ ul.tag-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	margin-bottom: 7px;
 }
 
 ul.improvement-list {
@@ -981,7 +984,7 @@ span.filled-circle {
 	height: 1em;
 	width: 1em;
 	min-width: 1em;
-	border-color = rgba(0, 0, 0,255);
+	border-color: rgba(0, 0, 0,255);
 	background-color: rgba(0, 0, 0, 255);
 	border-radius: 50%;
 	display: inline-block;
@@ -994,13 +997,40 @@ span.empty-circle {
 	min-width: 1em;
 	border-style: solid;
 	border-width: 2px;
-	border-color = rgba(255, 255, 255,200);
+	border-color: rgba(255, 255, 255,200);
 	background-color: rgba(0, 0, 0,0);
 	border-radius: 50%;
 	display: inline-block;
 }
 
-div.improvement-name-send {
+.Logos-theme span.filled-circle {
+    border: 2px solid var(--logos-text);
+    background-color: rgb(134 108 108);
+}
+
+.Logos-theme span.empty-circle {
+    border: 2px solid var(--logos-text);
+	background-color: rgba(0, 0, 0,0);
+}
+
+.Mythos-theme span.filled-circle {
+	border:2px solid var(--mythos-text);
+	background-color: var(--mythos-bright);
+}
+
+.Mythos-theme span.empty-circle {
+	border:2px solid var(--mythos-text);
+	background-color: rgba(0, 0, 0,0);
+}
+
+.dots-section .fa-plus-square,
+.dots-section .fa-minus-square,
+.dots-section .unspent-upgrades,
+.dots-section .fa-undo {
+	font-size: 1.2em;
+}
+
+.improvement-name-send {
 	text-decoration: underline;
 	font-weight: bold;
 	font-size: larger;
@@ -1014,11 +1044,11 @@ div.improvement-description-send {
 
 span.tag-name-block {
     font-size: 1.2em;
-    font-family: 'Fira Sans Extra Condensed';
+    /* font-family: 'Fira Sans Extra Condensed'; */
 }
 
 span.improvement-name {
-    font-family: 'Fira Sans Extra Condensed';
+    /* font-family: 'Fira Sans Extra Condensed'; */
 }
 
 div.themebook-name {
@@ -1028,11 +1058,11 @@ div.themebook-name {
 	font-family: Rubik;
     height: auto;
     font-size: 1.2em;
-    padding: 0.2em 1em;
+	padding: 0.2em 0em 0.2em 1em;
     margin: 0.2em 0;
     margin-top: 0;
     min-height: 1em;
-    max-height: 2em;
+    /* max-height: 2em; */
     color: white;
     border-top-right-radius: 0.7em;
     border-top-left-radius: 0.7em;
@@ -1579,6 +1609,14 @@ section#build-up-section {
     text-transform: uppercase;
 }
 
+#build-up-section .tracker-circle {
+    border: 4px solid var(--mythos-pink);
+}
+
+#build-up-section .filled-circle {
+    background-color: var(--mythos-pink);
+}
+
 .evolutions-list .improvement-block {
     font-size: 1.5em;
 }
@@ -1586,6 +1624,8 @@ section#build-up-section {
 .evolutions-list {
 	font-size: 1.2em;
 	font-weight: bold;
+	list-style-type: none;
+
 }
 
 .evolution-list-item {
@@ -1788,4 +1828,59 @@ faded {
 ::-webkit-scrollbar-track {
     box-shadow: none;
     border-radius: 0px;
+}
+
+/* Monarch Card CSS */
+.monarch-hand {
+  --card-height: 200px;
+  --card-width: calc(var(--card-height) * .4);
+}
+.monarch-hand .cards {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  padding: 10px 14px 10px 10px;
+  margin: 0;
+  height: calc(var(--card-height) + 20px);
+}
+.monarch-hand .card-wrapper {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    flex-basis: 0;
+    max-width: var(--card-width);
+    height: var(--card-height);
+    transition: flex-basis 0.3s ease-in-out, box-shadow 0.5s;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.6);
+    border-radius: 1em 0 0 1em;
+    margin-right: -1em;
+    background: unset;
+}
+.monarch-hand .card-wrapper:hover, .monarch-hand .card-wrapper:last-child {
+  flex-basis: var(--card-width);
+  /* border-radius: 4px; */
+}
+.monarch-hand .card-wrapper:hover {
+  z-index: 1;
+  box-shadow: 0 0 10px var(--color-shadow-highlight), 0 0 4px var(--color-shadow-primary);
+}
+.monarch-hand .card-wrapper:hover .tooltip {
+  opacity: 1;
+}
+.monarch-hand .card-wrapper:hover .card-hud {
+  opacity: 1;
+}
+.monarch-hand .card {
+  /* temporary until the fix the card images */
+  position: relative;
+  /* padding: 8px; */
+  height: var(--card-height);
+  min-width: var(--card-width);
+  cursor: pointer;
+}
+
+.tabs > * {
+    flex: auto;
 }
