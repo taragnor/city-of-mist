@@ -246,21 +246,50 @@ form button {
     border: inherit;
 }
 
+#controls .control-tool.toggle {
+    background: hsl(28deg 20% 62% / 50%);
+    border: 1px solid #934b18;
+    color: #2b2b2b;
+}
+
+#controls .control-tool.toggle.active, #controls .control-tool.toggle:hover {
+    background: rgb(255 150 60 / 50%);
+    border: 1px solid #934b18;
+    color: #934018;
+    box-shadow: 0 0 10px #ff8d8d;
+}
+
 #controls .scene-control, #controls .control-tool {
-    border-radius: 0px;
+    width: 36px;
+    height: 36px;
+    box-sizing: content-box;
+    font-size: 24px;
+    line-height: 36px;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 10px #690025;
+    margin: 0 6px 8px 0;
+    color: #f82973;
+    text-align: center;
+    border: 1px solid #f82973;
+    border-radius: 0;
+    cursor: pointer;
 }
 
 #controls .scene-control.active, #controls .control-tool.active, #controls .scene-control:hover, #controls .control-tool:hover {
-    color: #FFF;
-    border: 1px solid #9c053c;
-    border-bottom: 1px solid #f82973;
-    box-shadow: 0 0 10px #f82973;
+    color: #d37af3;
+    border: 1px solid var(--mythos-pink);
+    border-bottom: 1px solid #a829f8;
+    box-shadow: 0 0 10px #cf29f8;
 }
 
 #navigation #scene-list .scene.view, #navigation #scene-list .scene.context {
     border: 1px solid #9c053c;
     border-bottom: 1px solid #f82973;
     box-shadow: 0 0 10px #f82973;
+}
+
+#navigation .nav-item {
+    border-radius: 0px;
 }
 
 #sidebar-tabs > .item.active {
@@ -284,6 +313,24 @@ form button {
 
 a:hover {
     text-shadow: 0 0 8px #f82973;
+}
+
+select:focus {
+    box-shadow: 0 0 5px #ff4700;
+    outline: none;
+}
+
+#hotbar .macro:hover {
+    box-shadow: 0 0 10px #f82973 inset;
+}
+
+#pause {
+    width: 100%;
+    height: 100px;
+    background: url("../ui/pausebg.png") no-repeat 50% 50%;
+    display: none;
+    font-family: 'Rift Bold';
+    font-size: 1.5em;
 }
 
 #client-settings section.content .submenu > button {
