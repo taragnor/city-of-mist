@@ -117,51 +117,50 @@
   src: local(''),
        url('../fonts/rubik-v14-latin-700italic.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
 }
-/* fira-sans-condensed-regular - latin */
+
+/* fira-sans-extra-condensed-regular - latin */
 @font-face {
-  font-family: 'Fira Sans Condensed';
+  font-family: 'Fira Sans Extra Condensed';
   font-style: normal;
   font-weight: 400;
   src: local(''),
-       url('../fonts/fira-sans-condensed-v5-latin-regular.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-/* fira-sans-condensed-800 - latin */
+/* fira-sans-extra-condensed-italic - latin */
 @font-face {
-  font-family: 'Fira Sans Condensed';
-  font-style: normal;
-  font-weight: 800;
-  src: local(''),
-       url('../fonts/fira-sans-condensed-v5-latin-800.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
-}
-/* fira-sans-condensed-800italic - latin */
-@font-face {
-  font-family: 'Fira Sans Condensed';
+  font-family: 'Fira Sans Extra Condensed';
   font-style: italic;
-  font-weight: 800;
+  font-weight: 400;
   src: local(''),
-       url('../fonts/fira-sans-condensed-v5-latin-800italic.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-italic.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-italic.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-/* fira-sans-condensed-900 - latin */
+/* fira-sans-extra-condensed-900 - latin */
 @font-face {
-  font-family: 'Fira Sans Condensed';
+  font-family: 'Fira Sans Extra Condensed';
   font-style: normal;
   font-weight: 900;
   src: local(''),
-       url('../fonts/fira-sans-condensed-v5-latin-900.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-900.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-900.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-/* fira-sans-condensed-900italic - latin */
+/* fira-sans-extra-condensed-900italic - latin */
 @font-face {
-  font-family: 'Fira Sans Condensed';
+  font-family: 'Fira Sans Extra Condensed';
   font-style: italic;
   font-weight: 900;
   src: local(''),
-       url('../fonts/fira-sans-condensed-v5-latin-900italic.woff2') format('woff2'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-900italic.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-sans-extra-condensed-v5-latin-900italic.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 @font-face {
-  font-family: 'Rift Bold';
-  src: local(''),
-       url('../fonts/Fort Foundry - Rift-Bold.otf') format('otf'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+    font-family: 'Rift Bold';
+    src: url('../fonts/Rift-Bold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 .window-app .window-content {
@@ -299,7 +298,27 @@ section.card-style {
 	padding: 10px 10px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 	transition: 0.3s;
+	font-size: large;
 }
+
+.clue-source, .clue-method {
+    font-family: 'PT Serif';
+}
+
+.clue-source b, .clue-method b {
+    font-weight: bold;
+    font-family: 'Rubik';
+}
+
+.juice-source, .juice-method {
+    font-family: 'PT Serif';
+}
+
+.juice-source b, .juice-method b {
+    font-weight: bold;
+    font-family: 'Rubik';
+}
+
 
 div.non-char-theme-header {
 	font-weight: bold;
@@ -335,6 +354,14 @@ span.clue-name:hover {
 	text-shadow: 0 0 10px red;
 }
 
+#juice-section .section-header {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+    text-align: center;
+}
+
 span.juice-name {
 	text-transform: capitalize;
 }
@@ -349,7 +376,7 @@ span.juice-name:hover {
 
 div.themebook-identity-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Condensed';
+	font-family: 'Fira Sans Extra Condensed';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -357,7 +384,7 @@ div.themebook-identity-label {
 
 div.themebook-mystery-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Condensed';
+	font-family: 'Fira Sans Extra Condensed';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -365,7 +392,7 @@ div.themebook-mystery-label {
 
 div.themebook-crew-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Condensed';
+	font-family: 'Fira Sans Extra Condensed';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -373,7 +400,7 @@ div.themebook-crew-label {
 
 div.tag-add-icons {
     font-size: 1.4em;
-    font-family: 'Fira Sans Condensed';
+    font-family: 'Fira Sans Extra Condensed';
     font-weight: bold;
     text-transform: uppercase;
     margin-left: 0.3em;
@@ -403,9 +430,17 @@ h1.no-border {
 	border-bottom: 0px;
 }
 
+h1#Theme-header {
+    width: 3em;
+    flex: 0;
+    padding: 0.2em 1em 0 1em;
+    margin: 0;
+}
+
 div.section-header {
-	/* border-bottom: 2px solid green; */
-	/* font-size: larger; */
+    /* border-bottom: 2px solid green; */
+    /* font-size: larger; */
+    flex-direction: row-reverse;
 }
 
 *.identity-input:disabled{
@@ -417,15 +452,16 @@ div.section-header {
 div.theme-name {
     font-weight: bold;
     text-align: center;
-    font-size: 2em;
+    font-size: 2.5em;
+	line-height: 1em;
     min-height: 1em;
     /* max-height: 4.5em; */
-    font-family: Rubik;
+    font-family: Rift Bold;
     overflow: hidden;
     text-transform: uppercase;
     word-break: break-word;
     height: auto;
-	padding: 0 0.2em;
+	padding: 0.2em 0.2em 0 0.2em;
 	text-shadow: 0px 2px 7px #ffffffd1;
 }
 
@@ -451,8 +487,8 @@ div.tag-question {
 
 .card-name {
 	font-weight: bold;
-	font-size: larger;
-	text-decoration: underline;
+	font-size: large;
+	font-family: 'Fira Sans Extra Condensed';
 }
 
 div.other-status-owner-name {
@@ -498,6 +534,14 @@ input.tag-name-input {
 	width: 50%;
 }
 
+#clue-section .section-header {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+    text-align: center;
+}
+
 section.clue-data-block {
 	background-image: linear-gradient(to right, rgba(0,0,200,0.2), rgba(0,0,255,.4), rgba(0,0,200,0.2));
 }
@@ -522,7 +566,7 @@ section.juice-data-block {
 
 .improvements-header {
     font-size: 1.4em;
-    font-family: 'Fira Sans Condensed';
+    font-family: 'Fira Sans Extra Condensed';
     font-weight: bold;
     text-transform: uppercase;
 	margin-bottom:0;
@@ -669,7 +713,8 @@ div.fade-block {
 
 span.attention-text {
     font-weight: bold;
-    font-family: 'Rubik';
+    font-family: 'Rift Bold';
+	font-size: 1.3em;
     text-transform: uppercase;
 }
 
@@ -678,7 +723,8 @@ div.dots-section {
 
 span.fade-text {
     font-weight: bold;
-    font-family: 'Rubik';
+    font-family: 'Rift Bold';
+	font-size: 1.3em;
     text-transform: uppercase;
 }
 
@@ -720,11 +766,11 @@ div.improvement-description-send {
 
 span.tag-name-block {
     font-size: 1.2em;
-    font-family: 'Fira Sans Condensed';
+    font-family: 'Fira Sans Extra Condensed';
 }
 
 span.improvement-name {
-    font-family: 'Fira Sans Condensed';
+    font-family: 'Fira Sans Extra Condensed';
 }
 
 div.themebook-name {
@@ -978,21 +1024,21 @@ div.space-between {
 }
 
 section.move-section {
-	flex-grow:7;
-	justify-content: left;
-	align-items: left;
-	text-align: left;
-	margin: auto;
-	margin: 0.2em 0;
-	/* clear: both; */
-	/* display: inline; */
-	/* border-top: 2px solid green; */
+    text-align: left;
+    flex: inherit;
+    min-width: 60em;
+    height: 3em;
+    justify-content: center;
+    margin: 0.2em 0;
+    /* clear: both; */
+    /* display: inline; */
+    /* border-top: 2px solid green; */
 }
 
 button.execute-move-button {
     width: 25%;
     display: inline-block;
-    font-family: 'Fira Sans Condensed';
+    font-family: 'Rubik';
     font-weight: bold;
     font-size: large;
     padding: 5px 0px;
@@ -1201,11 +1247,13 @@ span.narrated-status-name {
 }
 
 .bio-section-label {
-	font-size: 2em;
-	font-weight: bold;
-	text-decoration: underline;
-	text-align: center;
-	/* border-bottom: 4px solid black; */
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+    /* text-decoration: underline; */
+    text-align: center;
+    /* border-bottom: 4px solid black; */
 }
 
 input.number-modifier-box {
@@ -1243,14 +1291,44 @@ input.number-modifier-box {
 	flex-wrap: wrap;
 }
 
+section#build-up-section {
+    text-align: center;
+}
+
 .BU-improvement-header {
-	margin: 10px;
-	font-size: 2em;
-	text-decoration: underline;
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
 }
 
 .BUPoints {
 	text-align: center;
+	margin: 3em 0;
+}
+
+#build-up-section .tracker-circle {
+    min-height: 2em;
+    min-width: 2em;
+}
+
+.BUPoints .increment-buildup {
+    font-size: 2.5em;
+}
+
+.BUPoints .decrement-buildup {
+    font-size: 2.5em;
+}
+
+.BUPoints-header {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+}
+
+.evolutions-list .improvement-block {
+    font-size: 1.5em;
 }
 
 .evolutions-list {
@@ -1384,6 +1462,22 @@ faded {
 	text-align: center;
 }
 
+#help-section .section-header {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#hurt-section .section-header {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Rubik';
+    text-transform: uppercase;
+    text-align: center;
+}
+
 .help-selection {
 
 	min-height: 4rem;
@@ -1400,8 +1494,8 @@ faded {
 .sheet nav.sheet-tabs {
     border-top: 2px solid var(--mythos-pink);
     border-bottom: 2px solid var(--mythos-pink);
-    font-family: 'Fira Sans Condensed';
-    font-weight: bold;
+    font-family: 'Rubik';
+    font-weight: normal;
     font-size: 1.2em;
     padding-bottom: 1.8em;
 }
