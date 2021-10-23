@@ -186,8 +186,36 @@ h1, h2, h3, h4 {
 
 button {
     margin: 0 1px;
-    font-size: 14px;
-    line-height: 28px;
+    border: 2px solid #321c3a;
+    box-shadow: 0 0 10px rgba(255,0,91,.75),0 0 15px rgba(255,0,91,.75) inset;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    font-family: 'Rift Bold';
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgb(21 21 21 / 80%);
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
+    font-size: 15px;
+    color: #3c2145;
+    background-color: #502c5dbd;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+button:hover {
+    color: #fff;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+#settings button,
+.directory .action-buttons button {
+	font-size: 1.2em;
     color: #f82973;
     border: 2px solid #f82974;
     box-shadow: 0 0 10px rgba(255,0,91,.75),0 0 15px rgba(255,0,91,.75) inset;
@@ -204,6 +232,22 @@ button {
     -ms-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
     cursor: pointer;
+}
+
+#settings button:hover,
+.directory .action-buttons button:hover {
+    color: #fff;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+form button {
+    background: #502c5dbd;
+    border: inherit;
+}
+
+#controls .scene-control, #controls .control-tool {
+    border-radius: 0px;
 }
 
 #controls .scene-control.active, #controls .control-tool.active, #controls .scene-control:hover, #controls .control-tool:hover {
@@ -242,20 +286,8 @@ a:hover {
     text-shadow: 0 0 8px #f82973;
 }
 
-button:hover {
-    color: #fff;
-    background: #c5044b;
-    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
-}
-
-form button {
-    background: rgba(0, 0, 0, 0.9);
-    border: inherit;
-}
-
 #client-settings section.content .submenu > button {
     font-size: 15px;
-    color: white;
     background-color: #502c5dbd;
     box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 }
@@ -268,7 +300,7 @@ form button {
 
 .dialog .dialog-buttons button {
     font-size: 15px;
-    color: white;
+    color: #3c2145;
     background-color: #502c5dbd;
     box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 	border: 1px solid var(--mythos-pink);
@@ -276,7 +308,6 @@ form button {
 
 .dialog .dialog-buttons button.default {
     font-size: 15px;
-    color: white;
     background-color: #502c5dbd;
     box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 	border: 1px solid var(--mythos-pink);
@@ -1185,10 +1216,6 @@ button.execute-move-button:hover {
     box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
 }
 
-#settings button {
-    font-size: 1.2em;
-}
-
 div.actor-name {
 	font-size: larger;
 	text-align: center;
@@ -1652,10 +1679,12 @@ faded {
 
 .select-move, 
 .select-move-group {
-    height: 2.5em;
+    height: 2.3em;
     font-family: 'Rubik';
     font-weight: bold;
-	font-size: 1.2em;
+    font-size: 1.2em;
+    border: 1px solid #3c2145;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 2px var(--mythos-pink) inset;
 }
 
 .select-move-group option {
