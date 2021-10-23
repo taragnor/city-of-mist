@@ -163,9 +163,143 @@
 
 }
 
+body {
+    font-family: 'Roboto', "Signika", sans-serif;
+}
+
+.app {
+    color: var(--mythos-white);
+}
+
 .window-app .window-content {
     background-image: url(../images/paperbg.png);
     background-size: cover;
+    font-family: 'Roboto';
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    font-weight: normal;
+    /* color: #f82973; */
+}
+
+button {
+    margin: 0 1px;
+    font-size: 14px;
+    line-height: 28px;
+    color: #f82973;
+    border: 2px solid #f82974;
+    box-shadow: 0 0 10px rgba(255,0,91,.75),0 0 15px rgba(255,0,91,.75) inset;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    font-family: 'Rift Bold';
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgb(21 21 21 / 80%);
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
+}
+
+#controls .scene-control.active, #controls .control-tool.active, #controls .scene-control:hover, #controls .control-tool:hover {
+    color: #FFF;
+    border: 1px solid #9c053c;
+    border-bottom: 1px solid #f82973;
+    box-shadow: 0 0 10px #f82973;
+}
+
+#navigation #scene-list .scene.view, #navigation #scene-list .scene.context {
+    border: 1px solid #9c053c;
+    border-bottom: 1px solid #f82973;
+    box-shadow: 0 0 10px #f82973;
+}
+
+#sidebar-tabs > .item.active {
+    color: #f82973;
+    border: 1px solid #9c053c;
+    border-bottom: none;
+    box-shadow: 0 0 10px #f82973;
+}
+
+#sidebar-tabs {
+    flex: 0 0 32px;
+    box-sizing: border-box;
+    margin: 0 0 5px;
+    border-bottom: 1px solid #9c053c;
+    box-shadow: 0 0 10px #f82973;
+}
+
+.tabs .item.active {
+    text-shadow: 0 0 8px #f82973;
+}
+
+a:hover {
+    text-shadow: 0 0 8px #f82973;
+}
+
+button:hover {
+    color: #fff;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+form button {
+    background: rgba(0, 0, 0, 0.9);
+    border: inherit;
+}
+
+#client-settings section.content .submenu > button {
+    font-size: 15px;
+    color: white;
+    background-color: #502c5dbd;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+#client-settings section.content .submenu > button:hover {
+    color: white;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+.dialog .dialog-buttons button {
+    font-size: 15px;
+    color: white;
+    background-color: #502c5dbd;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.dialog .dialog-buttons button.default {
+    font-size: 15px;
+    color: white;
+    background-color: #502c5dbd;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.dialog .dialog-buttons button:hover {
+    color: white;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+.dialog .dialog-buttons button.default:hover {
+    color: white;
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+.filepicker .current-dir button {
+    box-shadow: none;
+}
+
+.directory .action-buttons button {
+    line-height: 20px;
 }
 
 input.question-entry {
@@ -431,16 +565,19 @@ h1.no-border {
 }
 
 h1#Theme-header {
-    width: 3em;
-    flex: 0;
-    padding: 0.2em 1em 0 1em;
+    flex: auto;
+    text-align: center;
+    font-size: 2em;
+    align-self: center;
+    font-weight: bold;
+    font-family: 'Fira Sans Extra Condensed';
     margin: 0;
 }
 
 div.section-header {
     /* border-bottom: 2px solid green; */
     /* font-size: larger; */
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
 }
 
 *.identity-input:disabled{
@@ -1024,24 +1161,32 @@ div.space-between {
 }
 
 section.move-section {
-    text-align: left;
+    text-align: center;
     flex: inherit;
-    min-width: 60em;
-    height: 3em;
-    justify-content: center;
+    max-height: 3.5em;
+    flex-basis: 90%;
     margin: 0.2em 0;
-    /* clear: both; */
-    /* display: inline; */
-    /* border-top: 2px solid green; */
 }
 
 button.execute-move-button {
-    width: 25%;
+    width: 12em;
     display: inline-block;
     font-family: 'Rubik';
     font-weight: bold;
     font-size: large;
+    color: white;
+    background-color: #502c5dbd;
     padding: 5px 0px;
+    box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+button.execute-move-button:hover {
+    background: #c5044b;
+    box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+#settings button {
+    font-size: 1.2em;
 }
 
 div.actor-name {
@@ -1507,7 +1652,7 @@ faded {
 
 .select-move, 
 .select-move-group {
-    height: 95%;
+    height: 2.5em;
     font-family: 'Rubik';
     font-weight: bold;
 	font-size: 1.2em;

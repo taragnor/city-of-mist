@@ -122,11 +122,11 @@
 		{{/if}}
 		{{/if}}
 		{{/each}}
-		<h3 id="improvements-header" class="improvements-header"> Improvements
+		<div id="improvements-header" class="improvements-header"> Improvements
 			{{#if (gt data.unspent_upgrades 0)}}
 			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner.id}}" data-theme-id="{{theme.id}}" > <i class="fas fa-plus-square"></i></a></p>
 			{{/if}}
-		</h3>
+		</div>
 		<ul class="improvement-list">
 			{{#each owner.items as |imp |}}
 			{{#if (eq imp.type "improvement")}}
