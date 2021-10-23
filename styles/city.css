@@ -1,7 +1,13 @@
 :root {
   --mythos-pink: #502c5d;
+  --mythos-bright: #ae4ace;
+  --mythos-text: hsl(284deg 15% 15%);
   --mythos-white: hsl(265deg 10% 95%);
+  --logos-text: #48382a;
+  --darkgreen: #373d32;
+  --green:#5f624f;
   --logos-orange: #a85d4b;
+  --neon-pink: #f82973;
 }
 
 /* pt-serif-regular - latin */
@@ -246,6 +252,10 @@ form button {
     border: inherit;
 }
 
+#navigation .nav-item {
+    border: 1px solid var(--neon-pink);
+}
+
 #controls .control-tool.toggle {
     background: hsl(28deg 20% 62% / 50%);
     border: 1px solid #934b18;
@@ -327,7 +337,6 @@ select:focus {
 #pause {
     width: 100%;
     height: 100px;
-    background: url("../ui/pausebg.png") no-repeat 50% 50%;
     display: none;
     font-family: 'Rift Bold';
     font-size: 1.5em;
@@ -343,6 +352,19 @@ select:focus {
     color: white;
     background: #c5044b;
     box-shadow: 0 0 5px rgba(255,0,91,.75),0 0 10px rgba(0,0,0,.3) inset;
+}
+
+#chat-form textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    background-image: url(../images/paperbg.png);
+    background-size: 600%;
+}
+
+textarea:focus {
+    box-shadow: 0 0 6px #f82973;
+    outline: none;
 }
 
 .dialog .dialog-buttons button {
@@ -460,18 +482,23 @@ div.flex-theme-block:hover {
 
 div.Mythos-theme {
     height: 100%;
-    /* color: var(--mythos-white); */
+    color: var(--mythos-text);
     border-radius: 1em;
     border-bottom: 1em solid var(--mythos-pink);
     background-image: url(../images/editedmythoscard.png);
     background-color: black;
     background-position: center;
-    background-size: 120%;
+    background-size: 125%;
+}
+
+.Mythos-theme .theme-name {
+    text-shadow: 0px 0px 10px var(--mythos-bright), 0px 1px 12px var(--mythos-pink);
+    color: var(--mythos-white);
 }
 
 div.Logos-theme {
 	background: linear-gradient(to right, rgba(234, 234, 180 , 0.8), rgba(2223, 223, 140 , 0.8), rgba(234, 234, 180 , 0.8));
-	color: black;
+	color: var(--logos-text);
 	height:100%;
 	border-radius: 1em;
 	border-bottom: 1em solid var(--logos-orange);
@@ -491,6 +518,13 @@ div.Mist-theme {
 	color: black;
 	height:100%;
 }
+
+div.Mythos-theme textarea.themebook-mystery.identity-input {
+    color: var(--mythos-text);
+}
+
+div.Logos-theme textarea.themebook-mystery.identity-input {
+	color: var(--logos-text);}
 
 img.theme-img {
 	display: inline-block;
@@ -588,7 +622,7 @@ span.juice-name:hover {
 
 div.themebook-identity-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Extra Condensed';
+	font-family: 'Rift Bold';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -596,7 +630,7 @@ div.themebook-identity-label {
 
 div.themebook-mystery-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Extra Condensed';
+	font-family: 'Rift Bold';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -604,7 +638,7 @@ div.themebook-mystery-label {
 
 div.themebook-crew-label {
 	font-size: 1.4em;
-	font-family: 'Fira Sans Extra Condensed';
+	font-family: 'Rift Bold';
 	font-weight: bold;
     margin-left: 0.3em;
 	text-transform: uppercase;
@@ -612,7 +646,7 @@ div.themebook-crew-label {
 
 div.tag-add-icons {
     font-size: 1.4em;
-    font-family: 'Fira Sans Extra Condensed';
+    font-family: 'Rift Bold';
     font-weight: bold;
     text-transform: uppercase;
     margin-left: 0.3em;
@@ -670,14 +704,13 @@ div.theme-name {
     font-size: 2.5em;
 	line-height: 1em;
     min-height: 1em;
-    /* max-height: 4.5em; */
     font-family: Rift Bold;
     overflow: hidden;
     text-transform: uppercase;
     word-break: break-word;
     height: auto;
-	padding: 0.2em 0.2em 0 0.2em;
-	text-shadow: 0px 2px 7px #ffffffd1;
+	padding: 0.2em 0.2em 0.15em 0.2em;
+	/* text-shadow: 0px 2px 7px #ffffffd1; */
 }
 
 textarea.theme-name-input {
@@ -781,7 +814,7 @@ section.juice-data-block {
 
 .improvements-header {
     font-size: 1.4em;
-    font-family: 'Fira Sans Extra Condensed';
+    font-family: 'Rift Bold';
     font-weight: bold;
     text-transform: uppercase;
 	margin-bottom:0;
@@ -1720,7 +1753,7 @@ faded {
 }
 
 .sheet a:hover {
-    color: var(--logos-orange);
+    color: var(--neon-pink);
 	text-shadow: none;
 }
 
