@@ -19,6 +19,9 @@ export class CityItemSheet extends ItemSheet {
 		const itemData = this.item.data.toObject(false);
 		data.item = this.item;
 		data.data = itemData.data;
+		data.data.movelist = CityHelpers.getMoves()
+			.filter( x=> x.data.data.category == "Core")
+			.map( x=> x.name );
 		return data;
 	}
 

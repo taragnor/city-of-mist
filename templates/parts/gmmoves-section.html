@@ -8,6 +8,13 @@
 {{/if}}
 {{#each owner.items as |item id|}}
 {{#if (eq item.type "gmmove")}}
+{{#if (eq item.data.data.subtype "entrance")}}
+{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+{{/if}}
+{{/if}}
+{{/each}}
+{{#each owner.items as |item id|}}
+{{#if (eq item.type "gmmove")}}
 {{#if (eq item.data.data.subtype "intrusion")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
 {{/if}}

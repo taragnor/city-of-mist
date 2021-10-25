@@ -14,12 +14,18 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/city-of-mist/templates/parts/juice-display.html",
     "systems/city-of-mist/templates/parts/gmmove-display.html",
     "systems/city-of-mist/templates/parts/story-tag-display.html",
+    "systems/city-of-mist/templates/parts/story-tag-list-display.html",
+    "systems/city-of-mist/templates/parts/story-tag-header.html",
     "systems/city-of-mist/templates/parts/other-status-layout.html",
     "systems/city-of-mist/templates/parts/tag-name.html",
     "systems/city-of-mist/templates/parts/gmmoves-section.html",
     "systems/city-of-mist/templates/parts/bio-display.html",
     "systems/city-of-mist/templates/parts/spectrum-display.html",
     "systems/city-of-mist/templates/parts/status-text-list.html",
+    "systems/city-of-mist/templates/parts/character-sheet-header.html",
+    "systems/city-of-mist/templates/parts/threat-sheet-header.html",
+    "systems/city-of-mist/templates/parts/lock-button.html",
+
   ];
 
   // Load the template parts

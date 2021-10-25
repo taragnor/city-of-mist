@@ -1,0 +1,7 @@
+<form class="{{cssClass}} story-tag-container-sheet" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" >
+	<label class="scene-tags"> Scene Tags </label>
+	<section name="tags-section">
+		{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=scene locked=false sheetowner=scene canBurn=true taglist=tags}}
+	</section>
+</form>
+

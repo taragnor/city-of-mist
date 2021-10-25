@@ -112,12 +112,12 @@ export class CityActorSheet extends CitySheet {
 				}
 			}
 		}
+		data.data.personalStoryTags = this.getPersonalStoryTags();
 		data.data.storyTags = this.getStoryTags();
 		return data;
 	}
 
-	getStoryTags() {
-		// return this.actor.items.filter( x=> x.data.type == "tag" && x.data.data.subtype == "story").map( x=> {
+	getPersonalStoryTags() {
 		return this.actor.getStoryTags().map( x=> {
 			return {
 				type: x.data.type,
@@ -129,6 +129,21 @@ export class CityActorSheet extends CitySheet {
 				owner: this.actor
 			};
 		});
+	}
+
+	getStoryTags() {
+		return this.getPersonalStoryTags();
+		// return this.actor.getStoryTags().map( x=> {
+		// 	return {
+		// 		type: x.data.type,
+		// 		name: x.data.name,
+		// 		location: "",
+		// 		id: x.id,
+		// 		data: x.data,
+		// 		ownerId: this.actor.id,
+		// 		owner: this.actor
+		// 	};
+		// });
 	}
 
 
@@ -359,7 +374,6 @@ export class CityActorSheet extends CitySheet {
 			CityHelpers.playTagOff();
 	}
 
-
 	async tagDialog(obj) {
 		return await CityHelpers.itemDialog(obj);
 	}
@@ -367,7 +381,6 @@ export class CityActorSheet extends CitySheet {
 	async improvementDialog(obj) {
 		return await CityHelpers.itemDialog(obj);
 	}
-
 
 	async _tagEdit(event) {
 		const id = getClosestData(event, "tagId");
@@ -397,7 +410,6 @@ export class CityActorSheet extends CitySheet {
 			if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
 				await	actor.deleteTheme(themeId);
 				await CityHelpers.modificationLog(actor, "Deleted", theme);
-				// await CityHelpers.modificationLog(`${actor.name}: Deleted Theme ${themeName}`);
 			}
 		} else {
 			let ret;
@@ -875,48 +887,49 @@ export class CityActorSheet extends CitySheet {
 			}
 		}
 
-		async _executeMove (event) {
-			const move_id = $(this.form).find(".select-move").val();
-			const move_group = $(this.form).find(".select-move-group").val();
-			const SHB = move_group == "SHB";
-			let newtype = null;
-			if (SHB) {
-				console.log("trying to SHB");
-				const SHBType = await this.SHBDialog();
-				if (!SHBType)
-					return;
-				newtype = SHBType;
-			}
-			const move = CityHelpers.getMoves().find(x=> x.id == move_id);
-			if (!move_id)
-				throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
-			switch (newtype ?? move.data.data.type) {
-				case "standard":
-					await CityRoll.modifierPopup(move_id, this.actor);
-					break;
-				case "logosroll":
-					await CityRoll.logosRoll(move_id, this.actor);
-					break;
-				case "mythosroll":
-					await CityRoll.mythosRoll(move_id, this.actor);
-					break;
-				case "noroll":
-					await CityRoll.noRoll(move_id, this.actor);
-					break;
-				default:
-					throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
-			}
-			const effectClass = move.data?.data?.effect_class ?? "";
-			if (effectClass.includes("MONOLOGUE"))
-				if (this.monologue)
-					this.monologue();
-			if (effectClass.includes("SESSION_END"))
-				if (this.sessionEnd)
-					this.sessionEnd();
-			if (effectClass.includes("FLASHBACK"))
-				if (this.flashback)
-					this.flashback();
+	async _executeMove (event) {
+		const move_id = $(this.form).find(".select-move").val();
+		const move_group = $(this.form).find(".select-move-group").val();
+		const SHB = move_group == "SHB";
+		let newtype = null;
+		if (SHB) {
+			console.log("trying to SHB");
+			const SHBType = await this.SHBDialog();
+			if (!SHBType)
+				return;
+			newtype = SHBType;
 		}
+		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
+		if (!move_id)
+			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
+		switch (newtype ?? move.data.data.type) {
+			case "standard":
+				if (await CityRoll.verifyRequiredInfo(move_id, this.actor))
+					await CityRoll.modifierPopup(move_id, this.actor);
+				break;
+			case "logosroll":
+				await CityRoll.logosRoll(move_id, this.actor);
+				break;
+			case "mythosroll":
+				await CityRoll.mythosRoll(move_id, this.actor);
+				break;
+			case "noroll":
+				await CityRoll.noRoll(move_id, this.actor);
+				break;
+			default:
+				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
+		}
+		const effectClass = move.data?.data?.effect_class ?? "";
+		if (effectClass.includes("MONOLOGUE"))
+			if (this.monologue)
+				this.monologue();
+		if (effectClass.includes("SESSION_END"))
+			if (this.sessionEnd)
+				this.sessionEnd();
+		if (effectClass.includes("FLASHBACK"))
+			if (this.flashback)
+				this.flashback();
+	}
 
 		async statusDialog(obj) {
 			return await CityHelpers.itemDialog(obj);

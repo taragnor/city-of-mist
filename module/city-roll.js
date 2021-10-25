@@ -242,13 +242,25 @@ CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 	}
 }
 
+CityRoll.verifyRequiredInfo = async function(move_id, actor) {
+	const relevantImprovements = actor.getImprovements().filter(imp => imp.hasEffectClass(`THEME_DYN_SELECT`) )
+	for (const imp of relevantImprovements) {
+		if (!imp.data.data?.choice_item) {
+			await CityHelpers.itemDialog(imp);
+			return false;
+		}
+	}
+	return true;
+}
+
 CityRoll.modifierPopup = async function (move_id, actor) {
 	const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 	const title = `Make Roll`;
-	const templateData = {burnableTags, actor: actor, data: actor.data.data};
+	const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
+	const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite};
 	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 	const rollOptions =await new Promise ( (conf, reject) => {
-		const options ={};
+		const options = {};
 		const updateSliderValMax = function (html) {
 			const itemId = $(html).find("#help-dropdown").val();
 			if (!itemId) {

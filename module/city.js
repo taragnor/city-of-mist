@@ -8,6 +8,7 @@ import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
+import { CityScene } from "./city-scene.js";
 import { CityItem } from "./city-item.js";
 import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
@@ -76,7 +77,7 @@ Hooks.on('createItem', CityHelpers.onItemUpdate);
 Hooks.on('deleteItem', CityHelpers.onItemUpdate);
 Hooks.on('createToken', CityHelpers.onTokenCreate);
 Hooks.on('updateToken', CityHelpers.onTokenUpdate);
-Hooks.on('deleteToken', CityHelpers.onTokenUpdate);
+Hooks.on('deleteToken', CityHelpers.onTokenDelete);
 Hooks.on('updateScene', CityHelpers.onSceneUpdate);
 
 ////Debug code to trace what hooks are being called
@@ -118,6 +119,7 @@ Hooks.once("init", async function() {
 
   CONFIG.Item.documentClass = CityItem;
   CONFIG.Actor.documentClass = CityActor;
+  CONFIG.Scene.documentClass = CityScene;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
@@ -134,15 +136,13 @@ Hooks.once("init", async function() {
 
 	//Has activated Tag
 	Handlebars.registerHelper('hasActivatedTag', function (sheetownerId, actorId, tagId) {
-		//TODO: actorId isn't used but is there for completion
+		//TODO: actorId isn't used but is there for compatibility with older version
 		const sheetowner = game.actors.get(sheetownerId);
 		if (sheetowner != null) {
 			const result = sheetowner.hasActivatedTag(tagId);
 			return result;
 		} else {
 			return false;
-			// Debug(sheetownerId);
-			// throw new Error(`No Owner provided to Has Activated Tag, Id ${sheetownerId}`);
 		}
 	});
 
@@ -156,10 +156,15 @@ Hooks.once("init", async function() {
 		}
 	});
 
-	// Handlebars.registerHelper('defaultTagDirection', function (tagId, tagOwnerId, sheetownerId) {
 	Handlebars.registerHelper('defaultTagDirection', function (sheetownerId, tagOwnerId, tagId) {
-		const tagowner = game.actors.find(x=> x.id == tagOwnerId);
+		const tagowner = CityHelpers.getTagOwnerById(tagOwnerId);
 		const sheetowner = game.actors.find(x=> x.id == sheetownerId);
+		if (tagowner == undefined) {
+			console.warn( "null tag owner passed into defualtTagDirection Handlebars helper");
+		}
+		if (tagowner.documentName == "Scene") {
+			return -1;
+		}
 		const tag = tagowner.items.find(x=> x.id == tagId);
 		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
 	});
@@ -197,7 +202,7 @@ Hooks.once("init", async function() {
 	});
 
 	Handlebars.registerHelper('getGMMoveTypes', function () {
-		const data = ["Soft", "Hard", "Intrusion", "Custom"];
+		const data = ["Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
 		return data.map( x => {
 			return {
 				id: x.toLowerCase(),

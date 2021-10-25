@@ -6,6 +6,7 @@
 				"locked": true,
 				"biography": "",
 				"description": "",
+				"short_description": "",
 				"gmnotes": "",
 				"crewThemes": [],
 				"version": 1.0
@@ -25,6 +26,8 @@
 				"useAlias": true
 			},
 			"person": {
+				"mythos": "",
+				"logos": "",
 				"age": 0,
 				"residence": ""
 			}
@@ -32,7 +35,7 @@
 		},
 		"character": {
 			"templates": ["default", "themeholder", "TagSelector", "person"],
-			"mythos": "",
+			"short_description": "",
 			"alias": "",
 			"activeExtraId": "",
 			"activeExtra": null,
@@ -48,7 +51,7 @@
 			"templates": ["default", "themeholder"]
 		},
 		"threat": {
-			"templates": ["default", "aliasable", "themeholder"]
+			"templates": ["default", "aliasable", "themeholder", "person"]
 		},
 		"storyTagContainer": {
 			"templates": ["default"]
@@ -119,7 +122,9 @@
 			"theme_id": "",
 			"free_content": false,
 			"choice_item": "",
-			"chosen": false
+			"chosen": false,
+			"choice_type": "",
+			"effect_class": ""
 		},
 		"tag_question": {
 			"templates": [],
@@ -163,7 +168,8 @@
 			"listConditionals": [],
 			"type": "standard",
 			"category": "Core",
-			"effect_class": ""
+			"effect_class": "",
+			"abbreviation": ""
 		},
 		"gmmove": {
 			"templates": ["default"],

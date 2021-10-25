@@ -1,0 +1,33 @@
+<div class="header-row">
+	<input type="text" class="borderless danger-name" name="name" value="{{actor.name}}" title="Danger Name" placeholder="Danger Name" {{#if data.locked}} disabled {{/if}}>
+	<div class="separator-icon"> &diams;</div>
+	{{#if actor.isToken}}
+	<input class="alias-input alias-input-unlinked-token borderless" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}" title="Alias / Token Name" placeholder="Alias / Token Name">
+	{{else}}
+	<input class="alias-input alias-input-prototype borderless" type="text" name="token.name" value="{{actor.data.token.name}}" title="Alias / Token Name" placeholder="Alias / Token Name">
+	{{/if}}
+</div>
+<div class="header-row">
+	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.data.data.mythos}}" placeholder="Mythos" title="Mythos" {{#if data.locked}} disabled {{/if}}>
+	<div class="separator-icon"> &diams;</div>
+	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.data.data.logos}}" placeholder="Logos" title="Logos" {{#if data.locked}} disabled {{/if}}>
+</div>
+<div class="header-row">
+	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.data.data.short_description}}" placeholder="Short Description" title="Short Description" {{#if data.locked}} disabled {{/if}}>
+</div>
+{{#if actor.data.data.locked}}
+<div class="header-row">
+	<div class="spectrum-list">
+		<b>Spectrums: </b>
+		{{#each items as |spectrum id|}}
+		{{#if (eq spectrum.type "spectrum")}}
+		<div class="spectrum-short-label">
+			{{spectrum.name}} {{spectrum.data.data.max_tier}}
+		</div>
+		{{/if}}
+		{{/each}}
+	</div>
+</div>
+{{/if}}
+
+

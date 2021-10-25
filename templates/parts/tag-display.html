@@ -7,7 +7,7 @@
 	<div class="flex-wide flex-line">
 		{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=owner activated=(hasActivatedTag sheetowner.id owner.id tag.id) direction=(activatedDirection sheetowner.id owner.id tag.id) tag=tag data=data}}
 	</div>
-	<div class="flex-narrow  flex-line flex-burn-flame-cell">
+	<div class="flex-narrow flex-line flex-burn-flame-cell">
 		{{#if (eq owner.id sheetowner.id)}}
 		{{#if (eq data.burned 0)}}
 		{{#if canBurn}}

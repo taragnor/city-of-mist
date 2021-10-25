@@ -1,7 +1,15 @@
 <form class="{{cssClass}} gmmove-sheet flex-col item-edit-dialog">
 	<label class="dialog-label" for="name"> Name </label>
 	<input type="text" name="name" value="{{item.name}}">
-	{{createSelect (getGMMoveTypes) "data.subtype" data.subtype "select-gmmove-subtype" }}
+	<select name="data.subtype">
+		{{#select item.data.data.subtype}}
+		<option value="soft"> Soft Move </option>
+		<option value="hard"> Hard Move </option>
+		<option value="custom"> Custom Move </option>
+		<option value="intrusion"> Intrusion </option>
+		<option value="entrance"> On Enter Scene </option>
+		{{/select}}
+	</select>
 	<hr>
 	<label class="dialog-label" for="description"> Description </label>
 	<textarea class="gmmove-description" name="data.description">{{data.description}}</textarea>

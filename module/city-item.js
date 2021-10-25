@@ -8,6 +8,67 @@ export class CityItem extends Item {
 		return this.data.data.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
+	prepareDerivedData() {
+		super.prepareDerivedData();
+		switch (this.type){
+			case "improvement":
+				this.data.data.choice_type = this.getChoiceType();
+				break;
+
+			default: break;
+		}
+	}
+
+	/*
+	Options for effect_class on improvmeents
+		THEME_DYN_SELECT: select a type of core move that is now dynamite when using tags from this theme.
+		THEME_DYN_FACE: WHen using tag from this theme, face danger is dyanmtie
+		THEME_DYN_HIT: WHen using tag from this theme, HWAYG is dyanmtie
+		THEME_DYN_CHANGE: WHen using tag from this theme, CtG is dyanmtie
+		OPTION_FACE_X: X is some number 0-9, unlocks extra options in moves (future)
+		THEME_TAG_SELECT: used to tell choice type to select a tag
+
+	*/
+
+	hasEffectClass(cl) {
+		return this.data.data.effect_class?.includes(cl) ?? false;
+	}
+
+	isImprovementActivated(move_id, actor) {
+		const move = CityHelpers.getMoveById(move_id);
+		const moveAbbr = move.data.data.abbreviation;
+		if (!this.data.data.effect_class)
+			return false;
+		if ( this.hasEffectClass(`ALWAYS_DYN_${moveAbbr}`) )
+			return true;
+		const theme = actor.getTheme(this.data.data.theme_id);
+		if (theme) {
+			const hasThemeTagActivated = actor.getActivatedTags()
+				.filter(x => x.data.data.theme_id == theme.id)
+				.length > 0;
+			if ( this.hasEffectClass(`THEME_DYN_${moveAbbr}`) )
+				return hasThemeTagActivated;
+			if ( this.hasEffectClass("THEME_DYN_SELECT") && this.data.data.choice_item == move.name)
+				return hasThemeTagActivated;
+			return false;
+		}
+	}
+
+	getActivatedEffect() {
+		// console.log(`Getting Activated Efect for ${this.name}`);
+		if (this.data.data.effect_class.includes("DYN"))
+			return {dynamite: true};
+		return {};
+	}
+
+	getChoiceType() {
+		if (this.data.data.effect_class?.includes("THEME_DYN_SELECT"))
+			return "core_move";
+		if (this.data.data.effect_class?.includes("THEME_TAG_SELECT"))
+			return "theme_tag";
+		else return "";
+	}
+
 	getThemeType () {
 		// return logos/mythos
 		const themebook = this.getThemebook();
@@ -376,29 +437,21 @@ export class CityItem extends Item {
 	}
 
 	getTargetName() {
-		const target= this.getTarget();
+		const target = this.getTarget();
 		if (target)
 			return target.name;
 		else return "";
 	}
 
-	isHurt() {
-		return this.type == "juice" && this.getSubtype() == "hurt";
-	}
-
-	isHelp() {
-		return this.type == "juice" && this.getSubtype() == "help";
-	}
-
-	isJuice() {
-		return this.type == "juice" && this.getSubtype() == "";
-	}
+	isHurt() { return this.type == "juice" && this.getSubtype() == "hurt"; }
+	isHelp() { return this.type == "juice" && this.getSubtype() == "help"; }
+	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
 
 	getDisplayedName() {
 		if (!this.isHelpHurt())
-			return this.name
+			return this.name;
 		if (this.isHelp())
-			return "Help " + this.getTargetName()
+			return "Help " + this.getTargetName();
 		if (this.isHurt())
 			return "Hurt "+ this.getTargetName();
 		else
@@ -419,7 +472,7 @@ export class CityItem extends Item {
 	async reloadImprovementFromCompendium() {
 		const themeId = this.data.data.theme_id;
 		const owner =this.actor;
-		let max_uses, description;
+		let max_uses, description, effect_class;
 		if (themeId) {
 			const theme = await owner.getTheme(themeId);
 			if (!theme) {
@@ -434,6 +487,7 @@ export class CityItem extends Item {
 					let imp = impobj[ind];
 					max_uses = imp.uses;
 					description = imp.description;
+					effect_class = imp.effect_class;
 					break;
 				}
 			}
@@ -442,22 +496,24 @@ export class CityItem extends Item {
 			const imp = BUList.find ( x => x.name == this.name);
 			description = imp.data.data.description;
 			max_uses = imp.data.data.uses.max;
+			effect_class = imp.data.data.effect_class;
 		}
-			if (!description)
-				throw new Error(`Can't find improvmenet ${this.name}`);
-			const curruses = this.data.data.uses.current;
-			const updateObj = {
-				data: {
-					uses: {
-						current: curruses ??  max_uses,
-						max: max_uses,
-						expended: (curruses ?? max_uses.max) < 1 && max_uses > 0
-					},
-					description: description,
-					chosen: true
-				}
-			};
-			return await this.update(updateObj);
+		if (!description)
+			throw new Error(`Can't find improvmenet ${this.name}`);
+		const curruses = this.data.data.uses.current;
+		const updateObj = {
+			data: {
+				uses: {
+					current: curruses ??  max_uses,
+					max: max_uses,
+					expended: (curruses ?? max_uses.max) < 1 && max_uses > 0
+				},
+				description: description,
+				chosen: true,
+				effect_class: effect_class,
+			}
+		};
+		return await this.update(updateObj);
 	}
 }
 

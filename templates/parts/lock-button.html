@@ -1,0 +1,10 @@
+<div class="pushable {{#if data.locked}} locked {{else}} unlocked {{/if}} sheet-lock-button">
+	<a class="front sheet-lock-button {{#if data.locked}} locked {{else}} unlocked {{/if}}" title="Toggle Sheet Lock">
+		{{#if data.locked}}
+		<i class="fas fa-lock"></i>
+		{{else}}
+		<i class="fas fa-unlock"></i>
+		{{/if}}
+	</a>
+</div>
+

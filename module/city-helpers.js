@@ -71,18 +71,20 @@ export class CityHelpers {
 	}
 
 	static async updateImprovements() {
+		if (!game.user.isGM) return;
 		const players = game.actors;
 		for (const player of players)
 			for (const improvement of player.items.filter( x=> x.type == "improvement")) {
-				if (!improvement.data.data.chosen)
+				if (true || !improvement.data.data.chosen || !improvement.data.data.effect_class)
+					//NOTE:Currently reloading all improvements to keep things refreshed, may change later
 					try {
 						await improvement.reloadImprovementFromCompendium();
+						console.debug(`Reloaded Improvement: ${improvement.name}`);
 					} catch (e) {
 						Debug(improvement);
 						console.error(e);
 					}
 			}
-
 	}
 
 	static async convertExtras() {
@@ -164,6 +166,10 @@ export class CityHelpers {
 		return this.movesList;
 	}
 
+	static getMoveById(moveId) {
+		return this.getMoves().find(x => x.id == moveId);
+	}
+
 	static getThemebook(tname, id) {
 		const themebooks = CityHelpers.getThemebooks();
 		let book;
@@ -186,7 +192,7 @@ export class CityHelpers {
 		// converts Beta version ids into names
 		// ugly code for backwards compatiblity
 		switch (id) {
-			case	"wpIdnVs3F3Z2pSgX" : return "Adaptation";
+			case "wpIdnVs3F3Z2pSgX" : return "Adaptation";
 			case "0MISdMEFLyxmDpl4" : return "Bastion";
 			case "AKafVzAawzfJyfPE" : return "Conjuration";
 			case "rSJ8sbrz2nQXKNTx" : return "Crew Theme";
@@ -267,6 +273,14 @@ export class CityHelpers {
 		else
 			throw new Error("Unknown User");
 	}
+	static async playLockOpen() {
+		return await this.playSound("lock.mp3", 0.3);
+	}
+
+	static async playLockClosed() {
+		return await this.playSound("lock.mp3", 0.5);
+	}
+
 	static async playBurn() {
 		return await this.playSound("burn-tag.mp3", 0.5);
 	}
@@ -283,6 +297,15 @@ export class CityHelpers {
 		const src = `systems/city-of-mist/sounds/${filename}`;
 		const sounddata =  {src, volume, autoplay: true, loop: false};
 		AudioHelper.play(sounddata, false);
+	}
+
+	static getTagOwnerById(tagOwnerId) {
+		const val = game.actors.find(x=> x.id == tagOwnerId)
+			|| game.scenes.find( x=> x.id == tagOwnerId);
+		if (val)
+			return val;
+		else
+			throw new Error(`Couldn't find tag owner for Id ${tagId}`);
 	}
 
 	static async getOwner(ownerId, tokenId, sceneId) {
@@ -346,14 +369,14 @@ export class CityHelpers {
 	}
 
 	static async getBuildUpImprovements() {
-		const isPreferredChoice = function (item, arr) {
-			const name = item.name;
-			if (arr.filter( x=> x.name == item.name).length == 1)
+		const list = (await this.getAllItemsByType("improvement", window.game));
+		return list.filter( item => {
+			const nameFilter = list.filter( x=> x.name == item.name);
+			if (nameFilter.length == 1)
 				return true;
-			return !item.data.free_content;
-		};
-		const list = (await this.getAllItemsByType("improvement", window.game)).map(x=> x);
-		return list.filter((x, i, arr)=> isPreferredChoice(x,arr));
+			else
+				return !item.data.data.free_content;
+		});
 	}
 
 	static generateSelectHTML(listobj, currval, cssclass ="", id = "") {
@@ -585,7 +608,6 @@ export class CityHelpers {
 		return true;
 	}
 
-
 	static async onActorUpdate(actor, updatedItem, data, diff) {
 		for (const dep of actor.getDependencies()) {
 			const state = dep.sheet._state
@@ -596,11 +618,18 @@ export class CityHelpers {
 		return true;
 	}
 
-	// static async onTokenUpdate(scene, updatedItem, data, diff) {
+	static async onTokenDelete(token) {
+		await CityHelpers.onTokenUpdate(token, {}, {});
+		if (token.actor.hasEntranceMoves() && !token.data.hidden)
+			token.actor.undoEntranceMoves(token);
+	}
 
-	static async onTokenUpdate(token) {
-		// const token = updatedItem;
-		// if (token.hidden) return;
+	static async onTokenUpdate(token, changes, otherStuff) {
+		//TODO: add entrance move check if token goes from invisible to visible
+		if (changes?.hidden === false && token.actor.hasEntranceMoves())
+				await token.actor.executeEntranceMoves(token);
+		if (changes?.hidden === true && token.actor.hasEntranceMoves())
+				await token.actor.undoEntranceMoves(token);
 		if (game.scenes.active != token.parent)
 			return;
 		await CityHelpers.refreshTokenActorsInScene(token.parent);
@@ -608,12 +637,15 @@ export class CityHelpers {
 	}
 
 	static async onTokenCreate(token) {
-	// static async onTokenCreate(scene, updatedItem, data, diff) {
 		const type = game.actors.get(token.actor.id).data.type;
 		if (type == "character" || type == "extra" || type == "crew" || type == "storyTagContainer")
 			await CityHelpers.ensureTokenLinked(token.scene, token);
-		if (type == "threat")
+		if (type == "threat") {
 			await CityHelpers.onTokenUpdate(token);
+			if (token.actor.hasEntranceMoves()  && !token.data.hidden) {
+				await token.actor.executeEntranceMoves(token);
+			}
+		}
 		return true;
 	}
 
