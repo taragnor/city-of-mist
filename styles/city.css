@@ -862,6 +862,7 @@ span.tag-symbols {
 
 .flex-trash {
 	padding-right: 10px;
+    overflow: hidden;
 }
 
 .shrink-icon {
@@ -921,6 +922,7 @@ div.att-fade-section {
 }
 
 div.dots-section {
+	overflow: hidden;
 }
 
 ul.tag-list {
@@ -1529,7 +1531,7 @@ span.narrated-status-name {
 }
 
 .bio-section-label {
-    font-size: 2em;
+    font-size: 2.3em;
     font-weight: bold;
     font-family: 'Rubik';
     text-transform: uppercase;
