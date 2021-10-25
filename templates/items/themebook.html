@@ -52,10 +52,11 @@
 			</h1>
 			{{#each data.improvements as |imp ind|}}
 			{{#if (ne imp "_DELETED_")}}
-			<div id="improvement-question-{ind}">
-				<input class="improvement-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
-				<input class="improvement-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
-				<input class="improvement-uses" name="data.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder=""/>
+			<div id="improvement-question-{ind}" class="themebook-improvement-entry">
+				<input class="improvement-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" title="Improvement Name" placeholder=""/>
+				<input class="improvement-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" title= "Description" placeholder=""/>
+				<input class="improvement-uses" name="data.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder="" title="Number of Uses"/>
+				<input class="effect-class" name="data.improvements.{{ind}}.effect_class" type="text" value="{{imp.effect_class}}" placeholder="" title="Effect Class"/>
 				<a class="delete-improvement" data-improvement-index="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/if}}

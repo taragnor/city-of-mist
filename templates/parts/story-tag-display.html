@@ -1,14 +1,4 @@
 <div class="story-tags" data-owner-id="{{owner.id}}" >
-<div class="story-tags-header"> <span class="story-tag-header-label"> Story Tags </span>
-	<a class="create-story-tag" data-item-type="tag" title="Create Story Tag" data-sub-type="story" > <i class="fas fa-tag"></i></a>
-</div>
-<ul class="tag-list">
-	{{#each taglist as |tag| }}
-	{{#if (eq tag.type "tag") }}
-	<li>
-		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=tag.owner locked=(or (ne tag.ownerId ../sheetowner.id) ../locked) sheetowner=../sheetowner canBurn=../canBurn data=tag.data.data}}
-	</li>
-	{{/if}}
-	{{/each}}
-</ul>
+	{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=taglist}}
+	{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=taglist}}
 </div>

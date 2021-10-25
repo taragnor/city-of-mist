@@ -6,11 +6,13 @@ export class CityActor extends Actor {
 		return this.data.type;
 	}
 
-	async getTheme(id) {
+	// async getTheme(id) { hopefully wont cuase any bugs
+	getTheme(id) {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}
 
-	async getTag(id) {
+	// async getTag(id) {
+	getTag(id) {
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
 
@@ -26,6 +28,10 @@ export class CityActor extends Actor {
 
 	async getStatus(id) {
 		return this.items.find(x => x.type == "status" && x.id == id);
+	}
+
+	getStatuses(id) {
+		return this.items.filter(x => x.type == "status");
 	}
 
 	async getClue(id) {
@@ -48,6 +54,10 @@ export class CityActor extends Actor {
 		return this.items.find(x => x.type == "spectrum" && x.id == id);
 	}
 
+	getGMMoves () {
+		return this.items.filter( x=> x.type == "gmmove");
+	}
+
 	hasStatus(name) {
 		return this.items.find( x => x.type == "status" && x.data.name == name);
 	}
@@ -64,13 +74,12 @@ export class CityActor extends Actor {
 		return !this.data.data.finalized;
 	}
 
-	async getTags(id = null, subtype = null) {
+	getTags(id = null, subtype = null) {
 		const tags=  this.items.filter(x => {
 			return x.data.type == "tag" && (id == null || x.data.data.theme_id == id) && (subtype == null || x.data.data.subtype == subtype);
 		});
-		if (! tags.filter)  {
+		if (! tags.filter)
 			throw new Error("non array returned");
-		}
 		return tags;
 	}
 
@@ -99,6 +108,11 @@ export class CityActor extends Actor {
 
 	async deleteStatus(id) {
 		return await this.deleteEmbeddedById(id);
+	}
+
+	async deleteStatusByName(name) {
+		const status = this.getStatuses().find (x=> x.name == name);
+		this.deleteStatus(status.id);
 	}
 
 	async deleteGMMove(id) {
@@ -131,10 +145,11 @@ export class CityActor extends Actor {
 	}
 
 	getActivatedTags() {
-		console.warn("getActivatedTags is deprecated, use getActivated instead");
-		if (this.data.data.selectedTags)
-			return this.data.data.selectedTags;
-		else return [];
+		//return personal non-story tags that are activated
+		return this.getActivated().
+			filter(x => x.type == "tag" && x.subtype != "story").
+			map( x=> this.getTag(x.tagId)).
+			filter (x=>x);
 	}
 
 	async deleteImprovement(impId) {
@@ -159,7 +174,7 @@ export class CityActor extends Actor {
 		await this.update({data: {num_themes: this.data.data.num_themes-1}});
 	}
 
-	async getImprovements(id = null) {
+	getImprovements(id = null) {
 		return this.items.filter(x => x.data.type == "improvement" && (id == null || x.data.data.theme_id == id));
 	}
 
@@ -177,6 +192,12 @@ export class CityActor extends Actor {
 		};
 		await this.createNewItem(obj);
 		await this.update({data: {num_themes: this.data.data.num_themes+1}});
+	}
+
+	getActivatedImprovementEffects(move_id) {
+		return this.getImprovements()
+			.filter( x=> x.isImprovementActivated(move_id, this))
+			.map (x => x.getActivatedEffect());
 	}
 
 	async createNewItem(obj) {
@@ -332,6 +353,7 @@ export class CityActor extends Actor {
 	}
 
 	async addImprovement(theme_id, number) {
+		//TODO: accomodate new effect class in improvement this may not be right spot
 		const theme = await this.getTheme(theme_id);
 		const themebook = await theme.getThemebook();
 		const data = themebook.data.data;
@@ -348,7 +370,8 @@ export class CityActor extends Actor {
 					current: imp?.uses ?? 0,
 				},
 				theme_id,
-				chosen: true
+				chosen: true,
+				effect_class: imp.effect_class,
 			}
 		};
 		try {
@@ -374,6 +397,13 @@ export class CityActor extends Actor {
 			data: {
 				description: imp.data.description,
 				theme_id: "",
+				effect_class: imp.data.effect_class,
+				chosen: true,
+				uses: {
+					max: imp.data?.uses?.max ?? 0,
+					current: imp.data?.uses?.max ?? 0
+				}
+
 			}
 		};
 		const unspentBU = this.data.data.unspentBU;
@@ -385,7 +415,11 @@ export class CityActor extends Actor {
 		return this.items.filter(x => x.type == "improvement" && x.data.data.theme_id.length == 0);
 	}
 
-	async createStoryTag(name = "Unnamed Tag") {
+	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false) {
+		if (preventDuplicates) {
+			if (this.getTags().find( x=> x.name == name))
+				return null;
+		}
 		const burned = 0;
 		const theme_id = "";
 		const crispy = false;
@@ -407,6 +441,11 @@ export class CityActor extends Actor {
 			}
 		};
 		return await this.createNewItem(obj);
+	}
+
+	async deleteStoryTagByName(tagname) {
+		const tag = this.getStoryTags().find( x=> x.name == tagname);
+		return await this.deleteTag(tag.id);
 	}
 
 	async burnTag(id, state = 1) {
@@ -471,6 +510,7 @@ export class CityActor extends Actor {
 
 	async toggleLockState() {
 		const locked = !this.data.data.locked;
+		await CityHelpers.playLockOpen();
 		return await this.update( {data: {locked}});
 	}
 
@@ -638,4 +678,82 @@ export class CityActor extends Actor {
 			old = -amount;
 		return await this.update( {"data.crewThemeSelected": old + amount} );
 	}
-}
+
+	hasEntranceMoves() {
+		return this.getGMMoves()
+			.some ( x=> x.data.data.subtype == "entrance");
+	}
+
+	async executeEntranceMoves(token) {
+		if (!game.user.isGM) return;
+		if (!game.settings.get("city-of-mist", "entranceMoves"))
+			return;
+		const moves =	this.getGMMoves()
+			.filter ( x=> x.data.data.subtype == "entrance");
+		if (game.settings.get("city-of-mist", "autoEntranceMoves") ||
+			await CityHelpers.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
+			for (const move of moves) {
+				await this.executeGMMove(move);
+			}
+		}
+	}
+
+	async executeGMMove(move) {
+		const {html, taglist, statuslist} = move.data.data;
+		const options = { token: null ,
+			speaker: {
+				actor:this,
+				alias: this.getDisplayedName()
+			}
+		};
+		const sender = options?.speaker ?? {};
+		const name = this.getDisplayedName();
+		const processed_html = CityHelpers.nameSubstitution(html, {name});
+		await CityHelpers.sendToChat(processed_html, sender);
+		for (const tagname of taglist)
+			await this.createStoryTag(tagname, true);
+		for (const {name, tier} of statuslist)
+			await this.addOrCreateStatus(name, tier);
+	}
+
+	async undoGMMove(move) {
+		const {html, taglist, statuslist} = move.data.data;
+		const options = { token: null ,
+			speaker: {
+				actor:this,
+				alias: this.getDisplayedName()
+			}
+		};
+		const sender = options?.speaker ?? {};
+		const name = this.getDisplayedName();
+		const processed_html = CityHelpers.nameSubstitution(html, {name});
+		for (const tagname of taglist)
+			await this.deleteStoryTagByName(tagname);
+		for (const {name, tier} of statuslist)
+			await this.deleteStatusByName(name);
+	}
+
+	async addOrCreateStatus (name2, tier2) {
+		let status = this.hasStatus(name2);
+		if (status) {
+			const obj = await status.addStatus(tier2);
+		} else {
+			const obj = await this.createNewStatus(name2, tier2);
+		}
+	}
+
+	async undoEntranceMoves (token) {
+		if (!game.user.isGM) return;
+		if (!game.settings.get("city-of-mist", "entranceMoves"))
+			return;
+		const moves =	this.getGMMoves()
+			.filter ( x=> x.data.data.subtype == "entrance");
+		if (game.settings.get("city-of-mist", "autoEntranceMoves") ||
+			await CityHelpers.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
+			for (const move of moves) {
+				this.undoGMMove(move);
+			}
+		}
+	}
+
+} //end of class

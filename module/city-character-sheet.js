@@ -13,7 +13,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/actor-sheet.html",
 			width: 990,
-			height: 1125,
+			height: 1000,
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "themes"}]
 		});
 	}
@@ -31,6 +31,12 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		//Status Container
 		data.data.otherStatuses = this.getOtherStatuses();
+
+		//Story Tags
+		data.data.crewStoryTags = this.getCrewStoryTags();
+		data.data.sceneStoryTags = this.getSceneStoryTags();
+		data.data.dangerStoryTags = this.getDangerStoryTags();
+		Debug(data);
 
 		const moveList = CityHelpers.getMoves();
 		data.data.coremoves = moveList.filter( x=> x.data.data.category == "Core");
@@ -99,6 +105,67 @@ export class CityCharacterSheet extends CityActorSheet {
 			}
 		}
 		return null;
+	}
+
+	getCrewStoryTags() {
+		return this.getTokenStoryTags()
+			.filter(x => x.owner.type == "character");
+	}
+
+	getDangerStoryTags() {
+		return this.getTokenStoryTags()
+			.filter(x => x.owner.type == "threat");
+	}
+
+	getTokenStoryTags() {
+		const tokens = CityHelpers.getActiveSceneTokens()
+			.filter(tok => !tok.data.hidden
+				&& tok.actor?.id != this.actor.id
+				&& tok.actor.items.find(y =>
+					y.type == "tag" && y.data.data.subtype == "story"
+				)
+			);
+		const tokenTagData = tokens.map( token => {
+			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.data.data.subtype == "story");
+			return storyTags.map( x=> {
+				return {
+					type: x.data.type,
+					name: x.name,
+					location: this.getLocationName(token.actor, token),
+					id: x.id,
+					data: x.data,
+					ownerId: token.actor.id,
+					owner: token.actor,
+					_tokenId: token?.id,
+					_sceneId: token?.scene?.id
+				};
+			});
+		});
+		return tokenTagData.flat(1);
+	}
+
+	getSceneStoryTags() {
+		const storyContainers =  game.actors.filter( actor => {
+			if (actor.data.type != "storyTagContainer")
+				return false;
+			return true;
+		});
+		const tagData = storyContainers.map ( cont => {
+			return cont.getStoryTags().map( x=> {
+				return {
+					type: x.data.type,
+					name: x.name,
+					location: this.getLocationName(cont),
+					id: x.id,
+					data: x.data,
+					ownerId: cont.id,
+					owner: cont,
+					_tokenId: undefined,
+					_sceneId: undefined
+				};
+			});
+		});
+		return tagData.flat(1);
 	}
 
 	getStoryTags() {

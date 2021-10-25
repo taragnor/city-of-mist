@@ -1,20 +1,18 @@
 <form class="{{cssClass}} crew-sheet" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" >
-	<section id="basic-info" class="flex-horizontal">
-		<div class="grow-two">
+	<header id="basic-info" class="sheet-header">
+		<div class="image-block">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-			<div id="name">
-				<label for="crew-name">Name</label>
-				<a class="sheet-lock-button" title="Delete Theme">
-					{{#if data.locked}}
-					<i class="fas fa-lock"></i>
-					{{else}}
-					<i class="fas fa-unlock"></i>
-					{{/if}}
-				</a>
-				<input type="text" id="crew-name" name="name" value="{{actor.name}}">
-			</div>
 		</div>
-	</section>
+	<div class="character-basic-info">
+		<div id="name">
+			<label for="crew-name">Name</label>
+			<input type="text" id="crew-name" name="name" value="{{actor.name}}">
+		</div>
+	</div>
+	<div class="lock-button">
+	{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
+	</div>
+	</header>
 	<section id="theme-section" class="theme-section">
 		<h1 id="Theme Header" class="flex-horizontal item-block">
 			<p>Themes

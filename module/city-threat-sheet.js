@@ -8,7 +8,7 @@ export class CityThreatSheet extends CityActorSheet {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/threat-sheet.html",
 			width: 990,
-			height: 970,
+			height: 1070,
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "moves"}]
 		});
 	}
@@ -139,19 +139,9 @@ export class CityThreatSheet extends CityActorSheet {
 		};
 		if (await this.sendToChatBox(move.name, processed_html, options)) {
 			for (const tagname of taglist)
-				await this.actor.createStoryTag(tagname);
+				await this.actor.createStoryTag(tagname, true);
 			for (const {name, tier} of statuslist)
-				await this.addOrCreateStatus(name, tier);
-		}
-	}
-
-	async addOrCreateStatus (name2, tier2) {
-		const actor = this.actor;
-		let status = actor.hasStatus(name2);
-		if (status) {
-			const obj = await status.addStatus(tier2);
-		} else {
-			const obj = await actor.createNewStatus(name2, tier2);
+				await this.actor.addOrCreateStatus(name, tier);
 		}
 	}
 
