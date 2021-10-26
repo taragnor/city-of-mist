@@ -1,4 +1,5 @@
 <div class="{{tbdata.type}}-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}">
+	<div class="themebook-name"> {{themebook.name}}</div>
 	<div class ="theme-title">
 		{{#if (ne themetype "character")}}
 		<div class="non-char-theme-header" title="{{themetype}} theme">
@@ -15,23 +16,22 @@
 			{{/if}}
 		</div>
 		{{/if}}
-		<div class="flex-row">
-			<input class="theme-name-input borderless" type="text" value="{{theme.name}}" {{#if locked}} disabled {{/if}}>
+			<form>
+			<textarea class="theme-name-input borderless" type="text" wrap="soft" maxlength="40" {{#if locked}} disabled {{/if}}>{{theme.name}}</textarea>
+			</form>
 			{{#if (eq locked false)}}
 			<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
 			{{/if}}
-		</div>
 		{{#if theme.data.data.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
 	</div>
-	<div class="themebook-name"> {{themebook.name}}</div>
 	{{#if (eq tbdata.type "Logos")}}
-	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity: </b> </div>
+	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mythos")}}
-	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery: </b> </div>
+	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mist")}}
-	<div class="themebook-mist-label"> <b class="themebook-directive"> Directive: </b> </div>
+	<div class="themebook-mist-label"> <b class="themebook-directive"> Directive</b> </div>
 	{{/if}}
 	<!-- Crew and Extra -->
 	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
@@ -40,9 +40,6 @@
 	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
 	<div class="att-fade-section">
 		<div class="attention-block">
-			<div class="attention-label">
-				<span class="attention-text">Attention</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}}<span class="attention-text">:</span>
-			</div>
 			<div class="dots-section flex-std">
 				{{#each data.attention as |attention rank|}}
 				{{#if (eq attention 1)}}
@@ -51,21 +48,20 @@
 				<span class="empty-circle tracker-circle"></span>
 				{{/if}}
 				{{/each}}
-				<a class="theme-add-attention"  data-type="attention" > <i class="fas fa-plus-square"></i></a>
+				<a class="theme-add-attention" data-type="attention" > <i class="fas fa-plus-square"></i></a>
 				{{#if (ne locked true)}}
 				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
 				{{/if}}
-			<span class="attention-text flex-std"> Attention </span>
+			</div>
+
+			<div class="attention-label">
+				<div class="attention-text flex-std"> Attention 				
+					</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}} 
+				</div>
+
 			</div>
 		</div>
 		<div class="fade-block">
-			<div class="fade-label">
-				{{#if (eq tbdata.type "Logos")}} Crack: {{/if}}
-				{{#if (eq tbdata.type "Mythos")}} Fade: {{/if}}
-				{{#if (eq tbdata.type "Mist")}} Strike: {{/if}}
-				{{#if (eq tbdata.type "Crew")}} Crack: {{/if}}
-				{{#if (eq tbdata.type "Extra")}} Crack: {{/if}}
-			</div>
 			<div class="dots-section flex-std">
 				{{#each data.crack as |crack rank|}}
 				{{#if (eq crack 1)}}
@@ -82,32 +78,17 @@
 				<a class="theme-remove-fade"  data-type="crack" > <i class="fas fa-minus-square"></i></a></p>
 				{{/if}}
 			</div>
-			<span class="fade-text flex-std">
+			<div class="fade-text flex-std">
 				{{#if (eq tbdata.type "Logos")}} Crack {{/if}}
 				{{#if (eq tbdata.type "Mythos")}} Fade {{/if}}
 				{{#if (eq tbdata.type "Mist")}} Strike {{/if}}
 				{{#if (eq tbdata.type "Crew")}} Crack {{/if}}
 				{{#if (eq tbdata.type "Extra")}} Crack {{/if}}
-			</span>
+			</div>
 		</div>
 	</div>
-		{{#if (eq tbdata.type "Logos")}}
-	<div class="themebook-identity-label"> <class="themebook-identity"> Identity</div>
-	{{/if}}
-	{{#if (eq tbdata.type "Mythos")}}
-	<div class="themebook-mystery-label"> <class="themebook-mystery"> Mystery</div>
-	{{/if}}
-	{{#if (eq tbdata.type "Mist")}}
-	<div class="themebook-mist-label"> <class="themebook-directive"> Directive</div>
-	{{/if}}
-	<!-- Crew and Extra -->
-	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
-	<div class="themebook-crew-label"> <class="themebook-mystery"> Mystery/ Identity</div>
-	{{/if}}
-	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
-	
 	<div class="tag-add-icons">
-		<div id="tags-header" class="tags-header"> Power/Weakness Tags
+		<div id="tags-header" class="tags-header"> Theme Tags
 			{{#if (gt data.unspent_upgrades 0)}}
 			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
 			{{else}}
