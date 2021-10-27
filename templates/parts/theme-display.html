@@ -25,17 +25,17 @@
 		{{#if theme.data.data.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
 	</div>
 	{{#if (eq tbdata.type "Logos")}}
-	<div class="themebook-identity-label"> <b class="themebook-identity"> Identity</b> </div>
+	<div class="themebook-identity-label"> <b class="themebook-identity">Identity</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mythos")}}
-	<div class="themebook-mystery-label"> <b class="themebook-mystery"> Mystery</b> </div>
+	<div class="themebook-mystery-label"> <b class="themebook-mystery">Mystery</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mist")}}
-	<div class="themebook-mist-label"> <b class="themebook-directive"> Directive</b> </div>
+	<div class="themebook-mist-label"> <b class="themebook-directive">Directive</b> </div>
 	{{/if}}
 	<!-- Crew and Extra -->
 	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
-	<div class="themebook-crew-label"> <b class="themebook-mystery"> Mystery/ Identity : </b> </div>
+	<div class="themebook-crew-label"> <b class="themebook-mystery">Mystery/Identity</b> </div>
 	{{/if}}
 	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
 	<div class="att-fade-section">
