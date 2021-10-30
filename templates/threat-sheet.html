@@ -40,10 +40,10 @@
 					{{> "systems/city-of-mist/templates/parts/gmmoves-section.html" owner=actor locked=data.locked sheetowner=actor}}
 				</div>
 				<div class="flex-column">
-					<div class="flex-theme-block" >
+					<div class="flex-theme-block story-tag-box" >
 						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor items=items locked=false sheetowner=actor canBurn=true taglist=data.storyTags}}
 					</div>
-					<div class="flex-theme-block" >
+					<div class="flex-theme-block status-box" >
 						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=data.locked sheetowner=actor}}
 					</div>
 				</div>
@@ -71,10 +71,10 @@
 					</div>
 					{{/if}}
 					{{/each}}
-					<div class="flex-theme-block" >
+					<div class="flex-theme-block status-box" >
 						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=data.locked sheetowner=actor}}
 					</div>
-					<div class="flex-theme-block" >
+					<div class="flex-theme-block story-tag-box" >
 						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=false sheetowner=actor canBurn=true taglist=data.storyTags}}
 					</div>
 				</div>

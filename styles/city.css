@@ -14,8 +14,8 @@
 	--extra-grey:#686358;
 	--extra-text:#312e29;
 
-    --green: #5f624f;
-    --darkgreen: #373d32;
+    --options-green: #5f624f;
+    --options-text: #373d32;
 
     --neon-pink: #f82973;
 }
@@ -222,6 +222,21 @@ h4 {
     padding: 0;
     font-weight: normal;
     /* color: #f82973; */
+}
+
+h1#Theme\ Header {
+    padding: 0;
+    border: none;
+    margin: 0;
+    text-align: center;
+    font-family: 'Rubik';
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 2.3em;
+}
+
+h1#Theme\ Header p {
+    margin: 0;
 }
 
 button {
@@ -560,6 +575,20 @@ input.character-name {
     background: none;
     font-family: 'Rift Bold';
 }
+input#crew-name {
+    width: 100%;
+    height: 1em;
+    font-size: 3em;
+    padding: 0;
+    font-weight: bold;
+    text-align: center;
+    background: none;
+    font-family: 'Rift Bold';
+    text-shadow: 0px 2px 3px white,
+        0px 2px 4px var(--logos-orange);
+    color: var(--logos-text);
+	border: none;
+	}
 
 input.mythos-name {
     max-width: 50%;
@@ -599,18 +628,20 @@ input.short-description {
 }
 
 input.danger-name {
-    width: 45%;
-    padding-right: 5px;
-    padding-left: 5px;
-    font-size: larger;
+    height: 1em;
+    font-size: 3em;
+    padding: 0;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
+    background: none;
+    font-family: 'Rift Bold';
 }
 
 input.alias-input {
-    width: 45%;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
+    height: 1.5em;
+    font-size: 2em;
     text-align: left;
 }
 
@@ -669,7 +700,7 @@ input.improvement-description {
 
 .character-basic-info {
     min-width: 70%;
-    max-width: 70%;
+    /* max-width: 70%; */
 }
 
 input.improvement-uses {
@@ -721,12 +752,13 @@ div.flex-theme-block {
 
 .story-tags {
     /* height: 100%; */
-    font-size: smaller;
+    /* font-size: smaller; */
     margin: 5px;
 }
 
 div.flex-theme-block:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	transition-duration: 0.2s;
 }
 
 .theme-block {
@@ -734,6 +766,7 @@ div.flex-theme-block:hover {
     border-style: solid;
     padding: 5px;
     border: 1px;
+	transition-duration: 0.2s;
 }
 
 div.Mythos-theme {
@@ -794,6 +827,19 @@ div.Mist-theme {
     background-size: cover;
 }
 
+.status-box,
+.story-tag-box {
+    /* height: 100%; */
+    color: var(--options-text);
+    border-radius: 1em;
+    border-bottom: 1em solid var(--options-green);
+    border-top: 1em solid var(--options-green);
+    background-image: url(../images/extracardbg.png);
+    background-color: black;
+    background-position: center;
+    background-size: cover;
+}
+
 div.Mythos-theme textarea.themebook-mystery.identity-input {
     color: var(--mythos-text);
 }
@@ -810,18 +856,8 @@ img.theme-img {
     display: inline-block;
 }
 
-/* header.sheet-header { */
-    /* display: flex; */
-    /* flex-direction: row; */
-    /* flex-wrap: nowrap; */
-    /* justify-content: flex-start; */
-    /* flex-basis: 64px; */
-    /* max-height: 150px; */
-    /* font-family: "Typewriter", Arial !important; */
-/* } */
-
 .fa-disabled {
-    color: var(--green);
+    color: var(--options-green);
     opacity: 0.2;
     cursor: not-allowed;
     pointer-events: none;
@@ -874,6 +910,7 @@ div.non-char-theme-header {
     flex-wrap: nowrap;
     justify-content: space-around;
     flex: 10;
+	transition-duration: 0.2s;
 }
 
 .non-char-theme-name:hover {
@@ -883,12 +920,8 @@ div.non-char-theme-header {
 
 .gmmove-type-label {
     display: block;
-    font-variant: small-caps;
-    text-align: center;
-    border-bottom: 1px grey;
-    font-weight: bold;
-    text-decoration: underline;
-    font-size: larger;
+    font-size: 2em;
+    font-family: 'Rift Bold';
 }
 
 section.card-style:hover {
@@ -909,6 +942,7 @@ span.clue-name:hover {
 
 span.juice-name {
     text-transform: capitalize;
+	transition-duration: 0.2s;
 }
 
 span.juice-name:hover {
@@ -1066,10 +1100,6 @@ div.other-status-owner-name {
     padding-bottom: 1px;
 }
 
-.status-box {
-    font-size: smaller;
-}
-
 .other-status-list {
     display: flex;
     flex-direction: row;
@@ -1131,11 +1161,13 @@ section.ally-card {
 .status-name:hover {
     text-shadow: 0 0 10px red;
     font-weight: bold;
+	transition-duration: 0.2s;
 }
 
 .active-tag.default-positive:hover {
     text-shadow: 0 0 10px yellow;
     font-weight: bold;
+	transition-duration: 0.2s;
 }
 
 span.tag-question-letter {
@@ -1176,6 +1208,7 @@ section.juice-data-block {
 
 *.tag-edit-button:hover {
     text-shadow: 0 0 10px red;
+	transition-duration: 0.2s;
 }
 
 .tags-header {
@@ -1197,6 +1230,7 @@ section.juice-data-block {
 
 .improvement-name:hover {
     text-shadow: 0 0 10px red;
+	transition-duration: 0.2s;
 }
 
 .improvement-expended {
@@ -1221,6 +1255,7 @@ img.img-flame {
 
 span.flex-tag-name {
     font-size: smaller;
+	transition-duration: 0.2s;
 }
 
 span.selected-tag {
@@ -1445,6 +1480,16 @@ span.empty-circle {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.Crew-theme span.filled-circle {
+    border: 2px solid var(--extra-text);
+    background-color: var(--extra-grey);
+}
+
+.Crew-theme span.empty-circle {
+    border: 2px solid var(--extra-text);
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .dots-section .fa-plus-square,
 .dots-section .fa-minus-square,
 .dots-section .unspent-upgrades,
@@ -1550,11 +1595,13 @@ div.themebook-name {
 }
 
 .sheet header.sheet-header {
+	flex: none;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
+	max-height: 15em;
     /* background-image: url(../images/coffee1.png); */
 }
 
@@ -1615,6 +1662,10 @@ div.themebook-name {
 
 div.burn-flame-cell {
     left-margin: 20px;
+}
+
+.status-select-button {
+    transition-duration: 0.2s;
 }
 
 .green-highlight {
@@ -1700,8 +1751,6 @@ div.status-line {
     justify-content: space-around;
     align-items: space-around;
     flex-direction: row;
-    font-size: smaller;
-    /* font-size: smaller; */
 }
 
 div.bio-header {
@@ -1727,13 +1776,26 @@ textarea.bio-input {
     height: 15em;
 }
 
-span.story-tag-header-label {
-    /* font-size: larger; */
-    /* text-decoration: underline; */
+.theme-header {
+    padding: 0;
+    border: none;
+    margin: 0;
+    font-family: 'Rubik';
+    font-weight: bold;
+    font-size: 2.3em;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .gm-moves-header {
-    font-family: "Typewriter", Arial;
+    padding: 0;
+    border: none;
+    margin: 0;
+    text-align: center;
+    font-family: 'Rubik';
+	font-weight: bold;
+    font-size: 2.3em;
+	text-transform: uppercase;
 }
 
 input.move-list-input {
@@ -1780,6 +1842,7 @@ div.gmmove-description {
 div.gmmove-edit:hover {
     cursor: pointer;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	transition-duration: 0.2s;
 }
 
 div.gmmove-select:hover {
@@ -2080,35 +2143,36 @@ input.number-modifier-box {
 }
 
 .threat-spectrums {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 5%;
+    margin-right: 5%;
     text-align: center;
-    max-height: 50px;
+    /* max-height: 50px; */
 }
 
 .spectrum-section-label {
-    font-size: 1.25em;
+    font-size: 1.6em;
     font-weight: bold;
     text-align: center;
-    text-decoration: underline;
 }
 
 .spectrum {
-    font-weight: bold;
-    font-size: 1.25em;
     margin: auto;
 }
 
 .spectrum-editable:hover {
     cursor: pointer;
-    text-shadow: 2px 4px 10px black;
+    text-shadow: 2px 4px 10px var(--mythos-pink);
 }
 
 .spectrum-list {
+	font-size: 1.2em;
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    font-family: 'Rubik';
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 section#build-up-section {
@@ -2190,15 +2254,9 @@ section#build-up-section {
 .status-text-list {
     /* margin: 5px; */
 }
-.status-text-list-header {
-    text-align: center;
-    font-size: large;
-    font-family: "Typewriter", Arial;
-}
 
 .story-tags-header {
     text-align: center;
-    font-family: "Typewriter", Arial;
     font-size: large;
 }
 
@@ -2207,6 +2265,7 @@ section#build-up-section {
     text-align: center;
     font-size: 2em;
     height: auto;
+	font-family: 'Rubik';
 }
 
 .story-tag-category {
@@ -2218,11 +2277,12 @@ section#build-up-section {
     text-align: center;
     font-size: 2em;
     height: auto;
+    font-family: 'Rubik';
 }
 
 .story-tag-category .section-title {
-    font-size: larger;
     text-decoration: underline;
+	font-weight: bold;
     text-align: center;
 }
 
