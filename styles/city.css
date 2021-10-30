@@ -1,12 +1,22 @@
 :root {
     --mythos-pink: #502c5d;
     --mythos-bright: #ae4ace;
+
     --mythos-text: hsl(284deg 15% 15%);
     --mythos-white: hsl(265deg 10% 95%);
-    --logos-text: #48382a;
-    --darkgreen: #373d32;
-    --green: #5f624f;
+	
     --logos-orange: #a85d4b;
+    --logos-text: #48382a;
+	
+	--mist-blue:#28475b;
+	--mist-text:#232b35;
+	
+	--extra-grey:#686358;
+	--extra-text:#312e29;
+
+    --green: #5f624f;
+    --darkgreen: #373d32;
+
     --neon-pink: #f82973;
 }
 
@@ -401,12 +411,13 @@ select:focus {
     margin: 0.3em;
     padding: 0.6em 1em;
 	
-    /* font-size: 1.1em; */
-    /* line-height: 1.2em; */
-    /* font-family: 'Averia Serif Libre'; */
-	font-size: 1em;
-	line-height: 1.3em;
-	font-family: 'PT Serif';
+    font-size: 1.1em;
+    line-height: 1.2em;
+    font-family: 'Averia Serif Libre';
+	
+	/* font-size: 1em; */
+	/* line-height: 1.3em; */
+	/* font-family: 'PT Serif'; */
     color: var(--logos-text);
     background: url(../images/paperbg.png) repeat;
     background-size: 500%;
@@ -530,7 +541,7 @@ textarea.theme-name-input.borderless:disabled {
     line-height: 1em;
     min-height: 1em;
     font-family: Rift Bold;
-    /* overflow: hidden; */
+    overflow: hidden;
     text-transform: uppercase;
     word-break: break-word;
     border: none;
@@ -545,7 +556,7 @@ input.character-name {
     font-size: 5em;
     padding: 0;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
     background: none;
     font-family: 'Rift Bold';
 }
@@ -584,7 +595,7 @@ input.short-description {
     padding-right: 5px;
     padding-left: 5px;
     text-align: center;
-	font-family: 'PT Serif';
+	font-family: 'Averia Serif Libre';
 }
 
 input.danger-name {
@@ -709,7 +720,7 @@ div.flex-theme-block {
 }
 
 .story-tags {
-    height: 100%;
+    /* height: 100%; */
     font-size: smaller;
     margin: 5px;
 }
@@ -731,7 +742,7 @@ div.Mythos-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--mythos-pink);
     border-top: 2em solid var(--mythos-pink);
-    background-image: url(../images/editedmythoscard.png);
+    background-image: url(../images/mythoscardbg.png);
     background-color: black;
     background-position: center;
     background-size: 125%;
@@ -760,20 +771,27 @@ div.Logos-theme {
 
 div.Crew-theme,
 div.Extra-theme {
-    background: linear-gradient(
-        to right,
-        rgba(20, 20, 155, 0.2),
-        rgba(0, 0, 255, 0.5),
-        rgba(20, 20, 155, 0.2)
-    );
-    text-color: black;
-    color: black;
+    height: 100%;
+    color: var(--extra-text);
+    border-radius: 1em;
+    border-bottom: 1em solid var(--extra-grey);
+    border-top: 2em solid var(--extra-grey);
+    background-image: url(../images/extracardbg.png);
+    background-color: black;
+    background-position: center;
+    background-size: cover;
 }
 
 div.Mist-theme {
-    background: linear-gradient(to right, DimGrey, Grey, DimGrey);
-    text-color: black;
-    color: black;
+    height: 100%;
+    color: var(--mist-text);
+    border-radius: 1em;
+    border-bottom: 1em solid var(--mist-blue);
+    border-top: 2em solid var(--mist-blue);
+    background-image: url(../images/mistcardbg.png);
+    background-color: black;
+    background-position: center;
+    background-size: cover;
 }
 
 div.Mythos-theme textarea.themebook-mystery.identity-input {
@@ -782,6 +800,10 @@ div.Mythos-theme textarea.themebook-mystery.identity-input {
 
 div.Logos-theme textarea.themebook-mystery.identity-input {
     color: var(--logos-text);
+}
+
+div.Mist-theme textarea.themebook-mystery.identity-input {
+    color: var(--mist-text);
 }
 
 img.theme-img {
@@ -823,24 +845,24 @@ section.card-style {
 
 .clue-source,
 .clue-method {
-    font-family: "PT Serif";
+    font-family: 'Averia Serif Libre';
 }
 
 .clue-source b,
 .clue-method b {
     font-weight: bold;
-    font-family: "Rubik";
+    font-family: 'Averia Serif Libre';
 }
 
 .juice-source,
 .juice-method {
-    font-family: "PT Serif";
+    font-family: 'Averia Serif Libre';
 }
 
 .juice-source b,
 .juice-method b {
     font-weight: bold;
-    font-family: "Rubik";
+    font-family: 'Averia Serif Libre';
 }
 
 div.non-char-theme-header {
@@ -945,13 +967,14 @@ div.tag-add-icons {
     word-break: break-word;
     width: 95%;
     height: auto;
-    min-height: 10em;
+    min-height: 4.5em;
     display: block;
     text-align: justify;
     font-size: small;
     resize: none;
     margin: auto;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    padding: 2px 5px;
     margin-top: -0.4em;
     cursor: text;
 }
@@ -1032,7 +1055,7 @@ div.tag-question {
 .card-name {
     font-weight: bold;
     font-size: large;
-    font-family: "Fira Sans Extra Condensed";
+    font-family: "Rift Bold";
 }
 
 div.other-status-owner-name {
@@ -1402,6 +1425,26 @@ span.empty-circle {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.Mist-theme span.filled-circle {
+    border: 2px solid var(--mist-text);
+    background-color: var(--mist-blue);
+}
+
+.Mist-theme span.empty-circle {
+    border: 2px solid var(--mist-text);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.Extra-theme span.filled-circle {
+    border: 2px solid var(--extra-text);
+    background-color: var(--extra-grey);
+}
+
+.Extra-theme span.empty-circle {
+    border: 2px solid var(--extra-text);
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .dots-section .fa-plus-square,
 .dots-section .fa-minus-square,
 .dots-section .unspent-upgrades,
@@ -1461,47 +1504,58 @@ div.themebook-name {
 }
 
 .Crew-theme div.themebook-name {
-    background: linear-gradient(
-        to right,
-        rgba(20, 20, 155, 0.2),
-        rgba(0, 0, 255, 0.5),
-        rgba(20, 20, 155, 0.2)
-    );
+    /* background: linear-gradient( */
+        /* to right, */
+        /* rgba(20, 20, 155, 0.2), */
+        /* rgba(0, 0, 255, 0.5), */
+        /* rgba(20, 20, 155, 0.2) */
+    /* ); */
 }
 
 .Crew-theme div.themebook-name {
-    background: linear-gradient(
-        to right,
-        rgba(20, 20, 155, 0.2),
-        rgba(0, 0, 255, 0.5),
-        rgba(20, 20, 155, 0.2)
-    );
+    /* background: linear-gradient( */
+        /* to right, */
+        /* rgba(20, 20, 155, 0.2), */
+        /* rgba(0, 0, 255, 0.5), */
+        /* rgba(20, 20, 155, 0.2) */
+    /* ); */
 }
 
 .Extra-theme div.themebook-name {
-    background: linear-gradient(
-        to right,
-        rgba(20, 20, 155, 0.2),
-        rgba(0, 0, 255, 0.5),
-        rgba(20, 20, 155, 0.2)
-    );
+    /* background: linear-gradient( */
+        /* to right, */
+        /* rgba(20, 20, 155, 0.2), */
+        /* rgba(0, 0, 255, 0.5), */
+        /* rgba(20, 20, 155, 0.2) */
+    /* ); */
 }
 
 .Mist-theme div.themebook-name {
-    background: linear-gradient(to right, DimGrey, DarkGrey, DimGrey);
-    /* color: black; */
+    /* background: linear-gradient(to right, DimGrey, DarkGrey, DimGrey); */
+	background-color: var(--mist-blue);
 }
 
 .image-block {
     /* flex-shrink: 5; */
     max-height: 300px;
+	text-align: center;
     /* height: 300px; */
 }
 
 .sheet header.sheet-header img {
-    flex: unset;
+    flex: none;
     height: unset;
+    max-height: 200px;
     margin-right: 0;
+}
+
+.sheet header.sheet-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-image: url(../images/coffee1.png); */
 }
 
 .profile-img {
@@ -1513,9 +1567,9 @@ div.themebook-name {
     width: 10em;
 }
 
-.actor-sheet .profile-img {
-    width: 100%;
-}
+/* .actor-sheet .profile-img { */
+    /* width: 100%; */
+/* } */
 
 .lock-button {
     flex: none !important;
