@@ -26,7 +26,7 @@ for img_name in glob(path+'/*'):
 # print(img_list)	# for debug
 for img_name in img_list:
 	# though the chances are very less but be very careful when modifying the below code
-	cmd='cwebp \"'+path+'/'+img_name+'\" -q '+quality+' -o \"'+path+'/'+(img_name.split('.')[0])+'.webp\"'
+	cmd='cwebp \"'+path+'/'+img_name+'\" -q '+quality+' -sharp_yuv -o \"'+path+'/'+(img_name.split('.')[0])+'.webp\"'
 	# running the above command
 	call(cmd, shell=False)	
 	# print(cmd)	# for debug

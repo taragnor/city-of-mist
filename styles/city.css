@@ -569,6 +569,17 @@ textarea.theme-name-input.borderless:disabled {
     /* text-shadow: 0px 2px 7px #ffffffd1; */
 }
 
+.Mythos-theme textarea.theme-name-input.borderless:disabled {
+	text-shadow: 0px 2px 2px var(--mythos-bright),
+        0px 1px 4px var(--mythos-pink);
+    color: var(--mythos-white);
+}
+
+.Logos-theme textarea.theme-name-input.borderless:disabled {
+text-shadow: 0px 2px 3px white,
+        0px 2px 4px var(--logos-orange);
+}
+
 input.character-name {
     width: 100%;
     height: 1em;
@@ -764,8 +775,8 @@ div.flex-theme-block {
 }
 
 div.flex-theme-block:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-	transition-duration: 0.2s;
+    box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6;
+    transition-duration: 0.2s;
 }
 
 .theme-block {
@@ -786,6 +797,7 @@ div.Mythos-theme {
     background-color: black;
     background-position: center;
     background-size: 125%;
+	box-shadow: 0px -5px 0px 10px #502c5da6;
 }
 
 .Mythos-theme .theme-name {
@@ -795,18 +807,13 @@ div.Mythos-theme {
 }
 
 div.Logos-theme {
-    background: linear-gradient(
-        to right,
-        rgba(234, 234, 180, 0.8),
-        rgba(2223, 223, 140, 0.8),
-        rgba(234, 234, 180, 0.8)
-    );
     color: var(--logos-text);
     height: 100%;
     border-radius: 1em;
     border-bottom: 1em solid var(--logos-orange);
     border-top: 2em solid var(--logos-orange);
     background-image: url(../images/themecardbg.webp);
+	box-shadow: 0px -5px 0px 10px #a85d4ba6;
 }
 
 div.Crew-theme,
@@ -820,6 +827,7 @@ div.Extra-theme {
     background-color: black;
     background-position: center;
     background-size: cover;
+	box-shadow: 0px -5px 0px 10px #686358a6;
 }
 
 div.Mist-theme {
@@ -832,6 +840,7 @@ div.Mist-theme {
     background-color: black;
     background-position: center;
     background-size: cover;
+	box-shadow: 0px -5px 0px 10px #28475ba6;	
 }
 
 .status-box,
@@ -845,6 +854,7 @@ div.Mist-theme {
     background-color: black;
     background-position: center;
     background-size: cover;
+	box-shadow: 0px -1px 0px 1px #5f624fa6;
 }
 
 div.Mythos-theme textarea.themebook-mystery.identity-input {
@@ -2153,7 +2163,7 @@ input.number-modifier-box {
     margin-left: 5%;
     margin-right: 5%;
     text-align: center;
-    /* max-height: 50px; */
+    max-height: 80px;
 }
 
 .spectrum-section-label {
