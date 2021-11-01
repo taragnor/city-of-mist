@@ -209,7 +209,7 @@ body {
 }
 
 .window-app .window-content {
-    background-image: url(../images/paperbg.png);
+    background-image: url(../images/paperbg.webp);
     background-size: cover;
     font-family: "Roboto";
 }
@@ -422,7 +422,7 @@ select:focus {
     width: 100%;
     height: 100%;
     resize: none;
-    background-image: url(../images/paperbg.png);
+    background-image: url(../images/paperbg.webp);
     background-size: 600%;
 }
 
@@ -438,7 +438,7 @@ select:focus {
 	/* line-height: 1.3em; */
 	/* font-family: 'PT Serif'; */
     color: var(--logos-text);
-    background: url(../images/paperbg.png) repeat;
+    background: url(../images/paperbg.webp) repeat;
     background-size: 500%;
     border: none;
     border-top-left-radius: 1em;
@@ -782,7 +782,7 @@ div.Mythos-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--mythos-pink);
     border-top: 2em solid var(--mythos-pink);
-    background-image: url(../images/mythoscardbg.png);
+    background-image: url(../images/mythoscardbg.webp);
     background-color: black;
     background-position: center;
     background-size: 125%;
@@ -806,7 +806,7 @@ div.Logos-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--logos-orange);
     border-top: 2em solid var(--logos-orange);
-    background-image: url(../images/themecardbg.png);
+    background-image: url(../images/themecardbg.webp);
 }
 
 div.Crew-theme,
@@ -816,7 +816,7 @@ div.Extra-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--extra-grey);
     border-top: 2em solid var(--extra-grey);
-    background-image: url(../images/extracardbg.png);
+    background-image: url(../images/extracardbg.webp);
     background-color: black;
     background-position: center;
     background-size: cover;
@@ -828,7 +828,7 @@ div.Mist-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--mist-blue);
     border-top: 2em solid var(--mist-blue);
-    background-image: url(../images/mistcardbg.png);
+    background-image: url(../images/mistcardbg.webp);
     background-color: black;
     background-position: center;
     background-size: cover;
@@ -841,7 +841,7 @@ div.Mist-theme {
     border-radius: 1em;
     border-bottom: 1em solid var(--options-green);
     border-top: 1em solid var(--options-green);
-    background-image: url(../images/extracardbg.png);
+    background-image: url(../images/extracardbg.webp);
     background-color: black;
     background-position: center;
     background-size: cover;
@@ -1609,7 +1609,7 @@ div.themebook-name {
     justify-content: flex-start;
     align-items: center;
 	max-height: 15em;
-    /* background-image: url(../images/coffee1.png); */
+    /* background-image: url(../images/coffee1.webp); */
 }
 
 .profile-img {
@@ -2538,7 +2538,7 @@ nav.sheet-tabs.tabs {
 }
 
 #chat-controls .roll-type-select {
-	background: url(../images/paperbg.png) repeat;
+	background: url(../images/paperbg.webp) repeat;
 	background-size: 600%;
 }
 
