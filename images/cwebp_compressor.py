@@ -1,4 +1,4 @@
-# --cwebp_compressor.py--
+# --cwebp_compressor.py--  
 
 # cmd> python cwebp_compressor.py "F:\Programme\Foundry Repos\city-of-mist\images" 85
 

@@ -2546,6 +2546,16 @@ nav.sheet-tabs.tabs {
     margin: 2px 6px;
 }
 
+#logo {
+    content: url("../images/comlogo.webp");
+    margin-top: 0.5em;
+    margin-left: -1em;
+}
+
+#navigation {
+    left: 165px;
+}
+
 ::-webkit-scrollbar-thumb {
     outline: none;
     border-radius: 10px;
