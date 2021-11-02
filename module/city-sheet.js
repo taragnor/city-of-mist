@@ -3,7 +3,7 @@ export class CitySheet extends ActorSheet {
 	/* -------------------------------------------- */
 
 	getData(options) {
-		let  data = super.getData();
+		let data = super.getData();
 
 		//Fix for compatibility with .0.8.6
 		const actorData = this.actor.data.toObject(false);
@@ -21,6 +21,11 @@ export class CitySheet extends ActorSheet {
 		html.find(".item-create-theme").click(this._addThemeBook.bind(this));
 		html.find('.sheet-lock-button').click(this._toggleLockState.bind(this));
 		html.find('.alias-toggle').click(this._aliasToggle.bind(this));
+		html.scroll(this._scrollSheet.bind(this));
+
+		//Restore Scroll positon
+		if (this.scrollTop)
+			html.scrollTop(this.scrollTop);
 	}
 
 	/* -------------------------------------------- */
@@ -45,6 +50,11 @@ export class CitySheet extends ActorSheet {
 		if (themebook)
 			await this.actor.createNewTheme("Unnamed Theme", themebook.id);
 	}
+
+	async _scrollSheet (event) {
+		this.scrollTop = $(".actor-sheet").scrollTop();
+	}
+
 
 	async themeBookSelector() {
 		const all_themebooks = await CityHelpers.getAllItemsByType("themebook", game);
