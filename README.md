@@ -1,6 +1,6 @@
 # City of Mist for Foundry VTT
 Created By: Taragnor
-CSS design by: LorduFreeman
+Visual/CSS design by: LorduFreeman
 
 <span>
 <img src="https://user-images.githubusercontent.com/31339311/115492469-decbe880-a22f-11eb-8dae-1312f4476503.jpg" height=500px>
