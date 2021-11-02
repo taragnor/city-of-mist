@@ -637,6 +637,13 @@ export class CityActor extends Actor {
 				});
 				break;
 			case "threat":
+				//check for updates to extra-type
+				if (this.isOwner && this.getThemes().length > 0) {
+					return game.actors.filter ( (act) => {
+						return act.data.type == "character" && act.isOwner;
+					});
+				}
+				//check for update to tokens
 				if (this.getActiveTokens().length)
 					return game.actors.filter ( (act) => {
 						return act.data.type == "character";
