@@ -36,7 +36,7 @@ export class CityCharacterSheet extends CityActorSheet {
 				switch (type) {
 					case "Mythos": return 1;
 					case "Mist": return 2;
-					case "Logos": return 2;
+					case "Logos": return 3;
 					default : throw new Error(` Unknown Type ${type}`);
 				}
 			}
