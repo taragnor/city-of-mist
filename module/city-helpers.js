@@ -782,6 +782,22 @@ export class CityHelpers {
 		}
 	}
 
+	static applyColorization() {
+		const colorsetting = game.settings.get("city-of-mist", "color-theme") ;
+		if (colorsetting) {
+			document.documentElement.style.setProperty(
+				"--COM-COLOR-SCHEME",
+				colorsetting
+			);
+
+			//NOTE: TEST CODE
+			// document.documentElement.style.setProperty(
+			// "--mythos-pink",
+			// colorsetting
+			// );
+		}
+	}
+
 } //end of class
 
 //Start of fix for actors directory and private names

@@ -102,6 +102,7 @@ Hooks.once("ready", async function() {
 		await CityHelpers.updateDangers();
 		await CityHelpers.updateImprovements();
 	}
+	CityHelpers.applyColorization();
 	return true;
 });
 
