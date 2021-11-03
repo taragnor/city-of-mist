@@ -22,6 +22,31 @@ export class CityCharacterSheet extends CityActorSheet {
 	getData() {
 		let data = super.getData();
 
+		//Sort Mythos themes always come first
+		data.items.sort( (a, b) => {
+			if (a.type != "theme" && b.type != "theme")
+				return 0;
+			if (a.type != "theme")
+				return -1;
+			if (b.type != "theme")
+				return 1;
+			const tba  = a.data.data.themebook;
+			const tbb  = b.data.data.themebook;
+			const value_convert = function (type) {
+				switch (type) {
+					case "Mythos": return 1;
+					case "Mist": return 2;
+					case "Logos": return 2;
+					default : throw new Error(` Unknown Type ${type}`);
+				}
+			}
+			const atype = value_convert(tba.data.data.type);
+			const btype = value_convert(tbb.data.data.type);
+			if (atype < btype)  return -1;
+			if (atype > btype)  return 1;
+			else return 0;
+		});
+
 		//Crew Themes
 		data.data.crewThemes = this.getCrewThemes();
 
