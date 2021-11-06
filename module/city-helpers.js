@@ -495,7 +495,8 @@ export class CityHelpers {
 			let replacetext = match[1];
 			let lowerify = replacetext.toLowerCase();
 			if (replaceObj[lowerify] === undefined) {
-				throw new Error(`String ${replacetext} not found in replacement Object`)
+				console.warn(`String ${replacetext} not found in replacement Object`)
+				continue;
 			}
 			text = text.replace('$' + replacetext, replaceObj[lowerify]);
 			match = regex.exec(text);
