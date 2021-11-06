@@ -491,11 +491,14 @@ export class CityHelpers {
 		//example: nameSubstitution("#name", {name: "Tom"})
 		const regex = /\$(\w*)\b/gm;
 		let match = regex.exec(text);
+		//TODO: FIX THIS
 		while (match != null) {
 			let replacetext = match[1];
 			let lowerify = replacetext.toLowerCase();
 			if (replaceObj[lowerify] === undefined) {
 				console.warn(`String ${replacetext} not found in replacement Object`)
+				text = text.replace('$' + replacetext, '?????');
+				match = regex.exec(text);
 				continue;
 			}
 			text = text.replace('$' + replacetext, replaceObj[lowerify]);
