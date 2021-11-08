@@ -1805,13 +1805,13 @@ textarea.bio-input {
 }
 
 .gm-moves-header {
-    padding: 0;
-    border: none;
-    margin: 0;
-    text-align: center;
-    font-family: 'Rubik';
+	padding: 0;
+	border: none;
+	margin: 0;
+	text-align: center;
+	font-family: 'Rubik';
 	font-weight: bold;
-    font-size: 2.3em;
+	font-size: 2.3em;
 	text-transform: uppercase;
 }
 
@@ -1826,6 +1826,10 @@ input.move-choiceAmt-input {
 li.move-list-item {
     line-height: 1.3em;
     padding-bottom: 0.4em;
+}
+
+li.selected.move-list-item {
+	font-weight: bold;
 }
 
 li.move-list-bullets {
@@ -1986,6 +1990,10 @@ ol.dice-rolls {
     width: 1em;
     height: 1em;
     margin: 0;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 form.stop-holding-back-sheet {

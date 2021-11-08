@@ -45,7 +45,7 @@
 	<ul class="move-list">
 		{{#each moveList as |li id|}}
 		{{#if (ne li.cost 0)}}
-		<li class="move-list-item">
+		<li class="move-list-item {{#if li.checked}} selected{{/if}}">
 			<input class="roll-selector-checkbox" type="checkbox" {{#if li.checked}} checked {{/if}} data-listitem="{{li.text}}" data-itemcost="{{li.cost}}">
 		{{else}}
 		<li class="move-list-bullets">
