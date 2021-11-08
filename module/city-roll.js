@@ -392,7 +392,7 @@ CityRoll._checkOption = async function (event) {
 		}
 	} else {
 		if (game.user.isGM) {
-			// return false; // NOTE: Comment out for testing
+			return false; // NOTE: Comment out for testing
 		}
 	}
 	if (!item)
