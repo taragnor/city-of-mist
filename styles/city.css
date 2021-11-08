@@ -1976,8 +1976,13 @@ ol.dice-rolls {
     border-radius: 0.3em;
 }
 
+
+.move-list-item {
+	list-style-type: none;
+}
+
 .move-list-item input.roll-selector-checkbox {
-    display: none;
+    /* display: none; */
     width: 1em;
     height: 1em;
     margin: 0;

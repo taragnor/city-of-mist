@@ -46,12 +46,12 @@
 		{{#each moveList as |li id|}}
 		{{#if (ne li.cost 0)}}
 		<li class="move-list-item">
-			<input class="roll-selector-checkbox" type="checkbox" {{#if li.checked}} checked {{/if}} data-listitem="{{li.text}}">
-			{{else}}
-			<li class="move-list-bullets">
-				{{/if}}
-				{{li.text}} </li>
-			{{/each}}
+			<input class="roll-selector-checkbox" type="checkbox" {{#if li.checked}} checked {{/if}} data-listitem="{{li.text}}" data-itemcost="{{li.cost}}">
+		{{else}}
+		<li class="move-list-bullets">
+			{{/if}}
+			{{li.text}} </li>
+		{{/each}}
 	</ul>
 	<hr>
 </div>

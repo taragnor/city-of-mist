@@ -143,7 +143,8 @@ export class CityItemSheet extends ItemSheet {
 		const index = getClosestData(event, "index");
 		const val = target.val();
 		const moveId = getClosestData(event, "ownerId");
-		const move = game.items.get(moveId);
+		const move = this.item;
+		// const move = game.items.get(moveId);
 		let lists = move.data.data.listConditionals.slice();
 		let elem = Object.assign({}, lists[index]);
 		lists[index] = elem;

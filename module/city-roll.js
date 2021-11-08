@@ -388,13 +388,11 @@ CityRoll._checkOption = async function (event) {
 		item.cost = 1;
 	if (item.cost < 0) {
 		if (!game.user.isGM) {
-			event.preventDefault();
 			return false;
 		}
 	} else {
 		if (game.user.isGM) {
-			event.preventDefault(); //NOTE: remove for testing
-			return false;
+			// return false; // NOTE: Comment out for testing
 		}
 	}
 	if (!item)
@@ -404,12 +402,24 @@ CityRoll._checkOption = async function (event) {
 	const move = (await CityHelpers.getMoves()).find(x=> x.id == templateData.moveId);
 	templateData.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 	const truecost = Math.abs(item.cost);
-	if (!item.checked && templateData.curr_choices + truecost <= templateData.max_choices) {
-		templateData.curr_choices += truecost;
+	let current_choices = 0;
+	$(event.target).closest(".move-list").find(".roll-selector-checkbox:checked").each ( function ()  {
+		Debug(this);
+		let cost = $(this).data("itemcost") ;
+		if (cost == undefined || cost ==="") cost = 1;
+		current_choices += Math.abs(Number(cost));
+		console.log (`Cost : ${cost}, current: ${current_choices}, max: ${templateData.max_choices}`);
+	});
+
+	// const current_choices = templateData.curr_choices;
+	if (!item.checked && current_choices <= templateData.max_choices) {
+		templateData.curr_choices = current_choices;
+		// templateData.curr_choices += truecost;
 		item.checked = true;
 	} else if (item.checked) {
+		templateData.curr_choices = current_choices - truecost;
+		// templateData.curr_choices -= truecost;
 		item.checked = false;
-		templateData.curr_choices -= truecost;
 	}
 	return await CityRoll._updateMessage(event, templateData);
 }
@@ -432,9 +442,9 @@ CityRoll._updateMessage = async function (event, templateData) {
 		const newContent = await CityRoll.getContent(roll, templateData);
 		const msg = await message.update( {content: newContent});
 		const upd = await ui.chat.updateMessage( msg, false);
-		console.log("Update thing");
+		// console.log("Update thing");
 	} catch (e) {
-		console.log("No Permissions");
+		console.log("can't update -- No Permissions");
 		return false;
 	}
 	return true;
