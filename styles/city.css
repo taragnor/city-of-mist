@@ -4,13 +4,13 @@
 
     --mythos-text: hsl(284deg 15% 15%);
     --mythos-white: hsl(265deg 10% 95%);
-	
+
     --logos-orange: #a85d4b;
     --logos-text: #48382a;
-	
+
 	--mist-blue:#28475b;
 	--mist-text:#232b35;
-	
+
 	--extra-grey:#686358;
 	--extra-text:#312e29;
 
@@ -429,11 +429,11 @@ select:focus {
 .chat-message {
     margin: 0.3em;
     padding: 0.6em 1em;
-	
+
     font-size: 1.1em;
     line-height: 1.2em;
     font-family: 'Averia Serif Libre';
-	
+
 	/* font-size: 1em; */
 	/* line-height: 1.3em; */
 	/* font-family: 'PT Serif'; */
