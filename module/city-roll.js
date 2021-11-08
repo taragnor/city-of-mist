@@ -404,21 +404,17 @@ CityRoll._checkOption = async function (event) {
 	const truecost = Math.abs(item.cost);
 	let current_choices = 0;
 	$(event.target).closest(".move-list").find(".roll-selector-checkbox:checked").each ( function ()  {
-		Debug(this);
 		let cost = $(this).data("itemcost") ;
 		if (cost == undefined || cost ==="") cost = 1;
 		current_choices += Math.abs(Number(cost));
-		console.log (`Cost : ${cost}, current: ${current_choices}, max: ${templateData.max_choices}`);
+		// console.log (`Cost : ${cost}, current: ${current_choices}, max: ${templateData.max_choices}`);
 	});
 
-	// const current_choices = templateData.curr_choices;
 	if (!item.checked && current_choices <= templateData.max_choices) {
 		templateData.curr_choices = current_choices;
-		// templateData.curr_choices += truecost;
 		item.checked = true;
 	} else if (item.checked) {
 		templateData.curr_choices = current_choices - truecost;
-		// templateData.curr_choices -= truecost;
 		item.checked = false;
 	}
 	return await CityRoll._updateMessage(event, templateData);
