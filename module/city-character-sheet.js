@@ -61,7 +61,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.data.crewStoryTags = this.getCrewStoryTags();
 		data.data.sceneStoryTags = this.getSceneStoryTags();
 		data.data.dangerStoryTags = this.getDangerStoryTags();
-		Debug(data);
 
 		const moveList = CityHelpers.getMoves();
 		data.data.coremoves = moveList.filter( x=> x.data.data.category == "Core");

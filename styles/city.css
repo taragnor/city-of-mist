@@ -1980,108 +1980,21 @@ ol.dice-rolls {
     border-radius: 0.3em;
 }
 
-
 .move-list-item {
 	list-style-type: none;
 }
 
 .move-list-item input.roll-selector-checkbox {
-    /* display: none; */
-    width: 1em;
-    height: 1em;
-    margin: 0;
+	/* display: none; */
+	filter: none;
+	width: 1em;
+	height: 1em;
+	margin: 0;
+	accent-color: var(--mythos-pink);
 }
 
 .bold {
     font-weight: bold;
-}
-
-form.stop-holding-back-sheet {
-    background: linear-gradient(
-        to right,
-        rgba(255, 0, 0, 0.3),
-        rgba(255, 0, 0, 0.6),
-        rgba(255, 0, 0, 0.3)
-    );
-    animation: colorpulse 1.2s infinite;
-}
-
-@keyframes colorpulse {
-    0% {
-        background-color: red;
-    }
-    50% {
-        background-color: Crimson;
-    }
-    100% {
-        background-color: red;
-    }
-}
-
-div.ghost-text {
-    transform: translate(-50%, -50%);
-    font-size: 2.5em;
-    animation: ghostshake 0.7s infinite;
-}
-
-form.stop-holding-back-sheet div {
-    color: transparent;
-    text-shadow: 0px 0px 2px #000;
-    animation: varied-blur 1.5s infinite;
-}
-
-form.stop-holding-back-sheet span {
-    color: transparent;
-    text-shadow: 0px 0px 2px grey;
-    animation: varied-blur 4.5s infinite;
-}
-
-@keyframes varied-blur {
-    0% {
-        text-shadow: 0px 0px 4px grey;
-    }
-    50% {
-        text-shadow: 0px 0px 2px grey;
-    }
-    100% {
-        text-shadow: 0px 0px 4px grey;
-    }
-}
-
-@keyframes ghostshake {
-    0% {
-        transform: translate(0, 0) skew(0deg) scale(1, 1);
-    }
-    10% {
-        transform: translate(2px, 2px) skew(3deg) scale(0.99, 0.99);
-    }
-    20% {
-        transform: translate(-2px, 2px) skew(6deg) scale(1, 1);
-    }
-    30% {
-        transform: translate(2px, -2px) skew(-3deg) scale(1, 1);
-    }
-    40% {
-        transform: translate(-2px, -2px) skew(-6deg) scale(0.99, 1);
-    }
-    50% {
-        transform: translate(2px, 2px) skew(3deg) scale(1, 0.99);
-    }
-    60% {
-        transform: translate(-2px, 2px) skew(6deg) scale(0.99, 0.99);
-    }
-    70% {
-        transform: translate(-2px, -2px) skew(0deg) scale(0.99, 1);
-    }
-    80% {
-        transform: translate(2px, -2px) skew(3deg) scale(0.99, 0.99);
-    }
-    90% {
-        transform: translate(2px, 2px) skew(3deg) scale(1, 0.99);
-    }
-    100% {
-        transform: translate(0, 0) skew(0deg) scale(1, 1);
-    }
 }
 
 * .tooltip .tooltiptext {
@@ -2113,24 +2026,30 @@ textarea.narrator-text {
 }
 
 div.narrated-text {
-    color: white;
-    font-size: larger;
-    font-weight: bold;
-    padding: 10px;
-    background: linear-gradient(
-        to right,
-        rgba(191, 85, 236, 0.4),
-        rgba(191, 85, 236, 0.7),
-        rgba(191, 85, 236, 0.4)
-    );
-    text-shadow: 3px 3px 3px black;
-    user-select: text;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
+	border-radius: 10px;
+	border: 4px groove grey;
+	/* border-style: groove; */
+	/* border-width: 4px; */
+	/* border-color: black; */
+	box-sizing: border-box;
+	color: white;
+	font-size: larger;
+	font-weight: bold;
+	padding: 10px;
+	background: linear-gradient(
+	to right,
+	rgba(191, 85, 236, 0.3),
+	rgba(191, 85, 236, 0.6),
+	rgba(191, 85, 236, 0.3)
+	);
+	text-shadow: 3px 3px 3px black;
+	user-select: text;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
 
 span.narrated-story-tag {
