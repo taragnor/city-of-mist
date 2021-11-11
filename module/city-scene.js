@@ -4,7 +4,12 @@ export class CityScene extends Scene {
 	async addTag(tagName) {
 		let tagList = this.getTagList();
 		if (!tagList.find(x => x.name == tagName))  {
-			let item = await CityItem.create ({ name: tagName, type :"tag"});
+			let item = await CityItem.create ({
+				name: tagName,
+				type :"tag",
+				burned: false,
+				crispy: false,
+			});
 			if (!item)
 				throw new Error("Scene Tag not created");
 			tagList.push(item.data);
@@ -35,12 +40,15 @@ export class CityScene extends Scene {
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/storyTagContainer-redux.html", templateData);
 		return await new Promise ( (conf, reject) => {
 			//TODO: fix dialog with event handlers and non-confirm type
-			Dialog.confirm({
-				title:"Test Tag List",
+			const options = {};
+			const dia= new Dialog({
+				title: `Story Tag Container`,
 				content: html,
-				yes: () => {},
-				no: () => {},
-			});
+				render: function setupHandlers(html) {
+				},
+				buttons: {},
+			}, options);
+			dia.render(true);
 		});
 	}
 
@@ -59,5 +67,4 @@ export class CityScene extends Scene {
 	getTagList () {
 		return this.getFlag("city-of-mist", "tags") ?? [];
 	}
-
 }

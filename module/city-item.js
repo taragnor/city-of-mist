@@ -1,5 +1,6 @@
 export class CityItem extends Item {
 
+
 	async getCrack() {
 		return this.data.data.crack.reduce( (acc, i) => acc+i, 0);
 	}
