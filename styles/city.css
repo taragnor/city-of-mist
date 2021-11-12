@@ -2121,6 +2121,7 @@ div.narrated-text {
 	/* border-style: groove; */
 	/* border-width: 4px; */
 	/* border-color: black; */
+	line-height: 1.5rem;
 	box-sizing: border-box;
 	color: white;
 	font-size: larger;
@@ -2142,6 +2143,11 @@ div.narrated-text {
 	word-wrap: break-word;
 }
 
+div.narrated-text span.narrated-story-tag,
+div.narrated-text span.narrated-status-name {
+	text-shadow: none;
+}
+
 span.narrated-story-tag {
     color: black;
   margin: 0 -0.4em;
@@ -2156,7 +2162,6 @@ span.narrated-story-tag {
   );
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  
 }
 
 span.narrated-status-name {
