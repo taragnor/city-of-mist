@@ -751,17 +751,6 @@ div.flex-overview-block {
     width: 50%;
 }
 
-div.flex-theme-block {
-    margin: 0.3em;
-    width: 240px;
-    min-height: 500px;
-    max-width: 240px;
-    /* border: 0.2em solid grey; */
-    border-radius: 1em;
-    padding: 0.1em;
-    overflow: auto;
-}
-
 .status-box,
 .story-tag-box,
 .empty-box {
@@ -774,9 +763,22 @@ div.flex-theme-block {
     margin: 5px;
 }
 
+div.flex-theme-block {
+    margin: 0.3em;
+    width: 240px;
+    min-height: 500px;
+    max-width: 240px;
+    /* border: 0.2em solid grey; */
+    border-radius: 1em;
+    padding: 0.1em;
+    overflow: auto;
+	transition: transform .2s;
+}
+
 div.flex-theme-block:hover {
-    box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6;
+    /* box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6; */
     transition-duration: 0.2s;
+    transform: scale(1.05);
 }
 
 .theme-block {
@@ -1635,6 +1637,10 @@ div.themebook-name {
     /* width: 100%; */
 /* } */
 
+form.editable.actor-sheet {
+    overflow-x: hidden;
+}
+
 .lock-button {
     flex: none !important;
     margin: 0.5em;
@@ -1654,7 +1660,7 @@ div.themebook-name {
 }
 
 .burn-level-4 {
-    font-family: “Open Sans”, sans-serif;
+    /* font-family: “Open Sans”, sans-serif; */
     color: #f5f5f5;
     text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
         0px -20px 40px #c33;
@@ -1662,7 +1668,7 @@ div.themebook-name {
 }
 
 .burn-level-3 {
-    font-family: “Open Sans”, sans-serif;
+    /* font-family: “Open Sans”, sans-serif; */
     color: orange;
     text-shadow: 0px -1px 3px #fff, 0px -1px 8px #ff3, 0px -8px 15px #f90,
         0px -15px 30px #c33;
@@ -1670,7 +1676,7 @@ div.themebook-name {
 }
 
 .burn-level-2 {
-    font-family: “Open Sans”, sans-serif;
+    /* font-family: “Open Sans”, sans-serif; */
     color: #dc3535;
     text-shadow: 0px -1px 2px #fff, 0px -1px 5px #ff3, 0px -5px 10px #f90,
         0px -10px 20px #c33;
