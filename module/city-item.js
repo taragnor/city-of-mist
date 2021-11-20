@@ -120,10 +120,8 @@ export class CityItem extends Item {
 		switch (this.data.type) {
 			case "tag" :
 				return this.isBonusTag() ? 0 : 1;
-				break;
 			case "improvement":
 				return 1;
-				break;
 			default:
 				throw new Error(`Trying to get upgrade cost of ${this.data.type}`);
 		}
@@ -142,8 +140,7 @@ export class CityItem extends Item {
 		return manifest.replaceAll("\n", "");
 	}
 
-
-	async addFade(amount=1) {
+	async addFade(amount = 1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.data.data.crack;
 		const moddata = CityHelpers.modArray(arr, amount)
@@ -279,7 +276,7 @@ export class CityItem extends Item {
 	}
 
 	async subtractStatus (ntier, newname=null) {
-		const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
+		// const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
 		newname = newname ?? this.data.name;
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
@@ -402,7 +399,7 @@ export class CityItem extends Item {
 	}
 
 	async updateGMMoveHTML() {
-		const data = this.data.data;
+		// const data = this.data.data; //recommended replace by linter
 		const {html, taglist, statuslist} = await this.generateGMMoveHTML();
 		await this.update( {data : {statuslist, taglist, html}});
 	}

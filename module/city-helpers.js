@@ -5,7 +5,7 @@ export class CityHelpers {
 
   static async getAllItemsByType(item_type ="", game= window.game) {
 	  //has caused some errors related to opening compendiums, don't want to call this all the time
-	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : (e => true);
+	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
 	  const game_items = game.items.filter(std_finder);
 	  // const game_items = game.items.filter(std_finder).map(e => {return e.data});
 	  // const pack_finder = (item_type.length > 0) ? (e => e.metadata.entity == "Item") : (e => true);
@@ -113,7 +113,7 @@ export class CityHelpers {
 					await tag.delete();
 				}
 				for (let imp of await extra.getImprovements(theme.id)) {
-					const impdata = imp.data.data;
+					// const impdata = imp.data.data;
 					const tbarray = (await theme.getThemebook()).data.data.improvements;
 					const index = Object.entries(tbarray)
 						.reduce( (a, [i, d]) => d.name == imp.name ? i : a , -1);
@@ -262,7 +262,7 @@ export class CityHelpers {
 	}
 
 	static async asyncwait(sec) {
-		return await new Promise ( (succ, fail) => {
+		return await new Promise ( (succ, _fail) => {
 			setTimeout(() => succ(true), sec * 1000);
 		});
 	}
@@ -588,7 +588,7 @@ export class CityHelpers {
 
 	static async itemDialog(item) {
 		item.sheet.render(true);
-		return await new Promise ( (conf, rej) => {
+		return await new Promise ( (conf, _rej) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
 				if (isOpen)
@@ -600,7 +600,7 @@ export class CityHelpers {
 		});
 	}
 
-	static async onItemUpdate(item, updatedItem, data, diff) {
+	static async onItemUpdate(item, _updatedItem, _data, _diff) {
 		const actor = item.actor;
 		if (actor)
 			for (const dep of actor.getDependencies()) {
@@ -612,7 +612,7 @@ export class CityHelpers {
 		return true;
 	}
 
-	static async onActorUpdate(actor, updatedItem, data, diff) {
+	static async onActorUpdate(actor, _updatedItem, _data, _diff) {
 		for (const dep of actor.getDependencies()) {
 			const state = dep.sheet._state
 			if (state > 0) {
@@ -628,7 +628,7 @@ export class CityHelpers {
 			token.actor.undoEntranceMoves(token);
 	}
 
-	static async onTokenUpdate(token, changes, otherStuff) {
+	static async onTokenUpdate(token, changes, _otherStuff) {
 		//TODO: add entrance move check if token goes from invisible to visible
 		if (changes?.hidden === false && token.actor.hasEntranceMoves())
 				await token.actor.executeEntranceMoves(token);
@@ -678,7 +678,7 @@ export class CityHelpers {
 		setTimeout( () => actor.sheet.render(true, {}), 1);
 	}
 
-	static async ensureTokenLinked(scene, token) {
+	static async ensureTokenLinked(_scene, token) {
 		if (token.actorLink) return;
 		await token.update ({ actorLink: true });
 		return true;
@@ -693,7 +693,7 @@ export class CityHelpers {
 		let breaker = 0;
 		while (amount > 0) {
 			if (breaker++ > 100) throw new Error("Endless Loop");
-			array = array.map ( (i, index, arr) => {
+			array = array.map ( (i) => {
 				if (i == 0 && amount > 0) {
 					amount--;
 					return 1;
@@ -706,7 +706,7 @@ export class CityHelpers {
 		}
 		while (amount < 0) {
 			if (breaker++ > 100) throw new Error("Endless Loop");
-			array = array.reverse().map ( (i, index, arr) => {
+			array = array.reverse().map ( (i) => {
 				if (i == 1 && amount < 0) {
 					amount++;
 					return 0;
@@ -724,7 +724,7 @@ export class CityHelpers {
 	static async confirmBox(title, text, defaultYes = false) {
 		const templateData = {text};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
-		return await new Promise( (conf, reject) => {
+		return await new Promise( (conf, _reject) => {
 			Dialog.confirm({
 				title,
 				content: html,
@@ -755,7 +755,7 @@ export class CityHelpers {
 		}
 	}
 
-	static getDefaultTagDirection(tag, tagowner, actor) {
+	static getDefaultTagDirection(tag, tagowner, _actor) {
 		const subtype = tag?.data?.data?.subtype;
 		try {
 			switch (subtype) {
