@@ -6,7 +6,7 @@
   "authors": [],
   "url": "https://github.com/taragnor/city-of-mist/",
   "flags": {},
-  "version": "2.3.2",
+  "version": "2.3.3",
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "0.8.9",
   "scripts": [],
@@ -60,7 +60,7 @@
   "system": [],
   "dependencies": [],
   "socket": false,
-  "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/v.2.3.2/system.json",
-  "download": "https://github.com/taragnor/city-of-mist/archive/v.2.3.2.zip",
+  "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/v.2.3.3/system.json",
+  "download": "https://github.com/taragnor/city-of-mist/archive/v.2.3.3.zip",
   "protected": false
 }
