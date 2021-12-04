@@ -11,7 +11,6 @@ import { CityActor } from "./city-actor.js";
 import { CityScene } from "./city-scene.js";
 import { CityItem } from "./city-item.js";
 import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
-import { CityActorSheet } from "./city-actor-sheet.js";
 import { CityCrewSheet } from "./city-crew-sheet.js";
 import { CityExtraSheet } from "./city-extra-sheet.js";
 import { CityThreatSheet } from "./city-threat-sheet.js";
@@ -136,7 +135,7 @@ Hooks.once("init", async function() {
 	preloadHandlebarsTemplates();
 
 	//Has activated Tag
-	Handlebars.registerHelper('hasActivatedTag', function (sheetownerId, actorId, tagId) {
+	Handlebars.registerHelper('hasActivatedTag', function (sheetownerId, _actorId, tagId) {
 		//TODO: actorId isn't used but is there for compatibility with older version
 		const sheetowner = game.actors.get(sheetownerId);
 		if (sheetowner != null) {
@@ -147,7 +146,7 @@ Hooks.once("init", async function() {
 		}
 	});
 
-	Handlebars.registerHelper('activatedDirection', function (sheetownerId, actorId, tagId) {
+	Handlebars.registerHelper('activatedDirection', function (sheetownerId, _actorId, tagId) {
 		const sheetowner = game.actors.get(sheetownerId);
 		if (sheetowner != null) {
 			const result = sheetowner.getActivatedDirection(tagId);
@@ -188,7 +187,7 @@ Hooks.once("init", async function() {
 		return new Handlebars.SafeString(html);
 	});
 
-	Handlebars.registerHelper('getMoveGroups', function (actor) {
+	Handlebars.registerHelper('getMoveGroups', function (_actor) {
 		const data = [
 			["core" , "Core Moves"],
 			["special" , "Special Moves"],
@@ -231,11 +230,11 @@ Hooks.once("init", async function() {
 		}
 	});
 
-	Handlebars.registerHelper('hasGMMoveOfType', function (actor, subtype, options) {
+	Handlebars.registerHelper('hasGMMoveOfType', function (actor, subtype, _options) {
 		return actor.items.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
 	});
 
-	Handlebars.registerHelper('applyNameSubstitution', function (move, dangerId, options) {
+	Handlebars.registerHelper('applyNameSubstitution', function (move, _dangerId, _options) {
 		const formatted = move.getFormattedText();
 		return new Handlebars.SafeString(formatted);
 	});
@@ -245,53 +244,53 @@ Hooks.once("init", async function() {
 		return (a !== b) ? options.fn(this) : '';
 	});
 	// Not helper
-	Handlebars.registerHelper('not', (a, options) => {
+	Handlebars.registerHelper('not', (a, _options) => {
 		return a ? false : true;
 	});
-	Handlebars.registerHelper('and', (a, b, options) => {
+	Handlebars.registerHelper('and', (a, b, _options) => {
 		return a && b;
 	});
-	Handlebars.registerHelper('or', (a, b, options) => {
+	Handlebars.registerHelper('or', (a, b, _options) => {
 		return a || b;
 	});
 	//concat handler
-	Handlebars.registerHelper('cat', (a, b, options) => {
+	Handlebars.registerHelper('cat', (a, b, _options) => {
 		return a + b;
 	});
 
-	Handlebars.registerHelper("isGM", (options) => {
+	Handlebars.registerHelper("isGM", (_options) => {
 		return game.users.current.isGM;
 	});
 
-	Handlebars.registerHelper("displayAlias", (actor, options) => {
+	Handlebars.registerHelper("displayAlias", (actor, _options) => {
 		return game.actors.get(actor.id).getDisplayedName();
 	});
 
-	Handlebars.registerHelper("isHelpHurt", (juice, options) => {
+	Handlebars.registerHelper("isHelpHurt", (juice, _options) => {
 		return juice.isHelpHurt();
 	});
 
-	Handlebars.registerHelper("helpHurtTarget", (juice, options) => {
+	Handlebars.registerHelper("helpHurtTarget", (juice, _options) => {
 		return juice.getTargetName();
 	});
 
-	Handlebars.registerHelper("getHurtList", (actor, options) => {
+	Handlebars.registerHelper("getHurtList", (actor, _options) => {
 		return actor.items.filter( i => i.isHurt());
 	});
 
-	Handlebars.registerHelper("getHelpList", (actor, options) => {
+	Handlebars.registerHelper("getHelpList", (actor, _options) => {
 		return actor.items.filter( i => i.isHelp());
 	});
 
-	Handlebars.registerHelper("getJuiceList", (actor, options) => {
+	Handlebars.registerHelper("getJuiceList", (actor, _options) => {
 		return actor.items.filter( i => i.isJuice());
 	});
 
-	Handlebars.registerHelper("PCList", (actor, options) => {
+	Handlebars.registerHelper("PCList", (_actor, _options) => {
 		return game.actors.filter( x => x.type == "character" && x.permission > 0);
 	});
 
-	Handlebars.registerHelper("getHelpFor", (targetactor, options) => {
+	Handlebars.registerHelper("getHelpFor", (targetactor, _options) => {
 		return game.actors.filter( x => x.type == "character" &&
 			x.items.find(i => i.isHelp() && i.getTarget() == targetactor)
 		).map( x => x.items

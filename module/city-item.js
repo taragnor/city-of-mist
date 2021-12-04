@@ -88,7 +88,6 @@ export class CityItem extends Item {
 
 	improvements () {
 		return this.actor.items.filter( x => x.type == "improvement" && x.data.data.theme_id == this.id);
-
 	}
 
 	get type() {

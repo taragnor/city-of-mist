@@ -90,7 +90,9 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	});
 	let tags = [];
 	if (!options.noTags) {
-		tags = allModifiers.filter( x=> x.type == "tag");
+		tags = allModifiers.filter( x=> x.type == "tag"
+			&& (!x.owner || x?.tag?.data?.data) //filter out deleted tags
+		);
 		if (options.burnTag && options.burnTag.length) {
 			tags = tags.filter(x => x.tag.id == options.burnTag);
 			tags[0].amount = 3;
@@ -102,14 +104,14 @@ CityRoll.prepareModifiers = async function (actor, options) {
 			&& x.items.find( i => i.id == options.helpId)
 		);
 		const helpJuice = helper.items.find( i => i.id == options.helpId);
-			allModifiers.push( {
-				name: `Help From ${helper.name} (must be deducted manually)`,
-				id: options.helpId,
-				amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
-				owner: helper,
-				tag: null,
-				type: "status",
-			});
+		allModifiers.push( {
+			name: `Help From ${helper.name} (must be deducted manually)`,
+			id: options.helpId,
+			amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
+			owner: helper,
+			tag: null,
+			type: "status",
+		});
 	}
 	let usedStatus = [];
 	if (!options.noStatus) {
@@ -150,6 +152,7 @@ CityRoll.prepareModifiers = async function (actor, options) {
 			type: "modifier"
 		});
 	}
+	//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
 	const usedWeaknessTag = tags.some( x=> x.type == "tag" && x.tag.data.data.subtype == "weakness" && x.amount < 0);
 	let modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
 	if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {

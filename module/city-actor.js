@@ -510,6 +510,7 @@ export class CityActor extends Actor {
 
 	async toggleLockState() {
 		const locked = !this.data.data.locked;
+		await this.clearAllSelectedTags();
 		await CityHelpers.playLockOpen();
 		return await this.update( {data: {locked}});
 	}
