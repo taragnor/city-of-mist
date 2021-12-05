@@ -112,7 +112,8 @@ export class CityActor extends Actor {
 
 	async deleteStatusByName(name) {
 		const status = this.getStatuses().find (x=> x.name == name);
-		this.deleteStatus(status.id);
+		if (status)
+			await this.deleteStatus(status.id);
 	}
 
 	async deleteGMMove(id) {
@@ -445,7 +446,8 @@ export class CityActor extends Actor {
 
 	async deleteStoryTagByName(tagname) {
 		const tag = this.getStoryTags().find( x=> x.name == tagname);
-		return await this.deleteTag(tag.id);
+		if (tag)
+			return await this.deleteTag(tag.id);
 	}
 
 	async burnTag(id, state = 1) {
@@ -512,7 +514,7 @@ export class CityActor extends Actor {
 		const locked = !this.data.data.locked;
 		await this.clearAllSelectedTags();
 		await CityHelpers.playLockOpen();
-		return await this.update( {data: {locked}});
+		return await this.update( {"data.locked": locked});
 	}
 
 	async toggleAliasState() {
