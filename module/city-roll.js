@@ -41,7 +41,6 @@ CityRoll.getContent = async function (roll, templateData) {
 		const unadded = moveListRaw.filter(x=> !templateData.moveList.some ( y=> x.text == y.text))
 		templateData.moveList = templateData.moveList.concat(unadded);
 	}
-	// templateData.moveList = CityItem.generateMoveList(move, roll_status, power);
 	templateData.moveText = CityItem.generateMoveText(move, roll_status, power);
 	templateData.rolls = (roll.terms)[0].results;
 	templateData.total = total;
@@ -62,7 +61,6 @@ CityRoll.sendRollToChat = async function (roll, html, messageOptions = {}) {
 		roll
 	};
 	return ChatMessage.create(messageData, messageOptions);
-	// CONFIG.ChatMessage.entityClass.create(messageData, {})
 }
 
 CityRoll.prepareModifiers = async function (actor, options) {
@@ -410,7 +408,6 @@ CityRoll._checkOption = async function (event) {
 		let cost = $(this).data("itemcost") ;
 		if (cost == undefined || cost ==="") cost = 1;
 		current_choices += Math.abs(Number(cost));
-		// console.log (`Cost : ${cost}, current: ${current_choices}, max: ${templateData.max_choices}`);
 	});
 
 	if (!item.checked && current_choices <= templateData.max_choices) {
@@ -441,7 +438,6 @@ CityRoll._updateMessage = async function (event, templateData) {
 		const newContent = await CityRoll.getContent(roll, templateData);
 		const msg = await message.update( {content: newContent});
 		const upd = await ui.chat.updateMessage( msg, false);
-		// console.log("Update thing");
 	} catch (e) {
 		console.log("can't update -- No Permissions");
 		return false;
