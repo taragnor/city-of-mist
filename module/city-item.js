@@ -321,8 +321,9 @@ export class CityItem extends Item {
 		return html;
 	}
 
-	getFormattedText () {
-		const name = this.actor.getDisplayedName();
+	getFormattedText (actor_id) {
+		const actor = game.actors.get(actor_id);
+		const name = actor?.getDisplayedName() ?? this.actor.getDisplayedName();
 		return CityHelpers.nameSubstitution(this.data.data.html, {name});
 	}
 

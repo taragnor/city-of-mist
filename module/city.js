@@ -74,6 +74,7 @@ Hooks.on('updateActor', CityHelpers.onActorUpdate.bind(CityHelpers));
 Hooks.on('updateItem', CityHelpers.onItemUpdate.bind(CityHelpers));
 Hooks.on('createItem', CityHelpers.onItemUpdate.bind(CityHelpers));
 Hooks.on('deleteItem', CityHelpers.onItemUpdate.bind(CityHelpers));
+Hooks.on('deleteActor', CityHelpers.onActorUpdate.bind(CityHelpers));
 Hooks.on('createToken', CityHelpers.onTokenCreate.bind(CityHelpers));
 Hooks.on('updateToken', CityHelpers.onTokenUpdate.bind(CityHelpers));
 Hooks.on('deleteToken', CityHelpers.onTokenDelete.bind(CityHelpers));
@@ -234,8 +235,8 @@ Hooks.once("init", async function() {
 		return actor.gmmoves.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
 	});
 
-	Handlebars.registerHelper('applyNameSubstitution', function (move, _dangerId, _options) {
-		const formatted = move.getFormattedText();
+	Handlebars.registerHelper('applyNameSubstitution', function (move, dangerId, _options) {
+		const formatted = move.getFormattedText(dangerId);
 		return new Handlebars.SafeString(formatted);
 	});
 
