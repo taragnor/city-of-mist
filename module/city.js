@@ -4,6 +4,7 @@
  */
 
 // Import Modules
+import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
 import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";

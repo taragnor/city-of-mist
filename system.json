@@ -14,7 +14,8 @@
     "module/city.js"
   ],
   "styles": [
-    "styles/city.css"
+    "styles/city.css",
+	 "module/token-tooltip/tooltip.css"
   ],
   "languages": [
     {

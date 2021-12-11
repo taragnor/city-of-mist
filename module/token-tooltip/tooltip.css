@@ -1,0 +1,20 @@
+.city-of-mist--tooltip {
+  position: absolute;
+  display: none;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.city-of-mist--name {
+  font-weight: bold;
+  text-align: center;
+  padding: 2px 6px;
+  font-size: 1.15em;
+  color: rgba(0, 0, 100, 0.8);
+}
+
+.city-of-mist--show {
+  display: block;
+}
+

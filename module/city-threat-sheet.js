@@ -174,7 +174,6 @@ export class CityThreatSheet extends CityActorSheet {
 		const choice =  await CitySheet.singleChoiceBox(inputList, "Choose Item");
 		if (!choice) return;
 		await this.actor.addTemplate(choice);
-
 	}
 
 	async _deleteTemplate (event) {
