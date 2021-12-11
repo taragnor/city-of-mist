@@ -803,7 +803,6 @@ export class CityActor extends Actor {
 	hasTemplate(id) {
 		if (!this?.data?.data?.template_ids)
 			return false;
-		Debug(this);
 		return this.data.data.template_ids.includes(id);
 	}
 

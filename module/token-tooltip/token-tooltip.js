@@ -16,14 +16,14 @@ export class TokenTooltip {
 		Hooks.on('hoverToken', (token, hovered) => {
 			this.onHover(token, hovered);
 		});
-		console.log("*******Tooltip created");
 	}
 
 	async onHover(token, hovered) {
 		if (hovered) {
 			if (!game.settings.get("city-of-mist", "tokenToolTip"))
 				return;
-			await this.updateData(token);
+			if (! await this.updateData(token))
+				return;
 			this.updatePosition(token);
 			this.show();
 		} else {
@@ -37,7 +37,6 @@ export class TokenTooltip {
       const left = Math.ceil(token.worldTransform.tx + tokenWidth + 8);
       this.element.style.left = `${left}px`;
 		this.element.style.top = `${top}px`;
-		// this.element.style.width = `100px`;
 	}
 
 	show() {
@@ -49,13 +48,15 @@ export class TokenTooltip {
 	}
 
 	async updateData(token) {
-		emptyNode(this.nameElement);
-      this.nameElement.style.display = '';
-      // this.nameElement.appendChild(document.createTextNode(token.name));
+		// emptyNode(this.nameElement);
+		this.nameElement.style.display = '';
+		if (token.actor.my_statuses.length + token.actor.my_story_tags.length <= 0) {
+			this.nameElement.innerHTML = "";
+			return false;
+		}
 		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor});
 		this.nameElement.innerHTML = templateHTML;
-      // this.nameElement.appendChild(document.createElement(templateHTML));
-
+		return true;
 	}
 
 } // end of class
