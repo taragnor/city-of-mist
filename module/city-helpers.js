@@ -835,7 +835,7 @@ export class CityHelpers {
 			// "--mythos-pink",
 			// colorsetting
 			// );
-		}
+		// }
 	}
 
 } //end of class
