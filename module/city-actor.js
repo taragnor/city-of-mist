@@ -19,7 +19,7 @@ export class CityActor extends Actor {
 			return [];
 		return this.items.filter( x => x.type == "gmmove")
 			.concat( this.getAttachedTemplates()
-				.map( x=> x.getGMMoves(depth+1))
+				.map( x=> x?.getGMMoves(depth+1)) ?? []
 			).flat();
 	}
 
@@ -29,7 +29,8 @@ export class CityActor extends Actor {
 
 	getAttachedTemplates() {
 		return (this.data.data.template_ids ?? [])
-		.map( id =>  CityHelpers.getDangerTemplate(id));
+			.map( id =>  CityHelpers.getDangerTemplate(id))
+			.filter (x => x != null);
 	}
 
 	getTheme(id) {
