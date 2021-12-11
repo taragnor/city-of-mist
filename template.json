@@ -51,7 +51,9 @@
 			"templates": ["default", "themeholder"]
 		},
 		"threat": {
-			"templates": ["default", "aliasable", "themeholder", "person"]
+			"templates": ["default", "aliasable", "themeholder", "person"],
+			"is_template": false,
+			"template_ids": []
 		},
 		"storyTagContainer": {
 			"templates": ["default"]

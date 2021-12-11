@@ -3,6 +3,26 @@ import { CityRoll } from "./city-roll.js";
 
 export class CityHelpers {
 
+	static async getAllActorsByType (item_type ="", game=window.game) {
+	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
+	  const game_items = game.actors.filter(std_finder);
+	  const pack_finder = (e => e.metadata.entity == "Actor");
+
+	  let packs = game.packs.filter(pack_finder);
+	  let compendium_content = [];
+	  for (const pack of packs) {
+		  const content = (await pack.getDocuments()).filter( x=> {
+			  return x.data.type == item_type;
+		  });;
+		  compendium_content = compendium_content.concat(content);
+	  }
+	  const list_of_items = game_items.concat(compendium_content);
+	  // return list_of_items.map( e=> e.data);
+	  return list_of_items;
+	}
+
+
+
   static async getAllItemsByType(item_type ="", game= window.game) {
 	  //has caused some errors related to opening compendiums, don't want to call this all the time
 	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
@@ -48,6 +68,7 @@ export class CityHelpers {
 		try {
 			await CityHelpers.loadThemebooks();
 			await CityHelpers.loadMoves();
+			await CityHelpers.refreshDangerTemplates();
 		} catch (e) {
 			console.error("Error Loading Packs - potentially try a browser reload");
 			setTimeout( () => this.loadPacks(), 5000);
@@ -168,6 +189,19 @@ export class CityHelpers {
 
 	static getMoveById(moveId) {
 		return this.getMoves().find(x => x.id == moveId);
+	}
+
+	static getDangerTemplate(id) {
+		return this._dangerTemplates.find( x=> x.id  == id);
+	}
+
+	static get dangerTemplates() {
+		return this._dangerTemplates;
+	}
+
+	static async refreshDangerTemplates() {
+		this._dangerTemplates = (await this.getAllActorsByType("threat", game))
+			.filter( x=> x.data.data.is_template);
 	}
 
 	static getThemebook(tname, id) {
@@ -619,6 +653,8 @@ export class CityHelpers {
 				CityHelpers.refreshSheet(dep);
 			}
 		}
+		if (actor.type == "threat")
+			this.refreshDangerTemplates();
 		return true;
 	}
 

@@ -423,7 +423,6 @@ CityRoll._checkOption = async function (event) {
 CityRoll._editRoll = async function (event) {
 	if (!game.user.isGM)
 		return;
-	const modifiers = getClosestData(event, "modifiers");
 	const templateData  = getClosestData(event, "templateData");
 	const newTemplateData = await CityRoll.getModifierBox(templateData);
 	await CityRoll._updateMessage(event, newTemplateData);

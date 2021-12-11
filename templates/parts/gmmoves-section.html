@@ -6,48 +6,38 @@
 {{#if (hasGMMoveOfType owner "intrusion")}}
 <label class="gmmove-type-label"> Intrusions {{id}} </label>
 {{/if}}
-{{#each owner.items as |item id|}}
-{{#if (eq item.type "gmmove")}}
+{{#each owner.gmmoves as |item id|}}
 {{#if (eq item.data.data.subtype "entrance")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
 {{/if}}
-{{/if}}
 {{/each}}
-{{#each owner.items as |item id|}}
-{{#if (eq item.type "gmmove")}}
+{{#each owner.gmmoves as |item id|}}
 {{#if (eq item.data.data.subtype "intrusion")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
-{{/if}}
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "custom")}}
 <label class="gmmove-type-label"> Custom Moves </label>
 {{/if}}
-{{#each owner.items as |item|}}
-{{#if (eq item.type "gmmove")}}
+{{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "custom")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
-{{/if}}
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "hard")}}
 <label class="gmmove-type-label"> Hard Moves </label>
 {{/if}}
-{{#each owner.items as |item|}}
-{{#if (eq item.type "gmmove")}}
+{{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "hard")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
-{{/if}}
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "soft")}}
 <label class="gmmove-type-label"> Soft Moves </label>
 {{/if}}
-{{#each owner.items as |item|}}
-{{#if (eq item.type "gmmove")}}
+{{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "soft")}}
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
-{{/if}}
 {{/if}}
 {{/each}}
 

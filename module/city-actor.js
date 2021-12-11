@@ -1,4 +1,3 @@
-import {CityRoll } from "./city-roll.js";
 
 export class CityActor extends Actor {
 
@@ -6,12 +5,37 @@ export class CityActor extends Actor {
 		return this.data.type;
 	}
 
-	// async getTheme(id) { hopefully wont cuase any bugs
+	get gmmoves() {
+		return this.getGMMoves();
+	}
+
+	get templates() {
+		return this.getAttachedTemplates();
+	}
+
+	getGMMoves(depth = 0) {
+		if (depth > 2) return [];
+		if (this.type != "threat")
+			return [];
+		return this.items.filter( x => x.type == "gmmove")
+			.concat( this.getAttachedTemplates()
+				.map( x=> x.getGMMoves(depth+1))
+			).flat();
+	}
+
+	ownsMove(move_id) {
+		return this.gmmoves.find(x => x.id == move_id).actor == this;
+	}
+
+	getAttachedTemplates() {
+		return (this.data.data.template_ids ?? [])
+		.map( id =>  CityHelpers.getDangerTemplate(id));
+	}
+
 	getTheme(id) {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}
 
-	// async getTag(id) {
 	getTag(id) {
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
@@ -30,7 +54,7 @@ export class CityActor extends Actor {
 		return this.items.find(x => x.type == "status" && x.id == id);
 	}
 
-	getStatuses(id) {
+	getStatuses() {
 		return this.items.filter(x => x.type == "status");
 	}
 
@@ -43,7 +67,7 @@ export class CityActor extends Actor {
 	}
 
 	async getGMMove(id) {
-		return this.items.find(x => x.type == "gmmove" && x.id == id);
+		return this.gmmoves.find(x => x.type == "gmmove" && x.id == id);
 	}
 
 	async getImprovement(id) {
@@ -52,10 +76,6 @@ export class CityActor extends Actor {
 
 	async getSpectrum(id) {
 		return this.items.find(x => x.type == "spectrum" && x.id == id);
-	}
-
-	getGMMoves () {
-		return this.items.filter( x=> x.type == "gmmove");
 	}
 
 	hasStatus(name) {
@@ -727,28 +747,19 @@ export class CityActor extends Actor {
 	}
 
 	async undoGMMove(move) {
-		const {html, taglist, statuslist} = move.data.data;
-		const options = { token: null ,
-			speaker: {
-				actor:this,
-				alias: this.getDisplayedName()
-			}
-		};
-		const sender = options?.speaker ?? {};
-		const name = this.getDisplayedName();
-		const processed_html = CityHelpers.nameSubstitution(html, {name});
+		const {taglist, statuslist} = move.data.data;
 		for (const tagname of taglist)
 			await this.deleteStoryTagByName(tagname);
-		for (const {name, tier} of statuslist)
+		for (const {name} of statuslist)
 			await this.deleteStatusByName(name);
 	}
 
 	async addOrCreateStatus (name2, tier2) {
 		let status = this.hasStatus(name2);
 		if (status) {
-			const obj = await status.addStatus(tier2);
+			return await status.addStatus(tier2);
 		} else {
-			const obj = await this.createNewStatus(name2, tier2);
+			return await this.createNewStatus(name2, tier2);
 		}
 	}
 
@@ -764,6 +775,23 @@ export class CityActor extends Actor {
 				this.undoGMMove(move);
 			}
 		}
+	}
+
+	async addTemplate(id) {
+		this.data.data.template_ids.push(id);
+		return await this.update({ "data.template_ids": this.data.data.template_ids});
+	}
+
+	async removeTemplate(id) {
+		const templates = this.data.data.template_ids.filter(x=> x != id);
+		return await this.update({ "data.template_ids": templates});
+	}
+
+	hasTemplate(id) {
+		if (!this?.data?.data?.template_ids)
+			return false;
+		Debug(this);
+		return this.data.data.template_ids.includes(id);
 	}
 
 } //end of class

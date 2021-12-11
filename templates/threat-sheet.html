@@ -1,17 +1,25 @@
 <form class="{{cssClass}} threat-sheet flexcol" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<header class="sheet-header">
-			<div class="image-block">
-				<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
-			</div>
-			<div class="character-basic-info">
-				{{> "systems/city-of-mist/templates/parts/threat-sheet-header.html" locked=data.locked sheetowner=actor data=data actor=actor items=items}}
-			</div>
+		<div class="image-block">
+			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+		</div>
+		<div class="character-basic-info">
+			{{> "systems/city-of-mist/templates/parts/threat-sheet-header.html" locked=data.locked sheetowner=actor data=data actor=actor items=items}}
+		</div>
+		<div class="flex-col">
 			<div class="lock-button">
 				{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
 			</div>
+			<div class="Checkbox">
+				{{#if (isGM)}}
+				<label> Template?</label>
+				<input type="checkbox" name="data.is_template" {{#if actor.data.data.is_template}} checked {{/if}} >
+				{{/if}}
+			</div>
+		</div>
 		</div>
 	</header>
-	{{#if (not data.locked)}}
+	{{#if (and (not data.locked) (isGM))}}
 	<section class="threat-spectrums">
 		<div class="spectrum-section-label"> Spectrums
 			{{#if (not data.locked)}}
@@ -24,6 +32,19 @@
 				{{/if}}
 				{{/each}}
 			</div>
+	</section>
+	<section class="danger-templates">
+		<div class="danger-templates-label"> Templates
+			<a class="template-add" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+		</div>
+		<div class="template-list">
+		{{#each actor.templates as |template id|}}
+		<div class="template-name" data-template-id="{{template.id}}">
+			{{template.name}}
+			<a class="item-control template-delete" title="Delete Template"><i class="fas fa-trash"></i></a>
+		</div>
+		{{/each}}
+		</div>
 	</section>
 	{{/if}}
 	<nav class="sheet-tabs tabs" data-group="primary">
@@ -56,11 +77,11 @@
 			<section id="theme-section" class="theme-section">
 				<div id="Theme Header" class="item-block section-header">
 					<div class="theme-header">Themes
-					{{#if (eq data.locked false)}}
-					{{#if (lt data.num_themes 1)}}
-					<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-					{{/if}}
-					{{/if}}
+						{{#if (eq data.locked false)}}
+						{{#if (lt data.num_themes 1)}}
+						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+						{{/if}}
+						{{/if}}
 					</div>
 				</div>
 				<div class="theme-block-group">

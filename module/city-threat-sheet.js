@@ -1,3 +1,4 @@
+import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 
 export class CityThreatSheet extends CityActorSheet {
@@ -42,6 +43,9 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.spectrum-delete').click(this._deleteSpectrum.bind(this));
 		html.find('.alias-input-unlinked-token').change(this._changeunlikedtokenName.bind(this));
 		html.find('.alias-input-prototype').change(this._changelinkedtokenName.bind(this));
+		html.find('.template-add').click(this._addTemplate.bind(this));
+		html.find('.template-delete').click(this._deleteTemplate.bind(this));
+		html.find('.template-name').click(this._jumpToTemplate.bind(this));
 	}
 
 	async _changelinkedtokenName (event) {
@@ -106,6 +110,7 @@ export class CityThreatSheet extends CityActorSheet {
 	async _deleteGMMove(event) {
 		event.stopImmediatePropagation();
 		const move_id = getClosestData(event, "moveId");
+		if (!this.actor.ownsMove(move_id)) return;
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
 		const move = await owner.getGMMove(move_id);
@@ -116,6 +121,7 @@ export class CityThreatSheet extends CityActorSheet {
 
 	async _editGMMove(event) {
 		const move_id = getClosestData(event, "moveId");
+		if (!this.actor.ownsMove(move_id)) return;
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const move = await owner.getGMMove(move_id);
@@ -153,6 +159,32 @@ export class CityThreatSheet extends CityActorSheet {
 		event.preventDefault();
 		if (event.which == 3)
 			this._editGMMove(event, true);
+	}
+
+	async _addTemplate (_event) {
+		const inputList = CityHelpers.dangerTemplates
+			.filter( x=> x != this.actor && !this.actor.hasTemplate(x.id))
+			.map( x => {
+				const name = x.name;
+				const data = [name];
+				return {
+					id: x._id, data, description: x.description
+				};
+			});
+		const choice =  await CitySheet.singleChoiceBox(inputList, "Choose Item");
+		if (!choice) return;
+		await this.actor.addTemplate(choice);
+
+	}
+
+	async _deleteTemplate (event) {
+		const id = getClosestData(event, "templateId");
+		await this.actor.removeTemplate(id);
+	}
+
+	async _jumpToTemplate(event) {
+		const id = getClosestData(event, "templateId");
+		game.actors.find(x => x.id == id)?.sheet?.render(true);
 	}
 
 }

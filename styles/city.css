@@ -1698,6 +1698,7 @@ form.editable.actor-sheet {
     color: white;
     background-color: #502c5dbd;
     box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	 max-width: 64px;
 }
 
 .lock-button:hover {
@@ -2238,6 +2239,36 @@ input.number-modifier-box {
 
 section#build-up-section {
     text-align: center;
+}
+
+.danger-templates {
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    max-height: 80px;
+}
+
+.danger-templates-label {
+    font-size: 1.6em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.template-name:hover {
+    cursor: pointer;
+    text-shadow: 2px 4px 10px var(--mythos-pink);
+}
+
+
+.template-list {
+	font-size: 1.2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: 'Rubik';
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .BU-improvement-header {

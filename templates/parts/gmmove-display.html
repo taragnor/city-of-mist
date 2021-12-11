@@ -1,5 +1,5 @@
 <div class="card-style gm-move {{#if locked}}gmmove-select {{else}} gmmove-edit{{/if}}" data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
-	{{#if (eq locked false)}}
+	{{#if (and (eq locked false) (eq sheetowner move.actor))}}
 	<a class="item-control gmmove-delete" title="Delete GMMove"><i class="fas fa-trash"></i></a>
 	{{/if}}
 	{{{applyNameSubstitution move owner.id}}}

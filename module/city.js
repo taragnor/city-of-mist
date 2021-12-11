@@ -70,14 +70,14 @@ window.getClosestData.convertForm = function (str) {
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 //Replaces the Timed update
-Hooks.on('updateActor', CityHelpers.onActorUpdate);
-Hooks.on('updateItem', CityHelpers.onItemUpdate);
-Hooks.on('createItem', CityHelpers.onItemUpdate);
-Hooks.on('deleteItem', CityHelpers.onItemUpdate);
-Hooks.on('createToken', CityHelpers.onTokenCreate);
-Hooks.on('updateToken', CityHelpers.onTokenUpdate);
-Hooks.on('deleteToken', CityHelpers.onTokenDelete);
-Hooks.on('updateScene', CityHelpers.onSceneUpdate);
+Hooks.on('updateActor', CityHelpers.onActorUpdate.bind(CityHelpers));
+Hooks.on('updateItem', CityHelpers.onItemUpdate.bind(CityHelpers));
+Hooks.on('createItem', CityHelpers.onItemUpdate.bind(CityHelpers));
+Hooks.on('deleteItem', CityHelpers.onItemUpdate.bind(CityHelpers));
+Hooks.on('createToken', CityHelpers.onTokenCreate.bind(CityHelpers));
+Hooks.on('updateToken', CityHelpers.onTokenUpdate.bind(CityHelpers));
+Hooks.on('deleteToken', CityHelpers.onTokenDelete.bind(CityHelpers));
+Hooks.on('updateScene', CityHelpers.onSceneUpdate.bind(CityHelpers));
 
 ////Debug code to trace what hooks are being called
 //Hooks.callAll_orig = Hooks.callAll
@@ -231,7 +231,7 @@ Hooks.once("init", async function() {
 	});
 
 	Handlebars.registerHelper('hasGMMoveOfType', function (actor, subtype, _options) {
-		return actor.items.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
+		return actor.gmmoves.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
 	});
 
 	Handlebars.registerHelper('applyNameSubstitution', function (move, _dangerId, _options) {
@@ -241,6 +241,9 @@ Hooks.once("init", async function() {
 
 	// NotEquals handlebar.
 	Handlebars.registerHelper('noteq', (a, b, options) => {
+		return (a !== b) ? options.fn(this) : '';
+	});
+	Handlebars.registerHelper('neq', (a, b, options) => {
 		return (a !== b) ? options.fn(this) : '';
 	});
 	// Not helper
