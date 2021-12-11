@@ -219,11 +219,8 @@ Hooks.once("init", async function() {
 			throw new Error(`NO Data for ${actor.name}`)
 		switch (data?.data?.selectedMoveGroup) {
 			case "core": return data.coremoves;
-				break;
 			case "special": return data.specialmoves;
-				break;
 			case "SHB": return data.shbmoves;
-				break;
 			default:
 				Debug(actordata);
 				console.warn(`No default move group for actor group: ${data?.data?.selectedMoveGroup}`);

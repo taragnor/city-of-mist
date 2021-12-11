@@ -1895,6 +1895,22 @@ textarea.bio-input {
     text-align: center;
 }
 
+.flex-align-center {
+	align-items: center;
+}
+
+.trash-can-flex {
+	max-width: 20px;
+	flex-shrink: 10;
+	flex-basis: 10px;
+	align-items: center;
+}
+
+.gmmove-text {
+	flex-grow: 10;
+	flex-basis:10px;
+}
+
 .gm-moves-header {
 	padding: 0;
 	border: none;
