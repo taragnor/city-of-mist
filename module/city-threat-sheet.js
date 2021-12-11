@@ -168,7 +168,7 @@ export class CityThreatSheet extends CityActorSheet {
 				const name = x.name;
 				const data = [name];
 				return {
-					id: x._id, data, description: x.description
+					id: x.id ?? x._id, data, description: x.description
 				};
 			});
 		const choice =  await CitySheet.singleChoiceBox(inputList, "Choose Item");
@@ -178,13 +178,16 @@ export class CityThreatSheet extends CityActorSheet {
 	}
 
 	async _deleteTemplate (event) {
+		event.stopImmediatePropagation();
 		const id = getClosestData(event, "templateId");
 		await this.actor.removeTemplate(id);
 	}
 
 	async _jumpToTemplate(event) {
+		event.stopImmediatePropagation();
 		const id = getClosestData(event, "templateId");
-		game.actors.find(x => x.id == id)?.sheet?.render(true);
+		const actors = await CityHelpers.getAllActorsByType("threat");
+		actors.find(x => x.id == id)?.sheet?.render(true);
 	}
 
 }

@@ -33,19 +33,6 @@
 				{{/each}}
 			</div>
 	</section>
-	<section class="danger-templates">
-		<div class="danger-templates-label"> Templates
-			<a class="template-add" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-		</div>
-		<div class="template-list">
-		{{#each actor.templates as |template id|}}
-		<div class="template-name" data-template-id="{{template.id}}">
-			{{template.name}}
-			<a class="item-control template-delete" title="Delete Template"><i class="fas fa-trash"></i></a>
-		</div>
-		{{/each}}
-		</div>
-	</section>
 	{{/if}}
 	<nav class="sheet-tabs tabs" data-group="primary">
 		{{#if ( isGM )}}
@@ -59,6 +46,7 @@
 			<div class="flex-row">
 				<div class="flex-overview-block">
 					{{> "systems/city-of-mist/templates/parts/gmmoves-section.html" owner=actor locked=data.locked sheetowner=actor}}
+					{{> "systems/city-of-mist/templates/parts/danger-template.html" owner=actor locked=data.locked sheetowner=actor actor=actor}}
 				</div>
 				<div class="flex-column">
 					<div class="flex-theme-block story-tag-box" >
@@ -104,4 +92,3 @@
 	</section>
 
 </form>
-
