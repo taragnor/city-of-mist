@@ -20,8 +20,13 @@ export class TokenTooltip {
 
 	async onHover(token, hovered) {
 		if (hovered) {
+			try {
 			if (!game.settings.get("city-of-mist", "tokenToolTip"))
 				return;
+			} catch (e) {
+				console.warn(e);
+				return;
+			}
 			if (! await this.updateData(token))
 				return;
 			this.updatePosition(token);
