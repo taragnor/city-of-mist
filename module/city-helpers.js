@@ -617,7 +617,7 @@ export class CityHelpers {
 			content: processed_html,
 			type: CONST.CHAT_MESSAGE_TYPES.OOC,
 		}
-		CONFIG.ChatMessage.entityClass.create(messageData, {})
+		CONFIG.ChatMessage.documentClass.create(messageData, {})
 	}
 
 	static async itemDialog(item) {

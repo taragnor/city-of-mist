@@ -13,6 +13,14 @@ export class CityActor extends Actor {
 		return this.getAttachedTemplates();
 	}
 
+	get my_statuses() {
+		return this.getStatuses();
+	}
+
+	get my_story_tags() {
+		return this.getStoryTags();
+	}
+
 	getGMMoves(depth = 0) {
 		if (depth > 2) return [];
 		if (this.type != "threat")
