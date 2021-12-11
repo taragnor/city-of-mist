@@ -1,23 +1,23 @@
 export const registerSystemSettings = function() {
 
-	game.settings.register("city-of-mist", "color-theme", {
-		name: "Color Scheme",
-		hint: "Changes color scheme for all elements (still expiremental)",
-		scope: "client",
-		config: true,
-		type: String,
-		default: "red",
-		choices: {
-			"red" : "Red",
-			"blue": "Blue",
-			"green": "Green",
-			"pink": "Pink",
-			"white": "White"
-		},
-		default: false,
-		restrict: false,
-		onChange: () => CityHelpers.applyColorization(),
-	});
+	// game.settings.register("city-of-mist", "color-theme", {
+	// 	name: "Color Scheme",
+	// 	hint: "Changes color scheme for all elements (still expiremental)",
+	// 	scope: "client",
+	// 	config: true,
+	// 	type: String,
+	// 	default: "red",
+	// 	choices: {
+	// 		"red" : "Red",
+	// 		"blue": "Blue",
+	// 		"green": "Green",
+	// 		"pink": "Pink",
+	// 		"white": "White"
+	// 	},
+	// 	default: false,
+	// 	restrict: false,
+	// 	onChange: () => CityHelpers.applyColorization(),
+	// });
 
 	game.settings.register("city-of-mist", "gritMode", {
 		name: "Grit Mode",
@@ -104,6 +104,16 @@ export const registerSystemSettings = function() {
 		type: Boolean,
 		default: false,
 		restrict: true
+	});
+
+	game.settings.register("city-of-mist", "tokenToolTip", {
+		name: "Token Tooltips",
+		hint: "Show tags and statuses of hovered token",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: false
 	});
 
 }

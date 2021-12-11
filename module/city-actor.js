@@ -636,6 +636,10 @@ export class CityActor extends Actor {
 		return this.getActiveTokens().filter (x=> x.data.actorLink);
 	}
 
+	get displayedName() {
+		return this.getDisplayedName();
+	}
+
 	getDisplayedName() {
 		if (this.isToken)
 			return this.token.name;

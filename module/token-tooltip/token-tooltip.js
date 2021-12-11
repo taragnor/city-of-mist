@@ -20,8 +20,9 @@ export class TokenTooltip {
 	}
 
 	async onHover(token, hovered) {
-		//TODO: add check here to see if tooltip setting is enabled
 		if (hovered) {
+			if (!game.settings.get("city-of-mist", "tokenToolTip"))
+				return;
 			await this.updateData(token);
 			this.updatePosition(token);
 			this.show();
