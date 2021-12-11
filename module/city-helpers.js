@@ -823,12 +823,12 @@ export class CityHelpers {
 	}
 
 	static applyColorization() {
-		const colorsetting = game.settings.get("city-of-mist", "color-theme") ;
-		if (colorsetting) {
-			document.documentElement.style.setProperty(
-				"--COM-COLOR-SCHEME",
-				colorsetting
-			);
+		// const colorsetting = game.settings.get("city-of-mist", "color-theme") ;
+		// if (colorsetting) {
+		// 	document.documentElement.style.setProperty(
+		// 		"--COM-COLOR-SCHEME",
+		// 		colorsetting
+		// 	);
 
 			//NOTE: TEST CODE
 			// document.documentElement.style.setProperty(
