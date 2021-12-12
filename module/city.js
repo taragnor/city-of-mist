@@ -88,7 +88,7 @@ Hooks.on('updateScene', CityHelpers.onSceneUpdate.bind(CityHelpers));
 //	Hooks.callAll_orig.apply(this, args);
 //}
 
-Hooks.on('renderChatLog', (app, html, data) => CityRoll.diceModListeners(app, html, data));
+Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 
 Hooks.once("ready", async function() {

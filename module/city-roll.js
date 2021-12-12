@@ -372,12 +372,14 @@ CityRoll.noRoll = async function (move_id, actor) {
 CityRoll.diceModListeners = async function (app, html, data) {
 	html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
 	html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
+	return true;
 }
 
 CityRoll.showEditButton = async function (app, html, data) {
 	if (game.user.isGM) {
 		$(html).find('.edit-roll').css("display", "inline-block");
 	}
+	return true;
 }
 
 CityRoll._checkOption = async function (event) {
@@ -422,14 +424,14 @@ CityRoll._checkOption = async function (event) {
 
 CityRoll._editRoll = async function (event) {
 	if (!game.user.isGM)
-		return;
+		return true;
 	const templateData  = getClosestData(event, "templateData");
 	const newTemplateData = await CityRoll.getModifierBox(templateData);
 	await CityRoll._updateMessage(event, newTemplateData);
 }
 
 CityRoll._updateMessage = async function (event, templateData) {
-	if (!templateData) return false;
+	if (!templateData) return true;
 	const messageId  = getClosestData(event, "messageId");
 	const message = game.messages.get(messageId);
 	const roll = message.roll;
@@ -439,7 +441,6 @@ CityRoll._updateMessage = async function (event, templateData) {
 		const upd = await ui.chat.updateMessage( msg, false);
 	} catch (e) {
 		console.log("can't update -- No Permissions");
-		return false;
 	}
 	return true;
 }

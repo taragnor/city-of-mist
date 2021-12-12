@@ -15,6 +15,7 @@ export class TokenTooltip {
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token, hovered) => {
 			this.onHover(token, hovered);
+			return true;
 		});
 	}
 
@@ -22,18 +23,19 @@ export class TokenTooltip {
 		if (hovered) {
 			try {
 			if (!game.settings.get("city-of-mist", "tokenToolTip"))
-				return;
+				return true;
 			} catch (e) {
 				console.warn(e);
-				return;
+				return true;
 			}
 			if (! await this.updateData(token))
-				return;
+				return true;
 			this.updatePosition(token);
 			this.show();
 		} else {
 			this.hide();
 		}
+		return true;
 	}
 
 	updatePosition(token) {
