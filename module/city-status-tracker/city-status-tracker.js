@@ -36,6 +36,7 @@ export class StatusTrackerWindow extends Application {
 
     html.on("click", "a.status-control", async function () {
       const indexStatus = jQuery(this).data("status");
+      const indexTag = jQuery(this).data("tag");
       const indexActor = jQuery(this).data("actor");
       const action = jQuery(this).data("action");
 
@@ -54,6 +55,12 @@ export class StatusTrackerWindow extends Application {
         case "status-decrease":
           await tracker.decreaseStatus(indexActor, indexStatus);
           break;
+        case "tag-new":
+          await tracker.newTag(indexActor);
+          break;
+        case "tag-delete":
+          await tracker.deleteTag(indexActor, indexTag);
+          break
         default:
           return;
       }

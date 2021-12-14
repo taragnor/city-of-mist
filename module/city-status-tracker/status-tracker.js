@@ -17,7 +17,8 @@ export class StatusTracker {
             actor: x,
             id: x.id,
             type: x.data.type,
-            statuses: x.items.filter(x => x.type == "status")
+            statuses: x.getStatuses(),
+            tags: x.getStoryTags()
         };
     });
 
@@ -74,6 +75,26 @@ export class StatusTracker {
 			if (revised_status.data.data.tier <= 0)
 				actor.deleteStatus(revised_status.id);
 		}
+  }
+
+  async newTag(indexActor) {
+    const actor = this.actors[indexActor].actor;
+
+    const obj = await actor.createStoryTag("Unnamed Tag")
+		const tag = await actor.getTag(obj.id);
+		const updateObj = await CityHelpers.itemDialog(tag);
+		if (updateObj) {
+			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
+		} else {
+			await owner.deleteTag(obj.id);
+		}
+  }
+
+  async deleteTag(indexActor, indexTag) {
+    const actor = this.actors[indexActor].actor;
+    const tagId = this.actors[indexActor].tags[indexTag].id;
+
+    await actor.deleteTag(tagId);
   }
 
   /* Needs to be moved into CityHelpers */
