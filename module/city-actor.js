@@ -671,7 +671,6 @@ export class CityActor extends Actor {
 				return game.actors.filter ( (act) => {
 					return act.data.type == "character" && act.isOwner;
 				});
-				break;
 			case "threat":
 				//check for updates to extra-type
 				if (this.isOwner && this.getThemes().length > 0) {
@@ -685,6 +684,8 @@ export class CityActor extends Actor {
 						return act.data.type == "character";
 					});
 				break;
+			case "character":
+				return game.actors.filter( act=> act.type == "character");
 			default:
 		}
 		return [];
