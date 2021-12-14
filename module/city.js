@@ -18,6 +18,7 @@ import { CityThreatSheet } from "./city-threat-sheet.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
 import { CityStoryTagContainerSheet } from "./city-story-tag-container-sheet.js";
+import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
 
 //Fix for electron browser lacking replaceAll method
 if (String.prototype.replaceAll == undefined) {
@@ -306,4 +307,26 @@ Hooks.once("init", async function() {
 			})
 		).flat();
 	});
+});
+
+/* City of Mist Status Tracker */
+Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
+	window.statusTrackerWindow = new StatusTrackerWindow();
+});
+
+Hooks.on("getSceneControlButtons", function(controls) {
+	let tileControls = controls.find(x => x.name === "token");
+	tileControls.tools.push({
+		icon: "fas fa-medkit",
+		name: "city-of-mist-status-tracker",
+		title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
+		button: true,
+		onClick: () => window.statusTrackerWindow.render(true)
+	});
+});
+  
+Hooks.on("renderApplication", function(control) {
+	if (window.statusTrackerWindow) {
+		window.statusTrackerWindow.render(false);
+	}
 });

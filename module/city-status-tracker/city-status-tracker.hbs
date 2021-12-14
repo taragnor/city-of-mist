@@ -1,0 +1,38 @@
+<div class="city-status-tracker">
+  <div class="status-text-list-header"> 
+    {{ localize "CityOfMistTracker.trackerwindow.statuses"}}
+	</div>
+  
+  {{#if statusTracker.actors }}
+    {{#each statusTracker.actors as |actor indexActor| }}
+      <div class="status-block">
+        <span class="status-actor"> {{actor.name}} </span>
+        <a class="status-control status-add" title="{{ localize "CityOfMistTracker.trackerwindow.status.addnew" }}" data-actor="{{ @indexActor }}" data-action="status-new"><i class="fas fa-plus"></i></a>
+        <ol id="city-status-tracker-list">
+        {{#each actor.statuses as |status indexStatus|}}
+          <li>
+            <div class="flexrow">
+              <a class="status-control status-delete" title="{{ localize "CityOfMistTracker.trackerwindow.status.delete" }}" data-actor="{{ @indexActor }}" data-status="{{ @indexStatus }}" data-action="status-delete"><i class="fas fa-trash"></i></a>
+              <span class="status-description">
+                {{#if  status.data.data.temporary}}
+                  <a class="status-type" title="{{ localize "CityOfMistTracker.trackerwindow.status.temporary" }}" ><i class="fas fa-hourglass"></i> </a>
+                {{/if}}
+                {{#if  status.data.data.permanent}}
+                  <a class="status-type" title="{{ localize "CityOfMistTracker.trackerwindow.status.permanent" }}" ><i class="fas fa-square"></i> </a>
+                {{/if}}
+                {{status.name}}-{{status.data.data.tier}}
+              </span>
+              <a class="status-control status-increase" title="{{ localize "CityOfMistTracker.trackerwindow.status.addto" }}"  data-actor="{{ @indexActor }}" data-status="{{ @indexStatus }}" data-action="status-increase"><i class="fas fa-plus"></i></a>
+              <a class="status-control status-decrease" title="{{ localize "CityOfMistTracker.trackerwindow.status.subtract" }}"  data-actor="{{ @indexActor }}" data-status="{{ @indexStatus }}" data-action="status-decrease"><i class="fas fa-minus"></i></a>
+            </div>
+          </li>
+        {{/each}}
+        </ol>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>
+      {{ localize "CityOfMistTracker.trackerwindow.empty" }}
+    </p>
+  {{/if}}
+</div>  

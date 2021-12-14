@@ -15,7 +15,8 @@
   ],
   "styles": [
     "styles/city.css",
-	 "module/token-tooltip/tooltip.css"
+	 "module/token-tooltip/tooltip.css",
+   "module/city-status-tracker/city-status-tracker.css"
   ],
   "languages": [
     {
