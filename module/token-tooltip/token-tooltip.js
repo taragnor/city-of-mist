@@ -11,10 +11,16 @@ export class TokenTooltip {
 		this.element = div(CSS_TOOLTIP);
 		this.nameElement = div(CSS_NAME);
 		this.element.appendChild(this.nameElement);
+		this.currentToken = null;
 
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token, hovered) => {
 			this.onHover(token, hovered);
+			return true;
+		});
+		Hooks.on('deleteToken',(token) => {
+			if (token.id == this.currentToken?.id)
+				this.hide();
 			return true;
 		});
 	}
@@ -30,9 +36,11 @@ export class TokenTooltip {
 			}
 			if (! await this.updateData(token))
 				return true;
+			this.currentToken = token;
 			this.updatePosition(token);
 			this.show();
 		} else {
+			this.currentToken = null;
 			this.hide();
 		}
 		return true;

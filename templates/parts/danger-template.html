@@ -1,16 +1,16 @@
-					{{#if (and (not locked) (isGM))}}
-					<section class="danger-templates">
-						<div class="danger-templates-label"> Templates
-							<a class="template-add"> <i class="fas fa-plus-square"></i></a>
-						</div>
-						<div class="template-list">
-							{{#each actor.templates as |template id|}}
-							<div class="template-name" data-template-id="{{template.id}}">
-								{{template.name}}
-								<a class="item-control template-delete" title="Delete Template"><i class="fas fa-trash"></i></a>
-							</div>
-							{{/each}}
-						</div>
-					</section>
-					{{/if}}
+{{#if (and (not locked) (isGM))}}
+<section class="danger-templates">
+	<div class="danger-templates-label"> Templates
+		<a class="template-add"> <i class="fas fa-plus-square"></i></a>
+	</div>
+	<div class="template-list">
+		{{#each actor.templates as |template id|}}
+		<div class="template-name" data-template-id="{{template.id}}">
+			{{template.name}}
+			<a class="item-control template-delete" title="Delete Template"><i class="fas fa-trash"></i></a>
+		</div>
+		{{/each}}
+	</div>
+</section>
+{{/if}}
 
