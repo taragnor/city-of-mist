@@ -662,6 +662,7 @@ export class CityHelpers {
 		await CityHelpers.onTokenUpdate(token, {}, {});
 		if (token.actor.hasEntranceMoves() && !token.data.hidden)
 			token.actor.undoEntranceMoves(token);
+		return true;
 	}
 
 	static async onTokenUpdate(token, changes, _otherStuff) {

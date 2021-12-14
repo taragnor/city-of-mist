@@ -1,3 +1,4 @@
+<section class="gm-moves">
 <h1 class="gm-moves-header"> Moves
 	{{#if (eq actor.data.data.locked false)}}
 	<a class="create-gm-move" data-actor-id={{owner.id}}> <i class="fas fa-plus-square"></i></a>
@@ -40,4 +41,6 @@
 {{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
 {{/if}}
 {{/each}}
+
+</section>
 
