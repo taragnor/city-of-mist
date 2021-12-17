@@ -1,0 +1,52 @@
+.status-block {
+  text-align: center;
+}
+
+span.status-actor {
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 6px;
+}
+
+span.status-description {
+  padding: 4px 0px;
+}
+
+#city-status-tracker-list ol {
+  width: 100%;
+  margin: 0px;
+}
+
+#city-status-tracker-list li{
+  list-style-type: none;
+  margin-left: -10%;
+}
+
+#city-status-tracker-list .status-control {
+  flex: 0;
+  margin: 4px;
+}
+
+#city-status-tracker-list .status-type {
+  flex: 0;
+  margin: 0px;
+}
+
+#city-status-tracker-list .tag-control {
+  flex: 0;
+  margin: 4px;
+}
+
+#city-status-tracker-list .tag-type {
+  flex: 0;
+  margin: 0px;
+}
+
+#city-status-tracker-list .tag-burn {
+  flex: 0;
+  margin: 4px 15px 4px 15px;
+}
+
+#city-status-tracker-list .tag-burned {
+  color: var(--neon-pink);
+}

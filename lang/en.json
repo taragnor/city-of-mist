@@ -14,5 +14,22 @@
 "ITEM.TypeJuice" : "Juice",
 "ITEM.TypeMove" : "Player Move",
 "ITEM.TypeGmmove" : "MC Move",
-"ITEM.TypeSpectrum" : "Danger Spectrum"
+"ITEM.TypeSpectrum" : "Danger Spectrum",
+
+"CityOfMistTracker.trackerwindow.title": "City of Mist Status Tracker",
+"CityOfMistTracker.trackerwindow.empty": "Place a token on the scene to start the tracker.",
+"CityOfMistTracker.trackerwindow.statuses": "Statuses & Tags",
+"CityOfMistTracker.trackerwindow.status.addto": "Add tier to status",
+"CityOfMistTracker.trackerwindow.status.subtract": "Subtract tier from status",
+"CityOfMistTracker.trackerwindow.status.addnew": "Add a new status",
+"CityOfMistTracker.trackerwindow.status.permanent": "Permanent status",
+"CityOfMistTracker.trackerwindow.status.temporary": "Temporary status",
+"CityOfMistTracker.trackerwindow.status.delete": "Delete status",
+
+"CityOfMistTracker.trackerwindow.tag.addnew": "Add a new story tag",
+"CityOfMistTracker.trackerwindow.tag.permanent": "Permanent Tag",
+"CityOfMistTracker.trackerwindow.tag.temporary": "Temporary Tag",
+"CityOfMistTracker.trackerwindow.tag.delete": "Delete story tag",
+"CityOfMistTracker.trackerwindow.tag.storytag": "Story Tag",
+"CityOfMistTracker.trackerwindow.tag.burned": "Burn tag"
 }
