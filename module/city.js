@@ -316,13 +316,15 @@ Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
 
 Hooks.on("getSceneControlButtons", function(controls) {
 	let tileControls = controls.find(x => x.name === "token");
-	tileControls.tools.push({
-		icon: "fas fa-medkit",
-		name: "city-of-mist-status-tracker",
-		title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
-		button: true,
-		onClick: () => window.statusTrackerWindow.render(true)
-	});
+	if (game.user.isGM){
+		tileControls.tools.push({
+			icon: "fas fa-medkit",
+			name: "city-of-mist-status-tracker",
+			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
+			button: true,
+			onClick: () => window.statusTrackerWindow.render(true)
+		});
+	}
 });
   
 Hooks.on("renderApplication", function(control) {
