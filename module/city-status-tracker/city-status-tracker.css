@@ -1,52 +1,93 @@
 .status-block {
-  text-align: center;
+	text-align: center;
 }
 
 span.status-actor {
-  font-weight: bold;
-  text-decoration: underline;
-  margin: 6px;
+	margin-top: 12px;
+	font-weight: bold;
+	font-size: 1.5em;
+	text-decoration: underline;
+	margin: 6px;
+}
+
+span.status-descripton-container {
+	padding: 4px 0px;
 }
 
 span.status-description {
-  padding: 4px 0px;
+	font-weight: bold;
+	padding: 0.1em 0.3em 0em 0.3em;
+	border-radius: 0.8em 0.3em;
+	background: transparent;
+	background-image: linear-gradient(
+	to right,
+	var(--spectrum-red),
+	var(--spectrum-red-light),
+	var(--spectrum-red)
+	);
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	color: #400000;
+
 }
 
+span.tag-descripton-container {
+	padding: 4px 0px;
+}
+
+span.tag-description {
+	/* padding: 4px 0px; */
+	width: fit-content;
+	margin: 0 -0.4em;
+	padding: 0.1em 0.4em;
+	border-radius: 0.8em 0.3em;
+	background: transparent;
+	background-image: linear-gradient(
+	to right,
+	var(--tag-yellow),
+	var(--tag-yellow-light),
+	var(--tag-yellow)
+	);
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+
 #city-status-tracker-list ol {
-  width: 100%;
-  margin: 0px;
+	width: 100%;
+	margin: 0px;
 }
 
 #city-status-tracker-list li{
-  list-style-type: none;
-  margin-left: -10%;
+	list-style-type: none;
+	margin-left: -10%;
 }
 
 #city-status-tracker-list .status-control {
-  flex: 0;
-  margin: 4px;
+	flex: 0;
+	margin: 4px;
 }
 
 #city-status-tracker-list .status-type {
-  flex: 0;
-  margin: 0px;
+	flex: 0;
+	margin: 0px;
 }
 
 #city-status-tracker-list .tag-control {
-  flex: 0;
-  margin: 4px;
+	flex: 0;
+	margin: 4px;
 }
 
 #city-status-tracker-list .tag-type {
-  flex: 0;
-  margin: 0px;
+	flex: 0;
+	margin: 0px;
 }
 
 #city-status-tracker-list .tag-burn {
-  flex: 0;
-  margin: 4px 15px 4px 15px;
+	flex: 0;
+	margin: 4px 15px 4px 15px;
 }
 
 #city-status-tracker-list .tag-burned {
-  color: var(--neon-pink);
+	color: var(--neon-pink);
 }
