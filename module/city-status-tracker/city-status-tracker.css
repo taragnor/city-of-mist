@@ -13,6 +13,7 @@
 	background-position: center;
 	background-size: cover;
 	box-shadow: 0px -1px 0px 1px #5f624fa6;
+	font-family: Roboto;
 }
 
 span.status-actor {
@@ -26,13 +27,15 @@ span.status-actor {
 span.status-actor:hover {
   cursor: pointer;
   text-shadow: 2px 4px 10px var(--mythos-pink);
+  font-family: 'Rubik';
 }
 
 span.status-descripton-container {
-	padding: 4px 0px;
+	padding: 3px 0px;
 }
 
 span.status-description {
+	width: fit-content;
 	font-weight: bold;
 	padding: 0.1em 0.3em 0em 0.3em;
 	border-radius: 0.8em 0.3em;
@@ -50,7 +53,7 @@ span.status-description {
 }
 
 span.tag-descripton-container {
-	padding: 4px 0px;
+	padding: 3px 0px;
 }
 
 span.tag-description {
@@ -68,6 +71,10 @@ span.tag-description {
 	);
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
+}
+
+span.tag-description.tag-burned {
+	color: red;
 }
 
 #city-status-tracker-list ol {

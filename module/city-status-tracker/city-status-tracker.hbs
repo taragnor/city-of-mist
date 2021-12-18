@@ -37,7 +37,7 @@
 							<div class="flexrow">
 								<a class="status-control tag-delete" title="{{ localize "CityOfMistTracker.trackerwindow.tag.delete" }}" data-actor="{{ @indexActor }}" data-tag="{{ @indexTag }}" data-action="tag-delete"><i class="fas fa-trash"></i></a>
 								<span class="tag-description-container">
-									<span class="tag-description">
+									<span class="tag-description {{#if tag.data.data.burned}} tag-burned {{/if}} ">
 										<a class="tag-type" title="{{ localize "CityOfMistTracker.trackerwindow.tag.storytag" }}" ><i class="fas fa-tag"></i> </a>
 										{{#if  tag.data.data.temporary}}
 											<a class="tag-type" title="{{ localize "CityOfMistTracker.trackerwindow.tag.temporary" }}" ><i class="fas fa-hourglass"></i> </a>
