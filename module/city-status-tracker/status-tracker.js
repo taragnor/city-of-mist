@@ -87,11 +87,10 @@ export class StatusTracker {
 		const tag = await actor.getTag(obj.id);
 		const updateObj = await CityHelpers.itemDialog(tag);
 		if (updateObj) {
-			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
+			await CityHelpers.modificationLog(actor, "Created", updateObj);
 		} else {
 			await owner.deleteTag(obj.id);
 		}
-			//TODO: add in logging function for loggable chat
   }
 
   async deleteTag(indexActor, indexTag) {
