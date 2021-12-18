@@ -70,9 +70,10 @@ export class StatusTrackerWindow extends Application {
 
 		html.find(".status-actor").click( this._openTokenSheet);
 
-
 		html.find(".status-actor").mousedown( CityHelpers.rightClick( this._centerOnToken));
 
+		html.find(".tag-burn").click (this._burnTag);
+		html.find(".tag-burn").mousedown(CityHelpers.rightClick(this._unburnTag));
 
 		/*html.on("dblclick", "p.aspect-description", async function () {
 		const index = jQuery(this).data("index");
@@ -114,6 +115,19 @@ export class StatusTrackerWindow extends Application {
 		await tracker._centerOnToken(indexActor);
 	}
 
+	async _burnTag(event) {
+		const indexActor = getClosestData(event, "actor");
+		const tag = getClosestData(event, "tag");
+		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		await tracker.burnTag(indexActor, tag);
+	}
+
+	async _unburnTag(event) {
+		const indexActor = getClosestData(event, "actor");
+		const tag = getClosestData(event, "tag");
+		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		await tracker.unburnTag(indexActor, tag);
+	}
 
 	/**
 	 * @returns {StatusTracker}

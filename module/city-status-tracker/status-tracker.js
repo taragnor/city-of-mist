@@ -102,6 +102,20 @@ export class StatusTracker {
 			//TODO: add in logging function for loggable chat
   }
 
+	async burnTag(indexActor, indexTag) {
+		const actor = this.actors[indexActor].actor;
+		const tagId = this.actors[indexActor].tags[indexTag].id;
+		if (!actor.getTag(tagId).isBurned())
+			await actor.burnTag(tagId);
+	}
+
+	async unburnTag(indexActor, indexTag) {
+		const actor = this.actors[indexActor].actor;
+		const tagId = this.actors[indexActor].tags[indexTag].id;
+		if (actor.getTag(tagId).isBurned())
+			await actor.burnTag(tagId, 0);
+	}
+
   async _statusAddSubDialog(status, title) {
 	  return await CityHelpers._statusAddSubDialog(status, title);
   }
