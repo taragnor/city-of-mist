@@ -5,7 +5,7 @@
 
 	{{#if statusTracker.actors }}
 		{{#each statusTracker.actors as |actor indexActor| }}
-			<div class="status-block">
+			<div class="status-block" data-actor="{{ @indexActor }}" >
 				<span class="status-actor"> {{actor.name}} </span>
 				<a class="status-control status-add" title="{{ localize "CityOfMistTracker.trackerwindow.status.addnew" }}" data-actor="{{ @indexActor }}" data-action="status-new"><i class="fas fa-plus-square"></i></a>
 				<a class="status-control tag-add" title="{{ localize "CityOfMistTracker.trackerwindow.tag.addnew" }}" data-actor="{{ @indexActor }}" data-action="tag-new"><i class="fas fa-tag"></i></a>
@@ -60,4 +60,4 @@
 		{{ localize "CityOfMistTracker.trackerwindow.empty" }}
 		</p>
 	{{/if}}
-</div>  
+</div>

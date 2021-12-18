@@ -147,4 +147,27 @@ export class StatusTracker {
       dialog.render(true);
     });
   }
+
+	async _openTokenSheet(indexActor) {
+		const actor = this.actors[indexActor].actor;
+		await actor.sheet.render(true);
+	}
+
+	async _centerOnToken(indexActor) {
+		const actor = this.actors[indexActor].actor;
+		Debug(actor);
+		let position = null;
+		if (actor.isToken) {
+			position = actor.parent._object.center;
+		} else {
+			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
+			Debug(token);
+			position = token.center;
+		}
+		if (position)
+			await canvas.animatePan (position);
+	}
+
+
+
 }
