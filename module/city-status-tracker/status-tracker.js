@@ -10,7 +10,7 @@ export class StatusTracker {
 
   static load() {
     const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || x.data.type == "character");
-    
+
     const actors = tokenActors.map( x=> {
         return {
             name: x.getDisplayedName(),
@@ -54,8 +54,9 @@ export class StatusTracker {
     const {data: {name, data: {tier, pips}}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.addto"))) {
+			//TODO: add in logging function for loggable chat
 			const {name: newname, tier: amt} = ret;
-			console.log(`${name} : ${tier}`);
+			// console.log(`${name} : ${tier}`);
 			await status.addStatus(amt, newname);
 		}
   }
@@ -63,18 +64,20 @@ export class StatusTracker {
   async decreaseStatus(indexActor, indexStatus) {
     const actor = this.actors[indexActor].actor;
     const statusId = this.actors[indexActor].statuses[indexStatus].id;
-    
+
     const status = await actor.getStatus(statusId);
 
     const {data: {name, data: {tier, pips}}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.subtract"))) {
+			//TODO: add in logging function for loggable chat
 			const {name: newname, tier: amt} = ret;
-			console.log(`${name} : ${tier}`);
+			// console.log(`${name} : ${tier}`);
 			const revised_status = await status.subtractStatus(amt, newname);
 			if (revised_status.data.data.tier <= 0)
 				actor.deleteStatus(revised_status.id);
 		}
+			//TODO: add in logging function for loggable chat
   }
 
   async newTag(indexActor) {
@@ -88,6 +91,7 @@ export class StatusTracker {
 		} else {
 			await owner.deleteTag(obj.id);
 		}
+			//TODO: add in logging function for loggable chat
   }
 
   async deleteTag(indexActor, indexTag) {
@@ -95,57 +99,11 @@ export class StatusTracker {
     const tagId = this.actors[indexActor].tags[indexTag].id;
 
     await actor.deleteTag(tagId);
+			//TODO: add in logging function for loggable chat
   }
 
-  /* Needs to be moved into CityHelpers */
   async _statusAddSubDialog(status, title) {
-    const templateData = {status: status.data, data: status.data.data};
-    const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-    return new Promise ( (conf, reject) => {
-      const options ={};
-      const returnfn = function (html, tier) {
-        conf( {
-          name: $(html).find(".status-name-input").val(),
-          tier
-        });
-      }
-      const dialog = new Dialog({
-        title:`${title}`,
-        content: html,
-        buttons: {
-          one: {
-            label: "1",
-            callback: (html) => returnfn(html, 1)
-          },
-          two: {
-            label: "2",
-            callback: (html) => returnfn(html, 2)
-          },
-          three: {
-            label: "3",
-            callback: (html) => returnfn(html, 3)
-          },
-          four: {
-            label: "4",
-            callback: (html) => returnfn(html, 4)
-          },
-          five: {
-            label: "5",
-            callback: (html) => returnfn(html, 5)
-          },
-          six: {
-            label: "6",
-            callback: (html) => returnfn(html, 6)
-          },
-          cancel: {
-            label: "Cancel",
-            callback: () => conf(null)
-          }
-        },
-        default: "cancel"
-      }, options);
-      dialog.render(true);
-    });
+	  return await CityHelpers._statusAddSubDialog(status, title);
   }
 
 	async _openTokenSheet(indexActor) {
@@ -155,19 +113,7 @@ export class StatusTracker {
 
 	async _centerOnToken(indexActor) {
 		const actor = this.actors[indexActor].actor;
-		Debug(actor);
-		let position = null;
-		if (actor.isToken) {
-			position = actor.parent._object.center;
-		} else {
-			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
-			Debug(token);
-			position = token.center;
-		}
-		if (position)
-			await canvas.animatePan (position);
+		await CityHelpers.centerOnActorToken(actor);
 	}
-
-
 
 }

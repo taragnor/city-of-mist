@@ -110,7 +110,6 @@ export class StatusTrackerWindow extends Application {
 
 	async _centerOnToken(event) {
 		const indexActor = getClosestData(event, "actor");
-		console.log(`open token sheet - indexActor ${indexActor}`);
 		const tracker = window.statusTrackerWindow.getData().statusTracker;
 		await tracker._centerOnToken(indexActor);
 	}

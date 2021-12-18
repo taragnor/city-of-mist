@@ -839,6 +839,73 @@ export class CityHelpers {
 		// }
 	}
 
+	static async centerOnActorToken( actor) {
+		let position = null;
+		if (actor.isToken) {
+			position = actor.parent._object.center;
+		} else {
+			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
+			Debug(token);
+			position = token.center;
+		}
+		if (position)
+			await canvas.animatePan (position);
+	}
+
+	static async _statusAddSubDialog(status, title) {
+		//Utilized in Status Tracker
+		const templateData = {status: status.data, data: status.data.data};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
+		return new Promise ( (conf, reject) => {
+			const options ={};
+			const returnfn = function (html, tier) {
+				conf( {
+					name: $(html).find(".status-name-input").val(),
+					tier
+				});
+			}
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: "1",
+						callback: (html) => returnfn(html, 1)
+					},
+					two: {
+						label: "2",
+						callback: (html) => returnfn(html, 2)
+					},
+					three: {
+						label: "3",
+						callback: (html) => returnfn(html, 3)
+					},
+					four: {
+						label: "4",
+						callback: (html) => returnfn(html, 4)
+					},
+					five: {
+						label: "5",
+						callback: (html) => returnfn(html, 5)
+					},
+					six: {
+						label: "6",
+						callback: (html) => returnfn(html, 6)
+					},
+					cancel: {
+						label: "Cancel",
+						callback: () => conf(null)
+					}
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+	}
+
+
+
+
 } //end of class
 
 //Start of fix for actors directory and private names
