@@ -116,6 +116,21 @@ export const registerSystemSettings = function() {
 		restrict: false
 	});
 
+	game.settings.register("city-of-mist", "trackerSort", {
+		name: "Status/Tag Tracker sorting method",
+		hint: "How the Tracker sorts the PCs and dangers",
+		scope: "world",
+		config: true,
+		type: String,
+		default: "alpha",
+		choices: {
+			"alpha" : "Alphabetical Only",
+			"pc_alpha": "PCs first",
+			"tag_sort": "Elevate PCs and dangers with tag/statuses",
+		},
+		restrict: true
+	});
+
 }
 
 // Example Getter
