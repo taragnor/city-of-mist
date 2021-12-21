@@ -130,4 +130,3 @@ export const registerSystemSettings = function() {
 
 // Example Getter
 // game.settings.get("city-of-mist", "weaknessCap");
-
