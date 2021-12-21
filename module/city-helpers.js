@@ -6,7 +6,7 @@ export class CityHelpers {
 	static async getAllActorsByType (item_type ="", game=window.game) {
 	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
 	  const game_items = game.actors.filter(std_finder);
-	  const pack_finder = (e => e.metadata.entity == "Actor");
+	  const pack_finder = (e => e.documentName == "Actor");
 
 	  let packs = game.packs.filter(pack_finder);
 	  let compendium_content = [];
@@ -29,7 +29,7 @@ export class CityHelpers {
 	  const game_items = game.items.filter(std_finder);
 	  // const game_items = game.items.filter(std_finder).map(e => {return e.data});
 	  // const pack_finder = (item_type.length > 0) ? (e => e.metadata.entity == "Item") : (e => true);
-	  const pack_finder = (e => e.metadata.entity == "Item");
+	  const pack_finder = (e => e.documentName == "Item");
 
 	  let packs = game.packs.filter(pack_finder);
 	  let compendium_content = [];
