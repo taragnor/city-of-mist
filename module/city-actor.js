@@ -730,12 +730,12 @@ export class CityActor extends Actor {
 
 	async executeEntranceMoves(token) {
 		if (!game.user.isGM) return;
-		if (!game.settings.get("city-of-mist", "entranceMoves"))
+		if (!CityHelpers.entranceMovesEnabled())
 			return;
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.data.data.subtype == "entrance");
-		if (game.settings.get("city-of-mist", "autoEntranceMoves") ||
-			await CityHelpers.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
+		if (CityHelpers.autoExecEntranceMoves()
+			|| await CityHelpers.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				await this.executeGMMove(move);
 			}
@@ -779,12 +779,12 @@ export class CityActor extends Actor {
 
 	async undoEntranceMoves (token) {
 		if (!game.user.isGM) return;
-		if (!game.settings.get("city-of-mist", "entranceMoves"))
+		if (!CityHelpers.entranceMovesEnabled())
 			return;
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.data.data.subtype == "entrance");
-		if (game.settings.get("city-of-mist", "autoEntranceMoves") ||
-			await CityHelpers.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
+		if (CityHelpers.autoExecEntranceMoves()
+			|| await CityHelpers.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				this.undoGMMove(move);
 			}

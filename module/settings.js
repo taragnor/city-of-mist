@@ -86,23 +86,18 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
-	game.settings.register("city-of-mist", "entranceMoves", {
-		name: "Enable Entrance Move Automation",
-		hint: "Prompt to run entrance moves when Dangers enter the scene and undo them when dangers exit.",
+	game.settings.register("city-of-mist", "execEntranceMoves", {
+		name: "Danger Entrance Moves",
+		hint: "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
 		scope: "world",
 		config: true,
-		type: Boolean,
-		default: false,
-		restrict: true
-	});
-
-	game.settings.register("city-of-mist", "autoEntranceMoves", {
-		name: "Auto Execute Entrance Moves",
-		hint: "When revealing a hidden danger token or dropping a danger token on the map in an unhidden state, automatically execute any 'on enter scee' moves",
-		scope: "world",
-		config: true,
-		type: Boolean,
-		default: false,
+		type: String,
+		default: "none",
+		choices: {
+			"none" : "No Automation",
+			"ask": "Ask to activate",
+			"auto": "Automatically activate",
+		},
 		restrict: true
 	});
 

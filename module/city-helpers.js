@@ -902,6 +902,16 @@ export class CityHelpers {
 		});
 	}
 
+	static entranceMovesEnabled() {
+		const setting = game.settings.get("city-of-mist", "execEntranceMoves");
+		return setting != "none";
+	}
+
+
+	static autoExecEntranceMoves() {
+		const setting = game.settings.get("city-of-mist", "execEntranceMoves");
+		return setting == "auto";
+	}
 
 
 
