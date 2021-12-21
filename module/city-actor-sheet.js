@@ -893,7 +893,6 @@ export class CityActorSheet extends CitySheet {
 		const SHB = move_group == "SHB";
 		let newtype = null;
 		if (SHB) {
-			console.log("trying to SHB");
 			const SHBType = await this.SHBDialog();
 			if (!SHBType)
 				return;
@@ -1013,7 +1012,6 @@ export class CityActorSheet extends CitySheet {
 							label: "Let's do this!",
 							callback: (html) => {
 								const result = $(html).find(".SHB-selector:checked").val();
-								console.log(result);
 								conf(result);
 							}
 						},
