@@ -845,6 +845,8 @@ export class CityHelpers {
 			position = actor.parent._object.center;
 		} else {
 			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
+			if (!token)
+				return;
 			position = token.center;
 		}
 		if (position)

@@ -21,6 +21,19 @@ export class StatusTracker {
 				tags: x.getStoryTags()
 			};
 		});
+	const scene = game.actors.filter( x=> x.type == "storyTagContainer")
+		.map( x=> {
+			return  {
+				name: "Scene",
+				actor: x,
+				id: x.id,
+				type: x.data.type,
+				statuses: x.getStatuses(),
+				tags: x.getStoryTags()
+			};
+		});
+		const combined = actors.concat(scene);
+
 		let sortFn = null;
 		switch ( game.settings.get("city-of-mist", "trackerSort")) {
 			case "alpha":
@@ -39,18 +52,27 @@ export class StatusTracker {
 		}
 		if (!sortFn)
 			throw new Error("No sort function found for Status Tracker");
-		const sorted = actors
+		const sorted = combined
 			.sort(sortFn);
 		return new StatusTracker(sorted);
 	}
 
-
-	static pc_alpha_sort(a, b) {
+	static pc_type_sort(a,b) {
+		if (a.type == "storyTagContainer" && b.type != "storyTagContainer")
+			return -1;
+		if (a.type != "storyTagContainer" && b.type == "storyTagContainer")
+			return 1;
 		if (a.type == "character" && b.type != "character")
 			return -1;
 		if (a.type != "character" && b.type == "character")
 			return 1;
-		return StatusTracker.alpha_sort(a, b);
+		return 0;
+	}
+
+
+	static pc_alpha_sort(a, b) {
+		return StatusTracker.pc_type_sort(a,b)
+			|| StatusTracker.alpha_sort(a, b);
 	}
 
 	static alpha_sort(a, b) {
@@ -62,19 +84,14 @@ export class StatusTracker {
 	}
 
 	static tag_sort(a, b) {
-		if (a.type == "character" && b.type != "character")
-			return -1;
-		if (a.type != "character" && b.type == "character")
-			return 1;
+		const typesort = StatusTracker.pc_type_sort(a,b);
+		if (typesort)
+			return typesort;
 		if (a.tags.length + a.statuses.length ==0)
 			return 1;
 		if (b.tags.length + b.statuses.length ==0)
 			return -1;
-		if (a.name < b.name)
-			return -1;
-		if (a.name > b.name)
-			return 1;
-		return 0;
+		return StatusTracker.alpha_sort(a,b);
 	}
 
 	async newStatus(indexActor) {
