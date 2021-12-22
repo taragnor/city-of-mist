@@ -41,7 +41,8 @@
 			</div>
 
 			<div class="attention-label">
-				<div class="attention-text flex-std"> Attention 				
+				<div class="attention-text flex-std"> 
+					{{localize 'CityOfMist.terms.attention' }}
 					</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}} 
 				</div>
 
@@ -65,30 +66,44 @@
 				{{/if}}
 			</div>
 			<div class="fade-text flex-std">
-				{{#if (eq tbdata.type "Logos")}} Crack {{/if}}
-				{{#if (eq tbdata.type "Mythos")}} Fade {{/if}}
-				{{#if (eq tbdata.type "Mist")}} Strike {{/if}}
-				{{#if (eq tbdata.type "Crew")}} Crack {{/if}}
-				{{#if (eq tbdata.type "Extra")}} Crack {{/if}}
+				{{#if (eq tbdata.type "Logos")}} {{localize 'CityOfMist.terms.crack' }}
+				{{/if}}
+				{{#if (eq tbdata.type "Mythos")}} {{localize 'CityOfMist.terms.fade' }}
+				{{/if}}
+				{{#if (eq tbdata.type "Mist")}} {{localize 'CityOfMist.terms.strike' }}
+				{{/if}}
+				{{#if (eq tbdata.type "Crew")}} {{localize 'CityOfMist.terms.crack' }}
+				{{/if}}
+				{{#if (eq tbdata.type "Extra")}} {{localize 'CityOfMist.terms.crack' }}
+				{{/if}}
 			</div>
 		</div>
 	</div>
 	{{#if (eq tbdata.type "Logos")}}
-	<div class="themebook-identity-label"> <b class="themebook-identity">Identity</b> </div>
+	<div class="themebook-identity-label"> <b class="themebook-identity">
+			{{localize 'CityOfMist.terms.identity' }}
+		</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mythos")}}
-	<div class="themebook-mystery-label"> <b class="themebook-mystery">Mystery</b> </div>
+	<div class="themebook-mystery-label"> <b class="themebook-mystery">
+			{{localize 'CityOfMist.terms.mystery' }}
+		</b> </div>
 	{{/if}}
 	{{#if (eq tbdata.type "Mist")}}
-	<div class="themebook-mist-label"> <b class="themebook-directive">Directive</b> </div>
+	<div class="themebook-mist-label"> <b class="themebook-directive">
+			{{localize 'CityOfMist.terms.directive' }}
+		</b> </div>
 	{{/if}}
 	<!-- Crew and Extra -->
 	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
-	<div class="themebook-crew-label"> <b class="themebook-mystery">Mystery/Identity</b> </div>
+	<div class="themebook-crew-label"> <b class="themebook-mystery">
+			{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
+		</b> </div>
 	{{/if}}
 	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
 	<div class="tag-add-icons">
-		<div id="tags-header" class="tags-header"> Theme Tags
+		<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
+
 			{{#if (gt data.unspent_upgrades 0)}}
 			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
 			{{else}}
@@ -132,7 +147,7 @@
 		{{/if}}
 		{{/if}}
 		{{/each}}
-		<div id="improvements-header" class="improvements-header"> Improvements
+		<div id="improvements-header" class="improvements-header"> {{localize 'CityOfMist.terms.improvements' }}
 			{{#if (gt data.unspent_upgrades 0)}}
 			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner.id}}" data-theme-id="{{theme.id}}" title= "Add Improvement"> <i class="fas fa-plus-square"></i></a>
 			{{else}}

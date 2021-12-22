@@ -11,17 +11,29 @@
 			</div>
 	</header>
 	<nav class="sheet-tabs tabs" data-group="primary">
-		<a class="item" data-tab="themes"> Tags/Themes </a>
-		<a class="item" data-tab="juice"> Juice/Help/Hurt </a>
-		<a class="item" data-tab="clues"> Clues </a>
-		<a class="item" data-tab="build-up"> Moments of Evolution </a>
-		<a class="item" data-tab="bio"> Bio </a>
+		<a class="item" data-tab="themes">
+			{{localize 'CityOfMist.terms.tags' }} / {{localize 'CityOfMist.terms.themes' }}
+		</a>
+		<a class="item" data-tab="juice">
+			{{localize 'CityOfMist.terms.juice' }} /
+			{{localize 'CityOfMist.terms.help' }} /
+			{{localize 'CityOfMist.terms.hurt' }}
+			</a>
+		<a class="item" data-tab="clues">
+			{{localize 'CityOfMist.terms.clues' }}
+			</a>
+		<a class="item" data-tab="build-up">
+			{{localize 'CityOfMist.terms.MoEs' }}
+			</a>
+		<a class="item" data-tab="bio">
+			{{localize 'CityOfMist.terms.bio' }}
+			</a>
 	</nav>
 	<section class="sheet-body">
 		<div class="tab tab-content theme-section" data-group="primary" data-tab="themes">
 			{{#if (not (isGM))}}
 			<section id="active-extra-selection">
-				<label for="extra-drop-down"> Active Extra Theme </label>
+				<label for="extra-drop-down"> {{localize 'CityOfMist.terms.activeExtraTheme' }} </label>
 				<select class="active-extra-drop-down" name="active-extra-drop-down" id="active-extra-drop-down">
 					<option value="" {{#if (eq data.activeExtraId "")}} selected="selected" {{/if}}>- </option>
 					{{#each data.extras as |extra| }}
@@ -43,7 +55,8 @@
 						<span class="move-section-header"></span>
 						{{createSelect (getMoveGroups) "data.data.selectedMoveGroup" data.data.selectedMoveGroup "select-move-group"}}
 						{{createSelect (getMoveGroup data) "data.data.selectedMove" data.data.selectedMove  "select-move" }}
-						<button class="execute-move-button" type="button"> Execute Move </button>
+						<button class="execute-move-button" type="button"> {{localize 'CityOfMist.command.executeMove' }}
+						</button>
 					</section>
 				</div>
 				<div class="theme-block-group">

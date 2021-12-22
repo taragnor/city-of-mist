@@ -2551,8 +2551,8 @@ faded {
 /* Sheet Restyling */
 
 .sheet .tabs .item.active {
-  color: white;
-  font-weight: normal;
+  /* color: white; */
+  font-weight: bold;
   text-shadow: none;
   background-color: var(--mythos-pink);
 }

@@ -113,6 +113,8 @@ Hooks.once("init", async function() {
   console.log(`Initializing City of Mist System`);
   console.log(`***********************************`);
 
+	window.localize = game.i18n.localize.bind(game.i18n);
+
 	registerSystemSettings();
 
 	game.city = {
@@ -192,9 +194,9 @@ Hooks.once("init", async function() {
 
 	Handlebars.registerHelper('getMoveGroups', function (_actor) {
 		const data = [
-			["core" , "Core Moves"],
-			["special" , "Special Moves"],
-			["SHB", "Stop. Holding. Back."]
+			["core" , localize("CityOfMist.terms.coreMoves")],
+			["special" , localize("CityOfMist.terms.specialMoves")],
+			["SHB", localize("CityOfMist.terms.shb") ]
 		];
 		return data.map( x=> {
 			return {
@@ -205,7 +207,14 @@ Hooks.once("init", async function() {
 	});
 
 	Handlebars.registerHelper('getGMMoveTypes', function () {
-		const data = ["Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
+		const data = [
+			localize("CityOfMist.terms.soft"),
+			localize("CityOfMist.terms.hard"),
+			localize("CityOfMist.terms.intrusion"),
+			localize("CityOfMist.terms.custom"),
+			localize("CityOfMist.terms.enterScene"),
+		// "Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
+		];
 		return data.map( x => {
 			return {
 				id: x.toLowerCase(),
