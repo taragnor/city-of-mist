@@ -641,6 +641,8 @@ export class CityActor extends Actor {
 	}
 
 	getDisplayedName() {
+		if (this.type == "storyTagContainer")
+			return "Scene";
 		if (this.isToken)
 			return this.token.name;
 		const controlled = () => {

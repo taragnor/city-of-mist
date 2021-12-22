@@ -275,19 +275,34 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getOtherStatuses() {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || (x.data.type == "character" && x.id != this.actor.id));
-		const applicableTargets = tokenActors;
+		const applicableTargets = tokenActors
+			.concat(
+				game.actors.filter(x=> x.type == "storyTagContainer")
+			);
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.data.type == "status"));
 		const statusblock = filteredTargets.map( x=> {
 			return {
-				name: x.getDisplayedName(),
+				name: x.displayedName,
 				data: x.data,
 				id: x.id,
 				type: x.data.type,
 				statuses: x.items.filter(x => x.type == "status" && !x.data.data.hidden)
 			};
 		});
-		return statusblock;
+		const sorted = statusblock.sort( (a,b) => {
+			if (a.name == "Scene")
+				return -1;
+			if (b.name == "Scene")
+				return 1;
+			if (a.name < b.name)
+				return -1;
+			if (a.name > b.name)
+				return 1;
+			return 0;
+		});
+		Debug(sorted);
+		return sorted;
 	}
 
 	activateListeners(html) {
