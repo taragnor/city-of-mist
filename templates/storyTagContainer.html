@@ -4,13 +4,17 @@
 		<div class="grow-two">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
 			<div id="name">
-				<label for="extra-name">Name</label>
+				<label for="extra-name">
+					{{localize 'CityOfMist.terms.name' }}
+				</label>
 				<input type="text" id="extra-name" name="name" value="{{actor.name}}">
 			</div>
 		</div>
 	</section>
 	<section>
-		<button class="create-scene-descriptor" type="button"> Narration Box </button>
+		<button class="create-scene-descriptor" type="button"> 
+			{{localize 'CityOfMist.command.narrationBox' }}
+		</button>
 	</section>
 	<section name="tags-section">
 		{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=data.storyTags}}

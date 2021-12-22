@@ -33,6 +33,8 @@
 "CityOfMistTracker.trackerwindow.tag.storytag": "Story Tag",
 "CityOfMistTracker.trackerwindow.tag.burned": "Burn tag",
 
+"CityOfMist.terms.name": "Name",
+"CityOfMist.terms.alias": "Alias / Token Name",
 "CityOfMist.terms.logos": "Logos",
 "CityOfMist.terms.mythos": "Mythos",
 "CityOfMist.terms.short_desc": "Short Description",
@@ -47,6 +49,7 @@
 "CityOfMist.terms.themes": "Themes",
 "CityOfMist.terms.status": "Status",
 "CityOfMist.terms.statuses": "Statuses",
+"CityOfMist.terms.spectrums": "Spectrums",
 "CityOfMist.terms.themeTags": "Theme Tags",
 "CityOfMist.terms.improvements": "Improvements",
 "CityOfMist.terms.tag": "Tag",
@@ -59,18 +62,26 @@
 "CityOfMist.terms.hurt": "Hurt",
 "CityOfMist.terms.MoEs": "Moments of Evolution",
 "CityOfMist.terms.bio": "Bio",
+"CityOfMist.terms.moves": "Moves",
 "CityOfMist.terms.coreMoves": "Core Moves",
 "CityOfMist.terms.specialMoves": "Special Moves",
 "CityOfMist.terms.shb": "Stop. Holding. Back.",
 "CityOfMist.terms.soft": "Soft",
+"CityOfMist.terms.softMoves": "Soft Moves",
 "CityOfMist.terms.hard": "Hard",
+"CityOfMist.terms.hardMoves": "Hard Moves",
 "CityOfMist.terms.intrusion": "Intrusion",
+"CityOfMist.terms.intrusions": "Intrusions",
 "CityOfMist.terms.custom": "Custom",
+"CityOfMist.terms.customMoves": "Custom Moves",
 "CityOfMist.terms.enterScene": "On Enter Scene",
+"CityOfMist.terms.templates": "Templates",
+"CityOfMist.terms.isTemplate": "Template?",
 
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
 
 "CityOfMist.command.toggleLock": "Toggle Sheet Lock",
+"CityOfMist.command.narrationBox": "Narration Box",
 "CityOfMist.command.executeMove": "Execute Move"
 
 }

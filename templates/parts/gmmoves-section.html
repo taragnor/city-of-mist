@@ -1,11 +1,15 @@
 <section class="gm-moves">
-<h1 class="gm-moves-header"> Moves
+<h1 class="gm-moves-header">
+	{{localize 'CityOfMist.terms.moves' }}
+
 	{{#if (eq actor.data.data.locked false)}}
 	<a class="create-gm-move" data-actor-id={{owner.id}}> <i class="fas fa-plus-square"></i></a>
 	{{/if}}
 </h1>
 {{#if (hasGMMoveOfType owner "intrusion")}}
-<label class="gmmove-type-label"> Intrusions {{id}} </label>
+<label class="gmmove-type-label">
+	{{localize 'CityOfMist.terms.intrusions' }}
+</label>
 {{/if}}
 {{#each owner.gmmoves as |item id|}}
 {{#if (eq item.data.data.subtype "entrance")}}
@@ -18,7 +22,9 @@
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "custom")}}
-<label class="gmmove-type-label"> Custom Moves </label>
+<label class="gmmove-type-label">
+	{{localize 'CityOfMist.terms.customMoves' }}
+</label>
 {{/if}}
 {{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "custom")}}
@@ -26,7 +32,9 @@
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "hard")}}
-<label class="gmmove-type-label"> Hard Moves </label>
+<label class="gmmove-type-label">
+	{{localize 'CityOfMist.terms.hardMoves' }}
+</label>
 {{/if}}
 {{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "hard")}}
@@ -34,7 +42,9 @@
 {{/if}}
 {{/each}}
 {{#if (hasGMMoveOfType owner "soft")}}
-<label class="gmmove-type-label"> Soft Moves </label>
+<label class="gmmove-type-label">
+	{{localize 'CityOfMist.terms.softMoves' }}
+</label>
 {{/if}}
 {{#each owner.gmmoves as |item|}}
 {{#if (eq item.data.data.subtype "soft")}}

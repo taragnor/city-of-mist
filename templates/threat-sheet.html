@@ -12,7 +12,9 @@
 			</div>
 			<div class="Checkbox">
 				{{#if (and (isGM) (not data.locked))}}
-				<label> Template?</label>
+				<label>
+					{{localize 'CityOfMist.terms.isTemplate' }}
+				</label>
 				<input type="checkbox" name="data.is_template" {{#if actor.data.data.is_template}} checked {{/if}} >
 				{{/if}}
 			</div>
@@ -21,7 +23,8 @@
 	</header>
 	{{#if (and (not data.locked) (isGM))}}
 	<section class="threat-spectrums">
-		<div class="spectrum-section-label"> Spectrums
+		<div class="spectrum-section-label">
+			{{localize 'CityOfMist.terms.spectrums' }}
 			{{#if (not data.locked)}}
 			<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 			{{/if}}
@@ -36,10 +39,18 @@
 	{{/if}}
 	<nav class="sheet-tabs tabs" data-group="primary">
 		{{#if ( isGM )}}
-		<a class="item" data-tab="moves"> Moves / Tags </a>
+		<a class="item" data-tab="moves">
+			{{localize 'CityOfMist.terms.moves' }} /
+{{localize 'CityOfMist.terms.tags' }}
+		</a>
 		{{/if}}
-		<a class="item" data-tab="themes"> Themes </a>
-		<a class="item" data-tab="bio"> Bio </a>
+		<a class="item" data-tab="themes">
+			{{localize 'CityOfMist.terms.themes' }}
+
+		</a>
+		<a class="item" data-tab="bio">
+			{{localize 'CityOfMist.terms.bio' }}
+		</a>
 	</nav>
 	<section class="sheet-body">
 		<div class="tab tab-content" data-group="primary" data-tab="moves">
