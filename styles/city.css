@@ -2668,3 +2668,17 @@ nav.sheet-tabs.tabs {
   box-shadow: none;
   border-radius: 0px;
 }
+
+.character-name.log {
+	font-size: larger;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.log.action {
+	font-weight: bold;
+}
+
+.log.object {
+  font-style: italic;
+}

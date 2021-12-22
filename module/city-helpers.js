@@ -264,7 +264,8 @@ export class CityHelpers {
 		if (action != undefined) {
 			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
 			const after_message = aftermsg ? `(${aftermsg})` : "";
-			const message = `${actor.getDisplayedName()} : ${action} ${object_part} ${after_message}`;
+			// const message = `${actor.getDisplayedName()} : ${action} ${object_part} ${after_message}`;
+			const message = await renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
 			await this.gmMessage(message, null);
 		} else {
 			console.warn(`Deprecated usage of modification Log: ${actor}`);
