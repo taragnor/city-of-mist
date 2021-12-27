@@ -52,8 +52,9 @@ export class CityThreatSheet extends CityActorSheet {
 		const val =  $(event.currentTarget).val();
 		if (val)
 			for (let tok of this.actor.getLinkedTokens()) {
-				console.log(`Re-aliasing: ${val}`);
-				await tok.update({name: val});
+				// console.log(`Re-aliasing: ${val}`);
+				// await tok.update({name: val});
+				await tok.document.update({name: val});
 			}
 		return true;
 	}

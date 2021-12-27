@@ -641,9 +641,15 @@ export class CityActor extends Actor {
 	}
 
 	get directoryName() {
-		if (this.isOwner)
-			return this.name;
-		return this.displayedName;
+		if (this.isOwner && this.name != this.tokenName) {
+			if (this.tokenName?.length)
+				return this.name + ` [${this.tokenName}]`;
+		}
+		return this.tokenName ?? this.name;
+	}
+
+	get tokenName() {
+		return this.data.token.name;
 	}
 
 	getDisplayedName() {

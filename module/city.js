@@ -23,7 +23,7 @@ import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.j
 import {} from "./tools/electron-fix.mjs";
 import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {Debug} from "./tools/debug.mjs";
-import {} from "./enhanced-directory/enhanced-directory.mjs";
+import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 
 
 window.CityHelpers = CityHelpers;
@@ -49,6 +49,7 @@ Hooks.once("cityDBLoaded", async function() {
 		await CityHelpers.updateDangers();
 		await CityHelpers.updateImprovements();
 	}
+	EnhancedActorDirectory.init();
 	CityHelpers.applyColorization();
 	return true;
 });
