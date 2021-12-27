@@ -12,9 +12,9 @@ export class CityHelpers {
 		return CityDB.filterActorsByType(item_type);
 	}
 
-  static async getAllItemsByType(item_type ="") {
-	  return CityDB.filterItemsByType(item_type);
-  }
+	static async getAllItemsByType(item_type ="") {
+		return CityDB.filterItemsByType(item_type);
+	}
 
 	static async findAllById(id, type = "Actor") {
 		return CityDB.findById(id, type);
@@ -26,7 +26,7 @@ export class CityHelpers {
 			for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
 				if (gmmove.data.data.description && !gmmove.data.data?.html)
 					console.log(`Updating ${danger.name}`);
-					await gmmove.updateGMMoveHTML();
+				await gmmove.updateGMMoveHTML();
 			}
 	}
 
@@ -640,11 +640,11 @@ export class CityHelpers {
 		// 		colorsetting
 		// 	);
 
-			//NOTE: TEST CODE
-			// document.documentElement.style.setProperty(
-			// "--mythos-pink",
-			// colorsetting
-			// );
+		//NOTE: TEST CODE
+		// document.documentElement.style.setProperty(
+		// "--mythos-pink",
+		// colorsetting
+		// );
 		// }
 	}
 
@@ -727,38 +727,4 @@ export class CityHelpers {
 
 
 } //end of class
-
-//Start of fix for actors directory and private names
-ActorDirectory.prototype._getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
-
-ActorDirectory.prototype._getEntryContextOptions = function() {
-	const options = this._getEntryContextOptionsOldCity();
-	for (let option of options) {
-		switch (option.name) {
-			case "SIDEBAR.CharArt":
-				option.callback = li => {
-					const actor = game.actors.get(li.data("entityId"));
-					new ImagePopout(actor.data.img, {
-						title: actor.getDisplayedName(),
-						shareable: true,
-						uuid: actor.uuid
-					}).render(true);
-				}
-				break;
-			case "SIDEBAR.TokenArt":
-				option.callback = li => {
-					const actor = game.actors.get(li.data("entityId"));
-					new ImagePopout(actor.data.token.img, {
-						title: actor.getDisplayedName(),
-						shareable: true,
-						uuid: actor.uuid
-					}).render(true);
-				}
-				break;
-			default:
-				break;
-		}
-	}
-	return options;
-}
 
