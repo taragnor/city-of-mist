@@ -2682,3 +2682,46 @@ nav.sheet-tabs.tabs {
 .log.object {
   font-style: italic;
 }
+
+.narration-box {
+	text-shadow: 0px 2px 2px var(--mythos-bright),
+	0px 1px 4px var(--mythos-pink);
+	color: var(--mythos-white);
+  height: 100%;
+  font-size: 1.2em;
+  border-style: solid;
+  padding: 5px;
+  border: 1px;
+  transition-duration: 0.2s;
+  height: 100%;
+  color: var(--mythos-text);
+  border-radius: 1em;
+  /* border-bottom: 1em solid var(--mythos-pink); */
+  border-top: 2em solid var(--mythos-pink);
+  background-image: url(../images/mythoscardbg.webp);
+  background-color: black;
+  background-position: center;
+  background-size: 125%;
+  /* box-shadow: 0px -5px 0px 10px #502c5da6; */
+}
+
+.narrated-text-new {
+	/* font-family: "Rubik"; */
+	display:block;
+	user-select: text;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+
+.narration-title {
+	font-family: "Rift Bold";
+	font-size: 1.3em;
+	margin-top: -1.2em;
+	color: white;
+	text-align: center;
+
+}
