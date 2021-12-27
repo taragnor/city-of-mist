@@ -20,28 +20,10 @@ import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
 import { CityStoryTagContainerSheet } from "./city-story-tag-container-sheet.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
+import {} from "./tools/electron-fix.mjs";
 
-//Fix for electron browser lacking replaceAll method
-if (String.prototype.replaceAll == undefined) {
-	String.prototype.replaceAll = function (regex, replacementString) {
-		const REnew = new RegExp(regex.toString(), "g");
-		return this.replace(REnew, replacementString);
-	}
-}
 
 window.CityHelpers = CityHelpers;
-
-window.Debug = function (str) {
-	if (self._DList == null)
-		self._DList= [];
-   self._DList.unshift(str);
-}
-
-window.DLog = function (num = null) {
-	if (num === null)
-		return window._DList;
-	else return window._DList[num];
-}
 
 window.getClosestData = function ( eventOrJQObj, prop) {
 	const target = (eventOrJQObj.currentTarget) ? eventOrJQObj.currentTarget : eventOrJQObj;
