@@ -640,6 +640,12 @@ export class CityActor extends Actor {
 		return this.getDisplayedName();
 	}
 
+	get directoryName() {
+		if (this.isOwner)
+			return this.name;
+		return this.displayedName;
+	}
+
 	getDisplayedName() {
 		if (this.type == "storyTagContainer")
 			return "Scene";
@@ -650,7 +656,7 @@ export class CityActor extends Actor {
 			const controlled = tokens.find(tok => tok._controlled);
 			if (controlled)
 				return controlled.name;
-			const owned = canvas.tokens.ownedTokens.find(tok => tok.actor == this);
+			const owned = canvas?.tokens?.ownedTokens?.find(tok => tok.actor == this);
 			if (owned)
 				return owned.name;
 			return null;

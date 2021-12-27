@@ -1,6 +1,6 @@
 import { CityActor } from "./city-actor.js";
 import { CityRoll } from "./city-roll.js";
-import {CityDB} from "./city-db.mjs";
+import { CityDB } from "./city-db.mjs";
 
 export class CityHelpers {
 

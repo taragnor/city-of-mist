@@ -32,4 +32,20 @@ ActorDirectory.prototype._getEntryContextOptions = function() {
 	return options;
 }
 
+ActorDirectory.prototype._renderInnerOld =ActorDirectory.prototype._renderInner;
+
+ActorDirectory.prototype._renderInner = async function(data){
+	data.documentPartial = "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
+
+	Debug(data);
+	return this._renderInnerOld (data);
+}
+
+ActorDirectory._sortAlphabetical = function (a, b) {
+	if (a.directoryName)
+		 return a.directoryName.localeCompare(b.directoryName);
+	else return a.name.localeCompare(b.name);
+  }
+
+console.warn("Expiremental enhanced directory applied!");
 
