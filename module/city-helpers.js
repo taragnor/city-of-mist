@@ -1,84 +1,23 @@
 import { CityActor } from "./city-actor.js";
 import { CityRoll } from "./city-roll.js";
+import {CityDB} from "./city-db.mjs";
 
 export class CityHelpers {
 
-	static async getAllActorsByType (item_type ="", game=window.game) {
-	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
-	  const game_items = game.actors.filter(std_finder);
-	  const pack_finder = (e => e.documentName == "Actor");
-
-	  let packs = game.packs.filter(pack_finder);
-	  let compendium_content = [];
-	  for (const pack of packs) {
-		  const content = (await pack.getDocuments()).filter( x=> {
-			  return x.data.type == item_type;
-		  });;
-		  compendium_content = compendium_content.concat(content);
-	  }
-	  const list_of_items = game_items.concat(compendium_content);
-	  // return list_of_items.map( e=> e.data);
-	  return list_of_items;
+	static get dangerTemplates() {
+		return CityDB.dangerTemplates;
 	}
 
+	static async getAllActorsByType (item_type ="") {
+		return CityDB.filterActorsByType(item_type);
+	}
 
-
-  static async getAllItemsByType(item_type ="", game= window.game) {
-	  //has caused some errors related to opening compendiums, don't want to call this all the time
-	  const std_finder = (item_type.length > 0) ? (e => e.type === item_type) : ( _e => true);
-	  const game_items = game.items.filter(std_finder);
-	  // const game_items = game.items.filter(std_finder).map(e => {return e.data});
-	  // const pack_finder = (item_type.length > 0) ? (e => e.metadata.entity == "Item") : (e => true);
-	  const pack_finder = (e => e.documentName == "Item");
-
-	  let packs = game.packs.filter(pack_finder);
-	  let compendium_content = [];
-	  for (const pack of packs) {
-		  const content = (await pack.getDocuments()).filter( x=> {
-			  return x.data.type == item_type;
-		  });;
-		  compendium_content = compendium_content.concat(content);
-	  }
-	  const list_of_items = game_items.concat(compendium_content);
-	  // return list_of_items.map( e=> e.data);
-	  return list_of_items;
+  static async getAllItemsByType(item_type ="") {
+	  return CityDB.filterItemsByType(item_type);
   }
 
 	static async findAllById(id, type = "Actor") {
-		const basic_result =  game.actors.get(id) ?? game.items.get(id);
-		if (basic_result)
-			return basic_result;
-
-		try {
-			for (const pack of game.packs.filter(x=> x.metadata.entity == type)) {
-			const index = await pack.getIndex();
-			if (index.find( x=> x.id == id)) {
-				const content = await pack.getDocuments();
-				return content.find( x=> x.id == id);
-			}
-		}
-		return null;
-		} catch (e) {
-			console.warn(`Error in findAllById, using id ${id}`, e);
-			return null;
-		}
-	}
-
-	static async loadPacks() {
-		try {
-			await CityHelpers.loadThemebooks();
-			await CityHelpers.loadMoves();
-			await CityHelpers.refreshDangerTemplates();
-		} catch (e) {
-			console.error("Error Loading Packs - potentially try a browser reload");
-			setTimeout( () => this.loadPacks(), 5000);
-		}
-	}
-
-	static async loadThemebooks() {
-		this.themebooks = await this.getAllItemsByType("themebook", game);
-		Hooks.callAll("themebooksLoaded");
-		return true;
+		return CityDB.findById(id, type);
 	}
 
 	static async updateDangers() {
@@ -164,27 +103,11 @@ export class CityHelpers {
 	}
 
 	static getThemebooks() {
-		if (this.themebooks == undefined)
-			throw new Error("ERROR: No Valid themebooks found")
-		return this.themebooks;
-		//Note: Updating themebooks requires a refresh but this is probably worth it for the extra performance of not having to constantly load the pack
-	}
-
-	static async loadMoves() {
-		this.movesList = await this.getAllItemsByType("move", game);
-		this.movesList.sort( (a,b) => {
-			if (a.name < b.name)
-				return -1;;
-			if (a.name > b.name)
-				return 1;
-			return 0;
-		})
-		Hooks.callAll("movesLoaded");
-		return true;
+		return CityDB.themebooks;
 	}
 
 	static getMoves() {
-		return this.movesList;
+		return CityDB.movesList;
 	}
 
 	static getMoveById(moveId) {
@@ -192,67 +115,13 @@ export class CityHelpers {
 	}
 
 	static getDangerTemplate(id) {
-		return this._dangerTemplates.find( x=> x.id  == id);
+		return CityDB.getDangerTemplate(id);
 	}
 
-	static get dangerTemplates() {
-		return this._dangerTemplates;
-	}
-
-	static async refreshDangerTemplates() {
-		this._dangerTemplates = (await this.getAllActorsByType("threat", game))
-			.filter( x=> x.data.data.is_template);
-	}
 
 	static getThemebook(tname, id) {
-		const themebooks = CityHelpers.getThemebooks();
-		let book;
-		if (tname && tname != "") { //if there's premium content, get it
-			book = themebooks.find( item => item.name == tname && !item.data.data.free_content);
-			if (!book) { //search expands to free content
-				book = themebooks.find( item => item.name == tname);
-			}
-		}
-		if (!book && id) { //last resort search using old id system
-			// console.log("Using Old Style Search");
-			return this.getThemebook (this.oldTBIdToName(id), null);
-		}
-		if (!book)
-			throw new Error(`Couldn't get themebook for ${tname}`);
-		return book;
+		return CityDB.getThemebook(tname, id);
 	}
-
-	static oldTBIdToName(id) {
-		// converts Beta version ids into names
-		// ugly code for backwards compatiblity
-		switch (id) {
-			case "wpIdnVs3F3Z2pSgX" : return "Adaptation";
-			case "0MISdMEFLyxmDpl4" : return "Bastion";
-			case "AKafVzAawzfJyfPE" : return "Conjuration";
-			case "rSJ8sbrz2nQXKNTx" : return "Crew Theme";
-			case "G6U7gXAECea110Be" : return "Defining Event";
-			case "gP7G0S8vIhW95w0k" : return "Defining Relationship";
-			case "Kgle3kIF3JMftKWI" : return "Destiny";
-			case "NTarcKas0Ud1YKsM" : return "Divination";
-			case "XPcAouNdmrZEzo4d" : return "Enclave";
-			case "FZiP2EhayfY7Ii66" : return "Expression";
-			case "f38Z3OI3cCPoVUyD" : return "Familiar";
-			case "dScP2BYdyr9X9MAG" : return "Mission";
-			case "BXpouQf9TVvxoFFV" : return "Mobility";
-			case "pPZ52M16SoYfqbFY" : return "Personality";
-			case "jaINI4IYpHFZQPnD" : return "Possessions";
-			case "GFkmD7kCYdWquuaW" : return "Relic";
-			case "O2KUvX351pRE3tZd" : return "Routine";
-			case "1D6OuTZCZoOygiRp" : return "Struggle";
-			case "kj7MU8YgUzkbC7BF" : return "Subversion";
-			case "DtP21Q36GuCLDMeL" : return "Training";
-			case "zoOtXbPteK6gkObm" : return "Turf";
-			default:
-				throw new Error(`Couldnt' match id ${id} with any old themebook`);
-		}
-	}
-
-  /* -------------------------------------------- */
 
 	static async modificationLog(...args) {
 		if (!game.settings.get("city-of-mist", "loggedActions"))
@@ -264,7 +133,6 @@ export class CityHelpers {
 		if (action != undefined) {
 			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
 			const after_message = aftermsg ? `(${aftermsg})` : "";
-			// const message = `${actor.getDisplayedName()} : ${action} ${object_part} ${after_message}`;
 			const message = await renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
 			await this.gmMessage(message, null);
 		} else {
@@ -347,7 +215,9 @@ export class CityHelpers {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
 		if (!sceneId) {
-			return await CityHelpers.findAllById(ownerId);
+			const id =await CityHelpers.findAllById(ownerId) ;
+			if (!id) throw new Error (`Can't find owner for ownerId ${ownerId}`);
+			return id;
 		} else {
 			const scene = game.scenes.find (x=> x.id == sceneId);
 			if (!scene)
@@ -633,68 +503,6 @@ export class CityHelpers {
 			}
 			setTimeout(checker, 1000);
 		});
-	}
-
-	static async onItemUpdate(item, _updatedItem, _data, _diff) {
-		const actor = item.actor;
-		if (actor)
-			for (const dep of actor.getDependencies()) {
-				const state = dep.sheet._state
-				if (state > 0) {
-					CityHelpers.refreshSheet(dep);
-				}
-			}
-		return true;
-	}
-
-	static async onActorUpdate(actor, _updatedItem, _data, _diff) {
-		for (const dep of actor.getDependencies()) {
-			const state = dep.sheet._state
-			if (state > 0) {
-				CityHelpers.refreshSheet(dep);
-			}
-		}
-		if (actor.type == "threat")
-			this.refreshDangerTemplates();
-		return true;
-	}
-
-	static async onTokenDelete(token) {
-		await CityHelpers.onTokenUpdate(token, {}, {});
-		if (token.actor.hasEntranceMoves() && !token.data.hidden)
-			token.actor.undoEntranceMoves(token);
-		return true;
-	}
-
-	static async onTokenUpdate(token, changes, _otherStuff) {
-		//TODO: add entrance move check if token goes from invisible to visible
-		if (changes?.hidden === false && token.actor.hasEntranceMoves())
-				await token.actor.executeEntranceMoves(token);
-		if (changes?.hidden === true && token.actor.hasEntranceMoves())
-				await token.actor.undoEntranceMoves(token);
-		if (game.scenes.active != token.parent)
-			return;
-		await CityHelpers.refreshTokenActorsInScene(token.parent);
-		return true;
-	}
-
-	static async onTokenCreate(token) {
-		const type = game.actors.get(token.actor.id).data.type;
-		if (type == "character" || type == "extra" || type == "crew" || type == "storyTagContainer")
-			await CityHelpers.ensureTokenLinked(token.scene, token);
-		if (type == "threat") {
-			await CityHelpers.onTokenUpdate(token);
-			if (token.actor.hasEntranceMoves()  && !token.data.hidden) {
-				await token.actor.executeEntranceMoves(token);
-			}
-		}
-		return true;
-	}
-
-	static async onSceneUpdate(scene, changes) {
-		if (!changes.active) return;
-		await CityHelpers.refreshTokenActorsInScene(scene)
-		return true;
 	}
 
 	static async refreshTokenActorsInScene(scene) {

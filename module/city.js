@@ -5,6 +5,7 @@
 
 // Import Modules
 import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
+// import {CityDB} from "./city-db.mjs";
 import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -71,17 +72,6 @@ window.getClosestData.convertForm = function (str) {
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
-//Replaces the Timed update
-Hooks.on('updateActor', CityHelpers.onActorUpdate.bind(CityHelpers));
-Hooks.on('updateItem', CityHelpers.onItemUpdate.bind(CityHelpers));
-Hooks.on('createItem', CityHelpers.onItemUpdate.bind(CityHelpers));
-Hooks.on('deleteItem', CityHelpers.onItemUpdate.bind(CityHelpers));
-Hooks.on('deleteActor', CityHelpers.onActorUpdate.bind(CityHelpers));
-Hooks.on('createToken', CityHelpers.onTokenCreate.bind(CityHelpers));
-Hooks.on('updateToken', CityHelpers.onTokenUpdate.bind(CityHelpers));
-Hooks.on('deleteToken', CityHelpers.onTokenDelete.bind(CityHelpers));
-Hooks.on('updateScene', CityHelpers.onSceneUpdate.bind(CityHelpers));
-
 ////Debug code to trace what hooks are being called
 //Hooks.callAll_orig = Hooks.callAll
 //Hooks.callAll = function(...args) {
@@ -92,9 +82,10 @@ Hooks.on('updateScene', CityHelpers.onSceneUpdate.bind(CityHelpers));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 
-Hooks.once("ready", async function() {
+// Hooks.once("ready", async function() {
+Hooks.once("cityDBLoaded", async function() {
 	try {
-	await CityHelpers.loadPacks();
+	// await CityHelpers.loadPacks();
 	console.log("*Themebooks and Moves cached");
 	} catch (e) {
 		console.error("Unable to cach Themebooks and Moves" + e);

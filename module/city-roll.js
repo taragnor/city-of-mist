@@ -68,6 +68,7 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	const activated = actor.getActivated();
 	const modifiersPromises = activated.map( async(x) => {
 		const tagOwner = await CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
+		Debug(tagOwner);
 		const tag = tagOwner ? await tagOwner.getSelectable(x.tagId) : null;
 		return {
 			name: x.name,
