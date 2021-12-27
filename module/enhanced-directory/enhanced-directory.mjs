@@ -36,10 +36,54 @@ ActorDirectory.prototype._renderInnerOld =ActorDirectory.prototype._renderInner;
 
 ActorDirectory.prototype._renderInner = async function(data){
 	data.documentPartial = "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
-
-	Debug(data);
 	return this._renderInnerOld (data);
 }
+
+ActorDirectory.prototype._onSearchFilter = function(event, query, rgx, html) {
+	const isSearch = !!query;
+	let documentIds = new Set();
+	let folderIds = new Set();
+
+    // Match documents and folders
+    if ( isSearch ) {
+
+      // Match document names
+      for ( let d of this.documents ) {
+        if ( rgx.test(SearchFilter.cleanQuery(d.directoryName ?? d.name)) ) {
+          documentIds.add(d.id);
+          if ( d.data.folder ) folderIds.add(d.data.folder);
+        }
+      }
+
+      // Match folder tree
+      const includeFolders = fids => {
+        const folders = this.folders.filter(f => fids.has(f.id));
+        const pids = new Set(folders.filter(f => f.data.parent).map(f => f.data.parent));
+        if ( pids.size ) {
+          pids.forEach(p => folderIds.add(p));
+          includeFolders(pids);
+        }
+      };
+      includeFolders(folderIds);
+    }
+
+    // Toggle each directory item
+    for ( let el of html.querySelectorAll(".directory-item") ) {
+
+      // Documents
+      if (el.classList.contains("document")) {
+        el.style.display = (!isSearch || documentIds.has(el.dataset.documentId)) ? "flex" : "none";
+      }
+
+      // Folders
+      if (el.classList.contains("folder")) {
+        let match = isSearch && folderIds.has(el.dataset.folderId);
+        el.style.display = (!isSearch || match) ? "flex" : "none";
+        if (isSearch && match) el.classList.remove("collapsed");
+        else el.classList.toggle("collapsed", !game.folders._expanded[el.dataset.folderId]);
+      }
+    }
+  }
 
 ActorDirectory._sortAlphabetical = function (a, b) {
 	if (a.directoryName)
