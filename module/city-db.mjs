@@ -4,7 +4,6 @@ import {DBAccessor} from "./tools/db-accessor.mjs"
 export class CityDB extends DBAccessor {
 
 	static async loadPacks() {
-		console.warn("LOADING EXTRA PACKS");
 		await super.loadPacks();
 		try {
 			await this.loadThemebooks();

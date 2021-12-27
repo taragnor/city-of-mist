@@ -21,35 +21,13 @@ import { registerSystemSettings } from "./settings.js";
 import { CityStoryTagContainerSheet } from "./city-story-tag-container-sheet.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
 import {} from "./tools/electron-fix.mjs";
+import {HTMLTools} from "./tools/HTMLTools.mjs";
+import {Debug} from "./tools/debug.mjs";
 
 
 window.CityHelpers = CityHelpers;
 
-window.getClosestData = function ( eventOrJQObj, prop) {
-	const target = (eventOrJQObj.currentTarget) ? eventOrJQObj.currentTarget : eventOrJQObj;
-	const convert = function (string) {
-		return Array.from(string).map(x => {
-			if (x === x.toLowerCase()) return x;
-			else return "-" + x.toLowerCase();
-		}).join("");
-	};
-	if (prop === undefined)
-		throw new Error("Property name is undefined");
-	const cssprop = convert(prop);
-	const data = $(target).closest(`[data-${cssprop}]`).data(prop);
-	if (data != null) return data;
-	else {
-		Debug(event);
-		throw new Error(`Couldn't find ${prop} property`);
-	}
-}
-
-window.getClosestData.convertForm = function (str) {
-	return Array.from(str).map(x => {
-		if (x === x.toLowerCase()) return x;
-		else return "-" + x.toLowerCase();
-	}).join("");
-}
+window.getClosestData = HTMLTools.getClosestData;
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -64,14 +42,7 @@ window.getClosestData.convertForm = function (str) {
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 
-// Hooks.once("ready", async function() {
 Hooks.once("cityDBLoaded", async function() {
-	try {
-	// await CityHelpers.loadPacks();
-	console.log("*Themebooks and Moves cached");
-	} catch (e) {
-		console.error("Unable to cach Themebooks and Moves" + e);
-	}
 	if (game.user.isGM) {
 		await CityHelpers.convertExtras()
 		await CityHelpers.updateDangers();
