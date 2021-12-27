@@ -1,5 +1,6 @@
 //Start of fix for actors directory and private names
 
+//NOTE: To implement class for an actor the actor must have a getter for property directoryName
 
 export class EnhancedActorDirectory {
 
