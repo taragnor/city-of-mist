@@ -4,15 +4,13 @@ const CSS_TOOLTIP = `${CSS_PREFIX}tooltip`;
 const CSS_SHOW = `${CSS_PREFIX}show`;
 const CSS_NAME = `${CSS_PREFIX}name`;
 
-
 export class TokenTooltip {
 
 	constructor() {
-		this.element = div(CSS_TOOLTIP);
-		this.nameElement = div(CSS_NAME);
+		this.element = TokenTooltip.div(CSS_TOOLTIP);
+		this.nameElement = TokenTooltip.div(CSS_NAME);
 		this.element.appendChild(this.nameElement);
 		this.currentToken = null;
-
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token, hovered) => {
 			this.onHover(token, hovered);
@@ -74,21 +72,13 @@ export class TokenTooltip {
 		return true;
 	}
 
-} // end of class
-
-
-function div(cssClass) {
-  const div = document.createElement('div');
-  div.classList.add(cssClass);
-  return div;
-}
-
-function emptyNode (node) {
-	while (node.firstChild) {
-		node.removeChild(node.lastChild);
+	static div(cssClass) {
+		const div = document.createElement('div');
+		div.classList.add(cssClass);
+		return div;
 	}
-}
 
+} // end of class
 
 Hooks.once('ready', () => {
   new TokenTooltip();

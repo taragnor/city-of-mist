@@ -33,6 +33,7 @@ window.getClosestData = HTMLTools.getClosestData;
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
+
 ////Debug code to trace what hooks are being called
 //Hooks.callAll_orig = Hooks.callAll
 //Hooks.callAll = function(...args) {
@@ -57,9 +58,9 @@ Hooks.once("cityDBLoaded", async function() {
 });
 
 Hooks.once("init", async function() {
-  console.log(`***********************************`);
-  console.log(`Initializing City of Mist System`);
-  console.log(`***********************************`);
+	console.log(`***********************************`);
+	console.log(`Initializing City of Mist System`);
+	console.log(`***********************************`);
 
 	window.localize = game.i18n.localize.bind(game.i18n);
 
@@ -70,9 +71,9 @@ Hooks.once("init", async function() {
 		CityItem
 	};
 
-  CONFIG.Item.documentClass = CityItem;
-  CONFIG.Actor.documentClass = CityActor;
-  CONFIG.Scene.documentClass = CityScene;
+	CONFIG.Item.documentClass = CityItem;
+	CONFIG.Actor.documentClass = CityActor;
+	CONFIG.Scene.documentClass = CityScene;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
@@ -123,7 +124,7 @@ Hooks.once("init", async function() {
 	});
 
 
-  // Equals handlebar.
+	// Equals handlebar.
 
 	Handlebars.registerHelper('createSelect', function (dataList, locationOfNew, currentValue = "", cssclass = "") {
 		let html = new String();
@@ -161,7 +162,7 @@ Hooks.once("init", async function() {
 			localize("CityOfMist.terms.intrusion"),
 			localize("CityOfMist.terms.custom"),
 			localize("CityOfMist.terms.enterScene"),
-		// "Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
+			// "Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
 		];
 		return data.map( x => {
 			return {
@@ -283,7 +284,7 @@ Hooks.on("getSceneControlButtons", function(controls) {
 		});
 	}
 });
-  
+
 Hooks.on("renderApplication", function(control) {
 	if (window.statusTrackerWindow) {
 		window.statusTrackerWindow.render(false);
