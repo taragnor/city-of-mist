@@ -15,13 +15,16 @@ export class EnhancedActorDirectory {
 
 		ActorDirectory.prototype._getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
 
+		//Sets window title to directory Name on character sheets
 		Object.defineProperty(ActorSheet.prototype, 'title', {
 			get: function() { return this.actor.directoryName; }
 		});
 
-		// ActorSheet.prototype.title = function () {
-		// 	return this.actor.directoryName;
-		// }
+		//Default Value if it hasn't been defined
+		Object.defineProperty(Actor.prototype, 'directoryName', {
+			get: function() { return this.name; }
+		});
+
 
 		ActorDirectory.prototype._getEntryContextOptions = function() {
 			const options = this._getEntryContextOptionsOldCity();
