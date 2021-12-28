@@ -49,8 +49,10 @@ Hooks.once("cityDBLoaded", async function() {
 		await CityHelpers.updateDangers();
 		await CityHelpers.updateImprovements();
 	}
-	EnhancedActorDirectory.init();
+	if (game.settings.get("city-of-mist", "enhancedActorDirectory"))
+		EnhancedActorDirectory.init();
 	CityHelpers.applyColorization();
+
 	return true;
 });
 

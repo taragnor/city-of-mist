@@ -106,7 +106,7 @@ export class EnhancedActorDirectory {
 		}
 		ui.actors.render(true);
 
-		console.warn("Expiremental enhanced directory applied!");
+		console.log("Enhanced directory applied");
 	}
 
 } //end of class

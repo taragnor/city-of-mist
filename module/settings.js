@@ -126,6 +126,17 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "enhancedActorDirectory", {
+		name: "Enhanced Actor Directory",
+		hint: "Shows only the alias name to non-owners of an actor in the directory, hiding the true name from the players (requires reload)",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
 }
 
 // Example Getter

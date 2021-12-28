@@ -73,11 +73,9 @@ export class CityHelpers {
 					await tag.delete();
 				}
 				for (let imp of await extra.getImprovements(theme.id)) {
-					// const impdata = imp.data.data;
 					const tbarray = (await theme.getThemebook()).data.data.improvements;
 					const index = Object.entries(tbarray)
 						.reduce( (a, [i, d]) => d.name == imp.name ? i : a , -1);
-					// const index = tbarray.indexOf(tbarray.find( x=> x.name == imp.name));
 					let newimp = await danger.addImprovement(themenew.id, index)
 					await newimp.update( {"name": imp.name});
 					await imp.delete();
