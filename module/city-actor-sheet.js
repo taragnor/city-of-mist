@@ -1,4 +1,6 @@
 
+
+import { CityDialogs } from "./city-dialogs.mjs";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
 
@@ -714,6 +716,27 @@ export class CityActorSheet extends CitySheet {
 			// console.log(`${name} : ${tier}`);
 			await status.addStatus(amt, newname);
 			await this.reportStatsuAdd(owner, amt,  {name, tier, pips}, status);
+		}
+	}
+
+	async statusDrop({name, tier}) {
+		if (!tier)
+			throw new Error(`Tier is not valid ${tier}`);
+		const retval = await CityDialogs.statusDropDialog(this.actor, name, tier);
+		if (retval == null) return null;
+		switch (retval.action) {
+			case 'create':
+				const status = await this.actor.addOrCreateStatus(retval.name, retval.tier);
+				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${retval.tier}`);
+				return status;
+			case 'merge':
+				const origStatus =  await this.actor.getStatus(retval.statusId);
+				const {data: {name, data: {tier, pips}}} = origStatus;
+				await origStatus.addStatus(tier, retval.name);
+				await this.reportStatsuAdd(this.actor, retval.tier,  {name, tier, pips}, origStatus);
+				return origStatus;
+			default:
+				throw new Error(`Unknown action : ${retval.action}`);
 		}
 	}
 

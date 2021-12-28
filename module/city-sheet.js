@@ -232,15 +232,16 @@ export class CitySheet extends ActorSheet {
 		const type = dragging.data("draggableType");
 		switch (type) {
 			case "status" :
-				console.log("Dragged a status");
 				const str = dragging.text();
-				const {name, tier} = await CityHelpers.parseStatusString(str);
-				const status = await this.actor.addOrCreateStatus(name, tier);
-				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${tier}`);
+				const protostatus = await CityHelpers.parseStatusString(str);
+				const status = await this.statusDrop(protostatus);
+				// const status = await this.actor.addOrCreateStatus(name, tier);
+				// await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${tier}`);
 				break;
 			default:
 				console.warn(`Unknwon Type ${type}`);
 		}
 	}
+
 
 }

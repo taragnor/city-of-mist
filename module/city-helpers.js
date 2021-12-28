@@ -732,18 +732,17 @@ export class CityHelpers {
 	}
 
 	static async dragFunctionality(app, html, data) {
-		html.find('.draggable').on("dragstart", this._dragStart.bind(this));
-		html.find('.draggable').on("dragend", this._dragEnd.bind(this));
+		html.find('.draggable').on("dragstart", this.dragStart.bind(this));
+		html.find('.draggable').on("dragend", this.dragEnd.bind(this));
 	}
 
-	static async _dragStart(event) {
+	static async dragStart(event) {
 		event.stopPropagation();
 		$(event.currentTarget).addClass("dragging");
 		return true;
-
 	}
 
-	static async _dragEnd(event) {
+	static async dragEnd(event) {
 		event.stopPropagation();
 		$(event.currentTarget).removeClass("dragging");
 		return true;
