@@ -1,3 +1,4 @@
+import {CityDB} from "./city-db.mjs";
 
 export class CityActor extends Actor {
 
@@ -52,7 +53,8 @@ export class CityActor extends Actor {
 	getStoryTags() {
 		return this.items.filter( x => {
 			return x.data.type == "tag" && x.data.data.subtype == "story";
-		});
+		})
+			.sort(CityDB.namesort);
 	}
 
 	async getSelectable(id) {
@@ -64,7 +66,9 @@ export class CityActor extends Actor {
 	}
 
 	getStatuses() {
-		return this.items.filter(x => x.type == "status");
+		return this.items
+			.filter(x => x.type == "status")
+			.sort(CityDB.namesort);
 	}
 
 	async getClue(id) {

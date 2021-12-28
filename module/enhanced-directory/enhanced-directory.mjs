@@ -15,6 +15,14 @@ export class EnhancedActorDirectory {
 
 		ActorDirectory.prototype._getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
 
+		Object.defineProperty(ActorSheet.prototype, 'title', {
+			get: function() { return this.actor.directoryName; }
+		});
+
+		// ActorSheet.prototype.title = function () {
+		// 	return this.actor.directoryName;
+		// }
+
 		ActorDirectory.prototype._getEntryContextOptions = function() {
 			const options = this._getEntryContextOptionsOldCity();
 			for (let option of options) {
@@ -23,7 +31,7 @@ export class EnhancedActorDirectory {
 						option.callback = li => {
 							const actor = game.actors.get(li.data("entityId"));
 							new ImagePopout(actor.data.img, {
-								title: actor.getDisplayedName(),
+								title: actor.directoryName,
 								shareable: true,
 								uuid: actor.uuid
 							}).render(true);
@@ -33,7 +41,7 @@ export class EnhancedActorDirectory {
 						option.callback = li => {
 							const actor = game.actors.get(li.data("entityId"));
 							new ImagePopout(actor.data.token.img, {
-								title: actor.getDisplayedName(),
+								title: actor.directoryName,
 								shareable: true,
 								uuid: actor.uuid
 							}).render(true);

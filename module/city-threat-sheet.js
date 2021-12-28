@@ -20,10 +20,11 @@ export class CityThreatSheet extends CityActorSheet {
 		return data;
 	}
 
-	get title() {
-		const limname = this.actor.limited ? this.actor.getDisplayedName() : undefined;
-		return limname ?? this.document.name ?? this.document.id;
-	}
+	// get title() {
+	// 	return this.actor.directoryName;
+	// 	// const limname = this.actor.limited ? this.actor.getDisplayedName() : undefined;
+	// 	// return limname ?? this.document.name ?? this.document.id;
+	// }
 
 	activateListeners(html) {
 		super.activateListeners(html);

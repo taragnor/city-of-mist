@@ -15,7 +15,7 @@
 {{#each statusList as |status|}}
 	<br>
 	<label for="radio"> {{status.name}} </label>
-	<input type="radio" class="status-selector" name="status-selector" value="{{status.id}}" {{#if (eq status.name name)}} checked {{/if}}>
+	<input type="radio" class="status-selector" name="status-selector" value="{{status.id}}" {{#if (eq status.name ../name)}} checked {{/if}}>
 {{/each}}
 <hr>
 

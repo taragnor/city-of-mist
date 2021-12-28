@@ -119,6 +119,10 @@ export class DBAccessor {
 		}
 	}
 
+	static namesort(a,b) {
+		return a.name.localeCompare(b.name);
+	}
+
 } //End of class
 
 // Should inherit these to a subclass
