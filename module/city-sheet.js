@@ -22,6 +22,9 @@ export class CitySheet extends ActorSheet {
 		html.find('.sheet-lock-button').click(this._toggleLockState.bind(this));
 		html.find('.alias-toggle').click(this._aliasToggle.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
+		html.find('.draggable').on("dragstart", this._dragStart.bind(this));
+		html.find('.draggable').on("dragend", this._dragEnd.bind(this));
+		html.on("drop", this._dragDropEvent.bind(this));
 
 		//Restore Scroll positon
 		if (this.scrollTop)
@@ -210,6 +213,34 @@ export class CitySheet extends ActorSheet {
 			}, options);
 			dialog.render(true);
 		});
+	}
+
+	async _dragStart (event) {
+		return await CityHelpers.dragStart(event);
+	}
+
+	async _dragEnd (event) {
+		return await CityHelpers.dragEnd(event);
+	}
+
+	async _dragDropEvent (_event) {
+		const dragging = $(document).find(".dragging");
+		if (dragging.length != 1) {
+			console.warn ("Something went wrong with dragging");
+			return;
+		}
+		const type = dragging.data("draggableType");
+		switch (type) {
+			case "status" :
+				console.log("Dragged a status");
+				const str = dragging.text();
+				const {name, tier} = await CityHelpers.parseStatusString(str);
+				const status = await this.actor.addOrCreateStatus(name, tier);
+				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${tier}`);
+				break;
+			default:
+				console.warn(`Unknwon Type ${type}`);
+		}
 	}
 
 }

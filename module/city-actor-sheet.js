@@ -711,7 +711,7 @@ export class CityActorSheet extends CitySheet {
 		let ret = null;
 		if (ret = await this.statusAddDialog(status)) {
 			const {name: newname, tier: amt} = ret;
-			console.log(`${name} : ${tier}`);
+			// console.log(`${name} : ${tier}`);
 			await status.addStatus(amt, newname);
 			await this.reportStatsuAdd(owner, amt,  {name, tier, pips}, status);
 		}

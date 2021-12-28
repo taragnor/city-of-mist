@@ -5,7 +5,6 @@
 
 // Import Modules
 import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
-// import {CityDB} from "./city-db.mjs";
 import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -25,7 +24,6 @@ import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {Debug} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 
-
 window.CityHelpers = CityHelpers;
 
 window.getClosestData = HTMLTools.getClosestData;
@@ -34,15 +32,10 @@ window.getClosestData = HTMLTools.getClosestData;
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 
-////Debug code to trace what hooks are being called
-//Hooks.callAll_orig = Hooks.callAll
-//Hooks.callAll = function(...args) {
-//	console.log(`called ${args[0]}`);
-//	Hooks.callAll_orig.apply(this, args);
-//}
-
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
+Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality(app, html, data));
+
 
 Hooks.once("cityDBLoaded", async function() {
 	if (game.user.isGM) {
@@ -53,7 +46,6 @@ Hooks.once("cityDBLoaded", async function() {
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory"))
 		EnhancedActorDirectory.init();
 	CityHelpers.applyColorization();
-
 	return true;
 });
 

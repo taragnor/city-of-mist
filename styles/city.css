@@ -2158,6 +2158,22 @@ div.narrated-text span.narrated-status-name {
 	text-shadow: none;
 }
 
+.draggable:hover {
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+.dragging.draggable:active {
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+	opacity: .2;
+}
+
+
 .narrated-story-tag {
 	color: black;
 	margin: 0 -0.4em;

@@ -1,5 +1,6 @@
 import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
+import { HTMLTools } from "./tools/HTMLTools.mjs";
 
 export class CityThreatSheet extends CityActorSheet {
 
@@ -36,7 +37,7 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.gmmove-delete').click(this._deleteGMMove.bind(this));
 		html.find('.gmmove-edit').click(this._editGMMove.bind(this));
 		html.find('.gmmove-select').click(this._selectGMMove.bind(this));
-		html.find('.gmmove-select').mousedown(this._gmmoveRightMouseDown.bind(this));
+		html.find('.gmmove-select').mousedown(HTMLTools.rightClick(			this._editGMMove.bind(this)));
 		html.find('.gmmove-select').mousedown(CityHelpers.middleClick( this._editGMMove.bind(this)));
 		html.find('.create-spectrum').click(this._createSpectrum.bind(this));
 		html.find('.spectrum-editable').click(this._editSpectrum.bind(this));
@@ -157,9 +158,10 @@ export class CityThreatSheet extends CityActorSheet {
 	}
 
 	async _gmmoveRightMouseDown (event) {
-		event.preventDefault();
-		if (event.which == 3)
+		if (event.which == 3) {
 			this._editGMMove(event, true);
+			event.preventDefault();
+		}
 	}
 
 	async _addTemplate (_event) {

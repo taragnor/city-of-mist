@@ -460,7 +460,7 @@ export class CityHelpers {
 		while (match != null) {
 			const statusname = match[1];
 			const formatted_statusname = CityHelpers.replaceSpaces(statusname);
-			const newtext = `<span class="narrated-status-name">${formatted_statusname}</span>`;
+			const newtext = `<span draggable="true" class="narrated-status-name draggable" data-draggable-type="status">${formatted_statusname}</span>`;
 			text = text.replace('|' + statusname + '|' , newtext);
 			match = regex.exec(text);
 		}
@@ -470,6 +470,15 @@ export class CityHelpers {
 	static replaceSpaces( text) {
 		//for formatting statuses
 		return text.replaceAll(" ", "-");
+	}
+
+	static async parseStatusString (str)  {
+		const last = str.substring(str.length-1);
+		const tier = Number(last);
+		if (Number.isNaN(tier))
+			throw new Error(`Malformed status ${str}`);
+		const name = str.substring(0, str.length-2);
+		return {name, tier};
 	}
 
 	static async sendNarratedMessage(text, tags) {
@@ -722,7 +731,23 @@ export class CityHelpers {
 		return setting == "auto";
 	}
 
+	static async dragFunctionality(app, html, data) {
+		html.find('.draggable').on("dragstart", this._dragStart.bind(this));
+		html.find('.draggable').on("dragend", this._dragEnd.bind(this));
+	}
 
+	static async _dragStart(event) {
+		event.stopPropagation();
+		$(event.currentTarget).addClass("dragging");
+		return true;
+
+	}
+
+	static async _dragEnd(event) {
+		event.stopPropagation();
+		$(event.currentTarget).removeClass("dragging");
+		return true;
+	}
 
 } //end of class
 
