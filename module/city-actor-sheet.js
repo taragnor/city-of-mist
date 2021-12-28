@@ -715,7 +715,7 @@ export class CityActorSheet extends CitySheet {
 			const {name: newname, tier: amt} = ret;
 			// console.log(`${name} : ${tier}`);
 			await status.addStatus(amt, newname);
-			await this.reportStatsuAdd(owner, amt,  {name, tier, pips}, status);
+			await this.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
 		}
 	}
 
@@ -732,8 +732,8 @@ export class CityActorSheet extends CitySheet {
 			case 'merge':
 				const origStatus =  await this.actor.getStatus(retval.statusId);
 				const {data: {name, data: {tier, pips}}} = origStatus;
-				await origStatus.addStatus(tier, retval.name);
-				await this.reportStatsuAdd(this.actor, retval.tier,  {name, tier, pips}, origStatus);
+				await origStatus.addStatus(retval.tier, retval.name);
+				await this.reportStatusAdd(this.actor, retval.tier,  {name, tier, pips}, origStatus);
 				return origStatus;
 			default:
 				throw new Error(`Unknown action : ${retval.action}`);
@@ -757,7 +757,7 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-		async reportStatsuAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
+		async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
 			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
 			const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
 			CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );

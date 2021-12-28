@@ -84,6 +84,8 @@
 
 "CityOfMist.command.toggleLock": "Toggle Sheet Lock",
 "CityOfMist.command.narrationBox": "Narration Box",
-"CityOfMist.command.executeMove": "Execute Move"
+"CityOfMist.command.executeMove": "Execute Move",
+
+"CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1"
 
 }
