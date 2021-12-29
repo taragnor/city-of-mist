@@ -42,6 +42,22 @@ export class CityActor extends Actor {
 			.filter (x => x != null);
 	}
 
+	get version() {
+		return this.data.data.version;
+	}
+
+	async updateVersion(version) {
+		version = String(version);
+		if (version > this.data.data.version) {
+			console.debug (`Updated verison of ${this.name} to ${version}`);
+			return await this.update( {"data.version" : version});
+		}
+		if (version < this.data.data.version)
+			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
+
+	}
+
+
 	getTheme(id) {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}

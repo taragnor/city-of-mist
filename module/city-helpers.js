@@ -1,4 +1,4 @@
-import { CityActor } from "./city-actor.js";
+// import { CityActor } from "./city-actor.js";
 import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.mjs";
 import { HTMLTools } from "./tools/HTMLTools.mjs";
@@ -40,7 +40,6 @@ export class CityHelpers {
 	static getDangerTemplate(id) {
 		return CityDB.getDangerTemplate(id);
 	}
-
 
 	static getThemebook(tname, id) {
 		return CityDB.getThemebook(tname, id);

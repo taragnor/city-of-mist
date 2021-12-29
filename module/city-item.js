@@ -324,6 +324,7 @@ export class CityItem extends Item {
 	getFormattedText (actor_id) {
 		const actor = game.actors.get(actor_id);
 		const name = actor?.getDisplayedName() ?? this.actor.getDisplayedName();
+		Debug(this);
 		return CityHelpers.nameSubstitution(this.data.data.html, {name});
 	}
 
@@ -396,6 +397,21 @@ export class CityItem extends Item {
 			default:
 				throw new Error(`Unkonwn Condition ${cond}`);
 		}
+	}
+
+	get version() {
+		return this.data.data.version;
+	}
+
+	async updateVersion(version) {
+		version = String(version);
+		if (version > this.data.data.version) {
+			console.debug (`Updated verison of ${this.name} to ${version}`);
+			return await this.update( {"data.version" : version});
+		}
+		if (version < this.data.data.version)
+			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
+
 	}
 
 	async updateGMMoveHTML() {

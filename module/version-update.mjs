@@ -1,9 +1,28 @@
+import { CityDB } from "./city-db.mjs";
+
 export class VersionUpdater {
 
 	static async update() {
+		if (!game.user.isGM) return;
 		await this.convertExtras()
 		await this.updateDangers();
 		await this.updateImprovements();
+		await this.updateGMMovesHTML();
+	}
+
+	static async updateGMMovesHTML() {
+		const baseList = game.actors.filter( x=> x.type == "threat");
+		const packsList = CityDB.filterActorsByType("threat");
+		const dangerList = baseList.concat(packsList);
+		for (const danger of dangerList) {
+			for (let move of danger.gmmoves
+				.filter( move => danger.ownsMove(move.id))
+			) {
+				console.debug(`Updated ${move.name} for ${danger.name}`);
+				await move.updateGMMoveHTML();
+				await move.updateVersion(1.1);
+			}
+		}
 	}
 
 	static async updateDangers() {
