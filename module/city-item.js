@@ -275,7 +275,6 @@ export class CityItem extends Item {
 	}
 
 	async subtractStatus (ntier, newname=null) {
-		// const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
 		newname = newname ?? this.data.name;
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;

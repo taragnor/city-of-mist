@@ -2806,3 +2806,32 @@ nav.sheet-tabs.tabs {
 	color: white;
 	text-align: center;
 }
+
+.clue-reveal button
+{
+	width: 12em;
+	display: inline-block;
+	font-family: "Rubik";
+	text-align: center;
+	font-weight: bold;
+	font-size: large;
+	color: white;
+	background-color: #502c5dbd;
+	padding: 5px 0px;
+	margin: 10px;
+	justify-content: center;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+.clue-reveal h1 {
+	padding: 10px;
+	border: none;
+	margin: 0;
+	text-align: center;
+	font-family: 'Rubik';
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 2.3em;
+}
+
+

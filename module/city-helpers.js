@@ -9,52 +9,21 @@ import { TokenTools } from "./tools/token-tools.mjs";
 
 export class CityHelpers {
 
-	static get dangerTemplates() {
-		return CityDB.dangerTemplates;
-	}
-
-	static async getAllActorsByType (item_type ="") {
-		return CityDB.filterActorsByType(item_type);
-	}
-
-	static async getAllItemsByType(item_type ="") {
-		return CityDB.filterItemsByType(item_type);
-	}
-
-	static async findAllById(id, type = "Actor") {
-		return CityDB.findById(id, type);
-	}
-
-	static getThemebooks() {
-		return CityDB.themebooks;
-	}
-
-	static getMoves() {
-		return CityDB.movesList;
+	static get dangerTemplates() { return CityDB.dangerTemplates; }
+	static async getAllActorsByType (item_type ="") { return CityDB.filterActorsByType(item_type); }
+	static async getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
+	static async findAllById(id, type = "Actor") { return CityDB.findById(id, type); }
+	static getThemebooks() { return CityDB.themebooks; }
+	static getMoves() { return CityDB.movesList; }
+	static getDangerTemplate(id) { return CityDB.getDangerTemplate(id); }
+	static getThemebook(tname, id) { return CityDB.getThemebook(tname, id); }
+	static async modificationLog(...args) { return await CityLogger.modificationLog(...args); }
+	static async logToChat(actor, action, object = null, aftermsg = "") { return await CityLogger.logToChat(actor, action, object, aftermsg); }
+	static async sendToChat(text, sender={}) { return await CityLogger.sendToChat(text, sender);
 	}
 
 	static getMoveById(moveId) {
 		return this.getMoves().find(x => x.id == moveId);
-	}
-
-	static getDangerTemplate(id) {
-		return CityDB.getDangerTemplate(id);
-	}
-
-	static getThemebook(tname, id) {
-		return CityDB.getThemebook(tname, id);
-	}
-
-	static async modificationLog(...args) {
-		return await CityLogger.modificationLog(...args);
-	}
-
-	static async logToChat(actor, action, object = null, aftermsg = "") {
-		return await CityLogger.logToChat(actor, action, object, aftermsg);
-	}
-
-	static async sendToChat(text, sender={}) {
-		return await CityLogger.sendToChat(text, sender);
 	}
 
 	static async asyncwait(sec) {
@@ -594,6 +563,97 @@ export class CityHelpers {
 		event.stopPropagation();
 		$(event.currentTarget).removeClass("dragging");
 		return true;
+	}
+
+	static async postClue (actorId, metaSource, method="") {
+		const actor = CityDB.getActorById(actorId);
+		const	templateData= {actorId, metaSource, method};
+		if (!metaSource)
+			console.warn("No metasource for clue");
+		if (!actor)
+			throw new Error(`Couldnt find actor Id ${actorId}`);
+		const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
+		await CityLogger.sendToChat(html, {actor});
+	}
+
+	static async updateClue (messageId, html, newdata ={}) {
+		const message = game.messages.get(messageId);
+		const actorId = $(html).find(".clue-reveal").data("actorId");
+		const method = $(html).find(".clue-reveal").data("method");
+		const source = $(html).find(".clue-reveal").data("source");
+		const metaSource = $(html).find(".clue-reveal").data("metaSource");
+		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		const	templateData = {method, source, actorId, partial_clue, metaSource, ...newdata};
+		if (!metaSource)
+			console.warn("No metasource for clue");
+		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
+		const msg = await  message.update( {content:new_html});
+		await ui.chat.updateMessage( msg, false);
+	}
+
+	static async clueEditButtonHandlers(_app, html, _data) {
+		$(html).find(".question-part .submit-button").click (
+			() => {
+				this.clue_submitQuestion(html);
+			});
+		$(html).find(".question-part .bank-button").click (
+			() => {
+				this.clue_bankClue(html);
+			});
+		$(html).find(".answer-part .submit-button").click (
+			() => {
+				this.clue_submitAnswer(html);
+			});
+		$(html).find(".answer-part .edit-button").click (
+			() => {
+				this.clue_editAnswer(html);
+			});
+		$(html).find(".answer-part .add-to-journal-button").click (
+			() => {
+				this.clue_AddToJournal(html);
+			});
+
+	}
+
+	static async clue_submitQuestion(html) {
+		const messageId = html.data("messageId");
+		const question = $(html).find(".question-part .question-input").val();
+		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		await this.updateClue(messageId, html, {question, partial_clue});
+	}
+
+	static async clue_bankClue(html) {
+		const messageId = html.data("messageId");
+		const actorId = $(html).find(".clue-reveal").data("actorId");
+		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		const metaSource = $(html).find(".clue-reveal").data("metaSource");
+		const actor = CityDB.findById(actorId, "Actor");
+		if (!actor ) throw new Error(`Couldn't find Actor ${actorId}`);
+		if (await actor.createClue(metaSource, partial_clue)) {
+			const message = game.messages.get(messageId);
+			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
+			const msg = await  message.update( {content:html});
+			await ui.chat.updateMessage( msg, false);
+		}
+	}
+
+	static async clue_submitAnswer(html) {
+		const messageId = html.data("messageId");
+		const question = $(html).find(".clue-reveal").data("question");
+		const answer = $(html).find(".answer-part .answer-input").val();
+		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		await this.updateClue(messageId, html, {question, answer, partial_clue});
+	}
+
+	static async clue_editAnswer(html) {
+		const messageId = html.data("messageId");
+		const question = $(html).find(".clue-reveal").data("question");
+		const answer = $(html).find(".clue-reveal").data("answer");
+		await this.updateClue(messageId, html, {question, partial_answer_text: answer});
+	}
+
+	static async clue_addToJournal(html) {
+
 	}
 
 } //end of class

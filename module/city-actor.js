@@ -264,9 +264,28 @@ export class CityActor extends Actor {
 		return await this.createNewItem(obj);
 	}
 
-	async createNewClue (name) {
+	async createClue(metaSource= "", partial= false, method="", source="" ) {
+		const existing =  this.items.find( x=> x.type == "clue" && x.data.data.metaSource==metaSource)
+		if (metaSource && existing) {
+			existing.update({"data.amount": existing.data.data.amount+1});
+			return true;
+		}
+		const obj = await this.createNewClue("Unnamed Clue", {partial, source, method, metaSource});
+		const clue = await this.getClue(obj.id);
+		const updateObj = await CityHelpers.itemDialog(clue);
+		if (updateObj) {
+			const partialstr = clue.data.data.partial ? ", partial": "";
+			CityHelpers.modificationLog(this, "Created", clue, `${clue.data.data.amount}${partialstr}` );
+			return true;
+		} else  {
+			await this.deleteClue(obj.id);
+			return false;
+		}
+	}
+
+	async createNewClue (name, dataobj) {
 		const obj = {
-			name, type: "clue", data : {amount:1}};
+			name, type: "clue", data : {amount:1, ...dataobj}};
 		return await this.createNewItem(obj);
 	}
 

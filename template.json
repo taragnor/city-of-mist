@@ -149,7 +149,8 @@
 			"amount": 0,
 			"source": "",
 			"method": "",
-			"partial": false
+			"partial": false,
+			"metaSource": ""
 		},
 		"juice": {
 			"templates": ["default", "actorSelectable"],

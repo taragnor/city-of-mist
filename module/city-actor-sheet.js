@@ -644,6 +644,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _createClue (event) {
+		this.actor.createClue();
 		const owner = this.actor;
 		const obj = await this.actor.createNewClue("Unnamed Clue");
 		const clue = await owner.getClue(obj.id);

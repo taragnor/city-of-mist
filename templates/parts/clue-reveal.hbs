@@ -1,0 +1,56 @@
+<div class="clue-reveal" data-actor-id="{{actorId}}" data-question="{{question}}" data-answer="{{answer}}" data-partial-clue="{{partial_clue}}" data-meta-source="{{metaSource}}" data-method="{{method}}" data-source="{{source}}">
+	<h1 class="header">
+		Clue
+	</h1>
+	{{#if partial_clue}}
+		<h2> (Partial) </h2>
+	{{/if}}
+	{{#if banked}}
+		<h1> BANKED </h1>
+	{{else}}
+		<section class="question-part">
+			{{#if question}}
+				<div class="question-block">
+					<span class="header"> Question: </span>
+					<span class="text">{{question}}</span>
+				</div>
+			{{else}}
+				<textarea class="question-input">{{partial_clue_text}}</textarea>
+				<button class="submit-button">
+					Ask Question
+				</button>
+				<button class="bank-button">
+					Bank Clue
+				</button>
+			{{/if}}
+		</section>
+		{{#if question}}
+			<section class="answer-part">
+				{{#if answer}}
+					<div class="answer-block">
+						<span class="header"> Answer: </span>
+						<span class="text">{{answer}}</span>
+					</div>
+					{{#if (isGM)}}
+						<button class="edit-button">
+							Edit
+						</button>
+					{{else}}
+						<button class="add-to-journal-button">
+							Add to Journal
+						</button>
+					{{/if}}
+				{{else}}
+					{{#if (isGM)}}
+						<textarea class="answer-input">{{partial_answer_text}}</textarea>
+						<button class="submit-button">
+							Submit
+						</button>
+					{{else}}
+						<div class="waiting-msg"> Waiting for MC to answer </div>
+					{{/if}}
+				{{/if}}
+			</section>
+		{{/if}}
+	{{/if}}
+</div>
