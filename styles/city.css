@@ -1887,6 +1887,23 @@ section.gm-moves {
 .gmmove-text {
 	flex-grow: 10;
 	flex-basis:10px;
+	margin: 4px;
+	background: linear-gradient(
+	to right,
+	rgba(128, 128, 128, 0.4),
+	rgba(128, 128, 128, 0.7),
+	rgba(128, 128, 128, 0.4)
+	);
+}
+
+.inherited-move .gmmove-text {
+	opacity:.7;
+}
+
+.inherited-move .inherit-msg {
+	text-align: center;
+	font-size: smaller;
+	text-transform: uppercase;
 }
 
 .gm-moves-header {
@@ -2497,7 +2514,7 @@ div.tox-tinymce {
 	rgba(128, 128, 128, 0.7),
 	rgba(128, 128, 128, 0.4)
 	);
-	margin: 4px;
+	padding: 7px;
 }
 
 section.move-section {

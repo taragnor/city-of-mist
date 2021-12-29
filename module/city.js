@@ -192,12 +192,13 @@ Hooks.once("init", async function() {
 	});
 
 	// NotEquals handlebar.
-	Handlebars.registerHelper('noteq', (a, b, options) => {
-		return (a !== b) ? options.fn(this) : '';
+	Handlebars.registerHelper('noteq', (a, b) => {
+		return (a !== b);
 	});
-	Handlebars.registerHelper('neq', (a, b, options) => {
-		return (a !== b) ? options.fn(this) : '';
+	Handlebars.registerHelper('neq', (a, b) => {
+		return (a !== b);
 	});
+
 	// Not helper
 	Handlebars.registerHelper('not', (a, _options) => {
 		return a ? false : true;

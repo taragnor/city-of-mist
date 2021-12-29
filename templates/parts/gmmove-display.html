@@ -1,10 +1,17 @@
-<div class="card-style gm-move {{#if locked}}gmmove-select {{else}} gmmove-edit{{/if}} flex-row flex-align-center" data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
+<div class="card-style gm-move {{#if locked}}gmmove-select {{else}} gmmove-edit{{/if}} flex-row flex-align-center
+	  {{#if (noteq sheetowner move.actor)}} inherited-move {{/if}}	" data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
 	<div class= "trash-can-flex">
-	{{#if (and (eq locked false) (eq sheetowner move.actor))}}
-	<a class="item-control gmmove-delete" title="Delete GMMove"><i class="fas fa-trash"></i></a>
-	{{/if}}
+		{{#if (and (eq locked false) (eq sheetowner move.actor))}}
+		<a class="item-control gmmove-delete" title="Delete GMMove"><i class="fas fa-trash"></i></a>
+		{{/if}}
 	</div>
 	<div class="gmmove-text">
-	{{{applyNameSubstitution move owner.id}}}
+		{{{applyNameSubstitution move owner.id}}}
+		{{#if (noteq sheetowner move.actor)}}
+		<div class="inherit-msg">
+			Inherited from {{move.actor.displayedName}}
+		</div>
+		{{/if}}
 	</div>
+
 </div>
