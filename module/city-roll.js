@@ -261,7 +261,7 @@ CityRoll.modifierPopup = async function (move_id, actor) {
 	const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 	const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite};
 	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
-	const rollOptions =await new Promise ( (conf, reject) => {
+	const rollOptions = await new Promise ( (conf, _reject) => {
 		const options = {};
 		const updateSliderValMax = function (html) {
 			const itemId = $(html).find("#help-dropdown").val();
@@ -289,10 +289,10 @@ CityRoll.modifierPopup = async function (move_id, actor) {
 			content: html,
 			render: (html) => {
 				updateSliderValMax(html);
-				$(html).find("#help-dropdown").change( function (ev) {
-					const amt= updateSliderValMax(html);
+				$(html).find("#help-dropdown").change( function (_ev) {
+					updateSliderValMax(html);
 				});
-				$(html).find("#help-slider").change( function (ev) {
+				$(html).find("#help-slider").change( function (_ev) {
 					$(html).find(".slidervalue").html(this.value);
 				});
 
