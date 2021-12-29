@@ -137,5 +137,23 @@ export class HTMLTools {
 			}
 		}
 	}
+
+	static initCustomJqueryFunctions() {
+		if (!jQuery.fn.middleclick) {
+			jQuery.fn.middleclick = function (handler) {
+				this.mousedown(HTMLTools.middleClick(handler));
+			}
+		}
+		if (!jQuery.fn.rightclick) {
+			jQuery.fn.rightclick = function (handler) {
+				this.mousedown(HTMLTools.rightClick(handler));
+			}
+		}
+	}
 } // end of class
+
+// Jquery Addons
+
+HTMLTools.initCustomJqueryFunctions();
+
 
