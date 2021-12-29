@@ -1651,6 +1651,10 @@ form.editable.actor-sheet {
 	overflow-x: hidden;
 }
 
+.no-overflow {
+	overflow-y: hidden !important;
+}
+
 .lock-button {
 	flex: none !important;
 	margin: 0.5em;
@@ -2167,10 +2171,10 @@ div.narrated-text span.narrated-status-name {
 
 .dragging.draggable:active {
 	cursor: move; /* fallback if grab cursor is unsupported */
-	cursor: grabbing;
+	cursor: grabbing !important;
 	cursor: -moz-grabbing;
 	cursor: -webkit-grabbing;
-	opacity: .2;
+	opacity: .3;
 }
 
 
