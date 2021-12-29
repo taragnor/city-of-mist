@@ -3,6 +3,8 @@ import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.mjs";
 import { HTMLTools } from "./tools/HTMLTools.mjs";
 import { CityLogger } from "./city-logger.mjs";
+import { Sounds } from "./tools/sounds.mjs";
+import { TokenTools } from "./tools/token-tools.mjs";
 
 
 export class CityHelpers {
@@ -22,87 +24,6 @@ export class CityHelpers {
 	static async findAllById(id, type = "Actor") {
 		return CityDB.findById(id, type);
 	}
-
-
-	//static async updateDangers() {
-	//	//Changes to new method of GMmove display
-	//	for (const danger of game.actors.filter(x=> x.type == "threat"))
-	//		for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
-	//			if (gmmove.data.data.description && !gmmove.data.data?.html)
-	//				console.log(`Updating ${danger.name}`);
-	//			await gmmove.updateGMMoveHTML();
-	//		}
-	//}
-
-	//static async updateImprovements() {
-	//	if (!game.user.isGM) return;
-	//	const players = game.actors;
-	//	for (const player of players)
-	//		for (const improvement of player.items.filter( x=> x.type == "improvement")) {
-	//			if (true || !improvement.data.data.chosen || !improvement.data.data.effect_class)
-	//				//NOTE:Currently reloading all improvements to keep things refreshed, may change later
-	//				try {
-	//					await improvement.reloadImprovementFromCompendium();
-	//					console.debug(`Reloaded Improvement: ${improvement.name}`);
-	//				} catch (e) {
-	//					Debug(improvement);
-	//					console.error(e);
-	//				}
-	//		}
-	//}
-
-	//static async convertExtras() {
-	//	//Changes all extras into Dangers
-	//	const extras = game.actors.filter( x=> x.type == "extra");
-	//	for (let extra of extras) {
-	//		let danger = await CityActor.create( {
-	//			name: extra.name,
-	//			type: "threat",
-	//			img: extra.img,
-	//			data: extra.data.data,
-	//			permission: extra.data.permission,
-	//			folder: extra.data.folder,
-	//			sort: extra.data.sort,
-	//			flags: extra.data.flags,
-	//			effects: extra.data.effects,
-	//			token: extra.data.token
-	//		});
-	//		danger.update({"token.actorLink":true});
-	//		for (let theme of await extra.getThemes()) {
-	//			const [themenew] = await danger.createEmbeddedDocuments( "Item",[ theme.data]);
-	//			for (let tag of await extra.getTags(theme.id)) {
-	//				const tagdata = tag.data.data;
-	//				let newtag = await danger.addTag(themenew.id, tagdata.subtype, tagdata.question_letter, true)
-	//				await newtag.update( {"name": tag.name, "data.burned": tagdata.burned});
-	//				await tag.delete();
-	//			}
-	//			for (let imp of await extra.getImprovements(theme.id)) {
-	//				const tbarray = (await theme.getThemebook()).data.data.improvements;
-	//				const index = Object.entries(tbarray)
-	//					.reduce( (a, [i, d]) => d.name == imp.name ? i : a , -1);
-	//				let newimp = await danger.addImprovement(themenew.id, index)
-	//				await newimp.update( {"name": imp.name});
-	//				await imp.delete();
-	//			}
-	//			await themenew.update( {
-	//				"data.unspent_upgrades": theme.data.data.unspent_upgrades,
-	//				"data.nascent": theme.data.data.nascent
-	//			});
-	//			await theme.delete();
-	//		}
-	//		for (const item of extra.items) {
-	//			await danger.createEmbeddedDocuments( "Item",[ item.data]);
-	//		}
-	//		await extra.delete();
-	//		for (let tok of extra.getActiveTokens()) {
-	//			const td = await danger.getTokenData({x: tok.x, y: tok.y, hidden: tok.data.hidden});
-	//			const cls = getDocumentClass("Token");
-	//			await cls.create(td, {parent: tok.scene});
-	//			tok.scene.deleteEmbeddedDocuments("Token", [tok.id]);
-	//		}
-	//		console.log(`Converted ${extra.name} to Danger`);
-	//	}
-	//}
 
 	static getThemebooks() {
 		return CityDB.themebooks;
@@ -131,7 +52,7 @@ export class CityHelpers {
 
 	static async logToChat(actor, action, object = null, aftermsg = "") {
 		return await CityLogger.logToChat(actor, action, object, aftermsg);
-}
+	}
 
 	static async sendToChat(text, sender={}) {
 		return await CityLogger.sendToChat(text, sender);
@@ -170,18 +91,11 @@ export class CityHelpers {
 	}
 
 	static async playSound(filename, volume = 1.0) {
-		const src = `systems/city-of-mist/sounds/${filename}`;
-		const sounddata =  {src, volume, autoplay: true, loop: false};
-		AudioHelper.play(sounddata, false);
+		return await Sounds.playSound(filename, volume);
 	}
 
 	static getTagOwnerById(tagOwnerId) {
-		const val = game.actors.find(x=> x.id == tagOwnerId)
-			|| game.scenes.find( x=> x.id == tagOwnerId);
-		if (val)
-			return val;
-		else
-			throw new Error(`Couldn't find tag owner for Id ${tagId}`);
+		return CityDB.getTagOwnerById(tagOwnerId);
 	}
 
 	static async getOwner(ownerId, tokenId, sceneId) {
@@ -203,37 +117,31 @@ export class CityHelpers {
 	}
 
 	static getActiveScene() {
-		return window.game.scenes.active;
+		return TokenTools.getActiveScene();
 	}
 
 	static getActiveSceneTokens() {
-		return this.getSceneTokens(this.getActiveScene())
-			.filter(x=>x.actor);
+		return TokenTools.getActiveSceneTokens();
 	}
 
 	static getSceneTokens( scene) {
-		if (!scene || !scene.data)
-			return [];
-		return scene.data.tokens.filter(x=>x.actor);
+		return TokenTools.getSceneTokens(scene);
 	}
 
 	static getActiveSceneTokenActors() {
-		return this.getSceneTokenActors(this.getActiveScene());
+		return TokenTools.getActiveSceneTokenActors();
 	}
 
 	static getVisibleActiveSceneTokenActors() {
-		return this.getSceneTokens(this.getActiveScene())
-			.filter (x=> !x.data.hidden)
-			.map(x=> x.actor);
-
+		return TokenTools.getVisibleActiveSceneTokenActors();
 	}
 
 	static getSceneTokenActors(scene) {
-		const tokens = this.getSceneTokens(scene);
-		return tokens.map ( x=> x.actor);
+		return TokenTools.getSceneTokenActors(scene);
 	}
 
 	static createTokenActorData(tokendata) {
+		//creates specialized dummy data, probably isn't needed
 		const token = new Token(tokendata);
 		const created = token.actor;
 		created._tokenname = token.name;
@@ -243,18 +151,11 @@ export class CityHelpers {
 	}
 
 	static getActiveUnlinkedSceneTokens() {
-		return CityHelpers.getActiveSceneTokens().filter( x=> x.actorLink == false);
+		return TokenTools.getActiveUnlinkedSceneTokens();
 	}
 
 	static async getBuildUpImprovements() {
-		const list = (await this.getAllItemsByType("improvement", window.game));
-		return list.filter( item => {
-			const nameFilter = list.filter( x=> x.name == item.name);
-			if (nameFilter.length == 1)
-				return true;
-			else
-				return !item.data.data.free_content;
-		});
+		return CityDB.getBuildUpImprovements();
 	}
 
 	static generateSelectHTML(listobj, currval, cssclass ="", id = "") {
@@ -551,38 +452,10 @@ export class CityHelpers {
 
 	static async confirmBox(title, text, defaultYes = false) {
 		return await HTMLTools.confirmBox(title, text, defaultYes);
-		// const templateData = {text};
-		// const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
-		// return await new Promise( (conf, _reject) => {
-		// 	Dialog.confirm({
-		// 		title,
-		// 		content: html,
-		// 		yes: conf.bind(null, true),
-		// 		no: conf.bind(null, false),
-		// 		defaultYes
-		// 	});
-		// });
 	}
 
-	static middleClick (handler) {
-		return function (event) {
-			if (event.which == 2) {
-				event.preventDefault();
-				event.stopPropagation();
-				return handler(event);
-			}
-		}
-	}
-
-	static rightClick (handler) {
-		return function (event) {
-			if (event.which == 3) {
-				event.preventDefault();
-				event.stopPropagation();
-				return handler(event);
-			}
-		}
-	}
+	static middleClick (handler) { return HTMLTools.middleClick(handler); }
+	static rightClick (handler) { return HTMLTools.rightClick(handler); }
 
 	static getDefaultTagDirection(tag, tagowner, _actor) {
 		const subtype = tag?.data?.data?.subtype;

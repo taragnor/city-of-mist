@@ -67,6 +67,27 @@ export class CityDB extends DBAccessor {
 		return this._dangerTemplates.find( x=> x.id  == id);
 	}
 
+	static getTagOwnerById(tagOwnerId) {
+		const val = game.actors.find(x=> x.id == tagOwnerId)
+			|| game.scenes.find( x=> x.id == tagOwnerId);
+		if (val)
+			return val;
+		else
+			throw new Error(`Couldn't find tag owner for Id ${tagId}`);
+	}
+
+	static async getBuildUpImprovements() {
+		const list = this.filterItemsByType("improvement");
+		return list.filter( item => {
+			const nameFilter = list.filter( x=> x.name == item.name);
+			if (nameFilter.length == 1)
+				return true;
+			else
+				return !item.data.data.free_content;
+		});
+	}
+
+
 	static getThemebook(tname, id) {
 		const themebooks = this.themebooks;
 		let book;
