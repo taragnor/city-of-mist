@@ -48,8 +48,12 @@ export class CityActor extends Actor {
 
 	async updateVersion(version) {
 		version = String(version);
-		if (version > this.data.data.version) {
-			console.debug (`Updated verison of ${this.name} to ${version}`);
+		if (this.versionIsLessThan(version)) {
+			console.debug (`Updated version of ${this.name} to ${version}`);
+			for (const item of this.items) {
+				console.debug(`Updating Version of Item: ${item.name}`);
+				await item.updateVersion(version);
+			}
 			return await this.update( {"data.version" : version});
 		}
 		if (version < this.data.data.version)
