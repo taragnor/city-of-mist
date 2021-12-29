@@ -2,12 +2,11 @@
 	<h1 class="header">
 		Clue
 	</h1>
-	{{#if partial_clue}}
-		<h2> (Partial) </h2>
-	{{/if}}
 	{{#if banked}}
 		<h1> BANKED </h1>
 	{{else}}
+	<label> Partial Clue </label>
+	<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
 		<section class="question-part">
 			{{#if question}}
 				<div class="question-block">
@@ -15,6 +14,7 @@
 					<span class="text">{{question}}</span>
 				</div>
 			{{else}}
+				{{#if (not (isGM))}}
 				<textarea class="question-input">{{partial_clue_text}}</textarea>
 				<button class="submit-button">
 					Ask Question
@@ -22,6 +22,9 @@
 				<button class="bank-button">
 					Bank Clue
 				</button>
+			{{else}}
+				<div class="waiting-msg"> Waiting for Player </div>
+			{{/if}}
 			{{/if}}
 		</section>
 		{{#if question}}

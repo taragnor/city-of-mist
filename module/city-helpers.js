@@ -565,10 +565,10 @@ export class CityHelpers {
 		return true;
 	}
 
-	static async postClue (actorId, metaSource, method="") {
-		const actor = CityDB.getActorById(actorId);
-		const	templateData= {actorId, metaSource, method};
-		if (!metaSource)
+	static async postClue (templateData) {
+		const actor = CityDB.getActorById(templateData.actorId);
+		// const	templateData= {actorId, metaSource, method};
+		if (!templateData.metaSource)
 			console.warn("No metasource for clue");
 		if (!actor)
 			throw new Error(`Couldnt find actor Id ${actorId}`);
@@ -576,14 +576,17 @@ export class CityHelpers {
 		await CityLogger.sendToChat(html, {actor});
 	}
 
-	static async updateClue (messageId, html, newdata ={}) {
+	static async updateClue (html, newdata ={}) {
+		const messageId = html.data("messageId");
 		const message = game.messages.get(messageId);
+		const question = $(html).find(".clue-reveal").data("question");
+		const answer = $(html).find(".clue-reveal").data("answer");
 		const actorId = $(html).find(".clue-reveal").data("actorId");
 		const method = $(html).find(".clue-reveal").data("method");
 		const source = $(html).find(".clue-reveal").data("source");
 		const metaSource = $(html).find(".clue-reveal").data("metaSource");
 		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
-		const	templateData = {method, source, actorId, partial_clue, metaSource, ...newdata};
+		const	templateData = {question, method, source, actorId, partial_clue, metaSource, ...newdata};
 		if (!metaSource)
 			console.warn("No metasource for clue");
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
@@ -595,6 +598,10 @@ export class CityHelpers {
 		$(html).find(".question-part .submit-button").click (
 			() => {
 				this.clue_submitQuestion(html);
+			});
+		$(html).find(".partial-clue").click (
+			() => {
+				this.clue_partialClueCheckbox(html);
 			});
 		$(html).find(".question-part .bank-button").click (
 			() => {
@@ -612,14 +619,13 @@ export class CityHelpers {
 			() => {
 				this.clue_AddToJournal(html);
 			});
-
+		return true;
 	}
 
 	static async clue_submitQuestion(html) {
-		const messageId = html.data("messageId");
 		const question = $(html).find(".question-part .question-input").val();
 		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
-		await this.updateClue(messageId, html, {question, partial_clue});
+		await this.updateClue( html, {question, partial_clue});
 	}
 
 	static async clue_bankClue(html) {
@@ -638,22 +644,25 @@ export class CityHelpers {
 	}
 
 	static async clue_submitAnswer(html) {
-		const messageId = html.data("messageId");
 		const question = $(html).find(".clue-reveal").data("question");
 		const answer = $(html).find(".answer-part .answer-input").val();
 		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
-		await this.updateClue(messageId, html, {question, answer, partial_clue});
+		await this.updateClue( html, {question, answer, partial_clue});
 	}
 
 	static async clue_editAnswer(html) {
-		const messageId = html.data("messageId");
 		const question = $(html).find(".clue-reveal").data("question");
 		const answer = $(html).find(".clue-reveal").data("answer");
-		await this.updateClue(messageId, html, {question, partial_answer_text: answer});
+		await this.updateClue( html, {question, partial_answer_text: answer});
 	}
 
 	static async clue_addToJournal(html) {
 
+	}
+
+	static async clue_partialClueCheckbox(html) {
+		const partial_clue = $(html).find(".partial-clue").is(":checked");
+		await this.updateClue(html, {partial_clue});
 	}
 
 } //end of class
