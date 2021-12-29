@@ -1,3 +1,5 @@
+import { HTMLTools } from "./tools/HTMLTools.mjs";
+
 export class CitySheet extends ActorSheet {
 
 	/* -------------------------------------------- */
@@ -176,43 +178,7 @@ export class CitySheet extends ActorSheet {
 	}
 
 	static async singleChoiceBox( list, headerText) {
-		//List is in form of {id, data: [rows], description}
-		const options = {};
-		const input_type = "Radio";
-		const templateData = {list};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-and-improvement-selector-dialog.html", templateData);
-		return await new Promise( (conf, reject) => {
-			const dialog = new Dialog({
-				title: `${headerText}`,
-				content: html,
-				buttons: {
-					one: {
-						icon: `<i class="fas fa-check"></i>`,
-						label: "Confirm",
-						callback: (htm) => {
-							let selection = [];
-							$(htm).find(".single-choice-box").find("input:checked").each(function() {
-								selection.push($(this).val());
-							});
-							if (selection.length  > 1) {
-								throw new Error(`Problem with selection, Length is ${selection.length}`);
-							}
-							if (selection.length > 0) {
-								conf(selection[0]);
-							} else {
-								conf(null);
-							}
-						}
-					},
-					two: {
-						icon: `<i class="fas fa-times"></i>`,
-						label: "Cancel",
-						callback: () => null
-					}
-				}
-			}, options);
-			dialog.render(true);
-		});
+		return await HTMLTools.singleChoiceBox(list, headerText);
 	}
 
 	async _dragStart (event) {

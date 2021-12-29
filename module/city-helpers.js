@@ -1,6 +1,7 @@
 import { CityActor } from "./city-actor.js";
 import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.mjs";
+import { HTMLTools } from "./tools/HTMLTools.mjs";
 
 export class CityHelpers {
 
@@ -575,17 +576,18 @@ export class CityHelpers {
 	}
 
 	static async confirmBox(title, text, defaultYes = false) {
-		const templateData = {text};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
-		return await new Promise( (conf, _reject) => {
-			Dialog.confirm({
-				title,
-				content: html,
-				yes: conf.bind(null, true),
-				no: conf.bind(null, false),
-				defaultYes
-			});
-		});
+		return await HTMLTools.confirmBox(title, text, defaultYes);
+		// const templateData = {text};
+		// const html = await renderTemplate("systems/city-of-mist/templates/dialogs/confirmation-dialog.html", templateData);
+		// return await new Promise( (conf, _reject) => {
+		// 	Dialog.confirm({
+		// 		title,
+		// 		content: html,
+		// 		yes: conf.bind(null, true),
+		// 		no: conf.bind(null, false),
+		// 		defaultYes
+		// 	});
+		// });
 	}
 
 	static middleClick (handler) {

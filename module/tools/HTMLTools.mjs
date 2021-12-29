@@ -46,14 +46,17 @@ export class HTMLTools {
 
 	static async confirmBox(title, text, defaultYes = false) {
 		const templateData = {text};
-		const html = await renderTemplate(`systems/${game.system.id}/templates/HTMLTools/confirmation-dialog.html`, templateData);
+		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
 		return await new Promise( (conf, _reject) => {
 			Dialog.confirm({
 				title,
 				content: html,
 				yes: conf.bind(null, true),
 				no: conf.bind(null, false),
-				defaultYes
+				defaultYes,
+				close: () => {
+					conf(false);
+				},
 			});
 		});
 	}
@@ -73,7 +76,7 @@ export class HTMLTools {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};
-		const html = await renderTemplate(`systems/${game.system.id}/templates/HTMLTools/singleChoiceBox.html`, templateData);
+		const html = await renderTemplate(`systems/${game.system.id}/module/tools/singleChoiceBox.hbs`, templateData);
 		return await new Promise( (conf, _reject) => {
 			const dialog = new Dialog({
 				title: `${headerText}`,
@@ -102,7 +105,10 @@ export class HTMLTools {
 						label: "Cancel",
 						callback: () => conf(null)
 					}
-				}
+				},
+				close: () => {
+					conf(null);
+				},
 			}, options);
 			dialog.render(true);
 		});

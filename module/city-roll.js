@@ -487,3 +487,4 @@ CityRoll.getModifierBox = async function (templateData) {
 	return rollOptions;
 }
 
+Object.freeze(CityRoll);
