@@ -3,6 +3,7 @@
 import { CityDialogs } from "./city-dialogs.mjs";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
+import { CityLogger } from "./city-logger.mjs";
 
 export class CityActorSheet extends CitySheet {
 	constructor(...args) {
@@ -420,7 +421,7 @@ export class CityActorSheet extends CitySheet {
 					case "replace":
 						const BUV = theme.getBuildUpValue();
 						const imp = await this.actor.incBuildUp(BUV);
-						await CityHelpers.logToChat(this.actor, await theme.printDestructionManifest(imp));
+						await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
 						await	actor.deleteTheme(themeId);
 						await CityHelpers.modificationLog(actor, "Deleted", theme);
 						break;
@@ -487,7 +488,7 @@ export class CityActorSheet extends CitySheet {
 						const BUV = theme.getBuildUpValue();
 						const imp = await this.actor.incBuildUp(BUV);
 
-						await CityHelpers.logToChat(this.actor, await theme.printDestructionManifest(imp));
+						await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
 					}
 				}
 				break;
@@ -749,7 +750,6 @@ export class CityActorSheet extends CitySheet {
 		let ret = null;
 		if (ret = await this.statusSubtractDialog(status)) {
 			const {name: newname, tier: amt} = ret;
-			console.log(`${name} : ${tier}`);
 			const revised_status = await status.subtractStatus(amt, newname);
 			await this.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
 			if (revised_status.data.data.tier <= 0)

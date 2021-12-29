@@ -162,7 +162,7 @@ export class CitySheet extends ActorSheet {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: label,
-						callback: async() => await conf(CityHelpers.sendToChat(text, sender)),
+						callback: async() => conf(CityHelpers.sendToChat(text, sender)),
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',

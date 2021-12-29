@@ -23,6 +23,8 @@ import {} from "./tools/electron-fix.mjs";
 import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {Debug} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
+import { VersionUpdater } from "./version-update.mjs";
+
 
 window.CityHelpers = CityHelpers;
 
@@ -39,9 +41,10 @@ Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality
 
 Hooks.once("cityDBLoaded", async function() {
 	if (game.user.isGM) {
-		await CityHelpers.convertExtras()
-		await CityHelpers.updateDangers();
-		await CityHelpers.updateImprovements();
+		await VersionUpdater.update();
+		// await CityHelpers.convertExtras()
+		// await CityHelpers.updateDangers();
+		// await CityHelpers.updateImprovements();
 	}
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory"))
 		EnhancedActorDirectory.init();
@@ -174,7 +177,6 @@ Hooks.once("init", async function() {
 			case "special": return data.specialmoves;
 			case "SHB": return data.shbmoves;
 			default:
-				Debug(actordata);
 				console.warn(`No default move group for actor group: ${data?.data?.selectedMoveGroup}`);
 				return data.coremoves;
 		}

@@ -1355,6 +1355,7 @@ div.att-fade-section {
 	margin: 0 0.4em;
 	width: 50%;
 	padding-top: 0.1em;
+
 }
 
 .fade-block.flex-line {
@@ -1391,8 +1392,8 @@ ul.improvement-list {
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	justify-items: normal;
-	overflow: auto;
 	overflow-x: hidden;
+	overflow-y: hidden;
 }
 
 .flex-col {
@@ -2171,10 +2172,17 @@ div.narrated-text span.narrated-status-name {
 
 .dragging.draggable:active {
 	cursor: move; /* fallback if grab cursor is unsupported */
-	cursor: grabbing !important;
 	cursor: -moz-grabbing;
 	cursor: -webkit-grabbing;
+	cursor: grabbing !important;
 	opacity: .3;
+}
+
+.dragging:hover {
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+	cursor: grabbing !important;
 }
 
 
