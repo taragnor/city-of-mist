@@ -1267,6 +1267,15 @@ section.juice-data-block {
 	margin-left: 0.3em;
 }
 
+.theme-destruction-message .tags-header {
+	font-size: 1.4em;
+	font-family: "Rift Bold";
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 0;
+	margin-left: 0.3em;
+}
+
 .improvement-name:hover {
 	text-shadow: 0 0 10px var(--neon-pink);
 	transition-duration: 0.2s;
@@ -2218,10 +2227,38 @@ div.narrated-text span.narrated-status-name {
 	color: #400000;
 }
 
-.main-destruction-message {
+.main-destruction-message .theme-name{
+	font-size: larger;
+	border-bottom: 2px solid red;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.theme-destruction-message ul.tag-list {
+	border-bottom: 2px solid red;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.theme-destruction-message ul.improvement-list {
+	border-bottom: 2px solid red;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.theme-destruction-message .destruction-action {
 	font-size: larger;
 	text-decoration: underline;
+	text-align: center;
+	font-weight: 700;
 }
+
+.theme-destruction-message .new-moment-of-evolution {
+	font-weight: bold;
+	text-transform: uppercase;
+
+}
+
 
 .edit-roll {
 	display: none;

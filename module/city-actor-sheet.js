@@ -423,7 +423,7 @@ export class CityActorSheet extends CitySheet {
 						const imp = await this.actor.incBuildUp(BUV);
 						await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
 						await	actor.deleteTheme(themeId);
-						await CityHelpers.modificationLog(actor, "Deleted", theme);
+						// await CityHelpers.modificationLog(actor, "Deleted", theme);
 						break;
 					case "delete":
 						await	actor.deleteTheme(themeId);

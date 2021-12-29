@@ -85,6 +85,9 @@
 "CityOfMist.command.toggleLock": "Toggle Sheet Lock",
 "CityOfMist.command.narrationBox": "Narration Box",
 "CityOfMist.command.executeMove": "Execute Move",
+"CityOfMist.command.destroyTheme": "Destroyed Theme",
+"CityOfMist.command.buildUpGained": "Build Up Points Gained",
+"CityOfMist.misc.newMoE": "New Moments of Evolution",
 
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1"
 

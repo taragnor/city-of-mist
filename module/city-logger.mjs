@@ -7,17 +7,22 @@ export class CityLogger extends Logger {
 			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
 			const after_message = aftermsg ? `(${aftermsg})` : "";
 			const message = await renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
-			await this.gmMessage(message, null);
+			try { await this.gmMessage(message, actor);}
+			catch (e) {console.error(e);}
 		} else {
 			console.warn(`Deprecated usage of modification Log: ${actor}`);
-			await this.gmMessage(actor);
+			try {await this.gmMessage(actor);}
+			catch (e) {console.error(e);}
 		}
 	}
 
 	static async modificationLog(...args) {
 		if (!game.settings.get("city-of-mist", "loggedActions"))
 			return;
-		await this.logToChat(...args);
+		try { await this.logToChat(...args); }
+		catch (e) {
+			console.error(e);
+		}
 	}
 
 	static async rawHTMLLog(actor, html) {

@@ -1,8 +1,11 @@
 <div class="theme-destruction-message">
-	<div class="main-destruction-message">
-		{{theme.name}} ({{theme.data.themebook.data.type}}) destroyed!
+	<div class="destruction-action">
+		{{localize "CityOfMist.command.destroyTheme"}}
 	</div>
-	<div class="tags-header"> Tags </div>
+	<div class="theme-name">
+		{{theme.name}} ({{theme.data.themebook.data.data.type}})
+	</div>
+	<div class="tags-header"> {{localize "CityOfMist.terms.tags"}} </div>
 	<ul class="tag-list">
 		{{#each tags as |tag tid|}}
 		<li>
@@ -10,7 +13,7 @@
 		</li>
 		{{/each}}
 	</ul>
-	<div class="improvements-header"> Improvements </div>
+	<div class="improvements-header"> {{localize "CityOfMist.terms.improvements"}} </div>
 	<ul class="improvement-list">
 		{{#each improvements as |imp tid|}}
 		<li>
@@ -19,9 +22,11 @@
 		{{/each}}
 	</ul>
 	<div class="build-up-gain">
-		Build Up Points Gained: {{BUGenerated}}
+		{{localize "CityOfMist.command.buildUpGained"}} : {{BUGenerated}}
 		{{#if (gt BUImpGained 0)}}
-		({{BUImpGained}} NEW IMPROVEMENTS!)
+		<div class="new-moment-of-evolution">
+			({{BUImpGained}} {{localize "CityOfMist.misc.newMoE"}}!)
+		</div>
 		{{/if}}
 	</div>
 </div>
