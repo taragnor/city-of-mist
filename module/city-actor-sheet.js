@@ -67,14 +67,10 @@ export class CityActorSheet extends CitySheet {
 		html.find('.create-status').click(this._createStatus.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
 		html.find('.status-delete').click(this._deleteStatus.bind(this));
-		// html.find('.status-delete').mousedown(CityHelpers.middleClick(x => this._deleteStatus(x, true)));
 		html.find('.status-delete').middleclick(x => this._deleteStatus(x, true));
 		html.find('.status-select-button').click(this._statusSelect.bind(this));
-		// html.find('.status-select-button').mousedown(this._statusRightMouseDown.bind(this));
-		// html.find('.status-select-button').mousedown(CityHelpers.rightClick(	x=> this._statusSelect(x, true)));
 		html.find('.status-select-button').rightclick(	x=> this._statusSelect(x, true));
 		html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
-		// html.find('.status-select-button').mousedown(CityHelpers.middleClick(this._statusEdit.bind(this)));
 		html.find('.status-add').click(this._statusAdd.bind(this));
 		html.find('.status-subtract').click(this._statusSubtract.bind(this));
 		html.find('.status-edit-button').click(this._statusEdit.bind(this));
@@ -87,17 +83,14 @@ export class CityActorSheet extends CitySheet {
 		html.find('.create-hurt').click(this._createHurt.bind(this));
 		html.find('.clue-name').click( this._clueEdit.bind(this) );
 		html.find('.clue-name').middleclick( this._clueEdit.bind(this));
-		// html.find('.clue-name').mousedown(CityHelpers.middleClick ( this._clueEdit.bind(this)));
 		html.find('.juice-name').click( this._juiceEdit.bind(this) );
 		html.find('.juice-name').middleclick(this._juiceEdit.bind(this) );
-		// html.find('.juice-name').mousedown( CityHelpers.middleClick (this._juiceEdit.bind(this)) );
 		html.find('.increment-buildup').click( this._buildUpIncrement.bind(this) );
 		html.find('.decrement-buildup').click( this._buildUpDecrement.bind(this) );
 		html.find('.add-buildup-improvement').click( this._addBUImprovement.bind(this) );
 		html.find('.execute-move-button').click( this._executeMove.bind(this) );
 		html.find('.create-story-tag').click(this._createStoryTag.bind(this));
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
-		// html.find('.story-tags-header').mousedown(CityHelpers.middleClick(this._createStoryTag.bind(this)));
 		// this.testHandlers(html);
 	}
 
