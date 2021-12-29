@@ -400,7 +400,7 @@ export class CityItem extends Item {
 	}
 
 	versionIsLessThan(version) {
-		return this.data.data.version < String(version);
+		return String(this.data.data.version) < String(version);
 	}
 
 	async updateVersion(version) {

@@ -43,7 +43,7 @@ export class CityActor extends Actor {
 	}
 
 	versionIsLessThan(version) {
-		return this.data.data.version < version;
+		return String(this.data.data.version) < String(version);
 	}
 
 	async updateVersion(version) {
