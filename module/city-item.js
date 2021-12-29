@@ -399,8 +399,8 @@ export class CityItem extends Item {
 		}
 	}
 
-	get version() {
-		return this.data.data.version;
+	versionIsLessThan(version) {
+		return this.data.data.version < String(version);
 	}
 
 	async updateVersion(version) {

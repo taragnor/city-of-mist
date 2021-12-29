@@ -2,32 +2,55 @@ import { CityDB } from "./city-db.mjs";
 
 export class VersionUpdater {
 
-	static async update() {
+	static async update(version = game.system.data.version) {
 		if (!game.user.isGM) return;
-		await this.convertExtras()
-		await this.updateDangers();
-		await this.updateImprovements();
-		await this.updateGMMovesHTML();
+		try {
+			await this.convertExtras();
+			await this.updateDangers();
+			await this.updateImprovements();
+			await this.updateGMMovesHTML();
+			await this.updateVersion(version);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	static async updateVersion(version) {
+		const actors = CityDB.allActors()
+			.filter( actor=> actor.versionIsLessThan(version) )
+			.filter(x => !x.pack || !game.packs.get(x.pack).locked);
+		for (let actor of actors)
+			try {
+				await actor.updateVersion(version);
+			} catch (e) { console.error(e);}
+		const items = CityDB.allItems()
+			.filter( actor=> actor.versionIsLessThan(version))
+			.filter(x => !x.pack || !game.packs.get(x.pack).locked);
+		for (let item of items) {
+			try {await item.updateVersion(version);
+			} catch (e) {
+				Debug(item);
+				console.error(e);}
+		}
 	}
 
 	static async updateGMMovesHTML() {
-		const baseList = game.actors.filter( x=> x.type == "threat");
-		const packsList = CityDB.filterActorsByType("threat");
-		const dangerList = baseList.concat(packsList);
+		const dangerList = CityDB.filterActorsByType("threat")
+			.filter( actor => actor.versionIsLessThan("2"))
+			.filter(x => !x.pack || !game.packs.get(x.pack).locked);
 		for (const danger of dangerList) {
 			for (let move of danger.gmmoves
 				.filter( move => danger.ownsMove(move.id))
 			) {
 				console.debug(`Updated ${move.name} for ${danger.name}`);
 				await move.updateGMMoveHTML();
-				await move.updateVersion(1.1);
 			}
 		}
 	}
 
 	static async updateDangers() {
 		//Changes to new method of GMmove display
-		for (const danger of game.actors.filter(x=> x.type == "threat"))
+		for (const danger of game.actors.filter(x=> x.type == "threat" && x.versionIsLessThan("2")))
 			for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
 				if (gmmove.data.data.description && !gmmove.data.data?.html)
 					console.log(`Updating ${danger.name}`);
@@ -37,7 +60,7 @@ export class VersionUpdater {
 
 	static async updateImprovements() {
 		if (!game.user.isGM) return;
-		const players = game.actors;
+		const players = game.actors.filter( actor => actor.versionIsLessThan("2"));
 		for (const player of players)
 			for (const improvement of player.items.filter( x=> x.type == "improvement")) {
 				if (true || !improvement.data.data.chosen || !improvement.data.data.effect_class)

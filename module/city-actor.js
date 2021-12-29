@@ -42,8 +42,8 @@ export class CityActor extends Actor {
 			.filter (x => x != null);
 	}
 
-	get version() {
-		return this.data.data.version;
+	versionIsLessThan(version) {
+		return this.data.data.version < version;
 	}
 
 	async updateVersion(version) {
