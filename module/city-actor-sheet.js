@@ -941,15 +941,23 @@ export class CityActorSheet extends CitySheet {
 				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
 		}
 		const effectClass = move.data?.data?.effect_class ?? "";
-		if (effectClass.includes("MONOLOGUE"))
-			if (this.monologue)
-				this.monologue();
-		if (effectClass.includes("SESSION_END"))
-			if (this.sessionEnd)
-				this.sessionEnd();
-		if (effectClass.includes("FLASHBACK"))
-			if (this.flashback)
-				this.flashback();
+		for (let effect of move.effect_classes) {
+			switch (effect) {
+
+				case "MONOLOGUE":
+					if (this.monologue)
+						this.monologue();
+					break;
+				case "SESSION_END":
+					if (this.sessionEnd)
+						this.sessionEnd();
+					break;
+				case "FLASHBACK":
+					if (this.flashback)
+						this.flashback();
+					break;
+			}
+		}
 	}
 
 		async statusDialog(obj) {

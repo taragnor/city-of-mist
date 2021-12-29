@@ -26,6 +26,7 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/city-of-mist/templates/parts/threat-sheet-header.html",
     "systems/city-of-mist/templates/parts/lock-button.html",
     "systems/city-of-mist/templates/parts/danger-template.html",
+    "systems/city-of-mist/templates/parts/clue-journal-display.html",
 
   ];
 

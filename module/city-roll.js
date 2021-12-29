@@ -14,9 +14,10 @@ export async function CityRoll(moveId, actor, options = {}) {
 		};
 	});
 	options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
-	const templateData = {actorName, moveId, modifiers: templateModifiers, options};
-	const html = await CityRoll.getContent(roll, templateData);
+	const origTemplateData = {actorName, moveId, modifiers: templateModifiers, options};
+	const {html, templateData} = await CityRoll.getContent(roll, origTemplateData);
 	const msg = await CityRoll.sendRollToChat(roll, html);
+	await CityRoll.secondaryEffects(moveId, actor, templateData, msg);
 	await CityRoll.rollCleanupAndAftermath(tags, options);
 	if (actor)
 		await actor.clearAllSelectedTags();
@@ -44,11 +45,12 @@ CityRoll.getContent = async function (roll, templateData) {
 	templateData.moveText = CityItem.generateMoveText(move, roll_status, power);
 	templateData.rolls = (roll.terms)[0].results;
 	templateData.total = total;
+	templateData.power = power;
 
 	templateData.modifiersString = JSON.stringify(templateData.modifiers);
 	templateData.tdataString = JSON.stringify(templateData);
 	const html = await renderTemplate("systems/city-of-mist/templates/city-roll.html", templateData);
-	return html;
+	return {html, templateData};
 }
 
 CityRoll.sendRollToChat = async function (roll, html, messageOptions = {}) {
@@ -68,7 +70,6 @@ CityRoll.prepareModifiers = async function (actor, options) {
 	const activated = actor.getActivated();
 	const modifiersPromises = activated.map( async(x) => {
 		const tagOwner = await CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-		Debug(tagOwner);
 		const tag = tagOwner ? await tagOwner.getSelectable(x.tagId) : null;
 		return {
 			name: x.name,
@@ -216,6 +217,36 @@ CityRoll.getRollStatus = function (total, options) {
 CityRoll.getPower = function (modifiers) {
 	return modifiers.reduce( (acc, x)=> acc+x.amount, 0);
 }
+
+CityRoll.secondaryEffects = async function (moveId, actor, templateData, msg) {
+	Debug("XXXX");
+	Debug(templateData);
+	const {total, power, modifiers} = templateData;
+	const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
+	for (const effect of move.effect_classes) {
+		switch (effect) {
+			case "CLUES":
+				const metaSource = msg.id;
+				const tags = modifiers
+					.filter( x=> x.type == "tag")
+					.map( x=> x.name)
+					.join(", ");
+				if (total >= 7) {
+					for (let i=0; i < power; i++) {
+						await CityHelpers.postClue( {
+							actorId: actor.id,
+							metaSource,
+							method: `${move.name} : ${tags}`,
+						});
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+
 
 CityRoll.rollCleanupAndAftermath = async function (tags, options) {
 	if (options.helpId) {

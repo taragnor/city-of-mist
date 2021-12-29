@@ -157,6 +157,10 @@
 				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item data=item.data.data}}
 				{{/if}}
 				{{/each}}
+				<hr>
+				{{#each actor.clueJournal as |journal|}}
+				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=journal data=journal.data.data}}
+				{{/each}}
 			</section>
 		</div>
 		<div class="tab tab-content" data-group="primary" data-tab="build-up">

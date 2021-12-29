@@ -5,8 +5,8 @@
 	{{#if banked}}
 		<h1> BANKED </h1>
 	{{else}}
-	<label> Partial Clue </label>
-	<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
+		<label> Partial Clue </label>
+		<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
 		<section class="question-part">
 			{{#if question}}
 				<div class="question-block">
@@ -14,17 +14,14 @@
 					<span class="text">{{question}}</span>
 				</div>
 			{{else}}
-				{{#if (not (isGM))}}
-				<textarea class="question-input">{{partial_clue_text}}</textarea>
-				<button class="submit-button">
+				<textarea class="player-only question-input">{{partial_clue_text}}</textarea>
+				<button class="player-only submit-button">
 					Ask Question
 				</button>
-				<button class="bank-button">
+				<button class="player-only bank-button">
 					Bank Clue
 				</button>
-			{{else}}
-				<div class="waiting-msg"> Waiting for Player </div>
-			{{/if}}
+				<div class="gm-only waiting-msg"> Waiting for Player </div>
 			{{/if}}
 		</section>
 		{{#if question}}
@@ -34,24 +31,18 @@
 						<span class="header"> Answer: </span>
 						<span class="text">{{answer}}</span>
 					</div>
-					{{#if (isGM)}}
-						<button class="edit-button">
-							Edit
-						</button>
-					{{else}}
-						<button class="add-to-journal-button">
-							Add to Journal
-						</button>
-					{{/if}}
+					<button class="gm-only edit-button">
+						Edit
+					</button>
+					<button class="player-only add-to-journal-button">
+						Add to Journal
+					</button>
 				{{else}}
-					{{#if (isGM)}}
-						<textarea class="answer-input">{{partial_answer_text}}</textarea>
-						<button class="submit-button">
-							Submit
-						</button>
-					{{else}}
-						<div class="waiting-msg"> Waiting for MC to answer </div>
-					{{/if}}
+					<textarea class="gm-only answer-input">{{partial_answer_text}}</textarea>
+					<button class="gm-only submit-button">
+						Submit
+					</button>
+					<div class="player-only waiting-msg"> Waiting for MC to answer </div>
 				{{/if}}
 			</section>
 		{{/if}}

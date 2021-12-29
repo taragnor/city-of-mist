@@ -58,6 +58,11 @@ export class CityHelpers {
 		return await this.playSound("button-off.mp3");
 	}
 
+	static async playWriteJournal() {
+		return await this.playSound("button-on.mp3");
+	}
+
+
 	static async playSound(filename, volume = 1.0) {
 		return await Sounds.playSound(filename, volume);
 	}
@@ -580,12 +585,12 @@ export class CityHelpers {
 		const messageId = html.data("messageId");
 		const message = game.messages.get(messageId);
 		const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".clue-reveal").data("answer");
+		// const answer = $(html).find(".clue-reveal").data("answer");
 		const actorId = $(html).find(".clue-reveal").data("actorId");
 		const method = $(html).find(".clue-reveal").data("method");
 		const source = $(html).find(".clue-reveal").data("source");
 		const metaSource = $(html).find(".clue-reveal").data("metaSource");
-		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
 		const	templateData = {question, method, source, actorId, partial_clue, metaSource, ...newdata};
 		if (!metaSource)
 			console.warn("No metasource for clue");
@@ -617,25 +622,33 @@ export class CityHelpers {
 			});
 		$(html).find(".answer-part .add-to-journal-button").click (
 			() => {
-				this.clue_AddToJournal(html);
+				this.clue_addToJournal(html);
 			});
+		if (game.user.isGM)
+			$(html).find(".player-only").hide();
+		else
+			$(html).find(".gm-only").hide();
 		return true;
 	}
 
 	static async clue_submitQuestion(html) {
 		const question = $(html).find(".question-part .question-input").val();
-		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
-		await this.updateClue( html, {question, partial_clue});
+		await this.updateClue( html, {question});
 	}
 
 	static async clue_bankClue(html) {
 		const messageId = html.data("messageId");
 		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
+		const huge_method = $(html).find(".clue-reveal").data("method");
+		const source = $(html).find(".clue-reveal").data("source");
+		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
 		const metaSource = $(html).find(".clue-reveal").data("metaSource");
 		const actor = CityDB.findById(actorId, "Actor");
 		if (!actor ) throw new Error(`Couldn't find Actor ${actorId}`);
-		if (await actor.createClue(metaSource, partial_clue)) {
+		const [name, method]   = huge_method.split(":").map (x=> x.trim());
+		const clueData = {partial: partial_clue, name, method, source};
+
+		if (await actor.createClue(metaSource, clueData)) {
 			const message = game.messages.get(messageId);
 			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
 			const msg = await  message.update( {content:html});
@@ -644,10 +657,9 @@ export class CityHelpers {
 	}
 
 	static async clue_submitAnswer(html) {
-		const question = $(html).find(".clue-reveal").data("question");
+		// const question = $(html).find(".clue-reveal").data("question");
 		const answer = $(html).find(".answer-part .answer-input").val();
-		const partial_clue = $(html).find(".clue-reveal").data("partial_clue");
-		await this.updateClue( html, {question, answer, partial_clue});
+		await this.updateClue( html, {answer});
 	}
 
 	static async clue_editAnswer(html) {
@@ -657,12 +669,19 @@ export class CityHelpers {
 	}
 
 	static async clue_addToJournal(html) {
-
+		const question = $(html).find(".clue-reveal").data("question");
+		const answer = $(html).find(".clue-reveal").data("answer");
+		const actorId = $(html).find(".clue-reveal").data("actorId");
+		const actor = CityDB.findById(actorId, "Actor");
+		if (await actor.addClueJournal(question, answer))
+			await CityHelpers.playWriteJournal();
 	}
 
 	static async clue_partialClueCheckbox(html) {
+		if (!game.user.isGM) return;
 		const partial_clue = $(html).find(".partial-clue").is(":checked");
-		await this.updateClue(html, {partial_clue});
+		const answer = $(html).find(".clue-reveal").data("answer");
+		await this.updateClue(html, {answer, partial_clue});
 	}
 
 } //end of class

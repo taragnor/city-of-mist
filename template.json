@@ -61,7 +61,7 @@
 
 	},
 	"Item": {
-		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum"],
+		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal"],
 		"templates": {
 			"default": {
 				"description": "",
@@ -180,6 +180,10 @@
 			"html": "",
 			"taglist": [],
 			"statuslist": []
+		},
+		"journal": {
+			"answer": "",
+			"question": ""
 		}
 	}
 }

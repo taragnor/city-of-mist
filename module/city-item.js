@@ -32,7 +32,12 @@ export class CityItem extends Item {
 	*/
 
 	hasEffectClass(cl) {
-		return this.data.data.effect_class?.includes(cl) ?? false;
+		return this.effect_classes.includes(cl);
+		// return this.data.data.effect_class?.includes(cl) ?? false;
+	}
+
+	get effect_classes() {
+		return this?.data?.data?.effect_class?.split(" ") ?? [];
 	}
 
 	isImprovementActivated(move_id, actor) {

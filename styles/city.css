@@ -1235,6 +1235,16 @@ section.clue-data-block {
 	);
 }
 
+section.cluejournal-data-block {
+	background: linear-gradient(
+	to right,
+	rgba(255, 198, 153, 0.7),
+	rgba(255, 198, 153, 0.9),
+	rgba(255, 198, 153, 0.7)
+	);
+	color: black;
+}
+
 section.juice-data-block {
 	background: linear-gradient(
 	to right,
@@ -2834,4 +2844,11 @@ nav.sheet-tabs.tabs {
 	font-size: 2.3em;
 }
 
+.question {
+	font-style: italic;
+	font-family: "PT Serif";
+}
 
+.answer {
+	font-family: "Rubik";
+}

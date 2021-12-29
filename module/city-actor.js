@@ -10,6 +10,10 @@ export class CityActor extends Actor {
 		return this.getGMMoves();
 	}
 
+	get clueJournal() {
+		return this.items.filter(x => x.type == "journal");
+	}
+
 	get templates() {
 		return this.getAttachedTemplates();
 	}
@@ -264,13 +268,13 @@ export class CityActor extends Actor {
 		return await this.createNewItem(obj);
 	}
 
-	async createClue(metaSource= "", partial= false, method="", source="" ) {
-		const existing =  this.items.find( x=> x.type == "clue" && x.data.data.metaSource==metaSource)
+	async createClue(metaSource= "", clueData= {}) {
+		const existing =  this.items.find( x=> x.type == "clue" && x.data.data.metaSource == metaSource)
 		if (metaSource && existing) {
 			existing.update({"data.amount": existing.data.data.amount+1});
 			return true;
 		}
-		const obj = await this.createNewClue("Unnamed Clue", {partial, source, method, metaSource});
+		const obj = await this.createNewClue({metaSource, ...clueData});
 		const clue = await this.getClue(obj.id);
 		const updateObj = await CityHelpers.itemDialog(clue);
 		if (updateObj) {
@@ -283,7 +287,8 @@ export class CityActor extends Actor {
 		}
 	}
 
-	async createNewClue (name, dataobj) {
+	async createNewClue (dataobj) {
+		const name = dataobj.name ?? "Unnamed Clue";
 		const obj = {
 			name, type: "clue", data : {amount:1, ...dataobj}};
 		return await this.createNewItem(obj);
@@ -305,6 +310,17 @@ export class CityActor extends Actor {
 		const obj = {
 			name, type: "spectrum" };
 		return await this.createNewItem(obj);
+	}
+
+	async addClueJournal(question, answer) {
+		const obj = {
+			name: "Unnamed Journal",
+			type: "journal",
+			data: {question, answer}
+		}
+		if (!this.clueJournal.find( x=> x.data.data.question == question && x.data.data.answer == answer))
+			return await this.createNewItem(obj);
+		else return null;
 	}
 
 	getThemes() {
