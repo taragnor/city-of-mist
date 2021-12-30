@@ -2817,6 +2817,18 @@ nav.sheet-tabs.tabs {
 	text-align: center;
 }
 
+.clue-reveal {
+	color: var(--logos-text);
+	height: 100%;
+	margin-top: 10px;
+	border-radius: 1em;
+	border-bottom: 1em solid var(--logos-orange);
+	border-top: 2.2em solid var(--logos-orange);
+	background-image: url(../images/themecardbg.webp);
+	box-shadow: 0px -2px 0px 4px #a85d4ba6;
+	padding: 10px;
+}
+
 .clue-reveal button
 {
 	width: 12em;
@@ -2837,11 +2849,61 @@ nav.sheet-tabs.tabs {
 	padding: 10px;
 	border: none;
 	margin: 0;
+	margin-top: -1.4em;
 	text-align: center;
-	font-family: 'Rubik';
+	font-family: 'Rift Bold';
 	font-weight: bold;
+	font-size: 2.2em;
 	text-transform: uppercase;
-	font-size: 2.3em;
+	text-shadow: 0px 2px 3px white,
+	0px 2px 4px var(--logos-orange);
+}
+
+.clue-reveal .partial-clue {
+	text-align:center;
+}
+
+.clue-reveal .player-only.partial-clue {
+	font-style: italic;
+}
+
+.clue-reveal .answer-part {
+	border-top: 2px solid red;
+}
+
+.clue-reveal .header{
+	font-weight: bold;
+}
+
+.clue-reveal .question-part {
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+}
+
+.clue-reveal .waiting-msg::before {
+	margin-top: 1.5em;
+}
+
+.clue-reveal .waiting-msg {
+	/* margin-top: 1.5em; */
+	font-family: "Rift Bold";
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.question-part .text{
+	font-family: "PT Serif";
+	font-style: italic;
+}
+
+.clue-reveal .answer-input {
+	height: 8em;
+	font-size: .8em;
+}
+
+.answer-part .text {
+	font-family: "Rubik";
 }
 
 .question {
@@ -2852,3 +2914,13 @@ nav.sheet-tabs.tabs {
 .answer {
 	font-family: "Rubik";
 }
+
+img.waiting-msg {
+	text-align: center;
+	justify-content: center;
+	max-width: 100px;
+	max-height: 100px;
+	border: none;
+}
+
+

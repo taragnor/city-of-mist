@@ -219,8 +219,6 @@ CityRoll.getPower = function (modifiers) {
 }
 
 CityRoll.secondaryEffects = async function (moveId, actor, templateData, msg) {
-	Debug("XXXX");
-	Debug(templateData);
 	const {total, power, modifiers} = templateData;
 	const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 	for (const effect of move.effect_classes) {

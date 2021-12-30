@@ -5,8 +5,13 @@
 	{{#if banked}}
 		<h1> BANKED </h1>
 	{{else}}
-		<label> Partial Clue </label>
-		<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
+		<div class="gm-only partial-clue">
+			<label> Partial Clue </label>
+			<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
+		</div>
+		<div class="player-only partial-clue">
+			{{#if partial_clue}} Partial Clue {{/if}}
+		</div>
 		<section class="question-part">
 			{{#if question}}
 				<div class="question-block">
@@ -22,6 +27,9 @@
 					Bank Clue
 				</button>
 				<div class="gm-only waiting-msg"> Waiting for Player </div>
+				<div class="gm-only waiting-msg">
+					<img class="gm-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
+				</div>
 			{{/if}}
 		</section>
 		{{#if question}}
@@ -43,6 +51,9 @@
 						Submit
 					</button>
 					<div class="player-only waiting-msg"> Waiting for MC to answer </div>
+					<div class="player-only waiting-msg">
+						<img class="player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
+					</div>
 				{{/if}}
 			</section>
 		{{/if}}
