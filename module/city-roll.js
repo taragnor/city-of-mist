@@ -217,8 +217,13 @@ CityRoll.getRollStatus = function (total, options) {
 CityRoll.getPower = function (modifiers) {
 	return modifiers.reduce( (acc, x)=> acc + x.amount, 0);
 }
-
 CityRoll.secondaryEffects = async function (moveId, actor, templateData, msg) {
+	if (game.settings.get('city-of-mist', "clueBoxes"))
+		await CityRoll._clueBoxes(moveId, actor, templateData, msg);
+}
+
+
+CityRoll._clueBoxes = async function(moveId, actor, templateData, msg) {
 	const {total, power, modifiers} = templateData;
 	const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 	for (const effect of move.effect_classes) {

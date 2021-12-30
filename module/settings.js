@@ -137,7 +137,18 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
+	game.settings.register("city-of-mist", "clueBoxes", {
+		name: "Enhanced Clue System",
+		hint: "Clues are spawned as separate chat objects that the player and GM can fill out.",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
 }
 
 // Example Getter
-// game.settings.get("city-of-mist", "weaknessCap");
+// game.settings.get('city-of-mist', "weaknessCap");
