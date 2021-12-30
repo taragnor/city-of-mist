@@ -62,7 +62,7 @@ CityRoll.sendRollToChat = async function (roll, html, messageOptions = {}) {
 		sound: roll ? CONFIG.sounds.dice : null,
 		roll
 	};
-	return ChatMessage.create(messageData, messageOptions);
+	return await ChatMessage.create(messageData, messageOptions);
 }
 
 CityRoll.prepareModifiers = async function (actor, options) {
@@ -205,7 +205,7 @@ CityRoll.getRoll = async function (options) {
 CityRoll.getRollStatus = function (total, options) {
 	if (total>= 12 && options.dynamiteAllowed) {
 		return "Dynamite";
-	} else if (total >=10){
+	} else if (total >= 10){
 		return "Success";
 	} else if (total >= 7) {
 		return "Partial";
@@ -215,7 +215,7 @@ CityRoll.getRollStatus = function (total, options) {
 }
 
 CityRoll.getPower = function (modifiers) {
-	return modifiers.reduce( (acc, x)=> acc+x.amount, 0);
+	return modifiers.reduce( (acc, x)=> acc + x.amount, 0);
 }
 
 CityRoll.secondaryEffects = async function (moveId, actor, templateData, msg) {
@@ -421,11 +421,11 @@ CityRoll._checkOption = async function (event) {
 		item.cost = 1;
 	if (item.cost < 0) {
 		if (!game.user.isGM) {
-			return false;
+			return true;
 		}
 	} else {
 		if (game.user.isGM) {
-			return false; // NOTE: Comment out for testing
+			return true; // NOTE: Comment out for testing
 		}
 	}
 	if (!item)
@@ -466,7 +466,7 @@ CityRoll._updateMessage = async function (event, templateData) {
 	const message = game.messages.get(messageId);
 	const roll = message.roll;
 	try {
-		const newContent = await CityRoll.getContent(roll, templateData);
+		const {html:newContent} = await CityRoll.getContent(roll, templateData);
 		const msg = await message.update( {content: newContent});
 		const upd = await ui.chat.updateMessage( msg, false);
 	} catch (e) {

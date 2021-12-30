@@ -9,12 +9,12 @@
 			<label> Partial Clue </label>
 			<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
 		</div>
-		<div class="player-only partial-clue">
+		<div class="3rd-party player-only partial-clue">
 			{{#if partial_clue}} Partial Clue {{/if}}
 		</div>
 		<section class="question-part">
 			{{#if question}}
-				<div class="question-block">
+				<div class="3rd-party question-block">
 					<span class="header"> Question: </span>
 					<span class="text">{{question}}</span>
 				</div>
@@ -26,8 +26,8 @@
 				<button class="player-only bank-button">
 					Bank Clue
 				</button>
-				<div class="gm-only waiting-msg"> Waiting for Player </div>
-				<div class="gm-only waiting-msg">
+				<div class="3rd-party gm-only waiting-msg"> Waiting for Player </div>
+				<div class="3rd-party gm-only waiting-msg">
 					<img class="gm-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
 				</div>
 			{{/if}}
@@ -35,7 +35,7 @@
 		{{#if question}}
 			<section class="answer-part">
 				{{#if answer}}
-					<div class="answer-block">
+					<div class="3rd-party answer-block">
 						<span class="header"> Answer: </span>
 						<span class="text">{{answer}}</span>
 					</div>
@@ -50,9 +50,9 @@
 					<button class="gm-only submit-button">
 						Submit
 					</button>
-					<div class="player-only waiting-msg"> Waiting for MC to answer </div>
-					<div class="player-only waiting-msg">
-						<img class="player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
+					<div class="3rd-party player-only waiting-msg"> Waiting for MC to answer </div>
+					<div class="3rd-party player-only waiting-msg">
+						<img class="3rd-party player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
 					</div>
 				{{/if}}
 			</section>

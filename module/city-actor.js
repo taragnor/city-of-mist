@@ -99,6 +99,10 @@ export class CityActor extends Actor {
 		return this.items.find(x => x.type == "clue" && x.id == id);
 	}
 
+	async getJournalClue(id) {
+		return this.items.find(x => x.type == "journal" && x.id == id);
+	}
+
 	async getJuice(id) {
 		return this.items.find(x => x.type == "juice" && x.id == id);
 	}

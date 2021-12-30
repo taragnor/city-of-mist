@@ -600,8 +600,11 @@ export class CityHelpers {
 	}
 
 	static async clueEditButtonHandlers(_app, html, _data) {
+		if ($(html).find(".clue-reveal").length == 0)
+			return true;
 		$(html).find(".question-part .submit-button").click (
 			() => {
+				console.log("I hit submit dude?!");
 				this.clue_submitQuestion(html);
 			});
 		$(html).find(".partial-clue").click (
@@ -624,10 +627,17 @@ export class CityHelpers {
 			() => {
 				this.clue_addToJournal(html);
 			});
-		if (game.user.isGM)
+		if (game.user.isGM) {
 			$(html).find(".player-only").hide();
-		else
+		} else {
 			$(html).find(".gm-only").hide();
+			const actorId = $(html).find(".clue-reveal").data("actorId");
+			const actor = game.actors.find( x=> x.id == actorId);
+			if (!actor.isOwner) {
+				$(html).find(".player-only").hide();
+				$(html).find(".3rd-party").show();
+			}
+		}
 		return true;
 	}
 
@@ -647,13 +657,11 @@ export class CityHelpers {
 		if (!actor ) throw new Error(`Couldn't find Actor ${actorId}`);
 		const [name, method]   = huge_method.split(":").map (x=> x.trim());
 		const clueData = {partial: partial_clue, name, method, source};
-
-		if (await actor.createClue(metaSource, clueData)) {
-			const message = game.messages.get(messageId);
-			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
-			const msg = await  message.update( {content:html});
-			await ui.chat.updateMessage( msg, false);
-		}
+		const message = game.messages.get(messageId);
+		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
+		const msg = await  message.update( {content: new_html});
+		await ui.chat.updateMessage( msg, false);
+		await actor.createClue(metaSource, clueData);
 	}
 
 	static async clue_submitAnswer(html) {

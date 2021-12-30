@@ -77,6 +77,7 @@ export class CityActorSheet extends CitySheet {
 
 		html.find('.create-clue').click(this._createClue.bind(this));
 		html.find('.clue-delete').click(this._deleteClue.bind(this));
+		html.find('.clue-journal-delete').click(this._deleteJournalClue.bind(this));
 		html.find('.create-juice').click(this._createJuice.bind(this));
 		html.find('.juice-delete').click(this._deleteJuice.bind(this));
 		html.find('.create-help').click(this._createHelp.bind(this));
@@ -91,6 +92,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.execute-move-button').click( this._executeMove.bind(this) );
 		html.find('.create-story-tag').click(this._createStoryTag.bind(this));
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
+		html.find('.clue-data-block').click(this._useClue.bind(this));
 		// this.testHandlers(html);
 	}
 
@@ -644,7 +646,6 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _createClue (event) {
-		this.actor.createClue();
 		const owner = this.actor;
 		const obj = await this.actor.createNewClue("Unnamed Clue");
 		const clue = await owner.getClue(obj.id);
@@ -658,6 +659,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _deleteClue (event) {
+		event.stopPropagation();
 		const clue_id = getClosestData(event, "clueId");
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
@@ -666,6 +668,16 @@ export class CityActorSheet extends CitySheet {
 		await owner.deleteClue(clue_id);
 		CityHelpers.modificationLog(owner, "Removed", clue );
 		// }
+	}
+
+	async _deleteJournalClue (event) {
+		const clue_id = getClosestData(event, "clueId");
+		const actorId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(actorId);
+		const clue = await owner.getJournalClue(clue_id);
+		await owner.deleteClue(clue_id);
+		CityHelpers.modificationLog(owner, "Removed", clue );
+
 	}
 
 	async _createJuice (event) {
@@ -756,158 +768,162 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-		async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
+	async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
+		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
+		const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
+		CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+
+	}
+
+	async reportStatsuSubtract(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
+		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
+		const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
+		CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+	}
+
+	async _statusEdit (event) {
+		const status_id = getClosestData(event, "statusId");
+		const ownerId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(ownerId);
+		const status = await owner.getStatus(status_id);
+		const oldtier = status.data.data.tier;
+		const oldpips = status.data.data.pips;
+		const oldname = status.data.name;
+		const updateObj = await this.statusDialog(status);
+		if (updateObj)  {
 			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
 			const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-			CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
-
+			CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.data.name}-${status.data.data.tier}${pipsstr})` );
 		}
+	}
 
-		async reportStatsuSubtract(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
-			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-			const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-			CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+	async _juiceEdit (event) {
+		const juice_id = getClosestData(event, "juiceId");
+		const ownerId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(ownerId);
+		const juice = await owner.getJuice(juice_id);
+		const oldname = juice.data.name;
+		const oldamount = juice.data.data.amount;
+		const updateObj = await this.CJDialog("juice", juice);
+		if (updateObj) {
+			CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
 		}
+	}
 
-		async _statusEdit (event) {
-			const status_id = getClosestData(event, "statusId");
-			const ownerId = getClosestData(event, "ownerId");
-			const owner = await this.getOwner(ownerId);
-			const status = await owner.getStatus(status_id);
-			const oldtier = status.data.data.tier;
-			const oldpips = status.data.data.pips;
-			const oldname = status.data.name;
-			const updateObj = await this.statusDialog(status);
-			if (updateObj)  {
-				const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-				const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-				CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+	async _createStoryTag(event) {
+		const owner = this.actor;
+		const retobj = await owner.createStoryTag();
+		const tag = await owner.getTag(retobj.id);
+		await this.tagDialog(tag);
+		await CityHelpers.modificationLog(owner, "Created", tag);
+	}
+
+	async _useClue(event) {
+		const clue_id = getClosestData(event, "clueId");
+		const actorId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(actorId);
+		const clue = await owner.getClue(clue_id);
+		if (await  this.confirmBox("Use Clue", "Use Clue?"))
+			await clue.spend_clue();
+	}
+
+	async _buildUpDecrement(event) {
+		const actorId = getClosestData(event, "ownerId");
+		const actor = await this.getOwner(actorId);
+		if (await this.confirmBox("Remove Build Up Point", `Remove Build Up Point to ${actor.name}`)) {
+			await actor.decBuildUp();
+			await CityHelpers.modificationLog(actor, `Build Up Point Removed (Current ${await actor.getBuildUp()})`);
+		}
+	}
+
+	async _addBUImprovement (_event) {
+		const list = await CityHelpers.getBuildUpImprovements();
+		const choiceList = list.map ( x => {
+			return {
+				id: x.id,
+				data: [x.name],
+				description: x.data.description
 			}
-		}
+		});
+		const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
+		if (!choice)
+			return;
+		const imp = await this.actor.addBuildUpImprovement(choice);
+		await CityHelpers.modificationLog(this.actor, "Added", imp);
+	}
 
-		async _juiceEdit (event) {
-			const juice_id = getClosestData(event, "juiceId");
-			const ownerId = getClosestData(event, "ownerId");
-			const owner = await this.getOwner(ownerId);
-			const juice = await owner.getJuice(juice_id);
-			const oldname = juice.data.name;
-			const oldamount = juice.data.data.amount;
-			const updateObj = await this.CJDialog("juice", juice);
-			if (updateObj) {
-				CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
-			}
+	async _buildUpIncrement (event) {
+		const actorId = getClosestData(event, "ownerId");
+		const actor = await this.getOwner(actorId);
+		if (await this.confirmBox("Add Build Up Point", `Add Build Up Point to ${actor.name}`)) {
+			await actor.incBuildUp();
+			CityHelpers.modificationLog(actor, `Build Up Point Added`, null, `Current ${await actor.getBuildUp()}`);
 		}
+		let unspentBU = actor.data.data.unspentBU;
+		while (unspentBU > 0) {
+			const impId = await this.chooseBuildUpImprovement(actor);
+			if (impId == null)
+				break;
+			await actor.addBuildUpImprovement(impId);
+			unspentBU = actor.data.data.unspentBU;
+			refresh = true;
+		}
+	}
 
-		async _createStoryTag(event) {
-			const owner = this.actor;
-			const retobj = await owner.createStoryTag();
-			const tag = await owner.getTag(retobj.id);
-			await this.tagDialog(tag);
-			await CityHelpers.modificationLog(owner, "Created", tag);
-		}
+	async chooseBuildUpImprovement (owner) {
+		const improvementsChoices = await CityHelpers.getBuildUpImprovements();
+		const actorImprovements = await owner.getBuildUpImprovements();
+		const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.data.name));
+		const inputList = filteredChoices.map( x => {
+			const data = [x.name];
+			return {
+				id : x.id,
+				data,
+				description: x.data.description
+			};
+		});
+		const choice = await CitySheet.singleChoiceBox(inputList, "Choose Build-up Improvement");
+		return choice;
+	}
 
-		async _buildUpDecrement(event) {
-			let refresh = false;
-			const actorId = getClosestData(event, "ownerId");
-			const actor = await this.getOwner(actorId);
-			let extraPoints = 0;
-			if (await this.confirmBox("Remove Build Up Point", `Remove Build Up Point to ${actor.name}`)) {
-				extraPoints = await actor.decBuildUp();
-				await CityHelpers.modificationLog(actor, `Build Up Point Removed (Current ${await actor.getBuildUp()})`);
-			}
+	async _clueEdit (event) {
+		const clue_id = getClosestData(event, "clueId");
+		const ownerId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(ownerId);
+		const clue = await owner.getClue(clue_id);
+		const oldname = clue.data.name;
+		const oldamount = clue.data.data.amount;
+		const updateObj = await this.CJDialog("clue", clue);
+		if (updateObj) {
+			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
 		}
+	}
 
-		async _addBUImprovement (event) {
-			const list = await CityHelpers.getBuildUpImprovements();
-			const choiceList = list.map ( x => {
-				return {
-					id: x.id,
-					data: [x.name],
-					description: x.data.description
-				}
-			});
-			const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
-			if (!choice)
-				return;
-			const improvementName = list.find(x => x.id == choice).name;
-			const imp = await this.actor.addBuildUpImprovement(choice);
-			await CityHelpers.modificationLog(this.actor, "Added", imp);
+	async chooseImprovement(themeId) {
+		const themename = await this.actor.getTheme(themeId);
+		const prompt = `Choose Improvement for ${themename}`;
+		const choiceList = ["Reset Fade", "Add New Tag", "Add Improvement"];
+		const inputList = choiceList.map( x => {
+			const data = [x]
+			return {
+				id: x, data
+			};
+		});
+		const choice = await CitySheet.singleChoiceBox(inputList, "Choose Item");
+		switch (choice) {
+			case "Reset Fate":
+				throw new Error("Not Yet implemented");
+				break;
+			case "Add New Tag":
+				throw new Error("Not Yet implemented");
+				break;
+			case "Add Improvement":
+				throw new Error("Not Yet implemented");
+				break;
+			default:
+				throw new Error(`Unrecognized choice ${choice}`);
 		}
-
-		async _buildUpIncrement (event) {
-			let refresh = false;
-			const actorId = getClosestData(event, "ownerId");
-			const actor = await this.getOwner(actorId);
-			let extraPoints = 0;
-			if (await this.confirmBox("Add Build Up Point", `Add Build Up Point to ${actor.name}`)) {
-				extraPoints = await actor.incBuildUp();
-				CityHelpers.modificationLog(actor, `Build Up Point Added`, null, `Current ${await actor.getBuildUp()}`);
-			}
-			let unspentBU = actor.data.data.unspentBU;
-			while (unspentBU > 0) {
-				const impId = await this.chooseBuildUpImprovement(actor);
-				if (impId == null)
-					break;
-				await actor.addBuildUpImprovement(impId);
-				unspentBU = actor.data.data.unspentBU;
-				refresh = true;
-			}
-		}
-
-		async chooseBuildUpImprovement (owner) {
-			const improvementsChoices = await CityHelpers.getBuildUpImprovements();
-			const actorImprovements = await owner.getBuildUpImprovements();
-			const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.data.name));
-			const inputList = filteredChoices.map( x => {
-				const data = [x.name];
-				return {
-					id : x.id,
-					data,
-					description: x.data.description
-				};
-			});
-			const choice = await CitySheet.singleChoiceBox(inputList, "Choose Build-up Improvement");
-			return choice;
-		}
-
-		async _clueEdit (event) {
-			const clue_id = getClosestData(event, "clueId");
-			const ownerId = getClosestData(event, "ownerId");
-			const owner = await this.getOwner(ownerId);
-			const clue = await owner.getClue(clue_id);
-			const oldname = clue.data.name;
-			const oldamount = clue.data.data.amount;
-			const updateObj = await this.CJDialog("clue", clue);
-			if (updateObj) {
-				CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
-			}
-		}
-
-		async chooseImprovement(themeId) {
-			const themename = await this.actor.getTheme(themeId);
-			const prompt = `Choose Improvement for ${themename}`;
-			const choiceList = ["Reset Fade", "Add New Tag", "Add Improvement"];
-			const inputList = choiceList.map( x => {
-				const data = [x]
-				return {
-					id: x, data
-				};
-			});
-			const choice = await CitySheet.singleChoiceBox(inputList, "Choose Item");
-			switch (choice) {
-				case "Reset Fate":
-					throw new Error("Not Yet implemented");
-					break;
-				case "Add New Tag":
-					throw new Error("Not Yet implemented");
-					break;
-				case "Add Improvement":
-					throw new Error("Not Yet implemented");
-					break;
-				default:
-					throw new Error(`Unrecognized choice ${choice}`);
-			}
-		}
+	}
 
 	async _executeMove (event) {
 		const move_id = $(this.form).find(".select-move").val();
@@ -960,100 +976,100 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-		async statusDialog(obj) {
-			return await CityHelpers.itemDialog(obj);
-		}
+	async statusDialog(obj) {
+		return await CityHelpers.itemDialog(obj);
+	}
 
-		async CJDialog(objtype, obj) {
-			return await CityHelpers.itemDialog(obj);
-		}
+	async CJDialog(objtype, obj) {
+		return await CityHelpers.itemDialog(obj);
+	}
 
-		async statusAddDialog(status) {
-			const title = `Add Tier to Status`;
-			return await this._statusAddSubDialog(status, title);
-		}
+	async statusAddDialog(status) {
+		const title = `Add Tier to Status`;
+		return await this._statusAddSubDialog(status, title);
+	}
 
-		async statusSubtractDialog(status) {
-			const title = `Subtract Tier to Status`;
-			return await this._statusAddSubDialog(status, title);
-		}
+	async statusSubtractDialog(status) {
+		const title = `Subtract Tier to Status`;
+		return await this._statusAddSubDialog(status, title);
+	}
 
-		async _statusAddSubDialog(status, title) {
-			const templateData = {status: status.data, data: status.data.data};
-			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-			return new Promise ( (conf, reject) => {
-				const options ={};
-				const returnfn = function (html, tier) {
-					conf( {
-						name: $(html).find(".status-name-input").val(),
-						tier
-					});
-				}
-				const dialog = new Dialog({
-					title:`${title}`,
-					content: html,
-					buttons: {
-						one: {
-							label: "1",
-							callback: (html) => returnfn(html, 1)
-						},
-						two: {
-							label: "2",
-							callback: (html) => returnfn(html, 2)
-						},
-						three: {
-							label: "3",
-							callback: (html) => returnfn(html, 3)
-						},
-						four: {
-							label: "4",
-							callback: (html) => returnfn(html, 4)
-						},
-						five: {
-							label: "5",
-							callback: (html) => returnfn(html, 5)
-						},
-						six: {
-							label: "6",
-							callback: (html) => returnfn(html, 6)
-						},
-						cancel: {
-							label: "Cancel",
-							callback: () => conf(null)
-						}
+	async _statusAddSubDialog(status, title) {
+		const templateData = {status: status.data, data: status.data.data};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
+		return new Promise ( (conf, reject) => {
+			const options ={};
+			const returnfn = function (html, tier) {
+				conf( {
+					name: $(html).find(".status-name-input").val(),
+					tier
+				});
+			}
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: "1",
+						callback: (html) => returnfn(html, 1)
 					},
-					default: "cancel"
-				}, options);
-				dialog.render(true);
-			});
-
-		}
-
-		async SHBDialog () {
-			const title = "You sure about this?";
-			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {});
-			return new Promise ( (conf, rej) => {
-				const options = {};
-				const dialog = new Dialog({
-					title:`${title}`,
-					content: html,
-					buttons: {
-						one: {
-							label: "Let's do this!",
-							callback: (html) => {
-								const result = $(html).find(".SHB-selector:checked").val();
-								conf(result);
-							}
-						},
-						cancel: {
-							label: "I changed my mind",
-							callback: () => conf(null)
-						},
+					two: {
+						label: "2",
+						callback: (html) => returnfn(html, 2)
 					},
-					default: "cancel"
-				}, options);
-				dialog.render(true);
-			});
-		}
+					three: {
+						label: "3",
+						callback: (html) => returnfn(html, 3)
+					},
+					four: {
+						label: "4",
+						callback: (html) => returnfn(html, 4)
+					},
+					five: {
+						label: "5",
+						callback: (html) => returnfn(html, 5)
+					},
+					six: {
+						label: "6",
+						callback: (html) => returnfn(html, 6)
+					},
+					cancel: {
+						label: "Cancel",
+						callback: () => conf(null)
+					}
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
 
 	}
+
+	async SHBDialog () {
+		const title = "You sure about this?";
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {});
+		return new Promise ( (conf, rej) => {
+			const options = {};
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: "Let's do this!",
+						callback: (html) => {
+							const result = $(html).find(".SHB-selector:checked").val();
+							conf(result);
+						}
+					},
+					cancel: {
+						label: "I changed my mind",
+						callback: () => conf(null)
+					},
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+	}
+
+}
