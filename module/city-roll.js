@@ -198,7 +198,11 @@ CityRoll.getRoll = async function (options) {
 		rstring = `2d6`;
 	}
 	let r = new Roll(rstring, {});
-	await r.roll({async:true});
+	r = await r.roll({async:true});
+	if (r.total == null || Number.isNaN(r.total)) {
+		Debug(r);
+		throw new Error("Null Total");
+	}
 	return r;
 }
 
