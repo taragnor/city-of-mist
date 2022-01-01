@@ -239,7 +239,8 @@ CityRoll._clueBoxes = async function(moveId, actor, templateData, msg) {
 					.map( x=> x.name)
 					.join(", ");
 				if (total >= 7) {
-					for (let i=0; i < power; i++) {
+					const totalClues = Math.max(power, 1);
+					for (let i=0; i < totalClues; i++) {
 						await CityHelpers.postClue( {
 							actorId: actor.id,
 							metaSource,
