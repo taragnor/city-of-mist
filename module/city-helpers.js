@@ -604,7 +604,6 @@ export class CityHelpers {
 			return true;
 		$(html).find(".question-part .submit-button").click (
 			() => {
-				console.log("I hit submit dude?!");
 				this.clue_submitQuestion(html);
 			});
 		$(html).find(".partial-clue").click (
