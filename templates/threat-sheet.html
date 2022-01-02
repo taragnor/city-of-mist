@@ -29,10 +29,8 @@
 			<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 			{{/if}}
 			<div class="spectrum-list">
-				{{#each items as |spectrum id|}}
-				{{#if (eq spectrum.type "spectrum")}}
+				{{#each actor.my_spectrums as |spectrum id|}}
 				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.data.data }}
-				{{/if}}
 				{{/each}}
 			</div>
 	</section>

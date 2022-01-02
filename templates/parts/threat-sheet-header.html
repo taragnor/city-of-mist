@@ -21,12 +21,10 @@
 		<b>
 			{{localize 'CityOfMist.terms.spectrums' }}
 		</b>
-		{{#each items as |spectrum id|}}
-		{{#if (eq spectrum.type "spectrum")}}
+		{{#each actor.spectrums as |spectrum id|}}
 		<div class="spectrum-short-label">
 			{{spectrum.name}} {{spectrum.data.data.max_tier}}
 		</div>
-		{{/if}}
 		{{/each}}
 	</div>
 </div>

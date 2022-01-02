@@ -26,14 +26,40 @@ export class CityActor extends Actor {
 		return this.getStoryTags();
 	}
 
+	get my_spectrums() {
+		return this.items.filter( x=> x.type == "spectrum");
+
+	}
+
+	get spectrums() {
+		return this.getSpectrums();
+	}
+
 	getGMMoves(depth = 0) {
 		if (depth > 2) return [];
 		if (this.type != "threat")
 			return [];
 		return this.items.filter( x => x.type == "gmmove")
-			.concat( this.getAttachedTemplates()
+			.concat(
+				this.getAttachedTemplates()
 				.map( x=> x?.getGMMoves(depth+1)) ?? []
 			).flat();
+	}
+
+	getSpectrums(depth = 0) {
+		if (depth > 2) return [];
+		if (this.type != "threat")
+			return [];
+		return this.items.filter( x => x.type == "spectrum")
+			.concat(
+				this.getAttachedTemplates()
+				.map( x=> x?.getSpectrums(depth+1)) ?? []
+			).flat()
+			.reduce( (a,spec) => {
+				if (!a.some( a=> a.name == spec.name))
+					a.push(spec);
+				return a;
+			}, []);
 	}
 
 	ownsMove(move_id) {

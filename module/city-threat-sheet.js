@@ -66,7 +66,7 @@ export class CityThreatSheet extends CityActorSheet {
 	async _createSpectrum (event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewSpectrum("Unnamed Spectrum")
-		const spec = await owner.getSpectrum(obj._id);
+		const spec = await owner.getSpectrum(obj.id);
 		const updateObj = await CityHelpers.itemDialog(spec);
 		if (updateObj) {
 		} else {
