@@ -141,9 +141,11 @@ export class CityThreatSheet extends CityActorSheet {
 			}
 		};
 		if (await this.sendToChatBox(move.name, html, options)) {
-			for (const tagname of taglist)
+			for (const {name : tagname} of taglist)
 				await this.actor.createStoryTag(tagname, true);
-			for (const {name, tier} of statuslist)
+			for (const {name, tier} of statuslist
+				.filter( x=>x.options.includes("auto-apply"))
+			)
 				await this.actor.addOrCreateStatus(name, tier);
 		}
 	}

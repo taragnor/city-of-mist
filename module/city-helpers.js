@@ -259,25 +259,7 @@ export class CityHelpers {
 		return text;
 	}
 
-	//static tagClassSubstitution(text) {
-	//	//Change {TAG} into <span class="story-tag-name"> TAG </span>
-	//	const regex = /\[([^\]]+)\]/gm;
-	//	let match = regex.exec(text);
-	//	let taglist = [];
-	//	while (match != null) {
-	//		const tagname = match[1];
-	//		const newtext = `<span class="narrated-story-tag">${tagname}</span>`;
-	//		text = text.replace('[' + tagname + ']' , newtext);
-	//		match = regex.exec(text);
-	//		taglist.push(tagname);
-	//	}
-	//	return {
-	//		html: text,
-	//		taglist
-	//	};
-	//}
-
-	static neoSubstitution(text, status_mod = 0) {
+	static unifiedSubstitution(text, status_mod = 0) {
 		const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
 		let match = regex.exec(text);
 		let taglist = [];
@@ -293,7 +275,8 @@ export class CityHelpers {
 				if (tier != "X") {
 					tier = String(Number(tier) + status_mod);
 				}
-				const newtext = `<span draggable="true" class="narrated-status-name draggable" data-draggable-type="status">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
+				const autoStatus = options.includes("auto-apply") ? "auto-status" : "";
+				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
 				text = text.replace(match[0], newtext);
 				statuslist.push( {
 					name: formatted_statusname,
@@ -310,7 +293,6 @@ export class CityHelpers {
 			}
 			match = regex.exec(text);
 		}
-		console.log(text);
 		return {
 			html: text,
 			taglist,
@@ -350,7 +332,7 @@ export class CityHelpers {
 		while (match != null) {
 			const statusname = match[1];
 			const formatted_statusname = CityHelpers.replaceSpaces(statusname);
-			const newtext = `<span class="narrated-status-name">${formatted_statusname}</span>`;
+			const newtext = `<span class="narrated-status-name auto-status">${formatted_statusname}</span>`;
 			text = text.replace('|' + statusname + '|' , newtext);
 			match = regex.exec(text);
 			statuslist.push(formatted_statusname);
@@ -361,7 +343,10 @@ export class CityHelpers {
 			while (match != null) {
 				const name = match[1];
 				const tier = match[2];
-				return { name ,tier };
+				return { name,
+					tier,
+					options:["auto-apply"]
+				};
 			}
 			return null;
 		}).filter( x=> x!= null);

@@ -2945,3 +2945,7 @@ img.waiting-msg {
 	font-family: "Rubik";
 }
 
+.card-style .auto-status {
+	color: blue;
+}
+
