@@ -259,25 +259,25 @@ export class CityHelpers {
 		return text;
 	}
 
-	static tagClassSubstitution(text) {
-		//Change {TAG} into <span class="story-tag-name"> TAG </span>
-		const regex = /\[([^\]]+)\]/gm;
-		let match = regex.exec(text);
-		let taglist = [];
-		while (match != null) {
-			const tagname = match[1];
-			const newtext = `<span class="narrated-story-tag">${tagname}</span>`;
-			text = text.replace('[' + tagname + ']' , newtext);
-			match = regex.exec(text);
-			taglist.push(tagname);
-		}
-		return {
-			html: text,
-			taglist
-		};
-	}
+	//static tagClassSubstitution(text) {
+	//	//Change {TAG} into <span class="story-tag-name"> TAG </span>
+	//	const regex = /\[([^\]]+)\]/gm;
+	//	let match = regex.exec(text);
+	//	let taglist = [];
+	//	while (match != null) {
+	//		const tagname = match[1];
+	//		const newtext = `<span class="narrated-story-tag">${tagname}</span>`;
+	//		text = text.replace('[' + tagname + ']' , newtext);
+	//		match = regex.exec(text);
+	//		taglist.push(tagname);
+	//	}
+	//	return {
+	//		html: text,
+	//		taglist
+	//	};
+	//}
 
-	static neosubstitution(text) {
+	static neoSubstitution(text, status_mod = 0) {
 		const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
 		let match = regex.exec(text);
 		let taglist = [];
@@ -289,7 +289,10 @@ export class CityHelpers {
 			const name = match[2];
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
-				const tier = name.at(-1);
+				let tier = name.at(-1);
+				if (tier != "X") {
+					tier = String(Number(tier) + status_mod);
+				}
 				const newtext = `<span draggable="true" class="narrated-status-name draggable" data-draggable-type="status">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
 				text = text.replace(match[0], newtext);
 				statuslist.push( {

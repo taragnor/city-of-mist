@@ -432,11 +432,13 @@ export class CityItem extends Item {
 
 	formatGMMoveText(actor) {
 		const text = this.data.data.description;
-		const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(text);
-		const {html: statushtml, statuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
+		// const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(text);
+		const {html:taghtml , taglist, neostatuslist }  = CityHelpers.neoSubstitution(text, actor.collective_size);
+		const {html: statushtml, extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
 		if (actor)
 			html = CityHelpers.nameSubstitution(html, {"name" : actor.displayedName});
+		let statuslist = neostatuslist.concat(extrastatuslist);
 		return {html, taglist, statuslist};
 	}
 
