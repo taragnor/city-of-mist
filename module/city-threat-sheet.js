@@ -140,6 +140,7 @@ export class CityThreatSheet extends CityActorSheet {
 				alias: this.actor.getDisplayedName()
 			}
 		};
+		//TODO: X substitution
 		if (await this.sendToChatBox(move.name, html, options)) {
 			for (const {name : tagname} of taglist)
 				await this.actor.createStoryTag(tagname, true);
