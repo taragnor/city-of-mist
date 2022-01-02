@@ -106,6 +106,9 @@
 "CityOfMist.message.clueBanked" : "banked",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
-"CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1"
+"CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
+
+"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. "
+
 
 }
