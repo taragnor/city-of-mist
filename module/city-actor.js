@@ -32,7 +32,9 @@ export class CityActor extends Actor {
 	}
 
 	get collective_size() {
-		return Number(this.data.data.collective_size) ?? 0;
+		const number = Number(this.data.data.collective_size ?? 0);
+		if (Number.isNaN(number)) return 0;
+		return number;
 	}
 
 	get spectrums() {
