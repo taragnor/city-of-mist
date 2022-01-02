@@ -277,6 +277,69 @@ export class CityHelpers {
 		};
 	}
 
+	static neosubstitution(text) {
+		const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
+		let match = regex.exec(text);
+		let taglist = [];
+		let statuslist = [];
+		let loop = 0;
+		while (match != null) {
+			if (loop++ > 1000) break;
+			let options = CityHelpers.parseOptions(match[1]);
+			const name = match[2];
+			if (CityHelpers.isStatusParseable(name)) {
+				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
+				const tier = name.at(-1);
+				const newtext = `<span draggable="true" class="narrated-status-name draggable" data-draggable-type="status">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
+				text = text.replace(match[0], newtext);
+				statuslist.push( {
+					name: formatted_statusname,
+					tier,
+					options
+				});
+			} else {
+				taglist.push({
+					name,
+					options
+				});
+				const newtext = `<span class="narrated-story-tag">${name}</span>`;
+				text = text.replace(match[0] , newtext);
+			}
+			match = regex.exec(text);
+		}
+		console.log(text);
+		return {
+			html: text,
+			taglist,
+			statuslist
+		};
+	}
+
+	static parseOptions(optionString) {
+		if (! optionString?.length)
+			return [];
+		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
+		return optionString.split(",")
+			.map(option => {
+			switch (option.trim()) {
+				case "a":
+					return("auto-apply");
+				default:
+					console.warn(`Unrecognized option: ${option}`);
+					return "";
+			}
+		});
+	}
+
+	static isStatusParseable(name) {
+		const secondToLast = name.at(-2);
+		if ( secondToLast != " " && secondToLast != "-")
+			return false;
+		const lastval = name.at(-1);
+		const number_test = !Number.isNaN(Number(lastval));
+		return number_test || lastval == "X";
+	}
+
 	static autoAddstatusClassSubstitution (text) {
 		const regex = /\|\|([^|]+)\|\|/gm;
 		let statuslist = [];
