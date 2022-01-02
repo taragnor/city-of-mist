@@ -622,6 +622,10 @@ export class CityHelpers {
 			() => {
 				this.clue_editAnswer(html);
 			});
+		$(html).find(".answer-part .refund-button").click (
+			() => {
+				this.clue_refundClue(html);
+			});
 		$(html).find(".answer-part .add-to-journal-button").click (
 			() => {
 				this.clue_addToJournal(html);
@@ -689,6 +693,12 @@ export class CityHelpers {
 		const partial_clue = $(html).find(".partial-clue").is(":checked");
 		const answer = $(html).find(".clue-reveal").data("answer");
 		await this.updateClue(html, {answer, partial_clue});
+	}
+
+	static async clue_refundClue(html) {
+		const question_rejected= true;
+		const question = "";
+		await this.updateClue( html, {question, question_rejected} );
 	}
 
 } //end of class

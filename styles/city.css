@@ -2911,6 +2911,10 @@ nav.sheet-tabs.tabs {
 	font-size: .8em;
 }
 
+.clue-reveal .rejected-question {
+	color:red;
+}
+
 .answer-part .text {
 	font-family: "Rubik";
 }

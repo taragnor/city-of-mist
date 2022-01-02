@@ -59,6 +59,7 @@
 "CityOfMist.terms.storyTags": "Story Tags",
 "CityOfMist.terms.clue": "Clue",
 "CityOfMist.terms.clues": "Clues",
+"CityOfMist.terms.partialClue": "Partial Clue",
 "CityOfMist.terms.juice": "Juice",
 "CityOfMist.terms.help": "Help",
 "CityOfMist.terms.hurt": "Hurt",
@@ -87,8 +88,14 @@
 "CityOfMist.command.executeMove": "Execute Move",
 "CityOfMist.command.destroyTheme": "Destroyed Theme",
 "CityOfMist.command.buildUpGained": "Build Up Points Gained",
-"CityOfMist.misc.newMoE": "New Moments of Evolution",
+"CityOfMist.command.editClue": "Edit Clue",
+"CityOfMist.command.addToJounral": "Add to Journal",
+"CityOfMist.command.askQuestion": "Ask Question",
+"CityOfMist.command.bankClue": "Bank Clue",
+"CityOfMist.command.refundClue" : "Refund Clue",
+"CityOfMist.command.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 
+"CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1"
 
 }

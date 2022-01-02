@@ -6,11 +6,16 @@
 		<h2> BANKED </h2>
 	{{else}}
 		<div class="gm-only partial-clue">
-			<label> Partial Clue </label>
+			<label> {{localize "CityOfMist.terms.partialClue" }} </label>
 			<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
 		</div>
 		<div class="3rd-party player-only partial-clue">
 			{{#if partial_clue}} Partial Clue {{/if}}
+		</div>
+		<div class="player-only rejected-question">
+			{{#if question_rejected}}
+				{{localize "CityOfMist.command.rejectedQuestion"}}
+			{{/if}}
 		</div>
 		<section class="question-part">
 			{{#if question}}
@@ -21,10 +26,10 @@
 			{{else}}
 				<textarea class="player-only question-input">{{partial_clue_text}}</textarea>
 				<button class="player-only submit-button">
-					Ask Question
+					{{localize "CityOfMist.command.askQuestion"}}
 				</button>
 				<button class="player-only bank-button">
-					Bank Clue
+					{{localize "CityOfMist.command.bankClue"}}
 				</button>
 				<div class="3rd-party gm-only waiting-msg"> Waiting for Player </div>
 				<div class="3rd-party gm-only waiting-msg">
@@ -40,15 +45,18 @@
 						<span class="text">{{answer}}</span>
 					</div>
 					<button class="gm-only edit-button">
-						Edit
+						{{localize "CityOfMist.command.editClue"}}
 					</button>
 					<button class="player-only add-to-journal-button">
-						Add to Journal
+						{{localize "CityOfMist.command.addToJounral"}}
 					</button>
 				{{else}}
 					<textarea class="gm-only answer-input">{{partial_answer_text}}</textarea>
 					<button class="gm-only submit-button">
 						Submit
+					</button>
+					<button class="gm-only refund-button">
+						{{localize "CityOfMist.command.refundClue" }}
 					</button>
 					<div class="3rd-party player-only waiting-msg"> Waiting for MC to answer </div>
 					<div class="3rd-party player-only waiting-msg">
