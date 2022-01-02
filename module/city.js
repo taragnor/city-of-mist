@@ -261,7 +261,15 @@ Hooks.once("init", async function() {
 			})
 		).flat();
 	});
+
+	Handlebars.registerHelper("formatGMMoveText", (move, actor) => {
+		const {html} = move.formatGMMoveText(actor);
+		return new Handlebars.SafeString(html);
+	});
+
 });
+
+
 
 /* City of Mist Status Tracker */
 Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
@@ -286,3 +294,5 @@ Hooks.on("renderApplication", function(control) {
 		window.statusTrackerWindow.render(false);
 	}
 });
+
+

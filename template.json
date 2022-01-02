@@ -53,7 +53,8 @@
 		"threat": {
 			"templates": ["default", "aliasable", "themeholder", "person"],
 			"is_template": false,
-			"template_ids": []
+			"template_ids": [],
+			"collective_size": 0
 		},
 		"storyTagContainer": {
 			"templates": ["default"]
@@ -177,7 +178,6 @@
 		"gmmove": {
 			"templates": ["default"],
 			"subtype": "",
-			"html": "",
 			"taglist": [],
 			"statuslist": []
 		},

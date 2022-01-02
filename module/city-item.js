@@ -418,21 +418,25 @@ export class CityItem extends Item {
 	}
 
 	async updateGMMoveHTML() {
-		// const data = this.data.data; //recommended replace by linter
-		const {html, taglist, statuslist} = await this.generateGMMoveHTML();
-		await this.update( {data : {statuslist, taglist, html}});
+		throw new Error("Deprecated");
+		// const {html, taglist, statuslist} = await this.generateGMMoveHTML();
+		// await this.update( {data : {statuslist, taglist, html}});
 	}
 
 	async generateGMMoveHTML() {
-		const templateData = {move: this.data, data: this.data.data};
-		const html = await renderTemplate("systems/city-of-mist/templates/gmmove-chat-description.html", templateData);
-		return this.formatGMMoveText(html);
+		throw new Error("Deprecated");
+		// const templateData = {move: this.data, data: this.data.data};
+		// const html = await renderTemplate("systems/city-of-mist/templates/gmmove-chat-description.html", templateData);
+		// return this.formatGMMoveText(html);
 	}
 
-	formatGMMoveText(html) {
-		const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(html);
+	formatGMMoveText(actor) {
+		const text = this.data.data.description;
+		const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(text);
 		const {html: statushtml, statuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
-		html = CityHelpers.statusClassSubstitution(statushtml);
+		let html = CityHelpers.statusClassSubstitution(statushtml);
+		if (actor)
+			html = CityHelpers.nameSubstitution(html, {"name" : actor.displayedName});
 		return {html, taglist, statuslist};
 	}
 

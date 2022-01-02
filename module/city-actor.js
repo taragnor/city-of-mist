@@ -31,6 +31,10 @@ export class CityActor extends Actor {
 
 	}
 
+	get collective_size() {
+		return this.data.data.collective_size ?? 0;
+	}
+
 	get spectrums() {
 		return this.getSpectrums();
 	}

@@ -102,7 +102,7 @@ export class CityThreatSheet extends CityActorSheet {
 		const obj = await this.actor.createNewGMMove("Unnamed Move")
 		const move = await owner.getGMMove(obj.id);
 		await this.moveDialog(move);
-		await move.updateGMMoveHTML();
+		// await move.updateGMMoveHTML();
 	}
 
 	async _deleteGMMove(event) {
@@ -124,7 +124,7 @@ export class CityThreatSheet extends CityActorSheet {
 		const owner = await this.getOwner(ownerId);
 		const move = await owner.getGMMove(move_id);
 		await this.moveDialog(move);
-		await move.updateGMMoveHTML();
+		// await move.updateGMMoveHTML();
 	}
 
 	async _selectGMMove(event) {
@@ -132,16 +132,15 @@ export class CityThreatSheet extends CityActorSheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const move = await owner.getGMMove(move_id);
-		const {html, taglist, statuslist} = move.data.data;
-		const name = this.actor.getDisplayedName();
-		const processed_html = CityHelpers.nameSubstitution(html, {name});
+		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor: this.actor, move});
+		const {taglist, statuslist} = move.formatGMMoveText(this.actor);
 		const options = { token: null ,
 			speaker: {
 				actor:this.actor,
 				alias: this.actor.getDisplayedName()
 			}
 		};
-		if (await this.sendToChatBox(move.name, processed_html, options)) {
+		if (await this.sendToChatBox(move.name, html, options)) {
 			for (const tagname of taglist)
 				await this.actor.createStoryTag(tagname, true);
 			for (const {name, tier} of statuslist)

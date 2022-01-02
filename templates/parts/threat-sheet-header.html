@@ -28,6 +28,20 @@
 		{{/each}}
 	</div>
 </div>
+<div class="header-row">
+	<label class="dialog-label" for="name">
+		{{localize "CityOfMist.terms.collectiveSize"}}
+	</label>
+	<input type="radio" name="data.collective_size" value="0" {{#if (eq "0" data.collective_size)}} checked {{/if}} > 0 </input>
+	<input type="radio" name="data.collective_size" value="1" {{#if (eq "1" data.collective_size)}} checked {{/if}} > 1 </input>
+	<input type="radio" name="data.collective_size" value="2" {{#if (eq "2" data.collective_size)}} checked {{/if}}  > 2 </input>
+	<input type="radio" name="data.collective_size" value="3" {{#if (eq "3" data.collective_size)}} checked {{/if}}  > 3 </input>
+	<input type="radio" name="data.collective_size" value="4" {{#if (eq "4" data.collective_size)}} checked {{/if}}  >4 </input>
+	<input type="radio" name="data.collective_size" value="5" {{#if (eq "5" data.collective_size)}} checked {{/if}}  >5 </input>
+	<input type="radio" name="data.collective_size" value="6" {{#if (eq "6" data.collective_size)}} checked {{/if}}  >6 </input>
+</div>
+
+
 {{/if}}
 
 

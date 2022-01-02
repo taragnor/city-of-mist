@@ -2940,5 +2940,8 @@ img.waiting-msg {
 	border: none;
 }
 
-
+.dialog-label {
+	font-weight: bold;
+	font-family: "Rubik";
+}
 
