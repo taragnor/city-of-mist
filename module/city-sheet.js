@@ -1,4 +1,5 @@
 import { HTMLTools } from "./tools/HTMLTools.mjs";
+import { CityDB } from "./city-db.mjs";
 
 export class CitySheet extends ActorSheet {
 
@@ -201,9 +202,23 @@ export class CitySheet extends ActorSheet {
 				const str = dragging.text();
 				const protostatus = await CityHelpers.parseStatusString(str);
 				const status = await this.statusDrop(protostatus);
-				// const status = await this.actor.addOrCreateStatus(name, tier);
-				// await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${tier}`);
 				break;
+			case "gmmove":
+				const move_id= dragging.data("moveId");
+				const owner_id = dragging.data("ownerId");
+				if (owner_id == this.actor.id)
+					return; // can't add a move on actor that already has it
+				const owner = CityDB.getActorById(owner_id);
+				const move = await owner.getGMMove(move_id);
+				if (!move)
+					throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);
+				await this.actor.createNewGMMove(move.name, move.data.data);
+				//TODO: make draggable GM moves
+				break;
+			case "threat":
+
+				break;
+
 			default:
 				console.warn(`Unknwon Type ${type}`);
 		}

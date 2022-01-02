@@ -304,9 +304,9 @@ export class CityActor extends Actor {
 		return await this.createNewItem(obj);
 	}
 
-	async createNewGMMove (name) {
+	async createNewGMMove (name, data = {}) {
 		const obj = {
-			name, type: "gmmove", data : {subtype: "Soft"}};
+			name, type: "gmmove", data : {subtype: "Soft", ...data}};
 		return await this.createNewItem(obj);
 	}
 

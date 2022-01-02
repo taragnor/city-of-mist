@@ -87,7 +87,6 @@ export class CityDB extends DBAccessor {
 		});
 	}
 
-
 	static getThemebook(tname, id) {
 		const themebooks = this.themebooks;
 		let book;

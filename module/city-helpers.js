@@ -591,7 +591,7 @@ export class CityHelpers {
 		const source = $(html).find(".clue-reveal").data("source");
 		const metaSource = $(html).find(".clue-reveal").data("metaSource");
 		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
-		const	templateData = {question, method, source, actorId, partial_clue, metaSource, ...newdata};
+		const	templateData = {question, method, source, actorId, partial_clue, metaSource, messageId, ...newdata};
 		if (!metaSource)
 			console.warn("No metasource for clue");
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);

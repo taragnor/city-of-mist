@@ -38,6 +38,14 @@ export class DBAccessor {
 		return DBAccessor.getAllByType ("Actor");
 	}
 
+	static getActorById (id) {
+		return this.findById(id, "Actor");
+	}
+
+	static getItemById (id) {
+		return this.findById(id, "Item");
+	}
+
 	static findById(id, type = "Actor") {
 		let retarr;
 		switch (type) {
