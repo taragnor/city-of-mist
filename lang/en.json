@@ -60,6 +60,10 @@
 "CityOfMist.terms.clue": "Clue",
 "CityOfMist.terms.clues": "Clues",
 "CityOfMist.terms.partialClue": "Partial Clue",
+"CityOfMist.terms.clueSource": "Source",
+"CityOfMist.terms.clueMethod": "Method",
+"CityOfMist.terms.clueAnswer": "Answer",
+"CityOfMist.terms.clueQuestion": "Question",
 "CityOfMist.terms.juice": "Juice",
 "CityOfMist.terms.help": "Help",
 "CityOfMist.terms.hurt": "Hurt",
@@ -83,6 +87,7 @@
 
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
 
+"CityOfMist.command.submit": "Submit",
 "CityOfMist.command.toggleLock": "Toggle Sheet Lock",
 "CityOfMist.command.narrationBox": "Narration Box",
 "CityOfMist.command.executeMove": "Execute Move",
@@ -93,7 +98,11 @@
 "CityOfMist.command.askQuestion": "Ask Question",
 "CityOfMist.command.bankClue": "Bank Clue",
 "CityOfMist.command.refundClue" : "Refund Clue",
-"CityOfMist.command.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
+
+"CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
+"CityOfMist.message.waitingPlayer" : "Waiitng for Player to Respond",
+"CityOfMist.message.waitingMC" : "Waiting for MC to respond",
+"CityOfMist.message.clueBanked" : "banked",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1"

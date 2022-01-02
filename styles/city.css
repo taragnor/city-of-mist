@@ -2915,6 +2915,10 @@ nav.sheet-tabs.tabs {
 	color:red;
 }
 
+.clue-reveal .banked-clue {
+	text-transform: capitalize;
+}
+
 .answer-part .text {
 	font-family: "Rubik";
 }
@@ -2935,5 +2939,6 @@ img.waiting-msg {
 	max-height: 100px;
 	border: none;
 }
+
 
 

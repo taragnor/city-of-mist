@@ -1,9 +1,11 @@
 <div class="clue-reveal" data-actor-id="{{actorId}}" data-question="{{question}}" data-answer="{{answer}}" data-partial-clue="{{partial_clue}}" data-meta-source="{{metaSource}}" data-method="{{method}}" data-source="{{source}}">
 	<h1 class="header">
-		Clue
+		{{localize "CityOfMist.terms.clue"}}
 	</h1>
 	{{#if banked}}
-		<h2> BANKED </h2>
+		<h2 class="banked-clue">
+			{{localize "CityOfMist.message.clueBanked" }}
+		</h2>
 	{{else}}
 		<div class="gm-only partial-clue">
 			<label> {{localize "CityOfMist.terms.partialClue" }} </label>
@@ -14,13 +16,15 @@
 		</div>
 		<div class="player-only rejected-question">
 			{{#if question_rejected}}
-				{{localize "CityOfMist.command.rejectedQuestion"}}
+				{{localize "CityOfMist.message.rejectedQuestion"}}
 			{{/if}}
 		</div>
 		<section class="question-part">
 			{{#if question}}
 				<div class="3rd-party question-block">
-					<span class="header"> Question: </span>
+					<span class="header">
+						{{localize "CityOfMist.terms.clueQuestion"}}
+					</span>
 					<span class="text">{{question}}</span>
 				</div>
 			{{else}}
@@ -31,7 +35,9 @@
 				<button class="player-only bank-button">
 					{{localize "CityOfMist.command.bankClue"}}
 				</button>
-				<div class="3rd-party gm-only waiting-msg"> Waiting for Player </div>
+				<div class="3rd-party gm-only waiting-msg">
+					{{localize "CityOfMist.message.waitingPlayer" }}
+				</div>
 				<div class="3rd-party gm-only waiting-msg">
 					<img class="gm-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
 				</div>
@@ -53,12 +59,14 @@
 				{{else}}
 					<textarea class="gm-only answer-input">{{partial_answer_text}}</textarea>
 					<button class="gm-only submit-button">
-						Submit
+						{{localize "CityOfMist.command.submit"}}
 					</button>
 					<button class="gm-only refund-button">
 						{{localize "CityOfMist.command.refundClue" }}
 					</button>
-					<div class="3rd-party player-only waiting-msg"> Waiting for MC to answer </div>
+					<div class="3rd-party player-only waiting-msg">
+						{{localize "CityOfMist.message.waitingMC" }}
+					</div>
 					<div class="3rd-party player-only waiting-msg">
 						<img class="3rd-party player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
 					</div>
