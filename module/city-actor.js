@@ -42,7 +42,8 @@ export class CityActor extends Actor {
 
 	getAttachedTemplates() {
 		return (this.data.data.template_ids ?? [])
-			.map( id =>  CityHelpers.getDangerTemplate(id))
+			.map( id =>  CityHelpers.getDangerTemplate(id)
+				?? CityDB.getActorById(id))
 			.filter (x => x != null);
 	}
 

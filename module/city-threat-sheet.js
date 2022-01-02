@@ -1,6 +1,7 @@
 import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import { HTMLTools } from "./tools/HTMLTools.mjs";
+import {CityDB} from "./city-db.mjs";
 
 export class CityThreatSheet extends CityActorSheet {
 
@@ -187,4 +188,22 @@ export class CityThreatSheet extends CityActorSheet {
 		actors.find(x => x.id == id)?.sheet?.render(true);
 	}
 
-}
+	//Override
+	async _onDropActor(_event, o) {
+		switch (o.type) {
+			case "Actor":
+				const actor = CityDB.getActorById(o.id);
+				switch (actor.type) {
+					case "threat":
+						if (this.actor.hasTemplate(o.id))
+							return;
+						this.actor.addTemplate(o.id);
+						break;
+					default:
+						break;
+				}
+		}
+	}
+
+
+} //end of class
