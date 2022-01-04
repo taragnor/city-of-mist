@@ -38,7 +38,10 @@ export class CityCharacterSheet extends CityActorSheet {
 					case "Mist": return 2;
 					case "Logos": return 3;
 					case "Extra": return 4;
-					default : throw new Error(` Unknown Type ${type}`);
+					case "Crew" : return 5;
+					default:
+						console.warn(` Unknown Type ${type}`);
+						return 1000;
 				}
 			}
 			const atype = value_convert(tba.data.data.type);

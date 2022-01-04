@@ -28,7 +28,6 @@ export class CityActor extends Actor {
 
 	get my_spectrums() {
 		return this.items.filter( x=> x.type == "spectrum");
-
 	}
 
 	get collective_size() {
