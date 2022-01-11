@@ -26,8 +26,6 @@ export class CityRoll {
 		await this.sendRollToChat();
 		await this.secondaryEffects();
 		await this.rollCleanupAndAftermath();
-		if (this.#actor)
-			await this.#actor.clearAllSelectedTags();
 	}
 
 	setTemplateData = function (newData) {
@@ -333,6 +331,8 @@ export class CityRoll {
 				await owner.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
+		if (this.#actor)
+			await this.#actor.clearAllSelectedTags();
 	}
 
 	static async verifyRequiredInfo(move_id, actor) {
