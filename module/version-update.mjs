@@ -6,7 +6,7 @@ export class VersionUpdater {
 		if (!game.user.isGM) return;
 		try {
 			await this.convertExtras();
-			await this.updateDangers();
+			// await this.updateDangers();
 			await this.updateImprovements();
 			await this.updateGMMovesHTML();
 			await this.updateVersion(version);
@@ -48,15 +48,16 @@ export class VersionUpdater {
 		}
 	}
 
-	static async updateDangers() {
-		//Changes to new method of GMmove display
-		for (const danger of game.actors.filter(x=> x.type == "threat" && x.versionIsLessThan("2")))
-			for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
-				if (gmmove.data.data.description && !gmmove.data.data?.html)
-					console.log(`Updating ${danger.name}`);
-				await gmmove.updateGMMoveHTML();
-			}
-	}
+	//static async updateDangers() {
+	//	//Changes to new method of GMmove display
+	//	for (const danger of game.actors.filter(x=> x.type == "threat" && x.versionIsLessThan("2")))
+	//		for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
+	//			if (gmmove.data.data.description && !gmmove.data.data?.html) {
+	//				console.log(`Updating ${danger.name}`);
+	//				await gmmove.updateGMMoveHTML();
+	//			}
+	//		}
+	//}
 
 	static async updateImprovements() {
 		if (!game.user.isGM) return;
