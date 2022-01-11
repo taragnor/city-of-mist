@@ -20,19 +20,12 @@ export class CityRoll {
 
 	async execRoll() {
 		await this.prepareModifiers();
-		// const {modifiers, tags} = await CityRoll.prepareModifiers(actor, options);
 		await this.getRoll();
-		// const actorName = actor?.name ?? "";
 		this.#options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
-		// const origTemplateData = {actorName, moveId, modifiers: templateModifiers, options};
 		await this.getContent();
-		// const {html, templateData} = await CityRoll.getContent(roll, origTemplateData);
 		await this.sendRollToChat();
-		// const msg = await CityRoll.sendRollToChat(roll, html);
 		await this.secondaryEffects();
-		// await CityRoll.secondaryEffects(moveId, actor, templateData, msg);
 		await this.rollCleanupAndAftermath();
-		// await CityRoll.rollCleanupAndAftermath(tags, options);
 		if (this.#actor)
 			await this.#actor.clearAllSelectedTags();
 	}
@@ -220,25 +213,8 @@ export class CityRoll {
 	}
 
 	static async getContent (roll, templateData) {
-		// const templateModifiers = this.#modifiers.map ( x=> {
-		// 	const subtype = x.tag ? x.tag.data.data.subtype : "";
-		// 	return {
-		// 		type: x.type,
-		// 		amount: x.amount,
-		// 		subtype,
-		// 		name: x.name
-		// 	};
-		// });
-		// let templateData = {
-		// 	actorName:this.#actor.name,
-		// 	moveId: this.#moveId,
-		// 	modifiers: templateModifiers,
-		// 	options: this.#options
-		// };
-		// const roll = this.#roll;
 		const options = templateData.options;
 		const power = CityRoll.getPower(templateData.modifiers);
-		// const power = this.getPower(templateData.modifiers);
 		const moveId = templateData.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const total = roll.total + power;
