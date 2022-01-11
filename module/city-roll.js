@@ -206,13 +206,13 @@ export class CityRoll {
 			modifiers: templateModifiers,
 			options: this.#options
 		};
-		const {html, templateData} = await CityRoll.getContent(this.#roll, tData);
+		const {html, templateData} = await CityRoll.#getContent(this.#roll, tData);
 		this.#html = html;
 		this.#templateData = templateData;
 		return {html, templateData};
 	}
 
-	static async getContent (roll, templateData) {
+	static async #getContent (roll, templateData) {
 		const options = templateData.options;
 		const power = CityRoll.getPower(templateData.modifiers);
 		const moveId = templateData.moveId;
@@ -528,7 +528,7 @@ export class CityRoll {
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
 		try {
-			const {html:newContent} = await CityRoll.getContent(roll, templateData);
+			const {html:newContent} = await CityRoll.#getContent(roll, templateData);
 			const msg = await message.update( {content: newContent});
 			const upd = await ui.chat.updateMessage( msg, false);
 		} catch (e) {
