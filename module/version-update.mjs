@@ -8,7 +8,7 @@ export class VersionUpdater {
 			await this.convertExtras();
 			// await this.updateDangers();
 			await this.updateImprovements();
-			await this.updateGMMovesHTML();
+			// await this.updateGMMovesHTML();
 			await this.updateVersion(version);
 		} catch (e) {
 			console.error(e);
@@ -34,19 +34,19 @@ export class VersionUpdater {
 		}
 	}
 
-	static async updateGMMovesHTML() {
-		const dangerList = CityDB.filterActorsByType("threat")
-			.filter( actor => actor.versionIsLessThan("2"))
-			.filter(x => !x.pack || !game.packs.get(x.pack).locked);
-		for (const danger of dangerList) {
-			for (let move of danger.gmmoves
-				.filter( move => danger.ownsMove(move.id))
-			) {
-				console.debug(`Updated ${move.name} for ${danger.name}`);
-				await move.updateGMMoveHTML();
-			}
-		}
-	}
+	// static async updateGMMovesHTML() {
+	// 	const dangerList = CityDB.filterActorsByType("threat")
+	// 		.filter( actor => actor.versionIsLessThan("2"))
+	// 		.filter(x => !x.pack || !game.packs.get(x.pack).locked);
+	// 	for (const danger of dangerList) {
+	// 		for (let move of danger.gmmoves
+	// 			.filter( move => danger.ownsMove(move.id))
+	// 		) {
+	// 			console.debug(`Updated ${move.name} for ${danger.name}`);
+	// 			await move.updateGMMoveHTML();
+	// 		}
+	// 	}
+	// }
 
 	//static async updateDangers() {
 	//	//Changes to new method of GMmove display
