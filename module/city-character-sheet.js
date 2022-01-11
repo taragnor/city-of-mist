@@ -305,7 +305,6 @@ export class CityCharacterSheet extends CityActorSheet {
 				return 1;
 			return 0;
 		});
-		Debug(sorted);
 		return sorted;
 	}
 

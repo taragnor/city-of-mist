@@ -687,7 +687,7 @@ export class CityHelpers {
 			$(html).find(".gm-only").hide();
 			const actorId = $(html).find(".clue-reveal").data("actorId");
 			const actor = game.actors.find( x=> x.id == actorId);
-			if (!actor.isOwner) {
+			if ( actor && !actor.isOwner) {
 				$(html).find(".player-only").hide();
 				$(html).find(".3rd-party").show();
 			}
