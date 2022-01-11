@@ -19,13 +19,13 @@ export class CityRoll {
 	}
 
 	async execRoll() {
-		await this.prepareModifiers();
-		await this.getRoll();
+		await this.#prepareModifiers();
+		await this.#getRoll();
 		this.#options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
-		await this.getContent();
-		await this.sendRollToChat();
-		await this.secondaryEffects();
-		await this.rollCleanupAndAftermath();
+		await this.#getContent();
+		await this.#sendRollToChat();
+		await this.#secondaryEffects();
+		await this.#rollCleanupAndAftermath();
 	}
 
 	setTemplateData = function (newData) {
@@ -38,7 +38,7 @@ export class CityRoll {
 		return CR.execRoll();
 	}
 
-	async prepareModifiers () {
+	async #prepareModifiers () {
 		const actor = this.#actor;
 		const options = this.#options;
 		Debug(options);
@@ -169,7 +169,7 @@ export class CityRoll {
 		this.#tags = tags;
 	}
 
-	async getRoll() {
+	async #getRoll() {
 		const options = this.#options;
 		let rstring;
 		if (options.noRoll) {
@@ -188,7 +188,7 @@ export class CityRoll {
 		this.#roll = r;
 	}
 
-	async getContent () {
+	async #getContent () {
 		const templateModifiers = this.#modifiers.map ( x=> {
 			const subtype = x.tag ? x.tag.data.data.subtype : "";
 			return {
@@ -204,13 +204,13 @@ export class CityRoll {
 			modifiers: templateModifiers,
 			options: this.#options
 		};
-		const {html, templateData} = await CityRoll.#getContent(this.#roll, tData);
+		const {html, templateData} = await CityRoll.#_getContent(this.#roll, tData);
 		this.#html = html;
 		this.#templateData = templateData;
 		return {html, templateData};
 	}
 
-	static async #getContent (roll, templateData) {
+	static async #_getContent (roll, templateData) {
 		const options = templateData.options;
 		const power = CityRoll.getPower(templateData.modifiers);
 		const moveId = templateData.moveId;
@@ -255,7 +255,7 @@ export class CityRoll {
 		}
 	}
 
-	async sendRollToChat (messageOptions = {}) {
+	async #sendRollToChat (messageOptions = {}) {
 		const messageData = {
 			speaker: ChatMessage.getSpeaker(),
 			content: this.#html,
@@ -267,13 +267,13 @@ export class CityRoll {
 		this.#msg=  await ChatMessage.create(messageData, messageOptions);
 	}
 
-	async secondaryEffects() {
+	async #secondaryEffects() {
 		if (game.settings.get('city-of-mist', "clueBoxes"))
-			await this._clueBoxes();
+			await this.#clueBoxes();
 	}
 
 
-	async _clueBoxes() {
+	async #clueBoxes() {
 		const moveId = this.#moveId;
 		const actor = this.#actor;
 		const msg = this.#msg;
@@ -304,7 +304,7 @@ export class CityRoll {
 		}
 	}
 
-	async rollCleanupAndAftermath () {
+	async #rollCleanupAndAftermath () {
 		const tags = this.#tags;
 		const options = this.#options;
 		if (options.helpId) {
@@ -528,7 +528,7 @@ export class CityRoll {
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
 		try {
-			const {html:newContent} = await CityRoll.#getContent(roll, templateData);
+			const {html:newContent} = await CityRoll.#_getContent(roll, templateData);
 			const msg = await message.update( {content: newContent});
 			const upd = await ui.chat.updateMessage( msg, false);
 		} catch (e) {
