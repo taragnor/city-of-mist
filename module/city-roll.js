@@ -235,7 +235,7 @@ export class CityRoll {
 		templateData.power = power;
 		templateData.modifiersString = JSON.stringify(templateData.modifiers);
 		templateData.tdataString = JSON.stringify(templateData);
-		const html = await renderTemplate("systems/city-of-mist/templates/city-roll.html", templateData);
+		const html = await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 		return {html, templateData};
 	}
 

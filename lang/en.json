@@ -104,6 +104,8 @@
 "CityOfMist.message.waitingPlayer" : "Waiitng for Player to Respond",
 "CityOfMist.message.waitingMC" : "Waiting for MC to respond",
 "CityOfMist.message.clueBanked" : "banked",
+"CityOfMist.message.attentionAwarded": "+1 Attention",
+"CityOfMist.message.attentionManual": "Must add attention manually",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
