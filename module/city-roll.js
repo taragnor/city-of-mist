@@ -41,7 +41,6 @@ export class CityRoll {
 	async #prepareModifiers () {
 		const actor = this.#actor;
 		const options = this.#options;
-		Debug(options);
 		if (options.noRoll) {
 			this.#modifiers = [];
 			this.#tags = [];
@@ -185,6 +184,8 @@ export class CityRoll {
 			Debug(r);
 			throw new Error("Null Total");
 		}
+		r.options.modifiers = this.#modifiers;
+		r.options.tags = this.#tags;
 		this.#roll = r;
 	}
 
@@ -461,13 +462,13 @@ export class CityRoll {
 		await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
-	static async diceModListeners (app, html, data) {
+	static async diceModListeners (_app, html, _data) {
 		html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
 		html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
 		return true;
 	}
 
-	static async showEditButton (app, html, data) {
+	static async showEditButton (_app, html, _data) {
 		if (game.user.isGM) {
 			$(html).find('.edit-roll').css("display", "inline-block");
 		}
