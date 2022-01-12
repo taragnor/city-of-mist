@@ -584,4 +584,6 @@ export class CityRoll {
 
 Object.freeze(CityRoll.prototype);
 Object.freeze(CityRoll);
+Object.seal(CityRoll.prototype);
+Object.seal(CityRoll);
 
