@@ -331,7 +331,7 @@ export class CityHelpers {
 		let match = regex.exec(text);
 		while (match != null) {
 			const statusname = match[1];
-			const formatted_statusname = CityHelpers.replaceSpaces(statusname);
+			const formatted_statusname = CityHelpers.replaceSpaces(statusname.trim());
 			const newtext = `<span class="narrated-status-name auto-status">${formatted_statusname}</span>`;
 			text = text.replace('|' + statusname + '|' , newtext);
 			match = regex.exec(text);
@@ -359,7 +359,7 @@ export class CityHelpers {
 		let match = regex.exec(text);
 		while (match != null) {
 			const statusname = match[1];
-			const formatted_statusname = CityHelpers.replaceSpaces(statusname);
+			const formatted_statusname = CityHelpers.replaceSpaces(statusname.trim());
 			const newtext = `<span draggable="true" class="narrated-status-name draggable" data-draggable-type="status">${formatted_statusname}</span>`;
 			text = text.replace('|' + statusname + '|' , newtext);
 			match = regex.exec(text);
