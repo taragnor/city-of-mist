@@ -10,9 +10,9 @@ import { TokenTools } from "./tools/token-tools.mjs";
 export class CityHelpers {
 
 	static get dangerTemplates() { return CityDB.dangerTemplates; }
-	static async getAllActorsByType (item_type ="") { return CityDB.filterActorsByType(item_type); }
-	static async getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
-	static async findAllById(id, type = "Actor") { return CityDB.findById(id, type); }
+	static getAllActorsByType (item_type ="") { return CityDB.filterActorsByType(item_type); }
+	static getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
+	static findAllById(id, type = "Actor") { return CityDB.findById(id, type); }
 	static getThemebooks() { return CityDB.themebooks; }
 	static getMoves() { return CityDB.movesList; }
 	static getDangerTemplate(id) { return CityDB.getDangerTemplate(id); }
@@ -71,11 +71,11 @@ export class CityHelpers {
 		return CityDB.getTagOwnerById(tagOwnerId);
 	}
 
-	static async getOwner(ownerId, tokenId, sceneId) {
+	static getOwner(ownerId, tokenId, sceneId) {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
 		if (!sceneId) {
-			const id =await CityHelpers.findAllById(ownerId) ;
+			const id = CityHelpers.findAllById(ownerId) ;
 			if (!id) throw new Error (`Can't find owner for ownerId ${ownerId}`);
 			return id;
 		} else {

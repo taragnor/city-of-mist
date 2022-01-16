@@ -113,7 +113,7 @@ export class CityActor extends Actor {
 			.sort(CityDB.namesort);
 	}
 
-	async getSelectable(id) {
+	getSelectable(id) {
 		return this.items.find(x => (x.type == "tag" || x.type == "status") && x.id == id);
 	}
 

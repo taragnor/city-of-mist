@@ -19,7 +19,7 @@ export class CityRoll {
 	}
 
 	async execRoll() {
-		await this.#prepareModifiers();
+		this.#prepareModifiers();
 		await this.#getRoll();
 		this.#options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
 		await this.#getContent();
@@ -38,7 +38,7 @@ export class CityRoll {
 		return CR.execRoll();
 	}
 
-	async #prepareModifiers () {
+	#prepareModifiers () {
 		const actor = this.#actor;
 		const options = this.#options;
 		if (options.noRoll) {
@@ -47,33 +47,35 @@ export class CityRoll {
 			return this;
 		}
 		const activated = actor.getActivated();
-		const modifiersPromises = activated.map( async(x) => {
-			const tagOwner = await CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-			const tag = tagOwner ? await tagOwner.getSelectable(x.tagId) : null;
-			return {
-				name: x.name,
-				id: x.tagId,
-				amount: x.amount * x.direction,
-				owner: tagOwner,
-				tag,
-				type: x.type
-			};
-		});
-		let allModifiers = (await Promise.all(modifiersPromises)).filter (x =>{
-			if (x.tag != null) {
-				if (x.tag.isBurned())
-					console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
-				return !x.tag.isBurned();
-			}
-			else return true;
-		});
+		const allModifiers = activated
+			.map( x => {
+				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
+				// const tag = tagOwner ? tagOwner.getSelectable(x.tagId) : null;
+				return {
+					name: x.name,
+					id: x.tagId,
+					amount: x.amount * x.direction,
+					ownerId: tagOwner.id,
+					tagId: x.tagId,
+					type: x.type
+				};
+			})
+			.filter (x => {
+				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
+				if (tag != null) {
+					if (tag.isBurned())
+						console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
+					return !tag.isBurned();
+				}
+				else return true;
+			});
 		let tags = [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
-				&& (!x.owner || x?.tag?.data?.data) //filter out deleted tags
+				&& CityHelpers.getOwner(x.ownerId).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
-				tags = tags.filter(x => x.tag.id == options.burnTag);
+				tags = tags.filter(x => x.tagId == options.burnTag);
 				tags[0].amount = 3;
 			}
 		}
@@ -87,8 +89,8 @@ export class CityRoll {
 				name: `Help From ${helper.name} (must be deducted manually)`,
 				id: options.helpId,
 				amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
-				owner: helper,
-				tag: null,
+				ownerId: helper.id,
+				tagId: null,
 				type: "status",
 			});
 		}
@@ -108,8 +110,8 @@ export class CityRoll {
 			modifiers.push({
 				name: "Logos Themes",
 				amount: actor.getNumberOfThemes("Logos"),
-				owner: null,
-				tag: null,
+				ownerId: null,
+				tagId: null,
 				type: "modifier"
 			});
 		}
@@ -117,8 +119,8 @@ export class CityRoll {
 			modifiers.push({
 				name: "Mythos Themes",
 				amount: actor.getNumberOfThemes("Mythos"),
-				owner: null,
-				tag: null,
+				ownerId: null,
+				tagId: null,
 				type: "modifier"
 			});
 		}
@@ -126,13 +128,18 @@ export class CityRoll {
 			modifiers.push({
 				name: "Custom Modifier",
 				amount: options.modifier,
-				owner: null,
-				tag: null,
+				ownerId: null,
+				tagId: null,
 				type: "modifier"
 			});
 		}
 		//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
-		const usedWeaknessTag = tags.some( x=> x.type == "tag" && x.tag.data.data.subtype == "weakness" && x.amount < 0);
+		const usedWeaknessTag = tags.some( x=> {
+			const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
+			return x.type == "tag"
+				&& tag.data.data.subtype == "weakness"
+				&& x.amount < 0
+		});
 		let modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
 		if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {
 			const cap = game.settings.get("city-of-mist", "weaknessCap");
@@ -141,8 +148,8 @@ export class CityRoll {
 				modifiers.push( {
 					name: "Weakness Cap Exceeded",
 					amount: capPenalty,
-					owner: null,
-					tag: null,
+					ownerId: null,
+					tagId: null,
 					type: "modifier"
 				});
 		}
@@ -159,8 +166,8 @@ export class CityRoll {
 				modifiers.push( {
 					name: "Grit Penalty",
 					amount: gritpenalty,
-					owner: null,
-					tag: null,
+					ownerId: null,
+					tagId: null,
 					type: "modifier"
 				});
 		}
@@ -319,17 +326,18 @@ export class CityRoll {
 			// await helper.spendJuice(helpJuice.id, amount);
 		}
 		if (options.burnTag && options.burnTag.length)
-			for (let {owner, tag} of tags)
-				await owner.burnTag(tag.id);
-		for (let {owner, tag, amount} of tags) {
+			for (let {ownerId, tagId} of tags)
+				await CityHelpers.getOwner(ownerId)?.burnTag(tagId);
+		for (let {ownerId, tagId, amount} of tags) {
+			const tag = CityHelpers.getOwner(ownerId).getTag(tagId);
 			if (tag.data.data.crispy || tag.data.data.temporary) {
-				try {await owner.burnTag(tag.id);}
+				try {await CityHelpers.getOwner(ownerId).burnTag(tag.id);}
 				catch (e) {
 					console.warn(`Unable to Burn tag ${tag.name}`);
 				}
 			}
 			if (tag.data.data.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
-				await owner.grantAttentionForWeaknessTag(tag.id);
+				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
 		if (this.#actor)
@@ -558,8 +566,8 @@ export class CityRoll {
 								templateData.modifiers.push ( {
 									name: "MC Edit",
 									amount: modifier,
-									owner: null,
-									tag: null,
+									ownerId: null,
+									tagId: null,
 									type: "modifier"
 								});
 							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
