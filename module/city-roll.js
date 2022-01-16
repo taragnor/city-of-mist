@@ -562,9 +562,19 @@ export class CityRoll {
 	static async _updateMessage (messageId) {
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
+		console.log(roll);
 		try {
-			const newContent =await CityRoll.#_getContent(roll);
-			const msg = await message.update( {content: newContent});
+			const newContent = await CityRoll.#_getContent(roll);
+			let msg;
+			if (game.user.isGM)
+				msg = await message.update( {
+					content: newContent,
+					roll: roll.toJSON()
+				});
+			else
+				msg = await message.update( {
+					content: newContent
+				});
 			await ui.chat.updateMessage( msg, false);
 		} catch (e) {
 			console.error(e);
