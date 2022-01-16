@@ -30,7 +30,6 @@ export class CityRoll {
 
 	setTemplateData = function (newData) {
 		this.#templateData = newData;
-
 	}
 
 	static async execRoll(moveId, actor, options = {}) {
@@ -50,7 +49,6 @@ export class CityRoll {
 		const allModifiers = activated
 			.map( x => {
 				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-				// const tag = tagOwner ? tagOwner.getSelectable(x.tagId) : null;
 				return {
 					name: x.name,
 					id: x.tagId,
@@ -59,8 +57,7 @@ export class CityRoll {
 					tagId: x.tagId,
 					type: x.type
 				};
-			})
-			.filter (x => {
+			}).filter (x => {
 				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
@@ -191,6 +188,7 @@ export class CityRoll {
 			Debug(r);
 			throw new Error("Null Total");
 		}
+		r.options = {...this.#options, ...r.options};
 		r.options.modifiers = this.#modifiers;
 		r.options.tags = this.#tags;
 		this.#roll = r;
