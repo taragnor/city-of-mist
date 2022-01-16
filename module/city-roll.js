@@ -1,4 +1,5 @@
 import { CityItem } from "./city-item.js";
+import { CityDB } from "./city-db.mjs";
 
 export class CityRoll {
 	#roll;
@@ -7,9 +8,8 @@ export class CityRoll {
 	#options;
 	#modifiers;
 	#tags;
-	#templateData;
 	#html;
-	#msg;
+	#msgId;
 
 	constructor (moveId, actor, options) {
 		this.#roll = null;
@@ -26,10 +26,6 @@ export class CityRoll {
 		await this.#sendRollToChat();
 		await this.#secondaryEffects();
 		await this.#rollCleanupAndAftermath();
-	}
-
-	setTemplateData = function (newData) {
-		this.#templateData = newData;
 	}
 
 	static async execRoll(moveId, actor, options = {}) {
@@ -191,11 +187,35 @@ export class CityRoll {
 		r.options = {...this.#options, ...r.options};
 		r.options.modifiers = this.#modifiers;
 		r.options.tags = this.#tags;
+		r.options.actorId = this.#actor.id;
+		r.options.moveId = this.#moveId;
 		this.#roll = r;
 	}
 
 	async #getContent () {
-		const templateModifiers = this.#modifiers.map ( x=> {
+		// const templateModifiers = this.#modifiers.map ( x=> {
+		// 	const subtype = x.tag ? x.tag.data.data.subtype : "";
+		// 	return {
+		// 		type: x.type,
+		// 		amount: x.amount,
+		// 		subtype,
+		// 		name: x.name
+		// 	};
+		// });
+		// const tData = {
+		// 	actorName:this.#actor.name,
+		// 	moveId: this.#moveId,
+		// 	modifiers: templateModifiers,
+		// 	options: this.#options
+		// };
+		const html = await CityRoll.#_getContent(this.#roll);
+		this.#html = html;
+		// this.#templateData = templateData;
+		return html;
+	}
+
+	static async #_getContent (roll) {
+		const modifiers = roll.options.modifiers.map ( x=> {
 			const subtype = x.tag ? x.tag.data.data.subtype : "";
 			return {
 				type: x.type,
@@ -204,45 +224,42 @@ export class CityRoll {
 				name: x.name
 			};
 		});
-		const tData = {
-			actorName:this.#actor.name,
-			moveId: this.#moveId,
-			modifiers: templateModifiers,
-			options: this.#options
-		};
-		const {html, templateData} = await CityRoll.#_getContent(this.#roll, tData);
-		this.#html = html;
-		this.#templateData = templateData;
-		return {html, templateData};
-	}
-
-	static async #_getContent (roll, templateData) {
-		const options = templateData.options;
-		const power = CityRoll.getPower(templateData.modifiers);
-		const moveId = templateData.moveId;
+		const options = roll.options;
+		const power = CityRoll.getPower(roll.options.modifiers);
+		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const total = roll.total + power;
 		const roll_status = CityRoll.getRollStatus(total, options);
-		templateData.max_choices = CityItem.getMaxChoices(move, roll_status, power);
-		templateData = Object.assign({}, templateData);
-		templateData.moveName = move.name;
+		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		if (templateData.moveList == undefined || templateData.curr_choices > templateData.max_choices) {
-			templateData.moveList = moveListRaw;
-			templateData.curr_choices = 0;
+		if (options.moveList == undefined || options.curr_choices > options.max_choices) {
+			options.moveList = moveListRaw;
+			options.curr_choices = 0;
 		} else {
-			templateData.moveList = templateData.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
-			const unadded = moveListRaw.filter(x=> !templateData.moveList.some ( y=> x.text == y.text))
-			templateData.moveList = templateData.moveList.concat(unadded);
+			options.moveList = options.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
+			const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
+			options.moveList = options.moveList.concat(unadded);
 		}
-		templateData.moveText = CityItem.generateMoveText(move, roll_status, power);
-		templateData.rolls = (roll.terms)[0].results;
-		templateData.total = total;
-		templateData.power = power;
-		templateData.modifiersString = JSON.stringify(templateData.modifiers);
-		templateData.tdataString = JSON.stringify(templateData);
+		const templateData = {
+			modifiers,
+			actorName: CityDB.getActorById(roll.options.actorId).name,
+			moveId: roll.options.moveId,
+			options: roll.options,
+			moveList: roll.options.moveList,
+			moveName: move.name,
+			moveText: CityItem.generateMoveText(move, roll_status, power),
+			rolls : (roll.terms)[0].results,
+			total : total,
+			power : power,
+		};
 		const html = await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
-		return {html, templateData};
+		return html;
+	}
+
+	static getTotal (roll) {
+		const modifiers = roll.options.modifiers;
+		const power = CityRoll.getPower(modifiers);
+		return roll.total + power;
 	}
 
 	static getPower (modifiers) {
@@ -270,7 +287,7 @@ export class CityRoll {
 			sound: this.#roll ? CONFIG.sounds.dice : null,
 			roll: this.#roll
 		};
-		this.#msg=  await ChatMessage.create(messageData, messageOptions);
+		this.#msgId = ( await ChatMessage.create(messageData, messageOptions)).id;
 	}
 
 	async #secondaryEffects() {
@@ -280,15 +297,19 @@ export class CityRoll {
 
 
 	async #clueBoxes() {
-		const moveId = this.#moveId;
-		const actor = this.#actor;
-		const msg = this.#msg;
-		const {total, power, modifiers} = this.#templateData;
+		const roll = this.#roll;
+		const moveId = roll.options.moveId;
+		const actor = CityDB.getActorById(roll.options.actorId);
+		const total = CityRoll.getTotal(roll);
+		const power = CityRoll.getPower(roll.options.modifiers);
+		const modifiers = roll.options.modifiers;
+		const msgId = this.#msgId;
+		// const {total, power, modifiers} = this.#templateData;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		for (const effect of move.effect_classes) {
 			switch (effect) {
 				case "CLUES":
-					const metaSource = msg.id;
+					const metaSource = msgId;
 					const tags = modifiers
 						.filter( x=> x.type == "tag")
 						.map( x=> x.name)
@@ -483,9 +504,14 @@ export class CityRoll {
 
 	static async _checkOption (event) {
 		event.preventDefault();
+		const messageId  = getClosestData(event, "messageId");
+		const message = game.messages.get(messageId);
+		const roll = message.roll;
+		const options = roll.options;
+
 		const listitem = getClosestData(event, "listitem");
-		let templateData  = getClosestData(event, "templateData");
-		const item = templateData.moveList.find( x=> x.text == listitem);
+		// let templateData  = getClosestData(event, "templateData");
+		const item = options.moveList.find( x=> x.text == listitem);
 		if (item.cost == undefined)
 			item.cost = 1;
 		if (item.cost < 0) {
@@ -499,10 +525,11 @@ export class CityRoll {
 		}
 		if (!item)
 			throw new Error(`Item ${listitem} not found`);
-		const power = CityRoll.getPower(templateData.modifiers);
-		const roll_status = CityRoll.getRollStatus(templateData.total, templateData.options);
-		const move = (await CityHelpers.getMoves()).find(x=> x.id == templateData.moveId);
-		templateData.max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		const power = CityRoll.getPower(roll.options.modifiers);
+		const total = CityRoll.getTotal(roll);
+		const roll_status = CityRoll.getRollStatus(total, options);
+		const move = (await CityHelpers.getMoves()).find(x=> x.id == options.moveId);
+		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const truecost = Math.abs(item.cost);
 		let current_choices = 0;
 		$(event.target).closest(".move-list").find(".roll-selector-checkbox:checked").each ( function ()  {
@@ -511,33 +538,34 @@ export class CityRoll {
 			current_choices += Math.abs(Number(cost));
 		});
 
-		if (!item.checked && current_choices <= templateData.max_choices) {
-			templateData.curr_choices = current_choices;
+		if (!item.checked && current_choices <= options.max_choices) {
+			options.curr_choices = current_choices;
 			item.checked = true;
 		} else if (item.checked) {
-			templateData.curr_choices = current_choices - truecost;
+			options.curr_choices = current_choices - truecost;
 			item.checked = false;
 		}
-		return await CityRoll._updateMessage(event, templateData);
+		return await CityRoll._updateMessage(messageId);
 	}
 
 	static async _editRoll (event) {
 		if (!game.user.isGM)
 			return true;
-		const templateData  = getClosestData(event, "templateData");
-		const newTemplateData = await CityRoll.getModifierBox(templateData);
-		await CityRoll._updateMessage(event, newTemplateData);
+		// const templateData  = getClosestData(event, "templateData");
+		const messageId  = getClosestData(event, "messageId");
+		const message = game.messages.get(messageId);
+		const rollOptions = message.roll.options;
+		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifiers the options its given, consider refactor
+		await CityRoll._updateMessage(messageId);
 	}
 
-	static async _updateMessage (event, templateData) {
-		if (!templateData) return true;
-		const messageId  = getClosestData(event, "messageId");
+	static async _updateMessage (messageId) {
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
 		try {
-			const {html:newContent} = await CityRoll.#_getContent(roll, templateData);
+			const newContent =await CityRoll.#_getContent(roll);
 			const msg = await message.update( {content: newContent});
-			const upd = await ui.chat.updateMessage( msg, false);
+			await ui.chat.updateMessage( msg, false);
 		} catch (e) {
 			console.error(e);
 			console.log("can't update -- No Permissions");
@@ -545,11 +573,11 @@ export class CityRoll {
 		return true;
 	}
 
-	static async getModifierBox (templateData) {
-		let dynamiteAllowed = templateData.options.dynamiteAllowed;
+	static async getModifierBox (rollOptions) {
+		let dynamiteAllowed = rollOptions.dynamiteAllowed;
 		const title = `Make Roll`;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", templateData);
-		const rollOptions = await  new Promise ( (conf, reject) => {
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", rollOptions);
+		return await  new Promise ( (conf, reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
@@ -561,7 +589,7 @@ export class CityRoll {
 						callback: (html) => {
 							const modifier = Number($(html).find("#roll-modifier-amt").val());
 							if (modifier != 0)
-								templateData.modifiers.push ( {
+								rollOptions.modifiers.push ( {
 									name: "MC Edit",
 									amount: modifier,
 									ownerId: null,
@@ -569,8 +597,8 @@ export class CityRoll {
 									type: "modifier"
 								});
 							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
-							templateData.options.dynamiteAllowed = dynamiteAllowed;
-							conf(templateData);
+							rollOptions.dynamiteAllowed = dynamiteAllowed;
+							conf(rollOptions);
 						},
 					},
 					two: {
@@ -583,7 +611,6 @@ export class CityRoll {
 			}, options);
 			dialog.render(true);
 		});
-		return rollOptions;
 	}
 
 } //end of class
