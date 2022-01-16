@@ -562,7 +562,6 @@ export class CityRoll {
 	static async _updateMessage (messageId) {
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
-		console.log(roll);
 		try {
 			const newContent = await CityRoll.#_getContent(roll);
 			let msg;
