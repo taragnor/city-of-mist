@@ -38,7 +38,19 @@ export class HandlebarsHelpers {
 			"isGM": (_options) => {
 				return game.users.current.isGM;
 			},
+			"localizeS": (string) => {
+				return window.localizeS(string);
+			},
 
 		};
 	}
 } // end of class
+
+window.localizeS = function (string) {
+					if (!string.startsWith("#"))
+						return new Handlebars.SafeString(string);
+					const localizeCode = string.substring(1);
+					const localized = game.i18n.localize(localizeCode);
+					return new Handlebars.SafeString(localized);
+}
+

@@ -193,24 +193,8 @@ export class CityRoll {
 	}
 
 	async #getContent () {
-		// const templateModifiers = this.#modifiers.map ( x=> {
-		// 	const subtype = x.tag ? x.tag.data.data.subtype : "";
-		// 	return {
-		// 		type: x.type,
-		// 		amount: x.amount,
-		// 		subtype,
-		// 		name: x.name
-		// 	};
-		// });
-		// const tData = {
-		// 	actorName:this.#actor.name,
-		// 	moveId: this.#moveId,
-		// 	modifiers: templateModifiers,
-		// 	options: this.#options
-		// };
 		const html = await CityRoll.#_getContent(this.#roll);
 		this.#html = html;
-		// this.#templateData = templateData;
 		return html;
 	}
 

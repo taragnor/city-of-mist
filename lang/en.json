@@ -87,6 +87,25 @@
 "CityOfMist.terms.collectiveSize": "Collective Size",
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
 
+"CityOfMist.moves.genericFail": "MC Hard Move.",
+"CityOfMist.moves.CTG.partial": "You get PWR Juice. Spend your Juice to gain the following effects, one-to-one:",
+"CityOfMist.moves.CTG.success": "You get PWRM2 Juice. Spend your Juice to gain the following effects, one-to-one:",
+"CityOfMist.moves.CTG.dynamite": "You get PWRM3 Juice. Spend your Juice to gain the following effects, one-to-one:",
+"CityOfMist.moves.CTG.0": "Create a Story Tag",
+"CityOfMist.moves.CTG.1": "Burn a power tag or story tag",
+"CityOfMist.moves.CTG.2": "Give or reduce a status (one tier per point of juice)",
+"CityOfMist.moves.CTG.3": "Scale up the effect (greater area or more targets)",
+"CityOfMist.moves.CTG.4": "Prolong the effect (make it ongoing)",
+"CityOfMist.moves.CTG.5": "Hide the effect",
+"CityOfMist.moves.CTG.6": "Any other improvement you and the MC agree on",
+"CityOfMist.moves.CTG.7": "Large-scale Effect",
+"CityOfMist.moves.CTG.8": "Permanent Effect",
+"CityOfMist.moves.CTG.9": "Mist-Hidden Effect",
+"CityOfMist.moves.convince.partial":"Choose a relevant status with tier PWR. Your target can choose either to take the status or give in a little, but protect their own agenda.",
+"CityOfMist.moves.convince.success": "Choose a relevant status of tier PWR. Your target can choose either to take the status or change their agenda to include yours, at least for the time being.",
+"CityOfMist.moves.convince.dynamite": "Choose a relevant status of tier PWR+2. Your target can choose either to take the status or change their agenda to include yours, at least for the time being. If the target gives in they also take a tier 2 temporary status  representing your influence. It can't be the same status as if they refused.",
+
+
 "CityOfMist.generic.narration": "Narration",
 
 "CityOfMist.command.submit": "Submit",

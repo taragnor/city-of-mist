@@ -312,17 +312,16 @@ export class CityItem extends Item {
 		const numRes = CityItem.convertTextResultToNumeric(result);
 		const data = movedata.data.data;
 		let html = "";
-		html += data.always;
+		html += localizeS(data.always);
 		if (numRes == 2)
-				html += data.onSuccess;
+				html += localizeS(data.onSuccess);
 		if (numRes == 3)
-				html += data.onDynamite;
+				html += localizeS(data.onDynamite);
 		if (numRes == 1)
-				html += data.onPartial;
+				html += localizeS(data.onPartial);
 		if (numRes == 0)
-				html += data.onMiss;
-		html = CityItem.substitutePower(html, power);
-		return html;
+				html += localizeS(data.onMiss);
+		return CityItem.substitutePower(html, power);
 	}
 
 	getFormattedText (actor_id) {
@@ -339,6 +338,7 @@ export class CityItem extends Item {
 		txt = txt.replace("PWRM3", Math.max(3, power));
 		txt = txt.replace("PWRM2", Math.max(2, power));
 		txt = txt.replace("PWR", Math.max(1, power));
+		Debug(txt)
 		return txt;
 	}
 
@@ -346,7 +346,9 @@ export class CityItem extends Item {
 		const lists =  movedata.data.data.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
-			const text = CityItem.substitutePower(x.text, power);
+			Debug(x);
+			const localizedText = `${localizeS(x.text)}`;
+			const text = CityItem.substitutePower(localizedText, power);
 			const cost = x.cost; //change for some moves
 			return {	text, cost};
 		});
