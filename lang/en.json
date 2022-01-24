@@ -105,6 +105,33 @@
 "CityOfMist.moves.convince.success": "Choose a relevant status of tier PWR. Your target can choose either to take the status or change their agenda to include yours, at least for the time being.",
 "CityOfMist.moves.convince.dynamite": "Choose a relevant status of tier PWR+2. Your target can choose either to take the status or change their agenda to include yours, at least for the time being. If the target gives in they also take a tier 2 temporary status  representing your influence. It can't be the same status as if they refused.",
 
+"CityOfMist.moves.FD.fail": "You take the full status.",
+"CityOfMist.moves.FD.partial": "you take the status, but with -1 tier.",
+"CityOfMist.moves.FD.success": "you fend off the effect and take no status at all.",
+"CityOfMist.moves.FD.dynamite": "Avoid the status completely and choose one:",
+"CityOfMist.moves.FD.0": "You reflect the status at your attacker or otherwise use it against them. You give your attacker an appropriate status of your choice with tier equal to the tier of the original status.",
+"CityOfMist.moves.FD.1": "You bolster your defenses. You take an appropriate ongoing tier-1 status of your choice describing your improved defenses.",
+
+"CityOfMist.moves.GTTT.partial": "Choose 1",
+"CityOfMist.moves.GTTT.success": "Choose 2",
+"CityOfMist.moves.GTTT.dynamite": "You get all of the following:",
+"CityOfMist.moves.GTTT.0": "You manage to achieve your goal, e.g., take something they hold.",
+"CityOfMist.moves.GTTT.1": "You get them good, giving your opponent a status with tier PWR.",
+"CityOfMist.moves.GTTT.2": "You block, dodge, or counter their best attempts. If you don’t choose this, they can impose a status on you. If they are a PC, its tier=their Power.",
+
+"CityOfMist.moves.HWAYG.partial": "You give the target an appropriate status of your choice with tier PWR. Choose one:",
+"CityOfMist.moves.HWAYG.success": "You give the target an appropriate status of your choice with tier PWR. Choose two:",
+"CityOfMist.moves.HWAYG.dynamite": "You give the target an appropriate status of your choice with tier PWR. Choose one option from the Dynamite List:",
+"CityOfMist.moves.HWAYG.0": "You take cover or secure a superior position. If you don’t choose this, they can impose a status on you. If they are a PC, its tier=their Power.",
+"CityOfMist.moves.HWAYG.1": "You get them good or get many of them (+1 tier)",
+"CityOfMist.moves.HWAYG.2": "You control the collateral damage.",
+"CityOfMist.moves.HWAYG.3": "You hold the target’s attention, if possible.",
+"CityOfMist.moves.HWAYG.4": "You gain the upper hand. Take 1 Juice.",
+"CityOfMist.moves.HWAYG.5": "(Dynamite) Outstanding hit: Choose three options from the move’s standard list.",
+"CityOfMist.moves.HWAYG.6": "(Dynamite) Defend another: You protect both yourself and another ally from a counterstrike. The target of your attack cannot attack that ally on the target’s next move.",
+"CityOfMist.moves.HWAYG.7": "(Dynamite) Hit them hard: You hit them hard, increasing the tier of the status you give by two or hitting two more targets with the same status.",
+"CityOfMist.moves.HWAYG.8": "(Dynamite) Extreme collateral damage: everything and everyone around the target takes a status similar to the main status, with a tier equal to Power. This includes you or any allies, if you are nearby.",
+"CityOfMist.moves.HWAYG.9": "(Dynamite) Control the conflict: Take 2 Juice and you can use it to choose effect improvements from Change the Game.",
 
 "CityOfMist.generic.narration": "Narration",
 

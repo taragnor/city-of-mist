@@ -338,7 +338,6 @@ export class CityItem extends Item {
 		txt = txt.replace("PWRM3", Math.max(3, power));
 		txt = txt.replace("PWRM2", Math.max(2, power));
 		txt = txt.replace("PWR", Math.max(1, power));
-		Debug(txt)
 		return txt;
 	}
 
@@ -346,7 +345,6 @@ export class CityItem extends Item {
 		const lists =  movedata.data.data.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
-			Debug(x);
 			const localizedText = `${localizeS(x.text)}`;
 			const text = CityItem.substitutePower(localizedText, power);
 			const cost = x.cost; //change for some moves
