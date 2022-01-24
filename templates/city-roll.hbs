@@ -20,27 +20,38 @@
 			<ul class="roll-modifiers">
 				{{#each modifiers as |modifier id|}}
 					<li>
-						{{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}}
-						{{#if (eq modifier.type "tag")}}
-							{{#if (lt modifier.amount 0)}}
-								{{#if (eq modifier.subtype "weakness")}}
-									{{#if (eq ../options.autoAttention true)}}
-										<span class="attention-award">
-											({{localize "CityOfMist.message.attentionAwarded"}})
-										</span>
-									{{else}}
-										<span class="attention-award">
-											({{localize "CityOfMist.message.attentionManual"}})
-										</span>
+						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
+						{{#if (not modifier.strikeout)}}
+							{{#if (eq modifier.type "tag")}}
+								{{#if (lt modifier.amount 0)}}
+									{{#if (eq modifier.subtype "weakness")}}
+										{{#if (eq ../options.autoAttention true)}}
+											<span class="attention-award">
+												({{localize "CityOfMist.message.attentionAwarded"}})
+											</span>
+										{{else}}
+											<span class="attention-award">
+												({{localize "CityOfMist.message.attentionManual"}})
+											</span>
+										{{/if}}
 									{{/if}}
 								{{/if}}
+							{{/if}}
+						{{/if}}
+						{{#if (isGM)}}
+							{{#if (not modifier.strikeout)}}
+								<a class="strikeout-toggle" data-modifier-id="{{modifier.id}}" title="{{localize 'CityOfMist.command.strikeout'}}"> <i class="fas fa-minus-square"></i></a>
+							{{else}}
+								<a class="strikeout-toggle" data-modifier-id="{{modifier.id}}" title="{{localize 'CityOfMist.command.strikeout'}}"> <i class="fas fa-plus-square"></i></a>
 							{{/if}}
 						{{/if}}
 					</li>
 				{{/each}}
 			</ul>
 			<div class="roll-total"> {{total}}
-				<a class="edit-roll" title="Edit Roll"><i class="fas fa-eraser"></i></a>
+				{{#if (isGM)}}
+					<a class="edit-roll" title="Edit Roll"><i class="fas fa-eraser"></i></a>
+				{{/if}}
 			</div>
 		</section>
 		<hr>

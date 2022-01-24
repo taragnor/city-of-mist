@@ -21,7 +21,6 @@ export class CityRoll {
 	async execRoll() {
 		this.#prepareModifiers();
 		await this.#getRoll();
-		this.#options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
 		await this.#getContent();
 		await this.#sendRollToChat();
 		await this.#secondaryEffects();
@@ -45,13 +44,17 @@ export class CityRoll {
 		const allModifiers = activated
 			.map( x => {
 				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
+				const tag = x.type == "tag" ? tagOwner.getTag(x.tagId) : null;
+				const subtype = tag ? tag.data.data.subtype : "";
 				return {
 					name: x.name,
 					id: x.tagId,
 					amount: x.amount * x.direction,
 					ownerId: tagOwner.id,
 					tagId: x.tagId,
-					type: x.type
+					type: x.type,
+					subtype,
+					strikeout: false,
 				};
 			}).filter (x => {
 				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
@@ -101,29 +104,35 @@ export class CityRoll {
 		let modifiers = tags.concat(usedStatus);
 		if (options.logosRoll) {
 			modifiers.push({
+				id: "Logos",
 				name: "Logos Themes",
 				amount: actor.getNumberOfThemes("Logos"),
 				ownerId: null,
 				tagId: null,
-				type: "modifier"
+				type: "modifier",
+				strikeout: false,
 			});
 		}
 		if (options.mythosRoll) {
 			modifiers.push({
+				id: "Mythos",
 				name: "Mythos Themes",
 				amount: actor.getNumberOfThemes("Mythos"),
 				ownerId: null,
 				tagId: null,
-				type: "modifier"
+				type: "modifier",
+				strikeout: false,
 			});
 		}
 		if (options.modifier && options.modifier != 0) {
 			modifiers.push({
+				id: "Custom",
 				name: "Custom Modifier",
 				amount: options.modifier,
 				ownerId: null,
 				tagId: null,
-				type: "modifier"
+				type: "modifier",
+				strikeout: false,
 			});
 		}
 		//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
@@ -133,7 +142,8 @@ export class CityRoll {
 				&& tag.data.data.subtype == "weakness"
 				&& x.amount < 0
 		});
-		let modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
+		let modifiersTotal = CityRoll.getPower( modifiers);
+		// let modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
 		if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {
 			const cap = game.settings.get("city-of-mist", "weaknessCap");
 			let capPenalty = -(modifiersTotal - cap);
@@ -189,6 +199,7 @@ export class CityRoll {
 		r.options.tags = this.#tags;
 		r.options.actorId = this.#actor.id;
 		r.options.moveId = this.#moveId;
+		r.options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
 		this.#roll = r;
 	}
 
@@ -200,12 +211,13 @@ export class CityRoll {
 
 	static async #_getContent (roll) {
 		const modifiers = roll.options.modifiers.map ( x=> {
-			const subtype = x.tag ? x.tag.data.data.subtype : "";
 			return {
+				id: x.id,
 				type: x.type,
 				amount: x.amount,
-				subtype,
-				name: x.name
+				subtype: x.subtype,
+				name: x.name,
+				strikeout: x.strikeout,
 			};
 		});
 		const options = roll.options;
@@ -236,6 +248,7 @@ export class CityRoll {
 			total : total,
 			power : power,
 		};
+		Debug(templateData);
 		return await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 	}
 
@@ -246,7 +259,9 @@ export class CityRoll {
 	}
 
 	static getPower (modifiers) {
-		return modifiers.reduce( (acc, x) => acc + x.amount, 0);
+		return modifiers
+			.filter ( x  => !x.strikeout)
+			.reduce( (acc, x) => acc + x.amount, 0);
 	}
 
 	static getRollStatus (total, options) {
@@ -475,6 +490,7 @@ export class CityRoll {
 	static async diceModListeners (_app, html, _data) {
 		html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
 		html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
+		html.on('click', '.strikeout-toggle', CityRoll._strikeoutModifierToggle.bind(this));
 		return true;
 	}
 
@@ -485,13 +501,26 @@ export class CityRoll {
 		return true;
 	}
 
+	static async _strikeoutModifierToggle(event) {
+		if (!game.user.isGM) return;
+		event.preventDefault();
+		const modifierId = getClosestData(event, "modifierId");
+		const messageId  = getClosestData(event, "messageId");
+		const message = game.messages.get(messageId);
+		const roll = message.roll;
+		const modifier = roll.options.modifiers
+			.find(x=> x.id == modifierId);
+		modifier.strikeout = !modifier.strikeout;
+		await CityRoll._updateMessage(messageId);
+
+	}
+
 	static async _checkOption (event) {
 		event.preventDefault();
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
 		const roll = message.roll;
 		const options = roll.options;
-
 		const listitem = getClosestData(event, "listitem");
 		// let templateData  = getClosestData(event, "templateData");
 		const item = options.moveList.find( x=> x.text == listitem);
@@ -582,6 +611,7 @@ export class CityRoll {
 							const modifier = Number($(html).find("#roll-modifier-amt").val());
 							if (modifier != 0)
 								rollOptions.modifiers.push ( {
+									id: "MC Edit" + math.random(),
 									name: "MC Edit",
 									amount: modifier,
 									ownerId: null,

@@ -2949,3 +2949,7 @@ img.waiting-msg {
 	color: blue;
 }
 
+.roll-modifiers .name.strikeout {
+	text-decoration: line-through;
+}
+

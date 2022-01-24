@@ -192,9 +192,10 @@
 "CityOfMist.command.askQuestion": "Ask Question",
 "CityOfMist.command.bankClue": "Bank Clue",
 "CityOfMist.command.refundClue" : "Refund Clue",
+"CityOfMist.command.strikeout" : "Strikeout Modifier",
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
-"CityOfMist.message.waitingPlayer" : "Waiitng for Player to Respond",
+"CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",
 "CityOfMist.message.waitingMC" : "Waiting for MC to respond",
 "CityOfMist.message.clueBanked" : "banked",
 "CityOfMist.message.attentionAwarded": "+1 Attention",
