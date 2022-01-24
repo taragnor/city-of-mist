@@ -248,7 +248,6 @@ export class CityRoll {
 			total : total,
 			power : power,
 		};
-		Debug(templateData);
 		return await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 	}
 
@@ -490,6 +489,7 @@ export class CityRoll {
 	static async diceModListeners (_app, html, _data) {
 		html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
 		html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
+		html.on('click', '.roll-modifiers .name', CityRoll._strikeoutModifierToggle.bind(this));
 		html.on('click', '.strikeout-toggle', CityRoll._strikeoutModifierToggle.bind(this));
 		return true;
 	}

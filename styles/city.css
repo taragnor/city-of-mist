@@ -2951,5 +2951,14 @@ img.waiting-msg {
 
 .roll-modifiers .name.strikeout {
 	text-decoration: line-through;
+	color: red;
+}
+
+.roll-modifiers .name:hover {
+	background: rgb(255 150 60 / 50%);
+	border: 1px solid #934b18;
+	color: #934018;
+	box-shadow: 0 0 10px #ff8d8d;
+	cursor: pointer;
 }
 

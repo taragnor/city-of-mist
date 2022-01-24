@@ -19,8 +19,8 @@
 			</ol>
 			<ul class="roll-modifiers">
 				{{#each modifiers as |modifier id|}}
-					<li>
-						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
+					<li data-modifier-id="{{modifier.id}}">
+						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}" title="{{#if (isGM)}} {{localize 'CityOfMist.command.strikeout'}} {{/if}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
 						{{#if (not modifier.strikeout)}}
 							{{#if (eq modifier.type "tag")}}
 								{{#if (lt modifier.amount 0)}}
@@ -36,13 +36,6 @@
 										{{/if}}
 									{{/if}}
 								{{/if}}
-							{{/if}}
-						{{/if}}
-						{{#if (isGM)}}
-							{{#if (not modifier.strikeout)}}
-								<a class="strikeout-toggle" data-modifier-id="{{modifier.id}}" title="{{localize 'CityOfMist.command.strikeout'}}"> <i class="fas fa-minus-square"></i></a>
-							{{else}}
-								<a class="strikeout-toggle" data-modifier-id="{{modifier.id}}" title="{{localize 'CityOfMist.command.strikeout'}}"> <i class="fas fa-plus-square"></i></a>
 							{{/if}}
 						{{/if}}
 					</li>
