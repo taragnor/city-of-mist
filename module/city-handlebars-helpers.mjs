@@ -30,7 +30,9 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			let html = new String();
 			html += `<select class="${cssclass}" name="${locationOfNew}">`;
 			try {
-				for (const {id, name} of dataList) {
+				for (const o of dataList) {
+					const {id} = o;
+					const name = (o.getDisplayedName) ? o.getDisplayedName() : o.name;
 					const selected = (currentValue == id) ? "selected" : "";
 					html += `<option value="${id}" ${selected}> ${name} </option>`;
 				}
