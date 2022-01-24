@@ -62,7 +62,6 @@ export class CityHelpers {
 		return await this.playSound("button-on.mp3");
 	}
 
-
 	static async playSound(filename, volume = 1.0) {
 		return await Sounds.playSound(filename, volume);
 	}
@@ -173,17 +172,16 @@ export class CityHelpers {
 			return 0;
 		};
 		if (!container)
-			container = game.actors.find(x => x.data.type == "storyTagContainer" && x.data.data.activated);
+			container = game.actors.find(x => x.data.type == "storyTagContainer");
 		let html = new String();
 		html += `<textarea class="narrator-text"></textarea>`;
 		const submit = async function (html) {
 			const text = $(html).find(".narrator-text").val();
-			const tags = CityHelpers.parseTags(text);
+			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
 			if (container)
-				for (const tagName of tags)
+				for ( const tagName of taglist.map(x=>x.name) )
 					await container.createStoryTag(tagName);
-			await CityHelpers.sendNarratedMessage(text, tags);
-			// CityHelpers.narratorDialog(container);
+			await CityHelpers.sendNarratedMessage(modified_html, []);
 		}
 		const options = {width: 900, height: 800};
 		const dialog = new Dialog({
@@ -384,14 +382,10 @@ export class CityHelpers {
 	static async sendNarratedMessage(text, tags) {
 		const templateData = {text};
 		const html = await renderTemplate("systems/city-of-mist/templates/narration-box.html", templateData);
-		let processed_html = html;
-		for (const tagName of tags)
-			processed_html  =	processed_html.replaceAll(`[${tagName}]`, `<span class="narrated-story-tag">${tagName}</span>`);
-		processed_html = CityHelpers.statusClassSubstitution(processed_html);
 		const speaker = { alias:"Narration" };
 		const messageData = {
 			speaker: speaker,
-			content: processed_html,
+			content: html,
 			type: CONST.CHAT_MESSAGE_TYPES.OOC,
 		}
 		CONFIG.ChatMessage.documentClass.create(messageData, {})
