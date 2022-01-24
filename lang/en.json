@@ -140,6 +140,16 @@
 "CityOfMist.moves.investigate.1": "The clues you get are fuzzy, incomplete, or part-true part-false.",
 "CityOfMist.moves.investigate.2": "Whoever or whatever you are asking the question(s) can ask you one question as well. You answer on the same terms.",
 
+"CityOfMist.moves.sneak.partial": "Everyone that should fall for it falls for it. The MC chooses one complication:",
+"CityOfMist.moves.sneak.success": "Everyone that should fall for it falls for it.",
+"CityOfMist.moves.sneak.dynamite": "Your target is so entirely fooled by your secretive or deceptive actions that you can continue to move and/or act completely undetected by this target for the rest of the scene, so long as you do so in the same way you did when you scored 12 or more.",
+"CityOfMist.moves.sneak.0": "Someone unimportant noticed you, but that just made them important, right?",
+"CityOfMist.moves.sneak.1": "You are perceived only by a secondary sense (someone picks up your scent while you’re stalking them; you’re seen whispering a message but the message is not heard).",
+"CityOfMist.moves.sneak.2": "You must leave something important behind – or be discovered.",
+
+"CityOfMist.moves.TTR.partial": "Things get messy. The MC will offer you a hard bargain or an ugly choice.",
+"CityOfMist.moves.TTR.success": "You do it, somehow.",
+"CityOfMist.moves.TTR.dynamite": "You pull it off spectacularly and even turn the situation to your advantage. Take 2 Juice and you can use it to choose effect improvements from Change the Game.",
 
 "CityOfMist.generic.narration": "Narration",
 
