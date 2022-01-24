@@ -88,6 +88,8 @@
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
+
+"CityOfMist.moves.CTG.name":"Change the Game",
 "CityOfMist.moves.CTG.partial": "You get PWR Juice. Spend your Juice to gain the following effects, one-to-one:",
 "CityOfMist.moves.CTG.success": "You get PWRM2 Juice. Spend your Juice to gain the following effects, one-to-one:",
 "CityOfMist.moves.CTG.dynamite": "You get PWRM3 Juice. Spend your Juice to gain the following effects, one-to-one:",
@@ -101,10 +103,13 @@
 "CityOfMist.moves.CTG.7": "Large-scale Effect",
 "CityOfMist.moves.CTG.8": "Permanent Effect",
 "CityOfMist.moves.CTG.9": "Mist-Hidden Effect",
+
+"CityOfMist.moves.convince.name":"Convince",
 "CityOfMist.moves.convince.partial":"Choose a relevant status with tier PWR. Your target can choose either to take the status or give in a little, but protect their own agenda.",
 "CityOfMist.moves.convince.success": "Choose a relevant status of tier PWR. Your target can choose either to take the status or change their agenda to include yours, at least for the time being.",
 "CityOfMist.moves.convince.dynamite": "Choose a relevant status of tier PWR+2. Your target can choose either to take the status or change their agenda to include yours, at least for the time being. If the target gives in they also take a tier 2 temporary status  representing your influence. It can't be the same status as if they refused.",
 
+"CityOfMist.moves.FD.name": "Face Danger",
 "CityOfMist.moves.FD.fail": "You take the full status.",
 "CityOfMist.moves.FD.partial": "you take the status, but with -1 tier.",
 "CityOfMist.moves.FD.success": "you fend off the effect and take no status at all.",
@@ -112,6 +117,7 @@
 "CityOfMist.moves.FD.0": "You reflect the status at your attacker or otherwise use it against them. You give your attacker an appropriate status of your choice with tier equal to the tier of the original status.",
 "CityOfMist.moves.FD.1": "You bolster your defenses. You take an appropriate ongoing tier-1 status of your choice describing your improved defenses.",
 
+"CityOfMist.moves.GTTT.name": "Go Toe To Toe",
 "CityOfMist.moves.GTTT.partial": "Choose 1",
 "CityOfMist.moves.GTTT.success": "Choose 2",
 "CityOfMist.moves.GTTT.dynamite": "You get all of the following:",
@@ -119,6 +125,7 @@
 "CityOfMist.moves.GTTT.1": "You get them good, giving your opponent a status with tier PWR.",
 "CityOfMist.moves.GTTT.2": "You block, dodge, or counter their best attempts. If you don’t choose this, they can impose a status on you. If they are a PC, its tier=their Power.",
 
+"CityOfMist.moves.HWAYG.name": "Hit with all You've Got",
 "CityOfMist.moves.HWAYG.partial": "You give the target an appropriate status of your choice with tier PWR. Choose one:",
 "CityOfMist.moves.HWAYG.success": "You give the target an appropriate status of your choice with tier PWR. Choose two:",
 "CityOfMist.moves.HWAYG.dynamite": "You give the target an appropriate status of your choice with tier PWR. Choose one option from the Dynamite List:",
@@ -133,6 +140,7 @@
 "CityOfMist.moves.HWAYG.8": "(Dynamite) Extreme collateral damage: everything and everyone around the target takes a status similar to the main status, with a tier equal to Power. This includes you or any allies, if you are nearby.",
 "CityOfMist.moves.HWAYG.9": "(Dynamite) Control the conflict: Take 2 Juice and you can use it to choose effect improvements from Change the Game.",
 
+"CityOfMist.moves.investigate.name": "Investigate",
 "CityOfMist.moves.investigate.partial": "You get PWR clues. Spend your Clues one-to-one to ask the MC a question about the subject of your investigation or ask another player a relevant question about their character. They must give you either a straight answer or a solid lead. The MC can choose one complication:",
 "CityOfMist.moves.investigate.success": "You get PWR clues. Spend your Clues one-to-one to ask the MC a question about the subject of your investigation or ask another player a relevant question about their character. They must give you either a straight answer or a solid lead.",
 "CityOfMist.moves.investigate.dynamite": "You get PWR clues. Your investigation reveals a key detail. The MC will reveal the most valuable detail in the scene that your investigation could reveal. You can then use your Clues to ask follow-up questions or other questions as usual.",
@@ -140,6 +148,9 @@
 "CityOfMist.moves.investigate.1": "The clues you get are fuzzy, incomplete, or part-true part-false.",
 "CityOfMist.moves.investigate.2": "Whoever or whatever you are asking the question(s) can ask you one question as well. You answer on the same terms.",
 
+"CityOfMist.moves.lookBeyond.name": "Look Beyond the Mist",
+
+"CityOfMist.moves.sneak.name": "Sneak Around",
 "CityOfMist.moves.sneak.partial": "Everyone that should fall for it falls for it. The MC chooses one complication:",
 "CityOfMist.moves.sneak.success": "Everyone that should fall for it falls for it.",
 "CityOfMist.moves.sneak.dynamite": "Your target is so entirely fooled by your secretive or deceptive actions that you can continue to move and/or act completely undetected by this target for the rest of the scene, so long as you do so in the same way you did when you scored 12 or more.",
@@ -147,9 +158,26 @@
 "CityOfMist.moves.sneak.1": "You are perceived only by a secondary sense (someone picks up your scent while you’re stalking them; you’re seen whispering a message but the message is not heard).",
 "CityOfMist.moves.sneak.2": "You must leave something important behind – or be discovered.",
 
+"CityOfMist.moves.TTR.name": "Take the Risk",
 "CityOfMist.moves.TTR.partial": "Things get messy. The MC will offer you a hard bargain or an ugly choice.",
 "CityOfMist.moves.TTR.success": "You do it, somehow.",
 "CityOfMist.moves.TTR.dynamite": "You pull it off spectacularly and even turn the situation to your advantage. Take 2 Juice and you can use it to choose effect improvements from Change the Game.",
+
+"CityOfMist.moves.SHB.significant.name": "Stop. Holding. Back. (Significant)",
+"CityOfMist.moves.SHB.significant.fail": "SOMETHING TERRIBLE HAPPENS. Also, mark Fade/Crack and burn all the power tags on one theme.",
+"CityOfMist.moves.SHB.significant.partial": "You achieve what you were trying to do. Mark Fade/Crack and burn all the power tags on one theme.",
+"CityOfMist.moves.SHB.significant.success": "You achieve what you were trying to do. Mark Fade/Crack on one theme.",
+
+"CityOfMist.moves.SHB.noReturn.name": "Stop. Holding. Back. (No-Return)",
+"CityOfMist.moves.SHB.noReturn.fail": "SOMETHING TERRIBLE HAPPENS. Also, replace one theme.",
+"CityOfMist.moves.SHB.noReturn.partial": "You achieve what you were trying to do. Replace one theme.",
+"CityOfMist.moves.SHB.noReturn.success": "You achieve what you were trying to do. Mark Fade/Crack and burn all the power tags on one theme.",
+
+"CityOfMist.moves.SHB.ultimate.name": "Stop. Holding. Back. (Ultimate)",
+"CityOfMist.moves.SHB.ultimate.fail": "SOMETHING TERRIBLE HAPPENS. Also, Take a tier-6 status. You cannot Face Danger.",
+"CityOfMist.moves.SHB.ultimate.partial": "You achieve what you were trying to do. Take a tier-6 status. You cannot Face Danger.",
+"CityOfMist.moves.SHB.ultimate.success": "You achieve what you were trying to do. Replace one theme.",
+
 
 "CityOfMist.generic.narration": "Narration",
 

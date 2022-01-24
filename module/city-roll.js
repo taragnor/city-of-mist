@@ -230,14 +230,13 @@ export class CityRoll {
 			moveId: roll.options.moveId,
 			options: roll.options,
 			moveList: roll.options.moveList,
-			moveName: move.name,
+			moveName: move.getDisplayedName(),
 			moveText: CityItem.generateMoveText(move, roll_status, power),
 			rolls : (roll.terms)[0].results,
 			total : total,
 			power : power,
 		};
-		const html = await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
-		return html;
+		return await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 	}
 
 	static getTotal (roll) {

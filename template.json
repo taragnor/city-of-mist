@@ -68,7 +68,8 @@
 				"description": "",
 				"locked": false,
 				"version": "1",
-				"free_content": false
+				"free_content": false,
+				"locale_name": ""
 			},
 			"ability": {
 				"description": "",

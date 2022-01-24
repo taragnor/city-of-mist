@@ -475,16 +475,22 @@ export class CityItem extends Item {
 	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
 
 	getDisplayedName() {
-		if (this.isJournal())
-			return `${this.data.data.question}`;
-		if (!this.isHelpHurt())
-			return this.name;
-		if (this.isHelp())
-			return "Help " + this.getTargetName();
-		if (this.isHurt())
-			return "Hurt "+ this.getTargetName();
-		else
-			throw new Error("Something odd happened?");
+		switch (this.type) {
+			case "journal":
+				return `${this.data.data.question}`;
+			case "juice":
+				if (!this.isHelpHurt())
+					return this.name;
+				if (this.isHelp())
+					return "Help " + this.getTargetName();
+				if (this.isHurt())
+					return "Hurt "+ this.getTargetName();
+				throw new Error("Something odd happened?");
+			default:
+				if (this.data.data?.locale_name)
+					return localizeS(this.data.data.locale_name);
+				else return this.name
+		}
 	}
 
 	async spend(amount= 1) {
