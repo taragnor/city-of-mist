@@ -6,7 +6,7 @@ export class HandlebarsHelpers {
 
 	static addHelpers(helperObj) {
 		for (const [key, fn] of Object.entries(helperObj) ) {
-			console.log(`Init helper ${key}`);
+			// console.log(`Init helper ${key}`);
 			Handlebars.registerHelper(key, fn);
 		}
 	}
@@ -42,4 +42,3 @@ export class HandlebarsHelpers {
 		};
 	}
 } // end of class
-

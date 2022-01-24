@@ -84,11 +84,7 @@ Hooks.once("init", async function() {
 	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
 	Items.registerSheet("city", CityItemSheet, {makeDefault: true});
 	preloadHandlebarsTemplates();
-
-
 });
-
-
 
 /* City of Mist Status Tracker */
 Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
@@ -113,5 +109,3 @@ Hooks.on("renderApplication", function(control) {
 		window.statusTrackerWindow.render(false);
 	}
 });
-
-
