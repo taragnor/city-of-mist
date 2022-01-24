@@ -85,8 +85,9 @@
 "CityOfMist.terms.templates": "Templates",
 "CityOfMist.terms.isTemplate": "Template?",
 "CityOfMist.terms.collectiveSize": "Collective Size",
-
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
+
+"CityOfMist.generic.narration": "Narration",
 
 "CityOfMist.command.submit": "Submit",
 "CityOfMist.command.toggleLock": "Toggle Sheet Lock",
