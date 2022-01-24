@@ -181,7 +181,7 @@ export class CityHelpers {
 			if (container)
 				for ( const tagName of taglist.map(x=>x.name) )
 					await container.createStoryTag(tagName);
-			await CityHelpers.sendNarratedMessage(modified_html, []);
+			await CityHelpers.sendNarratedMessage(modified_html);
 		}
 		const options = {width: 900, height: 800};
 		const dialog = new Dialog({
@@ -379,7 +379,7 @@ export class CityHelpers {
 		return {name, tier};
 	}
 
-	static async sendNarratedMessage(text, tags) {
+	static async sendNarratedMessage(text) {
 		const templateData = {text};
 		const html = await renderTemplate("systems/city-of-mist/templates/narration-box.html", templateData);
 		const speaker = { alias:"Narration" };
