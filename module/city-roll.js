@@ -611,7 +611,7 @@ export class CityRoll {
 							const modifier = Number($(html).find("#roll-modifier-amt").val());
 							if (modifier != 0)
 								rollOptions.modifiers.push ( {
-									id: "MC Edit" + math.random(),
+									id: "MC Edit" + Math.random(),
 									name: "MC Edit",
 									amount: modifier,
 									ownerId: null,
