@@ -1,16 +1,30 @@
 <form class="{{cssClass}} gmmove-sheet flex-col item-edit-dialog">
-	<label class="dialog-label" for="name"> Name </label>
+	<label class="dialog-label" for="name">
+		{{localize "CityOfMist.terms.name"}}
+	</label>
 	<input type="text" name="name" value="{{item.name}}">
 	<select name="data.subtype">
-		{{#select item.data.data.subtype}}
-		<option value="soft"> Soft Move </option>
-		<option value="hard"> Hard Move </option>
-		<option value="custom"> Custom Move </option>
-		<option value="intrusion"> Intrusion </option>
-		<option value="entrance"> On Enter Scene </option>
+		{{#select item.data.data.subtype }}
+		<option value="soft">
+		{{localize "CityOfMist.terms.softMove" }}
+		</option>
+		<option value="hard">
+		{{localize "CityOfMist.terms.hardMove" }}
+		</option>
+		<option value="custom">
+		{{localize "CityOfMist.terms.customMove"}}
+		</option>
+		<option value="intrusion">
+		{{localize "CityOfMist.terms.intrusion" }}
+		</option>
+		<option value="entrance">
+		{{localize "CityOfMist.terms.enterScene" }}
+		</option>
 		{{/select}}
 	</select>
 	<hr>
-	<label class="dialog-label" for="description"> Description </label>
+	<label class="dialog-label" for="description">
+		{{localize "CityOfMist.terms.description" }}
+	</label>
 	<textarea class="gmmove-description" title="{{localize 'CityOfMist.tooltip.gmmove'}}" name="data.description">{{data.description}}</textarea>
 </form>

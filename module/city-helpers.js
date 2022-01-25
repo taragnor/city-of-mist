@@ -264,13 +264,13 @@ export class CityHelpers {
 		let statuslist = [];
 		let loop = 0;
 		while (match != null) {
-			if (loop++ > 1000) break;
+			if ( loop ++ > 1000 ) break;
 			let options = CityHelpers.parseOptions(match[1]);
 			const name = match[2];
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
 				let tier = name.at(-1);
-				if (tier != "X") {
+				if (tier != "X" && !options.includes("ignore-collective")) {
 					tier = String(Number(tier) + status_mod);
 				}
 				const autoStatus = options.includes("auto-apply") ? "auto-status" : "";
@@ -306,7 +306,9 @@ export class CityHelpers {
 			.map(option => {
 			switch (option.trim()) {
 				case "a":
-					return("auto-apply");
+					return "auto-apply";
+				case "i":
+					return "ignore-collective";
 				default:
 					console.warn(`Unrecognized option: ${option}`);
 					return "";

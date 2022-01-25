@@ -34,6 +34,7 @@
 "CityOfMistTracker.trackerwindow.tag.burned": "Burn tag",
 
 "CityOfMist.terms.name": "Name",
+"CityOfMist.terms.description": "Description",
 "CityOfMist.terms.alias": "Alias / Token Name",
 "CityOfMist.terms.logos": "Logos",
 "CityOfMist.terms.mythos": "Mythos",
@@ -74,12 +75,15 @@
 "CityOfMist.terms.specialMoves": "Special Moves",
 "CityOfMist.terms.shb": "Stop. Holding. Back.",
 "CityOfMist.terms.soft": "Soft",
+"CityOfMist.terms.softMove": "Soft Move",
 "CityOfMist.terms.softMoves": "Soft Moves",
 "CityOfMist.terms.hard": "Hard",
+"CityOfMist.terms.hardMove": "Hard Move",
 "CityOfMist.terms.hardMoves": "Hard Moves",
 "CityOfMist.terms.intrusion": "Intrusion",
 "CityOfMist.terms.intrusions": "Intrusions",
 "CityOfMist.terms.custom": "Custom",
+"CityOfMist.terms.customMove": "Custom Move",
 "CityOfMist.terms.customMoves": "Custom Moves",
 "CityOfMist.terms.enterScene": "On Enter Scene",
 "CityOfMist.terms.templates": "Templates",
@@ -204,7 +208,7 @@
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
 
-"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. "
+"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both."
 
 
 }
