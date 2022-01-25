@@ -105,7 +105,7 @@ export class CityRoll {
 		if (options.logosRoll) {
 			modifiers.push({
 				id: "Logos",
-				name: "Logos Themes",
+				name: localize("CityOfMist.terms.logosThemes"),
 				amount: actor.getNumberOfThemes("Logos"),
 				ownerId: null,
 				tagId: null,
@@ -116,7 +116,7 @@ export class CityRoll {
 		if (options.mythosRoll) {
 			modifiers.push({
 				id: "Mythos",
-				name: "Mythos Themes",
+				name: localize("CityOfMist.terms.mythosThemes"),
 				amount: actor.getNumberOfThemes("Mythos"),
 				ownerId: null,
 				tagId: null,
@@ -127,7 +127,7 @@ export class CityRoll {
 		if (options.modifier && options.modifier != 0) {
 			modifiers.push({
 				id: "Custom",
-				name: "Custom Modifier",
+				name: localize("CityOfMist.terms.customModifier"),
 				amount: options.modifier,
 				ownerId: null,
 				tagId: null,
@@ -612,7 +612,7 @@ export class CityRoll {
 							if (modifier != 0)
 								rollOptions.modifiers.push ( {
 									id: "MC Edit" + Math.random(),
-									name: "MC Edit",
+									name: localize("CityOfMist.terms.MCEdit"),
 									amount: modifier,
 									ownerId: null,
 									tagId: null,

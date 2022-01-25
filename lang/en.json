@@ -90,6 +90,10 @@
 "CityOfMist.terms.isTemplate": "Template?",
 "CityOfMist.terms.collectiveSize": "Collective Size",
 "CityOfMist.terms.activeExtraTheme": "Active Extra Theme",
+"CityOfMist.terms.MCEdit": "MC Edit",
+"CityOfMist.terms.customModifier": "Custom Modifier",
+"CityOfMist.terms.mythosThemes": "Mythos Themes",
+"CityOfMist.terms.logosThemes": "Logos Themes",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
