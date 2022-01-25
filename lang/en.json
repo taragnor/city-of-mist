@@ -182,6 +182,43 @@
 "CityOfMist.moves.SHB.ultimate.partial": "You achieve what you were trying to do. Take a tier-6 status. You cannot Face Danger.",
 "CityOfMist.moves.SHB.ultimate.success": "You achieve what you were trying to do. Replace one theme.",
 
+"CityOfMist.moves.downtime.name": "Downtime",
+"CityOfMist.moves.downtime.always": "Whenever your character has some downtime, choose one way to spend it:",
+"CityOfMist.moves.downtime.0": "Give attention to one of your Logos (or extra) themes. Tell everyone at the table how you do it and mark Attention on that theme.",
+"CityOfMist.moves.downtime.1": "Work the case. Tell everyone at the table how you do it, and gain 3 Clues with a method and a source based on your description",
+"CityOfMist.moves.downtime.2": "Explore your Mythos. Tell everyone at the table which Mystery you explore and how you do it. You gain 1 Clue with a method and a source based on your description. Mark Attention on that Mystery’s theme.",
+"CityOfMist.moves.downtime.3": "Prepare for your next activity. Tell everyone at the table how you prepare and choose one: recover all your burnt power tags OR gain 3 Juice with a method based on your description. You can choose from the effect improvements under Change the Game.",
+"CityOfMist.moves.downtime.4": "Recover from your last activity. For each ongoing status still affecting you, the MC will tell you if and how it can be reduced during your downtime and by how many tiers. Alternatively, the MC can allow you to reduce any or some of your statuses by one tier for each relevant tag you have.",
+
+"CityOfMist.moves.answers.name": "Finally, Some Answers",
+"CityOfMist.moves.answers.always": "When you find answers to your Mystery, choose one, two, or all three:",
+"CityOfMist.moves.answers.0": "You gain a deeper understanding of your Mythos, of the subject of your Mystery, or of the link between your Mystery and your Mythos. Mark Attention on the theme to which this Mystery belongs.",
+"CityOfMist.moves.answers.1": "You are shocked by the discovery to the point of rejecting your Mythos or an aspect of your ordinary life. Mark Fade or Crack on any theme.",
+"CityOfMist.moves.answers.2": "Your questions are answered. Choose a new Mystery for this theme.",
+
+"CityOfMist.moves.flashback.name": "Flashback",
+"CityOfMist.moves.flashback.always": "Once per session, when you have the spotlight, choose 1:",
+"CityOfMist.moves.flashback.0": "Describe an action carried out by your character in the past and make a move for that action. The outcome of the move affects the current scene.",
+"CityOfMist.moves.flashback.1": "Describe events from your character’s backstory that become relevant now. The MC can award you with 1 Juice or 1 Clue based on your description.",
+
+"CityOfMist.moves.foreshadowing.name": "Foreshadowing",
+"CityOfMist.moves.foreshadowing.miss": "You're safe for now. Your nemesis will not take part in the next session.",
+"CityOfMist.moves.foreshadowing.partial": "You can sense your nemesis is coming but you're not sure. The MC can choose whether to include your Nemesis in the next session or not. If she does, she does not get to make a surprise MC move.",
+"CityOfMist.moves.foreshadowing.success": "One of your Nemeses will overwhelm you or get the drop on you in the next session. When the MC introduces your nemesis, she also gets to make a move as if you missed a player move.",
+
+"CityOfMist.moves.hardchoice.name": "Make A Hard Choice",
+"CityOfMist.moves.hardchoice.0": "When answers to your Mystery are within reach, but you forego them, mark Fade on that Mystery’s theme.",
+"CityOfMist.moves.hardchoice.1": "When your Identity demands you act or speak in a given way and you don’t, mark Crack on that Identity’s theme.",
+"CityOfMist.moves.hardchoice.2": "When you sacrifice something you truly want in order to abide by your Identity, mark Attention on that Identity’s theme",
+
+"CityOfMist.moves.monologue.name": "Opening Monologue",
+"CityOfMist.moves.monologue.always": "At the beginning of every session, one player goes into a monologue as his or her character, relating the character’s thoughts and feelings at this point in the story.",
+
+"CityOfMist.moves.sessionEnd.name": "Session End",
+"CityOfMist.moves.sessionEnd.always": "At the end of the session, when the credit roll, go around the table. Each player can answer one or more of the following questions:",
+"CityOfMist.moves.sessionEnd.0": "How has the crew grown this session? Recover a burnt crew power tag or mark Attention on a crew theme.",
+"CityOfMist.moves.sessionEnd.1": "Which character had the most meaningful interaction with your character this session? Add one Help point or one Hurt point next to their name on your character card.",
+"CityOfMist.moves.sessionEnd.2": "Which of your themes is under the most strain? If it collapses, what new aspect will show up in its place? Write down the answer under FLIPSIDE on that theme’s card.",
 
 "CityOfMist.generic.narration": "Narration",
 
