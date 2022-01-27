@@ -303,7 +303,7 @@ export class CityHelpers {
 			return [];
 		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
 		return optionString.split(",")
-			.map(option => {
+			.map( option => {
 			switch (option.trim()) {
 				case "a":
 					return "auto-apply";
