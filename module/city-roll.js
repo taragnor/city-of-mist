@@ -143,7 +143,6 @@ export class CityRoll {
 				&& x.amount < 0
 		});
 		let modifiersTotal = CityRoll.getPower( modifiers);
-		// let modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
 		if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {
 			const cap = game.settings.get("city-of-mist", "weaknessCap");
 			let capPenalty = -(modifiersTotal - cap);
@@ -197,7 +196,7 @@ export class CityRoll {
 		r.options = {...this.#options, ...r.options};
 		r.options.modifiers = this.#modifiers;
 		r.options.tags = this.#tags;
-		r.options.actorId = this.#actor.id;
+		r.options.actorId = this.#actor?.id;
 		r.options.moveId = this.#moveId;
 		r.options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
 		this.#roll = r;
@@ -236,9 +235,11 @@ export class CityRoll {
 			const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
 			options.moveList = options.moveList.concat(unadded);
 		}
+		const actor = CityDB.getActorById(roll.options.actorId);
+		const actorName = actor ?actor.name : "";
 		const templateData = {
 			modifiers,
-			actorName: CityDB.getActorById(roll.options.actorId).name,
+			actorName,
 			moveId: roll.options.moveId,
 			options: roll.options,
 			moveList: roll.options.moveList,
