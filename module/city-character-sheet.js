@@ -79,7 +79,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		);
 		let crewThemes = [];
 		if (!crew) {
-			// console.log("Returning no valid crew");
 			return [];
 		}
 
