@@ -64,6 +64,13 @@ export class EnhancedActorDirectory {
 			return this._renderInnerOld (data);
 		}
 
+		SidebarDirectory.prototype._oldOnSearchFilter = SidebarDirectory.prototype._onSearchFilter;
+
+		SidebarDirectory.prototype._onSearchFilter = function () {
+			console.log("Calling Base search");
+			return this._oldOnSearchFilter.apply(this, arguments);
+		}
+
 		ActorDirectory.prototype._onSearchFilter = function(event, query, rgx, html) {
 			const isSearch = !!query;
 			let documentIds = new Set();
@@ -115,7 +122,7 @@ export class EnhancedActorDirectory {
 				return a.directoryName.localeCompare(b.directoryName);
 			else return a.name.localeCompare(b.name);
 		}
-		ui.actors.render(true);
+		// ui.actors.render(true);
 
 		console.log("Enhanced directory applied");
 	}
