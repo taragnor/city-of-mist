@@ -27,7 +27,7 @@ export class HTMLTools {
 
 	static async editItemWindow(item) {
 		item.sheet.render(true);
-		return await new Promise ( (keep, brk) => {
+		return await new Promise ( (keep, _brk) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
 				if (isOpen)

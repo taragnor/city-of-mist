@@ -26,7 +26,6 @@ export class CityDB extends DBAccessor {
 		Hooks.on('updateToken', this.onTokenUpdate.bind(this));
 		Hooks.on('deleteToken', this.onTokenDelete.bind(this));
 		Hooks.on('updateScene', this.onSceneUpdate.bind(this));
-
 	}
 
 	get themebooks() {
@@ -205,5 +204,6 @@ export class CityDB extends DBAccessor {
 
 }
 
-Hooks.once("ready", CityDB.init.bind(CityDB));
+CityDB.init();
+
 

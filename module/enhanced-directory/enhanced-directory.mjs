@@ -67,7 +67,6 @@ export class EnhancedActorDirectory {
 		SidebarDirectory.prototype._oldOnSearchFilter = SidebarDirectory.prototype._onSearchFilter;
 
 		SidebarDirectory.prototype._onSearchFilter = function () {
-			console.log("Calling Base search");
 			return this._oldOnSearchFilter.apply(this, arguments);
 		}
 

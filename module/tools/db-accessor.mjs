@@ -1,8 +1,11 @@
 export class DBAccessor {
 
 	static async init() {
-		this._loadPacks();
-		this._initHooks();
+		Hooks.once("ready", () => {
+			this._loadPacks();
+			this._initHooks();
+			console.log("Database initialized");
+		});
 	}
 
 	static _initHooks() {
@@ -36,6 +39,10 @@ export class DBAccessor {
 
 	static allActors() {
 		return DBAccessor.getAllByType ("Actor");
+	}
+
+	static getActor(id) {
+		return this.getActorById(id);
 	}
 
 	static getActorById (id) {
@@ -120,6 +127,7 @@ export class DBAccessor {
 	}
 
 	static async onUpdateCompendium(compendium) {
+		console.debug("Updating Compendium");
 		switch (compendium.documentName) {
 			case "Actor": case "Item":
 				await this.loadPacks();
@@ -131,9 +139,10 @@ export class DBAccessor {
 		return a.name.localeCompare(b.name);
 	}
 
+
 } //End of class
+
 
 // Should inherit these to a subclass
 // Hooks.once("ready", DBAccessor.init);
-// Hooks.on("updateCompendium", DBAccessor.onUpdateCompendium.bind(DBAccessor));
 
