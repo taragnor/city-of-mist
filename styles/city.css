@@ -2056,6 +2056,11 @@ div.roll-total {
 	font-weight: bold;
 }
 
+nav.sheet-tabs.tabs {
+  flex-grow:0;
+
+}
+
 div.city-die-tooltip {
 	/* background: linear-gradient( */
 	/* to right, */
