@@ -2061,6 +2061,10 @@ nav.sheet-tabs.tabs {
 
 }
 
+a.item.active {
+	color: var(--mythos-white);
+}
+
 div.city-die-tooltip {
 	/* background: linear-gradient( */
 	/* to right, */
