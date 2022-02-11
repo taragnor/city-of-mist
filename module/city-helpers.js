@@ -257,8 +257,10 @@ export class CityHelpers {
 		return text;
 	}
 
+
 	static unifiedSubstitution(text, status_mod = 0) {
-		const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
+		// const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
+		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;
 		let match = regex.exec(text);
 		let taglist = [];
 		let statuslist = [];
@@ -748,4 +750,3 @@ export class CityHelpers {
 	}
 
 } //end of class
-
