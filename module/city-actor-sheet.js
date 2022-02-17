@@ -255,7 +255,7 @@ export class CityActorSheet extends CitySheet {
 		} else {
 			throw new Error(`Unknown itemType: ${itemtype}`);
 		}
-		const themeType = getClosestData(event, "themeType");
+		// const themeType = getClosestData(event, "themeType");
 		let filterlist = [];
 		if (itemtype == "tag") {
 			filterlist = list.filter( x => {
@@ -291,12 +291,11 @@ export class CityActorSheet extends CitySheet {
 		}
 		const themeId = getClosestData(event, "themeId");
 		const themeType = getClosestData(event, "themeType");
-		const crispy = themeType == "character" ? false : true;
+		// const crispy = themeType == "character" ? false : true;
 		const itemtype = getClosestData(event, "itemType");
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		let retobj = null;
-		let updateObj;
 		let tag, improvement;
 		if (itemtype == "tag")  {
 			const subtype = bonus ? "bonus" : getClosestData(event, "subType");
@@ -308,7 +307,6 @@ export class CityActorSheet extends CitySheet {
 			retobj = await owner.addImprovement(themeId, idChoice);
 			improvement = await owner.getImprovement(retobj.id);
 
-			Debug(improvement);
 			await this.improvementDialog(improvement);
 			await CityHelpers.modificationLog(owner,  "Created", improvement);
 			return;
@@ -645,7 +643,7 @@ export class CityActorSheet extends CitySheet {
 			await CityHelpers.playTagOff();
 	}
 
-	async _createClue (event) {
+	async _createClue (_event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewClue("Unnamed Clue");
 		const clue = await owner.getClue(obj.id);
@@ -810,7 +808,7 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _createStoryTag(event) {
+	async _createStoryTag(_event) {
 		const owner = this.actor;
 		const retobj = await owner.createStoryTag();
 		const tag = await owner.getTag(retobj.id);

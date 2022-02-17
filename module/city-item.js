@@ -99,6 +99,7 @@ export class CityItem extends Item {
 		return this.data.type;
 	}
 
+
 	getBuildUpValue() {
 		//used by theme
 		const tagValue = this.tags().reduce( (a,tag) => tag.upgradeCost() + a , 0);
@@ -489,11 +490,16 @@ export class CityItem extends Item {
 			default:
 				if (this.data.data?.locale_name)
 					return localizeS(this.data.data.locale_name);
-				else return this.name
+				else
+					return this.name;
 		}
 	}
 
-	async spend(amount= 1) {
+	get displayedName() {
+		return this.getDisplayedName();
+	}
+
+	async spend( amount= 1 ) {
 		console.log("Running Clue Spend");
 		const curr = this.getAmount();
 		if (amount > curr)

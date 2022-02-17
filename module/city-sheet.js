@@ -67,9 +67,9 @@ export class CitySheet extends ActorSheet {
 		const actorThemes = this.actor.getThemes();
 		const actorThemebooks = await Promise.all(actorThemes.map( theme => theme.getThemebook()));
 		const sorted = all_themebooks.sort( (a, b) => {
-			if (a.name < b.name)
+			if (a.displayedName < b.displayedName)
 				return -1;
-			if (a.name > b.name)
+			if (a.displayedName > b.displayedName)
 				return 1;
 			if (a.data.free_content && !b.data.free_content)
 				return 1;
@@ -83,6 +83,7 @@ export class CitySheet extends ActorSheet {
 			return acc;
 		}, []);
 		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
+		Debug(themebooks);
 		const templateData = {actor: this.actor.data, data: this.actor.data.data, themebooks};
 		const title = "Select Themebook";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
