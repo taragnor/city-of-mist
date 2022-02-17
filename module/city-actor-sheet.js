@@ -136,17 +136,6 @@ export class CityActorSheet extends CitySheet {
 
 	getStoryTags() {
 		return this.getPersonalStoryTags();
-		// return this.actor.getStoryTags().map( x=> {
-		// 	return {
-		// 		type: x.data.type,
-		// 		name: x.data.name,
-		// 		location: "",
-		// 		id: x.id,
-		// 		data: x.data,
-		// 		ownerId: this.actor.id,
-		// 		owner: this.actor
-		// 	};
-		// });
 	}
 
 
