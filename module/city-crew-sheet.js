@@ -22,6 +22,8 @@ export class CityCrewSheet extends CityActorSheet {
 		super.activateListeners(html);
 		html.find('.item-add-member').click(this._addCrewMember.bind(this));
 		html.find('.crew-member-delete').click(this._removeCrewMember.bind(this));
+		html.find('.crew-prev').hide();
+		html.find('.crew-next').hide();
 	}
 
 	async _addCrewMember(event) {
