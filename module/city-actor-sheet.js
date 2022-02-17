@@ -272,7 +272,8 @@ export class CityActorSheet extends CitySheet {
 			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
 		} else throw new Error(`Unknown Type ${type}`);
 		const inputList = filterlist.map( x => {
-			const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   x.name;
+			Debug(x);
+			const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   localizeS(x.name.trim());
 			const data = [name];
 			return {
 				id: x._id, data, description: x.description
