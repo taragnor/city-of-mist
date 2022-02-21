@@ -138,7 +138,6 @@ export class CityActorSheet extends CitySheet {
 		return this.getPersonalStoryTags();
 	}
 
-
 	linkThemebook(theme) {
 		const themedata = theme.data.data;
 		themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
