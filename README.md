@@ -4,6 +4,7 @@
 **Additional Code Contributions by:** Plenett/Galdormin <br>
 **Localizations:** 
 * *German:* Markus Raab
+* *Polish:* Red the Neko
 <hr>
 <div>
 <img src="https://user-images.githubusercontent.com/31339311/145990040-37c04157-6048-411e-8628-ed62a4d7a082.jpg" height=500px>
