@@ -45,7 +45,7 @@ export class CityCrewSheet extends CityActorSheet {
 
 	async _removeCrewMember(event) {
 		const memberId = getClosestData(event, "memberId");
-		const crewId = getClosestData(event, "ownerId");
+		// const crewId = getClosestData(event, "ownerId");
 		await this.actor.removeCrewMember(memberId);
 	}
 
