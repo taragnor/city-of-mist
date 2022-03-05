@@ -638,8 +638,10 @@ export class CityRoll {
 
 } //end of class
 
-Object.freeze(CityRoll.prototype);
-Object.freeze(CityRoll);
-Object.seal(CityRoll.prototype);
-Object.seal(CityRoll);
+Hooks.on("ready", () => {
+	Object.freeze(CityRoll.prototype);
+	Object.freeze(CityRoll);
+	Object.seal(CityRoll.prototype);
+	Object.seal(CityRoll);
+});
 
