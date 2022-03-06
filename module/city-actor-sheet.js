@@ -553,7 +553,7 @@ export class CityActorSheet extends CitySheet {
 			disable,
 			speaker: {actor: this.actor, alias: this.actor.getDisplayedName() }
 		};
-		if (await this.sendToChatBox(impName, html, options)) {
+		if (await this.sendToChatBox(localizeS(impName), html, options)) {
 			if (uses < 9999)
 				await imp.decrementImprovementUses();
 		}
