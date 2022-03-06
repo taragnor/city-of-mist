@@ -25,6 +25,11 @@ export class CityItemSheet extends ItemSheet {
 		return data;
 	}
 
+	get title() {
+		return localizeS(this.item.name);
+
+	}
+
 	/** @override */
 	get template() {
 		const path = "systems/city-of-mist/templates/items";
