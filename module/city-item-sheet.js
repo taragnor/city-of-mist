@@ -27,7 +27,6 @@ export class CityItemSheet extends ItemSheet {
 
 	get title() {
 		const title = localizeS(this.item.name);
-		console.log(title);
 		return title;
 	}
 
