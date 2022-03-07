@@ -148,6 +148,41 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
+	game.settings.register("city-of-mist", "devMode", {
+		name: "Developer Mode",
+		hint: "Exposes various internal variables of the system (advanced use only)",
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: false,
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
+	if (!game.settings.get('city-of-mist', "devMode"))
+		return;
+
+// **************************************************
+// ************   Developer Settings  ************* *
+// **************************************************
+
+	game.settings.register("city-of-mist", "movesInclude", {
+		name: "Include Core Moves",
+		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+		scope: "world",
+		config: true,
+		type: String,
+		default: "all",
+		choices: {
+			"all" : "Include all moves",
+			"core-only": "Core moves only",
+			"advanced-only": "Non-core moves only",
+			"none": "No base system moves",
+		},
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
 }
 
 // Example Getter

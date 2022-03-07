@@ -174,7 +174,8 @@
 			"type": "standard",
 			"category": "Core",
 			"effect_class": "",
-			"abbreviation": ""
+			"abbreviation": "",
+			"system": ""
 		},
 		"gmmove": {
 			"templates": ["default"],

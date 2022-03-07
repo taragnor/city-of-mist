@@ -40,15 +40,34 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
+	static filterOverridedContent(list) {
+		return list.filter( x=> !x.data.data.free_content || !list.some(y=>
+			x != y
+			&& y.name == x.name
+			&& !y.data.data.free_content
+		));
+	}
+
 	static async loadMoves() {
 		this.movesList = this.filterItemsByType("move");
-		this.movesList.sort( (a,b) => {
-			if (a.name < b.name)
-				return -1;;
-			if (a.name > b.name)
-				return 1;
-			return 0;
-		})
+		this.movesList = this.filterOverridedContent(this.movesList);
+		const include = game.settings.get('city-of-mist', "movesInclude");
+		switch (include) {
+			case "all":
+				break;
+			case "core-only":
+				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Core");
+				break;
+			case "advanced-only":
+				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Advanced" || x.data.data.category == "SHB");
+				break;
+			case "none":
+				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic");
+				break;
+			default:
+				console.warn(`Unknown movesInclude setting ${include}`);
+		}
+		this.movesList.sort( (a,b) => a.name.localeCompare(b.name));
 		Hooks.callAll("movesLoaded");
 		return true;
 	}
@@ -137,9 +156,9 @@ export class CityDB extends DBAccessor {
 		}
 	}
 
-// **************************************************
-// ******************   Hooks  ******************* *
-// **************************************************
+	// **************************************************
+	// ******************   Hooks  ******************* *
+	// **************************************************
 
 	static async onItemUpdate(item, _updatedItem, _data, _diff) {
 		const actor = item.actor;
@@ -174,9 +193,9 @@ export class CityDB extends DBAccessor {
 
 	static async onTokenUpdate(token, changes, _otherStuff) {
 		if (changes?.hidden === false && token.actor.hasEntranceMoves())
-				await token.actor.executeEntranceMoves(token);
+			await token.actor.executeEntranceMoves(token);
 		if (changes?.hidden === true && token.actor.hasEntranceMoves())
-				await token.actor.undoEntranceMoves(token);
+			await token.actor.undoEntranceMoves(token);
 		if (game.scenes.active != token.parent)
 			return;
 		await CityHelpers.refreshTokenActorsInScene(token.parent);

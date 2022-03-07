@@ -146,18 +146,24 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
 	},
 
-	'hasActivatedTag': function (sheetownerId, _actorId, tagId) {
-		//TODO: actorId isn't used but is there for compatibility with older version
-		const sheetowner = game.actors.get(sheetownerId);
-		if (sheetowner != null) {
-			const result = sheetowner.hasActivatedTag(tagId);
-			return result;
-		} else {
-			return false;
-		}
-	},
-	};
+		'hasActivatedTag': function (sheetownerId, _actorId, tagId) {
+			//TODO: actorId isn't used but is there for compatibility with older version
+			const sheetowner = game.actors.get(sheetownerId);
+			if (sheetowner != null) {
+				const result = sheetowner.hasActivatedTag(tagId);
+				return result;
+			} else {
+				return false;
+			}
+		},
+
+		'devMode': function () {
+			return (game.settings.get('city-of-mist', "devMode"));
+		},
+
+	}; //end of object holding helpers
 } // end of class
+
 
 
 CityHandlebarsHelpers.init();
