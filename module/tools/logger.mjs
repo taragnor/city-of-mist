@@ -19,7 +19,8 @@ export class Logger {
 
 	static async sendToChat(text, sender={}) {
 		// const speaker = ChatMessage.getSpeaker(sender);
-		const speaker = ChatMessage.getSpeaker({alias: actor.getDisplayedName()});
+		const alias = sender?.alias;
+		const speaker = ChatMessage.getSpeaker({alias});
 		let messageData = {
 			speaker: speaker,
 			content: text,

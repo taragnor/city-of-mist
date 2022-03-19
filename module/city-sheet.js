@@ -154,7 +154,10 @@ export class CitySheet extends ActorSheet {
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		} : () => 0;
 
-		const sender = options?.speaker ?? {};
+		let sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor) {
+			alias = actor.getDisplayedName();
+		}
 		return new Promise( (conf, rej) => {
 			const options = {};
 			let dialog = new Dialog({
