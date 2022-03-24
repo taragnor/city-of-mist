@@ -119,7 +119,11 @@ export class CityDB extends DBAccessor {
 		if (!book && id) {
 			//last resort search using old id system
 			// console.log("Using Old Style Search");
-			return this.getThemebook (this.oldTBIdToName(id), null);
+			try {
+				return this.getThemebook (this.oldTBIdToName(id), null);
+			} catch (e) {
+				throw new Error(`Couldn't get themebook for ${tname}`);
+			}
 		}
 		if (!book)
 			throw new Error(`Couldn't get themebook for ${tname}`);
