@@ -216,6 +216,7 @@ export class CityActorSheet extends CitySheet {
 				for (const [key, values] of Object.entries(themebook.data.data[subtypex])) {
 					list.push({_id: key, name: values, theme_id: themeId, subtype, description: ""});
 				}
+				list = list.filter( x=> !x.name.includes("_DELETED_"));
 				break;
 			case "improvement":
 				for (let [key, values] of Object.entries(themebook.data.data.improvements)) {
