@@ -20,7 +20,7 @@
 			<ul class="roll-modifiers">
 				{{#each modifiers as |modifier id|}}
 					<li data-modifier-id="{{modifier.id}}">
-						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}" title="{{#if (isGM)}} {{localize 'CityOfMist.command.strikeout'}} {{/if}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
+						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}" title="{{modifier.description}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
 						{{#if (not modifier.strikeout)}}
 							{{#if (eq modifier.type "tag")}}
 								{{#if (lt modifier.amount 0)}}

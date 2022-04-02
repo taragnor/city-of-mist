@@ -53,6 +53,7 @@ export class CityRoll {
 					ownerId: tagOwner.id,
 					tagId: x.tagId,
 					type: x.type,
+					description: tag ? tag.data.data.description : "",
 					subtype,
 					strikeout: false,
 				};
@@ -217,6 +218,7 @@ export class CityRoll {
 				subtype: x.subtype,
 				name: x.name,
 				strikeout: x.strikeout,
+				description: x.description,
 			};
 		});
 		const options = roll.options;
