@@ -1042,14 +1042,14 @@ export class CityActorSheet extends CitySheet {
 				content: html,
 				buttons: {
 					one: {
-						label: "Let's do this!",
+						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html) => {
 							const result = $(html).find(".SHB-selector:checked").val();
 							conf(result);
 						}
 					},
 					cancel: {
-						label: "I changed my mind",
+						label: localize("CityOfMist.dialog.SHB.no"),
 						callback: () => conf(null)
 					},
 				},

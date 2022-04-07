@@ -1,18 +1,24 @@
 <div class="bio-subsection description-area">
-	<div class="bio-section-label"> Description </div>
+	<div class="bio-section-label">
+		{{localize "CityOfMist.terms.description"}}
+	</div>
 	<div class="editor-box">
 		{{editor content=data.description target="data.description" button=true owner=owner editable=true}}
 	</div>
 </div>
 <div class="bio-subsection bio-area">
-	<div class="bio-section-label"> Biography </div>
+	<div class="bio-section-label">
+		{{localize "CityOfMist.terms.biography"}}
+	</div>
 	<div class="editor-box">
 	{{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
 	</div>
 </div>
 {{#if (and (isGM) (not lockout))}}
 <div class="bio-subsection gmnotes-area">
-	<div class="bio-section-label"> MC Notes </div>
+	<div class="bio-section-label">
+		{{localize "CityOfMist.terms.mc_notes"}}
+	</div>
 	<div class="editor-box">
 	{{editor content=data.gmnotes target="data.gmnotes" button=true owner=owner editable=true}}
 	</div>

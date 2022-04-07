@@ -94,6 +94,8 @@
 "CityOfMist.terms.customModifier": "Custom Modifier",
 "CityOfMist.terms.mythosThemes": "Mythos Themes",
 "CityOfMist.terms.logosThemes": "Logos Themes",
+"CityOfMist.terms.biography": "Biography",
+"CityOfMist.terms.mc_notes": "MC Notes",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
@@ -281,6 +283,15 @@
 "CityOfMist.themebook.turf.name": "Turf",
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
+
+"CityOfMist.dialog.SHB.warning0":"Are you sure you want to Stop.Holding.Back?",
+"CityOfMist.dialog.SHB.warning1":"The consequences could be DIRE!",
+"CityOfMist.dialog.SHB.source":"Source of your power",
+"CityOfMist.dialog.SHB.mythicpower":"Draw upon Mythic power (Default)",
+"CityOfMist.dialog.SHB.logosPower":"Draw upon Logos power (Optional Rule)",
+"CityOfMist.dialog.SHB.yes":"Lets do this!",
+"CityOfMist.dialog.SHB.no":"Wait, I changed my mind",
+
 
 
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both."
