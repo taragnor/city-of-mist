@@ -1,13 +1,24 @@
 <form class="{{cssClass}} clue-sheet flex-col item-edit-dialog">
-	<label class="dialog-label" for="name"> Name </label>
+	<label class="dialog-label" for="name">
+		{{localize "CityOfMist.terms.name"}}
+		</label>
 	<input type="text" name="name" value="{{item.name}}">
-	<label class="dialog-label" for="amount"> Amount </label>
+	<label class="dialog-label" for="amount">
+		{{localize "CityOfMist.terms.amount"}}
+	</label>
 	<input type="number"  name="data.amount" value="{{data.amount}}">
-	<label class="dialog-label" for="source"> Source </label>
+	<label class="dialog-label" for="source">
+		{{localize "CityOfMist.terms.clueSource"}}
+	</label>
 	<input type="text" name="data.source" value="{{data.source}}">
-	<label class="dialog-label" for="method"> Method </label>
+	<label class="dialog-label" for="method">
+		{{localize "CityOfMist.terms.clueMethod"}}
+	</label>
 	<input type="text" name="data.method" value="{{data.method}}">
-	<label class="dialog-label" for="partial"> Partial </label>
+	<label class="dialog-label" for="partial">
+		{{localize "CityOfMist.terms.partialClue"}}
+		Partial
+	</label>
 	<input id="partial-clue" type="checkbox" name="data.partial" {{#if data.partial}} checked {{/if}}>
 	<hr>
 </form>
