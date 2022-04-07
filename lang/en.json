@@ -66,6 +66,8 @@
 "CityOfMist.terms.clueAnswer": "Answer",
 "CityOfMist.terms.clueQuestion": "Question",
 "CityOfMist.terms.juice": "Juice",
+"CityOfMist.terms.juiceSource": "Source",
+"CityOfMist.terms.juiceMethod": "Method",
 "CityOfMist.terms.help": "Help",
 "CityOfMist.terms.hurt": "Hurt",
 "CityOfMist.terms.MoEs": "Moments of Evolution",
@@ -99,6 +101,7 @@
 "CityOfMist.terms.bu_points": "Build-Up Points",
 "CityOfMist.terms.choice": "Choice",
 "CityOfMist.terms.amount": "Amount",
+"CityOfMist.terms.target": "Target",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
@@ -254,6 +257,7 @@
 "CityOfMist.message.clueBanked" : "banked",
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "Must add attention manually",
+"CityOfMist.message.noExtraSelected": "No Extra Theme Selected",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
