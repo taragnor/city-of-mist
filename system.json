@@ -19,26 +19,10 @@
    "module/city-status-tracker/city-status-tracker.css"
   ],
   "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    },
-    {
-      "lang": "de",
-      "name": "German",
-      "path": "lang/de.json"
-    },
-    {
-      "lang": "pl",
-      "name": "Polish",
-      "path": "lang/pl.json"
-    },
-    {
-      "lang": "pt-BR",
-      "name": "Português (Brasil)",
-      "path": "lang/pt-br.json"
-    }
+    { "lang": "en", "name": "English", "path": "lang/en.json" },
+    { "lang": "de", "name": "German", "path": "lang/de.json" },
+    { "lang": "pl", "name": "Polish", "path": "lang/pl.json" },
+    { "lang": "pt-BR", "name": "Português (Brasil)", "path": "lang/pt-br.json" }
   ],
   "packs": [
     {
