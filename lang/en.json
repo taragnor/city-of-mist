@@ -303,6 +303,39 @@
 "CityOfMist.dialog.SHB.yes":"Lets do this!",
 "CityOfMist.dialog.SHB.no":"Wait, I changed my mind",
 
+"CityOfMist.settings.gritMode.name": "Grit Mode",
+"CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",
+"CityOfMist.settings.weaknessCap.name": "Cap Weakness Rolls",
+"CityOfMist.settings.weaknessCap.hint": "Place a cap on total Power on rolls involving weakness tags.",
+"CityOfMist.settings.commutativeStatusAddition.name": "Commutative Status Addition",
+"CityOfMist.settings.commutativeStatusAddition.hint": "When adding statuses always use highest status first then add the weaker status so tier 3 + tier 4 will equal tier 4 + tier 3.",
+"CityOfMist.settings.monologueAttention.name": "Monologue Attention Bonus",
+"CityOfMist.settings.monologueAttention.hint": "Awards Attention to player's least developed theme for opening monologue",
+"CityOfMist.settings.loggedActions.name": "Character Edit Logging",
+"CityOfMist.settings.loggedActions.hint": "Whisper to GM when character changes are made",
+
+"CityOfMist.settings.autoWeakness.name": "Auto-apply Weakness Attention",
+"CityOfMist.settings.autoWeakness.hint": "Automatically add an attention when a weakness tag is used",
+"CityOfMist.settings.execEntranceMoves.name": "Danger Entrance Moves",
+"CityOfMist.settings.execEntranceMoves.hint": "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
+"CityOfMist.settings.execEntranceMoves.0": "No Automation",
+"CityOfMist.settings.execEntranceMoves.1": "Prompt User",
+"CityOfMist.settings.execEntranceMoves.2": "Automatically Activate",
+"CityOfMist.settings.tokenToolTip.name": "Token Tooltips",
+"CityOfMist.settings.tokenToolTip.hint": "When hovering over a token, display its story tags and statuses.",
+"CityOfMist.settings.trackerSort.name": "Status/Tag Tracker sorting method",
+"CityOfMist.settings.trackerSort.hint": "How the Tracker sorts the PCs and dangers",
+"CityOfMist.settings.trackerSort.0": "Alphabetical Only",
+"CityOfMist.settings.trackerSort.1": "PCs first",
+"CityOfMist.settings.trackerSort.2": "Elevate PCs and Dangers with tags/statuses",
+"CityOfMist.settings.enhancedActorDirectory.name": "Enhanced Actor Directory",
+"CityOfMist.settings.enhancedActorDirectory.hint": "Shows only the alias name to non-owners of an actor in the directory, hiding the true name from the players (requires browser refresh)",
+"CityOfMist.settings.clueBoxes.name": "Enhanced Clue System",
+"CityOfMist.settings.clueBoxes.hint": "Clues are spawned as separate interactive chat objects (clue boxes) that the player and GM can fill out.",
+"CityOfMist.settings.devMode.name": "Developer Mode",
+"CityOfMist.settings.devMode.hint": "Exposes various internal variables of the system (advanced use only).",
+
+
 
 
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both."

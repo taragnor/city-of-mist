@@ -20,8 +20,8 @@ export const registerSystemSettings = function() {
 	// });
 
 	game.settings.register("city-of-mist", "gritMode", {
-		name: "Grit Mode",
-		hint: "Grit Mode (as described in the rules)",
+		name: localize("CityOfMist.settings.gritMode.name"),
+		hint: localize("CityOfMist.settings.gritMode.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -30,8 +30,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "weaknessCap", {
-		name: "Cap Weakness Rolls",
-		hint: "Place a cap on total Power on rolls involving weakness tags",
+		name: localize("CityOfMist.settings.weaknessCap.name"),
+		hint: localize("CityOfMist.settings.weaknessCap.hint"),
 		scope: "world",
 		config: true,
 		type: Number,
@@ -47,8 +47,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "commutativeStatusAddition", {
-		name: "Commutative Status Addition",
-		hint: "Make Status Addition consistent regardless of order:",
+		name: localize("CityOfMist.settings.commutativeStatusAddition.name"),
+		hint: localize("CityOfMist.settings.commutativeStatusAddition.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -57,8 +57,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "monologueAttention", {
-		name: "Monologue Attention Bonus",
-		hint: "Awards Attention to player's least developed theme for opening monologue",
+		name: localize("CityOfMist.settings.monologueAttention.name"),
+		hint: localize("CityOfMist.settings.monologueAttention.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -67,8 +67,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "loggedActions", {
-		name: "Character Edit Logging",
-		hint: "Whisper to GM when character changes are made",
+		name: localize("CityOfMist.settings.loggedActions.name"),
+		hint: localize("CityOfMist.settings.loggedActions.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -77,8 +77,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "autoWeakness", {
-		name: "Auto-apply Weakness Attention",
-		hint: "Automatically Add an attention when a weakness tag is used",
+		name: localize("CityOfMist.settings.autoWeakness.name"),
+		hint: localize("CityOfMist.settings.autoWeakness.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -87,23 +87,23 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "execEntranceMoves", {
-		name: "Danger Entrance Moves",
-		hint: "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
+		name: localize("CityOfMist.settings.execEntranceMoves.name"),
+		hint: localize("CityOfMist.settings.execEntranceMoves.hint"),
 		scope: "world",
 		config: true,
 		type: String,
 		default: "none",
 		choices: {
-			"none" : "No Automation",
-			"ask": "Ask to activate",
-			"auto": "Automatically activate",
+			"none" : localize("CityOfMist.settings.execEntranceMoves.0"),
+			"ask": localize("CityOfMist.settings.execEntranceMoves.1"),
+			"auto": localize("CityOfMist.settings.execEntranceMoves.2")
 		},
 		restrict: true
 	});
 
 	game.settings.register("city-of-mist", "tokenToolTip", {
-		name: "Token Tooltips",
-		hint: "Show tags and statuses of hovered token",
+		name: localize("CityOfMist.settings.tokenToolTip.name"),
+		hint: localize("CityOfMist.settings.tokenToolTip.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -112,23 +112,23 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "trackerSort", {
-		name: "Status/Tag Tracker sorting method",
-		hint: "How the Tracker sorts the PCs and dangers",
+		name: localize("CityOfMist.settings.trackerSort.name"),
+		hint: localize("CityOfMist.settings.trackerSort.hint"),
 		scope: "world",
 		config: true,
 		type: String,
 		default: "alpha",
 		choices: {
-			"alpha" : "Alphabetical Only",
-			"pc_alpha": "PCs first",
-			"tag_sort": "Elevate PCs and dangers with tag/statuses",
+			"alpha" : localize("CityOfMist.settings.trackerSort.0"),
+			"pc_alpha": localize("CityOfMist.settings.trackerSort.1"),
+			"tag_sort":localize("CityOfMist.settings.trackerSort.2"),
 		},
 		restrict: true
 	});
 
 	game.settings.register("city-of-mist", "enhancedActorDirectory", {
-		name: "Enhanced Actor Directory",
-		hint: "Shows only the alias name to non-owners of an actor in the directory, hiding the true name from the players (requires reload)",
+		name: localize("CityOfMist.settings.enhancedActorDirectory.name"),
+		hint: localize("CityOfMist.settings.enhancedActorDirectory.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -138,8 +138,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "clueBoxes", {
-		name: "Enhanced Clue System",
-		hint: "Clues are spawned as separate chat objects that the player and GM can fill out.",
+		name: localize("CityOfMist.settings.clueBoxes.name"),
+		hint: localize("CityOfMist.settings.clueBoxes.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
@@ -149,8 +149,8 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "devMode", {
-		name: "Developer Mode",
-		hint: "Exposes various internal variables of the system (advanced use only)",
+		name: localize("CityOfMist.settings.devMode.name"),
+		hint: localize("CityOfMist.settings.devMode.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
