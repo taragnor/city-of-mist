@@ -167,7 +167,7 @@ export const registerSystemSettings = function() {
 // **************************************************
 
 	game.settings.register("city-of-mist", "movesInclude", {
-		name: "Include Core Moves",
+		name: "(DEV) Include Core Moves",
 		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 		scope: "world",
 		config: true,
