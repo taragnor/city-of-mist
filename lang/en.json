@@ -96,6 +96,8 @@
 "CityOfMist.terms.logosThemes": "Logos Themes",
 "CityOfMist.terms.biography": "Biography",
 "CityOfMist.terms.mc_notes": "MC Notes",
+"CityOfMist.terms.bu_points": "Build-Up Points",
+"CityOfMist.terms.choice": "Choice",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
@@ -240,6 +242,8 @@
 "CityOfMist.command.bankClue": "Bank Clue",
 "CityOfMist.command.refundClue" : "Refund Clue",
 "CityOfMist.command.strikeout" : "Toggle Modifier",
+"CityOfMist.command.use" : "Use",
+"CityOfMist.command.close" : "Close",
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 "CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",

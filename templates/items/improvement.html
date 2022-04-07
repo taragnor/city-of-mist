@@ -7,14 +7,17 @@
 	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
 	<label class="dialog-label" for="Flags"> Special Flags </label>
 	<input type="text" name="data.effect_class" value="{{item.data.data.effect_class}}">
-
-	<label> Description </label>
+	<label>
+		{{localize "CityOfMist.terms.description"}}
+	</label>
 	<textarea  type="text" name="data.description">{{data.description}}</textarea>
 	{{else}}
 	<div class="improvement-name-send"> Description </div>
-	<div >{{data.description}}</div>
+	<div>{{data.description}}</div>
 	<hr>
-	<label> Choice </label>
+	<label>
+		{{localize "CityOfMist.terms.choice"}}
+	</label>
 	{{#if (eq data.choice_type "core_move")}}
 	<select name="data.choice_item">
 		{{#select item.data.data.choice_item}}
