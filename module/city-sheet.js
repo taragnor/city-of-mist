@@ -118,7 +118,10 @@ export class CitySheet extends ActorSheet {
 	}
 
 	async confirmBox(title, text, defaultYes = false) {
-		return await CityHelpers.confirmBox(title, text, defaultYes);
+		const loc_title = localizeS(title);
+		// if (loc_title == title)
+		// 	console.warn("term for ${title} not localized");
+		return await CityHelpers.confirmBox(loc_title, text, defaultYes);
 	}
 
 	themeDeleteChoicePrompt(themename) {

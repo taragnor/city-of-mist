@@ -245,6 +245,7 @@
 "CityOfMist.command.use" : "Use",
 "CityOfMist.command.cancel" : "Cancel",
 "CityOfMist.command.send_to_chat" : "Send To Chat",
+"CityOfMist.command.reveal_alias" : "Reveal Alias",
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 "CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",
