@@ -550,7 +550,7 @@ export class CityActorSheet extends CitySheet {
 		const uses_str = (uses < 9999) ? `(uses left ${uses})` : "";
 		const disable = (uses <= 0);
 		const options = {
-			label: `Use ${uses_str}`,
+			label: `${localize("CityOfMist.command.use")} ${uses_str}`,
 			disable,
 			speaker: {actor: this.actor, alias: this.actor.getDisplayedName() }
 		};

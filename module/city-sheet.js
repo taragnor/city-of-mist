@@ -148,7 +148,7 @@ export class CitySheet extends ActorSheet {
 	}
 
 	sendToChatBox(title, text, options = {}) {
-		const label = options?.label ?? "Send to Chat";
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
 		const render = options?.disable ? (args) => {
 			console.log("Trying to disable");
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
@@ -171,7 +171,7 @@ export class CitySheet extends ActorSheet {
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
-						label: "Cancel",
+						label: localize("CityOfMist.command.cancel"),
 						callback: async () => conf(null)
 					}
 				},

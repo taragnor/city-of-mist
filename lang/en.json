@@ -243,7 +243,8 @@
 "CityOfMist.command.refundClue" : "Refund Clue",
 "CityOfMist.command.strikeout" : "Toggle Modifier",
 "CityOfMist.command.use" : "Use",
-"CityOfMist.command.close" : "Close",
+"CityOfMist.command.cancel" : "Cancel",
+"CityOfMist.command.send_to_chat" : "Send To Chat",
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 "CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",
