@@ -25,6 +25,7 @@
 "CityOfMistTracker.trackerwindow.status.permanent": "Condição Permanente",
 "CityOfMistTracker.trackerwindow.status.temporary": "Condição Temporária",
 "CityOfMistTracker.trackerwindow.status.delete": "Deletar Condição",
+
 "CityOfMistTracker.trackerwindow.tag.addnew": "Adicionar um novo rótulo de história",
 "CityOfMistTracker.trackerwindow.tag.permanent": "Rótulo Permanente",
 "CityOfMistTracker.trackerwindow.tag.temporary": "Rótulo Temporário",
@@ -65,6 +66,8 @@
 "CityOfMist.terms.clueAnswer": "Resposta",
 "CityOfMist.terms.clueQuestion": "Pergunta",
 "CityOfMist.terms.juice": "Gás",
+"CityOfMist.terms.juiceSource": "Fonte",
+"CityOfMist.terms.juiceMethod": "Método",
 "CityOfMist.terms.help": "Apoio",
 "CityOfMist.terms.hurt": "Antagonismo",
 "CityOfMist.terms.MoEs": "Momentos de Evolução",
@@ -93,6 +96,12 @@
 "CityOfMist.terms.customModifier": "Modificador Personalizado",
 "CityOfMist.terms.mythosThemes": "Temas de Mythos",
 "CityOfMist.terms.logosThemes": "Temas de Logos",
+"CityOfMist.terms.biography": "Biografia",
+"CityOfMist.terms.mc_notes": "Notas da MC",
+"CityOfMist.terms.bu_points": "Pontos de Progessão",
+"CityOfMist.terms.choice": "Escolha",
+"CityOfMist.terms.amount": "Quantidade",
+"CityOfMist.terms.target": "Alvo",
 
 "CityOfMist.moves.genericFail": "Movimento Forte da MC.",
 
@@ -226,7 +235,7 @@
 "CityOfMist.generic.narration": "Narração",
 
 "CityOfMist.command.submit": "Enviar",
-"CityOfMist.command.toggleLock": "Alterar Trava da Ficha",
+"CityOfMist.command.toggleLock": "Ativar/Desativar Bloqueio de Edição",
 "CityOfMist.command.narrationBox": "Caixa de Narração",
 "CityOfMist.command.executeMove": "Executar Movimento",
 "CityOfMist.command.destroyTheme": "Tema Destruído",
@@ -237,6 +246,10 @@
 "CityOfMist.command.bankClue": "Guardar Dica",
 "CityOfMist.command.refundClue" : "Reembolsar Dica",
 "CityOfMist.command.strikeout" : "Alterar Modificador",
+"CityOfMist.command.use" : "Usar",
+"CityOfMist.command.cancel" : "Cancelar",
+"CityOfMist.command.send_to_chat" : "Enviar para o Chat",
+"CityOfMist.command.reveal_alias" : "Revelar Alcunha",
 
 "CityOfMist.message.rejectedQuestion" : "Pergunta Inválida para o Método (Dica Reembolsada)",
 "CityOfMist.message.waitingPlayer" : "Aguardando resposta da Jogadora",
@@ -244,6 +257,7 @@
 "CityOfMist.message.clueBanked" : "Guardada",
 "CityOfMist.message.attentionAwarded": "+1 Atenção",
 "CityOfMist.message.attentionManual": "É necessário adicionar a atenção manualmente",
+"CityOfMist.message.noExtraSelected": "Nenhum Tema Adicional Selecionado",
 
 "CityOfMist.misc.newMoE": "Novo Momento de Evolução",
 "CityOfMist.misc.reduceTier": "Reduza o Qualificador da Condição em 1",
@@ -280,6 +294,49 @@
 "CityOfMist.themebook.turf.name": "Turf",
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
+
+"CityOfMist.dialog.SHB.warning0":"Você tem certeza que quer Não. Se. Conter?",
+"CityOfMist.dialog.SHB.warning1":"As consequências podem ser IRREVERSÍVEIS!",
+"CityOfMist.dialog.SHB.source":"Fonte do seu poder",
+"CityOfMist.dialog.SHB.mythicpower":"Utilizar poder Mítico (Padrão)",
+"CityOfMist.dialog.SHB.logosPower":"Utilizar poder de Logos (Regra Opcional)",
+"CityOfMist.dialog.SHB.yes":"Vamo dá-lhe!",
+"CityOfMist.dialog.SHB.no":"Espere, mudei de ideia!",
+
+"CityOfMist.settings.gritMode.name": "Modo Brutal",
+"CityOfMist.settings.gritMode.hint": "Ativa o Modo Brutal (como descrito nas regras)",
+"CityOfMist.settings.weaknessCap.name": "Limitar Rolagens com Fraqueza",
+"CityOfMist.settings.weaknessCap.hint": "Coloca um limite no Poder total em rolagens envolvendo rótulos de fraqueza.",
+"CityOfMist.settings.commutativeStatusAddition.name": "Adição Comutativa de Condições",
+"CityOfMist.settings.commutativeStatusAddition.hint": "Ao somar condições, sempre use a maior condição antes e depois some a condição menor, fazendo com que um qualificador 3 + um qualificador 4 seja igual a um qualificador 4 + um qualificador 3.",
+"CityOfMist.settings.monologueAttention.name": "Bônus de Atenção pelo Monólogo Narrativo",
+"CityOfMist.settings.monologueAttention.hint": "Premiar com Atenção o tema menos desenvolvido do jogador pelo Monólogo Narrativo",
+"CityOfMist.settings.loggedActions.name": "Registro da Edição dos Personagens",
+"CityOfMist.settings.loggedActions.hint": "Sussurar à MC quando houver alterações em um personagem",
+
+"CityOfMist.settings.autoWeakness.name": "Marcar automaticamente Atenção de Fraqueza",
+"CityOfMist.settings.autoWeakness.hint": "Marque automaticamente Atenção quando um rótulo de fraqueza for usado",
+"CityOfMist.settings.execEntranceMoves.name": "Movimentos de Abertura de Perigos",
+"CityOfMist.settings.execEntranceMoves.hint": "Defina as opções de automação para movimentos do tipo 'entrar em cena' em perigos. Aciona quando o token é revelado ou criado. Remove quando o token fica oculto ou é excluído.", 
+"CityOfMist.settings.execEntranceMoves.0": "Sem Automação",
+"CityOfMist.settings.execEntranceMoves.1": "Confirmar com o usuário",
+"CityOfMist.settings.execEntranceMoves.2": "Ativar Automaticamente",
+"CityOfMist.settings.tokenToolTip.name": "Resumo do Token",
+"CityOfMist.settings.tokenToolTip.hint": "Ao passar o mouse por um token, mostra seus rótulos de história e condições.",
+"CityOfMist.settings.trackerSort.name": "Modo de ordenação do Tracker de Condições/Rótulos",
+"CityOfMist.settings.trackerSort.hint": "Como o Tracker organiza os PJs e perigos",
+"CityOfMist.settings.trackerSort.0": "Somentente Ordem Alfabética",
+"CityOfMist.settings.trackerSort.1": "PJs Antes",
+"CityOfMist.settings.trackerSort.2": "Elevar PJs e Perigos com rótulos/condições",
+"CityOfMist.settings.enhancedActorDirectory.name": "Sistema de Atores Aprimorado",
+"CityOfMist.settings.enhancedActorDirectory.hint": "Mostra apenas a alcunha no diretório para aqueles que não possuirem o ator, ocultando seu nome verdadeiro aos jogadores (requer atualização do navegador)",
+"CityOfMist.settings.clueBoxes.name": "Sistema de Dicas Avançado",
+"CityOfMist.settings.clueBoxes.hint": "As dicas são geradas como objetos separados, de forma interativa no chat (caixas de dicas), que as Jogadoras e a MC podem preencher",
+"CityOfMist.settings.devMode.name": "Modo de Desenvolvedor",
+"CityOfMist.settings.devMode.hint": "Expõe várias variáveis internas do sistema (somente uso avançado).",
+
+
+
 
 "CityOfMist.tooltip.gmmove": "Use [] entre uma palavra para criar um Rótulo ou uma Condição. Usar [a:nome] fará com que uma condição seja aplicada automaticamente quando o movimento for utilizado. Usar [i:nome] ignorará bônus coletivos. [a,i:name] fará ambos."
 }
