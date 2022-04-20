@@ -137,7 +137,7 @@ export class CityItemSheet extends ItemSheet {
 
 	async _addMoveListItem (event) {
 		const moveId = getClosestData(event, "ownerId");
-		const move = game.items.get(moveId);
+		const move = this.item;
 		let lists = move.data.data.listConditionals.slice();
 		lists.push( {condition: "gtPartial", text:"", cost: 1});
 		await move.update({"data.listConditionals": lists});
@@ -171,7 +171,7 @@ export class CityItemSheet extends ItemSheet {
 		const index = getClosestData(event, "index");
 		const val = target.val();
 		const moveId = getClosestData(event, "ownerId");
-		const move = game.items.get(moveId);
+		const move = this.item;
 		let lists = move.data.data.listConditionals.slice();
 		lists.splice(index,1);
 		await move.update({"data.listConditionals": lists});
