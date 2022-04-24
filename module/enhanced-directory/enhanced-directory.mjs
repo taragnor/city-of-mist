@@ -32,7 +32,7 @@ export class EnhancedActorDirectory {
 				switch (option.name) {
 					case "SIDEBAR.CharArt":
 						option.callback = li => {
-							const actor = game.actors.get(li.data("entityId"));
+							const actor = game.actors.get(li.data("documentId"));
 							new ImagePopout(actor.data.img, {
 								title: actor.directoryName,
 								shareable: true,
@@ -42,7 +42,7 @@ export class EnhancedActorDirectory {
 						break;
 					case "SIDEBAR.TokenArt":
 						option.callback = li => {
-							const actor = game.actors.get(li.data("entityId"));
+							const actor = game.actors.get(li.data("documentId"));
 							new ImagePopout(actor.data.token.img, {
 								title: actor.directoryName,
 								shareable: true,
