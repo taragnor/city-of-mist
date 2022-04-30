@@ -263,9 +263,10 @@ export class CityItem extends Item {
 			case"classic-commutative":
 				return this.addStatus_classic(tierOrBoxes, newname);
 			case "reloaded":
-				return this.addStatus_reloaded(tierOrBoxes, newnname);
+				return this.addStatus_reloaded(tierOrBoxes, newname);
 			default:
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
+				throw new Error(`Unknown System: ${system}`);
 		}
 	}
 
@@ -295,18 +296,41 @@ export class CityItem extends Item {
 		return await this.update( {name:newname, data: {tier, pips}});
 	}
 
-	async addStatus_reloaded (boxes, newname)  {
+	async addStatus_reloaded (boxes_add, newname)  {
+		console.debug("Running Reloaded addition");
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
-		pips += boxes;
-		while (pips >= tier) {
-			pips -= tier++;
-		}
+		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
+		({tier,pips} = CityHelpers.statusBoxesToTiers(boxes + boxes_add));
 		return await this.update( {name:newname, data: {tier, pips}});
 	}
 
-	async subtractStatus (ntier, newname=null) {
+
+	async subtractStatus(tierOrBoxes, newname = null) {
 		newname = newname ?? this.data.name;
+		const system = CityHelpers.getStatusAdditionSystem();
+		switch (system) {
+			case "classic":
+			case "classic-commutative":
+				return this.subtractStatus_classic(tierOrBoxes, newname);
+			case "reloaded" :
+				return this.subtractStatus_reloaded(tierOrBoxes, newname);
+			default:
+				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
+				throw new Error(`Unknown System: ${system}`);
+		}
+	}
+
+	async subtractStatus_reloaded(boxes_sub, newname) {
+		console.debug("Running Reloaded subtraction");
+		let tier = this.data.data.tier;
+		let pips = this.data.data.pips;
+		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
+		({tier,pips} = CityHelpers.statusBoxesToTiers(boxes - boxes_sub));
+		return await this.update( {name:newname, data: {tier, pips}});
+	}
+
+	async subtractStatus_classic (ntier, newname=null) {
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
 		pips = 0;

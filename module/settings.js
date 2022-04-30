@@ -52,7 +52,7 @@ export const registerSystemSettings = function() {
 		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
 		scope: "world",
 		config: true,
-		type: Boolean,
+		type: String,
 		default: "classic",
 		choices: {
 			"classic" : "Classic CoM",

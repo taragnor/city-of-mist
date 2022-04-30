@@ -756,6 +756,31 @@ return game.settings.get("city-of-mist", "statusAdditionSystem");
 		return this.getStatusAdditionSystem() == "classic-commutative";
 	}
 
+	static isClassicCoM() {
+		return this.getStatusAdditionSystem().includes("classic");
+	}
 
+	static isCoMReloaded() {
+		return this.getStatusAdditionSystem().includes("reloaded");
+	}
+
+	static statusTierToBoxes(tier, pips=0) {
+		while (tier > 0) {
+			pips += Math.max(--tier, 1);
+		}
+		return pips;
+	}
+
+	static statusBoxesToTiers(boxes) {
+		let pips = boxes;
+		let tier = 0;
+		while (pips >= tier && pips > 0)  {
+			pips -= Math.max(tier++, 1);
+		}
+		if (tier == 0)
+			pips = 0;
+		return {pips, tier};
+
+	}
 
 } //end of class

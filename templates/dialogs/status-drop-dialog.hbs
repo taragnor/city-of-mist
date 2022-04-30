@@ -3,10 +3,19 @@
 </label>
 <input type="String" class="status-name" value="{{name}}">
 <br>
-<label for="face-danger">
-	{{localize "CityOfMist.misc.reduceTier"}}
-</label>
-<input type="checkbox" class="face-danger" {{#if facedanger}} checked{{/if}}>
+{{#if classic}}
+	<label for="face-danger">
+		{{localize "CityOfMist.misc.reduceTier"}}
+	</label>
+	<input type="checkbox" class="face-danger" {{#if facedanger}} checked{{/if}}>
+{{/if}}
+{{#if reloaded}}
+	<label for="face-danger">
+		{{localize "CityOfMist.dialog.statusDrop.CoMReloaded"}}
+	</label>
+	<input type="number" class="face-danger" {{#if facedanger}} checked{{/if}}>
+
+{{/if}}
 <hr>
 <label for="radio">
 	{{localize "CityOfMist.terms.newStatus"}}

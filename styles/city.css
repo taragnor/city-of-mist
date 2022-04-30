@@ -2973,3 +2973,8 @@ img.waiting-msg {
 	cursor: pointer;
 }
 
+.status-add-message {
+	text-align: center;
+	font-weight: bold;
+}
+

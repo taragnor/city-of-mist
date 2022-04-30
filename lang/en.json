@@ -302,6 +302,11 @@
 "CityOfMist.dialog.SHB.logosPower":"Draw upon Logos power (Optional Rule)",
 "CityOfMist.dialog.SHB.yes":"Lets do this!",
 "CityOfMist.dialog.SHB.no":"Wait, I changed my mind",
+"CityOfMist.dialog.statusAdd.CoMClassic": "Choose status tier to add/subtract",
+"CityOfMist.dialog.statusAdd.CoMReloaded": "Choose number of boxes to add/subtract",
+"CityOfMist.dialog.statusDrop.CoMReloaded": "Choose number of boxes to subtract",
+
+
 
 "CityOfMist.settings.gritMode.name": "Grit Mode",
 "CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",

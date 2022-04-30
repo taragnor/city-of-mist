@@ -1,6 +1,8 @@
 export class CityDialogs {
 
 	static async statusDropDialog(actor, name, tier, facedanger = false) {
+		const classic = CityHelpers.isClassicCoM();
+		const reloaded = CityHelpers.isCoMReloaded();
 		const statusList = actor.my_statuses;
 		// if (statusList.length == 0)
 		// 	return {
@@ -8,7 +10,7 @@ export class CityDialogs {
 		// 		name,
 		// 		tier
 		// 	};
-			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger});
+			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger, classic, reloaded});
 			return new Promise ( (conf, _reject) => {
 				const dialog = new Dialog({
 					title:`Add Dropped Status: ${name}`,
@@ -23,18 +25,32 @@ export class CityDialogs {
 							callback: (html) => {
 								const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
 								const newName = $(html).find(".status-name").val();
-								const facedanger = $(html).find(".face-danger").is(":checked");
+								let facedanger;
+								let pips = 0;
+								let boxes;
+								if (classic) {
+								facedanger = $(html).find(".face-danger").is(":checked");
+									tier -= facedanger ? 1 : 0;
+								} else {
+									facedanger = $(html).find(".face-danger").val();
+									let boxes = CityHelpers.statusTierToBoxes(tier);
+									boxes -= facedanger ?? 0;
+									({tier, pips} = CityHelpers.statusBoxesToTiers(boxes));
+									console.log( `${tier}, ${pips}`);
+								}
 								if (!statusChoiceId )
 									return conf({
 										action: "create",
 										name,
-										tier: tier - (facedanger ? 1 : 0)
+										tier,
+										pips
 									});
 								return conf({
 									action:"merge",
 									name: newName,
 									statusId: statusChoiceId,
-									tier: tier - (facedanger ? 1 : 0)
+									tier : boxes ?? tier,
+									pips
 								});
 							}
 						},

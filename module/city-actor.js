@@ -298,9 +298,9 @@ export class CityActor extends Actor {
 		return (await this.createEmbeddedDocuments("Item", [obj]))[0];
 	}
 
-	async createNewStatus (name, tier=1) {
+	async createNewStatus (name, tier=1, pips=0) {
 		const obj = {
-			name, type: "status", data : {pips:0, tier}};
+			name, type: "status", data : {pips, tier}};
 		return await this.createNewItem(obj);
 	}
 
@@ -877,12 +877,18 @@ export class CityActor extends Actor {
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2, tier2) {
+	async addOrCreateStatus (name2, tier2, pips=0) {
+		const classic = CityHelpers.isClassicCoM();
+		const reloaded = CityHelpers.isCoMReloaded();
 		let status = this.hasStatus(name2);
 		if (status) {
+			if (reloaded) {
+				tier2= CityHelpers.statusTiertoBoxes(tier2, pips); //convert to boxes
+
+			}
 			return await status.addStatus(tier2);
 		} else {
-			return await this.createNewStatus(name2, tier2);
+			return await this.createNewStatus(name2, tier2, pips);
 		}
 	}
 

@@ -725,7 +725,7 @@ export class CityActorSheet extends CitySheet {
 		if (retval == null) return null;
 		switch (retval.action) {
 			case 'create':
-				const status = await this.actor.addOrCreateStatus(retval.name, retval.tier);
+				const status = await this.actor.addOrCreateStatus(retval.name, retval.tier, retval.pips);
 				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
 			case 'merge':
@@ -982,7 +982,9 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _statusAddSubDialog(status, title) {
-		const templateData = {status: status.data, data: status.data.data};
+		const classic = CityHelpers.isClassicCoM();
+		const reloaded = CityHelpers.isCoMReloaded();
+		const templateData = {status: status.data, data: status.data.data, classic, reloaded};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {
 			const options ={};
