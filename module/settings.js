@@ -46,13 +46,19 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
-	game.settings.register("city-of-mist", "commutativeStatusAddition", {
-		name: localize("CityOfMist.settings.commutativeStatusAddition.name"),
-		hint: localize("CityOfMist.settings.commutativeStatusAddition.hint"),
+
+	game.settings.register("city-of-mist", "statusAdditionSystem", {
+		name: localize("CityOfMist.settings.statusAdditionSystem.name"),
+		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
-		default: false,
+		default: "classic",
+		choices: {
+			"classic" : "Classic CoM",
+			"classic-commutative": "Classic (Commutitive)",
+			"reloaded": "CoM Reloaded (+/- Boxes)"
+		},
 		restrict: true
 	});
 
