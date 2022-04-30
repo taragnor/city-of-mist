@@ -485,7 +485,12 @@ export class CityItem extends Item {
 		// const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(text);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);
-		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(text, Number(actor.data.data.collective_size ?? 0));
+		let collective_size = actor.data.data?.collective_size ?? 0;
+		collective_size = Number(collective_size);
+		if (Number.isNaN(collective_size)) {
+			collective_size = 0;
+		}
+		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(text, collective_size);
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
 		if (actor)
