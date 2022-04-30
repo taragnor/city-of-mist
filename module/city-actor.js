@@ -851,27 +851,30 @@ export class CityActor extends Actor {
 		}
 	}
 
-	async executeGMMove(move) {
-		const {html, taglist, statuslist} = move.data.data;
+	async executeGMMove (move) {
+		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor: this, move});
+		const {taglist, statuslist} = move.formatGMMoveText(this);
 		const options = { token: null ,
 			speaker: {
 				actor:this,
 				alias: this.getDisplayedName()
 			}
 		};
-		const sender = options?.speaker ?? {};
-		const name = this.getDisplayedName();
-		const processed_html = CityHelpers.nameSubstitution(html, {name});
-		await CityHelpers.sendToChat(processed_html, sender);
-		for (const tagname of taglist)
-			await this.createStoryTag(tagname, true);
-		for (const {name, tier} of statuslist)
-			await this.addOrCreateStatus(name, tier);
+		//TODO: X substitution
+		if (await CityHelpers.sendToChat(html, options)) {
+			for (const {name : tagname} of taglist)
+				await this.createStoryTag(tagname, true);
+			for (const {name, tier} of statuslist
+				.filter( x=>x.options.includes("auto-apply"))
+			)
+				await this.addOrCreateStatus(name, tier);
+		}
+
 	}
 
 	async undoGMMove(move) {
-		const {taglist, statuslist} = move.data.data;
-		for (const tagname of taglist)
+		const {taglist, statuslist} = move.formatGMMoveText(this);
+		for (const {name: tagname} of taglist)
 			await this.deleteStoryTagByName(tagname);
 		for (const {name} of statuslist)
 			await this.deleteStatusByName(name);

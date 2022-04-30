@@ -99,7 +99,6 @@ export class CityItem extends Item {
 		return this.data.type;
 	}
 
-
 	getBuildUpValue() {
 		//used by theme
 		const tagValue = this.tags().reduce( (a,tag) => tag.upgradeCost() + a , 0);
@@ -484,7 +483,9 @@ export class CityItem extends Item {
 	formatGMMoveText(actor) {
 		const text = this.data.data.description;
 		// const {html:taghtml , taglist }  = CityHelpers.tagClassSubstitution(text);
-		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(text, actor.collective_size);
+		if (!actor)
+			throw new Error(`No actor provided on move ${this.name}`);
+		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(text, Number(actor.data.data.collective_size ?? 0));
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
 		if (actor)
