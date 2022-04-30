@@ -748,4 +748,14 @@ export class CityHelpers {
 		await this.updateClue( html, {question, question_rejected} );
 	}
 
+	static getStatusAdditionSystem() {
+return game.settings.get("city-of-mist", "statusAdditionSystem");
+	}
+
+	static isCommutativeStatusAddition() {
+		return this.getStatusAdditionSystem() == "classic-commutative";
+	}
+
+
+
 } //end of class
