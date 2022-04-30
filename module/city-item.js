@@ -254,10 +254,24 @@ export class CityItem extends Item {
 		return true;
 	}
 
-
-	async addStatus (ntier, newname=null) {
-		const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
+	async addStatus (tierOrBoxes, newname= null) {
 		newname = newname ?? this.data.name;
+		const system = CityHelpers.getStatusAdditionSystem();
+		switch (system) {
+			case "classic":
+				return this.addStatus_classic(tierOrBoxes, newname);
+			case"classic-commutative":
+				return this.addStatus_classic(tierOrBoxes, newname);
+			case "reloaded":
+				return this.addStatus_reloaded(tierOrBoxes, newnname);
+			default:
+				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
+		}
+	}
+
+	async addStatus_classic (ntier, newname) {
+		const standardSystem = !CityHelpers.isCommutativeStatusAddition();
+		// const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
 		if (ntier > tier) {
@@ -266,9 +280,10 @@ export class CityItem extends Item {
 				pips = 0;
 				ntier = 0;
 			} else {
-				const temp = tier;
-				tier = ntier;
-				ntier = temp;
+				// const temp = tier;
+				[tier, ntier] = [ntier, tier]; //swap
+				// tier = ntier;
+				// ntier = temp;
 			}
 		}
 		while (ntier-- > 0) {
@@ -276,6 +291,16 @@ export class CityItem extends Item {
 			while (pips >= tier) {
 				pips -= tier++;
 			}
+		}
+		return await this.update( {name:newname, data: {tier, pips}});
+	}
+
+	async addStatus_reloaded (boxes, newname)  {
+		let tier = this.data.data.tier;
+		let pips = this.data.data.pips;
+		pips += boxes;
+		while (pips >= tier) {
+			pips -= tier++;
 		}
 		return await this.update( {name:newname, data: {tier, pips}});
 	}
