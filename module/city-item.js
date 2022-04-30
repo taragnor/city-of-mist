@@ -387,6 +387,7 @@ export class CityItem extends Item {
 		txt = txt.replace("PWRM4", Math.max(4, power));
 		txt = txt.replace("PWRM3", Math.max(3, power));
 		txt = txt.replace("PWRM2", Math.max(2, power));
+		txt = txt.replace("PWR/2", Math.max(1, Math.floor(power/2)));
 		txt = txt.replace("PWR", Math.max(1, power));
 		return txt;
 	}

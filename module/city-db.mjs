@@ -13,6 +13,7 @@ export class CityDB extends DBAccessor {
 		} catch (e) {
 			console.error(`Error Loading Packs - potentially try a browser reload \n ${e}`);
 			setTimeout( () => this.loadPacks(), 5000);
+			throw e;
 		}
 	}
 
@@ -48,26 +49,68 @@ export class CityDB extends DBAccessor {
 		));
 	}
 
-	static async loadMoves() {
-		this.movesList = this.filterItemsByType("move");
-		this.movesList = this.filterOverridedContent(this.movesList);
-		const include = game.settings.get('city-of-mist', "movesInclude");
+	static async loadMovesOfType(type) {
+		let movesList = this.filterItemsByType("move");
+		movesList = this.filterOverridedContent(movesList);
+		movesList = movesList.filter( x=> x.data.data.category == type);
+		let setting;
+		switch (type) {
+			case "Core" :
+				setting = "movesInclude_core";
+				break;
+			case "Advanced":
+			case "SHB":
+				setting = "movesInclude_advanced";
+				break;
+			default :
+				ui.notifications.warn(`Unknown category ${type}`);
+				throw new Error(`Unknown Category ${type}`);
+		}
+		const include = game.settings.get('city-of-mist', setting) ?? "classic";
+		const custom_moves = movesList.filter( x=> x.data.data.system == "custom");
 		switch (include) {
-			case "all":
+			case "classic":
+				return movesList.filter( x=> x.data.data.system == "classic")
+					.concat(custom_moves);
 				break;
-			case "core-only":
-				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Core");
-				break;
-			case "advanced-only":
-				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Advanced" || x.data.data.category == "SHB");
+			case "reloaded":
+				return movesList.filter( x=> x.data.data.system == "reloaded")
+					.concat(custom_moves);
 				break;
 			case "none":
-				this.movesList = this.movesList.filter( x=> x.data.data.system != "classic");
+				return []
+					.concat(custom_moves);
 				break;
 			default:
 				console.warn(`Unknown movesInclude setting ${include}`);
 		}
-		this.movesList.sort( (a,b) => a.name.localeCompare(b.name));
+	}
+
+	static async loadMoves() {
+		// this.movesList = this.filterItemsByType("move");
+		// this.movesList = this.filterOverridedContent(this.movesList);
+		const core = await this.loadMovesOfType("Core");
+		const advanced = await this.loadMovesOfType("Advanced");
+		const SHB = await this.loadMovesOfType("SHB");
+		this.movesList = core
+			.concat(advanced)
+			.concat(SHB)
+			.sort( (a,b) => a.name.localeCompare(b.name));
+		// const include = game.settings.get('city-of-mist', "movesInclude_core");
+		// switch (include) {
+		// 	case "classic":
+		// 		this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Core");
+		// 		break;
+		// 	case "reloaded":
+		// 		this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Advanced" || x.data.data.category == "SHB");
+		// 		break;
+		// 	case "none":
+		// 		this.movesList = this.movesList.filter( x=> x.data.data.system == "Custom");
+		// 		break;
+		// 	default:
+		// 		console.warn(`Unknown movesInclude setting ${include}`);
+		// }
+		// this.movesList.sort( (a,b) => a.name.localeCompare(b.name));
 		Hooks.callAll("movesLoaded");
 		return true;
 	}

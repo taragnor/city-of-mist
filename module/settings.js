@@ -171,25 +171,39 @@ export const registerSystemSettings = function() {
 // **************************************************
 // ************   Developer Settings  ************* *
 // **************************************************
-
-	game.settings.register("city-of-mist", "movesInclude", {
+	game.settings.register("city-of-mist", "movesInclude_core", {
 		name: "(DEV) Include Core Moves",
 		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 		scope: "world",
 		config: true,
 		type: String,
-		default: "all",
+		default: "classic",
 		choices: {
-			"all" : "Include all moves",
-			"core-only": "Core moves only",
-			"advanced-only": "Non-core moves only",
-			"none": "No base system moves",
+			"classic" : "Classic City of Mist core moves",
+			"reloaded": "CoM: Reloaded core moves",
+			"none": "No core moves",
+		},
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
+	game.settings.register("city-of-mist", "movesInclude_advanced", {
+		name: "(DEV) Include Advanced Moves",
+		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+		scope: "world",
+		config: true,
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : "Classic City of Mist advanced moves",
+			"none": "No advanced moves",
 		},
 		restrict: true,
 		onChange: _ => window.location.reload()
 	});
 
 }
+
 
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");
