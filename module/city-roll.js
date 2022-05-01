@@ -1,5 +1,6 @@
 import { CityItem } from "./city-item.js";
 import { CityDB } from "./city-db.mjs";
+import { ClueChatCards } from "./clue-cards.mjs";
 
 export class CityRoll {
 	#roll;
@@ -317,7 +318,7 @@ export class CityRoll {
 					if (total >= 7) {
 						const totalClues = Math.max(power, 1);
 						for (let i=0; i < totalClues; i++) {
-							await CityHelpers.postClue( {
+							await ClueChatCards.postClue( {
 								actorId: actor.id,
 								metaSource,
 								method: `${move.name} : ${tags}`,

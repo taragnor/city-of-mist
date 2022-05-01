@@ -14,7 +14,7 @@ export class Logger {
 			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
 			whisper: gmIds
 		};
-		await ChatMessage.create(messageData, {});
+		return await ChatMessage.create(messageData, {});
 	}
 
 	static async sendToChat(text, sender={}) {
@@ -28,6 +28,19 @@ export class Logger {
 		};
 		ChatMessage.create(messageData, {});
 		return messageData;
+	}
+
+	static async sendToChat2(text, sender={}) {
+		// const speaker = ChatMessage.getSpeaker(sender);
+		const alias = sender?.alias;
+		const speaker = ChatMessage.getSpeaker({alias});
+		let messageData = {
+			speaker: speaker,
+			content: text,
+			type: CONST.CHAT_MESSAGE_TYPES.OOC
+		};
+		const msg = await ChatMessage.create(messageData, {});
+		return msg;
 	}
 
 }

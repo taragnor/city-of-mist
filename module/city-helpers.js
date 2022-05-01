@@ -600,7 +600,7 @@ export class CityHelpers {
 		return setting == "auto";
 	}
 
-	static async dragFunctionality(app, html, data) {
+	static async dragFunctionality(_app, html, _data) {
 		html.find('.draggable').on("dragstart", this.dragStart.bind(this));
 		html.find('.draggable').on("dragend", this.dragEnd.bind(this));
 	}
@@ -617,136 +617,6 @@ export class CityHelpers {
 		return true;
 	}
 
-	static async postClue (templateData) {
-		const actor = CityDB.getActorById(templateData.actorId);
-		// const	templateData= {actorId, metaSource, method};
-		if (!templateData.metaSource)
-			console.warn("No metasource for clue");
-		if (!actor)
-			throw new Error(`Couldnt find actor Id ${actorId}`);
-		const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
-		await CityLogger.sendToChat(html, {actor});
-	}
-
-	static async updateClue (html, newdata ={}) {
-		const messageId = html.data("messageId");
-		const message = game.messages.get(messageId);
-		const question = $(html).find(".clue-reveal").data("question");
-		// const answer = $(html).find(".clue-reveal").data("answer");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const method = $(html).find(".clue-reveal").data("method");
-		const source = $(html).find(".clue-reveal").data("source");
-		const metaSource = $(html).find(".clue-reveal").data("metaSource");
-		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
-		const	templateData = {question, method, source, actorId, partial_clue, metaSource, messageId, ...newdata};
-		if (!metaSource)
-			console.warn("No metasource for clue");
-		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
-		const msg = await  message.update( {content:new_html});
-		await ui.chat.updateMessage( msg, false);
-	}
-
-	static async clueEditButtonHandlers(_app, html, _data) {
-		if ($(html).find(".clue-reveal").length == 0)
-			return true;
-		$(html).find(".question-part .submit-button").click (
-			() => {
-				this.clue_submitQuestion(html);
-			});
-		$(html).find(".partial-clue").click (
-			() => {
-				this.clue_partialClueCheckbox(html);
-			});
-		$(html).find(".question-part .bank-button").click (
-			() => {
-				this.clue_bankClue(html);
-			});
-		$(html).find(".answer-part .submit-button").click (
-			() => {
-				this.clue_submitAnswer(html);
-			});
-		$(html).find(".answer-part .edit-button").click (
-			() => {
-				this.clue_editAnswer(html);
-			});
-		$(html).find(".answer-part .refund-button").click (
-			() => {
-				this.clue_refundClue(html);
-			});
-		$(html).find(".answer-part .add-to-journal-button").click (
-			() => {
-				this.clue_addToJournal(html);
-			});
-		if (game.user.isGM) {
-			$(html).find(".player-only").hide();
-		} else {
-			$(html).find(".gm-only").hide();
-			const actorId = $(html).find(".clue-reveal").data("actorId");
-			const actor = game.actors.find( x=> x.id == actorId);
-			if ( actor && !actor.isOwner) {
-				$(html).find(".player-only").hide();
-				$(html).find(".3rd-party").show();
-			}
-		}
-		return true;
-	}
-
-	static async clue_submitQuestion(html) {
-		const question = $(html).find(".question-part .question-input").val();
-		await this.updateClue( html, {question});
-	}
-
-	static async clue_bankClue(html) {
-		const messageId = html.data("messageId");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const huge_method = $(html).find(".clue-reveal").data("method");
-		const source = $(html).find(".clue-reveal").data("source");
-		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
-		const metaSource = $(html).find(".clue-reveal").data("metaSource");
-		const actor = CityDB.findById(actorId, "Actor");
-		if (!actor ) throw new Error(`Couldn't find Actor ${actorId}`);
-		const [name, method]   = huge_method.split(":").map (x=> x.trim());
-		const clueData = {partial: partial_clue, name, method, source};
-		const message = game.messages.get(messageId);
-		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
-		const msg = await  message.update( {content: new_html});
-		await ui.chat.updateMessage( msg, false);
-		await actor.createClue(metaSource, clueData);
-	}
-
-	static async clue_submitAnswer(html) {
-		// const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".answer-part .answer-input").val();
-		await this.updateClue( html, {answer});
-	}
-
-	static async clue_editAnswer(html) {
-		const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".clue-reveal").data("answer");
-		await this.updateClue( html, {question, partial_answer_text: answer});
-	}
-
-	static async clue_addToJournal(html) {
-		const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".clue-reveal").data("answer");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const actor = CityDB.findById(actorId, "Actor");
-		if (await actor.addClueJournal(question, answer))
-			await CityHelpers.playWriteJournal();
-	}
-
-	static async clue_partialClueCheckbox(html) {
-		if (!game.user.isGM) return;
-		const partial_clue = $(html).find(".partial-clue").is(":checked");
-		const answer = $(html).find(".clue-reveal").data("answer");
-		await this.updateClue(html, {answer, partial_clue});
-	}
-
-	static async clue_refundClue(html) {
-		const question_rejected= true;
-		const question = "";
-		await this.updateClue( html, {question, question_rejected} );
-	}
 
 	static getStatusAdditionSystem() {
 return game.settings.get("city-of-mist", "statusAdditionSystem");
@@ -781,6 +651,10 @@ return game.settings.get("city-of-mist", "statusAdditionSystem");
 			pips = 0;
 		return {pips, tier};
 
+	}
+
+	static delay(time) {
+		  return new Promise(resolve => setTimeout(resolve, time));
 	}
 
 } //end of class

@@ -26,6 +26,7 @@ import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mj
 import { VersionUpdater } from "./version-update.mjs";
 import { CityHandlebarsHelpers } from "./city-handlebars-helpers.mjs";
 
+import {ClueChatCards } from "./clue-cards.mjs";
 
 window.CityHelpers = CityHelpers;
 
@@ -38,7 +39,7 @@ window.getClosestData = HTMLTools.getClosestData;
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality(app, html, data));
-Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.clueEditButtonHandlers(app, html, data));
+Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
 
 
 Hooks.once("cityDBLoaded", async function() {

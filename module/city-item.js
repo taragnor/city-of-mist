@@ -1,3 +1,5 @@
+import { ClueChatCards } from "./clue-cards.mjs";
+
 export class CityItem extends Item {
 
 
@@ -556,13 +558,11 @@ export class CityItem extends Item {
 	}
 
 	async spend( amount= 1 ) {
-		console.log("Running Clue Spend");
 		const curr = this.getAmount();
 		if (amount > curr)
 			console.error("${this.name}: Trying to spend more ${this.type} (${amount}) than you have ${curr}");
 		const obj = await this.update( {"data.amount": curr - amount});
 		if (curr - amount <= 0) {
-			console.log("DELETING");
 			return await this.delete();
 		}
 		return obj;
@@ -622,7 +622,7 @@ export class CityItem extends Item {
 	async spend_clue() {
 		if (this.getAmount() <= 0)
 			throw new Error("Can't spend clue with no amount")
-		await CityHelpers.postClue( {
+		await ClueChatCards.postClue( {
 			actorId: this.actor.id,
 			metaSource: this,
 			method: this.data.data.method,
