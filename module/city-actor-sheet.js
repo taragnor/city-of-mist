@@ -213,15 +213,30 @@ export class CityActorSheet extends CitySheet {
 					default:
 						throw new Error(`Unknown Tag Subtype ${subtype}`);
 				}
-				for (const [key, values] of Object.entries(themebook.data.data[subtypex])) {
-					list.push({_id: key, name: values, theme_id: themeId, subtype, description: ""});
-				}
-				list = list.filter( x=> !x.name.includes("_DELETED_"));
+				list = themebook.themebook_getTagQuestions(subtype)
+					.map( x=> {
+						return  {
+							_id: x.letter,
+							name: x.question,
+							theme_id: themeId,
+							subtype,
+							subtag: x.subtag,
+							description: ""
+						};
+					});
 				break;
 			case "improvement":
-				for (let [key, values] of Object.entries(themebook.data.data.improvements)) {
-					list.push({_id: key, orig_obj: values,  name:values.name, theme_id: themeId, description: values.description});
-				}
+				list = themebook.themebook_getImprovements()
+					.map( x=> {
+						return {
+							_id: x.number,
+							name: x.name,
+							description: x.description,
+							uses: x.uses,
+							effect_class: x.effect_class,
+							theme_id: themeId
+						};
+					});
 				break;
 			default:
 				throw new Error(`Unknown Type ${type}`);
@@ -825,13 +840,14 @@ export class CityActorSheet extends CitySheet {
 
 	async _addBUImprovement (_event) {
 		const list = await CityHelpers.getBuildUpImprovements();
-		const choiceList = list.map ( x => {
-			return {
-				id: x.id,
-				data: [x.name],
-				description: x.data.description
-			}
-		});
+		const choiceList = list
+			.map ( x => {
+				return {
+					id: x.id,
+					data: [x.name],
+					description: x.data.description
+				}
+			});
 		const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
 		if (!choice)
 			return;

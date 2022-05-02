@@ -78,12 +78,10 @@ export class CityItemSheet extends ItemSheet {
 		questions[letter] = undefined;
 		const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let currentlet = 0
-		let maxlet = "";
 		for (let letter of letters) {
 			if (questions[letter] != undefined){
 				let letter2 = letters[currentlet++];
 				pq2[letter2]= questions[letter];
-				maxlet = letter;
 			}
 		}
 		let letter2 = letters[currentlet];
@@ -92,19 +90,21 @@ export class CityItemSheet extends ItemSheet {
 		obj.data[type] = pq2;
 		return this.item.update(obj);
 	}
+
+//NOTE: I really need to refactor this awful format at some point
 	async _addPowerTagQuestion(event) {
 		const type = $(event.currentTarget).data("tagType");
 		event.preventDefault();
 		let questions = this.item.data.data[type];
 		const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let currlet = 0;
-		let pq2= Object.assign({}, questions);
+		let pq2 = Object.assign({}, questions);
 		let found = false;
 		while (currlet < 25 && !found) {
 			let letter = letters[currlet++];
 			if (pq2[letter] == undefined || pq2[letter] == "_DELETED_") {
 				found = true;
-				pq2[letter]=  "";
+				pq2[letter] =  "";
 			}
 		}
 		let obj = {data: {}};

@@ -106,7 +106,8 @@
 			"custom_tag": false,
 			"broad": false,
 			"temporary": false,
-			"permanent": false
+			"permanent": false,
+			"parentId": ""
 		},
 		"theme": {
 			"templates": ["default"],

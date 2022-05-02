@@ -13,7 +13,7 @@ export class CityItem extends Item {
 
 	prepareDerivedData() {
 		super.prepareDerivedData();
-		switch (this.type){
+		switch (this.type) {
 			case "improvement":
 				this.data.data.choice_type = this.getChoiceType();
 				break;
@@ -630,6 +630,42 @@ export class CityItem extends Item {
 		});
 		await this.spend();
 	}
+
+	//convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
+	themebook_getTagQuestions (type = "power") {
+		const questionObj = this.data.data[`${type}_questions`];
+		return Object.entries(questionObj)
+			.map( ([letter, data]) => {
+				let question = "ERROR";
+				let subtag = false;
+				if (typeof data == "string") {
+					question = data;
+					subtag = false;
+				} else if (typeof data == "object") {
+					({question, subtag} = data);
+
+					}
+				return { letter,question, subtag};
+			}).filter( item => !item.question.includes("_DELETED_"));
+		}
+
+	themebook_getImprovements (type = "power") {
+		const improvementsObj = this.data.data.improvements;
+		return Object.entries(improvementsObj)
+			.map( ([number, data]) => {
+				return {
+					number,
+					name: data.name,
+					description: data.description,
+					uses: data.uses,
+					effect_class: data.effect_class,
+				};
+			})
+	}
+
+
+
+
 
 }
 
