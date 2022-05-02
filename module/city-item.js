@@ -643,13 +643,12 @@ export class CityItem extends Item {
 					subtag = false;
 				} else if (typeof data == "object") {
 					({question, subtag} = data);
-
 					}
 				return { letter,question, subtag};
 			}).filter( item => !item.question.includes("_DELETED_"));
 		}
 
-	themebook_getImprovements (type = "power") {
+	themebook_getImprovements () {
 		const improvementsObj = this.data.data.improvements;
 		return Object.entries(improvementsObj)
 			.map( ([number, data]) => {
