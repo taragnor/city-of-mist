@@ -124,29 +124,8 @@
 			{{/if}}
 		</div>
 	</div>
-	<ul class="tag-list">
-		{{#each owner.items as |tag |}}
-		{{#if (eq tag.type "tag")}}
-		{{#if (eq tag.data.data.theme_id ../theme.id)}}
-		{{#if (eq tag.data.data.subtype "power")}}
-		<li>
-			{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=../owner locked=../locked sheetowner=../sheetowner canBurn=true data=tag.data.data}}
-		</li>
-		{{/if}}
-		{{/if}}
-		{{/if}}
-		{{/each}}
-		{{#each owner.items as |tag| }}
-		{{#if (eq tag.type "tag")}}
-		{{#if (eq tag.data.data.theme_id ../theme.id)}}
-		{{#if (eq tag.data.data.subtype "weakness")}}
-		<li>
-			{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=../owner locked=../locked sheetowner=../sheetowner canBurn=false data=tag.data.data }}
-		</li>
-		{{/if}}
-		{{/if}}
-		{{/if}}
-		{{/each}}
+	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
+	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
 		<div id="improvements-header" class="improvements-header"> {{localize 'CityOfMist.terms.improvements' }}
 			{{#if (gt data.unspent_upgrades 0)}}
 			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner.id}}" data-theme-id="{{theme.id}}" title= "Add Improvement"> <i class="fas fa-plus-square"></i></a>

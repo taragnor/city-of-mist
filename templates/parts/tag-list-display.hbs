@@ -1,0 +1,24 @@
+<ul class="tag-list">
+	{{#each itemlist as |tag |}}
+	{{#if (eq tag.type "tag")}}
+	{{#if (eq tag.data.data.theme_id ../themeId)}}
+	{{#if (eq tag.data.data.subtype ../subtype)}}
+	{{#if (eq tag.data.data.parentId ../supertag)}}
+	<li>
+		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=../owner locked=../locked sheetowner=../sheetowner canBurn=true data=tag.data.data}}
+	{{#if tag.subtags}}
+	{{#each tag.subtags as |st|}}
+	<ul class="sub-tag-list">
+		<li>
+		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=st owner=../../owner locked=../../locked sheetowner=../../sheetowner canBurn=true data=st.data.data}}
+		</li>
+	</ul>
+	{{/each}}
+	</li>
+	{{/if}}
+	{{/if}}
+	{{/if}}
+	{{/if}}
+	{{/if}}
+	{{/each}}
+</ul>

@@ -42,6 +42,12 @@ export class CityItem extends Item {
 		return this?.data?.data?.effect_class?.split(" ") ?? [];
 	}
 
+	get subtags() {
+		if (!this.parent) return [];
+		return this.parent.getTags().
+			filter( tag => tag.data.data.parentId == this.id);
+	}
+
 	isImprovementActivated(move_id, actor) {
 		const move = CityHelpers.getMoveById(move_id);
 		const moveAbbr = move.data.data.abbreviation;

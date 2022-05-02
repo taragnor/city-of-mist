@@ -1281,6 +1281,7 @@ section.juice-data-block {
 	text-transform: uppercase;
 	margin-bottom: 0;
 	margin-left: 0.3em;
+	margin-top: 7px;
 }
 
 .theme-destruction-message .tags-header {
@@ -1396,7 +1397,15 @@ ul.tag-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	margin-bottom: 7px;
+	/* margin-bottom: 7px; */
+}
+
+ul.sub-tag-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 ;
+	margin-left: 12px;
+	size: 0.9rem;
 }
 
 ul.improvement-list {
