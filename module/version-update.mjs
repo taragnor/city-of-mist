@@ -131,3 +131,39 @@ export class VersionUpdater {
 
 }
 
+export class ThemebookUpdater {
+	/** updates themebooks questions to new format*/
+	static async updateQuestions(themebook) {
+		await this.updateQuestionsSub(themebook, "power_questions");
+		await this.updateQuestionsSub(themebook, "weakness_questions");
+	}
+
+	static async updateQuestionsSub(themebook, listname) {
+		const obj = themebook.data.data[listname];
+		const newlist = Object.entries(obj)
+		.map ( ([letter, data]) =>{ return{ letter ,data}})
+		.filter(({letter, data}) => data != "_DELETED_")
+		.map( ({letter, data}) => {
+			if (typeof data != "string")
+				return data;
+			return {
+				letter: letter,
+				question: data,
+				subtag: false
+			};
+		})
+		.reduce( (acc, x) => {
+			acc[x.letter] = {
+				question: x.question,
+				subtag: x.subtag,
+			}
+				return acc;
+		}, {});
+		const updateObject = { data: {}};
+		updateObject.data[listname]  = newlist;
+		await themebook.update(updateObject);
+		return true;
+	}
+
+}
+

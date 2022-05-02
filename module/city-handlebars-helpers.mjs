@@ -161,6 +161,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return (game.settings.get('city-of-mist', "devMode"));
 		},
 
+		'isOldFormQuestion': function (question) {
+			return typeof question == "string";
+		}
+
 	}; //end of object holding helpers
 } // end of class
 

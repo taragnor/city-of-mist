@@ -107,7 +107,8 @@
 			"broad": false,
 			"temporary": false,
 			"permanent": false,
-			"parentId": ""
+			"parentId": "",
+			"subtagRequired": false
 		},
 		"theme": {
 			"templates": ["default"],

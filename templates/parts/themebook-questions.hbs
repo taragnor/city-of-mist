@@ -1,0 +1,30 @@
+<div id="{{tagtype}}-questions">
+	<h1 id="{{tagtype}}-tags-header"> {{tagtype}} tags
+		<a class="item-create-{{tagtype}}-tag-question" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
+	</h1>
+	{{#each questionList as |question ind|}}
+		{{#if (isOldFormQuestion question)}}
+			{{#if (ne question "_DELETED_")}}
+				<div id="{{./tagtype}}-question-{ind}">
+					<span class="question-letter">
+						{{ind}}
+					</span>
+					<input class="question-entry" name="data.{{../tagtype}}_questions.{{ind}}" type="text" value="{{question}}" placeholder=""/>
+					<a class="delete-tag-question" data-tag-type="{{../tagtype}}_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+				</div>
+			{{/if}}
+		{{else}}
+			<div>
+				<div id="{{./tagtype}}-question-{ind}">
+					<span class="question-letter">
+						{{ind}}
+					</span>
+					<input class="question-entry" name="data.{{../tagtype}}_questions.{{ind}}.question" type="text" value="{{question.question}}" placeholder=""/>
+					<input class="checkbox" name="data.{{../tagtype}}_questions.{{ind}}.subtag" type="checkbox" {{#if question.subtag}} checked {{/if}} />
+					<a class="delete-tag-question" data-tag-type="{{../tagtype}}_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+				</div>
+			</div>
+		{{/if}}
+	{{/each}}
+</div>
+

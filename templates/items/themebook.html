@@ -19,34 +19,8 @@
 	<label class="dialog-label" for="free-content"> Allow Override </label>
 	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
 		<textarea name="data.description">{{data.description}}</textarea>
-		<div id="power-questions">
-			<h1 id="power-tags-header"> Power Tags
-				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="power_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
-			</h1>
-			{{#each data.power_questions as |question ind|}}
-			{{#if (ne question "_DELETED_")}}
-			<div id="power-question-{ind}">
-				<span class="question-letter">	{{ind}} </span>
-				<input class="question-entry" name="data.power_questions.{{ind}}" type="text" value="{{question}}" placeholder=""/>
-				<a class="delete-tag-question" data-tag-type="power_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
-			</div>
-			{{/if}}
-			{{/each}}
-		</div>
-		<div id="weakness-questions">
-			<h1 id="weakness-tags-header"> Weakness Tags
-				<a class="item-create-power-tag-question" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
-			</h1>
-			{{#each data.weakness_questions as |question ind|}}
-			{{#if (ne question "_DELETED_")}}
-			<div id="weakness-question-{ind}">
-				<span class="question-letter">	{{ind}} </span>
-				<input class="question-entry" name="data.weakness_questions.{{ind}}" type="text" value="{{question}}" placeholder=""/>
-				<a class="delete-tag-question" data-tag-type="weakness_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
-			</div>
-			{{/if}}
-			{{/each}}
-		</div>
+						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="power" questionList=data.power_questions}}
+						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="weakness" questionList=data.weakness_questions}}
 		<div id="improvements">
 			<h1 id="improvements-header"> Improvements
 				<a class="add-improvement" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>

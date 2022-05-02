@@ -2978,3 +2978,7 @@ img.waiting-msg {
 	font-weight: bold;
 }
 
+input.checkbox {
+	vertical-align: middle;
+
+}

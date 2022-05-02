@@ -25,4 +25,13 @@
 	{{/if}}
 	<div class="description-header">Description</div>
 	<textarea name="data.description">{{item.data.data.description}}</textarea>
+	<label> Subtag </label>
+	<select class="" name="data.parentId" >
+		{{#select item.data.data.parentId}}
+		<option value=""> None </option>
+		{{#each otherTagList as |tag id|}}
+		<option value="{{tag.id}}"> {{tag.name}} </option>
+		{{/each}}
+		{{/select}}
+	</select>
 </form>

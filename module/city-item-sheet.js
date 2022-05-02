@@ -22,6 +22,11 @@ export class CityItemSheet extends ItemSheet {
 		data.data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.data.data.category == "Core")
 			.map( x=> x.name );
+		if (this.item.type == "tag") {
+			data.otherTagList = this.item.parent
+				?.getTags()
+				?.filter(tag => tag.data.data.theme_id == this.item.data.data.theme_id && !tag.data.data.parentId)
+		}
 		return data;
 	}
 
@@ -58,6 +63,7 @@ export class CityItemSheet extends ItemSheet {
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 		html.find(".item-create-power-tag-question").click(this._addPowerTagQuestion.bind(this));
+		html.find(".item-create-weakness-tag-question").click(this._addPowerTagQuestion.bind(this));
 		html.find(".delete-tag-question").click(this._deletePowerTagQuestion.bind(this));
 		html.find(".add-improvement").click(this._addImprovement.bind(this));
 		html.find(".delete-improvement").click(this._deleteImprovement.bind(this));
@@ -92,6 +98,26 @@ export class CityItemSheet extends ItemSheet {
 	}
 
 //NOTE: I really need to refactor this awful format at some point
+	// async _addPowerTagQuestion(event) {
+	// 	const type = $(event.currentTarget).data("tagType");
+	// 	event.preventDefault();
+	// 	let questions = this.item.data.data[type];
+	// 	const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	// 	let currlet = 0;
+	// 	let pq2 = Object.assign({}, questions);
+	// 	let found = false;
+	// 	while (currlet < 25 && !found) {
+	// 		let letter = letters[currlet++];
+	// 		if (pq2[letter] == undefined || pq2[letter] == "_DELETED_") {
+	// 			found = true;
+	// 			pq2[letter] =  "";
+	// 		}
+	// 	}
+	// 	let obj = {data: {}};
+	// 	obj.data[type] = pq2;
+	// 	return await this.item.update(obj);
+	// }
+
 	async _addPowerTagQuestion(event) {
 		const type = $(event.currentTarget).data("tagType");
 		event.preventDefault();
@@ -104,7 +130,10 @@ export class CityItemSheet extends ItemSheet {
 			let letter = letters[currlet++];
 			if (pq2[letter] == undefined || pq2[letter] == "_DELETED_") {
 				found = true;
-				pq2[letter] =  "";
+				pq2[letter] =  {
+					question: "",
+					subtag: false
+				};
 			}
 		}
 		let obj = {data: {}};
@@ -126,6 +155,7 @@ export class CityItemSheet extends ItemSheet {
 		}
 		return await this.item.update({data:{improvements:i2}});
 	}
+
 	async _deleteImprovement (event) {
 		const index = $(event.currentTarget).data("improvementIndex");
 		const improvements = this.item.data.data.improvements;
