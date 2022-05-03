@@ -258,7 +258,8 @@ export class CityRoll {
 	static getTotal (roll) {
 		const modifiers = roll.options.modifiers;
 		const power = CityRoll.getPower(modifiers);
-		return roll.total + power;
+		const rollCap = CityHelpers.getRollCap();
+		return roll.total + Math.min(rollCap, power);
 	}
 
 	static getPower (modifiers) {

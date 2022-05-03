@@ -677,6 +677,10 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 
 	}
 
+	static getRollCap() {
+		return game.settings.get("city-of-mist", "maxRollCap");
+	}
+
 	static delay(time) {
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
