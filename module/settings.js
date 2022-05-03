@@ -55,9 +55,9 @@ export const registerSystemSettings = function() {
 		type: String,
 		default: "classic",
 		choices: {
-			"classic" : "Classic CoM",
-			"classic-commutative": "Classic (Commutitive)",
-			"reloaded": "CoM Reloaded (+/- Boxes)"
+			"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
+			"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
+			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
 		},
 		restrict: true
 	});
@@ -70,8 +70,8 @@ export const registerSystemSettings = function() {
 		type: String,
 		default: "classic",
 		choices: {
-			"classic" : "Classic CoM",
-			"reloaded": "CoM Reloaded (+/- Boxes)"
+			"classic" : localize("CityOfMist.settings.statuSubtractionSystem.0"),
+			"reloaded": localize("CityOfMist.settings.statuSubtractionSystem.1")
 		},
 		restrict: true
 	});
