@@ -28,7 +28,6 @@ export class VersionUpdater {
 			console.error(`Tags not present on ${actor.name}`);
 			return;
 		}
-
 		for (const tag of actor.getTags()) {
 			if (tag.data.data.subtagRequired === undefined  || actor.versionIsLessThan("2.4.6")) {
 				const themeId = tag.data.data.theme_id;
@@ -58,7 +57,6 @@ export class VersionUpdater {
 				console.debug(`${actor.name} (${tag.name})  Updated`);
 			}
 		}
-
 	}
 
 	static async updateVersion(version) {
