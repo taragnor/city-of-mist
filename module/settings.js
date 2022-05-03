@@ -62,6 +62,20 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "statuSubtractionSystem", {
+		name: localize("CityOfMist.settings.statuSubtractionSystem.name"),
+		hint: localize("CityOfMist.settings.statuSubtractionSystem.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : "Classic CoM",
+			"reloaded": "CoM Reloaded (+/- Boxes)"
+		},
+		restrict: true
+	});
+
 	game.settings.register("city-of-mist", "monologueAttention", {
 		name: localize("CityOfMist.settings.monologueAttention.name"),
 		hint: localize("CityOfMist.settings.monologueAttention.hint"),

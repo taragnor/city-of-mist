@@ -265,8 +265,8 @@
 "CityOfMist.reloaded.moves.buff.success": "Add or remove one tag or status box for each point of power (PWRM2). Tags created are obvious, single use and affect one person (or a similar area). You may use one power to purchase one of the following upgrades:",
 
 "CityOfMist.reloaded.moves.conflict.name": "Conflict",
-"CityOfMist.reloaded.moves.conflict.partial":"Deal a status with a number of boxes equal to your power and choose one upgrade:",
-"CityOfMist.reloaded.moves.conflict.success": "Deal a status with a number of boxes equal to your power and choose two upgrades:",
+"CityOfMist.reloaded.moves.conflict.partial":"Deal a status of PWR boxes and choose one upgrade:",
+"CityOfMist.reloaded.moves.conflict.success": "Deal a status of PWR boxes and choose two upgrades:",
 "CityOfMist.reloaded.moves.conflict.0": "Avoid a counterattack",
 "CityOfMist.reloaded.moves.conflict.1": "Mark another PWR boxes on the status",
 "CityOfMist.reloaded.moves.conflict.2": "Achieve a tactical goal (as in Stunt)",
@@ -383,8 +383,10 @@
 "CityOfMist.settings.devMode.name": "Developer Mode",
 "CityOfMist.settings.devMode.hint": "Exposes various internal variables of the system (advanced use only).",
 
-"CityOfMist.settings.statusAdditionSystem.name": "Status Addition/Subtraction",
-"CityOfMist.settings.statusAdditionSystem.hint": "Choose which system to use when adding or subtracting statuses",
+"CityOfMist.settings.statusAdditionSystem.name": "Status Addition",
+"CityOfMist.settings.statusAdditionSystem.hint": "Choose which system to use when adding statuses",
+"CityOfMist.settings.statuSubtractionSystem.name": "Status Subtraction",
+"CityOfMist.settings.statuSubtractionSystem.hint": "Choose which system to use when adding statuses",
 
 
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both.",

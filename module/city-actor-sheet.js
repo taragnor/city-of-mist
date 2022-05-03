@@ -988,18 +988,20 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async statusAddDialog(status) {
+		const classic = CityHelpers.isClassicCoM("addition");
+		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const title = `Add Tier to Status`;
-		return await this._statusAddSubDialog(status, title);
+		return await this._statusAddSubDialog(status, title, {classic, reloaded});
 	}
 
 	async statusSubtractDialog(status) {
+		const classic = CityHelpers.isClassicCoM("subtraction");
+		const reloaded = CityHelpers.isCoMReloaded("subtraction");
 		const title = `Subtract Tier to Status`;
-		return await this._statusAddSubDialog(status, title);
+		return await this._statusAddSubDialog(status, title, {classic, reloaded} );
 	}
 
-	async _statusAddSubDialog(status, title) {
-		const classic = CityHelpers.isClassicCoM();
-		const reloaded = CityHelpers.isCoMReloaded();
+	async _statusAddSubDialog(status, title, {classic, reloaded}) {
 		const templateData = {status: status.data, data: status.data.data, classic, reloaded};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {

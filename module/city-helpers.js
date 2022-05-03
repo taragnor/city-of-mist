@@ -622,16 +622,40 @@ export class CityHelpers {
 return game.settings.get("city-of-mist", "statusAdditionSystem");
 	}
 
+	static getStatusSubtractionSystem() {
+return game.settings.get("city-of-mist", "statuSubtractionSystem");
+	}
+
 	static isCommutativeStatusAddition() {
 		return this.getStatusAdditionSystem() == "classic-commutative";
 	}
 
-	static isClassicCoM() {
-		return this.getStatusAdditionSystem().includes("classic");
+	static isClassicCoM(elem) {
+		switch (elem) {
+			case "addition":
+				return this.getStatusAdditionSystem().includes("classic");
+			case "subtraction":
+				return this.getStatusSubtractionSystem().includes("classic");
+			default:
+				const err =`Unknown setting for : ${elem}`;
+				console.error(err);
+				ui.notifications.warn(err);
+				return false;
+		}
 	}
 
-	static isCoMReloaded() {
+	static isCoMReloaded(elem) {
+		switch (elem) {
+			case "addition":
 		return this.getStatusAdditionSystem().includes("reloaded");
+			case "subtraction":
+		return this.getStatusSubtractionSystem().includes("reloaded");
+			default:
+				const err =`Unknown setting for : ${elem}`;
+				console.error(err);
+				ui.notifications.warn(err);
+				return false;
+		}
 	}
 
 	static statusTierToBoxes(tier, pips=0) {

@@ -319,10 +319,9 @@ export class CityItem extends Item {
 
 	async subtractStatus(tierOrBoxes, newname = null) {
 		newname = newname ?? this.data.name;
-		const system = CityHelpers.getStatusAdditionSystem();
+		const system = CityHelpers.getStatusSubtractionSystem();
 		switch (system) {
 			case "classic":
-			case "classic-commutative":
 				return this.subtractStatus_classic(tierOrBoxes, newname);
 			case "reloaded" :
 				return this.subtractStatus_reloaded(tierOrBoxes, newname);

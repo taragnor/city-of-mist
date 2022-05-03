@@ -1,8 +1,8 @@
 export class CityDialogs {
 
 	static async statusDropDialog(actor, name, tier, facedanger = false) {
-		const classic = CityHelpers.isClassicCoM();
-		const reloaded = CityHelpers.isCoMReloaded();
+		const classic = CityHelpers.isClassicCoM("addition");
+		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const statusList = actor.my_statuses;
 		// if (statusList.length == 0)
 		// 	return {
