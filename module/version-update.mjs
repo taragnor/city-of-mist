@@ -134,11 +134,11 @@ export class VersionUpdater {
 export class ThemebookUpdater {
 	/** updates themebooks questions to new format*/
 	static async updateQuestions(themebook) {
-		await this.updateQuestionsSub(themebook, "power_questions");
-		await this.updateQuestionsSub(themebook, "weakness_questions");
+		await this.#updateQuestionsSub(themebook, "power_questions");
+		await this.#updateQuestionsSub(themebook, "weakness_questions");
 	}
 
-	static async updateQuestionsSub(themebook, listname) {
+	static async #updateQuestionsSub(themebook, listname) {
 		const obj = themebook.data.data[listname];
 		const newlist = Object.entries(obj)
 		.map ( ([letter, data]) =>{ return{ letter ,data}})
@@ -153,6 +153,7 @@ export class ThemebookUpdater {
 			};
 		})
 		.reduce( (acc, x) => {
+			if (!x?.letter) return acc;
 			acc[x.letter] = {
 				question: x.question,
 				subtag: x.subtag,
@@ -162,8 +163,11 @@ export class ThemebookUpdater {
 		const updateObject = { data: {}};
 		updateObject.data[listname]  = newlist;
 		await themebook.update(updateObject);
+		console.log(newlist);
 		return true;
 	}
 
 }
+
+window.updater = ThemebookUpdater;
 

@@ -433,7 +433,7 @@ export class CityActor extends Actor {
 		const themebook = await theme.getThemebook();
 		const data = themebook.data.data;
 		const tagdata = themebook
-			.themebook_getTagQuestions("temp_subtype")
+			.themebook_getTagQuestions(temp_subtype)
 			.find( x=> x.letter == question_letter);
 		let custom_tag = false;
 		let question, subtag, subtype;

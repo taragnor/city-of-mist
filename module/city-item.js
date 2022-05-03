@@ -48,6 +48,10 @@ export class CityItem extends Item {
 			filter( tag => tag.data.data.parentId == this.id);
 	}
 
+	get missingParent() {
+		return this.data.data.subtagRequired && !this.data.data.parentId;
+	}
+
 	isImprovementActivated(move_id, actor) {
 		const move = CityHelpers.getMoveById(move_id);
 		const moveAbbr = move.data.data.abbreviation;
@@ -640,6 +644,7 @@ export class CityItem extends Item {
 	//convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
 	themebook_getTagQuestions (type = "power") {
 		const questionObj = this.data.data[`${type}_questions`];
+		if (!questionObj) return [];
 		return Object.entries(questionObj)
 			.map( ([letter, data]) => {
 				let question = "ERROR";
