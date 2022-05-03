@@ -19,11 +19,16 @@ export class VersionUpdater {
 	static async convertActorTags() {
 		const actors = game.actors.map( x=> x);
 		for (const actor of actors) {
-			await this.convertActorTags(actor);
+			await this.convertActorTags_sub(actor);
 		}
 	}
 
-	static async convertActorTags(actor) {
+	static async convertActorTags_sub(actor) {
+		if (!actor.getTags) {
+			console.error(`Tags not present on ${actor.name}`);
+			return;
+		}
+
 		for (const tag of actor.getTags()) {
 			if (tag.data.data.subtagRequired === undefined) {
 				console.log(`Updating ${actor.name}`);
