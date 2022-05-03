@@ -60,6 +60,10 @@
 "CityOfMist.terms.powerTags": "Power Tags",
 "CityOfMist.terms.weaknessTags": "Weakness Tags",
 "CityOfMist.terms.storyTags": "Story Tags",
+"CityOfMist.terms.permanentStoryTag": "Permanent Story Tag",
+"CityOfMist.terms.broadTag": "Broad Tag",
+"CityOfMist.terms.crispyTag": "Crispy Tag",
+"CityOfMist.terms.temporaryTag": "Temporary Tag",
 "CityOfMist.terms.clue": "Clue",
 "CityOfMist.terms.clues": "Clues",
 "CityOfMist.terms.partialClue": "Partial Clue",
@@ -299,6 +303,7 @@
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
+"CityOfMist.misc.subtagOf": "Subtag Of",
 
 "CityOfMist.themebook.adaption.name": "Adaption",
 "CityOfMist.themebook.advancedart.name": "Advanced Art",

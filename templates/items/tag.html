@@ -1,31 +1,40 @@
 <form class="{{cssClass}} tag-sheet flex-col" autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" data-owner-class="actor">
-	<label> Tag Name </label>
+	<label>
+		{{localize "CityOfMist.terms.name"}}
+	</label>
 	<input type="text" class="tag-name" name="name" value="{{item.name}}">
-	<label> Tag Question </label>
+	<label>
+		{{localize "CityOfMist.terms.clueQuestion"}}
+	</label>
 	{{#if (not data.custom_tag) }}
 	<div class="question" > {{data.question_letter}} - {{data.question}} </div>
 	{{else}}
 	<input type="text" class="tag-question-entry" name="data.question" value="{{data.question}}">
 	{{/if}}
 	{{#if (eq data.subtype "power")}}
-	<label for="crispy"> Crispy Tag </label>
+	<label for="crispy">
+		{{localize "CityOfMist.terms.crispyTag"}}
+	</label>
 	<input type="checkbox" class="item-checkbox" name="data.crispy" {{#if data.crispy}} checked{{/if}}>
 	{{/if}}
 	{{#if (eq data.subtype "power")}}
-	<label for="broad"> Broad Tag </label>
+	<label for="broad">
+		{{localize "CityOfMist.terms.broadTag"}}
+	</label>
 	<input type="checkbox" class="item-checkbox" name="data.broad" {{#if data.broad}} checked{{/if}} >
 	{{/if}}
 	{{#if (eq data.subtype "story")}}
-	<label for="broad"> Temporary Tag </label>
+	<label for="broad">
+		{{localize "CityOfMist.terms.temporaryTag"}} </label>
 	<input type="checkbox" class="item-checkbox" name="data.temporary" {{#if data.temporary}} checked{{/if}} >
 	{{/if}}
 	{{#if (eq data.subtype "story")}}
-	<label for="broad"> Permanent Story Tag </label>
+	<label for="broad"> {{localize "CityOfMist.terms.permanentStoryTag"}} </label>
 	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if data.permanent}} checked{{/if}} >
 	{{/if}}
-	<div class="description-header">Description</div>
+	<div class="description-header">{{localize "CityOfMist.terms.description"}}</div>
 	<textarea name="data.description">{{item.data.data.description}}</textarea>
-	<label> Subtag of </label>
+	<label> {{localize "CityOfMist.misc.subtagOf"}}</label>
 	<select class="" name="data.parentId" >
 		{{#select item.data.data.parentId}}
 		<option value=""> None </option>
