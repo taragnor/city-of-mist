@@ -382,7 +382,6 @@
 "CityOfMist.settings.statusAdditionSystem.hint": "Choose which system to use when adding or subtracting statuses",
 
 
-
-
-"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both."
+"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both.",
+"CityOfMist.tooltip.error.missingParent": "ERROR: This tag needs to be a sub-tag of another tag."
 }

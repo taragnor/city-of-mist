@@ -97,7 +97,6 @@ export class CityActor extends Actor {
 
 	}
 
-
 	getTheme(id) {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}

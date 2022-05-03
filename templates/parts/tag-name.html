@@ -43,7 +43,10 @@
 					    default-positive {{else}} default-negative
 						 {{/if}}
 						 {{#if (gt data.burned 0)}} burned-tag burn-level-{{data.burned}}  {{/if}}
-						 " title= "{{#if (not data.custom_tag)}} {{data.question_letter}}. {{/if}}{{data.question}} {{#if data.description}}  &#013;{{data.description}} {{/if}}" > {{tag.name}}
+						 " title= "
+						 {{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
+						 {{/if}}
+						 {{#if (not data.custom_tag)}} {{data.question_letter}}. {{/if}}{{data.question}} {{#if data.description}}  &#013;{{data.description}} {{/if}}" > {{tag.name}}
 						 {{#if tag.location}}
 						 <span class="story-tag-location">
 							 ( {{tag.location}} )
