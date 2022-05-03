@@ -30,8 +30,7 @@ export class VersionUpdater {
 		}
 
 		for (const tag of actor.getTags()) {
-			if (tag.data.data.subtagRequired === undefined) {
-				console.log(`Updating ${actor.name}`);
+			if (tag.data.data.subtagRequired === undefined  || actor.versionIsLessThan("2.4.6")) {
 				const themeId = tag.data.data.theme_id;
 				if (!themeId){
 					await tag.update( {"data.subtagRequired": false});
@@ -56,7 +55,7 @@ export class VersionUpdater {
 					throw new Error( `Can't find question :${letter} in ${themebook.name}`);
 				}
 				await tag.update( {"data.subtagRequired": themebook_tag.subtag});
-				console.log(`${actor.name} (${tag.name})  Updated`);
+				console.debug(`${actor.name} (${tag.name})  Updated`);
 			}
 		}
 
