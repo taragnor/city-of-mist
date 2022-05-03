@@ -35,9 +35,9 @@ export const registerSystemSettings = function() {
 		scope: "world",
 		config: true,
 		type: Number,
-		default: Infinity,
+		default: 9999,
 		choices: {
-			Infinity : "None",
+			9999 : "None",
 			3: "+3",
 			2: "+2",
 			1: "+1",
@@ -47,14 +47,14 @@ export const registerSystemSettings = function() {
 	});
 
 	game.settings.register("city-of-mist", "maxRollCap", {
-		name: localize("CityOfMist.settings.weaknessCap.name"),
-		hint: localize("CityOfMist.settings.weaknessCap.hint"),
+		name: localize("CityOfMist.settings.maxRollCap.name"),
+		hint: localize("CityOfMist.settings.maxRollCap.hint"),
 		scope: "world",
 		config: true,
 		type: Number,
-		default: Infinity,
+		default: 9999,
 		choices: {
-			Infinity : "None",
+			9999 : "None",
 			4: "+4",
 			3: "+3",
 			2: "+2",

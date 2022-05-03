@@ -226,7 +226,7 @@ export class CityRoll {
 		const power = CityRoll.getPower(roll.options.modifiers);
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
-		const total = roll.total + power;
+		const total = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
 		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
