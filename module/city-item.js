@@ -48,7 +48,7 @@ export class CityItem extends Item {
 			filter( tag => tag.data.data.parentId == this.id);
 	}
 
-	get missingParent() {
+	get isMissingParent() {
 		return this.data.data.subtagRequired && !this.data.data.parentId;
 	}
 

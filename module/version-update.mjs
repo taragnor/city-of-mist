@@ -9,10 +9,51 @@ export class VersionUpdater {
 			// await this.updateDangers();
 			await this.updateImprovements();
 			// await this.updateGMMovesHTML();
+			// await this.convertActorTags();
 			await this.updateVersion(version);
 		} catch (e) {
 			console.error(e);
 		}
+	}
+
+	static async convertActorTags() {
+		const actors = game.actors.map( x=> x);
+		for (const actor of actors) {
+			await this.convertActorTags(actor);
+		}
+	}
+
+	static async convertActorTags(actor) {
+		for (const tag of actor.getTags()) {
+			if (tag.data.data.subtagRequired === undefined) {
+				const themeId = tag.data.data.theme_id;
+				if (!themeId){
+					await tag.update( {"data.subtagRequired": false});
+					continue;
+				}
+				const theme = actor.getTheme(themeId);
+				if (!theme && themeId.length > 3) {
+					console.log(`deleting Orphan tag ${actor.name} (${tag.name})  `);
+					await tag.delete();
+					continue;
+				}
+				const themebook = theme.getThemebook();
+				const subtype = tag.data.data.subtype;
+				const letter =tag.data.data.question_letter;
+				if (letter == "_") {
+					await tag.update( {"data.subtagRequired": false});
+					continue;
+				}
+				const themebook_tag =themebook.themebook_getTagQuestions(subtype)
+					.find(x=> x.letter == letter);
+				if (!themebook_tag) {
+					throw new Error( `Can't find question :${letter} in ${themebook.name}`);
+				}
+				await tag.update( {"data.subtagRequired": themebook_tag.subtag});
+				console.log(`${actor.name} (${tag.name})  Updated`);
+			}
+		}
+
 	}
 
 	static async updateVersion(version) {
@@ -169,5 +210,5 @@ export class ThemebookUpdater {
 
 }
 
-window.updater = ThemebookUpdater;
+window.VUpdater = VersionUpdater;
 
