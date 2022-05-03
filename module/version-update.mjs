@@ -48,7 +48,7 @@ export class VersionUpdater {
 					await tag.update( {"data.subtagRequired": false});
 					continue;
 				}
-				const themebook_tag =themebook.themebook_getTagQuestions(subtype)
+				const themebook_tag = themebook.themebook_getTagQuestions(subtype)
 					.find(x=> x.letter == letter);
 				if (!themebook_tag) {
 					throw new Error( `Can't find question :${letter} in ${themebook.name}`);
