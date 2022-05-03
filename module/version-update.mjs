@@ -9,7 +9,7 @@ export class VersionUpdater {
 			// await this.updateDangers();
 			await this.updateImprovements();
 			// await this.updateGMMovesHTML();
-			// await this.convertActorTags();
+			await this.convertActorTags();
 			await this.updateVersion(version);
 		} catch (e) {
 			console.error(e);
@@ -26,6 +26,7 @@ export class VersionUpdater {
 	static async convertActorTags(actor) {
 		for (const tag of actor.getTags()) {
 			if (tag.data.data.subtagRequired === undefined) {
+				console.log(`Updating ${actor.name}`);
 				const themeId = tag.data.data.theme_id;
 				if (!themeId){
 					await tag.update( {"data.subtagRequired": false});

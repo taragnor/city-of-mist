@@ -2991,3 +2991,8 @@ input.checkbox {
 	vertical-align: middle;
 
 }
+
+.tag-error {
+	color: red;
+	text-transform: uppercase;
+}

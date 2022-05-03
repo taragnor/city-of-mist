@@ -32,6 +32,7 @@
 		</span>
 		<span class="flex-tag-name
 						 {{data.subtype}}-tag
+						 {{#if tag.isMissingParent}} tag-error {{/if}}
 						 {{#if (and locked (eq data.burned 0))}} active-tag {{/if}}
 						 {{#if (ne direction 0)}} selected-tag {{/if}}
 						 {{#if (gt direction 0)}} positive-selected-tag{{/if}}
