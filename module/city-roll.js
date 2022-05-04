@@ -234,7 +234,7 @@ export class CityRoll {
 		const rollCap = CityHelpers.getRollCap();
 		const uncappedTotal = roll.total + power;
 		const final = roll.total + Math.min(rollCap, power);
-		const roll_adjustment = uncappedTotal - final;
+		const roll_adjustment = final - uncappedTotal;
 		return { total: final, roll_adjustment};
 	}
 
@@ -248,7 +248,7 @@ export class CityRoll {
 		let gritPenalty = this.calculateGritPenalty(base_power);
 		const gritPower = base_power + gritPenalty;
 		const final_power = Math.min(cap, gritPower);
-		const adjustment = base_power - final_power;
+		const adjustment = final_power - base_power;
 		return {power: final_power, adjustment} ;
 	}
 

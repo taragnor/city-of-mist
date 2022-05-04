@@ -43,14 +43,18 @@
 				{{#if (neq powerAdjustment 0)}}
 					<li>
 						<span class="name">
-							Adjustment to Power: -{{powerAdjustment}}
+							Adjustment to Power:
+							{{#if (gt powerAdjustment 0)}} +{{/if}}
+							{{powerAdjustment}}
 						</span>
 					</li>
 				{{/if}}
 				{{#if (neq rollAdjustment 0)}}
 					<li>
 						<span class="name">
-							Adjustment to roll total only: -{{rollAdjustment}}
+							Adjustment to roll total only:
+							{{#if (gt rollAdjustment 0)}} +{{/if}}
+							{{rollAdjustment}}
 						</span>
 					</li>
 				{{/if}}
