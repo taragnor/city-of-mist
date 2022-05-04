@@ -270,7 +270,7 @@ export class CityRoll {
 		return { total: final, roll_adjustment};
 	}
 
-	static getPower (rollOrModifiers) {
+	static getRollPowerModifiers(rollOrModifiers) {
 		const modifiers = rollOrModifiers?.options?.modifiers ?? rollOrModifiers;
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
@@ -282,6 +282,10 @@ export class CityRoll {
 		const final_power = Math.min(cap, gritPower);
 		const adjustment = final_power - base_power;
 		return {power: final_power, adjustment} ;
+	}
+
+	static getPower(roll) {
+		return 2;
 	}
 
 	static getRollStatus (total, options) {
@@ -469,8 +473,7 @@ export class CityRoll {
 		this.#options.helpId = $(html).find("#help-dropdown").val();
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		this.#prepareModifiers();
-		let {power} = CityRoll.getPower(	this.#modifiers);
-		console.log(`Update Power ${power}`);
+		let {power, adjustment} = CityRoll.getPower(	this.#modifiers);
 		$(html).find(".move-power").text(String(power));
 	}
 

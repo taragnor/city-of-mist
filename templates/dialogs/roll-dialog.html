@@ -1,7 +1,13 @@
 <form class="{{cssClass}} roll-dialog" autocomplete="off">
-	<div>
-		<span>Power:</span>
-		<span class="move-power">{{power}}</span>
+	<div class="flex-col">
+		<div>
+			<span>Roll Bonus:</span>
+			<span class="roll-bonus"></span>
+		</div>
+		<div>
+			<span> Effect:</span>
+			<span class="move-effect"></span>
+		</div>
 	</div>
 	<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
 	<input id="roll-modifier-amt" type="number" value="0">
