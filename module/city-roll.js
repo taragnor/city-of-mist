@@ -31,7 +31,6 @@ export class CityRoll {
 	static async execMove(moveId, actor, options = {}) {
 		const CR = new CityRoll(moveId, actor, options);
 		return CR.execMove();
-
 	}
 
 	async execMove() {
