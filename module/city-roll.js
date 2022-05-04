@@ -28,6 +28,28 @@ export class CityRoll {
 		await this.#rollCleanupAndAftermath();
 	}
 
+	static async execMove(moveId, actor, options= {}) {
+		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
+		switch (options?.newtype ?? move.data.data.type) {
+			case "standard":
+				if (await CityRoll.verifyRequiredInfo(moveId, actor))
+					await CityRoll.modifierPopup(moveId, actor);
+				break;
+			case "logosroll":
+				await CityRoll.logosRoll(moveId, actor);
+				break;
+			case "mythosroll":
+				await CityRoll.mythosRoll(moveId, actor);
+				break;
+			case "noroll":
+				await CityRoll.noRoll(moveId, actor);
+				break;
+			default:
+				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
+		}
+
+	}
+
 	static async execRoll(moveId, actor, options = {}) {
 		const CR =  new CityRoll(moveId,actor, options);
 		return CR.execRoll();

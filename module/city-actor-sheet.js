@@ -930,6 +930,8 @@ export class CityActorSheet extends CitySheet {
 
 	async _executeMove (event) {
 		const move_id = $(this.form).find(".select-move").val();
+		if (!move_id)
+			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
 		const move_group = $(this.form).find(".select-move-group").val();
 		const SHB = move_group == "SHB";
 		let newtype = null;
@@ -939,26 +941,11 @@ export class CityActorSheet extends CitySheet {
 				return;
 			newtype = SHBType;
 		}
+		const options = {
+			newtype
+		};
+		await CityRoll.execMove(move_id, this.actor, options);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
-		if (!move_id)
-			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
-		switch (newtype ?? move.data.data.type) {
-			case "standard":
-				if (await CityRoll.verifyRequiredInfo(move_id, this.actor))
-					await CityRoll.modifierPopup(move_id, this.actor);
-				break;
-			case "logosroll":
-				await CityRoll.logosRoll(move_id, this.actor);
-				break;
-			case "mythosroll":
-				await CityRoll.mythosRoll(move_id, this.actor);
-				break;
-			case "noroll":
-				await CityRoll.noRoll(move_id, this.actor);
-				break;
-			default:
-				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
-		}
 		const effectClass = move.data?.data?.effect_class ?? "";
 		for (let effect of move.effect_classes) {
 			switch (effect) {
@@ -977,6 +964,7 @@ export class CityActorSheet extends CitySheet {
 					break;
 			}
 		}
+
 	}
 
 	async statusDialog(obj) {
