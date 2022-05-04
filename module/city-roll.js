@@ -267,7 +267,7 @@ export class CityRoll {
 	}
 
 	static getRollBonus(rollOptions) {
-		const {power} = CityRoll.getPower(rollOptions.modifiers);
+		const {power} = CityRoll.getRollPowerModifiers(rollOptions.modifiers);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power);
 		const roll_adjustment = capped - power;
@@ -289,7 +289,7 @@ export class CityRoll {
 	}
 
 	static getPower(roll) {
-		return 2;
+		return {power: 2 ,adjustment:0};
 	}
 
 	static getRollStatus (total, options) {
