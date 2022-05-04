@@ -413,54 +413,20 @@ export class CityRoll {
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
-			const updatePower = (html) => {
-				this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
-				this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
-				this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
-				this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-				this.#options.helpId = $(html).find("#help-dropdown").val();
-				this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
-				this.#prepareModifiers();
-				let {power} = CityRoll.getPower(	this.#modifiers);
-				console.log(`Update Power ${power}`);
-				$(html).find(".move-power").text(String(power));
-			};
-			const updateSliderValMax = function (html) {
-				const itemId = $(html).find("#help-dropdown").val();
-				if (!itemId) {
-					$(html).find("#help-slider-container").hide();
-					return;
-				}
-				const clue = game.actors.find( x =>
-					x.type == "character"
-					&& x.items.find( i => i.id == itemId)
-				).items
-					.find(i => i.id == itemId);
-				const amount = clue.data.data.amount;
-				$(html).find("#help-slider").val(1);
-				$(html).find("#help-slider").prop("max", amount);
-				$(html).find(".slidervalue").html(1);
-				if (amount)
-					$(html).find("#help-slider-container").show().prop("max", amount);
-				else
-					$(html).find("#help-slider-container").hide();
-				return amount;
-			}
 			const dialog = new Dialog({
 				title:`${title}`,
 				content: html,
 				render: (html) => {
-					updatePower(html);
-					updateSliderValMax(html);
-					$(html).find("#help-dropdown").change( function (_ev) {
-						updateSliderValMax(html);
+					this.updateModifierPopup(html);
+					$(html).find("#help-dropdown").change((ev) => {
+						$(html).find("#help-slider").val(1);
+						this.updateModifierPopup(html, ev)
 					});
-					$(html).find("#help-slider").change( function (_ev) {
-						updatePower(html);
-						$(html).find(".slidervalue").html(this.value);
+					$(html).find("#help-slider").change( (ev) => {
+						this.updateModifierPopup(html, ev);
 					});
-					$(html).find("#roll-modifier-amt").change( ()=> updatePower(html));
-					$(html).find("#roll-burn-tag").change( ()=> updatePower(html));
+					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
+					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 
 				},
 				buttons: {
@@ -474,7 +440,6 @@ export class CityRoll {
 							this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
 							this.#options.helpId = $(html).find("#help-dropdown").val();
 							this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
-							// const retObj  = {modifier, dynamiteAllowed, burnTag, setRoll, helpId, helpAmount };
 							conf(true);
 						},
 					},
@@ -495,6 +460,44 @@ export class CityRoll {
 		// 	await CityRoll.execRoll(move_id, actor, rollOptions);
 		// }
 	}
+
+	updateModifierPopup(html, ev) {
+		this.updateSliderValMax(html, ev);
+		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
+		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
+		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
+		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+		this.#options.helpId = $(html).find("#help-dropdown").val();
+		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+		this.#prepareModifiers();
+		let {power} = CityRoll.getPower(	this.#modifiers);
+		console.log(`Update Power ${power}`);
+		$(html).find(".move-power").text(String(power));
+	}
+
+	updateSliderValMax(html, ev) {
+		const itemId = $(html).find("#help-dropdown").val();
+		if (!itemId) {
+			$(html).find("#help-slider-container").hide();
+			return;
+		}
+		const clue = game.actors.find( x =>
+			x.type == "character"
+			&& x.items.find( i => i.id == itemId)
+		).items
+			.find(i => i.id == itemId);
+		const amount = clue.data.data.amount;
+		// $(html).find("#help-slider").val(1);
+		$(html).find("#help-slider").prop("max", amount);
+		$(html).find(".slidervalue").html(1);
+		if (amount)
+			$(html).find("#help-slider-container").show().prop("max", amount);
+		else
+			$(html).find("#help-slider-container").hide();
+		const value = $(html).find("#help-slider").val();
+		$(html).find(".slidervalue").html(value);
+	}
+
 
 	async logosRoll (_move_id, _actor) {
 		mergeObject(this.#options, {
