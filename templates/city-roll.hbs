@@ -40,9 +40,23 @@
 						{{/if}}
 					</li>
 				{{/each}}
+				{{#if (neq powerAdjustment 0)}}
+					<li>
+						<span class="name">
+							Adjustment to Power: -{{powerAdjustment}}
+						</span>
+					</li>
+				{{/if}}
+				{{#if (neq rollAdjustment 0)}}
+					<li>
+						<span class="name">
+							Adjustment to roll total only: -{{rollAdjustment}}
+						</span>
+					</li>
+				{{/if}}
 			</ul>
 			<div class="roll-total"> {{total}}
-					<a class="edit-roll" title="Edit Roll"><i class="fas fa-eraser"></i></a>
+				<a class="edit-roll" title="Edit Roll"><i class="fas fa-eraser"></i></a>
 			</div>
 		</section>
 		<hr>

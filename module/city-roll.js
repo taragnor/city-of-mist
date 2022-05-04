@@ -144,37 +144,8 @@ export class CityRoll {
 				&& tag.data.data.subtype == "weakness"
 				&& x.amount < 0
 		});
-		let modifiersTotal = CityRoll.getPower( modifiers);
-		if (usedWeaknessTag && game.settings.get("city-of-mist", "weaknessCap") < 100) {
-			const cap = game.settings.get("city-of-mist", "weaknessCap");
-			let capPenalty = -(modifiersTotal - cap);
-			if (capPenalty < 0 && modifiersTotal > cap)
-				modifiers.push( {
-					name: "Weakness Cap Exceeded",
-					amount: capPenalty,
-					ownerId: null,
-					tagId: null,
-					type: "modifier"
-				});
-		}
-		modifiersTotal = modifiers.reduce( (acc, x)=> acc+x.amount, 0);
-		if (game.settings.get("city-of-mist", "gritMode")) {
-			let gritpenalty = 0;
-			if (modifiersTotal >=7)
-				gritpenalty = -(modifiersTotal - 4);
-			else if  (modifiersTotal >= 4)
-				gritpenalty = -(modifiersTotal - 3);
-			else if (modifiersTotal == 3)
-				gritpenalty = -(modifiersTotal - 2);
-			if (gritpenalty != 0)
-				modifiers.push( {
-					name: "Grit Penalty",
-					amount: gritpenalty,
-					ownerId: null,
-					tagId: null,
-					type: "modifier"
-				});
-		}
+		let {power, adjustment} = CityRoll.getPower( modifiers);
+		const modifiersTotal = power;
 		this.#modifiers = modifiers;
 		this.#tags = tags;
 	}
@@ -223,10 +194,10 @@ export class CityRoll {
 			};
 		});
 		const options = roll.options;
-		const power = CityRoll.getPower(roll.options.modifiers);
+		const {power, adjustment} = CityRoll.getPower(roll.options.modifiers);
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
-		const total = this.getTotal(roll);
+		const {total, roll_adjustment} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
 		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
@@ -251,27 +222,39 @@ export class CityRoll {
 			rolls : (roll.terms)[0].results,
 			total : total,
 			power : power,
+			powerAdjustment: adjustment,
+			rollAdjustment: roll_adjustment,
 		};
 		return await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 	}
 
 	static getTotal (roll) {
 		const modifiers = roll.options.modifiers;
-		const power = CityRoll.getPower(modifiers);
+		const {power, adjustment} = CityRoll.getPower(modifiers);
 		const rollCap = CityHelpers.getRollCap();
-		return roll.total + Math.min(rollCap, power);
+		const uncappedTotal = roll.total + power;
+		const final = roll.total + Math.min(rollCap, power);
+		const roll_adjustment = uncappedTotal - final;
+		return { total: final, roll_adjustment};
 	}
 
 	static getPower (modifiers) {
-		return modifiers
-			.filter ( x  => !x.strikeout)
+		const validModifiers = modifiers.filter(x => !x.strikeout);
+		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
+		const base_power = validModifiers
 			.reduce( (acc, x) => acc + x.amount, 0);
+		const cap = validModifiers.some( x=> x.subtype == "weakness" && x.amount < 0) ? weaknessCap : 999;
+		let gritPenalty = this.calculateGritPenalty(base_power);
+		const gritPower = base_power + gritPenalty;
+		const final_power = Math.min(cap, gritPower);
+		const adjustment = base_power - final_power;
+		return {power: final_power, adjustment} ;
 	}
 
 	static getRollStatus (total, options) {
 		if (total>= 12 && options.dynamiteAllowed) {
 			return "Dynamite";
-		} else if (total >= 10){
+		} else if (total >= 10) {
 			return "Success";
 		} else if (total >= 7) {
 			return "Partial";
@@ -280,6 +263,17 @@ export class CityRoll {
 		}
 	}
 
+	static calculateGritPenalty(standardPower) {
+		if (game.settings.get("city-of-mist", "gritMode")) {
+			if (standardPower >=7)
+				return  -(standardPower - 4);
+			else if  (modifiersTotal >= 4)
+				return -(standardPower - 3);
+			else if (modifiersTotal == 3)
+				return  -(standardPower - 2);
+		}
+		return 0;
+	}
 	async #sendRollToChat (messageOptions = {}) {
 		const messageData = {
 			speaker: ChatMessage.getSpeaker(),
@@ -302,8 +296,8 @@ export class CityRoll {
 		const roll = this.#roll;
 		const moveId = roll.options.moveId;
 		const actor = CityDB.getActorById(roll.options.actorId);
-		const total = CityRoll.getTotal(roll);
-		const power = CityRoll.getPower(roll.options.modifiers);
+		const {total, roll_adjustment} = CityRoll.getTotal(roll);
+		const {power, adjustment} = CityRoll.getPower(roll.options.modifiers);
 		const modifiers = roll.options.modifiers;
 		const msgId = this.#msgId;
 		// const {total, power, modifiers} = this.#templateData;
@@ -542,8 +536,8 @@ export class CityRoll {
 		}
 		if (!item)
 			throw new Error(`Item ${listitem} not found`);
-		const power = CityRoll.getPower(roll.options.modifiers);
-		const total = CityRoll.getTotal(roll);
+		const {power, adjustment} = CityRoll.getPower(roll.options.modifiers);
+		const {total, roll_adjustment} = CityRoll.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == options.moveId);
 		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
