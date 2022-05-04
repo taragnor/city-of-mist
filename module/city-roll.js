@@ -30,11 +30,12 @@ export class CityRoll {
 
 	static async execMove(moveId, actor, options = {}) {
 		const CR = new CityRoll(moveId, actor, options);
-		CR.execMove();
+		return CR.execMove();
 
 	}
 
 	async execMove() {
+		this.#prepareModifiers();
 		const moveId = this.#moveId;
 		const actor = this.#actor;
 		const options = this.#options;
@@ -42,7 +43,8 @@ export class CityRoll {
 		switch (options?.newtype ?? move.data.data.type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
-					await this.modifierPopup(moveId, actor);
+					if (!await this.modifierPopup(moveId, actor))
+						return false;
 				break;
 			case "logosroll":
 				await this.logosRoll(moveId, actor);
@@ -56,7 +58,7 @@ export class CityRoll {
 			default:
 				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
 		}
-		this.execRoll();
+		return this.execRoll();
 	}
 
 	static async execRoll(moveId, actor, options = {}) {
@@ -269,8 +271,8 @@ export class CityRoll {
 		return { total: final, roll_adjustment};
 	}
 
-	static getPower (roll) {
-		const modifiers = roll.options.modifiers;
+	static getPower (rollOrModifiers) {
+		const modifiers = rollOrModifiers?.options?.modifiers ?? rollOrModifiers;
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
 		const base_power = validModifiers
@@ -406,10 +408,23 @@ export class CityRoll {
 		const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
-		const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite};
+		let power = 0; //placeholder
+		const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite, power};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
+			const updatePower = (html) => {
+				this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
+				this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
+				this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
+				this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+				this.#options.helpId = $(html).find("#help-dropdown").val();
+				this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+				this.#prepareModifiers();
+				let {power} = CityRoll.getPower(	this.#modifiers);
+				console.log(`Update Power ${power}`);
+				$(html).find(".move-power").text(String(power));
+			};
 			const updateSliderValMax = function (html) {
 				const itemId = $(html).find("#help-dropdown").val();
 				if (!itemId) {
@@ -435,13 +450,17 @@ export class CityRoll {
 				title:`${title}`,
 				content: html,
 				render: (html) => {
+					updatePower(html);
 					updateSliderValMax(html);
 					$(html).find("#help-dropdown").change( function (_ev) {
 						updateSliderValMax(html);
 					});
 					$(html).find("#help-slider").change( function (_ev) {
+						updatePower(html);
 						$(html).find(".slidervalue").html(this.value);
 					});
+					$(html).find("#roll-modifier-amt").change( ()=> updatePower(html));
+					$(html).find("#roll-burn-tag").change( ()=> updatePower(html));
 
 				},
 				buttons: {
