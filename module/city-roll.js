@@ -261,13 +261,17 @@ export class CityRoll {
 	}
 
 	static getTotal (roll) {
-		const modifiers = roll.options.modifiers;
-		const {power, adjustment} = CityRoll.getPower(roll);
+		// const modifiers = roll.options.modifiers;
+		const {bonus, roll_adjustment} = CityRoll.getRollBonus(roll.options);
+		return { total: bonus + roll.total, roll_adjustment};
+	}
+
+	static getRollBonus(rollOptions) {
+		const {power} = CityRoll.getPower(rollOptions.modifiers);
 		const rollCap = CityHelpers.getRollCap();
-		const uncappedTotal = roll.total + power;
-		const final = roll.total + Math.min(rollCap, power);
-		const roll_adjustment = final - uncappedTotal;
-		return { total: final, roll_adjustment};
+		const capped = Math.min(rollCap, power);
+		const roll_adjustment = capped - power;
+		return { bonus: capped, roll_adjustment};
 	}
 
 	static getRollPowerModifiers(rollOrModifiers) {
