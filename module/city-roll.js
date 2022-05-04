@@ -28,26 +28,35 @@ export class CityRoll {
 		await this.#rollCleanupAndAftermath();
 	}
 
-	static async execMove(moveId, actor, options= {}) {
+	static async execMove(moveId, actor, options = {}) {
+		const CR = new CityRoll(moveId, actor, options);
+		CR.execMove();
+
+	}
+
+	async execMove() {
+		const moveId = this.#moveId;
+		const actor = this.#actor;
+		const options = this.#options;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
 		switch (options?.newtype ?? move.data.data.type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
-					await CityRoll.modifierPopup(moveId, actor);
+					await this.modifierPopup(moveId, actor);
 				break;
 			case "logosroll":
-				await CityRoll.logosRoll(moveId, actor);
+				await this.logosRoll(moveId, actor);
 				break;
 			case "mythosroll":
-				await CityRoll.mythosRoll(moveId, actor);
+				await this.mythosRoll(moveId, actor);
 				break;
 			case "noroll":
-				await CityRoll.noRoll(moveId, actor);
+				await this.noRoll(moveId, actor);
 				break;
 			default:
 				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
 		}
-
+		this.execRoll();
 	}
 
 	static async execRoll(moveId, actor, options = {}) {
@@ -393,7 +402,7 @@ export class CityRoll {
 		return true;
 	}
 
-	static async modifierPopup(move_id, actor) {
+	async modifierPopup(move_id, actor) {
 		const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
@@ -440,14 +449,14 @@ export class CityRoll {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Confirm",
 						callback: (html) => {
-							const modifier = Number($(html).find("#roll-modifier-amt").val());
-							const dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
-							const burnTag = $(html).find("#roll-burn-tag option:selected").val();
-							const setRoll = burnTag.length ? 7 : 0;
-							const helpId = $(html).find("#help-dropdown").val();
-							const helpAmount = (helpId) ? $(html).find("#help-slider").val(): 0;
-							const retObj  = {modifier, dynamiteAllowed, burnTag, setRoll, helpId, helpAmount };
-							conf(retObj);
+							this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
+							this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
+							this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
+							this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+							this.#options.helpId = $(html).find("#help-dropdown").val();
+							this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+							// const retObj  = {modifier, dynamiteAllowed, burnTag, setRoll, helpId, helpAmount };
+							conf(true);
 						},
 					},
 					two: {
@@ -460,32 +469,35 @@ export class CityRoll {
 			}, options);
 			dialog.render(true);
 		});
-		if (rollOptions != null) {
-			await CityRoll.execRoll(move_id, actor, rollOptions);
-		}
+		if (!rollOptions)
+			return false;
+		return true;
+		// if (rollOptions != null) {
+		// 	await CityRoll.execRoll(move_id, actor, rollOptions);
+		// }
 	}
 
-	static async logosRoll (move_id, actor) {
-		const rollOptions = {
+	async logosRoll (_move_id, _actor) {
+		mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			logosRoll: true,
 			setRoll: 0
-		};
-		await CityRoll.execRoll(move_id, actor, rollOptions);
+		});
+		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
-	static async mythosRoll (move_id, actor) {
-		const rollOptions = {
+	async mythosRoll () {
+		mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			mythosRoll: true,
 			setRoll: 0
-		};
-		await CityRoll.execRoll(move_id, actor, rollOptions);
+		});
+		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
-	static async SHBRoll (move_id, actor, type = "Logos") {
+	async SHBRoll (_move_id, _actor, type = "Logos") {
 		const rollOptions = {
 			noTags: true,
 			noStatus: true,
@@ -496,16 +508,18 @@ export class CityRoll {
 			rollOptions.logosRoll = false;
 			rollOptions.mythosRoll = true;
 		}
-		await CityRoll.execRoll(move_id, actor, rollOptions);
+		mergeObject(this.#options, rollOptions);
+		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
-	static async noRoll (move_id, actor) {
+	async noRoll (_move_id, _actor) {
 		const rollOptions = {
 			noTags: true,
 			noStatus: true,
 			noRoll: true
 		};
-		await CityRoll.execRoll(move_id, actor, rollOptions);
+		mergeObject(this.#options, rollOptions);
+		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	static async diceModListeners (_app, html, _data) {
