@@ -1,19 +1,24 @@
 <form class="{{cssClass}} roll-dialog" autocomplete="off">
-	<div class="flex-col">
+	<div class="flex-row">
 		<div>
-			<span>Roll Bonus:</span>
+			<span class="dialog-label">Roll Bonus:</span>
 			<span class="roll-bonus"></span>
 		</div>
 		<div>
-			<span> Effect:</span>
+			<span class="dialog-label"> Effect:</span>
 			<span class="move-effect"></span>
 		</div>
 	</div>
+	<hr>
 	<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
 	<input id="roll-modifier-amt" type="number" value="0">
 	<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>
 	<input id="roll-dynamite-allowed" type="checkbox" {{#if dynamite}} checked {{/if}}>
+	<div class="effect-slider-block">
+	<label class="dialog-label" for="effect-slider"> Take Penalty to Increase Effect
+	</label>
 			<input type="range" min="0" max="4" value="0" class="slider" id="effect-slider">
+	</div>
 	<br>
 	<label class="dialog-label" for="burn-tag"> Burn Tag </label>
 	<select id="roll-burn-tag">

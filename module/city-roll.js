@@ -180,16 +180,18 @@ export class CityRoll {
 				strikeout: false,
 			});
 		}
-		//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
-		const usedWeaknessTag = tags.some( x=> {
+		this.#modifiers = modifiers;
+		this.#options.modifiers = modifiers;
+		this.#tags = tags;
+	}
+
+	usedWeaknessTag() {
+		return this.#tags.some( x=> {
 			const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
 			return x.type == "tag"
 				&& tag.data.data.subtype == "weakness"
 				&& x.amount < 0
 		});
-		this.#modifiers = modifiers;
-		this.#options.modifiers = modifiers;
-		this.#tags = tags;
 	}
 
 	async #getRoll() {
@@ -495,6 +497,12 @@ export class CityRoll {
 		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
 		this.#options.helpId = $(html).find("#help-dropdown").val();
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+		if (this.#options.burnTag || this.usedWeaknessTag()) {
+			$(html).find('#effect-slider').val(0);
+			$(html).find('.effect-slider-block').hide();
+		} else {
+			$(html).find('.effect-slider-block').show();
+		}
 		this.#options.powerModifier = Number(
 			$(html).find('#effect-slider').val()
 		);
