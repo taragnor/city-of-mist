@@ -442,12 +442,7 @@ export class CityRoll {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Confirm",
 						callback: (html) => {
-							this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
-							this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
-							this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
-							this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-							this.#options.helpId = $(html).find("#help-dropdown").val();
-							this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+							this.updateModifierPopup(html);
 							conf(true);
 						},
 					},
@@ -464,13 +459,10 @@ export class CityRoll {
 		if (!rollOptions)
 			return false;
 		return true;
-		// if (rollOptions != null) {
-		// 	await CityRoll.execRoll(move_id, actor, rollOptions);
-		// }
 	}
 
-	updateModifierPopup(html, ev) {
-		this.updateSliderValMax(html, ev);
+	updateModifierPopup(html) {
+		this.updateSliderValMax(html);
 		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
@@ -484,7 +476,7 @@ export class CityRoll {
 		$(html).find(".move-effect").text(String(power));
 	}
 
-	updateSliderValMax(html, ev) {
+	updateSliderValMax(html) {
 		const itemId = $(html).find("#help-dropdown").val();
 		if (!itemId) {
 			$(html).find("#help-slider-container").hide();
