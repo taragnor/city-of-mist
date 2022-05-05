@@ -266,7 +266,7 @@ export class CityRoll {
 	}
 
 	static getRollBonus(rollOptions) {
-		const {power} = CityRoll.getPower(rollOptions);
+		const {power} = CityRoll.getRollPower(rollOptions);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power);
 		const roll_adjustment = capped - power;
@@ -274,7 +274,7 @@ export class CityRoll {
 	}
 
 
-	static getPower (rollOptions) {
+	static getRollPower (rollOptions) {
 		const modifiers = rollOptions.modifiers;
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
@@ -288,8 +288,10 @@ export class CityRoll {
 		return {power: final_power, adjustment} ;
 	}
 
-	static getPower(roll) {
-		return {power: 2 ,adjustment:0};
+	static getPower(rollOptions) {
+		let power = 2
+		let adjustment = 0;
+		return {power ,adjustment};
 	}
 
 	static getRollStatus (total, options) {
@@ -476,9 +478,10 @@ export class CityRoll {
 		this.#options.helpId = $(html).find("#help-dropdown").val();
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		this.#prepareModifiers();
-		let {power} = CityRoll.getPower(	this.#options);
-		console.log(`Update Power ${power}`);
-		$(html).find(".move-power").text(String(power));
+		const {bonus} = CityRoll.getRollBonus(	this.#options);
+		const {power} = CityRoll.getPower(	this.#options);
+		$(html).find(".roll-bonus").text(String(bonus));
+		$(html).find(".move-effect").text(String(power));
 	}
 
 	updateSliderValMax(html, ev) {
