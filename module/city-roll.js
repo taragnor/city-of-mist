@@ -176,9 +176,8 @@ export class CityRoll {
 				&& tag.data.data.subtype == "weakness"
 				&& x.amount < 0
 		});
-		// let {power, adjustment} = CityRoll.getPower( modifiers);
-		// const modifiersTotal = power;
 		this.#modifiers = modifiers;
+		this.#options.modifiers = modifiers;
 		this.#tags = tags;
 	}
 
@@ -226,7 +225,7 @@ export class CityRoll {
 			};
 		});
 		const options = roll.options;
-		const {power, adjustment} = CityRoll.getPower(roll);
+		const {power, adjustment} = CityRoll.getPower(options);
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const {total, roll_adjustment} = this.getTotal(roll);
@@ -267,7 +266,7 @@ export class CityRoll {
 	}
 
 	static getRollBonus(rollOptions) {
-		const {power} = CityRoll.getPower(rollOptions.modifiers);
+		const {power} = CityRoll.getPower(rollOptions);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power);
 		const roll_adjustment = capped - power;
@@ -275,8 +274,9 @@ export class CityRoll {
 	}
 
 
-	static getPower (rollOrModifiers) {
-		const modifiers = rollOrModifiers?.options?.modifiers ?? rollOrModifiers;
+	static getPower (rollOptions) {
+		Debug(rollOptions);
+		const modifiers = rollOptions.modifiers;
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
 		const base_power = validModifiers
@@ -474,7 +474,7 @@ export class CityRoll {
 		this.#options.helpId = $(html).find("#help-dropdown").val();
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		this.#prepareModifiers();
-		let {power} = CityRoll.getPower(	this.#modifiers);
+		let {power} = CityRoll.getPower(	this.#options);
 		console.log(`Update Power ${power}`);
 		$(html).find(".move-power").text(String(power));
 	}
@@ -599,7 +599,7 @@ export class CityRoll {
 		}
 		if (!item)
 			throw new Error(`Item ${listitem} not found`);
-		const {power, adjustment} = CityRoll.getPower(roll);
+		const {power, adjustment} = CityRoll.getPower(roll.options);
 		const {total, roll_adjustment} = CityRoll.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == options.moveId);
