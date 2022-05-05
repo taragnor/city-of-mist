@@ -169,6 +169,17 @@ export class CityRoll {
 				strikeout: false,
 			});
 		}
+		if (options.powerModifier) {
+			modifiers.push({
+				id: "Penalty to Increase Effect",
+				name: localize("CityOfMist.terms.customModifier"),
+				amount: CityRoll.calculatePenalty(options.powerModifier),
+				ownerId: null,
+				tagId: null,
+				type: "modifier",
+				strikeout: false,
+			});
+		}
 		//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
 		const usedWeaknessTag = tags.some( x=> {
 			const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
@@ -289,8 +300,8 @@ export class CityRoll {
 	}
 
 	static getPower(rollOptions) {
-		let power = 2
-		let adjustment = 0;
+		let adjustment = rollOptions.powerModifier ?? 0;
+		let power = (rollOptions.burnTag) ? 3 : 2 + adjustment;
 		return {power ,adjustment};
 	}
 
@@ -305,6 +316,18 @@ export class CityRoll {
 			return "Failure";
 		}
 	}
+
+		static calculatePenalty(effectBonus) {
+			switch (effectBonus) {
+				case 0: return 0;
+				case 1:return -1;
+				case 2:return -2;
+				case 3:return -4;
+				case 4:return -6;
+				case 5:return -8;
+				default: return 0;
+			}
+		}
 
 	static calculateGritPenalty(standardPower) {
 		if (game.settings.get("city-of-mist", "gritMode")) {
@@ -430,6 +453,9 @@ export class CityRoll {
 						$(html).find("#help-slider").val(1);
 						this.updateModifierPopup(html, ev)
 					});
+					$(html).find("#effect-slider").change( (ev) => {
+						this.updateModifierPopup(html, ev);
+					});
 					$(html).find("#help-slider").change( (ev) => {
 						this.updateModifierPopup(html, ev);
 					});
@@ -469,9 +495,13 @@ export class CityRoll {
 		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
 		this.#options.helpId = $(html).find("#help-dropdown").val();
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
+		this.#options.powerModifier = Number(
+			$(html).find('#effect-slider').val()
+		);
+		console.log("power:" + this.#options.powerModifier);
 		this.#prepareModifiers();
-		const {bonus} = CityRoll.getRollBonus(	this.#options);
-		const {power} = CityRoll.getPower(	this.#options);
+		const {bonus} = CityRoll.getRollBonus(this.#options);
+		const {power} = CityRoll.getPower(this.#options);
 		$(html).find(".roll-bonus").text(String(bonus));
 		$(html).find(".move-effect").text(String(power));
 	}
