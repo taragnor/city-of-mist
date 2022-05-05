@@ -185,8 +185,6 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
-	if (game.settings.get('city-of-mist', "system") == "custom") {
-
 		// **************************************************
 		// ************   Developer Settings  ************* *
 		// **************************************************
@@ -195,7 +193,7 @@ export const registerSystemSettings = function() {
 			name: "Include Core Moves",
 			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 			scope: "world",
-			config: true,
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "classic",
 			choices: {
@@ -214,7 +212,7 @@ export const registerSystemSettings = function() {
 			name: "Include Advanced Moves",
 			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 			scope: "world",
-			config: true,
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "classic",
 			choices: {
@@ -232,7 +230,7 @@ export const registerSystemSettings = function() {
 			name: localize("CityOfMist.settings.statusAdditionSystem.name"),
 			hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
 			scope: "world",
-			config: true,
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "classic",
 			choices: {
@@ -250,7 +248,7 @@ export const registerSystemSettings = function() {
 			name: localize("CityOfMist.settings.statuSubtractionSystem.name"),
 			hint: localize("CityOfMist.settings.statuSubtractionSystem.hint"),
 			scope: "world",
-			config: true,
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "classic",
 			choices: {
@@ -263,8 +261,6 @@ export const registerSystemSettings = function() {
 			}
 		});
 	} // end of custom settings
-
-}
 
 
 // Example Getter
