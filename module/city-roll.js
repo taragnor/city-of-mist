@@ -335,10 +335,9 @@ export class CityRoll {
 		const moveId = roll.options.moveId;
 		const actor = CityDB.getActorById(roll.options.actorId);
 		const {total, roll_adjustment} = CityRoll.getTotal(roll);
-		const {power, adjustment} = CityRoll.getPower(roll);
+		const {power, adjustment} = CityRoll.getPower(roll.options);
 		const modifiers = roll.options.modifiers;
 		const msgId = this.#msgId;
-		// const {total, power, modifiers} = this.#templateData;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		for (const effect of move.effect_classes) {
 			switch (effect) {
