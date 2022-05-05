@@ -171,8 +171,8 @@ export class CityRoll {
 		}
 		if (options.powerModifier) {
 			modifiers.push({
-				id: "Penalty to Increase Effect",
-				name: localize("CityOfMist.terms.customModifier"),
+				id: "Effect Boost",
+				name: "Penalty to Increase Effect",
 				amount: CityRoll.calculatePenalty(options.powerModifier),
 				ownerId: null,
 				tagId: null,
@@ -302,7 +302,7 @@ export class CityRoll {
 	static getPower(rollOptions) {
 		let adjustment = rollOptions.powerModifier ?? 0;
 		let power = (rollOptions.burnTag) ? 3 : 2 + adjustment;
-		return {power ,adjustment};
+		return {power: power ,adjustment:0};
 	}
 
 	static getRollStatus (total, options) {
