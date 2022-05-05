@@ -281,7 +281,7 @@ export class CityRoll {
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power);
 		const roll_adjustment = capped - power;
-		return { bonus: capped, roll_adjustment};
+		return { bonus: capped, roll_adjustment };
 	}
 
 
@@ -296,13 +296,13 @@ export class CityRoll {
 		const gritPower = base_power + gritPenalty;
 		const final_power = Math.min(cap, gritPower);
 		const adjustment = final_power - base_power;
-		return {power: final_power, adjustment} ;
+		return { power: final_power, adjustment } ;
 	}
 
 	static getPower(rollOptions) {
 		let adjustment = rollOptions.powerModifier ?? 0;
 		let power = (rollOptions.burnTag) ? 3 : 2 + adjustment;
-		return {power: power ,adjustment:0};
+		return { power: power, adjustment: 0 };
 	}
 
 	static getRollStatus (total, options) {
@@ -320,11 +320,11 @@ export class CityRoll {
 		static calculatePenalty(effectBonus) {
 			switch (effectBonus) {
 				case 0: return 0;
-				case 1:return -1;
-				case 2:return -2;
-				case 3:return -4;
-				case 4:return -6;
-				case 5:return -8;
+				case 1: return -1;
+				case 2: return -2;
+				case 3: return -4;
+				case 4: return -6;
+				case 5: return -8;
 				default: return 0;
 			}
 		}
