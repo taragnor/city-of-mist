@@ -169,13 +169,6 @@ export class CityRoll {
 				strikeout: false,
 			});
 		}
-		//NOTE: bug was related to deleted tags showing up. It should be fixed with filter statement above
-		const usedWeaknessTag = tags.some( x=> {
-			const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
-			return x.type == "tag"
-				&& tag.data.data.subtype == "weakness"
-				&& x.amount < 0
-		});
 		this.#modifiers = modifiers;
 		this.#options.modifiers = modifiers;
 		this.#tags = tags;
