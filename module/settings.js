@@ -192,7 +192,7 @@ export const registerSystemSettings = function() {
 		// **************************************************
 
 		game.settings.register("city-of-mist", "movesInclude_core", {
-			name: "(DEV) Include Core Moves",
+			name: "Include Core Moves",
 			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 			scope: "world",
 			config: true,
@@ -211,7 +211,7 @@ export const registerSystemSettings = function() {
 		});
 
 		game.settings.register("city-of-mist", "movesInclude_advanced", {
-			name: "(DEV) Include Advanced Moves",
+			name: "Include Advanced Moves",
 			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 			scope: "world",
 			config: true,
