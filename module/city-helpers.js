@@ -709,7 +709,7 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 			case "custom":
 				return;
 			default:
-				console.error(`Unknwon System ${system}`);
+				console.error(`Unknown System ${system}`);
 		}
 	}
 
