@@ -387,13 +387,19 @@
 
 "CityOfMist.settings.statusAdditionSystem.name": "Status Addition",
 "CityOfMist.settings.statusAdditionSystem.hint": "Choose which system to use when adding statuses",
-"CityOfMist.settings.statusAdditionSystem.0": "Classic CoM Additiojn",
+"CityOfMist.settings.statusAdditionSystem.0": "Classic CoM Addition",
 "CityOfMist.settings.statusAdditionSystem.1": "Tier-based Commutative",
 "CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Boxes)",
 "CityOfMist.settings.statuSubtractionSystem.name": "Status Subtraction",
 "CityOfMist.settings.statuSubtractionSystem.hint": "Choose which system to use when adding statuses",
-"CityOfMist.settings.statuSubtractionSystem.0": "Classic CoM",
+"CityOfMist.settings.statuSubtractionSystem.0": "Classic CoM Subtraction",
 "CityOfMist.settings.statuSubtractionSystem.1": "CoM Reloaded (Boxes)",
+
+"CityOfMist.settings.system.name": "Game System",
+"CityOfMist.settings.system.hint": "Choose version of CoM system",
+"CityOfMist.settings.system.0": "CoM Classic",
+"CityOfMist.settings.system.1": "CoM Reloaded",
+"CityOfMist.settings.system.2": "Custom",
 
 
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both.",

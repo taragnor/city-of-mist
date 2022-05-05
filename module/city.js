@@ -56,6 +56,8 @@ Hooks.once("cityDBLoaded", async function() {
 	return true;
 });
 
+Hooks.once("ready", x=> CityHelpers.refreshSystem());
+
 Hooks.once("init", async function() {
 	console.log(`***********************************`);
 	console.log(`Initializing City of Mist System`);

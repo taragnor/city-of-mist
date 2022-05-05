@@ -29,6 +29,26 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "system", {
+		name: localize("CityOfMist.settings.system.name"),
+		hint: localize("CityOfMist.settings.system.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "classic",
+		choices: {
+			"classic": localize("CityOfMist.settings.system.0"),
+			"reloaded": localize("CityOfMist.settings.system.1"),
+			"custom": localize("CityOfMist.settings.system.2"),
+		},
+		restrict: true,
+		onChange: newSystem => {
+			CityHelpers.refreshSystem(newSystem);
+			window.location.reload();
+		}
+
+	});
+
 	game.settings.register("city-of-mist", "weaknessCap", {
 		name: localize("CityOfMist.settings.weaknessCap.name"),
 		hint: localize("CityOfMist.settings.weaknessCap.hint"),
@@ -58,35 +78,6 @@ export const registerSystemSettings = function() {
 			4: "+4",
 			3: "+3",
 			2: "+2",
-		},
-		restrict: true
-	});
-
-	game.settings.register("city-of-mist", "statusAdditionSystem", {
-		name: localize("CityOfMist.settings.statusAdditionSystem.name"),
-		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
-		scope: "world",
-		config: true,
-		type: String,
-		default: "classic",
-		choices: {
-			"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
-			"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
-			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
-		},
-		restrict: true
-	});
-
-	game.settings.register("city-of-mist", "statuSubtractionSystem", {
-		name: localize("CityOfMist.settings.statuSubtractionSystem.name"),
-		hint: localize("CityOfMist.settings.statuSubtractionSystem.hint"),
-		scope: "world",
-		config: true,
-		type: String,
-		default: "classic",
-		choices: {
-			"classic" : localize("CityOfMist.settings.statuSubtractionSystem.0"),
-			"reloaded": localize("CityOfMist.settings.statuSubtractionSystem.1")
 		},
 		restrict: true
 	});
@@ -200,6 +191,7 @@ export const registerSystemSettings = function() {
 // **************************************************
 // ************   Developer Settings  ************* *
 // **************************************************
+
 	game.settings.register("city-of-mist", "movesInclude_core", {
 		name: "(DEV) Include Core Moves",
 		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
@@ -213,7 +205,10 @@ export const registerSystemSettings = function() {
 			"none": "No core moves",
 		},
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+			window.location.reload();
+		}
 	});
 
 	game.settings.register("city-of-mist", "movesInclude_advanced", {
@@ -228,8 +223,47 @@ export const registerSystemSettings = function() {
 			"none": "No advanced moves",
 		},
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+			window.location.reload();
+		}
 	});
+
+	game.settings.register("city-of-mist", "statusAdditionSystem", {
+		name: localize("CityOfMist.settings.statusAdditionSystem.name"),
+		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
+			"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
+			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+		}
+	});
+
+	game.settings.register("city-of-mist", "statuSubtractionSystem", {
+		name: localize("CityOfMist.settings.statuSubtractionSystem.name"),
+		hint: localize("CityOfMist.settings.statuSubtractionSystem.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : localize("CityOfMist.settings.statuSubtractionSystem.0"),
+			"reloaded": localize("CityOfMist.settings.statuSubtractionSystem.1")
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+		}
+	});
+
 
 }
 
