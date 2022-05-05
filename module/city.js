@@ -41,6 +41,9 @@ Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, 
 Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
 
+Hooks.once("ready", () => {
+	ui.notifications.notify("Running Taragnor Expiremental");
+});
 
 Hooks.once("cityDBLoaded", async function() {
 	if (game.user.isGM) {
