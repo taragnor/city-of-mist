@@ -275,7 +275,6 @@ export class CityRoll {
 
 
 	static getPower (rollOptions) {
-		Debug(rollOptions);
 		const modifiers = rollOptions.modifiers;
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
