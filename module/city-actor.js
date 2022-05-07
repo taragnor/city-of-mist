@@ -886,8 +886,8 @@ export class CityActor extends Actor {
 	}
 
 	async addOrCreateStatus (name2, tier2, pips=0) {
-		const classic = CityHelpers.isClassicCoM();
-		const reloaded = CityHelpers.isCoMReloaded();
+		const classic = CityHelpers.isClassicCoM("addition");
+		const reloaded = CityHelpers.isCoMReloaded("addition");
 		let status = this.hasStatus(name2);
 		if (status) {
 			if (reloaded) {
