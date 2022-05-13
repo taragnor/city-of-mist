@@ -102,6 +102,12 @@
 "CityOfMist.terms.customModifier": "Zusätzlicher Modifikator",
 "CityOfMist.terms.mythosThemes": "Mythos Themen",
 "CityOfMist.terms.logosThemes": "Logos Themen",
+"CityOfMist.terms.biography": "Biographie",
+"CityOfMist.terms.mc_notes": "Spielleitungsnotizen",
+"CityOfMist.terms.bu_points": "Aufbaupunkte",
+"CityOfMist.terms.choice": "Wahl",
+"CityOfMist.terms.amount": "Menge",
+"CityOfMist.terms.target": "Ziel",
 
 "CityOfMist.moves.genericFail": "Harscher Spielzug der Spielleitung.",
 
