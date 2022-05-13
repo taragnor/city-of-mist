@@ -238,6 +238,40 @@
 "CityOfMist.moves.sessionEnd.1": "Welcher Charakter hatte in dieser Sitzung die bedeutendste Interaktion mit deinem Charakter? Notiere dir für ihn einen Freund- oder Feindpunkt auf deiner Charakterkarte.",
 "CityOfMist.moves.sessionEnd.2": "Welches deiner Themen wurde am meisten strapaziert? Welcher neue Aspekt würde an seine Stelle treten, falls es kollabiert? Notiere dir die Antwort unter KEHRSEITE auf der entsprechenden Themankarte.",
 
+"CityOfMist.reloaded.moves.stunt.name": "Stunt",
+"CityOfMist.reloaded.moves.stunt.partial": "Du bist erfolgreich, aber die Spielelitung wählt eine Komplikation:",
+"CityOfMist.reloaded.moves.stunt.success": "Du bis erfolgreich",
+"CityOfMist.reloaded.moves.stunt.0": "Teilerfolg oder fehlerbehaftete Ausführung",
+"CityOfMist.reloaded.moves.stunt.1": "Nebeneffekt, Kosten oder Opfer",
+"CityOfMist.reloaded.moves.stunt.2": "Einer neuen Gefahr aussetzen",
+"CityOfMist.reloaded.moves.stunt.3": "Wahl zwichen zwei der oben genannten Übel anbieten",
+
+"CityOfMist.reloaded.moves.discover.name": "Discover",
+"CityOfMist.reloaded.moves.discover.partial":"Erhalte PWR Hinweise. Die Spielleitung wählt eine Komblikation:",
+"CityOfMist.reloaded.moves.discover.success": "Erhalte PWR Hinweise",
+"CityOfMist.reloaded.moves.discover.0": "Dein Ziel macht etwas überdich bekannt",
+"CityOfMist.reloaded.moves.discover.1": "Bruchstückhafte oder ungenaue Information",
+"CityOfMist.reloaded.moves.discover.2": "Nebeneffekt, Kosten oder Opfer",
+"CityOfMist.reloaded.moves.discover.3": "EIner neuen Gefahr aussetzen",
+"CityOfMist.reloaded.moves.discover.4": "Wahl zwichen zwei der oben genannten Übel anbieten",
+
+"CityOfMist.reloaded.moves.resist.name": "Resist",
+"CityOfMist.reloaded.moves.resist.fail": "Du ereleitest den vollen Status.",
+"CityOfMist.reloaded.moves.resist.partial":"Reduziere den Status um PWR/2 Boxen",
+"CityOfMist.reloaded.moves.resist.success": "Reduziere den Status um PWR Boxen",
+
+"CityOfMist.reloaded.moves.buff.name": "Buff/Debuff",
+"CityOfMist.reloaded.moves.buff.partial":"Für jeden Punkt Kraft PWR füge ein Merkmal oder eine Statusbox hinzu oder entferne es bzw sie. Merkamale die auf diese Weise erzeugt wurden sind offensichtlich, einmalig zu nutzen und betreffen nur eine Person (oder einen vergelichbaren Bereich).",
+"CityOfMist.reloaded.moves.buff.success": "FÜr jeden Punkt Kraft PWRM2 füge ein Merkmal oder eine Statusbox hinzu oder entferne es bzw.sie. Merkamale die auf diese Weise erzeugt wurden sind offensichtlich, einmalig zu nutzen und betreffen nur eine Person (oder einen vergelichbaren Bereich). Du kannst die Punkte auch benutzen, um die folgenden Optionen zu wählen:",
+
+"CityOfMist.reloaded.moves.conflict.name": "Conflict",
+"CityOfMist.reloaded.moves.conflict.partial":"Teile eine Status von PWR Boxen zu und wähle eine der Optionen:",
+"CityOfMist.reloaded.moves.conflict.success": "Teile einen Status von PWR Boxen zu und wähle zwei der Optionen:",
+"CityOfMist.reloaded.moves.conflict.0": "Vermeide einen Gegenschlag",
+"CityOfMist.reloaded.moves.conflict.1": "Füge weitere PWR Boxen dem Status hizu",
+"CityOfMist.reloaded.moves.conflict.2": "Erreiche ein tachtisches Ziel (wie in Stunt)",
+"CityOfMist.reloaded.moves.conflict.3": "Gib PWR/2 als De/buff aus",
+  
 "CityOfMist.generic.narration": "Erzählung",
 
 "CityOfMist.command.submit": "Absenden",
