@@ -373,6 +373,7 @@ export class CityActorSheet extends CitySheet {
 		if (invert)
 			direction *= -1;
 		const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
+		if (activated === null) return;
 		if (activated)
 			CityHelpers.playTagOn();
 		else
