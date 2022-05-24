@@ -669,8 +669,21 @@ export class CityActor extends Actor {
 		await this.toggleSelectable(tagId, "status", tagOwner, direction, amount, name);
 	}
 
-	async toggleTagActivation(tagId, tagOwner = this, name, direction = 1, amount=1) {
-		 return await this.toggleSelectable(tagId, "tag", tagOwner, direction, amount, name);
+	async toggleTagActivation(tagId, tagOwner = this, name, direction = 1, amount = 1) {
+		const tag = await tagOwner.getTag(tagId);
+		const maxWeakness = CityHelpers.getMaxWeaknessTags();
+		if (tag.isWeaknessTag()) {
+			const selectedWeakness = this.getActivated().filter(x=> x.type == "tag" && x.subtype == "weakness");
+			console.log(selectedWeakness);
+			if (
+				selectedWeakness.every( x => x.tagId != tag.id)
+				&& selectedWeakness.length >= maxWeakness
+			) {
+				ui.notifications.warn("Can't select another weakness tag");
+				return null;
+			}
+		}
+		return await this.toggleSelectable(tagId, "tag", tagOwner, direction, amount, name);
 	}
 
 	async toggleSelectable(tagId, type, owner, direction = 1, amount=1, name) {
@@ -722,6 +735,7 @@ export class CityActor extends Actor {
 		memberIds = memberIds.filter( x=> x !=actorId);
 		await this.update({data: {memberIds}});
 	}
+
 	async setExtraThemeId (id) {
 		await this.update({data: {activeExtraId:id}});
 	}

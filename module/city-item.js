@@ -72,6 +72,10 @@ export class CityItem extends Item {
 		}
 	}
 
+	isWeaknessTag() {
+		return this.type == "tag" && this.data.data.subtype == "weakness";
+	}
+
 	getActivatedEffect() {
 		// console.log(`Getting Activated Efect for ${this.name}`);
 		if (this.data.data.effect_class.includes("DYN"))

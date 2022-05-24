@@ -353,10 +353,17 @@
 
 "CityOfMist.settings.gritMode.name": "Grit Mode",
 "CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",
+
 "CityOfMist.settings.weaknessCap.name": "Cap Weakness Rolls",
 "CityOfMist.settings.weaknessCap.hint": "Place a cap on total Power on moves involving weakness tags.",
+
+"CityOfMist.settings.maxWeaknessTags.name": "Maximum Weakness Tags",
+"CityOfMist.settings.maxWeaknessTags.hint": "Maximum allowed weakness tags on a single move",
+
+
 "CityOfMist.settings.maxRollCap.name": "Max Roll Bonus Cap",
 "CityOfMist.settings.maxRollCap.hint": "Place a cap on the maximum bonus on a roll (does not reduce power for purpose of a move's efffect)",
+
 "CityOfMist.settings.commutativeStatusAddition.name": "Commutative Status Addition",
 "CityOfMist.settings.commutativeStatusAddition.hint": "When adding statuses always use highest status first then add the weaker status so tier 3 + tier 4 will equal tier 4 + tier 3.",
 "CityOfMist.settings.monologueAttention.name": "Monologue Attention Bonus",
@@ -366,6 +373,7 @@
 
 "CityOfMist.settings.autoWeakness.name": "Auto-apply Weakness Attention",
 "CityOfMist.settings.autoWeakness.hint": "Automatically add an attention when a weakness tag is used",
+
 "CityOfMist.settings.execEntranceMoves.name": "Danger Entrance Moves",
 "CityOfMist.settings.execEntranceMoves.hint": "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
 "CityOfMist.settings.execEntranceMoves.0": "No Automation",

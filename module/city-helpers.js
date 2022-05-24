@@ -677,6 +677,10 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 
 	}
 
+	static getMaxWeaknessTags() {
+		return game.settings.get('city-of-mist', "maxWeaknessTags") ?? 999;
+	}
+
 	static getRollCap() {
 		return game.settings.get("city-of-mist", "maxRollCap");
 	}
@@ -698,13 +702,13 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 				game.settings.set("city-of-mist", "movesInclude_core", "classic");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
-				game.settings.set("city-of-mist", "statuSubtractionSystem", "classic");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
 				return;
 			case "reloaded":
 				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
-				game.settings.set("city-of-mist", "statuSubtractionSystem", "reloaded");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
 				return;
 			case "custom":
 				return;
