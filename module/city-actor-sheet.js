@@ -92,7 +92,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.execute-move-button').click( this._executeMove.bind(this) );
 		html.find('.create-story-tag').click(this._createStoryTag.bind(this));
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
-		html.find('.clue-data-block').click(this._useClue.bind(this));
+		html.find('.clue-use-button').click(this._useClue.bind(this));
 		// this.testHandlers(html);
 	}
 
@@ -822,6 +822,10 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _useClue(event) {
+		if (game.user.isGM) {
+			ui.notifications.warn("only players can use clues");
+			return;
+		}
 		const clue_id = getClosestData(event, "clueId");
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
