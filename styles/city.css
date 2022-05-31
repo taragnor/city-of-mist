@@ -2838,15 +2838,15 @@ nav.sheet-tabs.tabs {
 }
 
 .clue-reveal {
-	color: var(--logos-text);
-	height: 100%;
-	margin-top: 10px;
-	border-radius: 1em;
-	border-bottom: 1em solid var(--logos-orange);
-	border-top: 2.2em solid var(--logos-orange);
-	background-image: url(../images/themecardbg.webp);
-	box-shadow: 0px -2px 0px 4px #a85d4ba6;
-	padding: 10px;
+    color: var(--logos-text);
+    height: 100%;
+    margin-top: 5px;
+    border-radius: 0.5em;
+    border-bottom: 0.5em solid var(--logos-orange);
+    border-top: 2.25em solid var(--logos-orange);
+    background-image: url(../images/themecardbg.webp);
+    box-shadow: 0px 0px 1px 2px #a85d4b;
+    padding: 10px;
 }
 
 .clue-reveal button
@@ -2866,17 +2866,16 @@ nav.sheet-tabs.tabs {
 }
 
 .clue-reveal h1 {
-	padding: 10px;
-	border: none;
-	margin: 0;
-	margin-top: -1.4em;
-	text-align: center;
-	font-family: 'Rift Bold';
-	font-weight: bold;
-	font-size: 2.2em;
-	text-transform: uppercase;
-	text-shadow: 0px 2px 3px white,
-	0px 2px 4px var(--logos-orange);
+    padding: 10px;
+    border: none;
+    margin: 0;
+    margin-top: -1.4em;
+    text-align: center;
+    font-family: 'Rift Bold';
+    font-weight: bold;
+    font-size: 2.2em;
+    text-transform: uppercase;
+    text-shadow: 0px -1px 2px var(--spectrum-red), 0px 2px 2px var(--spectrum-red);
 }
 
 .clue-reveal h2 {
@@ -2897,7 +2896,8 @@ nav.sheet-tabs.tabs {
 }
 
 .clue-reveal .answer-part {
-	border-top: 2px solid red;
+    border-top: 2px solid var(--logos-orange);
+    padding-top: 10px;
 }
 
 .clue-reveal .header{
