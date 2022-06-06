@@ -623,7 +623,7 @@ return game.settings.get("city-of-mist", "statusAdditionSystem");
 	}
 
 	static getStatusSubtractionSystem() {
-return game.settings.get("city-of-mist", "statuSubtractionSystem");
+return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static isCommutativeStatusAddition() {
