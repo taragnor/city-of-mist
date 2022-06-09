@@ -312,7 +312,7 @@ export class CityItem extends Item {
 	}
 
 	async addStatus_reloaded (boxes_add, newname)  {
-		console.debug("Running Reloaded addition");
+		// console.debug("Running Reloaded addition");
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
 		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
@@ -336,7 +336,7 @@ export class CityItem extends Item {
 	}
 
 	async subtractStatus_reloaded(boxes_sub, newname) {
-		console.debug("Running Reloaded subtraction");
+		// console.debug("Running Reloaded subtraction");
 		let tier = this.data.data.tier;
 		let pips = this.data.data.pips;
 		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
