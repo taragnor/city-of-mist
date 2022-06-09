@@ -122,7 +122,7 @@ export class StatusTracker {
 
 		const {data: {name, data: {tier, pips}}} = status;
 		let ret = null;
-		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.addto"))) {
+		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.addto"), "addition")) {
 			//TODO: add in logging function for loggable chat
 			const {name: newname, tier: amt} = ret;
 			// console.log(`${name} : ${tier}`);
@@ -138,7 +138,7 @@ export class StatusTracker {
 
 		const {data: {name, data: {tier, pips}}} = status;
 		let ret = null;
-		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.subtract"))) {
+		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.subtract"), "subtraction")) {
 			//TODO: add in logging function for loggable chat
 			const {name: newname, tier: amt} = ret;
 			// console.log(`${name} : ${tier}`);
@@ -184,8 +184,8 @@ export class StatusTracker {
 			await actor.burnTag(tagId, 0);
 	}
 
-	async _statusAddSubDialog(status, title) {
-		return await CityHelpers._statusAddSubDialog(status, title);
+	async _statusAddSubDialog(status, title, type = "addition") {
+		return await CityHelpers._statusAddSubDialog(status, title, type);
 	}
 
 	async _openTokenSheet(indexActor) {

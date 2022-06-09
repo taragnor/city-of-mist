@@ -981,69 +981,15 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async statusAddDialog(status) {
-		const classic = CityHelpers.isClassicCoM("addition");
-		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const title = `Add Tier to Status`;
-		return await this._statusAddSubDialog(status, title, {classic, reloaded});
+		return await CityHelpers._statusAddSubDialog(status, title, "addition");
 	}
 
 	async statusSubtractDialog(status) {
-		const classic = CityHelpers.isClassicCoM("subtraction");
-		const reloaded = CityHelpers.isCoMReloaded("subtraction");
 		const title = `Subtract Tier to Status`;
-		return await this._statusAddSubDialog(status, title, {classic, reloaded} );
+		return await CityHelpers._statusAddSubDialog(status, title, "subtraction");
 	}
 
-	async _statusAddSubDialog(status, title, {classic, reloaded}) {
-		const templateData = {status: status.data, data: status.data.data, classic, reloaded};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-		return new Promise ( (conf, reject) => {
-			const options ={};
-			const returnfn = function (html, tier) {
-				conf( {
-					name: $(html).find(".status-name-input").val(),
-					tier
-				});
-			}
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				buttons: {
-					one: {
-						label: "1",
-						callback: (html) => returnfn(html, 1)
-					},
-					two: {
-						label: "2",
-						callback: (html) => returnfn(html, 2)
-					},
-					three: {
-						label: "3",
-						callback: (html) => returnfn(html, 3)
-					},
-					four: {
-						label: "4",
-						callback: (html) => returnfn(html, 4)
-					},
-					five: {
-						label: "5",
-						callback: (html) => returnfn(html, 5)
-					},
-					six: {
-						label: "6",
-						callback: (html) => returnfn(html, 6)
-					},
-					cancel: {
-						label: "Cancel",
-						callback: () => conf(null)
-					}
-				},
-				default: "cancel"
-			}, options);
-			dialog.render(true);
-		});
-
-	}
 
 	async SHBDialog () {
 		const title = "You sure about this?";
