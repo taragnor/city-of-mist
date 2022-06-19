@@ -30,7 +30,7 @@ export class CityRoll {
 
 	static async execMove(moveId, actor, options = {}) {
 		const CR = new CityRoll(moveId, actor, options);
-		return CR.execMove();
+		return await CR.execMove();
 	}
 
 	async execMove() {
@@ -39,7 +39,8 @@ export class CityRoll {
 		const actor = this.#actor;
 		const options = this.#options;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
-		switch (options?.newtype ?? move.data.data.type) {
+		const type = options?.newtype ?? move.data.data.type;
+		switch (type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
 					if (!await this.modifierPopup(moveId, actor))
@@ -55,13 +56,14 @@ export class CityRoll {
 				await this.noRoll(moveId, actor);
 				break;
 			default:
-				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
+				throw new Error(`Unknown Move Type ${type}`);
 		}
 		return this.execRoll();
 	}
 
 	static async execRoll(moveId, actor, options = {}) {
-		const CR =  new CityRoll(moveId,actor, options);
+		console.warn("Calling deprecated function execRoll");
+		const CR =  new CityRoll(moveId, actor, options);
 		return CR.execRoll();
 	}
 
@@ -73,7 +75,7 @@ export class CityRoll {
 			this.#tags = [];
 			return this;
 		}
-		const activated = actor.getActivated();
+		const activated = actor?.getActivated() ?? [];
 		const allModifiers = activated
 			.map( x => {
 				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
@@ -545,7 +547,6 @@ export class CityRoll {
 			logosRoll: true,
 			setRoll: 0
 		});
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async mythosRoll () {
@@ -555,7 +556,6 @@ export class CityRoll {
 			mythosRoll: true,
 			setRoll: 0
 		});
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async SHBRoll (_move_id, _actor, type = "Logos") {
@@ -570,7 +570,6 @@ export class CityRoll {
 			rollOptions.mythosRoll = true;
 		}
 		mergeObject(this.#options, rollOptions);
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async noRoll (_move_id, _actor) {
@@ -580,7 +579,6 @@ export class CityRoll {
 			noRoll: true
 		};
 		mergeObject(this.#options, rollOptions);
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	static async diceModListeners (_app, html, _data) {
