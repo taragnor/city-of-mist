@@ -57,7 +57,13 @@
 "CityOfMist.terms.improvements": "Melhorias",
 "CityOfMist.terms.tag": "Rótulo",
 "CityOfMist.terms.tags": "Rótulos",
+"CityOfMist.terms.powerTags": "Rótulos de Poder",
+"CityOfMist.terms.weaknessTags": "Rótulos de Fraqueza",
 "CityOfMist.terms.storyTags": "Rótulos de História",
+"CityOfMist.terms.permanentStoryTag": "Rótulos de História Permanente",
+"CityOfMist.terms.broadTag": "Broad Tag",
+"CityOfMist.terms.crispyTag": "Crispy Tag",
+"CityOfMist.terms.temporaryTag": "Rótulos Temporário",
 "CityOfMist.terms.clue": "Dica",
 "CityOfMist.terms.clues": "Dicas",
 "CityOfMist.terms.partialClue": "Dica Parcial",
@@ -232,6 +238,42 @@
 "CityOfMist.moves.sessionEnd.1": "Com que outra personagem você teve a interação mais significativa da sessão? Anote um ponto de Apoio ou de Antagonismo ao lado do nome dela na carta de personagem.",
 "CityOfMist.moves.sessionEnd.2": "Qual dos seus temas está sob maior pressão? Se o tema ruir, que novo aspecto aparecerá em seu lugar? Escreva a resposta em E SE, na carta do tema",
 
+"CityOfMist.reloaded.moves.stunt.name": "Stunt",
+"CityOfMist.reloaded.moves.stunt.partial": "You succeed, but the MC chooses a complication:",
+"CityOfMist.reloaded.moves.stunt.success": "You succeed",
+"CityOfMist.reloaded.moves.stunt.0": "Partial succes or imperfect exectuion",
+"CityOfMist.reloaded.moves.stunt.1": "Side effect, cost or sacrifice",
+"CityOfMist.reloaded.moves.stunt.2": "Exposure to a new threat",
+"CityOfMist.reloaded.moves.stunt.3": "Hard choice between the above",
+
+"CityOfMist.reloaded.moves.discover.name": "Discover",
+"CityOfMist.reloaded.moves.discover.partial":"Gain PWR clues. The MC presents a complication:",
+"CityOfMist.reloaded.moves.discover.success": "Gain PWR clues",
+"CityOfMist.reloaded.moves.discover.0": "Your target reveals info on you",
+"CityOfMist.reloaded.moves.discover.1": "Partial or vague information",
+"CityOfMist.reloaded.moves.discover.2": "Side effect, cost or sacrifice",
+"CityOfMist.reloaded.moves.discover.3": "Exposure to a new threat",
+"CityOfMist.reloaded.moves.discover.4": "Hard choice between the above",
+
+"CityOfMist.reloaded.moves.resist.name": "Resist",
+"CityOfMist.reloaded.moves.resist.fail":"You take the full status.",
+"CityOfMist.reloaded.moves.resist.partial":"Remove PWR/2 boxes from the status",
+"CityOfMist.reloaded.moves.resist.success": "Remove PWR boxes from the status",
+
+"CityOfMist.reloaded.moves.buff.name": "Buff/Debuff",
+"CityOfMist.reloaded.moves.buff.partial":"Add or remove one tag or status box for each point of power (PWR). Tags created are obvious, single use and affect one person (or a similar area).",
+"CityOfMist.reloaded.moves.buff.success": "Add or remove one tag or status box for each point of power (PWRM2). Tags created are obvious, single use and affect one person (or a similar area). You may use one power to purchase one of the following upgrades:",
+
+"CityOfMist.reloaded.moves.conflict.name": "Conflict",
+"CityOfMist.reloaded.moves.conflict.partial":"Deal a status of PWR boxes and choose one upgrade:",
+"CityOfMist.reloaded.moves.conflict.success": "Deal a status of PWR boxes and choose two upgrades:",
+"CityOfMist.reloaded.moves.conflict.0": "Avoid a counterattack",
+"CityOfMist.reloaded.moves.conflict.1": "Mark another PWR boxes on the status",
+"CityOfMist.reloaded.moves.conflict.2": "Achieve a tactical goal (as in Stunt)",
+"CityOfMist.reloaded.moves.conflict.3": "Spend PWR/2 on De/buff",
+
+
+
 "CityOfMist.generic.narration": "Narração",
 
 "CityOfMist.command.submit": "Enviar",
@@ -261,6 +303,7 @@
 
 "CityOfMist.misc.newMoE": "Novo Momento de Evolução",
 "CityOfMist.misc.reduceTier": "Reduza o Qualificador da Condição em 1",
+"CityOfMist.misc.subtagOf": "Sub-rótulo de",
 
 "CityOfMist.themebook.adaption.name": "Adaptabilidade",
 "CityOfMist.themebook.advancedart.name": "Advanced Art",
@@ -302,11 +345,25 @@
 "CityOfMist.dialog.SHB.logosPower":"Utilizar poder de Logos (Regra Opcional)",
 "CityOfMist.dialog.SHB.yes":"Vamo dá-lhe!",
 "CityOfMist.dialog.SHB.no":"Espere, mudei de ideia!",
+"CityOfMist.dialog.statusAdd.CoMClassic": "Escolha o qualificador da condição para adicionar/subtrair",
+"CityOfMist.dialog.statusAdd.CoMReloaded": "Escolha o número de caixas para adicionar/subtrair",
+"CityOfMist.dialog.statusDrop.CoMReloaded": "Escolha o número de caixas para subtrair",
+
+
 
 "CityOfMist.settings.gritMode.name": "Modo Brutal",
 "CityOfMist.settings.gritMode.hint": "Ativa o Modo Brutal (como descrito nas regras)",
+
 "CityOfMist.settings.weaknessCap.name": "Limitar Rolagens com Fraqueza",
-"CityOfMist.settings.weaknessCap.hint": "Coloca um limite no Poder total em rolagens envolvendo rótulos de fraqueza.",
+"CityOfMist.settings.weaknessCap.hint": "Coloca um limite no Poder total em movimentos envolvendo rótulos de fraqueza.",
+
+"CityOfMist.settings.maxWeaknessTags.name": "Rótulos de Fraqueza Máximos",
+"CityOfMist.settings.maxWeaknessTags.hint": "Máximo de rótulos de fraqueza permitidos em um único movimento",
+
+
+"CityOfMist.settings.maxRollCap.name": "Limite de Bônus em Rolagem",
+"CityOfMist.settings.maxRollCap.hint": "Coloca um limite no bônus máximo em uma rolagem (não reduz o poder, para efeitos de efeito de movimento)",
+
 "CityOfMist.settings.commutativeStatusAddition.name": "Adição Comutativa de Condições",
 "CityOfMist.settings.commutativeStatusAddition.hint": "Ao somar condições, sempre use a maior condição antes e depois some a condição menor, fazendo com que um qualificador 3 + um qualificador 4 seja igual a um qualificador 4 + um qualificador 3.",
 "CityOfMist.settings.monologueAttention.name": "Bônus de Atenção pelo Monólogo Narrativo",
@@ -316,6 +373,7 @@
 
 "CityOfMist.settings.autoWeakness.name": "Marcar automaticamente Atenção de Fraqueza",
 "CityOfMist.settings.autoWeakness.hint": "Marque automaticamente Atenção quando um rótulo de fraqueza for usado",
+
 "CityOfMist.settings.execEntranceMoves.name": "Movimentos de Abertura de Perigos",
 "CityOfMist.settings.execEntranceMoves.hint": "Defina as opções de automação para movimentos do tipo 'entrar em cena' em perigos. Aciona quando o token é revelado ou criado. Remove quando o token fica oculto ou é excluído.", 
 "CityOfMist.settings.execEntranceMoves.0": "Sem Automação",
@@ -335,8 +393,23 @@
 "CityOfMist.settings.devMode.name": "Modo de Desenvolvedor",
 "CityOfMist.settings.devMode.hint": "Expõe várias variáveis internas do sistema (somente uso avançado).",
 
+"CityOfMist.settings.statusAdditionSystem.name": "Soma de Condições",
+"CityOfMist.settings.statusAdditionSystem.hint": "Escolhe qual método usar ao somar condições",
+"CityOfMist.settings.statusAdditionSystem.0": "Adição do CoM Clássico",
+"CityOfMist.settings.statusAdditionSystem.1": "Comutativa Baseada nos Qualificadores",
+"CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Caixas)",
+"CityOfMist.settings.statusSubtractionSystem.name": "Subtração de Condições",
+"CityOfMist.settings.statusSubtractionSystem.hint": "Escolhe qual método usar ao subtrair condições",
+"CityOfMist.settings.statusSubtractionSystem.0": "Subtração do CoM Clássico",
+"CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Caixas)",
+
+"CityOfMist.settings.system.name": "Sistema do Jogo",
+"CityOfMist.settings.system.hint": "Escolha a versão do sistema de CoM",
+"CityOfMist.settings.system.0": "CoM Clássico",
+"CityOfMist.settings.system.1": "CoM Reloaded",
+"CityOfMist.settings.system.2": "Customizado",
 
 
-
-"CityOfMist.tooltip.gmmove": "Use [] entre uma palavra para criar um Rótulo ou uma Condição. Usar [a:nome] fará com que uma condição seja aplicada automaticamente quando o movimento for utilizado. Usar [i:nome] ignorará bônus coletivos. [a,i:name] fará ambos."
+"CityOfMist.tooltip.gmmove": "Use [] entre uma palavra para criar um Rótulo ou uma Condição. Usar [a:nome] fará com que uma condição seja aplicada automaticamente quando o movimento for utilizado. Usar [i:nome] ignorará bônus coletivos. [a,i:name] fará ambos.",
+"CityOfMist.tooltip.error.missingParent": "ERRO: Esse rótulo precisa ser o sub-rótulo de outro rótulo."
 }
