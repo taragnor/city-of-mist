@@ -124,13 +124,18 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 	'activatedDirection': function (sheetownerId, _actorId, tagId) {
-		const sheetowner = game.actors.get(sheetownerId);
-		if (sheetowner != null) {
-			const result = sheetowner.getActivatedDirection(tagId);
-			return result;
-		} else {
-			return 0;
-		}
+		const amount = CityHelpers.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId)?.amount ?? 0;
+		if (amount > 0) return 1;
+		if (amount < 0) return -1;
+		return 0;
+		// Old selection system Deporecated
+		// const sheetowner = game.actors.get(sheetownerId);
+		// if (sheetowner != null) {
+		// 	const result = sheetowner.getActivatedDirection(tagId);
+		// 	return result;
+		// } else {
+		// 	return 0;
+		// }
 	},
 
 	'defaultTagDirection': function (sheetownerId, tagOwnerId, tagId) {
