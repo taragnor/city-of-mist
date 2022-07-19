@@ -75,7 +75,7 @@ export class CityRoll {
 			this.#tags = [];
 			return this;
 		}
-		const activated = actor?.getActivated() ?? [];
+		const activated = actor?.getActivated() ?? CityHelpers.getPlayerActivatedTagsAndStatus() ?? [];
 		const allModifiers = activated
 			.map( x => {
 				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
@@ -402,7 +402,8 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+		const burnableTags = ( await actor.getActivated() )
+			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder

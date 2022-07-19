@@ -538,57 +538,6 @@ export class CityHelpers {
 			await canvas.animatePan (position);
 	}
 
-	//static async _statusAddSubDialog(status, title) {
-	//	//Utilized in Status Tracker
-	//	const templateData = {status: status.data, data: status.data.data};
-	//	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-	//	return new Promise ( (conf, reject) => {
-	//		const options ={};
-	//		const returnfn = function (html, tier) {
-	//			conf( {
-	//				name: $(html).find(".status-name-input").val(),
-	//				tier
-	//			});
-	//		}
-	//		const dialog = new Dialog({
-	//			title:`${title}`,
-	//			content: html,
-	//			buttons: {
-	//				one: {
-	//					label: "1",
-	//					callback: (html) => returnfn(html, 1)
-	//				},
-	//				two: {
-	//					label: "2",
-	//					callback: (html) => returnfn(html, 2)
-	//				},
-	//				three: {
-	//					label: "3",
-	//					callback: (html) => returnfn(html, 3)
-	//				},
-	//				four: {
-	//					label: "4",
-	//					callback: (html) => returnfn(html, 4)
-	//				},
-	//				five: {
-	//					label: "5",
-	//					callback: (html) => returnfn(html, 5)
-	//				},
-	//				six: {
-	//					label: "6",
-	//					callback: (html) => returnfn(html, 6)
-	//				},
-	//				cancel: {
-	//					label: "Cancel",
-	//					callback: () => conf(null)
-	//				}
-	//			},
-	//			default: "cancel"
-	//		}, options);
-	//		dialog.render(true);
-	//	});
-	//}
-
 	static entranceMovesEnabled() {
 		const setting = game.settings.get("city-of-mist", "execEntranceMoves");
 		return setting != "none";
@@ -769,5 +718,53 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		});
 	}
 
+	static _playerActivatedStuff = [];
+
+	static getPlayerActivatedTagsAndStatus() {
+		return this._playerActivatedStuff;
+	}
+
+	static activateTag( tag, direction= 1) { this.activateSelectedItem(tag, direction); }
+
+	static activateStatus(status, direction= 1) { this.activateSelectedItem(status, direction); }
+
+	static activateSelectedItem(tagOrStatus, direction = 1) {
+		const x = tagOrStatus;
+		const tagOwner = tagOrStatus?.parent;
+		const tag = x.data.type == "tag" ? tagOrStatus : null;
+		const subtype = tag ? tag.data.data.subtype : "";
+		const amount = direction * (tag ? 1 : tagOrStatus.data.data.tier); 
+		const newItem = {
+			name: x.name,
+			id: x.id,
+			amount,
+			ownerId: tagOwner?.id ?? null ,
+			tagId: tag ? x.id : null,
+			type: x.type,
+			description: tag ? tag.data.data.description : "",
+			subtype,
+			strikeout: false,
+		}
+		this._playerActivatedStuff.push(newItem);
+	}
+
+	static removeSelectedItem(tagOrStatusId) {
+		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> x.id != tagOrStatusId);
+	}
+
+	static toggleSelectedItem(tagOrStatus, direction= 1) {
+		Debug(tagOrStatus)
+		if (this._playerActivatedStuff.some( x=> x.id == tagOrStatus.id)) {
+			this.removeSelectedItem(tagOrStatus.id);
+			return false;
+		} else {
+			this.activateSelectedItem(tagOrStatus, direction);
+			return true;
+		}
+	}
+
+	static clearAllActivatedItems() {
+		this._playerActivatedStuff = [];
+	}
 
 } //end of class

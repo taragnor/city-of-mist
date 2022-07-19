@@ -372,6 +372,7 @@ export class CityActorSheet extends CitySheet {
 		let direction = CityHelpers.getDefaultTagDirection(tag, owner, actor);
 		if (invert)
 			direction *= -1;
+		CityHelpers.toggleSelectedItem(tag, direction);
 		const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
 		if (activated === null) return;
 		if (activated)
@@ -641,6 +642,8 @@ export class CityActorSheet extends CitySheet {
 		if (invert)
 			direction *= -1;
 		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
+		const status = await owner.getStatus(id);
+		CityHelpers.toggleSelectedItem(status, direction)
 		const activated = await actor.toggleStatusActivation(id, owner, statusName, direction, amount);
 		if (activated)
 			await CityHelpers.playTagOn();
