@@ -372,8 +372,9 @@ export class CityActorSheet extends CitySheet {
 		let direction = CityHelpers.getDefaultTagDirection(tag, owner, actor);
 		if (invert)
 			direction *= -1;
-		CityHelpers.toggleSelectedItem(tag, direction);
-		const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
+		const activated = CityHelpers.toggleSelectedItem(tag, direction);
+		this.render(true);
+		// const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
 		if (activated === null) return;
 		if (activated)
 			CityHelpers.playTagOn();
@@ -643,8 +644,9 @@ export class CityActorSheet extends CitySheet {
 			direction *= -1;
 		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
 		const status = await owner.getStatus(id);
-		CityHelpers.toggleSelectedItem(status, direction)
-		const activated = await actor.toggleStatusActivation(id, owner, statusName, direction, amount);
+		const activated = CityHelpers.toggleSelectedItem(status, direction)
+		this.render(true);
+		// const activated = await actor.toggleStatusActivation(id, owner, statusName, direction, amount);
 		if (activated)
 			await CityHelpers.playTagOn();
 		else
@@ -952,7 +954,10 @@ export class CityActorSheet extends CitySheet {
 		const options = {
 			newtype
 		};
-		await CityRoll.execMove(move_id, this.actor, options);
+		const selectedTagsAndStatuses = CityHelpers.getPlayerActivatedTagsAndStatus();
+		CityHelpers.clearAllActivatedItems();
+		this.render(true);
+		await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
 		const effectClass = move.data?.data?.effect_class ?? "";
 		for (let effect of move.effect_classes) {

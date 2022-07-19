@@ -11,12 +11,14 @@ export class CityRoll {
 	#tags;
 	#html;
 	#msgId;
+	#selectedList;
 
-	constructor (moveId, actor, options) {
+	constructor (moveId, actor, selectedList = [],  options) {
 		this.#roll = null;
 		this.#moveId = moveId;
 		this.#actor = actor;
 		this.#options = options;
+		this.#selectedList = selectedList;
 	}
 
 	async execRoll() {
@@ -28,8 +30,8 @@ export class CityRoll {
 		await this.#rollCleanupAndAftermath();
 	}
 
-	static async execMove(moveId, actor, options = {}) {
-		const CR = new CityRoll(moveId, actor, options);
+	static async execMove(moveId, actor, selectedList =[], options = {}) {
+		const CR = new CityRoll(moveId, actor, selectedList, options);
 		return await CR.execMove();
 	}
 
@@ -61,11 +63,11 @@ export class CityRoll {
 		return this.execRoll();
 	}
 
-	static async execRoll(moveId, actor, options = {}) {
-		console.warn("Calling deprecated function execRoll");
-		const CR =  new CityRoll(moveId, actor, options);
-		return CR.execRoll();
-	}
+	// static async execRoll(moveId, actor, options = {}) {
+	// 	console.warn("Calling deprecated function execRoll");
+	// 	const CR =  new CityRoll(moveId, actor, options);
+	// 	return CR.execRoll();
+	// }
 
 	#prepareModifiers () {
 		const actor = this.#actor;
@@ -75,24 +77,26 @@ export class CityRoll {
 			this.#tags = [];
 			return this;
 		}
-		const activated = actor?.getActivated() ?? CityHelpers.getPlayerActivatedTagsAndStatus() ?? [];
-		const allModifiers = activated
-			.map( x => {
-				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-				const tag = x.type == "tag" ? tagOwner.getTag(x.tagId) : null;
-				const subtype = tag ? tag.data.data.subtype : "";
-				return {
-					name: x.name,
-					id: x.tagId,
-					amount: x.amount * x.direction,
-					ownerId: tagOwner.id,
-					tagId: x.tagId,
-					type: x.type,
-					description: tag ? tag.data.data.description : "",
-					subtype,
-					strikeout: false,
-				};
-			}).filter (x => {
+		const allModifiers = this.#selectedList
+		// const activated = actor?.getActivated() ?? this.#selectedList ?? [];
+		// const allModifiers = activated
+		// 	.map( x => {
+		// 		const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
+		// 		const tag = x.type == "tag" ? tagOwner.getTag(x.tagId) : null;
+		// 		const subtype = tag ? tag.data.data.subtype : "";
+		// 		return {
+		// 			name: x.name,
+		// 			id: x.tagId,
+		// 			amount: x.amount * x.direction,
+		// 			ownerId: tagOwner.id,
+		// 			tagId: x.tagId,
+		// 			type: x.type,
+		// 			description: tag ? tag.data.data.description : "",
+		// 			subtype,
+		// 			strikeout: false,
+		// 		};
+		// })
+			.filter (x => {
 				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
@@ -322,7 +326,6 @@ export class CityRoll {
 		if (game.settings.get('city-of-mist', "clueBoxes"))
 			await this.#clueBoxes();
 	}
-
 
 	async #clueBoxes() {
 		const roll = this.#roll;

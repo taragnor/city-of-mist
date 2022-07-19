@@ -733,7 +733,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		const tagOwner = tagOrStatus?.parent;
 		const tag = x.data.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.data.data.subtype : "";
-		const amount = direction * (tag ? 1 : tagOrStatus.data.data.tier); 
+		const amount = direction * (tag ? 1 : tagOrStatus.data.data.tier);
 		const newItem = {
 			name: x.name,
 			id: x.id,
@@ -753,7 +753,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static toggleSelectedItem(tagOrStatus, direction= 1) {
-		Debug(tagOrStatus)
+		// Debug(tagOrStatus);
 		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
