@@ -153,13 +153,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'hasActivatedTag': function (sheetownerId, _actorId, tagId) {
 			//TODO: actorId isn't used but is there for compatibility with older version
-			const sheetowner = game.actors.get(sheetownerId);
-			if (sheetowner != null) {
-				const result = sheetowner.hasActivatedTag(tagId);
-				return result;
-			} else {
-				return false;
-			}
+			return CityHelpers.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId );
+			// const sheetowner = game.actors.get(sheetownerId);
+			// if (sheetowner != null) {
+			// 	const result = sheetowner.hasActivatedTag(tagId);
+			// 	return result;
+			// } else {
+			// 	return false;
+			// }
 		},
 
 		'devMode': function () {

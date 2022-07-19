@@ -651,77 +651,8 @@ export class CityActor extends Actor {
 		return await this.update( {data: {useAlias}});
 	}
 
-	hasActivatedTag(tagId) {
-		const tags = this.getActivated();
-		return tags.some(x => x.tagId == tagId);
-	}
-
-	getActivatedDirection(itemId) {
-		const tags = this.getActivated();
-		if (this.hasActivatedTag(itemId))
-			return tags.find(x=> x.tagId == itemId).direction;
-		else
-			return 0;
-	}
-
-	async toggleStatusActivation (tagId, tagOwner = this, name, direction = 1, amount = 1)
-	{
-		await this.toggleSelectable(tagId, "status", tagOwner, direction, amount, name);
-	}
-
-	async toggleTagActivation(tagId, tagOwner = this, name, direction = 1, amount = 1) {
-		const tag = await tagOwner.getTag(tagId);
-		const maxWeakness = CityHelpers.getMaxWeaknessTags();
-		if (tag.isWeaknessTag()) {
-			const selectedWeakness = this.getActivated().filter(x=> x.type == "tag" && x.subtype == "weakness");
-			console.log(selectedWeakness);
-			if (
-				selectedWeakness.every( x => x.tagId != tag.id)
-				&& selectedWeakness.length >= maxWeakness
-			) {
-				ui.notifications.warn("Can't select another weakness tag");
-				return null;
-			}
-		}
-		return await this.toggleSelectable(tagId, "tag", tagOwner, direction, amount, name);
-	}
-
-	async toggleSelectable(tagId, type, owner, direction = 1, amount=1, name) {
-		let tags = this.getActivated().slice();
-		let activated = false;
-		const tagOwnerId = owner.id;
-		let undo = false;
-		if (!tagOwnerId )
-			throw new Error(`Unknown tagOwnerId on ${owner.name}`);
-		const tagTokenSceneId = owner?.token?.scene?.id;
-		const tagTokenId = owner?.token?.id;
-		if (tags.some(x => x.tagId == tagId))  {
-			undo = tags.some(x=> x.tagId == tagId && x.direction == direction);
-			tags = tags.filter(x => x.tagId != tagId);
-		}
-		if (!undo) {
-			let crispy, subtype;
-			if (type == "tag") {
-				const tag = await owner.getSelectable(tagId);
-				crispy = tag.data.data.crispy || tag.data.data.temporary;
-				subtype = tag.data.data.subtype;
-			} else {
-				crispy = false; subtype = "";
-			}
-			amount = Math.abs(amount);
-			tags.push( { name, type, tagId, subtype, crispy,  tagOwnerId, direction, amount, tagTokenSceneId, tagTokenId });
-			activated = true;
-		}
-		await this.update({"data.selectedTags": tags});
-		return activated;
-	}
-
 	async onTagMadeBonus () {
 		await this.incUnspentUpgrades();
-	}
-
-	async clearAllSelectedTags () {
-		await this.update({"data.selectedTags": []});
 	}
 
 	async addCrewMember(actorId) {

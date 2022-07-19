@@ -389,8 +389,8 @@ export class CityRoll {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
-		if (this.#actor)
-			await this.#actor.clearAllSelectedTags();
+		// if (this.#actor)
+		// 	await this.#actor.clearAllSelectedTags();
 	}
 
 	static async verifyRequiredInfo(move_id, actor) {
