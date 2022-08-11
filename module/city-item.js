@@ -52,6 +52,10 @@ export class CityItem extends Item {
 		return this.data.data.subtagRequired && !this.data.data.parentId;
 	}
 
+	isDowntimeTriggeredMove() {
+		return (this.data.data.subtype == "downtime");
+	}
+
 	isImprovementActivated(move_id, actor) {
 		const move = CityHelpers.getMoveById(move_id);
 		const moveAbbr = move.data.data.abbreviation;
@@ -676,9 +680,31 @@ export class CityItem extends Item {
 			})
 	}
 
+	async GMMovePopUp() {
+		if (this.data.type != "gmmove" )
+			throw new Error("Type is not GM move");
+		const actor = this.parent;
+		const {taglist, statuslist, html, options} = await this.prepareToRenderGMMove();
+		if (await CityHelpers.GMMoveTextBox(this.name, html, options)) {
+			actor.executeGMMove(this);
+		}
+	}
 
-
-
+	/** returns Promise<{taglist, statuslist, html and options}>
+	**/
+	async prepareToRenderGMMove() {
+		//TODO: X substitution
+		const actor = this.parent;
+		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
+		const {taglist, statuslist} = this.formatGMMoveText(actor);
+		const options = { token: null ,
+			speaker: {
+				actor:actor,
+				alias: actor.getDisplayedName()
+			}
+		};
+		return {html, options, taglist, statuslist};
+	}
 
 }
 

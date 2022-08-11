@@ -1,0 +1,66 @@
+<section class="gm-moves">
+	<h1 class="gm-moves-header">
+		{{localize 'CityOfMist.terms.moves' }}
+
+		{{#if (eq actor.data.data.locked false)}}
+		<a class="create-gm-move" data-actor-id={{owner.id}}> <i class="fas fa-plus-square"></i></a>
+		{{/if}}
+	</h1>
+	{{#if (hasGMMoveOfType owner "intrusion")}}
+	<label class="gmmove-type-label">
+		{{localize 'CityOfMist.terms.intrusions' }}
+	</label>
+	{{/if}}
+	{{#each owner.gmmoves as |item id|}}
+	{{#if (eq item.data.data.subtype "entrance")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+	{{#each owner.gmmoves as |item id|}}
+	{{#if (eq item.data.data.subtype "intrusion")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+	{{#if (hasGMMoveOfType owner "custom")}}
+	<label class="gmmove-type-label">
+		{{localize 'CityOfMist.terms.customMoves' }}
+	</label>
+	{{/if}}
+	{{#each owner.gmmoves as |item|}}
+	{{#if (eq item.data.data.subtype "custom")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+	{{#if (hasGMMoveOfType owner "downtime")}}
+	<label class="gmmove-type-label">
+		{{localize 'CityOfMist.terms.downtimeMoves' }}
+	</label>
+	{{/if}}
+	{{#each owner.gmmoves as |item|}}
+	{{#if (eq item.data.data.subtype "downtime")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+	{{#if (hasGMMoveOfType owner "hard")}}
+	<label class="gmmove-type-label">
+		{{localize 'CityOfMist.terms.hardMoves' }}
+	</label>
+	{{/if}}
+	{{#each owner.gmmoves as |item|}}
+	{{#if (eq item.data.data.subtype "hard")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+	{{#if (hasGMMoveOfType owner "soft")}}
+	<label class="gmmove-type-label">
+		{{localize 'CityOfMist.terms.softMoves' }}
+	</label>
+	{{/if}}
+	{{#each owner.gmmoves as |item|}}
+	{{#if (eq item.data.data.subtype "soft")}}
+	{{> "systems/city-of-mist/templates/parts/gmmove-display.html" owner=../actor move=item locked=../locked sheetowner=../actor movetype=move.data.subtype data=item.data.data}}
+	{{/if}}
+	{{/each}}
+
+</section>
+

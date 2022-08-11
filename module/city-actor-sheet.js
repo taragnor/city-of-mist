@@ -960,20 +960,24 @@ export class CityActorSheet extends CitySheet {
 		await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
 		const effectClass = move.data?.data?.effect_class ?? "";
-		for (let effect of move.effect_classes) {
+		for (const effect of move.effect_classes) {
 			switch (effect) {
+				case "DOWNTIME":
+					if (this.downtime)
+						await this.downtime();
+					break;
 
 				case "MONOLOGUE":
 					if (this.monologue)
-						this.monologue();
+						await this.monologue();
 					break;
 				case "SESSION_END":
 					if (this.sessionEnd)
-						this.sessionEnd();
+						await this.sessionEnd();
 					break;
 				case "FLASHBACK":
 					if (this.flashback)
-						this.flashback();
+						await this.flashback();
 					break;
 			}
 		}

@@ -132,23 +132,7 @@ export class CityThreatSheet extends CityActorSheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const move = await owner.getGMMove(move_id);
-		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor: this.actor, move});
-		const {taglist, statuslist} = move.formatGMMoveText(this.actor);
-		const options = { token: null ,
-			speaker: {
-				actor:this.actor,
-				alias: this.actor.getDisplayedName()
-			}
-		};
-		//TODO: X substitution
-		if (await this.sendToChatBox(move.name, html, options)) {
-			for (const {name : tagname} of taglist)
-				await this.actor.createStoryTag(tagname, true);
-			for (const {name, tier} of statuslist
-				.filter( x=>x.options.includes("auto-apply"))
-			)
-				await this.actor.addOrCreateStatus(name, tier);
-		}
+		await move.GMMovePopUp();
 	}
 
 	async moveDialog(item) {

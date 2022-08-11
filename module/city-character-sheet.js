@@ -18,7 +18,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 	}
 
-
 	getData() {
 		let data = super.getData();
 
@@ -369,6 +368,21 @@ export class CityCharacterSheet extends CityActorSheet {
 			await this.actor.expendFlashback();
 		} else
 			throw new Error ("Trying to use Flashback while it's expended!");
+	}
+
+	async downtime() {
+		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
+		const dangermoves = tokens
+			.filter(actor => actor.is_danger_or_extra())
+			.map(actor=> actor.getGMMoves())
+			.filter(gmmovearr => gmmovearr.length > 0)
+			.flat(1)
+			.filter(gmmove => gmmove.isDowntimeTriggeredMove());
+		for (const move of dangermoves) {
+			if (game.user.isGM)
+				await move.GMMovePopUp();
+		}
+
 	}
 
 	async openOwnerSheet(event) {

@@ -40,6 +40,18 @@ export class CityActor extends Actor {
 		return this.getSpectrums();
 	}
 
+	is_character() {
+		return this.data.type == "character";
+	}
+
+	is_danger_or_extra() {
+		return this.data.type ==  "threat";
+	}
+
+	is_crew_theme() {
+		return this.data.type ==  "crew";
+	}
+
 	getGMMoves(depth = 0) {
 		if (depth > 2) return [];
 		if (this.type != "threat")
@@ -802,15 +814,8 @@ export class CityActor extends Actor {
 	}
 
 	async executeGMMove (move) {
-		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor: this, move});
-		const {taglist, statuslist} = move.formatGMMoveText(this);
-		const options = { token: null ,
-			speaker: {
-				actor:this,
-				alias: this.getDisplayedName()
-			}
-		};
-		//TODO: X substitution
+		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove();
+		console.log(options);
 		if (await CityHelpers.sendToChat(html, options)) {
 			for (const {name : tagname} of taglist)
 				await this.createStoryTag(tagname, true);
@@ -837,7 +842,6 @@ export class CityActor extends Actor {
 		if (status) {
 			if (reloaded) {
 				tier2= CityHelpers.statusTiertoBoxes(tier2, pips); //convert to boxes
-
 			}
 			return await status.addStatus(tier2);
 		} else {
