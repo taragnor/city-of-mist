@@ -879,4 +879,8 @@ export class CityActor extends Actor {
 		return this.data.data.template_ids.includes(id);
 	}
 
+	async onDowntime() {
+		//placeholder may use later
+	}
+
 } //end of class

@@ -350,7 +350,9 @@
 "CityOfMist.dialog.statusAdd.CoMClassic": "Choose status tier to add/subtract",
 "CityOfMist.dialog.statusAdd.CoMReloaded": "Choose number of boxes to add/subtract",
 "CityOfMist.dialog.statusDrop.CoMReloaded": "Choose number of boxes to subtract",
-
+"CityOfMist.dialog.downtime.query": "Execute Downtime?",
+"CityOfMist.dialog.endOfSession.query": "Execute End of Session Move?",
+"CityOfMist.dialog.endOfSession.name": "End Of Session",
 
 
 "CityOfMist.settings.gritMode.name": "Grit Mode",

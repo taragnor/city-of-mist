@@ -500,12 +500,51 @@ export class CityHelpers {
 
 	static async sessionEnd() {
 		if (!game.user.isGM) return;
-		if	(await CityHelpers.confirmBox( "End Session", "Execute End of Session Move?", true)) {
+		const eos = localize("CityOfMist.dialog.endOfSession.name");
+		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
+		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
 			const move = CityHelpers.getMoves().find (x=> x.data.data.effect_class.includes("SESSION_END") )
 			await CityRoll.execMove(move.id, null);
 			for (let actor of game.actors)
 				await actor.sessionEnd();
 		}
+	}
+
+	static async startDowntime() {
+		if (!game.user.isGM) return;
+		const PCList = await this.downtimePCSelector();
+		if (PCList === null) return;
+		for (const pc of PCList) {
+			await pc.onDowntime();
+		}
+		//TODO: Do downtime action selector (break up tag restore to own thing)
+		await this.triggerDowntimeMoves();
+	}
+
+	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
+	*/
+	static async downtimePCSelector() {
+		const downtime = localize("CityOfMist.moves.downtime.name");
+		const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
+		const PClist = game.actors.filter(x=> x.is_character());
+		//TODO: DO DIALOG
+		return [];
+	}
+
+	static async triggerDowntimeMoves() {
+		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
+		const dangermoves = tokens
+			.filter(actor => actor.is_danger_or_extra())
+			.map(actor=> actor.getGMMoves())
+			.filter(gmmovearr => gmmovearr.length > 0)
+			.flat(1)
+			.filter(gmmove => gmmove.isDowntimeTriggeredMove());
+		for (const move of dangermoves) {
+			if (game.user.isGM)
+				await move.GMMovePopUp();
+		}
+
+
 	}
 
 	static applyColorization() {
