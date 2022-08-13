@@ -526,9 +526,9 @@ export class CityHelpers {
 	static async downtimePCSelector() {
 		const downtime = localize("CityOfMist.moves.downtime.name");
 		const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
-		const PClist = game.actors.filter(x=> x.is_character());
-		//TODO: DO DIALOG
-		return [];
+		const PCList = game.actors.filter(x=> x.is_character());
+		const idList =  await HTMLTools.PCSelector(PCList, downtime, downtimeQuery);
+		return idList.map( id => PCList.find( actor => actor.id == id))
 	}
 
 	static async triggerDowntimeMoves() {
