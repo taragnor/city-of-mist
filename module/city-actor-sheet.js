@@ -996,7 +996,6 @@ export class CityActorSheet extends CitySheet {
 					break;
 			}
 		}
-
 	}
 
 	async statusDialog(obj) {
