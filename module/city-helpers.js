@@ -503,7 +503,8 @@ export class CityHelpers {
 		const eos = localize("CityOfMist.dialog.endOfSession.name");
 		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
 		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
-			const move = CityHelpers.getMoves().find (x=> x.data.data.effect_class.includes("SESSION_END") )
+			const move = CityHelpers.getMoves()
+				.find (x=> x.data.data.effect_class.includes("SESSION_END") );
 			await CityRoll.execMove(move.id, null);
 			for (let actor of game.actors)
 				await actor.sessionEnd();
