@@ -64,12 +64,6 @@ export class CityRoll {
 		return await this.execRoll();
 	}
 
-	// static async execRoll(moveId, actor, options = {}) {
-	// 	console.warn("Calling deprecated function execRoll");
-	// 	const CR =  new CityRoll(moveId, actor, options);
-	// 	return CR.execRoll();
-	// }
-
 	#prepareModifiers () {
 		const actor = this.#actor;
 		const options = this.#options;
@@ -79,24 +73,6 @@ export class CityRoll {
 			return this;
 		}
 		const allModifiers = this.#selectedList
-		// const activated = actor?.getActivated() ?? this.#selectedList ?? [];
-		// const allModifiers = activated
-		// 	.map( x => {
-		// 		const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-		// 		const tag = x.type == "tag" ? tagOwner.getTag(x.tagId) : null;
-		// 		const subtype = tag ? tag.data.data.subtype : "";
-		// 		return {
-		// 			name: x.name,
-		// 			id: x.tagId,
-		// 			amount: x.amount * x.direction,
-		// 			ownerId: tagOwner.id,
-		// 			tagId: x.tagId,
-		// 			type: x.type,
-		// 			description: tag ? tag.data.data.description : "",
-		// 			subtype,
-		// 			strikeout: false,
-		// 		};
-		// })
 			.filter (x => {
 				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
 				if (tag != null) {
