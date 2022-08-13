@@ -969,9 +969,11 @@ export class CityActorSheet extends CitySheet {
 			newtype
 		};
 		const selectedTagsAndStatuses = CityHelpers.getPlayerActivatedTagsAndStatus();
+		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
+		if (roll == null)
+			return;
 		CityHelpers.clearAllActivatedItems();
 		this.render(true);
-		await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
 		const effectClass = move.data?.data?.effect_class ?? "";
 		for (const effect of move.effect_classes) {

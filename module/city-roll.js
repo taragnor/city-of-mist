@@ -28,6 +28,7 @@ export class CityRoll {
 		await this.#sendRollToChat();
 		await this.#secondaryEffects();
 		await this.#rollCleanupAndAftermath();
+		return this;
 	}
 
 	static async execMove(moveId, actor, selectedList =[], options = {}) {
@@ -46,7 +47,7 @@ export class CityRoll {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
 					if (!await this.modifierPopup(moveId, actor))
-						return false;
+						return null;
 				break;
 			case "logosroll":
 				await this.logosRoll(moveId, actor);
@@ -60,7 +61,7 @@ export class CityRoll {
 			default:
 				throw new Error(`Unknown Move Type ${type}`);
 		}
-		return this.execRoll();
+		return await this.execRoll();
 	}
 
 	// static async execRoll(moveId, actor, options = {}) {
