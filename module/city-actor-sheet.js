@@ -374,8 +374,6 @@ export class CityActorSheet extends CitySheet {
 			direction *= -1;
 		const activated = CityHelpers.toggleSelectedItem(tag, direction);
 
-		// this.render(true);
-		// const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
 		if (activated === null) return;
 		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
@@ -654,9 +652,6 @@ export class CityActorSheet extends CitySheet {
 		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
 		const status = await owner.getStatus(id);
 		const activated = CityHelpers.toggleSelectedItem(status, direction)
-		// this.render(true);
-		// const activated = await actor.toggleStatusActivation(id, owner, statusName, direction, amount);
-		Debug(event.currentTarget);
 		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
