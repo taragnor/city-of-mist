@@ -1,4 +1,4 @@
-<div class="flex-row" data-tag-id="{{tag.id}}" data-owner-id="{{owner.id}}" data-token-id="{{tag._tokenId}}" data-scene-id="{{tag._sceneId}}">
+<div class="flex-row tag" data-tag-id="{{tag.id}}" data-owner-id="{{owner.id}}" data-token-id="{{tag._tokenId}}" data-scene-id="{{tag._sceneId}}">
 	<div class="flex-narrow flex-line flex-trash">
 		{{#if (or (eq locked false) (and (eq owner.id sheetowner.id) (eq data.subtype "story")))}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>

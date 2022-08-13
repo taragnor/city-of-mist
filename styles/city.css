@@ -1758,8 +1758,8 @@ div.burn-flame-cell {
 }
 
 .red-highlight,
-.negative-selected-tag,
-.negative-selected-status.status-select-button {
+.tag .negative-selected,
+.status .negative-selected.status-select-button {
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1777,8 +1777,8 @@ div.burn-flame-cell {
 }
 
 .yellow-highlight,
-.positive-selected-tag,
-.positive-selected-status.status-select-button {
+.tag .positive-selected,
+.status .positive-selected.status-select-button {
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
 	border-radius: 0.8em 0.3em;

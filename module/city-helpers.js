@@ -791,21 +791,23 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> x.id != tagOrStatusId);
 	}
 
+	/** returns -1, 0, 1 for which direction activateabley is set in
+	*/
 	static toggleSelectedItem(tagOrStatus, direction= 1) {
 		// Debug(tagOrStatus);
 		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
 				this.removeSelectedItem(tagOrStatus.id);
-				return false;
+				return 0;
 			} else {
 				item.amount *=  -1;
-				return true;
+				return item.amount;
 
 			}
 		} else {
 			this.activateSelectedItem(tagOrStatus, direction);
-			return true;
+			return direction;
 		}
 	}
 

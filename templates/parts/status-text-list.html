@@ -5,7 +5,7 @@
 	</div>
 	{{#each actor.items as |status id|}}
 	{{#if (eq status.type "status")}}
-	<div class="status-line" data-status-id="{{status.id}}" data-owner-id="{{../owner.id}}" data-tier="{{status.data.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+	<div class="status-line status" data-status-id="{{status.id}}" data-owner-id="{{../owner.id}}" data-tier="{{status.data.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
 		<div class="flextiny">
 			{{#if (eq ../owner ../sheetowner)}}
 			<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
@@ -18,7 +18,7 @@
 			{{#if  status.data.data.permanent}}
 			<a title="Permanent Status" ><i class="fas fa-square"></i> </a>
 			{{/if}}
-			<span class="status-name {{#if ../locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) -1)}} negative-selected-status {{/if}} {{#if (gt status.data.data.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.data.data.pips 0)}} {{status.data.data.pips}} pips {{/if}}">
+			<span class="status-name {{#if ../locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection ../sheetowner.id ../owner.id status.id) -1)}} negative-selected {{/if}} {{#if (gt status.data.data.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.data.data.pips 0)}} {{status.data.data.pips}} pips {{/if}}">
 				{{status.name}}-{{status.data.data.tier}}
 			</span>
 			<a class="item-control status-add" title="Add to Status"><i class="fas fa-plus"></i></a>
@@ -35,8 +35,8 @@
 		{{#if (eq character.type "extra")}}ally-status{{/if}} ">
 			<div class="other-status-list">
 				{{#each character.statuses as |status id|}}
-				<div class="status-name status-line" data-status-id="{{status.id}}" data-owner-id="{{character.id}}" data-tier="{{status.data.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
-					<div class="status-select-button {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id) -1)}} negative-selected-status {{/if}} {{#if (gt status.data.data.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.data.data.pips 0)}} {{status.data.data.pips}} pips {{/if}}">
+				<div class="status status-name status-line" data-status-id="{{status.id}}" data-owner-id="{{character.id}}" data-tier="{{status.data.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+					<div class="status-select-button {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id) -1)}} negative-selected {{/if}} {{#if (gt status.data.data.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.data.data.pips 0)}} {{status.data.data.pips}} pips {{/if}}">
 						{{status.name}}-{{status.data.data.tier}}
 					</div>
 				</div>

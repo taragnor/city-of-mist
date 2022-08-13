@@ -373,13 +373,22 @@ export class CityActorSheet extends CitySheet {
 		if (invert)
 			direction *= -1;
 		const activated = CityHelpers.toggleSelectedItem(tag, direction);
-		this.render(true);
+
+		// this.render(true);
 		// const activated = await actor.toggleTagActivation(id, owner, tag.data.name, direction);
 		if (activated === null) return;
-		if (activated)
+		const html = $(event.currentTarget);
+		html.removeClass("positive-selected");
+		html.removeClass("negative-selected");
+		if (activated != 0) {
 			CityHelpers.playTagOn();
-		else
+			if (activated > 0)
+				html.addClass("positive-selected");
+			else
+				html.addClass("negative-selected");
+		} else {
 			CityHelpers.playTagOff();
+		}
 	}
 
 	async tagDialog(obj) {
@@ -645,12 +654,22 @@ export class CityActorSheet extends CitySheet {
 		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
 		const status = await owner.getStatus(id);
 		const activated = CityHelpers.toggleSelectedItem(status, direction)
-		this.render(true);
+		// this.render(true);
 		// const activated = await actor.toggleStatusActivation(id, owner, statusName, direction, amount);
-		if (activated)
+		Debug(event.currentTarget);
+		const html = $(event.currentTarget);
+		html.removeClass("positive-selected");
+		html.removeClass("negative-selected");
+		if (activated != 0) {
+			if (activated > 0)
+				html.addClass("positive-selected");
+			else
+				html.addClass("negative-selected");
 			await CityHelpers.playTagOn();
-		else
+		}
+		else {
 			await CityHelpers.playTagOff();
+		}
 	}
 
 	async _createClue (_event) {
