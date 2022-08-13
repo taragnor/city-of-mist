@@ -975,7 +975,6 @@ export class CityActorSheet extends CitySheet {
 		CityHelpers.clearAllActivatedItems();
 		this.render(true);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
-		const effectClass = move.data?.data?.effect_class ?? "";
 		for (const effect of move.effect_classes) {
 			switch (effect) {
 				case "DOWNTIME":
