@@ -74,7 +74,7 @@ export class CityRoll {
 		}
 		const allModifiers = this.#selectedList
 			.filter (x => {
-				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
+				const tag = CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
 						console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
@@ -85,7 +85,7 @@ export class CityRoll {
 		let tags = [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
-				&& CityHelpers.getOwner(x.ownerId).getTag(x.tagId) //filter out deleted tags
+				&& CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
 				tags = tags.filter(x => x.tagId == options.burnTag);
@@ -352,12 +352,12 @@ export class CityRoll {
 			// await helper.spendJuice(helpJuice.id, amount);
 		}
 		if (options.burnTag && options.burnTag.length)
-			for (let {ownerId, tagId} of tags)
-				await CityHelpers.getOwner(ownerId)?.burnTag(tagId);
-		for (let {ownerId, tagId, amount} of tags) {
-			const tag = CityHelpers.getOwner(ownerId).getTag(tagId);
+			for (let {ownerId, tagId, tokenId} of tags)
+				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
+		for (let {ownerId, tagId, amount, tokenId} of tags) {
+			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
 			if (tag.data.data.crispy || tag.data.data.temporary) {
-				try {await CityHelpers.getOwner(ownerId).burnTag(tag.id);}
+				try {await CityHelpers.getOwner(ownerId, tokenId).burnTag(tag.id);}
 				catch (e) {
 					console.warn(`Unable to Burn tag ${tag.name}`);
 				}

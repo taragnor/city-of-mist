@@ -235,7 +235,7 @@ export class CityItem extends Item {
 	}
 
 	async burnTag( state =1 ) {
-		await this.unselectForAll();
+		// await this.unselectForAll();
 		await this.update({data: {burned: state}});
 	}
 

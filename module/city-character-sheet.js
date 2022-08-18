@@ -162,7 +162,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					data: x.data,
 					ownerId: token.actor.id,
 					owner: token.actor,
-					_tokenId: token?.id,
+					tokenId: token.id,
 					_sceneId: token?.scene?.id
 				};
 			});
@@ -186,7 +186,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					data: x.data,
 					ownerId: cont.id,
 					owner: cont,
-					_tokenId: undefined,
+					tokenId: null,
 					_sceneId: undefined
 				};
 			});
@@ -214,7 +214,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					data: x.data,
 					ownerId: token.actor.id,
 					owner: token.actor,
-					_tokenId: token?.id,
+					tokenId: token?.id,
 					_sceneId: token?.scene?.id
 				};
 			});
@@ -237,7 +237,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					data: x.data,
 					ownerId: cont.id,
 					owner: cont,
-					_tokenId: undefined,
+					tokenId: null,
 					_sceneId: undefined
 				};
 			});
@@ -284,11 +284,14 @@ export class CityCharacterSheet extends CityActorSheet {
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.data.type == "status"));
 		const statusblock = filteredTargets.map( x=> {
+			if (typeof x?.token?.id == "object")
+				throw Error("wtf??!");
 			return {
 				name: x.displayedName,
 				data: x.data,
 				id: x.id,
 				type: x.data.type,
+				tokenId: x?.token?.id ?? null,
 				statuses: x.items.filter(x => x.type == "status" && !x.data.data.hidden)
 			};
 		});

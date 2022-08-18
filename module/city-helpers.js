@@ -73,14 +73,17 @@ export class CityHelpers {
 	static getOwner(ownerId, tokenId, sceneId) {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
-		if (!sceneId) {
+	 if (!tokenId) {
 			const id = CityHelpers.findAllById(ownerId) ;
 			if (!id) throw new Error (`Can't find owner for ownerId ${ownerId}`);
 			return id;
 		} else {
-			const scene = game.scenes.find (x=> x.id == sceneId);
+			const scene = game.scenes.find (x=> x.id == sceneId) ??
+				game.scenes.find( scene => scene.tokens.some(
+					token=> token.id == tokenId && !token.isLinked)
+				);
 			if (!scene)
-				throw new Error(` Couldn't find Scene ID ${sceneId}`);
+				return this.getOwner(ownerId);
 			if (!tokenId)
 				throw new Error(` No Token Id provided`);
 			const sceneTokenActors = this.getSceneTokenActors(scene);
@@ -761,7 +764,27 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static _playerActivatedStuff = [];
 
 	static getPlayerActivatedTagsAndStatus() {
-		return this._playerActivatedStuff;
+		//TODO: return only valid tags and status (not on deleted tokens)
+		return this._playerActivatedStuff
+			.filter( ({id, ownerId, tokenId, type, subtype}) => {
+				try {
+					const owner = CityHelpers.getOwner(ownerId, tokenId) ;
+					if (!owner) return false;
+					if (tokenId) {
+						const found = game.scenes
+							.find( scene => scene.tokens
+								.some( token => token.id == tokenId)
+							);
+						if (!found)
+							return false;
+					}
+					return owner.getTags().concat(owner.getStatuses()).some( x=> x.id == id && !x.isBurned());
+				} catch (e) {
+					console.warn(`Couldn't verify ${type} tag on ${id}`);
+					Debug({id, ownerId, tokenId, type, subtype});
+					return false;
+				}
+			});
 	}
 
 	static activateTag( tag, direction= 1) { this.activateSelectedItem(tag, direction); }
@@ -771,6 +794,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static activateSelectedItem(tagOrStatus, direction = 1) {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
+		const tokenId = tagOwner?.token?.id ?? null;
 		const tag = x.data.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.data.data.subtype : "";
 		const amount = direction * (tag ? 1 : tagOrStatus.data.data.tier);
@@ -784,6 +808,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 			description: tag ? tag.data.data.description : "",
 			subtype,
 			strikeout: false,
+			tokenId
 		}
 		this._playerActivatedStuff.push(newItem);
 	}
