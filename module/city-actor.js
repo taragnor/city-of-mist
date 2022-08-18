@@ -653,7 +653,7 @@ export class CityActor extends Actor {
 
 	async toggleLockState() {
 		const locked = !this.data.data.locked;
-		await this.clearAllSelectedTags();
+		await CityHelpers.clearAllActivatedItems();
 		await CityHelpers.playLockOpen();
 		return await this.update( {"data.locked": locked});
 	}
@@ -674,8 +674,9 @@ export class CityActor extends Actor {
 	}
 
 	async removeCrewMember(actorId) {
-		let memberIds  = this.data.data.memberIds.slice();
-		memberIds = memberIds.filter( x=> x !=actorId);
+		const memberIds  = this.data.data.memberIds
+			.slice()
+			.filter( x=> x !=actorId);
 		await this.update({data: {memberIds}});
 	}
 
