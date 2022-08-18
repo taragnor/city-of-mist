@@ -668,6 +668,11 @@ export class CityItem extends Item {
 
 	themebook_getImprovements () {
 		const improvementsObj = this.data.data.improvements;
+
+		improvementsObj = Object.values(improvementsObj).filter(value => {
+			return value !== "_DELETED_";
+		});
+
 		return Object.entries(improvementsObj)
 			.map( ([number, data]) => {
 				return {
