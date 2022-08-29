@@ -300,10 +300,7 @@ export class CityItem extends Item {
 				pips = 0;
 				ntier = 0;
 			} else {
-				// const temp = tier;
 				[tier, ntier] = [ntier, tier]; //swap
-				// tier = ntier;
-				// ntier = temp;
 			}
 		}
 		while (ntier-- > 0) {
