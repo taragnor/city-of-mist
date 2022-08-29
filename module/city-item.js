@@ -322,8 +322,8 @@ export class CityItem extends Item {
 	}
 
 
-	async subtractStatus(tierOrBoxes, newname = null) {
-		newname = newname ?? this.data.name;
+	async subtractStatus(tierOrBoxes, replacename = null) {
+		const newname = replacename ?? this.data.name;
 		const system = CityHelpers.getStatusSubtractionSystem();
 		switch (system) {
 			case "classic":
