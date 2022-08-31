@@ -116,6 +116,7 @@ export class CityItem extends Item {
 	}
 
 	get type() {
+		//TODO: Not compatible with v10
 		return this.data.type;
 	}
 

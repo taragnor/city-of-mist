@@ -3,6 +3,7 @@ import {CityDB} from "./city-db.mjs";
 export class CityActor extends Actor {
 
 	get type() {
+		//TODO: Not compatible with v10
 		return this.data.type;
 	}
 
