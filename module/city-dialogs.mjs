@@ -62,4 +62,65 @@ export class CityDialogs {
 
 	}
 
+	/** List takes a [ { moveId:string , moveOwnerId: string} ]
+	*/
+	static async downtimeGMMoveSelector(moveAndOwnerList) {
+		if (moveAndOwnerList.length == 0)
+			return;
+		let ownerList = new Array();
+		const ownerMap = moveAndOwnerList.reduce ( ( map, {moveId, moveOwnerId}) => {
+			if (map.has(moveOwnerId)) {
+				map.get(moveOwnerId).push(moveId);
+			} else {
+				map.set(moveOwnerId, [moveId]);
+			}
+			return map;
+		}, new Map());
+		for (const [ownerId, moveIdList] of ownerMap.entries()) {
+			const owner = await CityHelpers.getOwner(ownerId);
+			const moves = moveIdList.map( moveId=>
+				owner.gmmoves.find( x=> x.id == moveId)
+			);
+			let movehtmls = [];
+			for (const move of moves) {
+				const {html} = await move.prepareToRenderGMMOve();
+				movehtmls.push(html);
+			}
+			ownerList.push( {
+				owner,
+				movehtmls,
+			});
+		}
+		const templateData = {
+			owners: ownerList
+		}
+		const html = await renderTemplate(`${game.system.path}/templates/dialogs/gm-move-chooser.hbs`, templateData);
+		return new Promise( (conf, rej) => {
+			const options = {};
+			const dialog = new Dialog({
+				title: `${title}`,
+				content: text,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: label,
+						callback: async() => {
+							//TODO: let choice = getCheckedMoveIdsChoice();
+							conf(choice);
+						}
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: async () => conf(null)
+					}
+				},
+				default: "two",
+				render
+
+		}, options);
+
+		});
+	}
+
 }

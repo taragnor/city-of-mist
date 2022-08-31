@@ -455,7 +455,6 @@ export class CityRoll {
 		).items
 			.find(i => i.id == itemId);
 		const amount = clue.data.data.amount;
-		// $(html).find("#help-slider").val(1);
 		$(html).find("#help-slider").prop("max", amount);
 		$(html).find(".slidervalue").html(1);
 		if (amount)

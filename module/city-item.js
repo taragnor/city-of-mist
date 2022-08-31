@@ -208,7 +208,7 @@ export class CityItem extends Item {
 		return extra_upgrades;
 	}
 
-	async removeAttention(amount=1) {
+	async removeAttention(amount = 1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.data.data.attention;
 		const moddata = CityHelpers.modArray(arr, -amount);
@@ -273,7 +273,7 @@ export class CityItem extends Item {
 		return true;
 	}
 
-	async addStatus (tierOrBoxes, newname= null) {
+	async addStatus (tierOrBoxes, newname = null) {
 		newname = newname ?? this.data.name;
 		const system = CityHelpers.getStatusAdditionSystem();
 		switch (system) {

@@ -1,0 +1,9 @@
+{{#each owners as |owner index|}}
+<H1 class="name" >
+	{{owner.owner.name}}
+</H1>
+{{#each owner.movehtmls as |move index|}}
+{{{move}}}
+
+{{/each}}
+{{/each}}
