@@ -699,9 +699,13 @@ export class CityActor extends Actor {
 	}
 
 	get directoryName() {
-		if (this.isOwner && this.name != this.tokenName) {
-			if (this.tokenName?.length)
-				return this.name + ` [${this.tokenName}]`;
+		const mythos = this.data.data.mythos ? ` [${this.data.data.mythos}]` : "";
+		const owner_name = this.name + mythos;
+		if (this.isOwner) {
+			if (this.name != this.tokenName && this.tokenName?.length) {
+				return owner_name + ` / ${this.tokenName}`;
+			}
+			return owner_name;
 		}
 		return this.tokenName ?? this.name;
 	}
