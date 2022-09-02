@@ -86,7 +86,7 @@ export class EnhancedActorDirectory {
 				for ( let d of this.documents ) {
 					if ( rgx.test(SearchFilter.cleanQuery(d.directoryName ?? d.name)) ) {
 						documentIds.add(d.id);
-						if ( d.data.folder ) folderIds.add(d.data.folder);
+						if ( d.folder ) folderIds.add(d.folder);
 					}
 				}
 
@@ -103,7 +103,7 @@ export class EnhancedActorDirectory {
 			}
 
 			// Toggle each directory item
-			for ( let el of html.querySelectorAll(".directory-item") ) {
+			for ( const el of html.querySelectorAll(".directory-item") ) {
 
 				// Documents
 				if (el.classList.contains("document")) {

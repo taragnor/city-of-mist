@@ -188,7 +188,10 @@ export class CityRoll {
 		return html;
 	}
 
-	static async #_getContent (roll) {
+	/** Takes a foundry roll and an options object containing 
+	{moveList ?: { see generateMoveList function} }
+	*/
+	static async #_getContent (roll, otherOptions = {}) {
 		const modifiers = roll.options.modifiers.map ( x=> {
 			return {
 				id: x.id,
@@ -202,20 +205,21 @@ export class CityRoll {
 		});
 		const options = roll.options;
 		const {power, adjustment} = CityRoll.getPower(options);
+		const moveList = otherOptions?.moveList ?? null;
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const {total, roll_adjustment} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
-		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		// const max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		// const curr_choices = moveList.filter( x=> x.checked).length;
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		if (options.moveList == undefined || options.curr_choices > options.max_choices) {
-			options.moveList = moveListRaw;
-			options.curr_choices = 0;
-		} else {
-			options.moveList = options.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
-			const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
-			options.moveList = options.moveList.concat(unadded);
-		}
+		// if (moveList.length == 0 || curr_choices > max_choices) {
+		// 	// moveList = moveListRaw;
+		// } else {
+		// 	// options.moveList = options.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
+		// 	// const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
+		// 	// options.moveList = options.moveList.concat(unadded);
+		// }
 		const actor = CityDB.getActorById(roll.options.actorId);
 		const actorName = actor ?actor.name : "";
 		const templateData = {
@@ -223,7 +227,7 @@ export class CityRoll {
 			actorName,
 			moveId: roll.options.moveId,
 			options: roll.options,
-			moveList: roll.options.moveList,
+			moveList: moveList ?? moveListRaw,
 			moveName: move.getDisplayedName(),
 			moveText: CityItem.generateMoveText(move, roll_status, power),
 			rolls : (roll.terms)[0].results,
@@ -541,11 +545,20 @@ export class CityRoll {
 		event.preventDefault();
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
-		const options = roll.options;
-		const listitem = getClosestData(event, "listitem");
-		// let templateData  = getClosestData(event, "templateData");
-		const item = options.moveList.find( x=> x.text == listitem);
+		const roll = message.rolls[0];
+		const {power, adjustment} = CityRoll.getPower(roll.options);
+		const {total, roll_adjustment} = CityRoll.getTotal(roll);
+		const move = (await CityHelpers.getMoves()).find(x=> x.id == roll.options.moveId);
+		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
+		const moveList = message.getFlag("city-of-mist", "checkedOptions") ??
+			moveListRaw;
+		const listitem = getClosestData(event, "origtext");
+		const item = moveList.find( x=> x.origText === listitem);
+		if (!item) {
+			Debug(moveList);
+			throw new Error(`Coiuldnt' find ${listitem}`);
+		}
 		if (item.cost == undefined)
 			item.cost = 1;
 		if (item.cost < 0) {
@@ -559,11 +572,7 @@ export class CityRoll {
 		}
 		if (!item)
 			throw new Error(`Item ${listitem} not found`);
-		const {power, adjustment} = CityRoll.getPower(roll.options);
-		const {total, roll_adjustment} = CityRoll.getTotal(roll);
-		const roll_status = CityRoll.getRollStatus(total, options);
-		const move = (await CityHelpers.getMoves()).find(x=> x.id == options.moveId);
-		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const truecost = Math.abs(item.cost);
 		let current_choices = 0;
 		$(event.target).closest(".move-list").find(".roll-selector-checkbox:checked").each ( function ()  {
@@ -572,13 +581,17 @@ export class CityRoll {
 			current_choices += Math.abs(Number(cost));
 		});
 
-		if (!item.checked && current_choices <= options.max_choices) {
-			options.curr_choices = current_choices;
-			item.checked = true;
-		} else if (item.checked) {
-			options.curr_choices = current_choices - truecost;
+		if (item.checked) {
+			console.log("unchecking box");
 			item.checked = false;
+		} else if (!item.checked && current_choices <= max_choices) {
+			console.log("checking box");
+			item.checked = true;
+		} else {
+			console.log("invalid choice");
+			return false;
 		}
+		await message.setFlag("city-of-mist", "checkedOptions", moveList);
 		return await CityRoll._updateMessage(messageId);
 	}
 
@@ -587,16 +600,43 @@ export class CityRoll {
 			return true;
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const rollOptions = message.roll.options;
+		const roll = message.rolls[0];
+		const rollOptions = roll.options;
 		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
-		await CityRoll._updateMessage(messageId);
+		await CityRoll._updateMessage(messageId, roll);
 	}
 
-	static async _updateMessage (messageId) {
+	static async verifyCheckedOptions(checkedOptions, roll) {
+		const {power} = CityRoll.getPower(roll.options);
+		const moveId = roll.options.moveId;
+		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
+		const {total} = this.getTotal(roll);
+		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		const curr_choices = checkedOptions.filter( x=> x.checked).length;
+		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
+		const isValid = curr_choices <= max_choices;
+		if (isValid)  {
+			return checkedOptions.map ((item, index)  => {
+				item.text = moveListRaw[index].text;
+				return item;
+			}); // reformat text for changed power
+		} else {
+			return moveListRaw;
+		}
+	}
+
+	static async _updateMessage (messageId, newRoll = null) {
+		if (newRoll && !game.user.isGM)
+			console.warn("Trying to update roll as non-GM");
 		const message = game.messages.get(messageId);
-		const roll = message.rolls[0];
+		const roll = newRoll ?? message.rolls[0];
 		try {
-			const newContent = await CityRoll.#_getContent(roll);
+			const checkedOptions = await this.verifyCheckedOptions(
+				message.getFlag("city-of-mist", "checkedOptions"),
+				roll
+			);
+			const newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});
 			let msg;
 			if (game.user.isGM)
 				msg = await message.update( {

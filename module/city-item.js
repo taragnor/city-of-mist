@@ -407,9 +407,10 @@ export class CityItem extends Item {
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
 			const localizedText = `${localizeS(x.text)}`;
+			const origText = x.text;
 			const text = CityItem.substitutePower(localizedText, power);
 			const cost = x.cost; //change for some moves
-			return {	text, cost};
+			return {origText,	text, cost};
 		});
 	}
 

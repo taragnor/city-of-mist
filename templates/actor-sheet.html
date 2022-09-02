@@ -79,7 +79,7 @@
 				{{/each}}
 				{{#if data.activeExtra}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.data.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.system.themebook data=data.activeExtra.system tbdata=data.activeExtra.system.themebook.system}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.system.themebook data=data.activeExtra.system tbdata=data.activeExtra.system.themebook.system}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">

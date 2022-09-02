@@ -119,14 +119,16 @@ export class CityCharacterSheet extends CityActorSheet {
 				let fakeExtraData = {
 					name: theme.name,
 					id: theme.id,
-					data: theme.data
+					system: theme.system,
+					data: theme.system
 				};
-				fakeExtraData.data.owner = {
+				fakeExtraData.owner = {
 					id: activeExtra.id,
 					name: activeExtra.name,
-					data: activeExtra.data,
-					items: activeExtra.data.items,
-					img: activeExtra.data.img
+					system: activeExtra.system,
+					data: activeExtra.system,
+					items: activeExtra.items,
+					img: activeExtra.img
 				};
 				return fakeExtraData;
 			}
