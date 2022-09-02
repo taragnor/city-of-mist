@@ -121,7 +121,7 @@ export class CityHelpers {
 		const created = token.actor;
 		created._tokenname = token.name;
 		created._tokenid = token.name;
-		created._hidden = token.data.hidden;
+		created._hidden = token.hidden;
 		return created;
 	}
 
@@ -175,7 +175,7 @@ export class CityHelpers {
 			return 0;
 		};
 		if (!container)
-			container = game.actors.find(x => x.data.type == "storyTagContainer");
+			container = game.actors.find(x => x.type == "storyTagContainer");
 		let html = new String();
 		html += `<textarea class="narrator-text"></textarea>`;
 		const submit = async function (html) {
@@ -412,10 +412,10 @@ export class CityHelpers {
 	}
 
 	static async refreshTokenActorsInScene(scene) {
-		const scenetokens = scene.data.tokens;
+		const scenetokens = scene.tokens;
 		const characterActors = scenetokens
 			.filter( x => x.isLinked &&
-				x.actor.data.type == "character")
+				x.actor.type == "character")
 			.map (x => x.actor);
 		for (const dep of characterActors) {
 			const state = dep.sheet._state
@@ -507,7 +507,7 @@ export class CityHelpers {
 		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
 		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
 			const move = CityHelpers.getMoves()
-				.find (x=> x.data.data.effect_class.includes("SESSION_END") );
+				.find (x=> x.system.effect_class.includes("SESSION_END") );
 			await CityRoll.execMove(move.id, null);
 			for (let actor of game.actors)
 				await actor.sessionEnd();
@@ -712,7 +712,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static async _statusAddSubDialog(status, title,type ="addition") {
 		const classic = CityHelpers.isClassicCoM(type);
 		const reloaded = CityHelpers.isCoMReloaded(type);
-		const templateData = {status: status.data, data: status.data.data, classic, reloaded};
+		const templateData = {status: status.data, data: status.system, classic, reloaded};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {
 			const options ={};
@@ -795,9 +795,9 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? null;
-		const tag = x.data.type == "tag" ? tagOrStatus : null;
-		const subtype = tag ? tag.data.data.subtype : "";
-		const amount = direction * (tag ? 1 : tagOrStatus.data.data.tier);
+		const tag = x.type == "tag" ? tagOrStatus : null;
+		const subtype = tag ? tag.system.subtype : "";
+		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
 		const newItem = {
 			name: x.name,
 			id: x.id,
@@ -805,7 +805,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 			ownerId: tagOwner?.id ?? null ,
 			tagId: tag ? x.id : null,
 			type: x.type,
-			description: tag ? tag.data.data.description : "",
+			description: tag ? tag.system.description : "",
 			subtype,
 			strikeout: false,
 			tokenId

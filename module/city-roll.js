@@ -42,7 +42,7 @@ export class CityRoll {
 		const actor = this.#actor;
 		const options = this.#options;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
-		const type = options?.newtype ?? move.data.data.type;
+		const type = options?.newtype ?? move.system.type;
 		switch (type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
@@ -77,7 +77,7 @@ export class CityRoll {
 				const tag = CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
-						console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
+						console.log(`Excluding ${x.tag.name}, value: ${x.tag.system.burned}`);
 					return !tag.isBurned();
 				}
 				else return true;
@@ -101,7 +101,7 @@ export class CityRoll {
 			allModifiers.push( {
 				name: `Help From ${helper.name} (must be deducted manually)`,
 				id: options.helpId,
-				amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
+				amount: Math.min( options.helpAmount, helpJuice.system.amount),
 				ownerId: helper.id,
 				tagId: null,
 				type: "status",
@@ -356,13 +356,13 @@ export class CityRoll {
 				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
 		for (let {ownerId, tagId, amount, tokenId} of tags) {
 			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
-			if (tag.data.data.crispy || tag.data.data.temporary) {
+			if (tag.system.crispy || tag.system.temporary) {
 				try {await CityHelpers.getOwner(ownerId, tokenId).burnTag(tag.id);}
 				catch (e) {
 					console.warn(`Unable to Burn tag ${tag.name}`);
 				}
 			}
-			if (tag.data.data.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
+			if (tag.system.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
@@ -371,7 +371,7 @@ export class CityRoll {
 	static async verifyRequiredInfo(move_id, actor) {
 		const relevantImprovements = actor.getImprovements().filter(imp => imp.hasEffectClass(`THEME_DYN_SELECT`) )
 		for (const imp of relevantImprovements) {
-			if (!imp.data.data?.choice_item) {
+			if (!imp.system?.choice_item) {
 				await CityHelpers.itemDialog(imp);
 				return false;
 			}
@@ -385,7 +385,7 @@ export class CityRoll {
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder
-		const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite, power};
+		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
@@ -454,7 +454,7 @@ export class CityRoll {
 			&& x.items.find( i => i.id == itemId)
 		).items
 			.find(i => i.id == itemId);
-		const amount = clue.data.data.amount;
+		const amount = clue.system.amount;
 		$(html).find("#help-slider").prop("max", amount);
 		$(html).find(".slidervalue").html(1);
 		if (amount)
