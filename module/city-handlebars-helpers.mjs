@@ -69,7 +69,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 		},
 		'hasGMMoveOfType': function (actor, subtype, _options) {
-			return actor.gmmoves.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
+			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
 		},
 		'applyNameSubstitution': function (move, dangerId, _options) {
 			const formatted = move.getFormattedText(dangerId);
@@ -112,7 +112,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					return {
 						owner: x,
 						id: i.id,
-						amount : i.data.data.amount
+						amount : i.system.amount
 					};
 				})
 			).flat();
@@ -134,14 +134,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		if (amount > 0) return 1;
 		if (amount < 0) return -1;
 		return 0;
-		// Old selection system Deporecated
-		// const sheetowner = game.actors.get(sheetownerId);
-		// if (sheetowner != null) {
-		// 	const result = sheetowner.getActivatedDirection(tagId);
-		// 	return result;
-		// } else {
-		// 	return 0;
-		// }
 	},
 
 	'defaultTagDirection': function (sheetownerId, tagOwnerId, tagId) {

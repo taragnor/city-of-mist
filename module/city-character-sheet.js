@@ -74,7 +74,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getCrewThemes() {
 		const crew = game.actors.find(actor =>
-			actor.data.type == "crew" && actor.isOwner
+			actor.type == "crew" && actor.isOwner
 		);
 		let crewThemes = [];
 		if (!crew) {
@@ -83,7 +83,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		for (const theme of crew.items.filter(x=> x.type == "theme")) {
 			this.linkThemebook(theme);
-			theme.data.data.owner = {
+			theme.system.owner = {
 				id: crew.id,
 				name: crew.name,
 				data: crew.data,
@@ -145,7 +145,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getTokenStoryTags() {
 		const tokens = CityHelpers.getActiveSceneTokens()
-			.filter(tok => !tok.data.hidden
+			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
 				&& tok.actor.items.find(y =>
 					y.type == "tag" && y.system.subtype == "story"
@@ -198,7 +198,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	getStoryTags() {
 		let retTags = [];
 		const tokens = CityHelpers.getActiveSceneTokens()
-			.filter(tok => !tok.data.hidden
+			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
 				&& tok.actor.items.find(y =>
 					y.type == "tag" && y.system.subtype == "story"

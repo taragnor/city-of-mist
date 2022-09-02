@@ -123,11 +123,11 @@ export class CityActorSheet extends CitySheet {
 	getPersonalStoryTags() {
 		return this.actor.getStoryTags().map( x=> {
 			return {
-				type: x.data.type,
-				name: x.data.name,
+				type: x.type,
+				name: x.name,
 				location: "",
 				id: x.id,
-				data: x.data,
+				data: x.system,
 				ownerId: this.actor.id,
 				owner: this.actor
 			};
@@ -139,7 +139,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	linkThemebook(theme) {
-		const themedata = theme.data.data;
+		const themedata = theme.system;
 		themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
 	}
 
@@ -264,13 +264,13 @@ export class CityActorSheet extends CitySheet {
 		if (itemtype == "tag") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.data.data.question_letter == x._id && a.data.data.theme_id == themeId && a.data.data.subtype == subtype;
+					return a.system.question_letter == x._id && a.system.theme_id == themeId && a.system.subtype == subtype;
 				});
 			});
 		} else if (itemtype == "improvement") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.name == x.name && a.data.data.theme_id == themeId;
+					return a.name == x.name && a.system.theme_id == themeId;
 				});
 			});
 			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
@@ -326,8 +326,8 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const tag = await actor.getTag(tagId);
-		const tagName = tag.data.name;
-		if (tag.data.data.subtype != "story")
+		const tagName = tag.name;
+		if (tag.system.subtype != "story")
 			if (!await this.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 				return;
 		await actor.deleteTag(tagId);
@@ -339,7 +339,7 @@ export class CityActorSheet extends CitySheet {
 		const actor = await this.getOwner(actorId);
 		const tagId = getClosestData(event, "impId");
 		const tag = await actor.getImprovement(tagId);
-		const tagName = tag.data.name;
+		const tagName = tag.name;
 		if (await this.confirmBox("Confirm Delete", `Delete ${tagName}`)) {
 			await actor.deleteImprovement(tagId);
 			await CityHelpers.modificationLog(actor, `Deleted`, tag);
@@ -361,7 +361,7 @@ export class CityActorSheet extends CitySheet {
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		const type = actor.data.type;
+		const type = actor.type;
 		if (type != "character" && type != "extra") {
 			console.warn (`Invalid Type to select a tag: ${type}`);
 			return;
@@ -369,7 +369,7 @@ export class CityActorSheet extends CitySheet {
 		if (actorId.length < 5){
 			throw new Error(`Bad Actor Id ${actorId}`);
 		}
-		const subtype = tag.data.data.subtype;
+		const subtype = tag.system.subtype;
 		let direction = CityHelpers.getDefaultTagDirection(tag, owner, actor);
 		if (invert)
 			direction *= -1;
@@ -411,7 +411,7 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
 		const imp = await owner.getImprovement(id);
-		if (!imp.data.data.chosen)
+		if (!imp.system.chosen)
 			await imp.reloadImprovementFromCompendium();
 		await this.improvementDialog(imp);
 	}
@@ -421,7 +421,7 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(themeId);
-		const themeName = theme.data.name;
+		const themeName = theme.name;
 		if (actor.isNewCharacter()) {
 			if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
 				await	actor.deleteTheme(themeId);
@@ -480,7 +480,7 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
-		const themeName = theme.data.name;
+		const themeName = theme.name;
 		switch (type) {
 			case "attention":
 				if (await this.confirmBox("Add Attention", `Add Attention to ${themeName}`)) {
@@ -525,7 +525,7 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
-		const themeName = theme.data.name;
+		const themeName = theme.name;
 		switch (type) {
 			case "attention":
 				if (await this.confirmBox("Remove Attention", `Remove Attention from ${themeName}`)) {
@@ -555,7 +555,7 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
-		const themename = theme.data.name;
+		const themename = theme.name;
 		if (await this.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
 			actor.resetFade(id);
 			await CityHelpers.modificationLog(actor, `Spent Theme Upgrade to Reset Fade`, theme);
@@ -568,9 +568,9 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const imp = await actor.getImprovement(impId);
-		const impName = imp.data.name
-		const impDescript = imp.data.data.description;
-		const templateData = {improvement: imp.data, data: imp.data.data};
+		const impName = imp.name
+		const impDescript = imp.system.description;
+		const templateData = {improvement: imp, data: imp.system};
 		const html = await renderTemplate("systems/city-of-mist/templates/improvement-chat-description.html", templateData);
 		const uses = imp.getImprovementUses();
 		const uses_str = (uses < 9999) ? `(uses left ${uses})` : "";
@@ -589,13 +589,13 @@ export class CityActorSheet extends CitySheet {
 	async _activeExtraInit(elem) {}
 
 	async _activeExtraChange(event) {
-		if (this.actor.data.type != "character")
+		if (this.actor.type != "character")
 			return;
 		const elem = $(this.form).find('.active-extra-drop-down');
 		const val = elem.val();
 		if (val == undefined)
 			throw new Error("value is undefined!");
-		if (this.actor.data.data.activeExtraId != val) {
+		if (this.actor.system.activeExtraId != val) {
 			await this.actor.setExtraThemeId(val);
 			const extra = game.actors.find(x => x.id == val);
 			const name  = extra ? extra.name : "None";
@@ -612,7 +612,7 @@ export class CityActorSheet extends CitySheet {
 		const status = await owner.getStatus(obj.id);
 		const updateObj = await this.statusDialog(status);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
+			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
 			await owner.deleteStatus(obj.id);
 		}
@@ -623,8 +623,8 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(actorId);
 		const status = await owner.getStatus(status_id);
-		if (!this.actor.data.data.locked || autodelete || await this.confirmBox("Delete Status", `Delete ${status.name}`)) {
-			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.data.data.tier}`);
+		if (!this.actor.system.locked || autodelete || await this.confirmBox("Delete Status", `Delete ${status.name}`)) {
+			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
 			await owner.deleteStatus(status_id);
 		}
 	}
@@ -640,7 +640,7 @@ export class CityActorSheet extends CitySheet {
 			console.warn(`No ID for status owner : ${tagownerId}`);
 		const statusName = getClosestData(event, "statusName");
 		const amount = getClosestData(event, "tier");
-		const type = actor.data.type;
+		const type = actor.type;
 		if (type != "character" && type != "extra") {
 			console.warn (`Invalid Type to select a tag: ${type}`);
 			return;
@@ -674,8 +674,8 @@ export class CityActorSheet extends CitySheet {
 		const clue = await owner.getClue(obj.id);
 		const updateObj = await this.CJDialog("clue", clue);
 		if (updateObj) {
-			const partialstr = clue.data.data.partial ? ", partial": "";
-			CityHelpers.modificationLog(owner, "Created", clue, `${clue.data.data.amount}${partialstr}` );
+			const partialstr = clue.system.partial ? ", partial": "";
+			CityHelpers.modificationLog(owner, "Created", clue, `${clue.system.amount}${partialstr}` );
 		} else  {
 			await owner.deleteClue(obj.id);
 		}
@@ -721,7 +721,7 @@ export class CityActorSheet extends CitySheet {
 		const juice = await owner.getJuice(obj.id);
 		const updateObj = await this.CJDialog("juice", juice);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Created", juice, `${juice.data.data.amount}` );
+			CityHelpers.modificationLog(owner, "Created", juice, `${juice.system.amount}` );
 		} else  {
 			await owner.deleteJuice(obj.id);
 		}
@@ -786,22 +786,22 @@ export class CityActorSheet extends CitySheet {
 			const {name: newname, tier: amt} = ret;
 			const revised_status = await status.subtractStatus(amt, newname);
 			await this.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
-			if (revised_status.data.data.tier <= 0)
+			if (revised_status.system.tier <= 0)
 				owner.deleteStatus(revised_status.id);
 		}
 	}
 
 	async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
 		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-		CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+		const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
+		CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
 
 	}
 
 	async reportStatsuSubtract(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
 		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-		CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+		const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
+		CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
 	}
 
 	async _statusEdit (event) {
@@ -809,14 +809,14 @@ export class CityActorSheet extends CitySheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const status = await owner.getStatus(status_id);
-		const oldtier = status.data.data.tier;
-		const oldpips = status.data.data.pips;
-		const oldname = status.data.name;
+		const oldtier = status.system.tier;
+		const oldpips = status.system.pips;
+		const oldname = status.name;
 		const updateObj = await this.statusDialog(status);
 		if (updateObj)  {
 			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-			const pipsstr =+ status.data.data.pips ? `.${status.data.data.pips}`: "";
-			CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.data.name}-${status.data.data.tier}${pipsstr})` );
+			const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
+			CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
 		}
 	}
 
@@ -825,11 +825,11 @@ export class CityActorSheet extends CitySheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const juice = await owner.getJuice(juice_id);
-		const oldname = juice.data.name;
-		const oldamount = juice.data.data.amount;
+		const oldname = juice.name;
+		const oldamount = juice.system.amount;
 		const updateObj = await this.CJDialog("juice", juice);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
+			CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 
@@ -871,6 +871,7 @@ export class CityActorSheet extends CitySheet {
 					id: x.id,
 					data: [x.name],
 					description: x.data.description
+					//TODO: wierd format probably need to change some stuff since its not x.system
 				}
 			});
 		const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
@@ -887,13 +888,13 @@ export class CityActorSheet extends CitySheet {
 			await actor.incBuildUp();
 			CityHelpers.modificationLog(actor, `Build Up Point Added`, null, `Current ${await actor.getBuildUp()}`);
 		}
-		let unspentBU = actor.data.data.unspentBU;
+		let unspentBU = actor.system.unspentBU;
 		while (unspentBU > 0) {
 			const impId = await this.chooseBuildUpImprovement(actor);
 			if (impId == null)
 				break;
 			await actor.addBuildUpImprovement(impId);
-			unspentBU = actor.data.data.unspentBU;
+			unspentBU = actor.system.unspentBU;
 			refresh = true;
 		}
 	}
@@ -901,13 +902,14 @@ export class CityActorSheet extends CitySheet {
 	async chooseBuildUpImprovement (owner) {
 		const improvementsChoices = await CityHelpers.getBuildUpImprovements();
 		const actorImprovements = await owner.getBuildUpImprovements();
-		const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.data.name));
+		const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.name));
 		const inputList = filteredChoices.map( x => {
 			const data = [x.name];
 			return {
 				id : x.id,
 				data,
 				description: x.data.description
+				//TODO: wierd format probably need to change some stuff since its not x.system
 			};
 		});
 		const choice = await CitySheet.singleChoiceBox(inputList, "Choose Build-up Improvement");
@@ -919,11 +921,11 @@ export class CityActorSheet extends CitySheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const clue = await owner.getClue(clue_id);
-		const oldname = clue.data.name;
-		const oldamount = clue.data.data.amount;
+		const oldname = clue.name;
+		const oldamount = clue.system.amount;
 		const updateObj = await this.CJDialog("clue", clue);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.data.name} (${updateObj.data.data.amount})` );
+			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 

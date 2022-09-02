@@ -9,9 +9,8 @@ export class CitySheet extends ActorSheet {
 		let data = super.getData();
 
 		//Fix for compatibility with .0.8.6
-		const actorData = this.actor.data.toObject(false);
 		data.actor = this.actor;
-		data.data = actorData.data;
+		data.data = this.actor.system;
 		data.items = this.actor.items.map(x=>x);
 		return data;
 	}
