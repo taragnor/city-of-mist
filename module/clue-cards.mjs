@@ -30,8 +30,8 @@ export class ClueChatCards {
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		// const msg = await  message.update( {content:new_html});
 		// await ui.chat.updateMessage( msg, false);
-		const user = message.data.user;
-		const speaker = message.data.speaker;
+		const user = message.user;
+		const speaker = message.speaker;
 		await message.delete();
 		const actor = CityDB.getActorById(actorId);
 		// console.log(new_html);
@@ -105,7 +105,6 @@ export class ClueChatCards {
 	}
 
 	static async clue_submitAnswer(html) {
-		// const question = $(html).find(".clue-reveal").data("question");
 		const answer = $(html).find(".answer-part .answer-input").val();
 		await this.updateClue( html, {answer});
 	}

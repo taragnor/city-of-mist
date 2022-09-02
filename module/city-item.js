@@ -38,7 +38,7 @@ export class CityItem extends Item {
 	}
 
 	get effect_classes() {
-		return this?.data?.data?.effect_class?.split(" ") ?? [];
+		return this?.system?.effect_class?.split(" ") ?? [];
 	}
 
 	get subtags() {

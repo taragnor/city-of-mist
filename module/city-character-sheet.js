@@ -86,9 +86,10 @@ export class CityCharacterSheet extends CityActorSheet {
 			theme.system.owner = {
 				id: crew.id,
 				name: crew.name,
-				data: crew.data,
-				items: crew.data.items,
-				img: crew.data.img
+				system: crew.system,
+				data: crew.system,
+				items: crew.items,
+				img: crew.img
 			};
 			crewThemes.push(theme);
 		}
@@ -184,7 +185,8 @@ export class CityCharacterSheet extends CityActorSheet {
 					name: x.name,
 					location: this.getLocationName(cont),
 					id: x.id,
-					data: x.data,
+					system: x.system,
+					data: x.system,
 					ownerId: cont.id,
 					owner: cont,
 					tokenId: null,
@@ -212,7 +214,8 @@ export class CityCharacterSheet extends CityActorSheet {
 					name: x.name,
 					location: this.getLocationName(token.actor, token),
 					id: x.id,
-					data: x.data,
+					system: x.system,
+					data: x.system,
 					ownerId: token.actor.id,
 					owner: token.actor,
 					tokenId: token?.id,
@@ -235,7 +238,8 @@ export class CityCharacterSheet extends CityActorSheet {
 					name: x.name,
 					location: this.getLocationName(cont),
 					id: x.id,
-					data: x.data,
+					data: x.system,
+					system: x.system,
 					ownerId: cont.id,
 					owner: cont,
 					tokenId: null,
@@ -289,7 +293,8 @@ export class CityCharacterSheet extends CityActorSheet {
 				throw Error("wtf??!");
 			return {
 				name: x.displayedName,
-				data: x.data,
+				system: x.system,
+				data: x.system,
 				id: x.id,
 				type: x.type,
 				tokenId: x?.token?.id ?? null,
