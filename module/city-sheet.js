@@ -83,7 +83,7 @@ export class CitySheet extends ActorSheet {
 		}, []);
 		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
 		Debug(themebooks);
-		const templateData = {actor: this.actor.data, data: this.actor.data.data, themebooks};
+		const templateData = {actor: this.actor, data: this.actor.system, themebooks};
 		const title = "Select Themebook";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {
