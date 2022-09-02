@@ -588,7 +588,7 @@ export class CityRoll {
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
 		const rollOptions = message.roll.options;
-		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifiers the options its given, consider refactor
+		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
 		await CityRoll._updateMessage(messageId);
 	}
 
@@ -601,7 +601,7 @@ export class CityRoll {
 			if (game.user.isGM)
 				msg = await message.update( {
 					content: newContent,
-					roll: roll.toJSON()
+					roll: roll.toJSON(),
 				});
 			else
 				msg = await message.update( {
