@@ -528,10 +528,11 @@ export class CityRoll {
 		const modifierId = getClosestData(event, "modifierId");
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
+		message.rolls.forEach( roll => {
 		const modifier = roll.options.modifiers
 			.find(x=> x.id == modifierId);
 		modifier.strikeout = !modifier.strikeout;
+		});
 		await CityRoll._updateMessage(messageId);
 
 	}
@@ -594,7 +595,7 @@ export class CityRoll {
 
 	static async _updateMessage (messageId) {
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
+		const roll = message.rolls[0];
 		try {
 			const newContent = await CityRoll.#_getContent(roll);
 			let msg;
