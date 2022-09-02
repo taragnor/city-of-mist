@@ -8,7 +8,7 @@ export class EnhancedActorDirectory {
 
 		Hooks.on("updateActor", (actor, diff) => {
 			//NOTE: There's probably a better way to just re-render the actor instead of drawing the whole sidebar, but I don't know what that is right now
-			if (diff?.data?.mythos) {
+			if (diff?.system?.mythos) {
 				ui.actors.render(true);
 				return true;
 			}
