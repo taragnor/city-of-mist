@@ -42,17 +42,17 @@ export class CityDB extends DBAccessor {
 	}
 
 	static filterOverridedContent(list) {
-		return list.filter( x=> !x.data.data.free_content || !list.some(y=>
+		return list.filter( x=> !x.system.free_content || !list.some(y=>
 			x != y
 			&& y.name == x.name
-			&& !y.data.data.free_content
+			&& !y.system.free_content
 		));
 	}
 
 	static async loadMovesOfType(type) {
 		let movesList = this.filterItemsByType("move");
 		movesList = this.filterOverridedContent(movesList);
-		movesList = movesList.filter( x=> x.data.data.category == type);
+		movesList = movesList.filter( x=> x.system.category == type);
 		let setting;
 		switch (type) {
 			case "Core" :
@@ -67,14 +67,14 @@ export class CityDB extends DBAccessor {
 				throw new Error(`Unknown Category ${type}`);
 		}
 		const include = game.settings.get('city-of-mist', setting) ?? "classic";
-		const custom_moves = movesList.filter( x=> x.data.data.system == "custom");
+		const custom_moves = movesList.filter( x=> x.system.system == "custom");
 		switch (include) {
 			case "classic":
-				return movesList.filter( x=> x.data.data.system == "classic")
+				return movesList.filter( x=> x.system.system == "classic")
 					.concat(custom_moves);
 				break;
 			case "reloaded":
-				return movesList.filter( x=> x.data.data.system == "reloaded")
+				return movesList.filter( x=> x.system.system == "reloaded")
 					.concat(custom_moves);
 				break;
 			case "none":
@@ -99,13 +99,13 @@ export class CityDB extends DBAccessor {
 		// const include = game.settings.get('city-of-mist', "movesInclude_core");
 		// switch (include) {
 		// 	case "classic":
-		// 		this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Core");
+		// 		this.movesList = this.movesList.filter( x=> x.system.system != "classic" || x.system.category == "Core");
 		// 		break;
 		// 	case "reloaded":
-		// 		this.movesList = this.movesList.filter( x=> x.data.data.system != "classic" || x.data.data.category == "Advanced" || x.data.data.category == "SHB");
+		// 		this.movesList = this.movesList.filter( x=> x.system.system != "classic" || x.system.category == "Advanced" || x.system.category == "SHB");
 		// 		break;
 		// 	case "none":
-		// 		this.movesList = this.movesList.filter( x=> x.data.data.system == "Custom");
+		// 		this.movesList = this.movesList.filter( x=> x.system.system == "Custom");
 		// 		break;
 		// 	default:
 		// 		console.warn(`Unknown movesInclude setting ${include}`);
@@ -121,7 +121,7 @@ export class CityDB extends DBAccessor {
 
 	static async refreshDangerTemplates() {
 		this._dangerTemplates = this.filterActorsByType("threat")
-			.filter( x=> x.data.data.is_template);
+			.filter( x=> x.system.is_template);
 	}
 
 	static getDangerTemplate(id) {
@@ -144,7 +144,7 @@ export class CityDB extends DBAccessor {
 			if (nameFilter.length == 1)
 				return true;
 			else
-				return !item.data.data.free_content;
+				return !item.system.free_content;
 		});
 	}
 
@@ -153,7 +153,7 @@ export class CityDB extends DBAccessor {
 		let book;
 		if (tname && tname != "") {
 			//if there's premium content, get it
-			book = themebooks.find( item => item.name == tname && !item.data.data.free_content);
+			book = themebooks.find( item => item.name == tname && !item.system.free_content);
 			if (!book) {
 				//search expands to free content
 				book = themebooks.find( item => item.name == tname);
@@ -253,7 +253,7 @@ export class CityDB extends DBAccessor {
 	}
 
 	static async onTokenCreate(token) {
-		const type = game.actors.get(token.actor.id).data.type;
+		const type = game.actors.get(token.actor.id).type;
 		if (type == "character" || type == "extra" || type == "crew" || type == "storyTagContainer")
 			await CityHelpers.ensureTokenLinked(token.scene, token);
 		if (type == "threat") {

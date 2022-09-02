@@ -2,7 +2,7 @@ import { CityDB } from "./city-db.mjs";
 
 export class VersionUpdater {
 
-	static async update(version = game.system.data.version) {
+	static async update(version = game.system.version) {
 		if (!game.user.isGM) return;
 		try {
 			await this.convertExtras();
@@ -29,8 +29,8 @@ export class VersionUpdater {
 			return;
 		}
 		for (const tag of actor.getTags()) {
-			if (tag.data.data.subtagRequired === undefined  || actor.versionIsLessThan("2.4.6")) {
-				const themeId = tag.data.data.theme_id;
+			if (tag.system.subtagRequired === undefined  || actor.versionIsLessThan("2.4.6")) {
+				const themeId = tag.system.theme_id;
 				if (!themeId){
 					await tag.update( {"data.subtagRequired": false});
 					continue;
@@ -42,8 +42,8 @@ export class VersionUpdater {
 					continue;
 				}
 				const themebook = theme.getThemebook();
-				const subtype = tag.data.data.subtype;
-				const letter =tag.data.data.question_letter;
+				const subtype = tag.system.subtype;
+				const letter =tag.system.question_letter;
 				if (letter == "_") {
 					await tag.update( {"data.subtagRequired": false});
 					continue;
@@ -78,37 +78,12 @@ export class VersionUpdater {
 		}
 	}
 
-	// static async updateGMMovesHTML() {
-	// 	const dangerList = CityDB.filterActorsByType("threat")
-	// 		.filter( actor => actor.versionIsLessThan("2"))
-	// 		.filter(x => !x.pack || !game.packs.get(x.pack).locked);
-	// 	for (const danger of dangerList) {
-	// 		for (let move of danger.gmmoves
-	// 			.filter( move => danger.ownsMove(move.id))
-	// 		) {
-	// 			console.debug(`Updated ${move.name} for ${danger.name}`);
-	// 			await move.updateGMMoveHTML();
-	// 		}
-	// 	}
-	// }
-
-	//static async updateDangers() {
-	//	//Changes to new method of GMmove display
-	//	for (const danger of game.actors.filter(x=> x.type == "threat" && x.versionIsLessThan("2")))
-	//		for (let gmmove of danger.items.filter(x=> x.type == "gmmove")) {
-	//			if (gmmove.data.data.description && !gmmove.data.data?.html) {
-	//				console.log(`Updating ${danger.name}`);
-	//				await gmmove.updateGMMoveHTML();
-	//			}
-	//		}
-	//}
-
 	static async updateImprovements() {
 		if (!game.user.isGM) return;
 		const players = game.actors.filter( actor => actor.versionIsLessThan("2"));
 		for (const player of players)
 			for (const improvement of player.items.filter( x=> x.type == "improvement")) {
-				if (true || !improvement.data.data.chosen || !improvement.data.data.effect_class)
+				if (true || !improvement.system.chosen || !improvement.system.effect_class)
 					//NOTE:Currently reloading all improvements to keep things refreshed, may change later
 					try {
 						await improvement.reloadImprovementFromCompendium();
@@ -128,25 +103,25 @@ export class VersionUpdater {
 				name: extra.name,
 				type: "threat",
 				img: extra.img,
-				data: extra.data.data,
-				permission: extra.data.permission,
-				folder: extra.data.folder,
-				sort: extra.data.sort,
-				flags: extra.data.flags,
-				effects: extra.data.effects,
-				token: extra.data.token
+				data: extra.system,
+				permission: extra.permission,
+				folder: extra.folder,
+				sort: extra.sort,
+				flags: extra.flags,
+				effects: extra.effects,
+				token: extra.token
 			});
 			danger.update({"token.actorLink":true});
 			for (let theme of await extra.getThemes()) {
 				const [themenew] = await danger.createEmbeddedDocuments( "Item",[ theme.data]);
 				for (let tag of await extra.getTags(theme.id)) {
-					const tagdata = tag.data.data;
+					const tagdata = tag.system.data;
 					let newtag = await danger.addTag(themenew.id, tagdata.subtype, tagdata.question_letter, true)
 					await newtag.update( {"name": tag.name, "data.burned": tagdata.burned});
 					await tag.delete();
 				}
 				for (let imp of await extra.getImprovements(theme.id)) {
-					const tbarray = (await theme.getThemebook()).data.data.improvements;
+					const tbarray = (await theme.getThemebook()).system.improvements;
 					const index = Object.entries(tbarray)
 						.reduce( (a, [i, d]) => d.name == imp.name ? i : a , -1);
 					let newimp = await danger.addImprovement(themenew.id, index)
@@ -154,8 +129,8 @@ export class VersionUpdater {
 					await imp.delete();
 				}
 				await themenew.update( {
-					"data.unspent_upgrades": theme.data.data.unspent_upgrades,
-					"data.nascent": theme.data.data.nascent
+					"data.unspent_upgrades": theme.system.unspent_upgrades,
+					"data.nascent": theme.system.nascent
 				});
 				await theme.delete();
 			}
@@ -183,7 +158,7 @@ export class ThemebookUpdater {
 	}
 
 	static async #updateQuestionsSub(themebook, listname) {
-		const obj = themebook.data.data[listname];
+		const obj = themebook.system[listname];
 		const newlist = Object.entries(obj)
 		.map ( ([letter, data]) =>{ return{ letter ,data}})
 		.filter(({letter, data}) => data != "_DELETED_")
