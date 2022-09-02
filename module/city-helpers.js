@@ -481,7 +481,7 @@ export class CityHelpers {
 	static rightClick (handler) { return HTMLTools.rightClick(handler); }
 
 	static getDefaultTagDirection(tag, tagowner, _actor) {
-		const subtype = tag?.data?.data?.subtype;
+		const subtype = tag?.system?.subtype;
 		try {
 			switch (subtype) {
 				case "power": return 1;

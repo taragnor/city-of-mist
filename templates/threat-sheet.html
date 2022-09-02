@@ -30,7 +30,7 @@
 			{{/if}}
 			<div class="spectrum-list">
 				{{#each actor.my_spectrums as |spectrum id|}}
-				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.data.data }}
+				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.system }}
 				{{/each}}
 			</div>
 	</section>
@@ -85,7 +85,7 @@
 					{{#each actor.items as |item id|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="character" data=item.data.data themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="character" data=item.system themebook=item.system.themebook tbdata=item.system.themebook.system}}
 					</div>
 					{{/if}}
 					{{/each}}
