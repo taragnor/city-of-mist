@@ -127,6 +127,7 @@ export class CityActorSheet extends CitySheet {
 				name: x.name,
 				location: "",
 				id: x.id,
+				system: x.system,
 				data: x.system,
 				ownerId: this.actor.id,
 				owner: this.actor

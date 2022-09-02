@@ -2,7 +2,7 @@
 	{{#each taglist as |tag| }}
 	{{#if (eq tag.type "tag") }}
 	<li>
-		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=tag.owner locked=(or (ne tag.ownerId ../sheetowner.id) ../locked) sheetowner=../sheetowner canBurn=../canBurn data=tag.data.data tokenId=tokenId}}
+		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=tag.owner locked=(or (ne tag.ownerId ../sheetowner.id) ../locked) sheetowner=../sheetowner canBurn=../canBurn data=tag.system tokenId=tokenId}}
 	</li>
 	{{/if}}
 	{{/each}}
