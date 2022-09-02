@@ -585,7 +585,6 @@ export class CityRoll {
 	static async _editRoll (event) {
 		if (!game.user.isGM)
 			return true;
-		// const templateData  = getClosestData(event, "templateData");
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
 		const rollOptions = message.roll.options;
