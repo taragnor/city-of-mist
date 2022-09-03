@@ -602,7 +602,7 @@ export class CityRoll {
 		const message = game.messages.get(messageId);
 		const roll = message.rolls[0];
 		const rollOptions = roll.options;
-		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
+		await CityDialogs.getRollModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
 		await CityRoll._updateMessage(messageId, roll);
 	}
 
@@ -655,46 +655,6 @@ export class CityRoll {
 		return true;
 	}
 
-	static async getModifierBox (rollOptions) {
-		let dynamiteAllowed = rollOptions.dynamiteAllowed;
-		const title = `Make Roll`;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", rollOptions);
-		return await  new Promise ( (conf, reject) => {
-			const options = {};
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: "Confirm",
-						callback: (html) => {
-							const modifier = Number($(html).find("#roll-modifier-amt").val());
-							if (modifier != 0)
-								rollOptions.modifiers.push ( {
-									id: "MC Edit" + Math.random(),
-									name: localize("CityOfMist.terms.MCEdit"),
-									amount: modifier,
-									ownerId: null,
-									tagId: null,
-									type: "modifier"
-								});
-							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
-							rollOptions.dynamiteAllowed = dynamiteAllowed;
-							conf(rollOptions);
-						},
-					},
-					two: {
-						icon: '<i class="fas fa-times"></i>',
-						label: "Cancel",
-						callback: () => conf(null)
-					}
-				},
-				default: "one"
-			}, options);
-			dialog.render(true);
-		});
-	}
 
 } //end of class
 

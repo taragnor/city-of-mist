@@ -9,7 +9,6 @@ export class CitySockets {
 
 	static test() {
 		this.sockets.send("TEST", {});
-
 	}
 
 }
