@@ -1,6 +1,7 @@
 import { CityItem } from "./city-item.js";
 import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
+import {CityDialogs } from "./city-dialogs.mjs";
 
 export class CityRoll {
 	#roll;
