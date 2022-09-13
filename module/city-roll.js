@@ -385,6 +385,9 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
+		const replies = await CitySockets.declareRoll({
+			actorId: actor.id,
+		});
 		const burnableTags = ( await actor.getActivated() )
 			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const title = `Make Roll`;
@@ -444,7 +447,7 @@ export class CityRoll {
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		this.#prepareModifiers();
 		let {power} = CityRoll.getPower(	this.#options);
-		console.log(`Update Power ${power}`);
+		// console.log(`Update Power ${power}`);
 		$(html).find(".move-power").text(String(power));
 	}
 
