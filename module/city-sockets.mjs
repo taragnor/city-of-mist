@@ -106,7 +106,6 @@ argument is object containing rollData TODO
 	static #setDone(promiseData, userId, promiseReturn) {
 		const data = promiseData.find(o => o.userId == userId);
 		if (!data) throw new Error(`Couldn't find ${userId} in promise data`);
-		data.timeout== -10;
 		data.conf(promiseReturn);
 	}
 
