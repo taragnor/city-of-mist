@@ -1,4 +1,5 @@
 import {SocketInterface} from "./sockets.mjs";
+import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CitySockets {
 
@@ -8,7 +9,9 @@ export class CitySockets {
 		onPreRoll : "onPreRoll",
 		giveJuice : "giveJuice",
 		tagVerify: "tagVerify",
+		requestJuiceTime: "requestJuiceTime",
 	}
+
 
 	static init() {
 		this.sockets = new SocketInterface("system.city-of-mist");
@@ -102,6 +105,11 @@ argument is object containing rollData TODO
 	}
 
 
+	/** send Juice to the actor juiceData is {
+		amount: number,
+		giverId: actorId
+		}
+	*/
 	static async sendJuice(juiceData = {amount: 0}) {
 		return await this.send(this.codes.giveJuice, juiceData)
 	}
@@ -120,10 +128,19 @@ argument is object containing rollData TODO
 			const verify = {amount : 1}; //test code
 			return await this.send(this.codes.tagVerify, verify);
 		} else {
-			// const juice = await CityDialogs.getHelpHurt(dataObj);
-			const juice = {amount : 1}; //test code
+			console.log("Trying to get help hurt");
+			const juice = await CityDialogs.getHelpHurt(dataObj);
+			// const juice = {amount : 1}; //test code
 			return await this.send(this.codes.giveJuice, juice);
 		}
+	}
+
+	static async requestJuiceExtendTimeOut( actor, amount = 0) {
+		await this.send( this.codes.requestJuiceTime , {
+			actorId: actor.id,
+			actorName : actor.name,
+			amount
+		});
 	}
 
 	static async onTagVerify(dataObj, metaData) {

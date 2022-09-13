@@ -340,6 +340,8 @@
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
 
+"CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
+
 "CityOfMist.dialog.SHB.warning0":"Are you sure you want to Stop.Holding.Back?",
 "CityOfMist.dialog.SHB.warning1":"The consequences could be DIRE!",
 "CityOfMist.dialog.SHB.source":"Source of your power",
@@ -354,6 +356,9 @@
 "CityOfMist.dialog.endOfSession.query": "Execute End of Session Move?",
 "CityOfMist.dialog.endOfSession.name": "End Of Session",
 
+"CityOfMist.dialog.spendHelpHurt.Initial": "Spend Help/Hurt",
+"CityOfMist.dialog.spendHelpHurt.spendHelp": "Help",
+"CityOfMist.dialog.spendHelpHurt.spendHurt": "Hurt",
 
 "CityOfMist.settings.gritMode.name": "Grit Mode",
 "CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",

@@ -387,6 +387,8 @@ export class CityRoll {
 	async modifierPopup(move_id, actor) {
 		const getPendingFn = await CitySockets.declareRoll({
 			actorId: actor.id,
+			moveId: move_id,
+			actorName: actor.name,
 		});
 		const burnableTags = ( await actor.getActivated() )
 			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
@@ -412,11 +414,12 @@ export class CityRoll {
 					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
-					if (!game.user.isGM || true) {
+					if (!game.user.isGM) {
 						confirmButton.prop("disabled", true);
 						confirmButton.oldHTML = confirmButton.html();
-						confirmButton.html("Wait for MC approval");
+						confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
 						confirmButton.addClass("disabled");
+						//TODO: add watch to re-enable the button
 					}
 
 				},

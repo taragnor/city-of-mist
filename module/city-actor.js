@@ -48,6 +48,31 @@ export class CityActor extends Actor {
 		return this.type ==  "crew";
 	}
 
+	get helpPoints() {
+		return this.items.
+			filter( x=> x.isHelp());
+
+	}
+	get hurtPoints () {
+		return this.items.
+			filter( x=> x.isHurt());
+	}
+
+	get juice() {
+		return this.items.
+			filter( x=> x.isJuice());
+	}
+
+	hasHelpFor(actorId) {
+		return this.helpPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
+
+	}
+
+	hasHurtFor(actorId) {
+	return this.hurtPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
+
+	}
+
 	getGMMoves(depth = 0) {
 		if (depth > 2) return [];
 		if (this.type != "threat")

@@ -1,4 +1,5 @@
 import {CitySockets} from "./city-sockets.mjs";
+import {CityDB} from "./city-db.mjs";
 
 export class CityDialogs {
 
@@ -166,5 +167,59 @@ export class CityDialogs {
 		});
 	}
 
+	/** prompts players to spend hurt or harm on the roll happening
+	dataObj {
+	actorId: actorId doing move,
+	actorName: actor doing move,
+	moveId: move being used,
+	*/
+	static async getHelpHurt(dataObj) {
+		const {actorId, moveId} = dataObj;
+		const myCharacter = game.user.character;
+		if (myCharacter == null) {
+			await CitySockets.sendJuice();
+			return null;
+		}
+		const templateData = {
+			move: await CityHelpers.getMoveById(moveId),
+			actor: await CityDB.getActorById(actorId),
+		};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
+		return await new Promise( (conf, reject) => {
+			const options ={};
+			let buttons = {
+				none: {
+					icon: '<i class="fas fa-times"></i>',
+					label: localize("CityOfMist.command.cancel"),
+					callback: () => conf({
+						amount: 0,
+						actorId: myCharacter.id
+					}),
+				},
+			};
+			if (myCharacter.hasHelpFor(actorId)) {
+				buttons.help = {
+					label: localize("CityOfMist.terms.help"),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("help")),
+				};
+			}
+			if (myCharacter.hasHurtFor(actorId)) {
+				buttons.hurt = {
+					label: localize("CityOfMist.terms.hurt"),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt")),
+				};
+			}
 
+			const dialog = new Dialog({
+				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+				content: html,
+				buttons,
+				default: "none",
+			}, options);
+			dialog.render(true);
+			console.log("Rendeirng Dialog");
+		});
+	}
 }
+
+
