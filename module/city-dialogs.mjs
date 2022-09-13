@@ -200,13 +200,13 @@ export class CityDialogs {
 			if (myCharacter.hasHelpFor(actorId)) {
 				buttons.help = {
 					label: localize("CityOfMist.terms.help"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("help")),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("help", dataObj)),
 				};
 			}
 			if (myCharacter.hasHurtFor(actorId)) {
 				buttons.hurt = {
 					label: localize("CityOfMist.terms.hurt"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt")),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt", dataObj)),
 				};
 			}
 
@@ -217,9 +217,46 @@ export class CityDialogs {
 				default: "none",
 			}, options);
 			dialog.render(true);
-			console.log("Rendeirng Dialog");
 		});
 	}
-}
 
+	static async chooseHelpHurt(whichOne, dataObj) {
+		const templateData = {};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-selector.hbs", templateData);
+		return await new Promise ( (conf, reject) => {
+			const options = {};
+			const myCharacter = game.user.character;
+			const dialog =   new Dialog( {
+				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+				content: html,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+						callback: () => conf ( {
+							amount: -11 ,//TODO: finish
+							actorId: myCharacter.id,
+						}),
+
+					},
+
+					cancel: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: () => conf ( {
+							amount: 0,
+							actorId: myCharacter.id
+						}),
+
+					},
+				},
+
+
+			}, options);
+			dialog.render(true);
+
+		});
+
+	}
+}
 
