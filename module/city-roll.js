@@ -385,7 +385,7 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const replies = await CitySockets.declareRoll({
+		const getPendingFn = await CitySockets.declareRoll({
 			actorId: actor.id,
 		});
 		const burnableTags = ( await actor.getActivated() )
@@ -411,6 +411,13 @@ export class CityRoll {
 					});
 					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
+					const confirmButton = html.find("button.one");
+					if (!game.user.isGM || true) {
+						confirmButton.prop("disabled", true);
+						confirmButton.oldHTML = confirmButton.html();
+						confirmButton.html("Wait for MC approval");
+						confirmButton.addClass("disabled");
+					}
 
 				},
 				buttons: {

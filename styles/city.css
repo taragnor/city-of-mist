@@ -509,21 +509,32 @@ textarea:focus {
 	border: 1px solid var(--mythos-pink);
 }
 
-.dialog .dialog-buttons button.default {
+.dialog .dialog-buttons button.default:not(.disabled) {
 	font-size: 15px;
 	background-color: #502c5dbd;
 	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 	border: 1px solid var(--mythos-pink);
 }
 
-.dialog .dialog-buttons button:hover {
+.dialog .dialog-buttons button.disabled {
+	font-size: 15px;
+	background-color: #200c2dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.dialog .dialog-buttons button.disabled:hover {
+	cursor: default;
+}
+
+.dialog .dialog-buttons button:hover:not(.disabled) {
 	color: white;
 	background: #c5044b;
 	box-shadow: 0 0 5px rgba(255, 0, 91, 0.75),
 	0 0 10px rgba(0, 0, 0, 0.3) inset;
 }
 
-.dialog .dialog-buttons button.default:hover {
+.dialog .dialog-buttons button.default:hover:not(.disabled) {
 	color: white;
 	background: #c5044b;
 	box-shadow: 0 0 5px rgba(255, 0, 91, 0.75),

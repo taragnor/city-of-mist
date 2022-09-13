@@ -42,7 +42,11 @@ argument is object containing rollData TODO
 		await this.send(this.codes.onPreRoll, rollData);
 		const otherUsers = game.users
 			.filter(user=> user !== game.user);
-		this.awaiters.preRollGo = this.#createNewPromiseData(otherUsers);
+		this.awaiters.preRollGo = this.#createNewPromiseData(otherUsers, Infinity);
+		const awaiters = this.awaiters.preRollGo;
+		return function pending() {
+			return awaiters.filter( x=> x.pending).map( x=>x.user);
+		}
 	}
 
 	/** returns when all players have checked in on their contribution to the roll
