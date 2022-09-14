@@ -1,4 +1,4 @@
-import {SocketInterface} from "./sockets.mjs";
+import {SocketInterface, Session} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CitySockets {
@@ -6,6 +6,7 @@ export class CitySockets {
 	static timeoutDuration =  60; //time in seconds
 
 	static codes = {
+		startRoll: "startRoll",
 		onPreRoll : "onPreRoll",
 		giveJuice : "giveJuice",
 		tagVerify: "tagVerify",
@@ -15,21 +16,23 @@ export class CitySockets {
 
 	static init() {
 		this.sockets = new SocketInterface("system.city-of-mist");
-		this.sockets.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
-		this.sockets.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
-		this.sockets.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
-		this.sockets.addHandler("TEST", (_data, meta) => {
-			const user = game.users.find(meta.senderId);
-			console.log(`hello from ${user?.name}`);
-		});
-		this.awaiters = {
-			preRollGo: [],
-		}
-		console.log("City Sockets: initialized");
+		this.sockets.addSlaveSessionConstructor(this.codes.startRoll, RollSession);
+		// this.sockets.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
+		// this.sockets.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
+		// this.sockets.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
+		// this.sockets.addHandler(this.codes.requestJuiceTime, this.onJuiceTimeRequest.bind(this));
+		// this.sockets.addHandler("TEST", (_data, meta) => {
+		// 	const user = game.users.find(meta.senderId);
+		// 	console.log(`hello from ${user?.name}`);
+		// });
+		// this.awaiters = {
+		// 	preRollGo: [],
+		// }
+		// console.log("City Sockets: initialized");
 	}
 
 	static test() {
-		this.sockets.send("TEST", {});
+		this.sockets.registerSession( new DummySession());
 	}
 
 	static async send(typeStr , dataObj = {}) {
@@ -149,6 +152,52 @@ argument is object containing rollData TODO
 
 	static async onGiveJuice(dataObj, metaData) {
 		this.#setDone(this.awaiters.preRollGo, metaData.senderId, dataObj);
+	}
+
+}
+
+class DummySession extends Session {
+	constructor(id, _msgData, _msgMeta) {
+		super(id);
+	}
+
+	async start() {
+		this.registerSubscribers(game.users)
+		this.request("juice")
+
+	}
+
+}
+
+class RollSession extends Session {
+	static codes = {
+		startRoll: "startRoll",
+		onPreRoll : "onPreRoll",
+		giveJuice : "giveJuice",
+		tagVerify: "tagVerify",
+		requestJuiceTime: "requestJuiceTime",
+	}
+
+	constructor (id, msgData, msgMeta) {
+		super (id);
+		this.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
+		this.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
+		this.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
+		this.addHandler(this.codes.requestJuiceTime, this.onJuiceTimeRequest.bind(this));
+	}
+
+	static async onPreRollHandler(dataObj, metaData) {
+		const user = game.users.find(user => user.id == metaData.senderId);
+		if (game.user.isGM) {
+			// const verify = await CityDialogs.tagVerify(dataObj);
+			const verify = {amount : 1}; //test code
+			return await this.send(this.codes.tagVerify, verify);
+		} else {
+			console.log("Trying to get help hurt");
+			// const juice = await CityDialogs.getHelpHurt(dataObj);
+			const juice = {amount : 1}; //test code
+			return await this.send(this.codes.giveJuice, juice);
+		}
 	}
 
 }

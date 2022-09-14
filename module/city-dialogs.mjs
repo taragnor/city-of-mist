@@ -221,11 +221,23 @@ export class CityDialogs {
 	}
 
 	static async chooseHelpHurt(whichOne, dataObj) {
-		const templateData = {};
+		const myCharacter = game.user.character;
+		const helpHurtAmount = myCharacter.getHelpHurtFor(whichOne, dataObj);
+		const templateData = {
+			HHMax : helpHurtAmount
+		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-selector.hbs", templateData);
-		return await new Promise ( (conf, reject) => {
+		return await new Promise ( (conf, _reject) => {
 			const options = {};
-			const myCharacter = game.user.character;
+			if (HHMax <= 0) {
+				console.warn("Oddly no juice, maybe an error");
+				conf({
+					amount: 0,
+					actorId: myCharacter.id
+				});
+				return;
+			}
+
 			const dialog =   new Dialog( {
 				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
 				content: html,

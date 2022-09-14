@@ -511,11 +511,19 @@ export class CityItem extends Item {
 		return this.type == "juice" && this.system?.subtype;
 	}
 
+	/** On juiice object tell who the juice targets
+	*/
 	getTarget() {
 		const targetId = this.system?.targetCharacterId;
 		if (targetId)
 			return game.actors.get(targetId);
 		else return null;
+	}
+
+	/** Returns true if actorId matches the target of the juice object
+	*/
+	targets(actorId) {
+		return this.getTarget() == actorId;
 	}
 
 	getTargetName() {

@@ -73,6 +73,23 @@ export class CityActor extends Actor {
 
 	}
 
+	/** Gets amount of juice for a given provided actor id.
+	whichOne can be either "help" | "hurt"
+	returns Number
+	*/
+	getHelpHurtFor( whichOne = "help", targetCharacterId) {
+		let arr ;
+		switch (whichOne) {
+			case "help": arr = this.helpPoints; break;
+			case "hurt" : arr = this.hurtPoints; break;
+			default:
+				throw new Error(`Bad request: ${whichOne}, must use either "help" or "hurt"`);
+		}
+		return arr
+			.filter( juice => juice.targets(targetCharacterId))
+			.reduce( (acc,juice) => juice.system.amount + acc, 0);
+	}
+
 	getGMMoves(depth = 0) {
 		if (depth > 2) return [];
 		if (this.type != "threat")
