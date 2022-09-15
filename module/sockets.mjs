@@ -3,8 +3,10 @@ export class SocketInterface {
 	/** Example MOduel name "module.gm-paranoia-taragnor"
 	*/
 	#socketpath;
-	#sessionFactories; //factorie functions to Make session
+	#sessionConstructors;
 	#sessions;
+	#handlers;
+
 	constructor( moduleOrSystemName)  {
 		this.#socketpath = moduleOrSystemName
 		this.#sessionConstructors = new Map();
@@ -12,32 +14,37 @@ export class SocketInterface {
 		this.#sessions = new Map();
 	}
 
-	async send(typeStr, userIdArr, sessionId, dataObj = {}) {
+	async send(typeStr, userIdArr, sessionId, sessionType, dataObj = {}, metaObj = {}) {
+		const meta = {
+			SendTime: Date.now(),
+			senderId: game.userId,
+			sessionId,
+			from: game.userId,
+			...metaObj,
+		};
 		const data = {
 			type: typeStr,
 			data: dataObj,
 			to: userIdArr,
 			sessionId,
-			meta: {
-				SendTime: Date.now(),
-				senderId: game.users.current.id,
-				sessionId,
-				from: game.users.current.id,
-			},
+			sessionType,
+			meta,
 		}
 		return await game.socket.emit(this.#socketpath, data);
 	}
 
 	socketHandler(msg) {
-		if (!msg.to.includes(user.current.id))
+		if (!msg.to.includes(game.userId))
 			return;
 		const sId = msg.sessionId;
 		if (this.#sessions.has(sId)) {
 			this.#sessions.get(sId).handleMessage(msg);
 			return;
 		} else {
-			if (this.#handlers.has(msg.type)) {
-				const newSession = this.#sessionFactories.get(msg.type) (msg.sessionId, msg.data, msg.meta);
+			if (this.#sessionConstructors.has(msg.sessionType)) {
+				const sessionConstructor = this.#sessionConstructors.get(msg.sessionType);
+				const newSession = new sessionConstructor(msg.sessionId, msg.meta.from);
+				newSession.setSocketInterface(this);
 				this.#sessions.set(newSession.id, newSession);
 				newSession.handleMessage(msg);
 				return;
@@ -49,15 +56,21 @@ export class SocketInterface {
 
 	/** arguments to factory (data, sender, metadata)
 	*/
-	addSlaveSessionConstructor(typeStr, SessionFactoryFn) {
-		this.#sessionFactories.set(typeStr, SessionFactoryFn);
+	addSlaveSessionConstructor(SessionClass, SessionConstructor) {
+		const mainSessionName = SessionClass.name;
+		if (!mainSessionName){
+			throw new Error(`Couldn't resolve name for ${SessionClass}. Are you passing a class?`);
+		}
+		this.#sessionConstructors.set(mainSessionName, SessionConstructor);
 	}
 
-	registerSession(session) {
-		this.#sessions.set(session.id, session);
-		session.setSocketInterface(this);
-		session.start();
-		return session;
+	/** starts a Master Session
+	*/
+	async startSession(masterSession) {
+		this.#sessions.set(masterSession.id, masterSession);
+		masterSession.setSocketInterface(this);
+		await masterSession.start();
+		return masterSession;
 	}
 
 	getSession(id) {
@@ -66,16 +79,24 @@ export class SocketInterface {
 
 }
 
-export class Session {
+class Session {
+	#handlers;
+
+	static codes = {
+		request: "__REQUEST__",
+		reply: "__REPLY__",
+		createNewSession: "__NEWSESSION__",
+	}
+
 	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
 		if (userIdList) {
 			this.registerSubscribers(userIdList);
 		}
-
 		this.sender = null;
 		if (!id)
 			id = Session.newId();
 		this.id = id;
+		this.sessionType= this.constructor.name;
 		this.name = name;
 		this.timestamp=  Date.now();
 		this.unresolvedEvents= [];
@@ -85,6 +106,7 @@ export class Session {
 		this.reject= null;
 		this.value = null;
 		this.error = null;
+		this.#handlers = new Map();
 		const promise = new Promise ( (conf, reject) => {
 			this.conf = conf;
 			this.reject = reject;
@@ -102,7 +124,6 @@ export class Session {
 	}
 
 	async start () {
-		//made to be overriden
 	}
 
 	setSocketInterface( socketInterface) {
@@ -113,19 +134,25 @@ export class Session {
 		return game.user.id + "_" +  Date.now();
 	}
 
-	static replyCode = "__REPLY__";
-
 	defaultTimeOut(_userId) {
 		return 60;
 	}
 
 	registerSubscribers(subListBase) {
-		subList = Array.from(subListBase).filter( x=> x.id != user.current.id);
-		let subs = new Map();
-		for (const userId of subList) {
-			subs.set(userId, new Subscriber(userId, this, this.defaultTimeOut(userId)));
+		let subListArray;
+		if (subListBase.values) {
+			subListArray = Array.from(subListBase.values());
+		} else {
+			subListArray = subListBase;
 		}
-		this.subscribers = subs;
+		const subList = subListArray.filter( x=> x.id != game.userId);
+		this.subscribers = subList.map( user=> {
+			return new Subscriber(user.id, this, this.defaultTimeOut(user.id));
+		});
+		// for (const userId of subList) {
+		// 	subs.set(userId, new Subscriber(userId, this, this.defaultTimeOut(userId)));
+		// }
+		// this.subscribers = subs;
 	}
 
 	tickTimeout() {
@@ -144,8 +171,12 @@ export class Session {
 		return this.subscribers.filter( x=> !x.finished);
 	}
 
-	async send(typeStr, dataObj = {}) {
-		return await this.sender.send(typeStr, this.subscribers, this.id, dataObj);
+	get subscriberIds() {
+		return this.subscribers.map( x=> x.id);
+	}
+
+	async send(typeStr, dataObj = {}, metaObj  = {}) {
+		return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
 	}
 
 	/** sends to a user Id or an Array of userIds
@@ -161,21 +192,36 @@ export class Session {
 	}
 
 	addHandler(type, handlerFn) {
+		if (!type)
+			throw new Error(`Passed bad handler Type: ${type}`);
 		this.#handlers.set(type, handlerFn);
 	}
 
 	handleMessage({type, data, meta}) {
-		if (this.#handlers.has(type))
+		if (this.#handlers.has(type)) {
 			this.#handlers.get(type) (data, meta);
-		else if (type == this.replyCode) {
-			const target= this.#subscribers.find( x=> x.id == this.meta.from);
-			target.replyRecieved(data);
 		} else {
-			console.warn(`Unhandled Data Object Type in socekt ${msg.type}`);
+			console.warn(`Unhandled Data Object Type in socekt ${type}`);
 		}
 	}
 
-	/** request information from subscribers
+
+
+
+}
+
+export class MasterSession extends Session {
+		#replyHandlers;
+
+	constructor( name = "Unnamed Master Session", id = undefined, userIdList = undefined) {
+		if (!name)
+			name = `${this.constructor.name} Session`;
+		super(name, id, userIdList);
+		this.#replyHandlers = new Map();
+		this.addHandler(Session.codes.reply, this.recieveReply.bind(this));
+	}
+
+	/** sends request to subscribers
 	dataObj is sent to subscribers
 	subscribers can return the request using reply
 	*/
@@ -183,21 +229,90 @@ export class Session {
 		this.subscribers.forEach( sub => {
 			sub.awaitReply();
 		});
-		await this.send(requestCode, dataObj);
+		const meta = {  requestCode};
+		await this.send(Session.codes.request, dataObj, meta);
 		//TODO: awaiter when fulfilled
 	}
 
-	onRepldd
+	handleMessage({type, data, meta}) {
+		if (type == Session.codes.reply) {
+			this.recieveReply(data, meta);
+		} else {
+			super.handleMessage({type, data, meta});
+		}
+	}
+
+	setReplyHandler(codeStr, handlerFn) {
+		this.#replyHandlers.set(codeStr, handlerFn);
+	}
+
+	async recieveReply(data,  meta) {
+		const senderId = meta.from;
+		const handler = this.#replyHandlers.get(meta.replyCode);
+		if (handler) {
+			return await handler(data, meta, senderId);
+		} else {
+			throw new Error(`No handler for ${data.replyCode}`);
+		}
+
+
+	}
 
 }
 
 export class SlaveSession extends Session {
+	#requestHandlers;
+
+	constructor( id, sender) {
+		const name = "Slave Session";
+		if (typeof sender == "string")
+			sender = game.users.find( x=> x.id == sender);
+		if (!sender)
+			throw new Error("No sender Id Given?!");
+		const userIdList = [sender];
+		super(name, id, userIdList);
+		this.#requestHandlers = new Map();
+		this.addHandler(Session.codes.request, this.recieveRequest.bind(this));
+		this.replyCode = null;
+	}
+
+	handleMessage({type, data, meta}) {
+		if (type == Session.codes.request) {
+			this.recieveRequest(data, meta);
+		} else {
+			super.handleMessage({type, data, meta});
+		}
+	}
+
+	setRequestHandler(codeStr, handlerFn) {
+		this.#requestHandlers.set(codeStr, handlerFn);
+	}
+
+	async recieveRequest(data,  meta) {
+		const handler = this.#requestHandlers.get(meta.requestCode);
+		if (handler) {
+			this.replyCode = meta.requestCode;
+			return await handler(data, meta);
+		} else {
+			throw new Error(`No handler for ${data.requestCode}`);
+		}
+	}
+
+	async reply(dataObj = {}) {
+		const meta = {
+			replyCode: this.replyCode
+		}
+		await this.send(Session.codes.reply,  dataObj, meta);
+		// this.replyCode = null;
+	}
 
 }
 
 
 class Subscriber {
 	constructor (id, session , timeout= Infinity) {
+		if (!id)
+			throw new Error("No Id Given!");
 		this.id= id;
 		this.replied= false;
 		this.finished= false;
@@ -223,8 +338,8 @@ class Subscriber {
 
 	replyRecieved(dataObj) {
 		if (this.awaitingReply) {
-			this.retVal = dataObj;
 			this.awaitingReply = false;
+			this.replyAwaiter(dataObj);
 		} else {
 			if (this.error) return;
 			console.warn("Recieved reply when one wasn't requested");

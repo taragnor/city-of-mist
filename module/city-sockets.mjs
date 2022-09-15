@@ -1,4 +1,4 @@
-import {SocketInterface, Session} from "./sockets.mjs";
+import {SocketInterface, MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CitySockets {
@@ -16,7 +16,7 @@ export class CitySockets {
 
 	static init() {
 		this.sockets = new SocketInterface("system.city-of-mist");
-		this.sockets.addSlaveSessionConstructor(this.codes.startRoll, RollSession);
+		this.sockets.addSlaveSessionConstructor(DummyMasterSession, DummySlaveSession);
 		// this.sockets.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
 		// this.sockets.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
 		// this.sockets.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
@@ -32,7 +32,11 @@ export class CitySockets {
 	}
 
 	static test() {
-		this.sockets.registerSession( new DummySession());
+		this.sockets.startSession( new DummyMasterSession())
+	}
+
+	startSession (masterSession) {
+		this.sockets.startSession(masterSession);
 	}
 
 	static async send(typeStr , dataObj = {}) {
@@ -156,49 +160,70 @@ argument is object containing rollData TODO
 
 }
 
-class DummySession extends Session {
-	constructor(id, _msgData, _msgMeta) {
-		super(id);
-	}
+class DummyMasterSession extends MasterSession {
 
 	async start() {
-		this.registerSubscribers(game.users)
-		this.request("juice")
+		this.registerSubscribers(game.users);
+		console.log("preparing to send");
+		await this.request("juice");
+		console.log("Request Sent");
+		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
+	}
 
+	async onJuiceReply(dataObj, _meta, senderId) {
+		console.log("Reply Recieved");
+		const sender = game.users.find(x=> x.id == senderId);
+		console.log(`${sender.name} said ${dataObj.amount}`);
 	}
 
 }
 
-class RollSession extends Session {
-	static codes = {
-		startRoll: "startRoll",
-		onPreRoll : "onPreRoll",
-		giveJuice : "giveJuice",
-		tagVerify: "tagVerify",
-		requestJuiceTime: "requestJuiceTime",
+class DummySlaveSession extends SlaveSession {
+	constructor( id, sender) {
+		super(id, sender);
+		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	constructor (id, msgData, msgMeta) {
-		super (id);
-		this.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
-		this.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
-		this.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
-		this.addHandler(this.codes.requestJuiceTime, this.onJuiceTimeRequest.bind(this));
-	}
-
-	static async onPreRollHandler(dataObj, metaData) {
-		const user = game.users.find(user => user.id == metaData.senderId);
-		if (game.user.isGM) {
-			// const verify = await CityDialogs.tagVerify(dataObj);
-			const verify = {amount : 1}; //test code
-			return await this.send(this.codes.tagVerify, verify);
-		} else {
-			console.log("Trying to get help hurt");
-			// const juice = await CityDialogs.getHelpHurt(dataObj);
-			const juice = {amount : 1}; //test code
-			return await this.send(this.codes.giveJuice, juice);
-		}
+	async onJuiceRequest (_dataobj) {
+		console.log("Request Received");
+		await this.reply( {
+			amount: 42
+		});
+		console.log("Reply Sent");
 	}
 
 }
+
+// class RollSession extends Session {
+// 	static codes = {
+// 		startRoll: "startRoll",
+// 		onPreRoll : "onPreRoll",
+// 		giveJuice : "giveJuice",
+// 		tagVerify: "tagVerify",
+// 		requestJuiceTime: "requestJuiceTime",
+// 	}
+
+// 	constructor (id, msgData, msgMeta) {
+// 		super (id);
+// 		this.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
+// 		this.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
+// 		this.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
+// 		this.addHandler(this.codes.requestJuiceTime, this.onJuiceTimeRequest.bind(this));
+// 	}
+
+// 	static async onPreRollHandler(dataObj, metaData) {
+// 		const user = game.users.find(user => user.id == metaData.senderId);
+// 		if (game.user.isGM) {
+// 			// const verify = await CityDialogs.tagVerify(dataObj);
+// 			const verify = {amount : 1}; //test code
+// 			return await this.send(this.codes.tagVerify, verify);
+// 		} else {
+// 			console.log("Trying to get help hurt");
+// 			// const juice = await CityDialogs.getHelpHurt(dataObj);
+// 			const juice = {amount : 1}; //test code
+// 			return await this.send(this.codes.giveJuice, juice);
+// 		}
+// 	}
+
+// }
 
