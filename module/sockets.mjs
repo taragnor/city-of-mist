@@ -291,7 +291,7 @@ export class MasterSession extends Session {
 	}
 
 	destroy() {
-		console.debug("Sending destroy code");
+		// console.debug("Sending destroy code");
 		this.send(Session.codes.destroySession);
 		this.onDestroy();
 	}
@@ -353,7 +353,6 @@ export class SlaveSession extends Session {
 
 	destroy() {
 		this.onDestroy();
-		console.log("Session Destroyed");
 		this.sender.removeSession(this);
 	}
 
@@ -383,7 +382,7 @@ class Subscriber {
 	/** returns true on a timeout
 	*/
 	tickTimeout() {
-		console.debug("Ticking Timeout");
+		// console.debug("Ticking Timeout");
 		if (this.#timeoutIntervalId == null) return;
 		if (!this.awaitingReply){
 			window.clearInterval(this.#timeoutIntervalId);
@@ -393,14 +392,14 @@ class Subscriber {
 		if (--this.timeout == 0) {
 			this.awaitingReply= false;
 			this.reject(new Error("Timeout"));
-			console.debug("Timeout");
+			// console.debug("Timeout");
 			window.clearInterval(this.#timeoutIntervalId);
 			this.#timeoutIntervalId = null;
 		}
 	}
 
 	awaitReply(timeout = Infinity) {
-		console.debug(`Timeout set: ${timeout}`);
+		// console.debug(`Timeout set: ${timeout}`);
 		const subscriber = this;
 		this.timeout = timeout;
 		this.error = null;
@@ -411,7 +410,7 @@ class Subscriber {
 		})
 			.then ( x=> subscriber.value = x)
 			.catch( err => {
-				console.debug(`Rejected ${err}`);
+				// console.debug(`Rejected ${err}`);
 				subscriber.error = err.message;
 			})
 			.finally(_=> {
