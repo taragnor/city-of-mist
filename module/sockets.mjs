@@ -94,6 +94,7 @@ class Session {
 		reply: "__REPLY__",
 		createNewSession: "__NEWSESSION__",
 		destroySession: "__DESTROYSESSION__",
+		timeExtension: "__TIMEREQUEST__",
 	}
 
 	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
@@ -240,6 +241,7 @@ export class MasterSession extends Session {
 		super.setHandlers();
 		this.replyHandlers = new Map();
 		this.addHandler(Session.codes.reply, this.recieveReply.bind(this));
+		this.addHandler(Session.codes.timeExtension, this.extendTime.bind(this));
 	}
 
 	/** sends request to subscribers
@@ -295,6 +297,17 @@ export class MasterSession extends Session {
 		}
 
 
+	}
+
+	extendTime(data, meta) {
+		const from = meta.from;
+		const amount = data.amount ;
+		if (!from || !amount)
+			throw new Error("Malformed time request");
+		const sub = this.subscribers.find(x=> x.id == from)
+		if (!sub)
+			throw new Error("Couldn't find");
+		sub.timeExtend(amount);
 	}
 
 	destroy() {
@@ -365,6 +378,11 @@ export class SlaveSession extends Session {
 		}
 		await this.send(Session.codes.reply,  dataObj, meta);
 		// this.replyCode = null;
+	}
+
+	async getTimeExtension(amount) {
+		await this.send( Session.codes.timeExtension,  {amount});
+
 	}
 
 	destroy() {
@@ -438,7 +456,18 @@ class Subscriber {
 			});
 
 		this.awaitingReply =true;
-		this.#timeoutIntervalId = window.setInterval( this.tickTimeout.bind(this), 1000);
+		if (!this.#timeoutIntervalId)
+			this.#timeoutIntervalId = window.setInterval( this.tickTimeout.bind(this), 1000);
+	}
+
+	/**grants more time before timeout
+	*/
+	timeExtend(amount) {
+		// console.debug("considering time extend");
+		if (this.awaitingReply && this.timeout > 0) {
+			// console.debug(`Time extension granted: ${amount}`);
+			this.timeout+= amount;
+		}
 	}
 
 

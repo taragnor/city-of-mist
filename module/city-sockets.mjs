@@ -1,5 +1,6 @@
 import {SocketInterface, MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
+import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession} from "./city-sessions.mjs"
 
 export class CitySockets {
 
@@ -17,6 +18,8 @@ export class CitySockets {
 	static init() {
 		this.sockets = new SocketInterface("system.city-of-mist");
 		this.sockets.addSlaveSessionConstructor(DummyMasterSession, DummySlaveSession);
+		this.sockets.addSlaveSessionConstructor(JuiceMasterSession, JuiceSlaveSession);
+		this.sockets.addSlaveSessionConstructor(TagReviewMasterSession, TagReviewSlaveSession);
 		// this.sockets.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
 		// this.sockets.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
 		// this.sockets.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
@@ -35,9 +38,6 @@ export class CitySockets {
 		return this.sockets.execSession( new DummyMasterSession())
 	}
 
-	startSession (masterSession) {
-		this.sockets.startSession(masterSession);
-	}
 
 	static async send(typeStr , dataObj = {}) {
 		if (!this.sockets)
@@ -169,12 +169,13 @@ class DummyMasterSession extends MasterSession {
 
 	async start() {
 		this.registerSubscribers(game.users);
-		console.log("preparing to send");
+		console.log("Starting 1");
 		const result = await this.request("juice");
 		console.log("Finished 1");
+		console.log("Starting 2");
 		const result2 = await this.request("juice");
 		console.log("Finished 2");
-		return await result;
+		return await result2;
 	}
 
 	async onJuiceReply(dataObj, _meta, senderId) {
@@ -189,13 +190,17 @@ class DummySlaveSession extends SlaveSession {
 	constructor( id, sender) {
 		super(id, sender);
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
+		this.answer = 42
 	}
 
 	async onJuiceRequest (replyFn, _dataobj) {
 		console.log("Request Received");
-		await CityHelpers.asyncwait(15);
+		await CityHelpers.asyncwait(5);
+		console.log("asking for more time");
+		this.getTimeExtension(10);
+		await CityHelpers.asyncwait(10);
 		await replyFn( {
-			amount: 42
+			amount: this.answer++
 		});
 		console.log("Replied Late ");
 	}
