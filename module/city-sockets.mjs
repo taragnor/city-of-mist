@@ -171,7 +171,9 @@ class DummyMasterSession extends MasterSession {
 		this.registerSubscribers(game.users);
 		console.log("preparing to send");
 		const result = await this.request("juice");
-		console.log("Finished");
+		console.log("Finished 1");
+		const result2 = await this.request("juice");
+		console.log("Finished 2");
 		return await result;
 	}
 
@@ -189,13 +191,13 @@ class DummySlaveSession extends SlaveSession {
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	async onJuiceRequest (_dataobj) {
+	async onJuiceRequest (replyFn, _dataobj) {
 		console.log("Request Received");
-		await CityHelpers.asyncwait(1);
-		await this.reply( {
+		await CityHelpers.asyncwait(15);
+		await replyFn( {
 			amount: 42
 		});
-		console.log("Replied ");
+		console.log("Replied Late ");
 	}
 
 }

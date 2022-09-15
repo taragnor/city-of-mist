@@ -36,6 +36,7 @@ export class SocketInterface {
 	socketHandler(msg) {
 		if (!msg.to.includes(game.userId))
 			return;
+		// console.debug(`Received message ${msg.type}`);
 		const sId = msg.sessionId;
 		if (this.#sessions.has(sId)) {
 			this.#sessions.get(sId).handleMessage(msg);
@@ -188,7 +189,10 @@ class Session {
 	}
 
 	async send(typeStr, dataObj = {}, metaObj  = {}) {
-		return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
+		if (this.active)
+			return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
+		else
+			console.debug("inacitve session can't send");
 	}
 
 	/** sends to a user Id or an Array of userIds
@@ -197,10 +201,6 @@ class Session {
 		if (!Array.isArray(userId))
 			userId = [userId];
 		return await this.sender.send(typeStr, userId, this.id, dataObj);
-	}
-
-	terminate() {
-		this.reject("Terminated by User");
 	}
 
 	addHandler(type, handlerFn) {
@@ -215,6 +215,11 @@ class Session {
 		} else {
 			console.warn(`Unhandled Data Object Type in socekt ${type}`);
 		}
+	}
+
+	destroy() {
+		console.debug("Destorying session");
+		this.active =false;
 	}
 
 	onDestroy() {
@@ -269,6 +274,8 @@ export class MasterSession extends Session {
 		}
 	}
 
+	/** when a reply is recieved for any one subscriber, it calls this routine,useful if yo want to use partial results as they're recieved, otherwise just await the main promise from execSession
+	*/
 	setReplyHandler(codeStr, handlerFn) {
 		this.replyHandlers.set(codeStr, handlerFn);
 	}
@@ -293,6 +300,7 @@ export class MasterSession extends Session {
 	destroy() {
 		// console.debug("Sending destroy code");
 		this.send(Session.codes.destroySession);
+		super.destroy();
 		this.onDestroy();
 	}
 
@@ -309,6 +317,7 @@ export class SlaveSession extends Session {
 		const userIdList = [sender];
 		super(name, id, userIdList);
 		this.replyCode = null;
+		this.interactionNum = 0;
 	}
 
 	setHandlers() {
@@ -337,7 +346,14 @@ export class SlaveSession extends Session {
 			if (!meta.requestCode)
 				throw new Error("Request Code can't be null");
 			this.replyCode = meta.requestCode;
-			return await handler(data, meta);
+			const interactionNum = ++this.interactionNum;
+			const replyFn = (dataObj) => {
+				if (interactionNum == this.interactionNum)
+					this.reply(dataObj);
+				else
+					console.debug("invalid interaction num");
+			}
+			return await handler(replyFn, data, meta);
 		} else {
 			throw new Error(`No handler for ${data.requestCode}`);
 		}
@@ -352,6 +368,7 @@ export class SlaveSession extends Session {
 	}
 
 	destroy() {
+		super.destroy();
 		this.onDestroy();
 		this.sender.removeSession(this);
 	}
