@@ -32,7 +32,7 @@ export class CitySockets {
 	}
 
 	static async test() {
-		return this.sockets.startSession( new DummyMasterSession())
+		return this.sockets.execSession( new DummyMasterSession())
 	}
 
 	startSession (masterSession) {

@@ -66,11 +66,17 @@ export class SocketInterface {
 
 	/** starts a Master Session
 	*/
-	async startSession(masterSession) {
+	async execSession(masterSession) {
 		this.#sessions.set(masterSession.id, masterSession);
 		masterSession.setSocketInterface(this);
 		const ret= await masterSession.start();
+		masterSession.destroy();
+		this.removeSession(masterSession);
 		return ret;
+	}
+
+	removeSession(session) {
+		this.#sessions.delete(session.id);
 	}
 
 	getSession(id) {
@@ -86,6 +92,7 @@ class Session {
 		request: "__REQUEST__",
 		reply: "__REPLY__",
 		createNewSession: "__NEWSESSION__",
+		destroySession: "__DESTROYSESSION__",
 	}
 
 	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
@@ -210,8 +217,9 @@ class Session {
 		}
 	}
 
-
-
+	onDestroy() {
+		//virtual
+	}
 
 }
 
@@ -282,6 +290,12 @@ export class MasterSession extends Session {
 
 	}
 
+	destroy() {
+		console.debug("Sending destroy code");
+		this.send(Session.codes.destroySession);
+		this.onDestroy();
+	}
+
 }
 
 export class SlaveSession extends Session {
@@ -301,7 +315,9 @@ export class SlaveSession extends Session {
 		super.setHandlers();
 		this.requestHandlers = new Map();
 		this.addHandler(Session.codes.request, this.recieveRequest.bind(this));
+		this.addHandler(Session.codes.destroySession, this.destroy.bind(this));
 	}
+
 
 	handleMessage({type, data, meta}) {
 		if (type == Session.codes.request) {
@@ -333,6 +349,12 @@ export class SlaveSession extends Session {
 		}
 		await this.send(Session.codes.reply,  dataObj, meta);
 		// this.replyCode = null;
+	}
+
+	destroy() {
+		this.onDestroy();
+		console.log("Session Destroyed");
+		this.sender.removeSession(this);
 	}
 
 }
