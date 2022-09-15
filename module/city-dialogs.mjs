@@ -127,9 +127,12 @@ export class CityDialogs {
 	}
 
 	static async getRollModifierBox (rollOptions) {
+		const moves = CityHelpers.getMoves();
+		const templateData = {moves,
+			...rollOptions};
 		let dynamiteAllowed = rollOptions.dynamiteAllowed;
 		const title = `Make Roll`;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", rollOptions);
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", templateData);
 		return await  new Promise ( (conf, reject) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -151,6 +154,11 @@ export class CityDialogs {
 									type: "modifier"
 								});
 							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
+							const moveChoice = $(html).find("select.move-select").find(":selected").val();
+							console.log(`moveCHoice: ${moveChoice}`);
+							if (rollOptions.moveId != moveChoice) {
+								rollOptions.moveId = moveChoice;
+							}
 							rollOptions.dynamiteAllowed = dynamiteAllowed;
 							conf(rollOptions);
 						},

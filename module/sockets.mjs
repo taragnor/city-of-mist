@@ -219,7 +219,7 @@ class Session {
 	}
 
 	destroy() {
-		console.debug("Destorying session");
+		// console.debug("Destorying session");
 		this.active =false;
 	}
 

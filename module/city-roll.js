@@ -211,16 +211,7 @@ export class CityRoll {
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const {total, roll_adjustment} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
-		// const max_choices = CityItem.getMaxChoices(move, roll_status, power);
-		// const curr_choices = moveList.filter( x=> x.checked).length;
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		// if (moveList.length == 0 || curr_choices > max_choices) {
-		// 	// moveList = moveListRaw;
-		// } else {
-		// 	// options.moveList = options.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
-		// 	// const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
-		// 	// options.moveList = options.moveList.concat(unadded);
-		// }
 		const actor = CityDB.getActorById(roll.options.actorId);
 		const actorName = actor ?actor.name : "";
 		const templateData = {
@@ -385,11 +376,6 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const getPendingFn = await CitySockets.declareRoll({
-			actorId: actor.id,
-			moveId: move_id,
-			actorName: actor.name,
-		});
 		const burnableTags = ( await actor.getActivated() )
 			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const title = `Make Roll`;
@@ -415,10 +401,10 @@ export class CityRoll {
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM) {
-						confirmButton.prop("disabled", true);
-						confirmButton.oldHTML = confirmButton.html();
-						confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
-						confirmButton.addClass("disabled");
+						// confirmButton.prop("disabled", true);
+						// confirmButton.oldHTML = confirmButton.html();
+						// confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
+						// confirmButton.addClass("disabled");
 						//TODO: add watch to re-enable the button
 					}
 
@@ -624,17 +610,24 @@ export class CityRoll {
 		const {power} = CityRoll.getPower(roll.options);
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
+		if (!move)
+			throw new Error(`Coulodn't find move for some reason ${moveId}`);
 		const {total} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, roll.options);
 		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
-		const curr_choices = checkedOptions.filter( x=> x.checked).length;
+		const curr_choices = checkedOptions?.filter( x=> x.checked)?.length ?? 0;
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		const isValid = curr_choices <= max_choices;
+		const isValid =checkedOptions && curr_choices <= max_choices;
 		if (isValid)  {
-			return checkedOptions.map ((item, index)  => {
-				item.text = moveListRaw[index].text;
-				return item;
-			}); // reformat text for changed power
+			try {
+				return checkedOptions?.map ((item, index)  => {
+					item.text = moveListRaw[index].text;
+					return item;
+				}) ?? []; // reformat text for changed power
+			} catch (e) {
+				//TOOD: need to reset flags on a failed check
+				return moveListRaw;
+			}
 		} else {
 			return moveListRaw;
 		}
@@ -650,6 +643,7 @@ export class CityRoll {
 				message.getFlag("city-of-mist", "checkedOptions"),
 				roll
 			);
+			Debug(checkedOptions);
 			const newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});
 			let msg;
 			if (game.user.isGM)
