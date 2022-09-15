@@ -163,7 +163,7 @@ class Session {
 		} else {
 			subListArray = subListBase;
 		}
-		const subList = subListArray.filter( x=> x.id != game.userId);
+		const subList = subListArray.filter( x=> x.id != game.userId && x.active);
 		this.subscribers = subList.map( user=> {
 			return new Subscriber(user.id, this);
 		});
@@ -261,6 +261,7 @@ export class MasterSession extends Session {
 		const results = await Promise.allSettled(promises);
 		return this.subscribers.map(x=> {
 			return {
+				id: x.id,
 				value: x.value ?? null,
 				error: x.error ?? null,
 			}

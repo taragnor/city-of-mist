@@ -3,6 +3,7 @@ import {MasterSession, SlaveSession} from "./sockets.mjs";
 
 export class JuiceMasterSession extends MasterSession {
 	async start() {
+		this.registerSubscribers( game.users.filter( x=> !x.isGM));
 
 	}
 
