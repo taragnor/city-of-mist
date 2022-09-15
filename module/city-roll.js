@@ -551,13 +551,18 @@ export class CityRoll {
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == roll.options.moveId);
 		const roll_status = CityRoll.getRollStatus(total, roll.options);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		const moveList = message.getFlag("city-of-mist", "checkedOptions") ??
+		let moveList = message.getFlag("city-of-mist", "checkedOptions") ??
 			moveListRaw;
 		const listitem = getClosestData(event, "origtext");
-		const item = moveList.find( x=> x.origText === listitem);
+		let item = moveList.find( x=> x.origText === listitem);
 		if (!item) {
 			Debug(moveList);
-			throw new Error(`Coiuldnt' find ${listitem}`);
+			if (moveList == moveListRaw)
+				throw new Error(`Couldn't find ${listitem}`);
+			moveList = moveListRaw
+			item = moveList.find( x=> x.origText === listitem);
+			if (!item)
+				throw new Error(`Couldn't find ${listitem}`);
 		}
 		if (item.cost == undefined)
 			item.cost = 1;
@@ -582,13 +587,13 @@ export class CityRoll {
 		});
 
 		if (item.checked) {
-			console.log("unchecking box");
+			// console.log("unchecking box");
 			item.checked = false;
 		} else if (!item.checked && current_choices <= max_choices) {
-			console.log("checking box");
+			// console.log("checking box");
 			item.checked = true;
 		} else {
-			console.log("invalid choice");
+			console.warn("invalid choice");
 			return false;
 		}
 		await message.setFlag("city-of-mist", "checkedOptions", moveList);
@@ -626,10 +631,12 @@ export class CityRoll {
 				}) ?? []; // reformat text for changed power
 			} catch (e) {
 				//TOOD: need to reset flags on a failed check
-				return moveListRaw;
+				return null;
+				// return moveListRaw;
 			}
 		} else {
-			return moveListRaw;
+			return null;
+			// return moveListRaw;
 		}
 	}
 
@@ -644,7 +651,11 @@ export class CityRoll {
 				roll
 			);
 			Debug(checkedOptions);
-			const newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});
+			let newContent;
+			if (checkedOptions)
+				newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});
+			else
+				newContent = await CityRoll.#_getContent(roll);
 			let msg;
 			if (game.user.isGM)
 				msg = await message.update( {
