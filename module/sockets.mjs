@@ -69,8 +69,8 @@ export class SocketInterface {
 	async startSession(masterSession) {
 		this.#sessions.set(masterSession.id, masterSession);
 		masterSession.setSocketInterface(this);
-		await masterSession.start();
-		return masterSession;
+		const ret= await masterSession.start();
+		return ret;
 	}
 
 	getSession(id) {
@@ -121,6 +121,11 @@ class Session {
 				this.value = null;
 				this.error =x;
 			});
+		this.setHandlers();
+	}
+
+	setHandlers() {
+		//extensible virtual function
 	}
 
 	async start () {
@@ -134,8 +139,12 @@ class Session {
 		return game.user.id + "_" +  Date.now();
 	}
 
-	defaultTimeOut(_userId) {
-		return 60;
+	defaultTimeOut(userId) {
+		const user = game.users.find(x => x.id == userId);
+		if (user.isGM)
+			return Infinity;
+		else
+			return 10;
 	}
 
 	registerSubscribers(subListBase) {
@@ -147,12 +156,8 @@ class Session {
 		}
 		const subList = subListArray.filter( x=> x.id != game.userId);
 		this.subscribers = subList.map( user=> {
-			return new Subscriber(user.id, this, this.defaultTimeOut(user.id));
+			return new Subscriber(user.id, this);
 		});
-		// for (const userId of subList) {
-		// 	subs.set(userId, new Subscriber(userId, this, this.defaultTimeOut(userId)));
-		// }
-		// this.subscribers = subs;
 	}
 
 	tickTimeout() {
@@ -211,13 +216,16 @@ class Session {
 }
 
 export class MasterSession extends Session {
-		#replyHandlers;
 
 	constructor( name = "Unnamed Master Session", id = undefined, userIdList = undefined) {
 		if (!name)
 			name = `${this.constructor.name} Session`;
 		super(name, id, userIdList);
-		this.#replyHandlers = new Map();
+	}
+
+	setHandlers() {
+		super.setHandlers();
+		this.replyHandlers = new Map();
 		this.addHandler(Session.codes.reply, this.recieveReply.bind(this));
 	}
 
@@ -225,13 +233,24 @@ export class MasterSession extends Session {
 	dataObj is sent to subscribers
 	subscribers can return the request using reply
 	*/
-	async request(requestCode, dataObj = {}) {
+	async request(requestCode, dataObj = {}, timeoutFn = (userId) => this.defaultTimeOut(userId) ) {
 		this.subscribers.forEach( sub => {
-			sub.awaitReply();
+			const timeout = timeoutFn(sub.id);
+			sub.awaitReply(timeout);
 		});
 		const meta = {  requestCode};
 		await this.send(Session.codes.request, dataObj, meta);
-		//TODO: awaiter when fulfilled
+		const promises = this.subscribers
+			.filter( x=> x.promise != null)
+			.map( x=>x.promise);
+		const results = await Promise.allSettled(promises);
+		return this.subscribers.map(x=> {
+			return {
+				value: x.value ?? null,
+				error: x.error ?? null,
+			}
+		});
+		//TODO: clean up session
 	}
 
 	handleMessage({type, data, meta}) {
@@ -243,15 +262,20 @@ export class MasterSession extends Session {
 	}
 
 	setReplyHandler(codeStr, handlerFn) {
-		this.#replyHandlers.set(codeStr, handlerFn);
+		this.replyHandlers.set(codeStr, handlerFn);
 	}
 
 	async recieveReply(data,  meta) {
 		const senderId = meta.from;
-		const handler = this.#replyHandlers.get(meta.replyCode);
+		const handler = this.replyHandlers.get(meta.replyCode);
 		if (handler) {
+			const sub = this.subscribers.find( x=> x.id == senderId)
+			if (sub.awaitingReply) {
+				sub.resolve(data);
 			return await handler(data, meta, senderId);
+			}
 		} else {
+			Debug(this.replyHandlers);
 			throw new Error(`No handler for ${data.replyCode}`);
 		}
 
@@ -261,7 +285,6 @@ export class MasterSession extends Session {
 }
 
 export class SlaveSession extends Session {
-	#requestHandlers;
 
 	constructor( id, sender) {
 		const name = "Slave Session";
@@ -271,9 +294,13 @@ export class SlaveSession extends Session {
 			throw new Error("No sender Id Given?!");
 		const userIdList = [sender];
 		super(name, id, userIdList);
-		this.#requestHandlers = new Map();
-		this.addHandler(Session.codes.request, this.recieveRequest.bind(this));
 		this.replyCode = null;
+	}
+
+	setHandlers() {
+		super.setHandlers();
+		this.requestHandlers = new Map();
+		this.addHandler(Session.codes.request, this.recieveRequest.bind(this));
 	}
 
 	handleMessage({type, data, meta}) {
@@ -285,12 +312,14 @@ export class SlaveSession extends Session {
 	}
 
 	setRequestHandler(codeStr, handlerFn) {
-		this.#requestHandlers.set(codeStr, handlerFn);
+		this.requestHandlers.set(codeStr, handlerFn);
 	}
 
 	async recieveRequest(data,  meta) {
-		const handler = this.#requestHandlers.get(meta.requestCode);
+		const handler = this.requestHandlers.get(meta.requestCode);
 		if (handler) {
+			if (!meta.requestCode)
+				throw new Error("Request Code can't be null");
 			this.replyCode = meta.requestCode;
 			return await handler(data, meta);
 		} else {
@@ -310,49 +339,68 @@ export class SlaveSession extends Session {
 
 
 class Subscriber {
-	constructor (id, session , timeout= Infinity) {
+	#timeoutIntervalId;
+
+	constructor (id, session) {
 		if (!id)
 			throw new Error("No Id Given!");
 		this.id= id;
 		this.replied= false;
-		this.finished= false;
+		this.awaitingReply = false;
 		this.error= null;
-		this.retVal= null;
-		this.timeout= timeout;
-		this.replyAwaiter= null;
+		this.value= null;
+		this.timeout= 0;
 		this.session = session;
 		this.replyFunction = null;
+		this.resolve= null;
+		this.reject= null;
+		this.promise = null;
+		this.#timeoutIntervalId= null;
 	}
 
 	/** returns true on a timeout
 	*/
 	tickTimeout() {
-			if (this.finished) return;
-			if (--this.timeout == 0) {
-				this.error = "Timeout";
-				this.finished= true;
-				return true;
-			}
-		return false;
-	}
-
-	replyRecieved(dataObj) {
-		if (this.awaitingReply) {
-			this.awaitingReply = false;
-			this.replyAwaiter(dataObj);
-		} else {
-			if (this.error) return;
-			console.warn("Recieved reply when one wasn't requested");
-			Debug(dataObj);
+		console.debug("Ticking Timeout");
+		if (this.#timeoutIntervalId == null) return;
+		if (!this.awaitingReply){
+			window.clearInterval(this.#timeoutIntervalId);
+			this.#timeoutIntervalId= null;
+			return;
+		}
+		if (--this.timeout == 0) {
+			this.awaitingReply= false;
+			this.reject(new Error("Timeout"));
+			console.debug("Timeout");
+			window.clearInterval(this.#timeoutIntervalId);
+			this.#timeoutIntervalId = null;
 		}
 	}
 
-	reply(dataObj) {
-		this.session.send(this.session.replyCode, dataObj);
-	}
+	awaitReply(timeout = Infinity) {
+		console.debug(`Timeout set: ${timeout}`);
+		const subscriber = this;
+		this.timeout = timeout;
+		this.error = null;
+		this.value = null;
+		this.promise = new Promise ( (resolve, reject) => {
+			this.resolve = resolve;
+			this.reject = reject;
+		})
+			.then ( x=> subscriber.value = x)
+			.catch( err => {
+				console.debug(`Rejected ${err}`);
+				subscriber.error = err.message;
+			})
+			.finally(_=> {
+				subscriber.awaitingReply= false;
+				subscriber.resolve = null;
+				subscriber.promise = null;
+				subscriber.reject = null;
+			});
 
-	awaitReply(recipients) {
 		this.awaitingReply =true;
+		this.#timeoutIntervalId = window.setInterval( this.tickTimeout.bind(this), 1000);
 	}
 
 

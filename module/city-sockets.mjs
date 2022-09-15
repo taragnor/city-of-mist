@@ -31,8 +31,8 @@ export class CitySockets {
 		// console.log("City Sockets: initialized");
 	}
 
-	static test() {
-		this.sockets.startSession( new DummyMasterSession())
+	static async test() {
+		return this.sockets.startSession( new DummyMasterSession())
 	}
 
 	startSession (masterSession) {
@@ -162,12 +162,17 @@ argument is object containing rollData TODO
 
 class DummyMasterSession extends MasterSession {
 
+	setHandlers () {
+		super.setHandlers();
+		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
+	}
+
 	async start() {
 		this.registerSubscribers(game.users);
 		console.log("preparing to send");
-		await this.request("juice");
-		console.log("Request Sent");
-		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
+		const result = await this.request("juice");
+		console.log("Finished");
+		return await result;
 	}
 
 	async onJuiceReply(dataObj, _meta, senderId) {
@@ -186,10 +191,11 @@ class DummySlaveSession extends SlaveSession {
 
 	async onJuiceRequest (_dataobj) {
 		console.log("Request Received");
+		await CityHelpers.asyncwait(1);
 		await this.reply( {
 			amount: 42
 		});
-		console.log("Reply Sent");
+		console.log("Replied ");
 	}
 
 }
