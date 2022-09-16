@@ -3,6 +3,7 @@ import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {CityDialogs } from "./city-dialogs.mjs";
 import {CitySockets} from "./city-sockets.mjs";
+import {JuiceMasterSession, JuiceSlaveSession} from "./city-sessions.mjs";
 
 export class CityRoll {
 	#roll;
@@ -407,7 +408,7 @@ export class CityRoll {
 								.append( `<div class='juice'> ${owner.name} ${type} </div>`);
 							CityHelpers.activateHelpHurt(owner, juiceId, amount, direction);
 							this.updateModifierPopup(html);
-						})
+						}, actor.id, move_id)
 					);
 
 					this.updateModifierPopup(html);

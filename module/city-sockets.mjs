@@ -22,7 +22,12 @@ export class CitySockets {
 	}
 
 	static async test() {
-		return this.sockets.execSession( new DummyMasterSession())
+		return this.execSession( new DummyMasterSession())
+	}
+
+	static async execSession(session) {
+
+		return this.sockets.execSession(session);
 	}
 
 

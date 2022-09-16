@@ -1,4 +1,5 @@
 import {MasterSession, SlaveSession} from "./sockets.mjs";
+import {CityDialogs} from "./city-dialogs.mjs";
 
 
 export class JuiceMasterSession extends MasterSession {
@@ -7,9 +8,10 @@ export class JuiceMasterSession extends MasterSession {
 
 	/** on update Fn is a handler Fn that takes ({ownerId, juiceId, direction, amount})
 	*/
-	constructor (onUpdateFn) {
+	constructor (onUpdateFn, actorId, moveId) {
 		super();
 		this.onUpdateFn = onUpdateFn;
+		this.sendObj = {actorId, moveId};
 	}
 
 	get html() {
@@ -25,7 +27,8 @@ export class JuiceMasterSession extends MasterSession {
 
 	async start() {
 		this.registerSubscribers( game.users.filter( x=> !x.isGM));
-		const result = await this.request("juice");
+		const result = await this.request("juice", this.sendObj);
+		console.log(result);
 		return result;
 
 	}
@@ -53,16 +56,22 @@ export class JuiceSlaveSession extends SlaveSession {
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	async onJuiceRequest(replyFn, _dataObj) {
+	async onJuiceRequest(replyFn, dataObj) {
 		const character = game.user.character;
 		if (!character) {
 			replyFn(null, "Error: No Character");
 		}
-		await CityDialogs.getHelpHurt(dataObj);
-		this.replyFn( {
-			amount: 1,
-			type: help,
-		} );
+		try {
+			await CityDialogs.getHelpHurt(dataObj);
+			replyFn( {
+				amount: 1,
+				type: help,
+			} );
+		} catch (err) {
+			console.log("error in request");
+			replyFn( null, err);
+			return
+		}
 	}
 }
 

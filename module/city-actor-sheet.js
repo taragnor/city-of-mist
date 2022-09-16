@@ -354,7 +354,6 @@ export class CityActorSheet extends CitySheet {
 		const tagownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
-		console.log(`Selecting Tag ${id}, ${tokenId}`);
 		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
 		if (!owner)
 			throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);

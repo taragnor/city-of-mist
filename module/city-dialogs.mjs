@@ -199,10 +199,7 @@ export class CityDialogs {
 				none: {
 					icon: '<i class="fas fa-times"></i>',
 					label: localize("CityOfMist.command.cancel"),
-					callback: () => conf({
-						amount: 0,
-						actorId: myCharacter.id
-					}),
+					callback: () => reject("No Juice for you!"),
 				},
 			};
 			if (myCharacter.hasHelpFor(actorId)) {

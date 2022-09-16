@@ -128,8 +128,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			tokenId = null;
 			//Fix for handlebars overcall with arguments
 		}
-		if (tokenId != null)
-			console.log(tokenId);
 		const amount = CityHelpers.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
 		if (amount > 0) return 1;
 		if (amount < 0) return -1;
