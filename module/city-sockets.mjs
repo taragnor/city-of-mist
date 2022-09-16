@@ -1,6 +1,6 @@
 import {SocketInterface, MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
-import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession} from "./city-sessions.mjs"
+import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession, DummyMasterSession, DummySlaveSession} from "./city-sessions.mjs"
 
 export class CitySockets {
 
@@ -19,19 +19,6 @@ export class CitySockets {
 		this.sockets = new SocketInterface("system.city-of-mist");
 		this.sockets.addSlaveSessionConstructor(DummyMasterSession, DummySlaveSession);
 		this.sockets.addSlaveSessionConstructor(JuiceMasterSession, JuiceSlaveSession);
-		this.sockets.addSlaveSessionConstructor(TagReviewMasterSession, TagReviewSlaveSession);
-		// this.sockets.addHandler(this.codes.onPreRoll, this.onPreRollHandler.bind(this));
-		// this.sockets.addHandler(this.codes.giveJuice, this.onGiveJuice.bind(this));
-		// this.sockets.addHandler(this.codes.tagVerify, this.onTagVerify.bind(this));
-		// this.sockets.addHandler(this.codes.requestJuiceTime, this.onJuiceTimeRequest.bind(this));
-		// this.sockets.addHandler("TEST", (_data, meta) => {
-		// 	const user = game.users.find(meta.senderId);
-		// 	console.log(`hello from ${user?.name}`);
-		// });
-		// this.awaiters = {
-		// 	preRollGo: [],
-		// }
-		// console.log("City Sockets: initialized");
 	}
 
 	static async test() {
@@ -160,52 +147,6 @@ argument is object containing rollData TODO
 
 }
 
-class DummyMasterSession extends MasterSession {
-
-	setHandlers () {
-		super.setHandlers();
-		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
-	}
-
-	async start() {
-		this.registerSubscribers(game.users);
-		console.log("Starting 1");
-		const result = await this.request("juice");
-		console.log("Finished 1");
-		console.log("Starting 2");
-		const result2 = await this.request("juice");
-		console.log("Finished 2");
-		return await result2;
-	}
-
-	async onJuiceReply(dataObj, _meta, senderId) {
-		console.log("Reply Recieved");
-		const sender = game.users.find(x=> x.id == senderId);
-		console.log(`${sender.name} said ${dataObj.amount}`);
-	}
-
-}
-
-class DummySlaveSession extends SlaveSession {
-	constructor( id, sender) {
-		super(id, sender);
-		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
-		this.answer = 42
-	}
-
-	async onJuiceRequest (replyFn, _dataobj) {
-		console.log("Request Received");
-		await CityHelpers.asyncwait(5);
-		console.log("asking for more time");
-		this.getTimeExtension(10);
-		await CityHelpers.asyncwait(10);
-		await replyFn( {
-			amount: this.answer++
-		});
-		console.log("Replied Late ");
-	}
-
-}
 
 // class RollSession extends Session {
 // 	static codes = {

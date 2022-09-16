@@ -2,6 +2,7 @@ import { CityItem } from "./city-item.js";
 import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {CityDialogs } from "./city-dialogs.mjs";
+import {CitySockets} from "./city-sockets.mjs";
 
 export class CityRoll {
 	#roll;
@@ -376,12 +377,17 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const burnableTags = ( await actor.getActivated() )
+		const activated = CityHelpers.getPlayerActivatedTagsAndStatus();
+		const sh =  CityHelpers.resolveTagAndStatusShorthand(activated);
+		const activeTags = sh.filter( x=> x.type == "tag");
+		const activeStatus = sh.filter( x=> x.type == "status");
+		const burnableTags = activated
 			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+		const tags = activated.filter( x=> x.type == "tag");
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder
-		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power};
+		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tags: activeTags, statuses: activeStatus};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
@@ -389,6 +395,21 @@ export class CityRoll {
 				title:`${title}`,
 				content: html,
 				render: (html) => {
+					CitySockets.execSession(
+						new JuiceMasterSession( ({ownerId, juiceId, direction, amount}) => {
+							//handler function when it recieves juice
+							const owner = CityHelpers.getOwner(ownerId);
+							const html = this.html;
+							const type = (direction > 0)
+								? localize("CityOfMist.terms.help")
+								: localize("CityOfMist.terms.hurt");
+							html.find("div.juice-section")
+								.append( `<div class='juice'> ${owner.name} ${type} </div>`);
+							CityHelpers.activateHelpHurt(owner, juiceId, amount, direction);
+							this.updateModifierPopup(html);
+						})
+					);
+
 					this.updateModifierPopup(html);
 					$(html).find("#help-dropdown").change((ev) => {
 						$(html).find("#help-slider").val(1);

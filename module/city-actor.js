@@ -155,6 +155,10 @@ export class CityActor extends Actor {
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
 
+	getItem(id) {
+		return this.items.find(x =>  x.id == id);
+	}
+
 	getStoryTags() {
 		return this.items.filter( x => {
 			return x.type == "tag" && x.system.subtype == "story";
@@ -281,19 +285,19 @@ export class CityActor extends Actor {
 			await this.deleteJuice(id);
 	}
 
-	getActivated() {
-		if (this.system.selectedTags)
-			return this.system.selectedTags;
-		else return [];
-	}
+	// getActivated() {
+	// 	if (this.system.selectedTags)
+	// 		return this.system.selectedTags;
+	// 	else return [];
+	// }
 
-	getActivatedTags() {
-		//return personal non-story tags that are activated
-		return this.getActivated().
-			filter(x => x.type == "tag" && x.subtype != "story").
-			map( x=> this.getTag(x.tagId)).
-			filter (x=>x);
-	}
+	//getActivatedTags() {
+	//	//return personal non-story tags that are activated
+	//	return this.getActivated().
+	//		filter(x => x.type == "tag" && x.subtype != "story").
+	//		map( x=> this.getTag(x.tagId)).
+	//		filter (x=>x);
+	//}
 
 	async deleteImprovement(impId) {
 		const imp  = await this.getImprovement(impId);

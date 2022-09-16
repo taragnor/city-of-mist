@@ -95,6 +95,7 @@ class Session {
 		createNewSession: "__NEWSESSION__",
 		destroySession: "__DESTROYSESSION__",
 		timeExtension: "__TIMEREQUEST__",
+		replyError: "__REPLYERROR__",
 	}
 
 	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
@@ -241,6 +242,7 @@ export class MasterSession extends Session {
 		super.setHandlers();
 		this.replyHandlers = new Map();
 		this.addHandler(Session.codes.reply, this.recieveReply.bind(this));
+		this.addHandler(Session.codes.replyError, this.recieveErrorReply.bind(this));
 		this.addHandler(Session.codes.timeExtension, this.extendTime.bind(this));
 	}
 
@@ -296,8 +298,15 @@ export class MasterSession extends Session {
 			Debug(this.replyHandlers);
 			throw new Error(`No handler for ${data.replyCode}`);
 		}
+	}
 
-
+	async recieveErrorReply(error,  meta) {
+		console.log(`Error recieved ${error}`);
+		const senderId = meta.from;
+		const sub = this.subscribers.find( x=> x.id == senderId);
+		if (sub.awaitingReply) {
+			sub.reject(new Error(error));
+		}
 	}
 
 	extendTime(data, meta) {
@@ -361,9 +370,9 @@ export class SlaveSession extends Session {
 				throw new Error("Request Code can't be null");
 			this.replyCode = meta.requestCode;
 			const interactionNum = ++this.interactionNum;
-			const replyFn = (dataObj) => {
+			const replyFn = (dataObj, error) => {
 				if (interactionNum == this.interactionNum)
-					this.reply(dataObj);
+					this.reply(dataObj, error);
 				else
 					console.debug("invalid interaction num");
 			}
@@ -373,11 +382,15 @@ export class SlaveSession extends Session {
 		}
 	}
 
-	async reply(dataObj = {}) {
+	async reply(dataObj = {}, error = null) {
 		const meta = {
 			replyCode: this.replyCode
 		}
-		await this.send(Session.codes.reply,  dataObj, meta);
+		if (!error) {
+			await this.send(Session.codes.reply,  dataObj, meta);
+		} else {
+			await this.send(Session.codes.replyError,  error, meta);
+		}
 		// this.replyCode = null;
 	}
 

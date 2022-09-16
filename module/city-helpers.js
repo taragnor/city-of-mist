@@ -763,6 +763,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 
 	static _playerActivatedStuff = [];
 
+	/** returns shorthand version of tags and statuses
+	*/
 	static getPlayerActivatedTagsAndStatus() {
 		//TODO: return only valid tags and status (not on deleted tokens)
 		return this._playerActivatedStuff
@@ -787,9 +789,44 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 			});
 	}
 
+	/** returns full foundry objects for tags and statuses
+	*/
+	static getPlayerActivatedTagsAndStatusItems() {
+		return this.resolveTagAndStatusShorthand(this.getPlayerActivatedTagsAndStatus());
+	}
+
+
+	static resolveTagAndStatusShorthand(shorthandObjArr) {
+		return shorthandObjArr.map ( ({id, ownerId, tokenId}) => {
+			return CityHelpers.getOwner(ownerId, tokenId).getItem(id);
+		});
+
+	}
+
+
 	static activateTag( tag, direction= 1) { this.activateSelectedItem(tag, direction); }
 
 	static activateStatus(status, direction= 1) { this.activateSelectedItem(status, direction); }
+
+
+	static activateHelpHurt( owner, juiceId, amount, direction) {
+		const type = (direction > 0)
+			? localize("CityOfMist.terms.help")
+			: localize("CityOfMist.terms.hurt");
+		const newItem = {
+			name: `${owner.name} ${type}`,
+			id: juiceId,
+			amount,
+			ownerId: owner.id,
+			tagId: null,
+			type,
+			description: tag ? tag.system.description : "",
+			subtype: type,
+			strikeout: false,
+			tokenId: null
+		};
+		this._playerActivatedStuff.push(newItem);
+	}
 
 	static activateSelectedItem(tagOrStatus, direction = 1) {
 		const x = tagOrStatus;

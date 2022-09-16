@@ -64,7 +64,7 @@ export class CityItem extends Item {
 			return true;
 		const theme = actor.getTheme(this.system.theme_id);
 		if (theme) {
-			const hasThemeTagActivated = actor.getActivatedTags()
+			const hasThemeTagActivated = CityHelpers.getPlayerActivatedTagsAndStatusItems()
 				.filter(x => x.system.theme_id == theme.id)
 				.length > 0;
 			if ( this.hasEffectClass(`THEME_DYN_${moveAbbr}`) )
