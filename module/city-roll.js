@@ -3,7 +3,7 @@ import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {CityDialogs } from "./city-dialogs.mjs";
 import {CitySockets} from "./city-sockets.mjs";
-import {JuiceMasterSession, JuiceSlaveSession} from "./city-sessions.mjs";
+import {JuiceSpendingSessionM, JuiceMasterSession, JuiceSlaveSession} from "./city-sessions.mjs";
 
 export class CityRoll {
 	#roll;
@@ -347,16 +347,21 @@ export class CityRoll {
 	async #rollCleanupAndAftermath () {
 		const tags = this.#tags;
 		const options = this.#options;
-		if (options.helpId) {
-			const amount = options.helpAmount;
-			const helper = game.actors.find( x =>
-				x.type == "character"
-				&& x.items.find( i => i.id == options.helpId)
-			);
-			const helpJuice = helper.items.find( i => i.id == options.helpId);
-			//TODO: Find better way to request that juice be spent for token you do't own, may need to signal owner
-			// await helper.spendJuice(helpJuice.id, amount);
+		try {
+			console.log("We are here");
+			Debug(this.#modifiers);
+			const helpHurt = this.#modifiers
+				.filter(x => x.subtype == "help" || x.subtype =="hurt");
+			for (let hh of helpHurt) {
+				console.log("Spending HelpHurt");
+				const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
+				console.log(result);
+			}
+		} catch (e) {
+			console.warn("Error spending Juice");
+			console.log(e);
 		}
+
 		if (options.burnTag && options.burnTag.length)
 			for (let {ownerId, tagId, tokenId} of tags)
 				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
@@ -464,7 +469,6 @@ export class CityRoll {
 	}
 
 	activateHelpHurt( owner, amount, direction, targetCharacterId) {
-		let spent = amount;
 		let type, arr;
 		if ( direction > 0) {
 			type = "help";
@@ -473,8 +477,6 @@ export class CityRoll {
 			type = "hurt";
 			arr = owner.hurtPoints;
 		}
-		console.log(`${owner.id}, ${amount}, ${direction} ${targetCharacterId}`);
-		Debug(arr);
 		const targetedJuice = arr .filter( x=> x.targets(targetCharacterId));
 		if (targetedJuice.length == 0) {
 			throw new Error("Lenght 0 wtf?!");

@@ -98,6 +98,42 @@ export class TagReviewSlaveSession extends SlaveSession {
 
 }
 
+export class JuiceSpendingSessionM extends MasterSession {
+	constructor (juiceId, ownerId, amount) {
+		super();
+		this.dataObj = { juiceId, ownerId, amount};
+	}
+
+	async start() {
+		const gm = game.users.find(x=> x.isGM && x.active);
+		if (!gm) throw new Error("No GM found to spend juice!");
+		this.registerSubscribers([gm]);
+		const result = await this.request("spendJuice", this.dataObj);
+		return result;
+	}
+}
+
+export class JuiceSpendingSessionS extends SlaveSession {
+	setHandlers() {
+		super.setHandlers();
+		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
+	}
+
+	async onSpendRequest(replyFn,  data,_meta) {
+		const{juiceId, ownerId, amount} = data
+		const actor = game.actors.get(ownerId);
+		if (actor) {
+			const juice = await actor.getJuice(juiceId);
+			await juice.spend(amount);
+			replyFn({confirm: true});
+		} else {
+			replyFn(null, "error");
+			throw new Error("Couldn't find actor");
+		}
+		replyFn ("Done");
+	}
+}
+
 export class DummyMasterSession extends MasterSession {
 
 	setHandlers () {
