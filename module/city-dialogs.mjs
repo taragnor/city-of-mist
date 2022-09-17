@@ -248,12 +248,16 @@ export class CityDialogs {
 						icon: '<i class="fas fa-check"></i>',
 						label: localize("CityOfMist.dialog.spendHelpHurt.Initial"),
 						callback: (html) => {
-							// const amount = $(html).find(".juice-amount").val();
-							conf ( {
-								direction: whichOne == "hurt" ? -1 : 1,
-								amount: 1 ,//TODO: finish
-								actorId: myCharacter.id,
-							});
+							const amount = $(html).find("#HH-slider").val();
+							if (amount > 0) {
+								conf ( {
+									direction: whichOne == "hurt" ? -1 : 1,
+									amount,
+									actorId: myCharacter.id,
+								});
+							} else  {
+								reject("No Juice for you!");
+							}
 						},
 					},
 					cancel: {
