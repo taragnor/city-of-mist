@@ -809,25 +809,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static activateStatus(status, direction= 1) { this.activateSelectedItem(status, direction); }
 
 
-	static activateHelpHurt( owner, juiceId, amount, direction) {
-		const type = (direction > 0)
-			? localize("CityOfMist.terms.help")
-			: localize("CityOfMist.terms.hurt");
-		const newItem = {
-			name: `${owner.name} ${type}`,
-			id: juiceId,
-			amount,
-			ownerId: owner.id,
-			tagId: null,
-			type,
-			description: tag ? tag.system.description : "",
-			subtype: type,
-			strikeout: false,
-			tokenId: null
-		};
-		this._playerActivatedStuff.push(newItem);
-	}
-
 	static activateSelectedItem(tagOrStatus, direction = 1) {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;

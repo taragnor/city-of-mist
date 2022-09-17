@@ -181,7 +181,7 @@ export class CityDialogs {
 	actorName: actor doing move,
 	moveId: move being used,
 	*/
-	static async getHelpHurt(dataObj) {
+	static async getHelpHurt(dataObj, session) {
 		const {actorId, moveId} = dataObj;
 		const myCharacter = game.user.character;
 		if (myCharacter == null) {
@@ -205,44 +205,41 @@ export class CityDialogs {
 			if (myCharacter.hasHelpFor(actorId)) {
 				buttons.help = {
 					label: localize("CityOfMist.terms.help"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("help", dataObj)),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("help", dataObj, session)),
 				};
 			}
 			if (myCharacter.hasHurtFor(actorId)) {
 				buttons.hurt = {
 					label: localize("CityOfMist.terms.hurt"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt", dataObj)),
+					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt", dataObj, session)),
 				};
 			}
-
 			const dialog = new Dialog({
 				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
 				content: html,
 				buttons,
 				default: "none",
 			}, options);
+			session.setDialog(dialog);
 			dialog.render(true);
 		});
 	}
 
-	static async chooseHelpHurt(whichOne, dataObj) {
+	static async chooseHelpHurt(whichOne, dataObj, session) {
+		await session.getTimeExtension(10 * 60);
 		const myCharacter = game.user.character;
-		const helpHurtAmount = myCharacter.getHelpHurtFor(whichOne, dataObj);
+		const HHMax = myCharacter.getHelpHurtFor(whichOne, dataObj.actorId);
 		const templateData = {
-			HHMax : helpHurtAmount
+			HHMax
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-selector.hbs", templateData);
-		return await new Promise ( (conf, _reject) => {
+		return await new Promise ( (conf, reject) => {
 			const options = {};
 			if (HHMax <= 0) {
 				console.warn("Oddly no juice, maybe an error");
-				conf({
-					amount: 0,
-					actorId: myCharacter.id
-				});
+				reject("No Juice for you!");
 				return;
 			}
-
 			const dialog =   new Dialog( {
 				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
 				content: html,
@@ -250,30 +247,25 @@ export class CityDialogs {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: localize("CityOfMist.dialog.spendHelpHurt.Initial"),
-						callback: () => conf ( {
-							amount: -11 ,//TODO: finish
-							actorId: myCharacter.id,
-						}),
-
+						callback: (html) => {
+							// const amount = $(html).find(".juice-amount").val();
+							conf ( {
+								direction: whichOne == "hurt" ? -1 : 1,
+								amount: 1 ,//TODO: finish
+								actorId: myCharacter.id,
+							});
+						},
 					},
-
 					cancel: {
 						icon: '<i class="fas fa-times"></i>',
 						label: localize("CityOfMist.command.cancel"),
-						callback: () => conf ( {
-							amount: 0,
-							actorId: myCharacter.id
-						}),
-
+						callback: () => reject ("No Juice for you!"),
 					},
 				},
-
-
 			}, options);
+			session.setDialog(dialog);
 			dialog.render(true);
-
 		});
-
 	}
 }
 

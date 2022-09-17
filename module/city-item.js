@@ -523,7 +523,7 @@ export class CityItem extends Item {
 	/** Returns true if actorId matches the target of the juice object
 	*/
 	targets(actorId) {
-		return this.getTarget() == actorId;
+		return this.getTarget().id === actorId;
 	}
 
 	getTargetName() {

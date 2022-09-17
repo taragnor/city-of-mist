@@ -95,21 +95,22 @@ export class CityRoll {
 				tags[0].amount = 3;
 			}
 		}
-		if (options.helpId && options.helpAmount > 0) {
-			const helper = game.actors.find( x =>
-				x.type == "character"
-				&& x.items.find( i => i.id == options.helpId)
-			);
-			const helpJuice = helper.items.find( i => i.id == options.helpId);
-			allModifiers.push( {
-				name: `Help From ${helper.name} (must be deducted manually)`,
-				id: options.helpId,
-				amount: Math.min( options.helpAmount, helpJuice.system.amount),
-				ownerId: helper.id,
-				tagId: null,
-				type: "status",
-			});
-		}
+		// NOTE: OOLD HELP / HURT SYSTEM
+		// if (options.helpId && options.helpAmount > 0) {
+		// 	const helper = game.actors.find( x =>
+		// 		x.type == "character"
+		// 		&& x.items.find( i => i.id == options.helpId)
+		// 	);
+		// 	const helpJuice = helper.items.find( i => i.id == options.helpId);
+		// 	allModifiers.push( {
+		// 		name: `Help From ${helper.name} (must be deducted manually)`,
+		// 		id: options.helpId,
+		// 		amount: Math.min( options.helpAmount, helpJuice.system.amount),
+		// 		ownerId: helper.id,
+		// 		tagId: null,
+		// 		type: "status",
+		// 	});
+		// }
 		let usedStatus = [];
 		if (!options.noStatus) {
 			const status = allModifiers.filter (x=> x.type == "status");
@@ -121,7 +122,14 @@ export class CityRoll {
 			const statusMin = nstatus.find( x=> x.amount == min);
 			usedStatus = status.filter (x => x == statusMax || x == statusMin);
 		}
-		let modifiers = tags.concat(usedStatus);
+		let helpHurt = [];
+		if (!options.noHelpHurt) {
+			helpHurt = allModifiers.filter (x=> x.type == "help" || x.type == "hurt");
+		}
+		let modifiers = tags
+			.concat(usedStatus)
+			.concat(helpHurt)
+		;
 		if (options.logosRoll) {
 			modifiers.push({
 				id: "Logos",
@@ -397,16 +405,16 @@ export class CityRoll {
 				content: html,
 				render: (html) => {
 					CitySockets.execSession(
-						new JuiceMasterSession( ({ownerId, juiceId, direction, amount}) => {
+						new JuiceMasterSession( (ownerId, direction, amount) => {
 							//handler function when it recieves juice
 							const owner = CityHelpers.getOwner(ownerId);
-							const html = this.html;
 							const type = (direction > 0)
 								? localize("CityOfMist.terms.help")
 								: localize("CityOfMist.terms.hurt");
+							Debug(html);
 							html.find("div.juice-section")
-								.append( `<div class='juice'> ${owner.name} ${type} </div>`);
-							CityHelpers.activateHelpHurt(owner, juiceId, amount, direction);
+								.append( `<div class='juice'> ${owner.name} ${type} - ${amount} </div>`);
+							this.activateHelpHurt(owner, amount, direction, actor.id);
 							this.updateModifierPopup(html);
 						}, actor.id, move_id)
 					);
@@ -453,6 +461,47 @@ export class CityRoll {
 		if (!rollOptions)
 			return false;
 		return true;
+	}
+
+	activateHelpHurt( owner, amount, direction, targetCharacterId) {
+		let spent = amount;
+		let type, arr;
+		if ( direction > 0) {
+			type = "help";
+			arr = owner.helpPoints;
+		} else {
+			type = "hurt";
+			arr = owner.hurtPoints;
+		}
+		console.log(`${owner.id}, ${amount}, ${direction} ${targetCharacterId}`);
+		Debug(arr);
+		const targetedJuice = arr .filter( x=> x.targets(targetCharacterId));
+		if (targetedJuice.length == 0) {
+			throw new Error("Lenght 0 wtf?!");
+		}
+			targetedJuice.forEach( item => {
+				if (amount <= 0) {
+					console.log("Amount is 0 or less returning");
+					return;
+				}
+				let targetAmt = Math.min (amount , item.system.amount);
+				amount -= targetAmt;
+				const newItem = {
+					name: `${owner.name} ${type}`,
+					id: item.id,
+					amount: targetAmt * direction,
+					ownerId: owner.id,
+					tagId: null,
+					type,
+					description: "",
+					subtype: type,
+					strikeout: false,
+					tokenId: null
+				};
+				console.log("Pushing Juice!");
+				this.#selectedList.push(newItem);
+				Debug(this.#selectedList);
+			});
 	}
 
 	updateModifierPopup(html) {

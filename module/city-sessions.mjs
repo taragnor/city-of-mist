@@ -33,8 +33,8 @@ export class JuiceMasterSession extends MasterSession {
 
 	}
 
-	onJuiceReply({sourceId, ownerId, juiceId, direction, amount}, _meta, senderId) {
-		this.onUpdateFn({ownerId, juiceId, direction, amount});
+	onJuiceReply({juiceOwnerId, direction, amount}, _meta, senderId) {
+		this.onUpdateFn(juiceOwnerId, direction, amount);
 		// const owner = CityHelpers.getOwner(ownerId);
 		// const html = this.html;
 		// const type = (direction > 0)
@@ -62,17 +62,33 @@ export class JuiceSlaveSession extends SlaveSession {
 			replyFn(null, "Error: No Character");
 		}
 		try {
-			await CityDialogs.getHelpHurt(dataObj);
+			const {direction, amount, actorId} = 	await CityDialogs.getHelpHurt(dataObj, this);
 			replyFn( {
-				amount: 1,
-				type: help,
+				amount,
+				direction,
+				juiceOwnerId: actorId,
 			} );
+			this.dialog = null;
 		} catch (err) {
 			console.log("error in request");
 			replyFn( null, err);
-			return
+			return;
 		}
 	}
+
+	setDialog(dialog) { this.dialog = dialog;}
+
+	onDestroy() {
+		super.onDestroy();
+		try {
+			if (this.dialog)
+				this.dialog.close();
+		} catch (e) {
+			console.error(e);
+		}
+		this.dialog = null;
+	}
+
 }
 
 export class TagReviewMasterSession extends MasterSession {
