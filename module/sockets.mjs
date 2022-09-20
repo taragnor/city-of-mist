@@ -88,6 +88,7 @@ export class SocketInterface {
 
 class Session {
 	#handlers;
+	#notificationHandlers;
 
 	static codes = {
 		request: "__REQUEST__",
@@ -96,6 +97,7 @@ class Session {
 		destroySession: "__DESTROYSESSION__",
 		timeExtension: "__TIMEREQUEST__",
 		replyError: "__REPLYERROR__",
+		notify: "__NOTIFY__",
 	}
 
 	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
@@ -117,6 +119,7 @@ class Session {
 		this.value = null;
 		this.error = null;
 		this.#handlers = new Map();
+		this.#notificationHandlers = new Map();
 		const promise = new Promise ( (conf, reject) => {
 			this.conf = conf;
 			this.reject = reject;
@@ -136,6 +139,7 @@ class Session {
 
 	setHandlers() {
 		//extensible virtual function
+		this.#handlers.set(Session.codes.notify, this.onNotify.bind(this));
 	}
 
 	async start () {
@@ -143,6 +147,11 @@ class Session {
 
 	setSocketInterface( socketInterface) {
 		this.sender = socketInterface;
+	}
+
+	async notify(notifyType, dataObj ={}, metaObj = {}) {
+		dataObj.notifyType = notifyType;
+		await this.send(Session.codes.notify, dataObj, metaObj);
 	}
 
 	static newId() {
@@ -154,7 +163,7 @@ class Session {
 		if (user.isGM)
 			return Infinity;
 		else
-			return 10;
+			return 60;
 	}
 
 	registerSubscribers(subListBase) {
@@ -211,11 +220,26 @@ class Session {
 		this.#handlers.set(type, handlerFn);
 	}
 
+	addNotifyHandler(notifyType, handlerFn) {
+		this.#notificationHandlers.set(notifyType, handlerFn);
+	}
+
 	handleMessage({type, data, meta}) {
 		if (this.#handlers.has(type)) {
 			this.#handlers.get(type) (data, meta);
 		} else {
 			console.warn(`Unhandled Data Object Type in socekt ${type}`);
+		}
+	}
+
+	onNotify(data, meta) {
+		const notifyType = data.notifyType;
+		const handler =this.#notificationHandlers.get(notifyType);
+		if (!handler) {
+			console.warn (`No notification for type: ${notifyType}`);
+			return;
+		} else  {
+			handler(data, meta);
 		}
 	}
 

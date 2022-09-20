@@ -183,6 +183,7 @@ export class CityDialogs {
 	*/
 	static async getHelpHurt(dataObj, session) {
 		const {actorId, moveId} = dataObj;
+		await CityHelpers.playPing();
 		const myCharacter = game.user.character;
 		if (myCharacter == null) {
 			await CitySockets.sendJuice();
@@ -228,6 +229,11 @@ export class CityDialogs {
 	static async chooseHelpHurt(whichOne, dataObj, session) {
 		await session.getTimeExtension(10 * 60);
 		const myCharacter = game.user.character;
+		console.log("Sending notify");
+		await session.notify("pending", {
+			type: whichOne,
+			ownerId:myCharacter.id
+		});
 		const HHMax = myCharacter.getHelpHurtFor(whichOne, dataObj.actorId);
 		const templateData = {
 			HHMax

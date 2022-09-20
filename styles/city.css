@@ -3007,3 +3007,13 @@ input.checkbox {
 	color: yellow;
 	text-transform: uppercase;
 }
+
+div.juice-pending {
+  animation: blinker 1s step-start infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}

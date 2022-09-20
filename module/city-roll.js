@@ -419,12 +419,25 @@ export class CityRoll {
 						const type = (direction > 0)
 							? localize("CityOfMist.terms.help")
 							: localize("CityOfMist.terms.hurt");
-						Debug(html);
+						html.find("div.juice-section")
+							.find(`div.juice-pending[data-characterId='${ownerId}']`)
+							.remove();
 						html.find("div.juice-section")
 							.append( `<div class='juice'> ${owner.name} ${type} - ${amount} </div>`);
 						this.activateHelpHurt(owner, amount, direction, actor.id);
 						this.updateModifierPopup(html);
 					}, actor.id, move_id)
+					session.addNotifyHandler("pending", (dataObj) => {
+						console.log("Notify Handler tripped");
+						const {type, ownerId} = dataObj;
+						const owner = CityHelpers.getOwner(ownerId);
+						CityHelpers.playPing();
+						html.find("div.juice-section")
+							.append( `<div class='juice-pending' data-characterId='${owner.id}'>${owner.name} pending </div>`);
+						if (type == "hurt") {
+							//TODO: program lock on button
+						};
+					});
 
 					CitySockets.execSession(session);
 					this.updateModifierPopup(html);
