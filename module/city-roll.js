@@ -420,7 +420,7 @@ export class CityRoll {
 							.find(`div.juice-pending[data-characterId='${ownerId}']`)
 							.remove();
 						html.find("div.juice-section")
-							.append( `<div class='juice'> ${owner.name} ${type} - ${amount} </div>`);
+							.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
 						this.activateHelpHurt(owner, amount, direction, actor.id);
 						this.updateModifierPopup(html);
 					}, actor.id, move_id)
