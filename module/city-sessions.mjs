@@ -28,7 +28,6 @@ export class JuiceMasterSession extends MasterSession {
 	async start() {
 		this.registerSubscribers( game.users.filter( x=> !x.isGM));
 		const result = await this.request("juice", this.sendObj);
-		console.log(result);
 		return result;
 
 	}
@@ -92,6 +91,7 @@ export class JuiceSlaveSession extends SlaveSession {
 }
 
 export class TagReviewMasterSession extends MasterSession {
+	//TODO: finish this
 }
 
 export class TagReviewSlaveSession extends SlaveSession {

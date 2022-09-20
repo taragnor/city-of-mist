@@ -353,7 +353,6 @@ export class CityRoll {
 			const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
-				console.log("Spending HelpHurt");
 				const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
 				console.log(result);
 			}
@@ -403,27 +402,31 @@ export class CityRoll {
 		let power = 0; //placeholder
 		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tags: activeTags, statuses: activeStatus};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
+		let session = null;
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
 				content: html,
+				close : (html) => {
+					session.destroy();
+					conf(null);
+				},
 				render: (html) => {
-					CitySockets.execSession(
-						new JuiceMasterSession( (ownerId, direction, amount) => {
-							//handler function when it recieves juice
-							const owner = CityHelpers.getOwner(ownerId);
-							const type = (direction > 0)
-								? localize("CityOfMist.terms.help")
-								: localize("CityOfMist.terms.hurt");
-							Debug(html);
-							html.find("div.juice-section")
-								.append( `<div class='juice'> ${owner.name} ${type} - ${amount} </div>`);
-							this.activateHelpHurt(owner, amount, direction, actor.id);
-							this.updateModifierPopup(html);
-						}, actor.id, move_id)
-					);
+					session =new JuiceMasterSession( (ownerId, direction, amount) => {
+						//handler function when it recieves juice
+						const owner = CityHelpers.getOwner(ownerId);
+						const type = (direction > 0)
+							? localize("CityOfMist.terms.help")
+							: localize("CityOfMist.terms.hurt");
+						Debug(html);
+						html.find("div.juice-section")
+							.append( `<div class='juice'> ${owner.name} ${type} - ${amount} </div>`);
+						this.activateHelpHurt(owner, amount, direction, actor.id);
+						this.updateModifierPopup(html);
+					}, actor.id, move_id)
 
+					CitySockets.execSession(session);
 					this.updateModifierPopup(html);
 					$(html).find("#help-dropdown").change((ev) => {
 						$(html).find("#help-slider").val(1);
@@ -450,13 +453,17 @@ export class CityRoll {
 						label: "Confirm",
 						callback: (html) => {
 							this.updateModifierPopup(html);
+							session.destroy();
 							conf(true);
 						},
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
 						label: "Cancel",
-						callback: () => conf(null)
+						callback: () => {
+							session.destroy();
+							conf(null);
+						}
 					}
 				},
 				default: "one"
