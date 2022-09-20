@@ -65,6 +65,85 @@ export class CityDialogs {
 
 	}
 
+	static async narratorDialog(container= null) {
+		if (game.users.current.role != 4)
+			return;
+		if (!game.user.isGM)
+			return;
+		// support function
+		const getCaret = function getCaret(el) {
+			if (el.selectionStart) {
+				return el.selectionStart;
+			} else if (document.selection) {
+				el.focus();
+				var r = document.selection.createRange();
+				if (r == null) {
+					return 0;
+				}
+				var re = el.createTextRange(), rc = re.duplicate();
+				re.moveToBookmark(r.getBookmark());
+				rc.setEndPoint('EndToStart', re);
+				return rc.text.length;
+			}
+			return 0;
+		};
+		if (!container)
+			container = game.actors.find(x => x.type == "storyTagContainer");
+		let html = new String();
+		html += `<textarea class="narrator-text"></textarea>`;
+		const submit = async function (html) {
+			const text = $(html).find(".narrator-text").val();
+			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
+			if (container)
+				for ( const tagName of taglist.map(x=>x.name) )
+					await container.createStoryTag(tagName);
+			await CityHelpers.sendNarratedMessage(modified_html);
+		}
+		const options = {width: 900, height: 800};
+		const dialog = new Dialog({
+			title: `GM Narration`,
+			content: html,
+			render: (html) => {
+				setTimeout ( () => $(html).find(".narrator-text").focus(), 10); //delay focus to avoid keypress showing up in window
+				$(html).find(".narrator-text").keydown(function (event) {
+					if (event.keyCode == 13) { //enter key
+						event.stopPropagation();
+					}
+				});
+
+				$(html).find(".narrator-text").keypress(function (event) {
+					if (event.keyCode == 13) { //enter key
+						const content = this.value;
+						const caret = getCaret(this); //bug here that splits string poorly
+						event.preventDefault();
+						if (event.shiftKey)  {
+							this.value = content.substring(0, caret ) + "\n" + content.substring(caret, content.length);
+							event.stopPropagation();
+						} else {
+							event.stopPropagation();
+							const defaultChoice = dialog.data.buttons.one;
+							return dialog.submit(defaultChoice);
+						}
+					}
+				});
+			},
+			buttons: {
+				one: {
+					icon: '<i class="fas fa-check"></i>',
+					label: "Add",
+					callback: (html) => submit(html)
+				},
+				two: {
+					icon: '<i class="fas fa-times"></i>',
+					label: "Cancel",
+					callback: () => false
+				}
+			}
+		}, options);
+		if (!$(document).find(".narrator-text").length)
+			dialog.render(true);
+	}
+
 	/** List takes a [ { moveId:string , moveOwnerId: string} ]
 	*/
 	static async downtimeGMMoveSelector(moveAndOwnerList) {

@@ -438,7 +438,6 @@ export class CityRoll {
 							//TODO: program lock on button
 						};
 					});
-
 					CitySockets.execSession(session);
 					this.updateModifierPopup(html);
 					$(html).find("#help-dropdown").change((ev) => {
