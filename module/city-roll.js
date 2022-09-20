@@ -348,13 +348,10 @@ export class CityRoll {
 		const tags = this.#tags;
 		const options = this.#options;
 		try {
-			console.log("We are here");
-			Debug(this.#modifiers);
 			const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
 				const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
-				console.log(result);
 			}
 		} catch (e) {
 			console.warn("Error spending Juice");
