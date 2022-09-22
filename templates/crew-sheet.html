@@ -26,7 +26,7 @@
 			{{#each actor.items as |item|}}
 			{{#if (eq item.type "theme")}}
 			<div class="flex-theme-block">
-				{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="crew" data=item.data.data themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
+				{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="crew" data=item.system themebook=item.system.themebook tbdata=item.system.themebook.system}}
 			</div>
 			{{/if}}
 			{{/each}}
