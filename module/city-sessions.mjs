@@ -158,6 +158,14 @@ export class DummyMasterSession extends MasterSession {
 		console.log(`${sender.name} said ${dataObj.amount}`);
 	}
 
+	defaultTimeOut(userId) {
+		const user = game.users.find(x => x.id == userId);
+		if (user.isGM)
+			return Infinity;
+		else
+			return 60 * 5;
+	}
+
 }
 
 export class DummySlaveSession extends SlaveSession {
