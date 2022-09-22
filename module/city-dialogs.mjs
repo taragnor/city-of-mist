@@ -262,12 +262,16 @@ export class CityDialogs {
 	*/
 	static async getHelpHurt(dataObj, session) {
 		const {actorId, moveId} = dataObj;
-		await CityHelpers.playPing();
 		const myCharacter = game.user.character;
 		if (myCharacter == null) {
-			await CitySockets.sendJuice();
-			return null;
+			const warning =  `No Character selected for ${game.user.name}, can't spend Help/Hurt`;
+			ui.notifications.warn(warning);
+			return Promise.reject(warning);
 		}
+		if (!myCharacter.hasHelpFor(actorId) && !myCharacter.hasHurtFor(actorId)) {
+			return Promise.reject( "No Juice for you");
+		}
+		await CityHelpers.playPing();
 		const templateData = {
 			move: await CityHelpers.getMoveById(moveId),
 			actor: await CityDB.getActorById(actorId),

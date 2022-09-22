@@ -9,14 +9,14 @@ export class StatusTracker {
 	}
 
 	static load() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || x.data.type == "character");
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || x.type == "character");
 
 		const actors = tokenActors.map( x=> {
 			return {
 				name: x.getDisplayedName(),
 				actor: x,
 				id: x.id,
-				type: x.data.type,
+				type: x.type,
 				statuses: x.getStatuses(),
 				tags: x.getStoryTags()
 			};
@@ -27,7 +27,7 @@ export class StatusTracker {
 				name: "Scene",
 				actor: x,
 				id: x.id,
-				type: x.data.type,
+				type: x.type,
 				statuses: x.getStatuses(),
 				tags: x.getStoryTags()
 			};

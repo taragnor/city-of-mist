@@ -733,7 +733,7 @@ export class CityActor extends Actor {
 	}
 
 	getLinkedTokens() {
-		return this.getActiveTokens().filter (x=> x.data.actorLink);
+		return this.getActiveTokens().filter (x=> !x.actor.token);
 	}
 
 	get displayedName() {
