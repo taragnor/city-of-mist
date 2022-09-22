@@ -101,7 +101,7 @@ export class StatusTracker {
 		const status = await actor.getStatus(obj.id);
 		const updateObj = await CityHelpers.itemDialog(status);
 		if (updateObj) {
-			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
+			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
 			await owner.deleteStatus(obj.id);
 		}
@@ -143,7 +143,7 @@ export class StatusTracker {
 			const {name: newname, tier: amt} = ret;
 			// console.log(`${name} : ${tier}`);
 			const revised_status = await status.subtractStatus(amt, newname);
-			if (revised_status.data.data.tier <= 0)
+			if (revised_status.system.tier <= 0)
 				actor.deleteStatus(revised_status.id);
 		}
 		//TODO: add in logging function for loggable chat
