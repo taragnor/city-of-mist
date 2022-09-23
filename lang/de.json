@@ -93,7 +93,9 @@
 "CityOfMist.terms.custom": "Individuell",
 "CityOfMist.terms.customMove": "Individueller Spielzug",
 "CityOfMist.terms.customMoves": "Individuelle Spielzüge",
+"CityOfMist.terms.downtimeMoves": "Auszeit Spielzüge",
 "CityOfMist.terms.enterScene": "Beim Betreten der Szene",
+"CityOfMist.terms.downtimeTrigger": "Während der Auszeit",
 "CityOfMist.terms.templates": "Vorlagen",
 "CityOfMist.terms.isTemplate": "Vorlage ?",
 "CityOfMist.terms.collectiveSize": "Größenfaktor",
@@ -338,6 +340,8 @@
 "CityOfMist.themebook.unit.name": "Einheit",
 "CityOfMist.themebook.shrouding.name": "Verschleiern",
 
+"CityOfMist.dialog.roll.waitForMC": "Auf Zustimmung des MC warten",
+  
 "CityOfMist.dialog.SHB.warning0":"Bist du sicher, dass du 'Lass. Es. Raus.' willst?",
 "CityOfMist.dialog.SHB.warning1":"Die Folgen können SCHWERWIEGEND sein!",
 "CityOfMist.dialog.SHB.source":"Quelle deiner Kraft",
@@ -348,15 +352,27 @@
 "CityOfMist.dialog.statusAdd.CoMClassic": "Wähle Status Stufe zum Hinzuzufügen oder Abziehen.",
 "CityOfMist.dialog.statusAdd.CoMReloaded": "Wähle eine Anzahl an Boxen zum Hinzufügen oder Abziehen.",
 "CityOfMist.dialog.statusDrop.CoMReloaded": "Wähle eine Anzahl an Boxen zum Abziehen.",
+"CityOfMist.dialog.downtime.query": "Auszeit ausführen?",
+"CityOfMist.dialog.endOfSession.query": "Sitzungsende Spielzug ausführen?",
+"CityOfMist.dialog.endOfSession.name": "Sitzungsende",
 
-
-
+"CityOfMist.dialog.spendHelpHurt.Initial": "Freund/Feind ausgeben",
+"CityOfMist.dialog.spendHelpHurt.spendHelp": "Freund",
+"CityOfMist.dialog.spendHelpHurt.spendHurt": "Feind",
+  
 "CityOfMist.settings.gritMode.name": "Schneidmodus",
 "CityOfMist.settings.gritMode.hint": "Aktivieren den Schneidmodus (Wie in den Regeln beschrieben)",
+  
 "CityOfMist.settings.weaknessCap.name": "Schwächebegrenzung",
 "CityOfMist.settings.weaknessCap.hint": "Wenn ein Schwächemerkmal genutzt wird, ist die Kraft eines Wurfs begrenzt.",
+
+"CityOfMist.settings.maxWeaknessTags.name": "Maximum Schwächemerkmale",
+"CityOfMist.settings.maxWeaknessTags.hint": "Maximale Anzahl von Schwächemerkmalen für einen Spielzug", 
+
+  
 "CityOfMist.settings.maxRollCap.name": "Wurfbegrenzung",
 "CityOfMist.settings.maxRollCap.hint": "Lege einen maximalen Bonus fest der auf einen Wurf angerechnet wird (das verändert nicht die Kraft für die Bestimmung des Effekts des Spielzugs)",
+
 "CityOfMist.settings.commutativeStatusAddition.name": "Kummulatives hinzufügen eines Status",
 "CityOfMist.settings.commutativeStatusAddition.hint": "Addiere immer den kleineren zum größeren Status, so dass eine kleiner Status nicht verloren geht in der Wirkung",
 "CityOfMist.settings.monologueAttention.name": "Aufmerksamkeitsbonus für Monolog",
@@ -366,6 +382,7 @@
 
 "CityOfMist.settings.autoWeakness.name": "Automatische Aufmerksamkeit bei Schwächemerkmalen",
 "CityOfMist.settings.autoWeakness.hint": "Automatisches hizufügen der Aufmerksamkeit beim Einsatz von Schwächemerkmalen",
+
 "CityOfMist.settings.execEntranceMoves.name": "Gefahr betritt Szene Zug",
 "CityOfMist.settings.execEntranceMoves.hint": "Stelle die Automatisierung für 'Betritt die Szene' Spielzuüge von Gefahren. Wird ausgelöst, wenn die Spielfigur aufgedeckt oder erstellt wird. Wird entfernt, wenn sie unsichtbar gestellt oder entfernt wird.",
 "CityOfMist.settings.execEntranceMoves.0": "Keine Automatisierung",
@@ -403,4 +420,5 @@
 
 
 "CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird."
-"CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein."}
+"CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein."
+}
