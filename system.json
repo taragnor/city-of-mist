@@ -1,5 +1,5 @@
 {
-	"name": "city-of-mist",
+	"id": "city-of-mist",
 	"title": "City of Mist",
 	"description": "City of Mist RPG",
 	"author": "taragnor",
@@ -68,7 +68,7 @@
 	  }
   ],
   "system": [],
-  "relationshisps": {
+  "relationships": {
 	  "requires": []
   },
   "socket": true,
