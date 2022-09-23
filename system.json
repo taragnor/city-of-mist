@@ -67,8 +67,8 @@
 		  "private": false
 	  }
   ],
-  "system": [],
   "relationships": {
+	  "systems": [],
 	  "requires": []
   },
   "socket": true,
