@@ -402,5 +402,5 @@
 "CityOfMist.settings.system.2": "Angepasst",
 
 
-"CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird."
+"CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird.",
 "CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein."}
