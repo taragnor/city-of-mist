@@ -69,7 +69,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 		},
 		'hasGMMoveOfType': function (actor, subtype, _options) {
-			return actor.gmmoves.some(x=> x.data.type == "gmmove" && x.data.data.subtype ==subtype);
+			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
 		},
 		'applyNameSubstitution': function (move, dangerId, _options) {
 			const formatted = move.getFormattedText(dangerId);
@@ -112,7 +112,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					return {
 						owner: x,
 						id: i.id,
-						amount : i.data.data.amount
+						amount : i.system.amount
 					};
 				})
 			).flat();
@@ -123,14 +123,15 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(html);
 		},
 
-	'activatedDirection': function (sheetownerId, _actorId, tagId) {
-		const sheetowner = game.actors.get(sheetownerId);
-		if (sheetowner != null) {
-			const result = sheetowner.getActivatedDirection(tagId);
-			return result;
-		} else {
-			return 0;
+	'activatedDirection': function (sheetownerId, _actorId, tagId, tokenId = null) {
+		if (typeof tokenId == "object") {
+			tokenId = null;
+			//Fix for handlebars overcall with arguments
 		}
+		const amount = CityHelpers.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
+		if (amount > 0) return 1;
+		if (amount < 0) return -1;
+		return 0;
 	},
 
 	'defaultTagDirection': function (sheetownerId, tagOwnerId, tagId) {
@@ -146,15 +147,9 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
 	},
 
-		'hasActivatedTag': function (sheetownerId, _actorId, tagId) {
+		'hasActivatedTag': function (sheetownerId, _actorId, tagId, tokenId = null) {
 			//TODO: actorId isn't used but is there for compatibility with older version
-			const sheetowner = game.actors.get(sheetownerId);
-			if (sheetowner != null) {
-				const result = sheetowner.hasActivatedTag(tagId);
-				return result;
-			} else {
-				return false;
-			}
+			return CityHelpers.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
 		},
 
 		'devMode': function () {

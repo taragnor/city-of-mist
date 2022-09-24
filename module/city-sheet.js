@@ -9,9 +9,8 @@ export class CitySheet extends ActorSheet {
 		let data = super.getData();
 
 		//Fix for compatibility with .0.8.6
-		const actorData = this.actor.data.toObject(false);
 		data.actor = this.actor;
-		data.data = actorData.data;
+		data.data = this.actor.system;
 		data.items = this.actor.items.map(x=>x);
 		return data;
 	}
@@ -84,7 +83,7 @@ export class CitySheet extends ActorSheet {
 		}, []);
 		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
 		Debug(themebooks);
-		const templateData = {actor: this.actor.data, data: this.actor.data.data, themebooks};
+		const templateData = {actor: this.actor, data: this.actor.system, themebooks};
 		const title = "Select Themebook";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {
@@ -150,39 +149,8 @@ export class CitySheet extends ActorSheet {
 		});
 	}
 
-	sendToChatBox(title, text, options = {}) {
-		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
-		const render = options?.disable ? (args) => {
-			console.log("Trying to disable");
-			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
-		} : () => 0;
-
-		let sender = options?.speaker ?? {};
-		if (!sender?.alias && sender.actor) {
-			alias = actor.getDisplayedName();
-		}
-		return new Promise( (conf, rej) => {
-			const options = {};
-			let dialog = new Dialog({
-				title: `${title}`,
-				content: text,
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: label,
-						callback: async() => conf(CityHelpers.sendToChat(text, sender)),
-					},
-					two: {
-						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
-						callback: async () => conf(null)
-					}
-				},
-				default: "two",
-				render
-			}, options);
-			dialog.render(true);
-		});
+	async sendToChatBox(title, text, options = {}) {
+		return CityHelpers.sendToChatBox(title, text, options);
 	}
 
 	static async singleChoiceBox( list, headerText) {

@@ -32,11 +32,11 @@
 		</span>
 		<span class="flex-tag-name
 						 {{data.subtype}}-tag
+						 name
 						 {{#if tag.isMissingParent}} tag-error {{/if}}
 						 {{#if (and locked (eq data.burned 0))}} active-tag {{/if}}
-						 {{#if (ne direction 0)}} selected-tag {{/if}}
-						 {{#if (gt direction 0)}} positive-selected-tag{{/if}}
-						 {{#if (lt direction 0)}} negative-selected-tag{{/if}}
+						 {{#if (gt direction 0)}} positive-selected{{/if}}
+						 {{#if (lt direction 0)}} negative-selected{{/if}}
 						 {{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
 						 {{#if (and (not data.burned) locked)}} tag-select-button  {{/if}}
 						 {{#if (gt (defaultTagDirection sheetowner.id owner.id tag.id ) 0)}}

@@ -66,6 +66,22 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "maxWeaknessTags", {
+		name: localize("CityOfMist.settings.maxWeaknessTags.name"),
+		hint: localize("CityOfMist.settings.maxWeaknessTags.hint"),
+		scope: "world",
+		config: true,
+		type: Number,
+		default: 9999,
+		choices: {
+			9999 : "Unlimited",
+			3: "3",
+			2: "2",
+			1: "1",
+		},
+		restrict: true
+	});
+
 	game.settings.register("city-of-mist", "maxRollCap", {
 		name: localize("CityOfMist.settings.maxRollCap.name"),
 		hint: localize("CityOfMist.settings.maxRollCap.hint"),
@@ -244,16 +260,16 @@ export const registerSystemSettings = function() {
 			}
 		});
 
-		game.settings.register("city-of-mist", "statuSubtractionSystem", {
-			name: localize("CityOfMist.settings.statuSubtractionSystem.name"),
-			hint: localize("CityOfMist.settings.statuSubtractionSystem.hint"),
+		game.settings.register("city-of-mist", "statusSubtractionSystem", {
+			name: localize("CityOfMist.settings.statusSubtractionSystem.name"),
+			hint: localize("CityOfMist.settings.statusSubtractionSystem.hint"),
 			scope: "world",
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "classic",
 			choices: {
-				"classic" : localize("CityOfMist.settings.statuSubtractionSystem.0"),
-				"reloaded": localize("CityOfMist.settings.statuSubtractionSystem.1")
+				"classic" : localize("CityOfMist.settings.statusSubtractionSystem.0"),
+				"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1")
 			},
 			restrict: true,
 			onChange: _ => {

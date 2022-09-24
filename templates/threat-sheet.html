@@ -15,7 +15,7 @@
 				<label>
 					{{localize 'CityOfMist.terms.isTemplate' }}
 				</label>
-				<input type="checkbox" name="data.is_template" {{#if actor.data.data.is_template}} checked {{/if}} >
+				<input type="checkbox" name="data.is_template" {{#if actor.system.is_template}} checked {{/if}} >
 				{{/if}}
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 			{{/if}}
 			<div class="spectrum-list">
 				{{#each actor.my_spectrums as |spectrum id|}}
-				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.data.data }}
+				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../data.locked sheetowner=actor data=spectrum.system }}
 				{{/each}}
 			</div>
 	</section>
@@ -54,7 +54,7 @@
 		<div class="tab tab-content" data-group="primary" data-tab="moves">
 			<div class="flex-row">
 				<div class="flex-overview-block">
-					{{> "systems/city-of-mist/templates/parts/gmmoves-section.html" owner=actor locked=data.locked sheetowner=actor}}
+					{{> "systems/city-of-mist/templates/parts/gmmoves-section.hbs" owner=actor locked=data.locked sheetowner=actor}}
 					{{> "systems/city-of-mist/templates/parts/danger-template.html" owner=actor locked=data.locked sheetowner=actor actor=actor}}
 				</div>
 				<div class="flex-column">
@@ -85,7 +85,7 @@
 					{{#each actor.items as |item id|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="character" data=item.data.data themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="character" data=item.system themebook=item.system.themebook tbdata=item.system.themebook.system}}
 					</div>
 					{{/if}}
 					{{/each}}

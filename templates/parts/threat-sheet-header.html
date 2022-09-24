@@ -4,18 +4,18 @@
 	{{#if actor.isToken}}
 	<input class="alias-input alias-input-unlinked-token borderless" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}" title="{{localize 'CityOfMist.terms.alias' }} " placeholder="{{localize 'CityOfMist.terms.alias' }} ">
 	{{else}}
-	<input class="alias-input alias-input-prototype borderless" type="text" name="token.name" value="{{actor.data.token.name}}" title="Alias / Token Name" placeholder="Alias / Token Name">
+	<input class="alias-input alias-input-prototype borderless" type="text" name="token.name" value="{{actor.prototypeToken.name}}" title="Alias / Token Name" placeholder="Alias / Token Name">
 	{{/if}}
 </div>
 <div class="header-row">
-	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.data.data.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos' }} " title="{{localize 'CityOfMist.terms.mythos' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.system.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos' }} " title="{{localize 'CityOfMist.terms.mythos' }} " {{#if data.locked}} disabled {{/if}}>
 	<div class="separator-icon"> &diams;</div>
-	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.data.data.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }} " title="{{localize 'CityOfMist.terms.logos' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.system.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }} " title="{{localize 'CityOfMist.terms.logos' }} " {{#if data.locked}} disabled {{/if}}>
 </div>
 <div class="header-row">
-	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.data.data.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }} " title="{{localize 'CityOfMist.terms.short_desc' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }} " title="{{localize 'CityOfMist.terms.short_desc' }} " {{#if data.locked}} disabled {{/if}}>
 </div>
-{{#if actor.data.data.locked}}
+{{#if actor.system.locked}}
 <div class="header-row">
 	<div class="spectrum-list">
 		<b>
@@ -23,7 +23,7 @@
 		</b>
 		{{#each actor.spectrums as |spectrum id|}}
 		<div class="spectrum-short-label">
-			{{spectrum.name}} {{spectrum.data.data.max_tier}}
+			{{spectrum.name}} {{spectrum.system.max_tier}}
 		</div>
 		{{/each}}
 	</div>

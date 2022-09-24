@@ -33,10 +33,10 @@
 	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if data.permanent}} checked{{/if}} >
 	{{/if}}
 	<div class="description-header">{{localize "CityOfMist.terms.description"}}</div>
-	<textarea name="data.description">{{item.data.data.description}}</textarea>
+	<textarea name="data.description">{{item.system.description}}</textarea>
 	<label> {{localize "CityOfMist.misc.subtagOf"}}</label>
 	<select class="" name="data.parentId" >
-		{{#select item.data.data.parentId}}
+		{{#select item.system.parentId}}
 		<option value=""> None </option>
 		{{#each otherTagList as |tag id|}}
 		<option value="{{tag.id}}"> {{tag.name}} </option>

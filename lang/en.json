@@ -93,7 +93,9 @@
 "CityOfMist.terms.custom": "Custom",
 "CityOfMist.terms.customMove": "Custom Move",
 "CityOfMist.terms.customMoves": "Custom Moves",
+"CityOfMist.terms.downtimeMoves": "Downtime Moves",
 "CityOfMist.terms.enterScene": "On Enter Scene",
+"CityOfMist.terms.downtimeTrigger": "On Downtime",
 "CityOfMist.terms.templates": "Templates",
 "CityOfMist.terms.isTemplate": "Template?",
 "CityOfMist.terms.collectiveSize": "Collective Size",
@@ -256,7 +258,7 @@
 "CityOfMist.reloaded.moves.discover.4": "Hard choice between the above",
 
 "CityOfMist.reloaded.moves.resist.name": "Resist",
-"CityOfMist.reloaded.moves.resist.fail":"You the full status.",
+"CityOfMist.reloaded.moves.resist.fail":"You take the full status.",
 "CityOfMist.reloaded.moves.resist.partial":"Remove PWR/2 boxes from the status",
 "CityOfMist.reloaded.moves.resist.success": "Remove PWR boxes from the status",
 
@@ -338,6 +340,8 @@
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
 
+"CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
+
 "CityOfMist.dialog.SHB.warning0":"Are you sure you want to Stop.Holding.Back?",
 "CityOfMist.dialog.SHB.warning1":"The consequences could be DIRE!",
 "CityOfMist.dialog.SHB.source":"Source of your power",
@@ -348,15 +352,27 @@
 "CityOfMist.dialog.statusAdd.CoMClassic": "Choose status tier to add/subtract",
 "CityOfMist.dialog.statusAdd.CoMReloaded": "Choose number of boxes to add/subtract",
 "CityOfMist.dialog.statusDrop.CoMReloaded": "Choose number of boxes to subtract",
+"CityOfMist.dialog.downtime.query": "Execute Downtime?",
+"CityOfMist.dialog.endOfSession.query": "Execute End of Session Move?",
+"CityOfMist.dialog.endOfSession.name": "End Of Session",
 
-
+"CityOfMist.dialog.spendHelpHurt.Initial": "Spend Help/Hurt",
+"CityOfMist.dialog.spendHelpHurt.spendHelp": "Help",
+"CityOfMist.dialog.spendHelpHurt.spendHurt": "Hurt",
 
 "CityOfMist.settings.gritMode.name": "Grit Mode",
 "CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",
+
 "CityOfMist.settings.weaknessCap.name": "Cap Weakness Rolls",
 "CityOfMist.settings.weaknessCap.hint": "Place a cap on total Power on moves involving weakness tags.",
+
+"CityOfMist.settings.maxWeaknessTags.name": "Maximum Weakness Tags",
+"CityOfMist.settings.maxWeaknessTags.hint": "Maximum allowed weakness tags on a single move",
+
+
 "CityOfMist.settings.maxRollCap.name": "Max Roll Bonus Cap",
 "CityOfMist.settings.maxRollCap.hint": "Place a cap on the maximum bonus on a roll (does not reduce power for purpose of a move's efffect)",
+
 "CityOfMist.settings.commutativeStatusAddition.name": "Commutative Status Addition",
 "CityOfMist.settings.commutativeStatusAddition.hint": "When adding statuses always use highest status first then add the weaker status so tier 3 + tier 4 will equal tier 4 + tier 3.",
 "CityOfMist.settings.monologueAttention.name": "Monologue Attention Bonus",
@@ -366,6 +382,7 @@
 
 "CityOfMist.settings.autoWeakness.name": "Auto-apply Weakness Attention",
 "CityOfMist.settings.autoWeakness.hint": "Automatically add an attention when a weakness tag is used",
+
 "CityOfMist.settings.execEntranceMoves.name": "Danger Entrance Moves",
 "CityOfMist.settings.execEntranceMoves.hint": "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
 "CityOfMist.settings.execEntranceMoves.0": "No Automation",
@@ -390,10 +407,10 @@
 "CityOfMist.settings.statusAdditionSystem.0": "Classic CoM Addition",
 "CityOfMist.settings.statusAdditionSystem.1": "Tier-based Commutative",
 "CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Boxes)",
-"CityOfMist.settings.statuSubtractionSystem.name": "Status Subtraction",
-"CityOfMist.settings.statuSubtractionSystem.hint": "Choose which system to use when adding statuses",
-"CityOfMist.settings.statuSubtractionSystem.0": "Classic CoM Subtraction",
-"CityOfMist.settings.statuSubtractionSystem.1": "CoM Reloaded (Boxes)",
+"CityOfMist.settings.statusSubtractionSystem.name": "Status Subtraction",
+"CityOfMist.settings.statusSubtractionSystem.hint": "Choose which system to use when subtracting statuses",
+"CityOfMist.settings.statusSubtractionSystem.0": "Classic CoM Subtraction",
+"CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Boxes)",
 
 "CityOfMist.settings.system.name": "Game System",
 "CityOfMist.settings.system.hint": "Choose version of CoM system",

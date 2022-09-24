@@ -10,9 +10,9 @@ export class TokenTools {
 	}
 
 	static getSceneTokens( scene) {
-		if (!scene || !scene.data)
+		if (!scene)
 			return [];
-		return scene.data.tokens.filter(x=>x.actor);
+		return scene.tokens.filter(x=>x.actor);
 	}
 
 	static getActiveSceneTokenActors() {
@@ -21,7 +21,7 @@ export class TokenTools {
 
 	static getVisibleActiveSceneTokenActors() {
 		return this.getSceneTokens(this.getActiveScene())
-			.filter (x=> !x.data.hidden)
+			.filter (x=> !x.hidden)
 			.map(x=> x.actor);
 	}
 

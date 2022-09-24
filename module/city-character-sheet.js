@@ -1,5 +1,5 @@
 import { CityActorSheet } from "./city-actor-sheet.js";
-import { CityRoll } from "./city-roll.js";
+// import { CityRoll } from "./city-roll.js";
 import { CitySheet } from "./city-sheet.js";
 
 export class CityCharacterSheet extends CityActorSheet {
@@ -18,7 +18,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 	}
 
-
 	getData() {
 		let data = super.getData();
 
@@ -30,8 +29,8 @@ export class CityCharacterSheet extends CityActorSheet {
 				return -1;
 			if (b.type != "theme")
 				return 1;
-			const tba  = a.data.data.themebook;
-			const tbb  = b.data.data.themebook;
+			const tba  = a.system.themebook;
+			const tbb  = b.system.themebook;
 			const value_convert = function (type) {
 				switch (type) {
 					case "Mythos": return 1;
@@ -44,8 +43,8 @@ export class CityCharacterSheet extends CityActorSheet {
 						return 1000;
 				}
 			}
-			const atype = value_convert(tba.data.data.type);
-			const btype = value_convert(tbb.data.data.type);
+			const atype = value_convert(tba.system.type);
+			const btype = value_convert(tbb.system.type);
 			if (atype < btype)  return -1;
 			if (atype > btype)  return 1;
 			else return 0;
@@ -67,15 +66,15 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.data.dangerStoryTags = this.getDangerStoryTags();
 
 		const moveList = CityHelpers.getMoves();
-		data.data.coremoves = moveList.filter( x=> x.data.data.category == "Core");
-		data.data.specialmoves = moveList.filter( x=> x.data.data.category == "Advanced");
-		data.data.shbmoves = moveList.filter( x=> x.data.data.category == "SHB");
+		data.data.coremoves = moveList.filter( x=> x.system.category == "Core");
+		data.data.specialmoves = moveList.filter( x=> x.system.category == "Advanced");
+		data.data.shbmoves = moveList.filter( x=> x.system.category == "SHB");
 		return data;
 	}
 
 	getCrewThemes() {
 		const crew = game.actors.find(actor =>
-			actor.data.type == "crew" && actor.isOwner
+			actor.type == "crew" && actor.isOwner
 		);
 		let crewThemes = [];
 		if (!crew) {
@@ -84,16 +83,17 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		for (const theme of crew.items.filter(x=> x.type == "theme")) {
 			this.linkThemebook(theme);
-			theme.data.data.owner = {
+			theme.system.owner = {
 				id: crew.id,
 				name: crew.name,
-				data: crew.data,
-				items: crew.data.items,
-				img: crew.data.img
+				system: crew.system,
+				data: crew.system,
+				items: crew.items,
+				img: crew.img
 			};
 			crewThemes.push(theme);
 		}
-		const selected = (this.actor.data.data.crewThemeSelected % crewThemes.length) || 0;
+		const selected = (this.actor.system.crewThemeSelected % crewThemes.length) || 0;
 		if (crewThemes[selected])
 			return [crewThemes[selected]];
 		else
@@ -102,13 +102,13 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getExtras() {
 		return game.actors
-			.filter( actor => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && actor.items.find(x=> x.data.type == "theme"));
+			.filter( actor => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && actor.items.find(x=> x.type == "theme"));
 	}
 
 	getActiveExtra() {
 		const filterList = game.actors.filter( actor =>
 			actor.isExtra() && actor.isOwner
-			&& this.actor.data.data.activeExtraId == actor.id
+			&& this.actor.system.activeExtraId == actor.id
 		);
 		if (filterList.length == 0)
 			return null;
@@ -119,14 +119,16 @@ export class CityCharacterSheet extends CityActorSheet {
 				let fakeExtraData = {
 					name: theme.name,
 					id: theme.id,
-					data: theme.data
+					system: theme.system,
+					data: theme.system
 				};
-				fakeExtraData.data.owner = {
+				fakeExtraData.owner = {
 					id: activeExtra.id,
 					name: activeExtra.name,
-					data: activeExtra.data,
-					items: activeExtra.data.items,
-					img: activeExtra.data.img
+					system: activeExtra.system,
+					data: activeExtra.system,
+					items: activeExtra.items,
+					img: activeExtra.img
 				};
 				return fakeExtraData;
 			}
@@ -146,24 +148,25 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getTokenStoryTags() {
 		const tokens = CityHelpers.getActiveSceneTokens()
-			.filter(tok => !tok.data.hidden
+			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
 				&& tok.actor.items.find(y =>
-					y.type == "tag" && y.data.data.subtype == "story"
+					y.type == "tag" && y.system.subtype == "story"
 				)
 			);
 		const tokenTagData = tokens.map( token => {
-			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.data.data.subtype == "story");
+			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
 			return storyTags.map( x=> {
 				return {
-					type: x.data.type,
+					type: x.type,
 					name: x.name,
 					location: this.getLocationName(token.actor, token),
 					id: x.id,
-					data: x.data,
+					// data: x.data, // removed V10
+					system: x.system,
 					ownerId: token.actor.id,
 					owner: token.actor,
-					_tokenId: token?.id,
+					tokenId: token.id,
 					_sceneId: token?.scene?.id
 				};
 			});
@@ -173,21 +176,22 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getSceneStoryTags() {
 		const storyContainers =  game.actors.filter( actor => {
-			if (actor.data.type != "storyTagContainer")
+			if (actor.type != "storyTagContainer")
 				return false;
 			return true;
 		});
 		const tagData = storyContainers.map ( cont => {
 			return cont.getStoryTags().map( x=> {
 				return {
-					type: x.data.type,
+					type: x.type,
 					name: x.name,
 					location: this.getLocationName(cont),
 					id: x.id,
-					data: x.data,
+					system: x.system,
+					data: x.system,
 					ownerId: cont.id,
 					owner: cont,
-					_tokenId: undefined,
+					tokenId: null,
 					_sceneId: undefined
 				};
 			});
@@ -198,31 +202,32 @@ export class CityCharacterSheet extends CityActorSheet {
 	getStoryTags() {
 		let retTags = [];
 		const tokens = CityHelpers.getActiveSceneTokens()
-			.filter(tok => !tok.data.hidden
+			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
 				&& tok.actor.items.find(y =>
-					y.type == "tag" && y.data.data.subtype == "story"
+					y.type == "tag" && y.system.subtype == "story"
 				)
 			);
 		const tokenTagData = tokens.map( token => {
-			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.data.data.subtype == "story");
+			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
 			return storyTags.map( x=> {
 				return {
-					type: x.data.type,
+					type: x.type,
 					name: x.name,
 					location: this.getLocationName(token.actor, token),
 					id: x.id,
-					data: x.data,
+					system: x.system,
+					data: x.system,
 					ownerId: token.actor.id,
 					owner: token.actor,
-					_tokenId: token?.id,
+					tokenId: token?.id,
 					_sceneId: token?.scene?.id
 				};
 			});
 		});
 		retTags = retTags.concat(tokenTagData.flat(1));
 		const storyContainers =  game.actors.filter( actor => {
-			if (actor.data.type != "storyTagContainer")
+			if (actor.type != "storyTagContainer")
 				return false;
 			if (retTags.find( x=> x.ownerId == actor.id ))
 				return false;
@@ -231,14 +236,15 @@ export class CityCharacterSheet extends CityActorSheet {
 		const tagData = storyContainers.map ( cont => {
 			return cont.getStoryTags().map( x=> {
 				return {
-					type: x.data.type,
+					type: x.type,
 					name: x.name,
 					location: this.getLocationName(cont),
 					id: x.id,
-					data: x.data,
+					data: x.system,
+					system: x.system,
 					ownerId: cont.id,
 					owner: cont,
-					_tokenId: undefined,
+					tokenId: null,
 					_sceneId: undefined
 				};
 			});
@@ -249,9 +255,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		retTags = retTags.sort( (a, b) => {
 			if (a.ownerId == this.actor.id) return -1;
 			if (b.ownerId == this.actor.id) return 1;
-			if (a.owner.data.type == "character" && b.owner.data.type != "character")
+			if (a.owner.type == "character" && b.owner.type != "character")
 				return -1;
-			if (b.owner.data.type == "character" && a.owner.data.type != "character")
+			if (b.owner.type == "character" && a.owner.type != "character")
 				return 1;
 			return 0;
 		});
@@ -259,7 +265,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	getLocationName(cont, token) {
-		switch (cont.data.type)	 {
+		switch (cont.type)	 {
 			case "character":
 				if (cont.id == this.actor.id)
 					return "";
@@ -277,20 +283,24 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	getOtherStatuses() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || (x.data.type == "character" && x.id != this.actor.id));
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || (x.type == "character" && x.id != this.actor.id));
 		const applicableTargets = tokenActors
 			.concat(
 				game.actors.filter(x=> x.type == "storyTagContainer")
 			);
 		const filteredTargets = applicableTargets.filter(
-			x=> x.items.find( y=> y.data.type == "status"));
+			x=> x.items.find( y=> y.type == "status"));
 		const statusblock = filteredTargets.map( x=> {
+			if (typeof x?.token?.id == "object")
+				throw Error("wtf??!");
 			return {
 				name: x.displayedName,
-				data: x.data,
+				system: x.system,
+				data: x.system,
 				id: x.id,
-				type: x.data.type,
-				statuses: x.items.filter(x => x.type == "status" && !x.data.data.hidden)
+				type: x.type,
+				tokenId: x?.token?.id ?? null,
+				statuses: x.items.filter(x => x.type == "status" && !x.system.hidden)
 			};
 		});
 		const sorted = statusblock.sort( (a,b) => {
@@ -334,7 +344,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			const listData = lowestDeveloped.map( x => {
 				return  {
 					id: x.id,
-					data: [x.data.name],
+					data: [x.name],
 					description: ""
 				};
 			});
@@ -348,7 +358,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (!theme)
 			throw new Error("No Theme presented for Monologue bonus");
 		const actor = this.actor;
-		const themeName = theme.data.name;
+		const themeName = theme.name;
 		await actor.addAttention(theme.id);
 		await CityHelpers.modificationLog(actor, `Attention Added`, theme, `Opening Monologue - Current ${await theme.getAttention()}`);
 	}
@@ -369,6 +379,10 @@ export class CityCharacterSheet extends CityActorSheet {
 			await this.actor.expendFlashback();
 		} else
 			throw new Error ("Trying to use Flashback while it's expended!");
+	}
+
+	async downtime() {
+		return await CityHelpers.triggerDowntimeMoves();
 	}
 
 	async openOwnerSheet(event) {

@@ -25,6 +25,7 @@ import {} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 import { VersionUpdater } from "./version-update.mjs";
 import { CityHandlebarsHelpers } from "./city-handlebars-helpers.mjs";
+import {CitySockets} from "./city-sockets.mjs";
 
 import {ClueChatCards } from "./clue-cards.mjs";
 
@@ -40,6 +41,10 @@ Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
+Hooks.on('ready', () => {
+	CitySockets.init();
+	window.CitySockets = CitySockets;
+});
 
 
 Hooks.once("cityDBLoaded", async function() {

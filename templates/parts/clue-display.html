@@ -2,7 +2,15 @@
 	<a class="item-control clue-delete" title="Delete Clue"><i class="fas fa-trash"></i></a>
 	<span id="clue-name-{{clue.id}}" class="card-name clue-name {{#if locked}} clue-select-button {{else}} clue-edit-button {{/if}}">
 		{{#if (gt data.amount 1)}}
-		({{data.amount}}) {{/if}} {{clue.name}} {{#if data.partial}} (partial) {{/if}}
+		({{data.amount}})
+		{{/if}}
+		{{clue.name}}
+		{{#if data.partial}}
+		(partial)
+		{{/if}}
+	</span>
+	<span class="clue-use-button" title="Use Clue">
+		<i class="fas fa-question"></i>
 	</span>
 	<div class="clue-source">
 		<b> {{localize "CityOfMist.terms.clueSource"}} :</b> {{data.source}}

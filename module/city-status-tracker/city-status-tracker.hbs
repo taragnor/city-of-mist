@@ -16,13 +16,13 @@
 								<a class="status-control status-delete" title="{{ localize "CityOfMistTracker.trackerwindow.status.delete" }}" data-actor="{{ @indexActor }}" data-status="{{ @indexStatus }}" data-action="status-delete"><i class="fas fa-trash"></i></a>
 								<span class="status-description-container">
 									<span class="status-description">
-										{{#if  status.data.data.temporary}}
+										{{#if  status.system.temporary}}
 											<a class="status-type" title="{{ localize "CityOfMistTracker.trackerwindow.status.temporary" }}" ><i class="fas fa-hourglass"></i> </a>
 										{{/if}}
-										{{#if  status.data.data.permanent}}
+										{{#if  status.system.permanent}}
 											<a class="status-type" title="{{ localize "CityOfMistTracker.trackerwindow.status.permanent" }}" ><i class="fas fa-square"></i> </a>
 										{{/if}}
-										{{status.name}}-{{status.data.data.tier}}
+										{{status.name}}-{{status.system.tier}}
 									</span>
 								</span>
 								<a class="status-control status-increase" title="{{ localize "CityOfMistTracker.trackerwindow.status.addto" }}"  data-actor="{{ @indexActor }}" data-status="{{ @indexStatus }}" data-action="status-increase"><i class="fas fa-plus"></i></a>
@@ -37,18 +37,18 @@
 							<div class="flexrow"  data-actor="{{ @indexActor }}" data-tag="{{ @indexTag }}">
 								<a class="status-control tag-delete" title="{{ localize "CityOfMistTracker.trackerwindow.tag.delete" }}" data-actor="{{ @indexActor }}" data-tag="{{ @indexTag }}" data-action="tag-delete"><i class="fas fa-trash"></i></a>
 								<span class="tag-description-container">
-									<span class="tag-description {{#if tag.data.data.burned}} tag-burned {{/if}} ">
+									<span class="tag-description {{#if tag.system.burned}} tag-burned {{/if}} ">
 										<a class="tag-type" title="{{ localize "CityOfMistTracker.trackerwindow.tag.storytag" }}" ><i class="fas fa-tag"></i> </a>
-										{{#if  tag.data.data.temporary}}
+										{{#if  tag.system.temporary}}
 											<a class="tag-type" title="{{ localize "CityOfMistTracker.trackerwindow.tag.temporary" }}" ><i class="fas fa-hourglass"></i> </a>
 										{{/if}}
-										{{#if  tag.data.data.permanent}}
+										{{#if  tag.system.permanent}}
 											<a class="tag-type" title="{{ localize "CityOfMistTracker.trackerwindow.tag.permanent" }}" ><i class="fas fa-square"></i> </a>
 										{{/if}}
 										{{tag.name}}
 									</span>
 								</span>
-								<a class="tag-burn {{#if tag.data.data.burned }} tag-burned {{/if}}" title="{{ localize "CityOfMistTracker.trackerwindow.tag.burned" }}" ><i class="fas fa-fire"></i> </a>
+								<a class="tag-burn {{#if tag.system.burned }} tag-burned {{/if}}" title="{{ localize "CityOfMistTracker.trackerwindow.tag.burned" }}" ><i class="fas fa-fire"></i> </a>
 							</div>
 						</li>
 					{{/each}}

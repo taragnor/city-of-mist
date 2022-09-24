@@ -1,6 +1,9 @@
 import { CityItem } from "./city-item.js";
 import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
+import {CityDialogs } from "./city-dialogs.mjs";
+import {CitySockets} from "./city-sockets.mjs";
+import {JuiceSpendingSessionM, JuiceMasterSession, JuiceSlaveSession} from "./city-sessions.mjs";
 
 export class CityRoll {
 	#roll;
@@ -11,12 +14,14 @@ export class CityRoll {
 	#tags;
 	#html;
 	#msgId;
+	#selectedList;
 
-	constructor (moveId, actor, options) {
+	constructor (moveId, actor, selectedList = [],  options) {
 		this.#roll = null;
 		this.#moveId = moveId;
 		this.#actor = actor;
 		this.#options = options;
+		this.#selectedList = selectedList;
 	}
 
 	async execRoll() {
@@ -26,11 +31,12 @@ export class CityRoll {
 		await this.#sendRollToChat();
 		await this.#secondaryEffects();
 		await this.#rollCleanupAndAftermath();
+		return this;
 	}
 
-	static async execMove(moveId, actor, options = {}) {
-		const CR = new CityRoll(moveId, actor, options);
-		return CR.execMove();
+	static async execMove(moveId, actor, selectedList =[], options = {}) {
+		const CR = new CityRoll(moveId, actor, selectedList, options);
+		return await CR.execMove();
 	}
 
 	async execMove() {
@@ -39,11 +45,12 @@ export class CityRoll {
 		const actor = this.#actor;
 		const options = this.#options;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
-		switch (options?.newtype ?? move.data.data.type) {
+		const type = options?.newtype ?? move.system.type;
+		switch (type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor))
 					if (!await this.modifierPopup(moveId, actor))
-						return false;
+						return null;
 				break;
 			case "logosroll":
 				await this.logosRoll(moveId, actor);
@@ -55,14 +62,9 @@ export class CityRoll {
 				await this.noRoll(moveId, actor);
 				break;
 			default:
-				throw new Error(`Unknown Move Type ${newtype ?? move.data.data.type}`);
+				throw new Error(`Unknown Move Type ${type}`);
 		}
-		return this.execRoll();
-	}
-
-	static async execRoll(moveId, actor, options = {}) {
-		const CR =  new CityRoll(moveId,actor, options);
-		return CR.execRoll();
+		return await this.execRoll();
 	}
 
 	#prepareModifiers () {
@@ -73,28 +75,12 @@ export class CityRoll {
 			this.#tags = [];
 			return this;
 		}
-		const activated = actor.getActivated();
-		const allModifiers = activated
-			.map( x => {
-				const tagOwner = CityHelpers.getOwner( x.tagOwnerId, x.tagTokenId, x.tagTokenSceneId);
-				const tag = x.type == "tag" ? tagOwner.getTag(x.tagId) : null;
-				const subtype = tag ? tag.data.data.subtype : "";
-				return {
-					name: x.name,
-					id: x.tagId,
-					amount: x.amount * x.direction,
-					ownerId: tagOwner.id,
-					tagId: x.tagId,
-					type: x.type,
-					description: tag ? tag.data.data.description : "",
-					subtype,
-					strikeout: false,
-				};
-			}).filter (x => {
-				const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
+		const allModifiers = this.#selectedList
+			.filter (x => {
+				const tag = CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
-						console.log(`Excluding ${x.tag.name}, value: ${x.tag.data.data.burned}`);
+						console.log(`Excluding ${x.tag.name}, value: ${x.tag.system.burned}`);
 					return !tag.isBurned();
 				}
 				else return true;
@@ -102,28 +88,29 @@ export class CityRoll {
 		let tags = [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
-				&& CityHelpers.getOwner(x.ownerId).getTag(x.tagId) //filter out deleted tags
+				&& CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
 				tags = tags.filter(x => x.tagId == options.burnTag);
 				tags[0].amount = 3;
 			}
 		}
-		if (options.helpId && options.helpAmount > 0) {
-			const helper = game.actors.find( x =>
-				x.type == "character"
-				&& x.items.find( i => i.id == options.helpId)
-			);
-			const helpJuice = helper.items.find( i => i.id == options.helpId);
-			allModifiers.push( {
-				name: `Help From ${helper.name} (must be deducted manually)`,
-				id: options.helpId,
-				amount: Math.min( options.helpAmount, helpJuice.data.data.amount),
-				ownerId: helper.id,
-				tagId: null,
-				type: "status",
-			});
-		}
+		// NOTE: OOLD HELP / HURT SYSTEM
+		// if (options.helpId && options.helpAmount > 0) {
+		// 	const helper = game.actors.find( x =>
+		// 		x.type == "character"
+		// 		&& x.items.find( i => i.id == options.helpId)
+		// 	);
+		// 	const helpJuice = helper.items.find( i => i.id == options.helpId);
+		// 	allModifiers.push( {
+		// 		name: `Help From ${helper.name} (must be deducted manually)`,
+		// 		id: options.helpId,
+		// 		amount: Math.min( options.helpAmount, helpJuice.system.amount),
+		// 		ownerId: helper.id,
+		// 		tagId: null,
+		// 		type: "status",
+		// 	});
+		// }
 		let usedStatus = [];
 		if (!options.noStatus) {
 			const status = allModifiers.filter (x=> x.type == "status");
@@ -135,7 +122,14 @@ export class CityRoll {
 			const statusMin = nstatus.find( x=> x.amount == min);
 			usedStatus = status.filter (x => x == statusMax || x == statusMin);
 		}
-		let modifiers = tags.concat(usedStatus);
+		let helpHurt = [];
+		if (!options.noHelpHurt) {
+			helpHurt = allModifiers.filter (x=> x.type == "help" || x.type == "hurt");
+		}
+		let modifiers = tags
+			.concat(usedStatus)
+			.concat(helpHurt)
+		;
 		if (options.logosRoll) {
 			modifiers.push({
 				id: "Logos",
@@ -205,7 +199,10 @@ export class CityRoll {
 		return html;
 	}
 
-	static async #_getContent (roll) {
+	/** Takes a foundry roll and an options object containing 
+	{moveList ?: { see generateMoveList function} }
+	*/
+	static async #_getContent (roll, otherOptions = {}) {
 		const modifiers = roll.options.modifiers.map ( x=> {
 			return {
 				id: x.id,
@@ -219,20 +216,12 @@ export class CityRoll {
 		});
 		const options = roll.options;
 		const {power, adjustment} = CityRoll.getPower(options);
+		const moveList = otherOptions?.moveList ?? null;
 		const moveId = roll.options.moveId;
 		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
 		const {total, roll_adjustment} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(total, options);
-		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
-		if (options.moveList == undefined || options.curr_choices > options.max_choices) {
-			options.moveList = moveListRaw;
-			options.curr_choices = 0;
-		} else {
-			options.moveList = options.moveList.filter( x=> moveListRaw.some( y=> x.text ==  y.text));
-			const unadded = moveListRaw.filter(x=> !options.moveList.some ( y=> x.text == y.text))
-			options.moveList = options.moveList.concat(unadded);
-		}
 		const actor = CityDB.getActorById(roll.options.actorId);
 		const actorName = actor ?actor.name : "";
 		const templateData = {
@@ -240,7 +229,7 @@ export class CityRoll {
 			actorName,
 			moveId: roll.options.moveId,
 			options: roll.options,
-			moveList: roll.options.moveList,
+			moveList: moveList ?? moveListRaw,
 			moveName: move.getDisplayedName(),
 			moveText: CityItem.generateMoveText(move, roll_status, power),
 			rolls : (roll.terms)[0].results,
@@ -321,7 +310,6 @@ export class CityRoll {
 			await this.#clueBoxes();
 	}
 
-
 	async #clueBoxes() {
 		const roll = this.#roll;
 		const moveId = roll.options.moveId;
@@ -359,39 +347,38 @@ export class CityRoll {
 	async #rollCleanupAndAftermath () {
 		const tags = this.#tags;
 		const options = this.#options;
-		if (options.helpId) {
-			const amount = options.helpAmount;
-			const helper = game.actors.find( x =>
-				x.type == "character"
-				&& x.items.find( i => i.id == options.helpId)
-			);
-			const helpJuice = helper.items.find( i => i.id == options.helpId);
-			//TODO: Find better way to request that juice be spent for token you do't own, may need to signal owner
-			// await helper.spendJuice(helpJuice.id, amount);
+		try {
+			const helpHurt = this.#modifiers
+				.filter(x => x.subtype == "help" || x.subtype =="hurt");
+			for (let hh of helpHurt) {
+				const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
+			}
+		} catch (e) {
+			console.warn("Error spending Juice");
+			console.log(e);
 		}
+
 		if (options.burnTag && options.burnTag.length)
-			for (let {ownerId, tagId} of tags)
-				await CityHelpers.getOwner(ownerId)?.burnTag(tagId);
-		for (let {ownerId, tagId, amount} of tags) {
-			const tag = CityHelpers.getOwner(ownerId).getTag(tagId);
-			if (tag.data.data.crispy || tag.data.data.temporary) {
-				try {await CityHelpers.getOwner(ownerId).burnTag(tag.id);}
+			for (let {ownerId, tagId, tokenId} of tags)
+				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
+		for (let {ownerId, tagId, amount, tokenId} of tags) {
+			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
+			if (tag.system.crispy || tag.system.temporary) {
+				try {await CityHelpers.getOwner(ownerId, tokenId).burnTag(tag.id);}
 				catch (e) {
 					console.warn(`Unable to Burn tag ${tag.name}`);
 				}
 			}
-			if (tag.data.data.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
+			if (tag.system.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
-		if (this.#actor)
-			await this.#actor.clearAllSelectedTags();
 	}
 
 	static async verifyRequiredInfo(move_id, actor) {
 		const relevantImprovements = actor.getImprovements().filter(imp => imp.hasEffectClass(`THEME_DYN_SELECT`) )
 		for (const imp of relevantImprovements) {
-			if (!imp.data.data?.choice_item) {
+			if (!imp.system?.choice_item) {
 				await CityHelpers.itemDialog(imp);
 				return false;
 			}
@@ -400,18 +387,55 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const burnableTags = ( await actor.getActivated() ).filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+		const activated = CityHelpers.getPlayerActivatedTagsAndStatus();
+		const sh =  CityHelpers.resolveTagAndStatusShorthand(activated);
+		const activeTags = sh.filter( x=> x.type == "tag");
+		const activeStatus = sh.filter( x=> x.type == "status");
+		const burnableTags = activated
+			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+		const tags = activated.filter( x=> x.type == "tag");
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder
-		const templateData = {burnableTags, actor: actor, data: actor.data.data, dynamite, power};
+		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tags: activeTags, statuses: activeStatus};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
+		let session = null;
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
 				content: html,
+				close : (html) => {
+					session.destroy();
+					conf(null);
+				},
 				render: (html) => {
+					session =new JuiceMasterSession( (ownerId, direction, amount) => {
+						//handler function when it recieves juice
+						const owner = CityHelpers.getOwner(ownerId);
+						const type = (direction > 0)
+							? localize("CityOfMist.terms.help")
+							: localize("CityOfMist.terms.hurt");
+						html.find("div.juice-section")
+							.find(`div.juice-pending[data-characterId='${ownerId}']`)
+							.remove();
+						html.find("div.juice-section")
+							.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
+						this.activateHelpHurt(owner, amount, direction, actor.id);
+						this.updateModifierPopup(html);
+					}, actor.id, move_id)
+					session.addNotifyHandler("pending", (dataObj) => {
+						console.log("Notify Handler tripped");
+						const {type, ownerId} = dataObj;
+						const owner = CityHelpers.getOwner(ownerId);
+						CityHelpers.playPing();
+						html.find("div.juice-section")
+							.append( `<div class='juice-pending' data-characterId='${owner.id}'>${owner.name} pending </div>`);
+						if (type == "hurt") {
+							//TODO: program lock on button
+						};
+					});
+					CitySockets.execSession(session);
 					this.updateModifierPopup(html);
 					$(html).find("#help-dropdown").change((ev) => {
 						$(html).find("#help-slider").val(1);
@@ -422,6 +446,14 @@ export class CityRoll {
 					});
 					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
+					const confirmButton = html.find("button.one");
+					if (!game.user.isGM) {
+						// confirmButton.prop("disabled", true);
+						// confirmButton.oldHTML = confirmButton.html();
+						// confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
+						// confirmButton.addClass("disabled");
+						//TODO: add watch to re-enable the button
+					}
 
 				},
 				buttons: {
@@ -430,13 +462,17 @@ export class CityRoll {
 						label: "Confirm",
 						callback: (html) => {
 							this.updateModifierPopup(html);
+							session.destroy();
 							conf(true);
 						},
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
 						label: "Cancel",
-						callback: () => conf(null)
+						callback: () => {
+							session.destroy();
+							conf(null);
+						}
 					}
 				},
 				default: "one"
@@ -446,6 +482,44 @@ export class CityRoll {
 		if (!rollOptions)
 			return false;
 		return true;
+	}
+
+	activateHelpHurt( owner, amount, direction, targetCharacterId) {
+		let type, arr;
+		if ( direction > 0) {
+			type = "help";
+			arr = owner.helpPoints;
+		} else {
+			type = "hurt";
+			arr = owner.hurtPoints;
+		}
+		const targetedJuice = arr .filter( x=> x.targets(targetCharacterId));
+		if (targetedJuice.length == 0) {
+			throw new Error("Lenght 0 wtf?!");
+		}
+			targetedJuice.forEach( item => {
+				if (amount <= 0) {
+					console.log("Amount is 0 or less returning");
+					return;
+				}
+				let targetAmt = Math.min (amount , item.system.amount);
+				amount -= targetAmt;
+				const newItem = {
+					name: `${owner.name} ${type}`,
+					id: item.id,
+					amount: targetAmt * direction,
+					ownerId: owner.id,
+					tagId: null,
+					type,
+					description: "",
+					subtype: type,
+					strikeout: false,
+					tokenId: null
+				};
+				console.log("Pushing Juice!");
+				this.#selectedList.push(newItem);
+				Debug(this.#selectedList);
+			});
 	}
 
 	updateModifierPopup(html) {
@@ -458,7 +532,7 @@ export class CityRoll {
 		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		this.#prepareModifiers();
 		let {power} = CityRoll.getPower(	this.#options);
-		console.log(`Update Power ${power}`);
+		// console.log(`Update Power ${power}`);
 		$(html).find(".move-power").text(String(power));
 	}
 
@@ -473,8 +547,7 @@ export class CityRoll {
 			&& x.items.find( i => i.id == itemId)
 		).items
 			.find(i => i.id == itemId);
-		const amount = clue.data.data.amount;
-		// $(html).find("#help-slider").val(1);
+		const amount = clue.system.amount;
 		$(html).find("#help-slider").prop("max", amount);
 		$(html).find(".slidervalue").html(1);
 		if (amount)
@@ -493,7 +566,6 @@ export class CityRoll {
 			logosRoll: true,
 			setRoll: 0
 		});
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async mythosRoll () {
@@ -503,7 +575,6 @@ export class CityRoll {
 			mythosRoll: true,
 			setRoll: 0
 		});
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async SHBRoll (_move_id, _actor, type = "Logos") {
@@ -518,7 +589,6 @@ export class CityRoll {
 			rollOptions.mythosRoll = true;
 		}
 		mergeObject(this.#options, rollOptions);
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	async noRoll (_move_id, _actor) {
@@ -528,7 +598,6 @@ export class CityRoll {
 			noRoll: true
 		};
 		mergeObject(this.#options, rollOptions);
-		// await CityRoll.execRoll(move_id, actor, rollOptions);
 	}
 
 	static async diceModListeners (_app, html, _data) {
@@ -552,10 +621,11 @@ export class CityRoll {
 		const modifierId = getClosestData(event, "modifierId");
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
+		message.rolls.forEach( roll => {
 		const modifier = roll.options.modifiers
 			.find(x=> x.id == modifierId);
 		modifier.strikeout = !modifier.strikeout;
+		});
 		await CityRoll._updateMessage(messageId);
 
 	}
@@ -564,11 +634,25 @@ export class CityRoll {
 		event.preventDefault();
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
-		const options = roll.options;
-		const listitem = getClosestData(event, "listitem");
-		// let templateData  = getClosestData(event, "templateData");
-		const item = options.moveList.find( x=> x.text == listitem);
+		const roll = message.rolls[0];
+		const {power, adjustment} = CityRoll.getPower(roll.options);
+		const {total, roll_adjustment} = CityRoll.getTotal(roll);
+		const move = (await CityHelpers.getMoves()).find(x=> x.id == roll.options.moveId);
+		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
+		let moveList = message.getFlag("city-of-mist", "checkedOptions") ??
+			moveListRaw;
+		const listitem = getClosestData(event, "origtext");
+		let item = moveList.find( x=> x.origText === listitem);
+		if (!item) {
+			Debug(moveList);
+			if (moveList == moveListRaw)
+				throw new Error(`Couldn't find ${listitem}`);
+			moveList = moveListRaw
+			item = moveList.find( x=> x.origText === listitem);
+			if (!item)
+				throw new Error(`Couldn't find ${listitem}`);
+		}
 		if (item.cost == undefined)
 			item.cost = 1;
 		if (item.cost < 0) {
@@ -582,11 +666,7 @@ export class CityRoll {
 		}
 		if (!item)
 			throw new Error(`Item ${listitem} not found`);
-		const {power, adjustment} = CityRoll.getPower(roll.options);
-		const {total, roll_adjustment} = CityRoll.getTotal(roll);
-		const roll_status = CityRoll.getRollStatus(total, options);
-		const move = (await CityHelpers.getMoves()).find(x=> x.id == options.moveId);
-		options.max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const truecost = Math.abs(item.cost);
 		let current_choices = 0;
 		$(event.target).closest(".move-list").find(".roll-selector-checkbox:checked").each ( function ()  {
@@ -595,37 +675,81 @@ export class CityRoll {
 			current_choices += Math.abs(Number(cost));
 		});
 
-		if (!item.checked && current_choices <= options.max_choices) {
-			options.curr_choices = current_choices;
-			item.checked = true;
-		} else if (item.checked) {
-			options.curr_choices = current_choices - truecost;
+		if (item.checked) {
+			// console.log("unchecking box");
 			item.checked = false;
+		} else if (!item.checked && current_choices <= max_choices) {
+			// console.log("checking box");
+			item.checked = true;
+		} else {
+			console.warn("invalid choice");
+			return false;
 		}
+		await message.setFlag("city-of-mist", "checkedOptions", moveList);
 		return await CityRoll._updateMessage(messageId);
 	}
 
 	static async _editRoll (event) {
 		if (!game.user.isGM)
 			return true;
-		// const templateData  = getClosestData(event, "templateData");
 		const messageId  = getClosestData(event, "messageId");
 		const message = game.messages.get(messageId);
-		const rollOptions = message.roll.options;
-		await CityRoll.getModifierBox(rollOptions); // Poor style here since getModBox actually modifiers the options its given, consider refactor
-		await CityRoll._updateMessage(messageId);
+		const roll = message.rolls[0];
+		const rollOptions = roll.options;
+		await CityDialogs.getRollModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
+		await CityRoll._updateMessage(messageId, roll);
 	}
 
-	static async _updateMessage (messageId) {
+	static async verifyCheckedOptions(checkedOptions, roll) {
+		const {power} = CityRoll.getPower(roll.options);
+		const moveId = roll.options.moveId;
+		const move = (await CityHelpers.getMoves()).find(x=> x.id == moveId);
+		if (!move)
+			throw new Error(`Coulodn't find move for some reason ${moveId}`);
+		const {total} = this.getTotal(roll);
+		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
+		const curr_choices = checkedOptions?.filter( x=> x.checked)?.length ?? 0;
+		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
+		const isValid =checkedOptions && curr_choices <= max_choices;
+		if (isValid)  {
+			try {
+				return checkedOptions?.map ((item, index)  => {
+					item.text = moveListRaw[index].text;
+					return item;
+				}) ?? []; // reformat text for changed power
+			} catch (e) {
+				//TOOD: need to reset flags on a failed check
+				return null;
+				// return moveListRaw;
+			}
+		} else {
+			return null;
+			// return moveListRaw;
+		}
+	}
+
+	static async _updateMessage (messageId, newRoll = null) {
+		if (newRoll && !game.user.isGM)
+			console.warn("Trying to update roll as non-GM");
 		const message = game.messages.get(messageId);
-		const roll = message.roll;
+		const roll = newRoll ?? message.rolls[0];
 		try {
-			const newContent = await CityRoll.#_getContent(roll);
+			const checkedOptions = await this.verifyCheckedOptions(
+				message.getFlag("city-of-mist", "checkedOptions"),
+				roll
+			);
+			Debug(checkedOptions);
+			let newContent;
+			if (checkedOptions)
+				newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});
+			else
+				newContent = await CityRoll.#_getContent(roll);
 			let msg;
 			if (game.user.isGM)
 				msg = await message.update( {
 					content: newContent,
-					roll: roll.toJSON()
+					roll: roll.toJSON(),
 				});
 			else
 				msg = await message.update( {
@@ -639,46 +763,6 @@ export class CityRoll {
 		return true;
 	}
 
-	static async getModifierBox (rollOptions) {
-		let dynamiteAllowed = rollOptions.dynamiteAllowed;
-		const title = `Make Roll`;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", rollOptions);
-		return await  new Promise ( (conf, reject) => {
-			const options = {};
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: "Confirm",
-						callback: (html) => {
-							const modifier = Number($(html).find("#roll-modifier-amt").val());
-							if (modifier != 0)
-								rollOptions.modifiers.push ( {
-									id: "MC Edit" + Math.random(),
-									name: localize("CityOfMist.terms.MCEdit"),
-									amount: modifier,
-									ownerId: null,
-									tagId: null,
-									type: "modifier"
-								});
-							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
-							rollOptions.dynamiteAllowed = dynamiteAllowed;
-							conf(rollOptions);
-						},
-					},
-					two: {
-						icon: '<i class="fas fa-times"></i>',
-						label: "Cancel",
-						callback: () => conf(null)
-					}
-				},
-				default: "one"
-			}, options);
-			dialog.render(true);
-		});
-	}
 
 } //end of class
 

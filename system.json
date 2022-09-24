@@ -1,14 +1,22 @@
 {
-	"name": "city-of-mist",
+	"id": "city-of-mist",
 	"title": "City of Mist",
 	"description": "City of Mist RPG",
 	"author": "taragnor",
-	"authors": [],
+	"authors": [{
+		"name": "Taragnor",
+		"url":"",
+		"discord":"Taragnor#3338"
+	}],
 	"url": "https://github.com/taragnor/city-of-mist/",
 	"flags": {},
-	"version": "2.4.6",
-	"minimumCoreVersion": "0.9.0",
-	"compatibleCoreVersion": "9",
+	"version": "2.5.0",
+	"compatibleCoreVersion": "10",
+	"compatibility": {
+		"minimum": "10",
+		"verified": "10.285",
+		"maximum": "10"
+	},
 	"scripts": [],
 	"esmodules": [
 		"module/city.js"
@@ -31,7 +39,7 @@
 		  "label": "Themebooks",
 		  "system": "city-of-mist",
 		  "path": "./packs/themebooks.db",
-		  "entity": "Item",
+		  "type": "Item",
 		  "private": false
 	  },
 	  {
@@ -39,7 +47,7 @@
 		  "label": "Moves",
 		  "system": "city-of-mist",
 		  "path": "./packs/moves.db",
-		  "entity": "Item",
+		  "type": "Item",
 		  "private": false
 	  },
 	  {
@@ -47,7 +55,7 @@
 		  "label": "Moments of Evolution",
 		  "system": "city-of-mist",
 		  "path": "./packs/BUImprovements.db",
-		  "entity": "Item",
+		  "type": "Item",
 		  "private": false
 	  },
 	  {
@@ -55,14 +63,16 @@
 		  "label": "Macros",
 		  "system": "city-of-mist",
 		  "path": "./packs/macro.db",
-		  "entity": "Macro",
+		  "type": "Macro",
 		  "private": false
 	  }
   ],
-  "system": [],
-  "dependencies": [],
-  "socket": false,
+  "relationships": {
+	  "systems": [],
+	  "requires": []
+  },
+  "socket": true,
   "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
-  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.2.4.6.zip",
+  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.2.5.0.zip",
   "protected": false
 }

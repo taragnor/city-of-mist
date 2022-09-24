@@ -3,6 +3,22 @@
 		<span>Power:</span>
 		<span class="move-power">{{power}}</span>
 	</div>
+	<div class="taglist">
+		{{#each tags as |tag|}}
+		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=tag.parent locked=true sheetowner=null canBurn=false data=tag.system}}
+		{{/each}}
+	</div>
+	<div class="statuslist">
+		<ul>
+		{{#each statuses as |status|}}
+		<li class="status" > <span class="name">{{status.name}} - {{status.tier}} </span>
+		</li>
+		{{/each}}
+		</ul>
+	</div>
+	<div class="juice-section">
+	</div>
+	<div>
 	<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
 	<input id="roll-modifier-amt" type="number" value="0">
 	<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>

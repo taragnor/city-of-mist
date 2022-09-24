@@ -5,7 +5,7 @@ import { HTMLTools } from "./tools/HTMLTools.mjs";
 import { CityLogger } from "./city-logger.mjs";
 import { Sounds } from "./tools/sounds.mjs";
 import { TokenTools } from "./tools/token-tools.mjs";
-
+import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CityHelpers {
 
@@ -58,6 +58,11 @@ export class CityHelpers {
 		return await this.playSound("button-off.mp3");
 	}
 
+	static async playPing() {
+		return await this.playSound("beep.wav");
+	}
+
+
 	static async playWriteJournal() {
 		return await this.playSound("button-on.mp3");
 	}
@@ -73,14 +78,17 @@ export class CityHelpers {
 	static getOwner(ownerId, tokenId, sceneId) {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
-		if (!sceneId) {
+	 if (!tokenId) {
 			const id = CityHelpers.findAllById(ownerId) ;
 			if (!id) throw new Error (`Can't find owner for ownerId ${ownerId}`);
 			return id;
 		} else {
-			const scene = game.scenes.find (x=> x.id == sceneId);
+			const scene = game.scenes.find (x=> x.id == sceneId) ??
+				game.scenes.find( scene => scene.tokens.some(
+					token=> token.id == tokenId && !token.isLinked)
+				);
 			if (!scene)
-				throw new Error(` Couldn't find Scene ID ${sceneId}`);
+				return this.getOwner(ownerId);
 			if (!tokenId)
 				throw new Error(` No Token Id provided`);
 			const sceneTokenActors = this.getSceneTokenActors(scene);
@@ -118,7 +126,7 @@ export class CityHelpers {
 		const created = token.actor;
 		created._tokenname = token.name;
 		created._tokenid = token.name;
-		created._hidden = token.data.hidden;
+		created._hidden = token.hidden;
 		return created;
 	}
 
@@ -150,76 +158,7 @@ export class CityHelpers {
 	}
 
 	static async narratorDialog(container= null) {
-		if (game.users.current.role != 4)
-			return;
-		if (!game.user.isGM)
-			return;
-		// support function
-		const getCaret = function getCaret(el) {
-			if (el.selectionStart) {
-				return el.selectionStart;
-			} else if (document.selection) {
-				el.focus();
-				var r = document.selection.createRange();
-				if (r == null) {
-					return 0;
-				}
-				var re = el.createTextRange(), rc = re.duplicate();
-				re.moveToBookmark(r.getBookmark());
-				rc.setEndPoint('EndToStart', re);
-				return rc.text.length;
-			}
-			return 0;
-		};
-		if (!container)
-			container = game.actors.find(x => x.data.type == "storyTagContainer");
-		let html = new String();
-		html += `<textarea class="narrator-text"></textarea>`;
-		const submit = async function (html) {
-			const text = $(html).find(".narrator-text").val();
-			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
-			if (container)
-				for ( const tagName of taglist.map(x=>x.name) )
-					await container.createStoryTag(tagName);
-			await CityHelpers.sendNarratedMessage(modified_html);
-		}
-		const options = {width: 900, height: 800};
-		const dialog = new Dialog({
-			title: `GM Narration`,
-			content: html,
-			render: (html) => {
-				setTimeout ( () => $(html).find(".narrator-text").focus(), 10); //delay focus to avoid keypress showing up in window
-				$(html).find(".narrator-text").keypress(function (event) {
-					if (event.keyCode == 13) { //enter key
-						const content = this.value;
-						const caret = getCaret(this); //bug here that splits string poorly
-						event.preventDefault();
-						if (event.shiftKey)  {
-							this.value = content.substring(0, caret ) + "\n" + content.substring(caret, content.length);
-							event.stopPropagation();
-						} else {
-							event.stopPropagation();
-							const defaultChoice = dialog.data.buttons.one;
-							return dialog.submit(defaultChoice);
-						}
-					}
-				});
-			},
-			buttons: {
-				one: {
-					icon: '<i class="fas fa-check"></i>',
-					label: "Add",
-					callback: (html) => submit(html)
-				},
-				two: {
-					icon: '<i class="fas fa-times"></i>',
-					label: "Cancel",
-					callback: () => false
-				}
-			}
-		}, options);
-		if (!$(document).find(".narrator-text").length)
-			dialog.render(true);
+		return await CityDialogs.narratorDialog(container);
 	}
 
 	static parseTags(text) {
@@ -409,10 +348,10 @@ export class CityHelpers {
 	}
 
 	static async refreshTokenActorsInScene(scene) {
-		const scenetokens = scene.data.tokens;
+		const scenetokens = scene.tokens;
 		const characterActors = scenetokens
 			.filter( x => x.isLinked &&
-				x.actor.data.type == "character")
+				x.actor.type == "character")
 			.map (x => x.actor);
 		for (const dep of characterActors) {
 			const state = dep.sheet._state
@@ -478,7 +417,7 @@ export class CityHelpers {
 	static rightClick (handler) { return HTMLTools.rightClick(handler); }
 
 	static getDefaultTagDirection(tag, tagowner, _actor) {
-		const subtype = tag?.data?.data?.subtype;
+		const subtype = tag?.system?.subtype;
 		try {
 			switch (subtype) {
 				case "power": return 1;
@@ -500,12 +439,52 @@ export class CityHelpers {
 
 	static async sessionEnd() {
 		if (!game.user.isGM) return;
-		if	(await CityHelpers.confirmBox( "End Session", "Execute End of Session Move?", true)) {
-			const move = CityHelpers.getMoves().find (x=> x.data.data.effect_class.includes("SESSION_END") )
-			await CityRoll.noRoll(move.id, null);
+		const eos = localize("CityOfMist.dialog.endOfSession.name");
+		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
+		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
+			const move = CityHelpers.getMoves()
+				.find (x=> x.system.effect_class.includes("SESSION_END") );
+			await CityRoll.execMove(move.id, null);
 			for (let actor of game.actors)
 				await actor.sessionEnd();
 		}
+	}
+
+	static async startDowntime() {
+		if (!game.user.isGM) return;
+		const PCList = await this.downtimePCSelector();
+		if (PCList === null) return;
+		for (const pc of PCList) {
+			await pc.onDowntime();
+		}
+		//TODO: Do downtime action selector (break up tag restore to own thing)
+		await this.triggerDowntimeMoves();
+	}
+
+	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
+	*/
+	static async downtimePCSelector() {
+		const downtime = localize("CityOfMist.moves.downtime.name");
+		const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
+		const PCList = game.actors.filter(x=> x.is_character());
+		const idList =  await HTMLTools.PCSelector(PCList, downtime, downtimeQuery);
+		return idList.map( id => PCList.find( actor => actor.id == id))
+	}
+
+	static async triggerDowntimeMoves() {
+		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
+		const dangermoves = tokens
+			.filter(actor => actor.is_danger_or_extra())
+			.map(actor=> actor.getGMMoves())
+			.filter(gmmovearr => gmmovearr.length > 0)
+			.flat(1)
+			.filter(gmmove => gmmove.isDowntimeTriggeredMove());
+		for (const move of dangermoves) {
+			if (game.user.isGM)
+				await move.GMMovePopUp();
+		}
+
+
 	}
 
 	static applyColorization() {
@@ -536,57 +515,6 @@ export class CityHelpers {
 		}
 		if (position)
 			await canvas.animatePan (position);
-	}
-
-	static async _statusAddSubDialog(status, title) {
-		//Utilized in Status Tracker
-		const templateData = {status: status.data, data: status.data.data};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-		return new Promise ( (conf, reject) => {
-			const options ={};
-			const returnfn = function (html, tier) {
-				conf( {
-					name: $(html).find(".status-name-input").val(),
-					tier
-				});
-			}
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				buttons: {
-					one: {
-						label: "1",
-						callback: (html) => returnfn(html, 1)
-					},
-					two: {
-						label: "2",
-						callback: (html) => returnfn(html, 2)
-					},
-					three: {
-						label: "3",
-						callback: (html) => returnfn(html, 3)
-					},
-					four: {
-						label: "4",
-						callback: (html) => returnfn(html, 4)
-					},
-					five: {
-						label: "5",
-						callback: (html) => returnfn(html, 5)
-					},
-					six: {
-						label: "6",
-						callback: (html) => returnfn(html, 6)
-					},
-					cancel: {
-						label: "Cancel",
-						callback: () => conf(null)
-					}
-				},
-				default: "cancel"
-			}, options);
-			dialog.render(true);
-		});
 	}
 
 	static entranceMovesEnabled() {
@@ -623,7 +551,7 @@ return game.settings.get("city-of-mist", "statusAdditionSystem");
 	}
 
 	static getStatusSubtractionSystem() {
-return game.settings.get("city-of-mist", "statuSubtractionSystem");
+return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static isCommutativeStatusAddition() {
@@ -677,6 +605,10 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 
 	}
 
+	static getMaxWeaknessTags() {
+		return game.settings.get('city-of-mist', "maxWeaknessTags") ?? 999;
+	}
+
 	static getRollCap() {
 		return game.settings.get("city-of-mist", "maxRollCap");
 	}
@@ -698,19 +630,241 @@ return game.settings.get("city-of-mist", "statuSubtractionSystem");
 				game.settings.set("city-of-mist", "movesInclude_core", "classic");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
-				game.settings.set("city-of-mist", "statuSubtractionSystem", "classic");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
 				return;
 			case "reloaded":
 				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
-				game.settings.set("city-of-mist", "statuSubtractionSystem", "reloaded");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
 				return;
 			case "custom":
 				return;
 			default:
 				console.error(`Unknown System ${system}`);
 		}
+	}
+
+	static async _statusAddSubDialog(status, title,type ="addition") {
+		const classic = CityHelpers.isClassicCoM(type);
+		const reloaded = CityHelpers.isCoMReloaded(type);
+		const templateData = {status: status.data, data: status.system, classic, reloaded};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
+		return new Promise ( (conf, reject) => {
+			const options ={};
+			const returnfn = function (html, tier) {
+				conf( {
+					name: $(html).find(".status-name-input").val(),
+					tier
+				});
+			}
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					cancel: {
+						label: "Cancel",
+						callback: () => conf(null)
+					},
+					one: {
+						label: "1",
+						callback: (html) => returnfn(html, 1)
+					},
+					two: {
+						label: "2",
+						callback: (html) => returnfn(html, 2)
+					},
+					three: {
+						label: "3",
+						callback: (html) => returnfn(html, 3)
+					},
+					four: {
+						label: "4",
+						callback: (html) => returnfn(html, 4)
+					},
+					five: {
+						label: "5",
+						callback: (html) => returnfn(html, 5)
+					},
+					six: {
+						label: "6",
+						callback: (html) => returnfn(html, 6)
+					},
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+	}
+
+	static _playerActivatedStuff = [];
+
+	/** returns shorthand version of tags and statuses
+	*/
+	static getPlayerActivatedTagsAndStatus() {
+		//TODO: return only valid tags and status (not on deleted tokens)
+		return this._playerActivatedStuff
+			.filter( ({id, ownerId, tokenId, type, subtype}) => {
+				try {
+					const owner = CityHelpers.getOwner(ownerId, tokenId) ;
+					if (!owner) return false;
+					if (tokenId) {
+						const found = game.scenes
+							.find( scene => scene.tokens
+								.some( token => token.id == tokenId)
+							);
+						if (!found)
+							return false;
+					}
+					return owner.getTags().concat(owner.getStatuses()).some( x=> x.id == id && !x.isBurned());
+				} catch (e) {
+					console.warn(`Couldn't verify ${type} tag on ${id}`);
+					Debug({id, ownerId, tokenId, type, subtype});
+					return false;
+				}
+			});
+	}
+
+	/** returns full foundry objects for tags and statuses
+	*/
+	static getPlayerActivatedTagsAndStatusItems() {
+		return this.resolveTagAndStatusShorthand(this.getPlayerActivatedTagsAndStatus());
+	}
+
+
+	static resolveTagAndStatusShorthand(shorthandObjArr) {
+		return shorthandObjArr.map ( ({id, ownerId, tokenId}) => {
+			return CityHelpers.getOwner(ownerId, tokenId).getItem(id);
+		});
+
+	}
+
+
+	static activateTag( tag, direction= 1) { this.activateSelectedItem(tag, direction); }
+
+	static activateStatus(status, direction= 1) { this.activateSelectedItem(status, direction); }
+
+
+	static activateSelectedItem(tagOrStatus, direction = 1) {
+		const x = tagOrStatus;
+		const tagOwner = tagOrStatus?.parent;
+		const tokenId = tagOwner?.token?.id ?? null;
+		const tag = x.type == "tag" ? tagOrStatus : null;
+		const subtype = tag ? tag.system.subtype : "";
+		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
+		const newItem = {
+			name: x.name,
+			id: x.id,
+			amount,
+			ownerId: tagOwner?.id ?? null ,
+			tagId: tag ? x.id : null,
+			type: x.type,
+			description: tag ? tag.system.description : "",
+			subtype,
+			strikeout: false,
+			tokenId
+		}
+		this._playerActivatedStuff.push(newItem);
+	}
+
+	static removeSelectedItem(tagOrStatusId) {
+		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> x.id != tagOrStatusId);
+	}
+
+	/** returns -1, 0, 1 for which direction activateabley is set in
+	*/
+	static toggleSelectedItem(tagOrStatus, direction= 1) {
+		// Debug(tagOrStatus);
+		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id);
+		if (item) {
+			if (item.amount * direction >= 0) { //tests if sign of these is the same
+				this.removeSelectedItem(tagOrStatus.id);
+				return 0;
+			} else {
+				item.amount *=  -1;
+				return item.amount;
+
+			}
+		} else {
+			this.activateSelectedItem(tagOrStatus, direction);
+			return direction;
+		}
+	}
+
+	static clearAllActivatedItems() {
+		this._playerActivatedStuff = [];
+	}
+
+	static async sendToChatBox(title, text, options = {}) {
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
+		const render = options?.disable ? (args) => {
+			console.log("Trying to disable");
+			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
+		} : () => 0;
+
+		let sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor) {
+			alias = actor.getDisplayedName();
+		}
+		return new Promise( (conf, rej) => {
+			const options = {};
+			let dialog = new Dialog({
+				title: `${title}`,
+				content: text,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: label,
+						callback: async() => conf(CityHelpers.sendToChat(text, sender)),
+						// callback: async() => conf(CityHelpers.sendToChat(text, sender)),
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: async () => conf(null)
+					}
+				},
+				default: "two",
+				render
+			}, options);
+			dialog.render(true);
+		});
+	}
+
+	static async GMMoveTextBox(title, text, options = {}) {
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
+		const render = options?.disable ? (args) => {
+			console.log("Trying to disable");
+			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
+		} : () => 0;
+
+		let sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor) {
+			alias = actor.getDisplayedName();
+		}
+		return new Promise( (conf, rej) => {
+			const options = {};
+			let dialog = new Dialog({
+				title: `${title}`,
+				content: text,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: label,
+						callback: async() => conf(true),
+						// callback: async() => conf(CityHelpers.sendToChat(text, sender)),
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: async () => conf(null)
+					}
+				},
+				default: "two",
+				render
+			}, options);
+			dialog.render(true);
+		});
 	}
 
 } //end of class
