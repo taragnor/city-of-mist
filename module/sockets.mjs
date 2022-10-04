@@ -50,7 +50,7 @@ export class SocketInterface {
 				newSession.handleMessage(msg);
 				return;
 			} else {
-				console.warn(`Unhandled Data Object Type in socekt ${msg.type}`);
+				console.warn(`Unhandled Data Object Type in socekt  ${msg.type} in session ${msg.sessionType}, ID: ${sId}`);
 			}
 		}
 	}
@@ -71,6 +71,7 @@ export class SocketInterface {
 		this.#sessions.set(masterSession.id, masterSession);
 		masterSession.setSocketInterface(this);
 		const ret= await masterSession.start();
+		console.log("Destroying Session");
 		masterSession.destroy();
 		this.removeSession(masterSession);
 		return ret;
@@ -154,8 +155,10 @@ class Session {
 		await this.send(Session.codes.notify, dataObj, metaObj);
 	}
 
+	static counter = 0;
+
 	static newId() {
-		return game.user.id + "_" +  Date.now();
+		return game.user.id + "_" +  Date.now() + "_" + this.counter++;
 	}
 
 	defaultTimeOut(userId) {

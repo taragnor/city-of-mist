@@ -3,7 +3,7 @@ import { CityDB } from "./city-db.mjs";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {CityDialogs } from "./city-dialogs.mjs";
 import {CitySockets} from "./city-sockets.mjs";
-import {JuiceSpendingSessionM, JuiceMasterSession, JuiceSlaveSession} from "./city-sessions.mjs";
+import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
 
 export class CityRoll {
 	#roll;
@@ -399,18 +399,18 @@ export class CityRoll {
 		let power = 0; //placeholder
 		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tags: activeTags, statuses: activeStatus};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
-		let session = null;
+		let juiceSession = null, gmSession = null;
 		const rollOptions = await new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
 				content: html,
 				close : (html) => {
-					session.destroy();
+					juiceSession.destroy();
 					conf(null);
 				},
 				render: (html) => {
-					session =new JuiceMasterSession( (ownerId, direction, amount) => {
+					juiceSession =new JuiceMasterSession( (ownerId, direction, amount) => {
 						//handler function when it recieves juice
 						const owner = CityHelpers.getOwner(ownerId);
 						const type = (direction > 0)
@@ -424,7 +424,7 @@ export class CityRoll {
 						this.activateHelpHurt(owner, amount, direction, actor.id);
 						this.updateModifierPopup(html);
 					}, actor.id, move_id)
-					session.addNotifyHandler("pending", (dataObj) => {
+					juiceSession.addNotifyHandler("pending", (dataObj) => {
 						console.log("Notify Handler tripped");
 						const {type, ownerId} = dataObj;
 						const owner = CityHelpers.getOwner(ownerId);
@@ -435,7 +435,7 @@ export class CityRoll {
 							//TODO: program lock on button
 						};
 					});
-					CitySockets.execSession(session);
+					CitySockets.execSession(juiceSession);
 					this.updateModifierPopup(html);
 					$(html).find("#help-dropdown").change((ev) => {
 						$(html).find("#help-slider").val(1);
@@ -448,11 +448,18 @@ export class CityRoll {
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM) {
-						// confirmButton.prop("disabled", true);
-						// confirmButton.oldHTML = confirmButton.html();
-						// confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
-						// confirmButton.addClass("disabled");
-						//TODO: add watch to re-enable the button
+						gmSession = new TagReviewMasterSession( activated);
+						const finalModifiers = CitySockets.execSession(gmSession);
+						confirmButton.prop("disabled", true);
+						confirmButton.oldHTML = confirmButton.html();
+						confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
+						confirmButton.addClass("disabled");
+						finalModifiers.then( (mods) => {
+							confirmButton.prop("disabled", false);
+							confirmButton.html(confirmButton.oldHTML);
+							confirmButton.removeClass("disabled");
+							//TODO: replace tag list with new
+						});
 					}
 
 				},
@@ -462,7 +469,7 @@ export class CityRoll {
 						label: "Confirm",
 						callback: (html) => {
 							this.updateModifierPopup(html);
-							session.destroy();
+							juiceSession.destroy();
 							conf(true);
 						},
 					},
@@ -470,7 +477,7 @@ export class CityRoll {
 						icon: '<i class="fas fa-times"></i>',
 						label: "Cancel",
 						callback: () => {
-							session.destroy();
+							juiceSession.destroy();
 							conf(null);
 						}
 					}

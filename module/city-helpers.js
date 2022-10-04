@@ -213,7 +213,7 @@ export class CityHelpers {
 				return before;
 			}
 			const parts2 = rest.split("}");
-			const inner = parts2.shift();
+			// const inner = parts2.shift();
 			const after = parts2.join("}");
 			text = before + after;
 		}
@@ -805,6 +805,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 			description: tag ? tag.system.description : "",
 			subtype,
 			strikeout: false,
+			review: "pending",
 			tokenId
 		}
 		this._playerActivatedStuff.push(newItem);

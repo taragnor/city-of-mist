@@ -360,5 +360,51 @@ export class CityDialogs {
 			dialog.render(true);
 		});
 	}
+
+	static async tagReview(tagList) {
+		if (tagList.length == 0) {
+			return {state: "approved", tagList};
+		}
+		const templateData = {
+			tagList
+		};
+		const options = {};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
+		return await new Promise ( (conf, reject) => {
+			const dialog = new Dialog( {
+				title:localize("CityOfMist.dialog.tagReview.title"),
+				content: html,
+				render: (html) => {
+
+				},
+				close: (_html) => {
+					const state = tagList.every(x=> x.review == "approved") ?
+						"approved" : "pending";
+					conf ({state, tagList});
+				},
+				buttons: {
+					okay: {
+						icon: '<i class="fas fa-check"></i>',
+						label: localize("CityOfMist.dialog.tagReview.Okay"),
+						callback: (html) => {
+							const state = tagList.every(x=> x.review == "approved") ?
+								"approved" : "pending";
+							conf ({state, tagList});
+						},
+					},
+					approveAll: {
+						label: localize("CityOfMist.dialog.tagReview.ApproveAll"),
+						callback: (_html) => {
+							tagList.forEach( tag => tag.review = "approved");
+							const state = tagList.every(x=> x.review == "approved") ?
+								"approved" : "pending";
+							conf ({state, tagList});
+						},
+					},
+				},
+			}, options);
+			dialog.render(true);
+		});
+	}
 }
 

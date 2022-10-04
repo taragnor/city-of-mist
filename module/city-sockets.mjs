@@ -20,6 +20,7 @@ export class CitySockets {
 		this.sockets.addSlaveSessionConstructor(DummyMasterSession, DummySlaveSession);
 		this.sockets.addSlaveSessionConstructor(JuiceMasterSession, JuiceSlaveSession);
 		this.sockets.addSlaveSessionConstructor(JuiceSpendingSessionM, JuiceSpendingSessionS);
+		this.sockets.addSlaveSessionConstructor(TagReviewMasterSession, TagReviewSlaveSession);
 	}
 
 	static async test() {

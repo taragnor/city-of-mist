@@ -34,15 +34,6 @@ export class JuiceMasterSession extends MasterSession {
 
 	onJuiceReply({juiceOwnerId, direction, amount}, _meta, senderId) {
 		this.onUpdateFn(juiceOwnerId, direction, amount);
-		// const owner = CityHelpers.getOwner(ownerId);
-		// const html = this.html;
-		// const type = (direction > 0)
-		// 	? localize("CityOfMist.terms.help")
-		// 	: localize("CityOfMist.terms.hurt");
-		// html.find("div.juice-section")
-		// 	.append( `<div class='juice'> ${owner.name} ${type} </div>`);
-		// CityHelpers.activateHelpHurt(owner, juiceId, amount, direction);
-		// this.refreshFn();
 	}
 
 }
@@ -91,10 +82,63 @@ export class JuiceSlaveSession extends SlaveSession {
 }
 
 export class TagReviewMasterSession extends MasterSession {
-	//TODO: finish this
+	constructor( tagList ) {
+		super();
+		this.tagList = tagList;
+	}
+
+	setHandlers() {
+		super.setHandlers();
+		this.setReplyHandler("tagReview", this.onReply.bind(this));
+	}
+
+	async start() {
+		this.registerSubscribers( game.users.filter( x=> x.isGM));
+		let result = {
+			state: "pending",
+			tagList : null
+		};
+
+		while (result.state != "approved") {
+			console.log("Main loop");
+			const sendObj = {
+				tagList: this.tagList
+			};
+			try {
+				const results = await this.request("tagReview", sendObj);
+				result = results[0]?.value;
+				if (!result) throw new Error("Empty result");
+				console.log(`Result Recieved: ${result?.state}`);
+				this.tagList = result.tagList;
+			} catch (e) {
+				console.error(e);
+				ui.notifications.error("Problem resolving result from Tag Verify");
+				throw new Error("AAAHAHHH!!");
+			}
+		}
+		console.log("exiting master");
+		return this.tagList;
+	}
+
+	onReply( dataObj, meta) {
+		console.log(`reply Recieved : ${dataObj?.state} `)
+	}
 }
 
 export class TagReviewSlaveSession extends SlaveSession {
+	setHandlers() {
+		super.setHandlers();
+		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
+	}
+
+	async onReviewRequest(replyFn, dataObj) {
+		const tagList = dataObj.tagList;
+		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList);
+		replyFn ( {
+			tagList: newTagList,
+			state
+		});
+	}
 
 }
 

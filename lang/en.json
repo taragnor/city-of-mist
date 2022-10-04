@@ -360,6 +360,10 @@
 "CityOfMist.dialog.spendHelpHurt.spendHelp": "Help",
 "CityOfMist.dialog.spendHelpHurt.spendHurt": "Hurt",
 
+"CityOfMist.dialog.tagReview.title": "Review Tags",
+"CityOfMist.dialog.tagReview.ApproveAll" : "Approve All",
+"CityOfMist.dialog.tagReview.Okay": "confirm",
+
 "CityOfMist.settings.gritMode.name": "Grit Mode",
 "CityOfMist.settings.gritMode.hint": "Enables Grit Mode (as described in the rules)",
 
