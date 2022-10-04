@@ -479,8 +479,8 @@ export class CityItem extends Item {
 
 	}
 
-	formatGMMoveText(actor) {
-		const text = this.system.description;
+	formatGMMoveText(actor, options = {showPrivate: false}) {
+		const text = CityHelpers.spacesSubstitution(this.system.description);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);
 		let collective_size = actor.system?? 0;
@@ -488,7 +488,13 @@ export class CityItem extends Item {
 		if (Number.isNaN(collective_size)) {
 			collective_size = 0;
 		}
-		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(text, collective_size);
+		let displayedText = text;
+	if (!options?.showPrivate) {
+		displayedText = CityHelpers.removeWithinBraces(text);
+	} else {
+		displayedText = CityHelpers.formatWithinBraces(text);
+	}
+		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
 		if (actor)

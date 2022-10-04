@@ -419,6 +419,6 @@
 "CityOfMist.settings.system.2": "Custom",
 
 
-"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both.",
+"CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. Using [a:name] will make a status auto-applied when the move is triggered. Using [i:name] will ignore collective bonus. [a,i:name] will do both.&#013; Using {} around a block of text will make it visible only to the GM. That text will not post to chat",
 "CityOfMist.tooltip.error.missingParent": "ERROR: This tag needs to be a sub-tag of another tag."
 }

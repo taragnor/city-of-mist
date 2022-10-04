@@ -118,8 +118,8 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			).flat();
 		},
 
-		"formatGMMoveText": (move, actor) => {
-			const {html} = move.formatGMMoveText(actor);
+		"formatGMMoveText": (move, actor, showPrivate = false) => {
+			const {html} = move.formatGMMoveText(actor, {showPrivate});
 			return new Handlebars.SafeString(html);
 		},
 

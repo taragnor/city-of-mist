@@ -196,6 +196,48 @@ export class CityHelpers {
 		return text;
 	}
 
+	static spacesSubstitution(inputText) {
+		return inputText.split("\n").join("<br>").trim();
+	}
+
+	/** removes text that are between braces{}
+	**/
+	static removeWithinBraces(text = "") {
+		while (text.includes("{")) {
+			const parts = text.split("{");
+			const before = parts.shift();
+			const rest = parts.join("{");
+			if (!rest.includes("}") ) {
+				ui.notifications.error("No closing brace on GMMove");
+				return before;
+			}
+			const parts2 = rest.split("}");
+			const inner = parts2.shift();
+			const after = parts2.join("}");
+			// const [inner, after] = rest.split("}",2 );
+			text = before + after;
+		}
+		return text.trim();
+	}
+
+	static formatWithinBraces(text = "") {
+		while (text.includes("{")) {
+			const parts = text.split("{");
+			const before = parts.shift();
+			const rest = parts.join("{");
+			if (!rest.includes("}") ) {
+				ui.notifications.error("No closing brace on GMMove");
+				return before;
+			}
+			const parts2 = rest.split("}");
+			const inner = parts2.shift();
+			const after = parts2.join("}");
+			// const [inner, after] = rest.split("}",2 );
+			text = `${before} <span class="secret">${inner}</span> ${after}`
+		}
+		return text.trim();
+	}
+
 	static unifiedSubstitution(text, status_mod = 0) {
 		// const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
 		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;

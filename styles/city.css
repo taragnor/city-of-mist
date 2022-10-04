@@ -3017,3 +3017,7 @@ div.juice-pending {
 		opacity: 0;
 	}
 }
+
+span.secret {
+	opacity: 70%;
+}

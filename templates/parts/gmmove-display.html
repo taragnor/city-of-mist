@@ -7,7 +7,7 @@
 	</div>
 	<div class="gmmove-text">
 		<!-- {{{applyNameSubstitution move owner.id}}} -->
-				{{> "systems/city-of-mist/templates/parts/gmmove-part.hbs" actor=sheetowner move=move}}
+				{{> "systems/city-of-mist/templates/parts/gmmove-part.hbs" actor=sheetowner move=move showPrivate=true}}
 		{{#if (noteq sheetowner move.actor)}}
 		<div class="inherit-msg">
 			Inherited from {{move.actor.displayedName}}
