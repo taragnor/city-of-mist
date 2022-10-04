@@ -480,7 +480,7 @@ export class CityItem extends Item {
 	}
 
 	formatGMMoveText(actor, options = {showPrivate: false}) {
-		const text = CityHelpers.spacesSubstitution(this.system.description);
+		const text = CityHelpers.newlineSubstitution(this.system.description);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);
 		let collective_size = actor.system?? 0;

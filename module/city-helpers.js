@@ -196,7 +196,8 @@ export class CityHelpers {
 		return text;
 	}
 
-	static spacesSubstitution(inputText) {
+	/** swap out text newlines for <br> **/
+	static newlineSubstitution(inputText) {
 		return inputText.split("\n").join("<br>").trim();
 	}
 
@@ -214,12 +215,13 @@ export class CityHelpers {
 			const parts2 = rest.split("}");
 			const inner = parts2.shift();
 			const after = parts2.join("}");
-			// const [inner, after] = rest.split("}",2 );
 			text = before + after;
 		}
 		return text.trim();
 	}
 
+	/** Adds HTML span tag in polace of braces marking it as secret text
+	**/
 	static formatWithinBraces(text = "") {
 		while (text.includes("{")) {
 			const parts = text.split("{");
@@ -232,7 +234,6 @@ export class CityHelpers {
 			const parts2 = rest.split("}");
 			const inner = parts2.shift();
 			const after = parts2.join("}");
-			// const [inner, after] = rest.split("}",2 );
 			text = `${before} <span class="secret">${inner}</span> ${after}`
 		}
 		return text.trim();
