@@ -1188,7 +1188,7 @@ section.ally-card {
 	color: black;
 }
 
-.active-tag.default-negative:hover{
+.tag-selection-context .active-tag.default-negative:hover{
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1206,7 +1206,7 @@ section.ally-card {
 	transition: font-weight 0.1s;
 }
 
-.status-name:hover{
+.tag-selection-context .status-name:hover{
 
 	font-weight: bold;
 	border-radius: 0.8em 0.3em;
@@ -1222,7 +1222,7 @@ section.ally-card {
 
 	transition: font-weight 0.1s;
 }
-.active-tag.default-positive:hover {
+.tag-selection-context .active-tag.default-positive:hover {
 	font-weight: bold;
 
 	margin: 0 -0.4em;

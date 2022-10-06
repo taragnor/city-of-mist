@@ -38,7 +38,6 @@ export class JuiceMasterSession extends MasterSession {
 
 }
 
-
 export class JuiceSlaveSession extends SlaveSession {
 
 	setHandlers() {

@@ -6,7 +6,7 @@
 	</div>
 	{{#each actor.items as |status id|}}
 	{{#if (eq status.type "status")}}
-	{{> "systems/city-of-mist/templates/parts/status-name.hbs" status=status sheetowner=../sheetowner owner=status.parent locked=../locked}}
+	{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status sheetowner=../sheetowner owner=status.parent locked=../locked}}
 	{{/if}}
 	{{/each}}
 	{{#each otherStatuses as |character| }}
