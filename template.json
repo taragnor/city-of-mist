@@ -108,7 +108,16 @@
 			"temporary": false,
 			"permanent": false,
 			"parentId": "",
-			"subtagRequired": false
+			"subtagRequired": false,
+			"example0": "",
+			"example1": "",
+			"example2":"",
+			"counterexample0": "",
+			"counterexample1": "",
+			"counterexample2": "",
+			"restricton0": "",
+			"restricton1": "",
+			"restricton2": ""
 		},
 		"theme": {
 			"templates": ["default"],

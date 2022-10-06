@@ -342,6 +342,11 @@
 
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 
+"CityOfMist.dialog.tag.usageExamples": "Examples of where Tag would apply",
+"CityOfMist.dialog.tag.counterExamples": "Examples of where Tag wouldn't apply",
+"CityOfMist.dialog.tag.restrictions": "General Restrictions to the tag's usage",
+
+
 "CityOfMist.dialog.SHB.warning0":"Are you sure you want to Stop.Holding.Back?",
 "CityOfMist.dialog.SHB.warning1":"The consequences could be DIRE!",
 "CityOfMist.dialog.SHB.source":"Source of your power",
