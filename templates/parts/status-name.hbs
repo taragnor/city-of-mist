@@ -1,0 +1,28 @@
+<!--
+	"status": status passed in
+	"sheetowner": one who owsn this character sheet (null if no owner)
+	"locked": boolean
+-->
+
+
+	<div class="status-line status" data-status-id="{{status.id}}" data-owner-id="{{../owner.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+		<div class="flextiny">
+			{{#if (eq ../owner ../sheetowner)}}
+			<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
+			{{/if}}
+		</div>
+		<div class="flexlarge">
+			{{#if  status.system.temporary}}
+			<a title="Temporary Status" ><i class="fas fa-hourglass"></i> </a>
+			{{/if}}
+			{{#if  status.system.permanent}}
+			<a title="Permanent Status" ><i class="fas fa-square"></i> </a>
+			{{/if}}
+			<span class="status-name {{#if locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection sheetowner.id status.parent.id status.id) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection sheetowner.id status.parent.id status.id) -1)}} negative-selected {{/if}} {{#if (gt status.system.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.system.pips 0)}} {{status.system.pips}} pips {{/if}}">
+				{{status.name}}-{{status.system.tier}}
+			</span>
+			<a class="item-control status-add" title="Add to Status"><i class="fas fa-plus"></i></a>
+			<a class="item-control status-subtract" title="Subtract from Status"><i class="fas fa-minus"></i></a>
+		</div>
+	</div>
+

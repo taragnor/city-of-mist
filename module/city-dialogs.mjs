@@ -1,5 +1,6 @@
 import {CitySockets} from "./city-sockets.mjs";
 import {CityDB} from "./city-db.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 export class CityDialogs {
 
@@ -361,10 +362,11 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(tagList) {
-		if (tagList.length == 0) {
+	static async tagReview(simplifiedTagList) {
+		if (simplifiedTagList.length == 0) {
 			return {state: "approved", tagList};
 		}
+		const tagList = CityHelpers.resolveTagAndStatusShorthand(simplifiedTagList);
 		const templateData = {
 			tagList
 		};

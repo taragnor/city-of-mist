@@ -31,6 +31,8 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/themebook-questions.hbs",
 	  "systems/city-of-mist/templates/parts/tag-list-display.hbs",
 	  "systems/city-of-mist/templates/chatmessages/downtime-part.hbs",
+	  "systems/city-of-mist/templates/parts/status-name.hbs",
+	  "systems/city-of-mist/templates/parts/tag-or-status-name.hbs",
 
   ];
 

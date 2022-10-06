@@ -1,5 +1,5 @@
 {{#each tagList as |tag|}}
 <div>
-	ID :{{tag.id}}
+	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
 </div>
 {{/each}}
