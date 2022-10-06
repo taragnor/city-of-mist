@@ -68,60 +68,66 @@ export class EnhancedActorDirectory {
 			return this._renderInnerOld (data);
 		}
 
-		SidebarDirectory.prototype._oldOnSearchFilter = SidebarDirectory.prototype._onSearchFilter;
+  ActorDirectory.prototype._onSearchFilter = function (_event, query, rgx, html) {
+    const isSearch = !!query;
+    const documentIds = new Set();
+    const folderIds = new Set();
+    const autoExpandFolderIds = new Set();
 
-		SidebarDirectory.prototype._onSearchFilter = function () {
-			return this._oldOnSearchFilter.apply(this, arguments);
-		}
+    // Match documents and folders
+    if ( isSearch ) {
 
-		ActorDirectory.prototype._onSearchFilter = function(event, query, rgx, html) {
-			const isSearch = !!query;
-			let documentIds = new Set();
-			let folderIds = new Set();
+      // Include folders and their parents
+      function includeFolder(folder, autoExpand=true) {
+        if ( !folder ) return;
+        if ( folderIds.has(folder.id) ) return;
+        folderIds.add(folder.id);
+        if ( autoExpand ) autoExpandFolderIds.add(folder.id);
+        if ( folder.folder ) includeFolder(folder.folder); // Always autoexpand parent folders
+      }
 
-			// Match documents and folders
-			if ( isSearch ) {
+      // Match documents by name
+      for ( let d of this.documents ) {
+        if ( rgx.test(SearchFilter.cleanQuery(d?.directoryName || d.name)) ) {
+          documentIds.add(d.id);
+          includeFolder(d.folder);
+        }
+      }
 
-				// Match document names
-				for ( let d of this.documents ) {
-					if ( rgx.test(SearchFilter.cleanQuery(d.directoryName ?? d.name)) ) {
-						documentIds.add(d.id);
-						if ( d.folder ) folderIds.add(d.folder);
-					}
-				}
+      // Match folders by name
+      for ( let f of this.folders ) {
+        if ( rgx.test(SearchFilter.cleanQuery(f?.directoryName ?? f.name)) ) {
+          includeFolder(f, false);
+          for ( let d of this.documents.filter(x => x.folder === f) ) {
+            documentIds.add(d.id);
+          }
+        }
+      }
+    }
 
-				// Match folder tree
-				const includeFolders = fids => {
-					const folders = this.folders.filter(f => fids.has(f.id));
-					const pids = new Set(folders.filter(f => f.data.parent).map(f => f.data.parent));
-					if ( pids.size ) {
-						pids.forEach(p => folderIds.add(p));
-						includeFolders(pids);
-					}
-				};
-				includeFolders(folderIds);
-			}
+    // Toggle each directory item
+    for ( let el of html.querySelectorAll(".directory-item") ) {
 
-			// Toggle each directory item
-			for ( const el of html.querySelectorAll(".directory-item") ) {
+      // Documents
+      if (el.classList.contains("document")) {
+        el.style.display = (!isSearch || documentIds.has(el.dataset.documentId)) ? "flex" : "none";
+      }
 
-				// Documents
-				if (el.classList.contains("document")) {
-					el.style.display = (!isSearch || documentIds.has(el.dataset.documentId)) ? "flex" : "none";
-				}
+      // Folders
+      if (el.classList.contains("folder")) {
+        let match = isSearch && folderIds.has(el.dataset.folderId);
+        el.style.display = (!isSearch || match) ? "flex" : "none";
 
-				// Folders
-				if (el.classList.contains("folder")) {
-					let match = isSearch && folderIds.has(el.dataset.folderId);
-					el.style.display = (!isSearch || match) ? "flex" : "none";
-					if (isSearch && match) el.classList.remove("collapsed");
-					else el.classList.toggle("collapsed", !game.folders._expanded[el.dataset.folderId]);
-				}
-			}
-		}
+        if ( autoExpandFolderIds.has(el.dataset.folderId) ) {
+          if ( isSearch && match ) el.classList.remove("collapsed");
+          else el.classList.toggle("collapsed", !game.folders._expanded[el.dataset.folderId]);
+        }
+      }
+    }
+  }
 
 		ActorDirectory._sortAlphabetical = function (a, b) {
-			if (a.directoryName)
+			if (a?.directoryName)
 				return a.directoryName.localeCompare(b.directoryName);
 			else return a.name.localeCompare(b.name);
 		}
