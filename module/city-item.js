@@ -557,9 +557,9 @@ export class CityItem extends Item {
 				throw new Error("Something odd happened?");
 			default:
 				if (this.system?.locale_name)
-					return localizeS(this.system.locale_name);
+					return localizeS(this.system.locale_name).toString();
 				else
-					return this.name;
+					return this.name.toString();
 		}
 	}
 

@@ -448,7 +448,7 @@ export class CityRoll {
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM) {
-						gmSession = new TagReviewMasterSession( activated);
+						gmSession = new TagReviewMasterSession( activated, move_id);
 						const finalModifiers = CitySockets.execSession(gmSession);
 						confirmButton.prop("disabled", true);
 						confirmButton.oldHTML = confirmButton.html();

@@ -362,13 +362,16 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(simplifiedTagList) {
+	static async tagReview(simplifiedTagList, moveId) {
 		if (simplifiedTagList.length == 0) {
 			return {state: "approved", tagList};
 		}
+		const move = CityHelpers.getMoveById(moveId);
+		console.log(`Move Name:${move?.name} ID: ${moveId}`);
+		Debug(move);
 		const tagList = CityHelpers.resolveTagAndStatusShorthand(simplifiedTagList);
 		const templateData = {
-			tagList
+			tagList, move
 		};
 		const options = {};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);

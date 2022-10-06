@@ -81,9 +81,12 @@ export class JuiceSlaveSession extends SlaveSession {
 }
 
 export class TagReviewMasterSession extends MasterSession {
-	constructor( tagList ) {
+	constructor( tagList, moveId ) {
 		super();
 		this.tagList = tagList;
+		if (moveId == undefined)
+			throw new Error("no move Id given");
+		this.moveId = moveId;
 	}
 
 	setHandlers() {
@@ -95,13 +98,14 @@ export class TagReviewMasterSession extends MasterSession {
 		this.registerSubscribers( game.users.filter( x=> x.isGM));
 		let result = {
 			state: "pending",
-			tagList : null
+			tagList : null,
 		};
 
 		while (result.state != "approved") {
 			console.log("Main loop");
 			const sendObj = {
-				tagList: this.tagList
+				tagList: this.tagList,
+				moveId: this.moveId,
 			};
 			try {
 				const results = await this.request("tagReview", sendObj);
@@ -132,7 +136,8 @@ export class TagReviewSlaveSession extends SlaveSession {
 
 	async onReviewRequest(replyFn, dataObj) {
 		const tagList = dataObj.tagList;
-		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList);
+		const moveId = dataObj.moveId;
+		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList, moveId);
 		replyFn ( {
 			tagList: newTagList,
 			state

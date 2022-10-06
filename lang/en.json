@@ -78,6 +78,7 @@
 "CityOfMist.terms.hurt": "Hurt",
 "CityOfMist.terms.MoEs": "Moments of Evolution",
 "CityOfMist.terms.bio": "Bio",
+"CityOfMist.terms.move": "Move",
 "CityOfMist.terms.moves": "Moves",
 "CityOfMist.terms.coreMoves": "Core Moves",
 "CityOfMist.terms.specialMoves": "Special Moves",
@@ -366,7 +367,7 @@
 "CityOfMist.dialog.spendHelpHurt.spendHurt": "Hurt",
 
 "CityOfMist.dialog.tagReview.title": "Review Tags",
-"CityOfMist.dialog.tagReview.purpose": "MC can review tags for acceptableness on the move",
+"CityOfMist.dialog.tagReview.purpose": "MC can review tags for acceptableness on this move",
 "CityOfMist.dialog.tagReview.ApproveAll" : "Approve All",
 "CityOfMist.dialog.tagReview.Okay": "confirm",
 "CityOfMist.dialog.tagReview.approve": "Approve this tag/status",

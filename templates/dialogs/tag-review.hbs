@@ -1,4 +1,10 @@
 <div class="purpose"> {{localize "CityOfMist.dialog.tagReview.purpose"}} </div>
+<div class="move-name">
+	<span class="label">
+		{{localize "CityOfMist.terms.move"}}:
+	</span>
+	{{move.displayedName}}
+</div>
 {{#each tagList as |tag|}}
 <div>
 	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
