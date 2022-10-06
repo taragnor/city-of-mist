@@ -362,13 +362,11 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(simplifiedTagList, moveId) {
+	static async tagReview(simplifiedTagList, moveId, session) {
 		if (simplifiedTagList.length == 0) {
 			return {state: "approved", tagList};
 		}
 		const move = CityHelpers.getMoveById(moveId);
-		console.log(`Move Name:${move?.name} ID: ${moveId}`);
-		Debug(move);
 		const tagList = CityHelpers.resolveTagAndStatusShorthand(simplifiedTagList);
 		const templateData = {
 			tagList, move
@@ -380,6 +378,30 @@ export class CityDialogs {
 				title:localize("CityOfMist.dialog.tagReview.title"),
 				content: html,
 				render: (html) => {
+					$(html).find(".item-control.approved").click(
+						(event) => {
+							const tagId = getClosestData(event, "itemId");
+							const ownerId = getClosestData(event, "ownerId");
+							session.acceptTag(tagId, ownerId);
+							tagList.find(x => x.id == tagId).review = "approved";
+							CityDialogs.refreshDialog(html, tagList);
+						});
+					$(html).find(".item-control.request-clarification").click(
+						(event) => {
+							const tagId = getClosestData(event, "itemId");
+							const ownerId = getClosestData(event, "ownerId");
+							session.requestClarification(tagId, ownerId);
+							tagList.find(x => x.id == tagId).review = "challenged";
+							CityDialogs.refreshDialog(html, tagList);
+						});
+					$(html).find(".item-control.rejected").click(
+						(event) => {
+							const tagId = getClosestData(event, "itemId");
+							const ownerId = getClosestData(event, "ownerId");
+							session.rejectTag(tagId, ownerId);
+							tagList.find(x => x.id == tagId).review = "rejected";
+							CityDialogs.refreshDialog(html, tagList);
+						});
 
 				},
 				close: (_html) => {
@@ -411,5 +433,34 @@ export class CityDialogs {
 			dialog.render(true);
 		});
 	}
+
+	static async refreshDialog(html, tagList) {
+		console.log("Refeshing Dialog");
+		$(html).find(".item-control").each( function () {
+			const control = $(this);
+			console.log("Refeshing Dialog Item");
+			const id = getClosestData(control, "itemId");
+			const listItem = tagList.find( x=> x.id == id);
+			control.removeClass("active")
+			switch (listItem.review) {
+				case "pending":
+					break;
+				case "approved":
+					if (control.hasClass("approved"))
+						control.addClass("active")
+					break;
+				case "challenged":
+					if (control.hasClass("request-clarification"))
+						control.addClass("active")
+					break;
+				case "rejected":
+					if (control.hasClass("rejected"))
+						control.addClass("active")
+					break;
+			}
+
+		});
+	}
 }
+
 

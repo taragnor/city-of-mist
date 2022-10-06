@@ -3021,3 +3021,8 @@ div.juice-pending {
 span.secret {
 	opacity: 70%;
 }
+
+.item-control.active {
+	font-size: 1.5rem;
+	color: red;
+}

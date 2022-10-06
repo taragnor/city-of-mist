@@ -137,11 +137,20 @@ export class TagReviewSlaveSession extends SlaveSession {
 	async onReviewRequest(replyFn, dataObj) {
 		const tagList = dataObj.tagList;
 		const moveId = dataObj.moveId;
-		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList, moveId);
+		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList, moveId, this);
 		replyFn ( {
 			tagList: newTagList,
 			state
 		});
+	}
+
+	async requestClarification	(tagId, ownerId) {
+	}
+
+	async acceptTag	(tagId, ownerId) {
+	}
+
+	async rejectTag	(tagId, ownerId) {
 	}
 
 }
