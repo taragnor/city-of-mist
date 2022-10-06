@@ -1,5 +1,12 @@
+<div class="purpose"> {{localize "CityOfMist.dialog.tagReview.purpose"}} </div>
 {{#each tagList as |tag|}}
 <div>
 	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
+</div>
+<div class= "review-icons">
+	<a class="item-control approved" title="{{localize 'CityOfMist.dialog.tagReview.approve'}}"><i class="fas fa-check"></i></a>
+	<a class="item-control request-clarification" title="{{localize 'CityOfMist.dialog.tagReview.requestClarification'}}"><i class="fas fa-question"></i></a>
+	<a class="item-control rejected" title="{{localize 'CityOfMist.dialog.tagReview.reject'}}"><i class="fas fa-cancel"></i></a>
+
 </div>
 {{/each}}
