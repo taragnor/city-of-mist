@@ -405,7 +405,7 @@ export class CityDialogs {
 
 				},
 				close: (_html) => {
-					const state = simplifiedTagList.every(x=> x.review == "approved") ?
+					const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 						"approved" : "pending";
 					conf ({state, simplifiedTagList});
 				},
@@ -414,7 +414,7 @@ export class CityDialogs {
 						icon: '<i class="fas fa-check"></i>',
 						label: localize("CityOfMist.dialog.tagReview.Okay"),
 						callback: (html) => {
-							const state = simplifiedTagList.every(x=> x.review == "approved") ?
+							const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 								"approved" : "pending";
 							conf ({state, simplifiedTagList});
 						},
@@ -423,7 +423,7 @@ export class CityDialogs {
 						label: localize("CityOfMist.dialog.tagReview.ApproveAll"),
 						callback: (_html) => {
 							simplifiedTagList.forEach( tag => tag.review = "approved");
-							const state = simplifiedTagList.every(x=> x.review == "approved") ?
+							const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 								"approved" : "pending";
 							conf ({state, simplifiedTagList});
 						},

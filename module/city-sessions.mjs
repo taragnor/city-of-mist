@@ -102,7 +102,7 @@ export class TagReviewMasterSession extends MasterSession {
 		};
 
 		while (result.state != "approved") {
-			console.log("Main loop");
+			// console.log("Main loop");
 			const sendObj = {
 				tagList: this.tagList,
 				moveId: this.moveId,
@@ -145,12 +145,30 @@ export class TagReviewSlaveSession extends SlaveSession {
 	}
 
 	async requestClarification	(tagId, ownerId) {
+		const dataObj  = {
+			tagId,
+			ownerId,
+			changeType: "request-clarification"
+		};
+		await this.notify("tagUpdate", dataObj);
 	}
 
 	async acceptTag	(tagId, ownerId) {
+		const dataObj  = {
+			tagId,
+			ownerId,
+			changeType: "accepted"
+		};
+		await this.notify("tagUpdate", dataObj);
 	}
 
 	async rejectTag	(tagId, ownerId) {
+		const dataObj  = {
+			tagId,
+			ownerId,
+			changeType: "rejected"
+		};
+		await this.notify("tagUpdate", dataObj);
 	}
 
 }

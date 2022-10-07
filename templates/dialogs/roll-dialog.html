@@ -1,49 +1,47 @@
 <form class="{{cssClass}} roll-dialog" autocomplete="off">
-	<div>
-		<span>Power:</span>
-		<span class="move-power">{{power}}</span>
-	</div>
-	<div class="taglist">
-		{{#each tags as |tag|}}
-		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag owner=tag.parent locked=true sheetowner=null canBurn=false data=tag.system}}
-		{{/each}}
-	</div>
-	<div class="statuslist">
-		<ul>
-		{{#each statuses as |status|}}
-		<li class="status" > <span class="name">{{status.name}} - {{status.tier}} </span>
-		</li>
-		{{/each}}
-		</ul>
-	</div>
-	<div class="juice-section">
-	</div>
-	<div>
-	<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
-	<input id="roll-modifier-amt" type="number" value="0">
-	<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>
-	<input id="roll-dynamite-allowed" type="checkbox" {{#if dynamite}} checked {{/if}}>
-	<br>
-	<label class="dialog-label" for="burn-tag"> Burn Tag </label>
-	<select id="roll-burn-tag">
-		<option value="" selected> Don't Burn </option>`;
-		{{#each burnableTags as |tag|}}
-		<option value="{{tag.tagId}}"> {{tag.name}} </option>
-		{{/each}}
-	</select>
+	<section class="header">
+		<div>
+			<span>Power:</span>
+			<span class="move-power">{{power}}</span>
+		</div>
+		<div class="modifierList">
+			{{#each tags as |tag|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
+			{{/each}}
+			{{#each statuses as |status|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=status sheetowner=null locked=true}}
+			{{/each}}
+		</div>
+		<div class="juice-section">
+		</div>
+	</section>
 	<hr>
-	<div class="help-selection">
-		<label class="dialog-label" for="burn-tag"> Help Points </label>
-		<select id="help-dropdown">
-			<option value=""> None  </option>
-			{{#each (getHelpFor actor) as |help| }}
-			<option value="{{help.id}}"> From {{help.owner.name}} ({{help.amount}}) </option>
+	<div>
+		<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
+		<input id="roll-modifier-amt" type="number" value="0">
+		<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>
+		<input id="roll-dynamite-allowed" type="checkbox" {{#if dynamite}} checked {{/if}}>
+		<br>
+		<label class="dialog-label" for="burn-tag"> Burn Tag </label>
+		<select id="roll-burn-tag">
+			<option value="" selected> Don't Burn </option>`;
+			{{#each burnableTags as |tag|}}
+			<option value="{{tag.tagId}}"> {{tag.name}} </option>
 			{{/each}}
 		</select>
-		<div id="help-slider-container" class="slidecontainer hide">
-			<input type="range" min="1" max="3" value="1" class="slider" id="help-slider">
-			<div class="slidervalue"> 0 </div>
+		<hr>
+		<div class="help-selection">
+			<label class="dialog-label" for="burn-tag"> Help Points </label>
+			<select id="help-dropdown">
+				<option value=""> None  </option>
+				{{#each (getHelpFor actor) as |help| }}
+				<option value="{{help.id}}"> From {{help.owner.name}} ({{help.amount}}) </option>
+				{{/each}}
+			</select>
+			<div id="help-slider-container" class="slidecontainer hide">
+				<input type="range" min="1" max="3" value="1" class="slider" id="help-slider">
+				<div class="slidervalue"> 0 </div>
+			</div>
 		</div>
-	</div>
-	<hr>
+		<hr>
 </form>

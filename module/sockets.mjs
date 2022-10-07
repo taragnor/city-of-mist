@@ -150,6 +150,7 @@ class Session {
 		this.sender = socketInterface;
 	}
 
+	/** sends a notification handled by addNotifyHandler which is a sort of oneway message **/
 	async notify(notifyType, dataObj ={}, metaObj = {}) {
 		dataObj.notifyType = notifyType;
 		await this.send(Session.codes.notify, dataObj, metaObj);

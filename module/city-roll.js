@@ -449,6 +449,9 @@ export class CityRoll {
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM) {
 						gmSession = new TagReviewMasterSession( activated, move_id);
+						gmSession.addNotifyHandler( "tagUpdate", ( { tagId, ownerId, changeType} ) => {
+							const target = $(html).find("")
+						});
 						const finalModifiers = CitySockets.execSession(gmSession);
 						confirmButton.prop("disabled", true);
 						confirmButton.oldHTML = confirmButton.html();
