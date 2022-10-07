@@ -911,4 +911,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		});
 	}
 
+	static gmReviewEnabled() {
+		return game.settings.get('city-of-mist', "tagReview") ?? false;
+	}
+
 } //end of class

@@ -190,6 +190,16 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
+	game.settings.register("city-of-mist", "tagReview", {
+		name: localize("CityOfMist.settings.tagReview.name"),
+		hint: localize("CityOfMist.settings.tagReview.hint"),
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true,
+	});
+
 	game.settings.register("city-of-mist", "devMode", {
 		name: localize("CityOfMist.settings.devMode.name"),
 		hint: localize("CityOfMist.settings.devMode.hint"),

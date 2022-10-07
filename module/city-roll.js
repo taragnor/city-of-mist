@@ -447,7 +447,7 @@ export class CityRoll {
 					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
-					if (!game.user.isGM) {
+					if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
 						gmSession = new TagReviewMasterSession( activated, move_id);
 						gmSession.addNotifyHandler( "tagUpdate", ( { tagId, ownerId, changeType} ) => {
 							const target = $(html).find("")
