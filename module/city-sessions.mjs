@@ -161,6 +161,10 @@ export class TagReviewSlaveSession extends SlaveSession {
 		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
 	}
 
+	setDialog(dialog) {
+		this.dialog  = dialog;
+	}
+
 	async onReviewRequest(replyFn, dataObj) {
 		const tagList = dataObj.tagList;
 		const moveId = dataObj.moveId;
@@ -204,6 +208,17 @@ export class TagReviewSlaveSession extends SlaveSession {
 			changeType: "rejected"
 		};
 		await this.notify("tagUpdate", dataObj);
+	}
+
+	onDestroy() {
+		super.onDestroy();
+		try {
+			if (this.dialog)
+				this.dialog.close();
+		} catch (e) {
+			console.error(e);
+		}
+		this.dialog = null;
 	}
 
 }

@@ -442,6 +442,7 @@ export class CityDialogs {
 					},
 				},
 			}, options);
+			session.setDialog(dialog);
 			dialog.render(true);
 		});
 	}

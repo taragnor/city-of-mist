@@ -493,6 +493,12 @@ export class CityRoll {
 					}
 
 				},
+				close: () => {
+					if (gmSession)
+						gmSession.destroy();
+					juiceSession.destroy();
+					conf(null);
+				},
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
@@ -507,6 +513,8 @@ export class CityRoll {
 						icon: '<i class="fas fa-times"></i>',
 						label: "Cancel",
 						callback: () => {
+							if (gmSession)
+								gmSession.destroy();
 							juiceSession.destroy();
 							conf(null);
 						}
@@ -579,7 +587,6 @@ export class CityRoll {
 						throw new Error(`Unknown status ${status}`);
 				}
 			});
-
 	}
 
 	activateHelpHurt( owner, amount, direction, targetCharacterId) {
