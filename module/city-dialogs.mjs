@@ -370,7 +370,7 @@ export class CityDialogs {
 					review,
 					amount,
 				};
-		});
+			});
 		if (tagList.length == 0) {
 			return {state: "approved", tagList};
 		}
@@ -385,6 +385,7 @@ export class CityDialogs {
 				title:localize("CityOfMist.dialog.tagReview.title"),
 				content: html,
 				render: (html) => {
+					CityDialogs.refreshDialog(html, tagList);
 					$(html).find(".item-control.approved").click(
 						(event) => {
 							const tagId = getClosestData(event, "itemId");
@@ -426,6 +427,7 @@ export class CityDialogs {
 						callback: (html) => {
 							const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 								"approved" : "pending";
+							// console.log(`Sending state ${state}`);
 							conf ({state, tagList});
 						},
 					},

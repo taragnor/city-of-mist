@@ -471,11 +471,18 @@ export class CityRoll {
 						confirmButton.oldHTML = confirmButton.html();
 						confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
 						confirmButton.addClass("disabled");
-						finalModifiers.then( (mods) => {
+						finalModifiers.then( (newList) => {
 							confirmButton.prop("disabled", false);
 							confirmButton.html(confirmButton.oldHTML);
 							confirmButton.removeClass("disabled");
-							//TODO: replace tag list with new
+							const approvedIds = newList
+								.map( x=> x.item.id);
+
+							this.#selectedList = this.#selectedList
+								.filter( item => {
+									return approvedIds.includes(item.id)
+								});
+							this.updateModifierPopup(html)
 						});
 					}
 

@@ -105,26 +105,30 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 	async start() {
 		this.registerSubscribers( game.users.filter( x=> x.isGM));
 		let state = "pending";
+		let returnTagList;
+		const origTagList = this.tagList.slice();
 
 		while (state != "approved") {
-			// console.log("Main loop");
 			try {
 				const sendObj = {
 					tagList: this.simplifiedTagList,
 					moveId: this.moveId,
 				}
+				console.log("Sending Request");
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value;
 				if (!result) throw new Error("Empty result");
 				console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
-				let returnTagList = result.tagList;
-				let filteredReturnTagList = returnTagList
-					.filter( item => item.review == "approved");
-				this.tagList = this.tagList
-					.filter( ({id}) => filteredReturnTagList
-						.find(({item}) => item.id == id)
-				);
+				returnTagList = result.tagList
+					.map( ( {item, amount, review} ) => {
+						return {
+							item: CityHelpers.resolveTagAndStatusShorthand(item),
+							review,
+							amount
+						};
+					});
+				this.tagList = returnTagList;
 			} catch (e) {
 				console.error(e);
 				ui.notifications.error("Problem resolving result from Tag Verify");
@@ -132,7 +136,13 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 			}
 		}
 		console.log("exiting master");
-		return this.tagList;
+		let filteredReturnTagList = returnTagList
+			.filter( ({item: _item, review, amount: _amt}) => review == "approved");
+		const returnList = origTagList
+			.filter( ({item : orig_item}) => filteredReturnTagList
+				.some(({item}) => item.id == orig_item.id)
+			);
+		return returnList;
 	}
 
 	get simplifiedTagList() {
