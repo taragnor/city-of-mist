@@ -5,9 +5,10 @@
 	</span>
 	{{move.displayedName}}
 </div>
+<hr><br>
 {{#each tagAndStatusList as |item|}}
 </div>
-<div class="tag" data-item-id="{{item.item.id}}" data-owner-id="{{item.item.parent.id}}">
+<div class="tag flex-row-center" data-item-id="{{item.item.id}}" data-owner-id="{{item.item.parent.id}}">
 	<div>
 		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
 	</div>

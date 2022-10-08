@@ -477,7 +477,6 @@ export class CityRoll {
 							confirmButton.removeClass("disabled");
 							const approvedIds = newList
 								.map( x=> x.item.id);
-
 							this.#selectedList = this.#selectedList
 								.filter( item => {
 									return approvedIds.includes(item.id)
