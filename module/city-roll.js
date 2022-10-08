@@ -458,6 +458,7 @@ export class CityRoll {
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
+						CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
 						gmSession = new TagReviewMasterSession( tagListLongForm, move_id);
 						gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
 							console.log(`Searching item Id: ${itemId}`);
@@ -507,13 +508,65 @@ export class CityRoll {
 		return true;
 	}
 
-	static _modifierPopupRefreshHTML(html, tagLFList = []) {
+	static async _modifierPopupRefreshHTML(html, tagLFList = []) {
 		console.log("Running refresh");
+		const modList = $(html).find(".modifierList");
+		if (modList.length == 0)
+			throw new Error("Cna't find mod list");
 		for (const tagLF of tagLFList) {
-			const {status, item} = tagLF;
-			// const finder = $(html).find("
-
+			const found = modList
+				.find(".modifier")
+				.filter ( function () {
+					const id = $(this).data("itemId");
+					return id == tagLF.item.id;
+				})
+				.length;
+			if (!found) {
+				console.log(`Not found ${tagLF.item.name} ${tagLF.item.id} adding manually (result ${found})`);
+				const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modifier.hbs", {item: tagLF} );
+				modList.append(html);
+			}
 		}
+		modList
+			.find(".modifier")
+			.each (function () {
+				const id = $(this).data("itemId");
+				const status = tagLFList.find( x=> x.item.id == id).review;
+				const icon = $(this).find(".review-icon");
+				$(this).removeClass("rejected");
+				$(this).removeClass("approved");
+				$(this).removeClass("request-clarification");
+				icon.empty();
+				let text, item;
+				switch (status) {
+					case "approved":
+						text = localize( 'CityOfMist.dialog.tagReview.approved' );
+						item = `<a class="approved" title="${text}"><i class="fas fa-check"></i></a>`;
+						icon.append(item);
+						$(this).addClass("approved");
+						break;
+					case "rejected":
+						text = localize( 'CityOfMist.dialog.tagReview.rejected' )
+						item = `<a class="rejected" title="${text}"><i class="fas fa-cancel"></i></a>`;
+
+						icon.append(item);
+						$(this).addClass("rejected");
+						break;
+					case "request-clarification":
+						text = localize("CityOfMist.dialog.tagReview.clarification_requested")
+						item = `<a class="clarification-requested" title="${text}"><i class="fas fa-question"></i></a>`;
+						icon.append(item);
+						$(this).addClass("request-clarification");
+						break;
+					case "pending":
+						text = localize( 'CityOfMist.dialog.tagReview.pending' )
+						item = `<a class="pending" title="${text}"><i class="fas fa-comment-dots"></i></a>`;
+						icon.append(item);
+						break;
+					default:
+						throw new Error(`Unknown status ${status}`);
+				}
+			});
 
 	}
 

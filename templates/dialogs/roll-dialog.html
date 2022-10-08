@@ -6,8 +6,7 @@
 		</div>
 		<div class="modifierList">
 			{{#each tagAndStatusList as |item|}}
-			<div class=".approval-status"> Status: {{item.review}} </div>
-			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
+				{{> "systems/city-of-mist/templates/dialogs/roll-modifier.hbs" item=item}}
 			{{/each}}
 		</div>
 		<div class="juice-section">

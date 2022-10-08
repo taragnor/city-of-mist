@@ -390,7 +390,7 @@ export class CityDialogs {
 							const tagId = getClosestData(event, "itemId");
 							const ownerId = getClosestData(event, "ownerId");
 							if (!tagId || !ownerId) throw new Error("Cna't find ID");
-							session.acceptTag(tagId, ownerId);
+							session.approveTag(tagId, ownerId);
 							tagList.find(x => x.item.id == tagId).review = "approved";
 							CityDialogs.refreshDialog(html, tagList);
 						});

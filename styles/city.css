@@ -1365,6 +1365,11 @@ span.tag-symbols {
 	max-width: 10%;
 }
 
+.flex-nomargin {
+	margin:0px;
+
+}
+
 .flex-wide {
 	margin: auto;
 	flex: 3 0 60%;
@@ -1429,6 +1434,13 @@ ul.improvement-list {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-around;
+}
+
+.flex-row-center {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
 }
 
 .flex-line {
@@ -3026,3 +3038,13 @@ span.secret {
 	font-size: 1.5rem;
 	color: red;
 }
+
+
+.modifierList .modifier.rejected {
+	text-decoration: line-through;
+}
+
+.modifierList .modifier.request-clarification .name {
+  animation: blinker 1s step-start infinite;
+}
+

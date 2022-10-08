@@ -184,11 +184,11 @@ export class TagReviewSlaveSession extends SlaveSession {
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	async acceptTag	(itemId, ownerId) {
+	async approveTag	(itemId, ownerId) {
 		const dataObj  = {
 			itemId,
 			ownerId,
-			changeType: "accepted"
+			changeType: "approved"
 		};
 		await this.notify("tagUpdate", dataObj);
 	}
