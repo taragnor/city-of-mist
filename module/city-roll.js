@@ -388,7 +388,15 @@ export class CityRoll {
 
 	async modifierPopup(move_id, actor) {
 		const activated = CityHelpers.getPlayerActivatedTagsAndStatus();
-		const sh =  CityHelpers.resolveTagAndStatusShorthand(activated);
+		const sh =  activated
+			.map( tagShortHand =>  {
+				const tag = CityHelpers.resolveTagAndStatusShorthand(tagShortHand);
+				return {
+					tag : tag,
+					state: "pending",
+					amount: tagShortHand.amount
+				}
+			});
 		const activeTags = sh.filter( x=> x.type == "tag");
 		const activeStatus = sh.filter( x=> x.type == "status");
 		const burnableTags = activated

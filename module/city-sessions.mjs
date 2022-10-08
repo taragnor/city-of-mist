@@ -80,8 +80,16 @@ export class JuiceSlaveSession extends SlaveSession {
 
 }
 
+
 export class TagReviewMasterSession extends MasterSession {
-	constructor( tagList, moveId ) {
+
+	/** provide an initial taglist, and a moveId
+taglist ois of the form {
+tag: fullFormatTag,
+state: string (status of tag (REjected, Accepted, pending, etc),
+}
+*/
+	constructor( tagList, moveId) {
 		super();
 		this.tagList = tagList;
 		if (moveId == undefined)
