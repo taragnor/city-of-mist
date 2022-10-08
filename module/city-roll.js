@@ -461,7 +461,6 @@ export class CityRoll {
 						CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
 						gmSession = new TagReviewMasterSession( tagListLongForm, move_id);
 						gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
-							console.log(`Searching item Id: ${itemId}`);
 							const targetTag = tagListLongForm.find(x => x.item.id == itemId);
 							targetTag.review = changeType;
 							CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
@@ -525,7 +524,7 @@ export class CityRoll {
 	static async _modifierPopupRefreshHTML(html, tagLFList = []) {
 		const modList = $(html).find(".modifierList");
 		if (modList.length == 0)
-			throw new Error("Cna't find mod list");
+			throw new Error("Can't find mod list");
 		for (const tagLF of tagLFList) {
 			const found = modList
 				.find(".modifier")

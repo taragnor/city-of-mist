@@ -114,7 +114,6 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 					tagList: this.simplifiedTagList,
 					moveId: this.moveId,
 				}
-				console.log("Sending Request");
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value;
 				if (!result) throw new Error("Empty result");
@@ -135,13 +134,8 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				throw new Error("AAAHAHHH!!");
 			}
 		}
-		console.log("exiting master");
 		let filteredReturnTagList = returnTagList
 			.filter( ({item: _item, review, amount: _amt}) => review == "approved");
-		// const returnList = origTagList
-		// 	.filter( ({item : orig_item}) => filteredReturnTagList
-		// 		.some(({item}) => item.id == orig_item.id)
-		// 	);
 		return filteredReturnTagList;
 	}
 
