@@ -388,24 +388,26 @@ export class CityRoll {
 
 	async modifierPopup(move_id, actor) {
 		const activated = CityHelpers.getPlayerActivatedTagsAndStatus();
-		const sh =  activated
+		const tagListLongForm =  activated
 			.map( tagShortHand =>  {
-				const tag = CityHelpers.resolveTagAndStatusShorthand(tagShortHand);
+				const item = CityHelpers.resolveTagAndStatusShorthand(tagShortHand);
 				return {
-					tag : tag,
-					state: "pending",
+					item,
+					review: "pending",
 					amount: tagShortHand.amount
 				}
 			});
-		const activeTags = sh.filter( x=> x.type == "tag");
-		const activeStatus = sh.filter( x=> x.type == "status");
+		// const activeTags = tagListLongForm.filter( x=> x.item.type == "tag");
+		// const activeStatus = tagListLongForm.filter( x=> x.item.type == "status");
 		const burnableTags = activated
 			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
-		const tags = activated.filter( x=> x.type == "tag");
+		const tagAndStatusList = tagListLongForm.filter( x=> x.item.type == "tag" || x.item.type == "status");
+		// const tags = activated.filter( x=> x.type == "tag");
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder
-		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tags: activeTags, statuses: activeStatus};
+		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList};
+		Debug(templateData);
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		let juiceSession = null, gmSession = null;
 		const rollOptions = await new Promise ( (conf, _reject) => {
@@ -456,9 +458,12 @@ export class CityRoll {
 					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 					const confirmButton = html.find("button.one");
 					if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
-						gmSession = new TagReviewMasterSession( activated, move_id);
-						gmSession.addNotifyHandler( "tagUpdate", ( { tagId, ownerId, changeType} ) => {
-							const target = $(html).find("")
+						gmSession = new TagReviewMasterSession( tagListLongForm, move_id);
+						gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
+							console.log(`Searching item Id: ${itemId}`);
+							const targetTag = tagListLongForm.find(x => x.item.id == itemId);
+							targetTag.review = changeType;
+							CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
 						});
 						const finalModifiers = CitySockets.execSession(gmSession);
 						confirmButton.prop("disabled", true);
@@ -500,6 +505,16 @@ export class CityRoll {
 		if (!rollOptions)
 			return false;
 		return true;
+	}
+
+	static _modifierPopupRefreshHTML(html, tagLFList = []) {
+		console.log("Running refresh");
+		for (const tagLF of tagLFList) {
+			const {status, item} = tagLF;
+			// const finder = $(html).find("
+
+		}
+
 	}
 
 	activateHelpHurt( owner, amount, direction, targetCharacterId) {

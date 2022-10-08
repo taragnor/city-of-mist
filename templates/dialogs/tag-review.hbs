@@ -5,10 +5,11 @@
 	</span>
 	{{move.displayedName}}
 </div>
-{{#each tagList as |tag|}}
-<div class="tag" data-item-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}">
+{{#each tagAndStatusList as |item|}}
+<div class=".approval-status" >{{item.review}} </div>
+<div class="tag" data-item-id="{{item.item.id}}" data-owner-id="{{item.item.parent.id}}">
 	<div>
-		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
+		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
 	</div>
 	<div class= "review-icons">
 		<a class="item-control approved" title="{{localize 'CityOfMist.dialog.tagReview.approve'}}"><i class="fas fa-check"></i></a>

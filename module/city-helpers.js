@@ -773,17 +773,14 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static getPlayerActivatedTagsAndStatusItems() {
 		return this.getPlayerActivatedTagsAndStatus()
 			.map( tagShortHand => this.resolveTagAndStatusShorthand(tagShortHand));
-		// return this.resolveTagAndStatusShorthand(this.getPlayerActivatedTagsAndStatus());
 	}
 
 
 	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}) {
+		//TODO: this check can be removed if no errors happen
 		if (Array.isArray(arguments[0]))
 			throw new Error(" Trying to call with array is deprecated");
 		return CityHelpers.getOwner(ownerId, tokenId).getItem(id);
-		// return shorthandObjArr.map ( ({id, ownerId, tokenId}) => {
-		// 	return CityHelpers.getOwner(ownerId, tokenId).getItem(id);
-		// });
 	}
 
 	static fullTagOrStatusToShorthand(tag) {

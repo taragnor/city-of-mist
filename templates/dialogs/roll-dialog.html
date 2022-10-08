@@ -5,11 +5,9 @@
 			<span class="move-power">{{power}}</span>
 		</div>
 		<div class="modifierList">
-			{{#each tags as |tag|}}
-			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
-			{{/each}}
-			{{#each statuses as |status|}}
-			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=status sheetowner=null locked=true}}
+			{{#each tagAndStatusList as |item|}}
+			<div class=".approval-status"> Status: {{item.review}} </div>
+			{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
 			{{/each}}
 		</div>
 		<div class="juice-section">

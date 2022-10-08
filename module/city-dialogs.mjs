@@ -363,13 +363,20 @@ export class CityDialogs {
 	}
 
 	static async tagReview(simplifiedTagList, moveId, session) {
-		if (simplifiedTagList.length == 0) {
+		const tagList = simplifiedTagList
+			.map( ({item, review, amount }) =>  {
+				return {
+					item : CityHelpers.resolveTagAndStatusShorthand(item),
+					review,
+					amount,
+				};
+		});
+		if (tagList.length == 0) {
 			return {state: "approved", tagList};
 		}
 		const move = CityHelpers.getMoveById(moveId);
-		const tagList = CityHelpers.resolveTagAndStatusShorthand(simplifiedTagList);
 		const templateData = {
-			tagList, move
+			tagAndStatusList: tagList, move
 		};
 		const options = {};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
@@ -382,50 +389,53 @@ export class CityDialogs {
 						(event) => {
 							const tagId = getClosestData(event, "itemId");
 							const ownerId = getClosestData(event, "ownerId");
+							if (!tagId || !ownerId) throw new Error("Cna't find ID");
 							session.acceptTag(tagId, ownerId);
-							tagList.find(x => x.id == tagId).review = "approved";
+							tagList.find(x => x.item.id == tagId).review = "approved";
 							CityDialogs.refreshDialog(html, tagList);
 						});
 					$(html).find(".item-control.request-clarification").click(
 						(event) => {
 							const tagId = getClosestData(event, "itemId");
 							const ownerId = getClosestData(event, "ownerId");
+							if (!tagId || !ownerId) throw new Error("Cna't find ID");
 							session.requestClarification(tagId, ownerId);
-							tagList.find(x => x.id == tagId).review = "challenged";
+							tagList.find(x => x.item.id == tagId).review = "challenged";
 							CityDialogs.refreshDialog(html, tagList);
 						});
 					$(html).find(".item-control.rejected").click(
 						(event) => {
 							const tagId = getClosestData(event, "itemId");
 							const ownerId = getClosestData(event, "ownerId");
+							if (!tagId || !ownerId) throw new Error("Cna't find ID");
 							session.rejectTag(tagId, ownerId);
-							tagList.find(x => x.id == tagId).review = "rejected";
+							tagList.find(x => x.item.id == tagId).review = "rejected";
 							CityDialogs.refreshDialog(html, tagList);
 						});
 
 				},
 				close: (_html) => {
-					const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+					const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 						"approved" : "pending";
-					conf ({state, simplifiedTagList});
+					conf ({state, tagList});
 				},
 				buttons: {
 					okay: {
 						icon: '<i class="fas fa-check"></i>',
 						label: localize("CityOfMist.dialog.tagReview.Okay"),
 						callback: (html) => {
-							const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+							const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 								"approved" : "pending";
-							conf ({state, simplifiedTagList});
+							conf ({state, tagList});
 						},
 					},
 					approveAll: {
 						label: localize("CityOfMist.dialog.tagReview.ApproveAll"),
 						callback: (_html) => {
-							simplifiedTagList.forEach( tag => tag.review = "approved");
-							const state = simplifiedTagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+							tagList.forEach( tag => tag.review = "approved");
+							const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
 								"approved" : "pending";
-							conf ({state, simplifiedTagList});
+							conf ({state, tagList});
 						},
 					},
 				},
@@ -440,7 +450,7 @@ export class CityDialogs {
 			const control = $(this);
 			console.log("Refeshing Dialog Item");
 			const id = getClosestData(control, "itemId");
-			const listItem = tagList.find( x=> x.id == id);
+			const listItem = tagList.find( x=> x.item.id == id);
 			control.removeClass("active")
 			switch (listItem.review) {
 				case "pending":

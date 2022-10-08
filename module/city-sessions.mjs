@@ -104,23 +104,27 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 
 	async start() {
 		this.registerSubscribers( game.users.filter( x=> x.isGM));
-		let result = {
-			state: "pending",
-			tagList : null,
-		};
+		let state = "pending";
 
-		while (result.state != "approved") {
+		while (state != "approved") {
 			// console.log("Main loop");
-			const sendObj = {
-				tagList: this.tagList,
-				moveId: this.moveId,
-			};
 			try {
+				const sendObj = {
+					tagList: this.simplifiedTagList,
+					moveId: this.moveId,
+				}
 				const results = await this.request("tagReview", sendObj);
-				result = results[0]?.value;
+				const result = results[0]?.value;
 				if (!result) throw new Error("Empty result");
 				console.log(`Result Recieved: ${result?.state}`);
-				this.tagList = result.tagList;
+				state = result?.state;
+				let returnTagList = result.tagList;
+				let filteredReturnTagList = returnTagList
+					.filter( item => item.review == "approved");
+				this.tagList = this.tagList
+					.filter( ({id}) => filteredReturnTagList
+						.find(({item}) => item.id == id)
+				);
 			} catch (e) {
 				console.error(e);
 				ui.notifications.error("Problem resolving result from Tag Verify");
@@ -129,6 +133,17 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		}
 		console.log("exiting master");
 		return this.tagList;
+	}
+
+	get simplifiedTagList() {
+		return this.tagList
+			.map ( item => {
+				return {
+					item : CityHelpers.fullTagOrStatusToShorthand(item.item),
+					review: item.review,
+					amount: item.amount,
+				};
+			});
 	}
 
 	onReply( dataObj, meta) {
@@ -145,34 +160,42 @@ export class TagReviewSlaveSession extends SlaveSession {
 	async onReviewRequest(replyFn, dataObj) {
 		const tagList = dataObj.tagList;
 		const moveId = dataObj.moveId;
-		const {tagList: newTagList, state} = await CityDialogs.tagReview(tagList, moveId, this);
+		const {tagList: newComplexTagList, state} = await CityDialogs.tagReview(tagList, moveId, this);
+		const newSimpleTagList = newComplexTagList
+			.map( ({review, amount, item}) => {
+				return {
+					review,
+					amount,
+					item: CityHelpers.fullTagOrStatusToShorthand(item)
+				};
+			});
 		replyFn ( {
-			tagList: newTagList,
+			tagList: newSimpleTagList,
 			state
 		});
 	}
 
-	async requestClarification	(tagId, ownerId) {
+	async requestClarification	(itemId, ownerId) {
 		const dataObj  = {
-			tagId,
+			itemId,
 			ownerId,
 			changeType: "request-clarification"
 		};
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	async acceptTag	(tagId, ownerId) {
+	async acceptTag	(itemId, ownerId) {
 		const dataObj  = {
-			tagId,
+			itemId,
 			ownerId,
 			changeType: "accepted"
 		};
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	async rejectTag	(tagId, ownerId) {
+	async rejectTag	(itemId, ownerId) {
 		const dataObj  = {
-			tagId,
+			itemId,
 			ownerId,
 			changeType: "rejected"
 		};
