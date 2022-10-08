@@ -118,7 +118,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value;
 				if (!result) throw new Error("Empty result");
-				console.log(`Result Recieved: ${result?.state}`);
+				// console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
 				returnTagList = result.tagList
 					.map( ( {item, amount, review} ) => {
@@ -138,11 +138,11 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		console.log("exiting master");
 		let filteredReturnTagList = returnTagList
 			.filter( ({item: _item, review, amount: _amt}) => review == "approved");
-		const returnList = origTagList
-			.filter( ({item : orig_item}) => filteredReturnTagList
-				.some(({item}) => item.id == orig_item.id)
-			);
-		return returnList;
+		// const returnList = origTagList
+		// 	.filter( ({item : orig_item}) => filteredReturnTagList
+		// 		.some(({item}) => item.id == orig_item.id)
+		// 	);
+		return filteredReturnTagList;
 	}
 
 	get simplifiedTagList() {
@@ -157,7 +157,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 	}
 
 	onReply( dataObj, meta) {
-		console.log(`reply Recieved : ${dataObj?.state} `)
+		// console.log(`reply Recieved : ${dataObj?.state} `)
 	}
 }
 

@@ -475,6 +475,14 @@ export class CityRoll {
 							confirmButton.prop("disabled", false);
 							confirmButton.html(confirmButton.oldHTML);
 							confirmButton.removeClass("disabled");
+							tagListLongForm.forEach( tag => {
+								const state = newList.find( x=> tag.item.id == x.item.id);
+								if (state) {
+									tag.review = state.review;
+								} else
+									tag.review = "rejected";
+							});
+							CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
 							const approvedIds = newList
 								.map( x=> x.item.id);
 							this.#selectedList = this.#selectedList
@@ -515,7 +523,6 @@ export class CityRoll {
 	}
 
 	static async _modifierPopupRefreshHTML(html, tagLFList = []) {
-		console.log("Running refresh");
 		const modList = $(html).find(".modifierList");
 		if (modList.length == 0)
 			throw new Error("Cna't find mod list");
