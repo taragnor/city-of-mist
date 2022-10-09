@@ -11,7 +11,20 @@
 	{{#if  status.system.permanent}}
 	<a title="Permanent Status" ><i class="fas fa-square"></i> </a>
 	{{/if}}
-	<span class="status-name name {{#if locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection sheetowner.id status.parent.id status.id status.parent.tokenId) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection sheetowner.id status.parent.id status.id status.parent.tokenId) -1)}} negative-selected {{/if}} {{#if (gt status.system.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.system.pips 0)}} {{status.system.pips}} pips {{/if}}">
+	<span class="status-name name
+		{{#if locked}} status-select-button
+		{{else}} status-edit-button
+		{{/if}}
+		{{#if (eq (activatedDirection status.name status.parent.id status.id status.parent.tokenId) 1)}}
+		positive-selected
+		{{/if}}
+		{{#if (eq (activatedDirection status.name status.parent.id status.id status.parent.tokenId) -1)}}
+		negative-selected
+		{{/if}}
+		{{#if (gt status.system.pips 0)}}
+		status-with-pips
+		{{/if}}"
+		title="{{#if (gt status.system.pips 0)}} {{status.system.pips}} pips {{/if}}">
 		{{status.name}}-{{status.system.tier}}
 	</span>
 </div>

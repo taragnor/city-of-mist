@@ -124,9 +124,9 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(html);
 		},
 
-	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = null) {
+	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = "") {
 		if (typeof tokenId == "object") {
-			tokenId = null;
+			tokenId = "";
 			//Fix for handlebars overcall with arguments
 		}
 		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
@@ -140,7 +140,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			tokenId = null;
 			//Fix for handlebars overcall with arguments
 		}
-		console.log(`tagname ${tagName}, tagowner:${tagOwnerId}, tagId ${tagId}, tokenId:${tokenId}`);
+		// console.log(`tagname ${tagName}, tagowner:${tagOwnerId}, tagId ${tagId}, tokenId:${tokenId}`);
 		const tagowner = CityHelpers.getOwner(tagOwnerId, tokenId);
 		// const tagowner = CityHelpers.getTagOwnerById(tagOwnerId);
 		if (tagowner == undefined) {

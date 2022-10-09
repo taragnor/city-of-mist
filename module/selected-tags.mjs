@@ -10,10 +10,10 @@ export class SelectedTagsAndStatus {
 	*/
 	static toggleSelectedItem(tagOrStatus, direction= 1) {
 		// Debug(tagOrStatus);
-		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id);
+		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent.tokenId);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
-				this.removeSelectedItem(tagOrStatus.id);
+				this.removeSelectedItem(tagOrStatus.id, tagOrStatus.parent.tokenId);
 				return 0;
 			} else {
 				item.amount *=  -1;
@@ -26,14 +26,14 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static removeSelectedItem(tagOrStatusId) {
-		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> x.id != tagOrStatusId);
+	static removeSelectedItem(tagOrStatusId, tokenId) {
+		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> !(x.id == tagOrStatusId && x.tokenId == tokenId ));
 	}
 
 	static activateSelectedItem(tagOrStatus, direction = 1) {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
-		const tokenId = tagOwner?.token?.id ?? null;
+		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.system.subtype : "";
 		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
@@ -41,8 +41,8 @@ export class SelectedTagsAndStatus {
 			name: x.name,
 			id: x.id,
 			amount,
-			ownerId: tagOwner?.id ?? null ,
-			tagId: tag ? x.id : null,
+			ownerId: tagOwner?.id ?? "" ,
+			tagId: tag ? x.id : "",
 			type: x.type,
 			description: tag ? tag.system.description : "",
 			subtype,
