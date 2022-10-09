@@ -137,10 +137,6 @@ export class SelectedTagsAndStatus {
 
 	static async _selectTagHandler(event , invert = false ) {
 		const id = getClosestData(event, "tagId");
-		// const actorId = getClosestData(event, "sheetOwnerId");
-		// const actor = await CityHelpers.getOwner(actorId);
-		// if (!actor)
-		// 	throw new Error(`Can't find actor of ${id}`);
 		const tagownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
@@ -151,14 +147,6 @@ export class SelectedTagsAndStatus {
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		// const type = actor.type;
-		// if (type != "character" && type != "extra") {
-		// 	console.warn (`Invalid Type to select a tag: ${type}`);
-		// 	return;
-		// }
-		// if (actorId.length < 5){
-		// 	throw new Error(`Bad Actor Id ${actorId}`);
-		// }
 		const subtype = tag.system.subtype;
 		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
@@ -191,25 +179,11 @@ export class SelectedTagsAndStatus {
 
 	static async _statusSelect (event, invert = false) {
 		const id = getClosestData(event, "statusId");
-		// const actorId = getClosestData(event, "sheetOwnerId");
-		// if (!actorId) {
-		// 	throw new Error(`No sheetOwnerId provided for ${id}`);
-		// }
-		// const actor = await CityHelpers.getOwner(actorId);
 		const tagownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
 		if (!tagownerId || tagownerId.length <0)
 			console.warn(`No ID for status owner : ${tagownerId}`);
-		// const statusName = getClosestData(event, "statusName");
-		// const amount = getClosestData(event, "tier");
-		// const type = actor.type;
-		// if (type != "character" && type != "extra") {
-		// 	console.warn (`Invalid Type to select a tag: ${type}`);
-		// 	return;
-		// }
-		// if (actorId.length < 5)
-		// 	throw new Error(`Bad Actor Id ${actorId}`);
 		let direction = -1;
 		if (invert)
 			direction *= -1;
@@ -235,7 +209,16 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
+	static getActivatedDirection(tagId, tokenId) {
+		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
+		if (amount > 0) return 1;
+		if (amount < 0) return -1;
+		return 0;
+	}
+
 }
+
+
 
 
 window.SelectedTagsAndStatus = SelectedTagsAndStatus;
