@@ -64,6 +64,14 @@ export class CityActor extends Actor {
 			filter( x=> x.isJuice());
 	}
 
+	get tokenId() {
+		return this?.token?.id ?? "";
+	}
+
+	get sceneId() {
+		return this?.token?.parent?.id ?? "";
+	}
+
 	hasHelpFor(actorId) {
 		return this.helpPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
 

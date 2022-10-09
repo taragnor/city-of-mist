@@ -137,30 +137,30 @@ export class SelectedTagsAndStatus {
 
 	static async _selectTagHandler(event , invert = false ) {
 		const id = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "sheetOwnerId");
-		const actor = await CityHelpers.getOwner(actorId);
-		if (!actor)
-			throw new Error(`Can't find actor of ${id}`);
+		// const actorId = getClosestData(event, "sheetOwnerId");
+		// const actor = await CityHelpers.getOwner(actorId);
+		// if (!actor)
+		// 	throw new Error(`Can't find actor of ${id}`);
 		const tagownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
 		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
 		if (!owner)
-			throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);
+			throw new Error(`Owner not found for tagId ${id}, token: ${tokenId}`);
 		const tag = await owner.getTag(id);
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		const type = actor.type;
-		if (type != "character" && type != "extra") {
-			console.warn (`Invalid Type to select a tag: ${type}`);
-			return;
-		}
-		if (actorId.length < 5){
-			throw new Error(`Bad Actor Id ${actorId}`);
-		}
+		// const type = actor.type;
+		// if (type != "character" && type != "extra") {
+		// 	console.warn (`Invalid Type to select a tag: ${type}`);
+		// 	return;
+		// }
+		// if (actorId.length < 5){
+		// 	throw new Error(`Bad Actor Id ${actorId}`);
+		// }
 		const subtype = tag.system.subtype;
-		let direction = this.getDefaultTagDirection(tag, owner, actor);
+		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
 			direction *= -1;
 		const activated = this.toggleSelectedItem(tag, direction);
@@ -191,27 +191,34 @@ export class SelectedTagsAndStatus {
 
 	static async _statusSelect (event, invert = false) {
 		const id = getClosestData(event, "statusId");
-		const actorId = getClosestData(event, "sheetOwnerId");
-		const actor = await CityHelpers.getOwner(actorId);
+		// const actorId = getClosestData(event, "sheetOwnerId");
+		// if (!actorId) {
+		// 	throw new Error(`No sheetOwnerId provided for ${id}`);
+		// }
+		// const actor = await CityHelpers.getOwner(actorId);
 		const tagownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
 		if (!tagownerId || tagownerId.length <0)
 			console.warn(`No ID for status owner : ${tagownerId}`);
-		const statusName = getClosestData(event, "statusName");
-		const amount = getClosestData(event, "tier");
-		const type = actor.type;
-		if (type != "character" && type != "extra") {
-			console.warn (`Invalid Type to select a tag: ${type}`);
-			return;
-		}
-		if (actorId.length < 5)
-			throw new Error(`Bad Actor Id ${actorId}`);
+		// const statusName = getClosestData(event, "statusName");
+		// const amount = getClosestData(event, "tier");
+		// const type = actor.type;
+		// if (type != "character" && type != "extra") {
+		// 	console.warn (`Invalid Type to select a tag: ${type}`);
+		// 	return;
+		// }
+		// if (actorId.length < 5)
+		// 	throw new Error(`Bad Actor Id ${actorId}`);
 		let direction = -1;
 		if (invert)
 			direction *= -1;
 		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
 		const status = await owner.getStatus(id);
+		if (!status) {
+			console.error(`Couldn't find status ${id}`);
+			return;
+		}
 		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
 		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
@@ -230,3 +237,5 @@ export class SelectedTagsAndStatus {
 
 }
 
+
+window.SelectedTagsAndStatus = SelectedTagsAndStatus;

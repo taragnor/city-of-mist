@@ -135,7 +135,8 @@ export class CityActorSheet extends CitySheet {
 				system: x.system,
 				data: x.system,
 				ownerId: this.actor.id,
-				owner: this.actor
+				owner: this.actor,
+				parent: this.actor,
 			};
 		});
 	}

@@ -4,7 +4,7 @@
 	"locked": boolean
 -->
 
-<div class="status-line status" data-status-id="{{status.id}}" data-owner-id="{{status.parent.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{status.parent.tokenId}}" data-scene-Id="{{status._sceneId}}">
+<div class="status-line status" data-status-id="{{status.id}}" data-owner-id="{{status.parent.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{status.parent.tokenId}}" data-scene-Id="{{status.parent.sceneId}}">
 	<div class="flextiny">
 		{{#if (eq owner sheetowner)}}
 		<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>

@@ -1,3 +1,5 @@
+import {SelectedTagsAndStatus} from "../selected-tags.mjs";
+
 const KEY = 'city-of-mist';
 const CSS_PREFIX = `${KEY}--`;
 const CSS_TOOLTIP = `${CSS_PREFIX}tooltip`;
@@ -106,10 +108,12 @@ export class TokenTooltip {
 			this.nameElement.innerHTML = "";
 			return false;
 		}
-		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor});
+		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
-		$(this.nameElement).find(".tag .name").click(this._tagSelect.bind(this));
-		$(this.nameElement).find(".status .name").click(this._statusSelect.bind(this));
+		$(this.nameElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		$(this.nameElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		$(this.nameElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		$(this.nameElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		return true;
 	}
 

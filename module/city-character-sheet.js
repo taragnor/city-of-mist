@@ -166,6 +166,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					system: x.system,
 					ownerId: token.actor.id,
 					owner: token.actor,
+					parent: token.actor,
 					tokenId: token.id,
 					_sceneId: token?.scene?.id
 				};
@@ -191,6 +192,7 @@ export class CityCharacterSheet extends CityActorSheet {
 					data: x.system,
 					ownerId: cont.id,
 					owner: cont,
+					parent: cont,
 					tokenId: null,
 					_sceneId: undefined
 				};

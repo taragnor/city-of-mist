@@ -4,9 +4,9 @@
 -->
 <div class="{{#if (eq item.type "tag")}} tag {{else}} status {{/if}}" data-item-id="{{item.id}}" data-owner-id="{{item.parent.id}}">
 	{{#if (eq item.type "tag") }}
-	{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=item.parent activated=false direction=0 tag=item data=item.system sheetowner=sheetowner}}
+	{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=item.parent activated=false direction=0 tag=item data=item.system sheetowner=sheetowner direction=(activatedDirection sheetowner.id item.parent.id item.id item.parent.tokenId) }}
 	{{/if}}
 	{{#if (eq item.type "status") }}
-	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked owner=item.parent status=item sheetowner=sheetowner}}
+	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked owner=item.parent status=item sheetowner=sheetowner direction=(activatedDirection sheetowner.id item.parent.id item.id item.parent.tokenId)}}
 	{{/if}}
 </div>

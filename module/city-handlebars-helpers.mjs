@@ -124,7 +124,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(html);
 		},
 
-	'activatedDirection': function (sheetownerId, _actorId, tagId, tokenId = null) {
+	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = null) {
 		if (typeof tokenId == "object") {
 			tokenId = null;
 			//Fix for handlebars overcall with arguments
@@ -135,9 +135,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		return 0;
 	},
 
-	'defaultTagDirection': function (sheetownerId, tagOwnerId, tagId) {
-		const tagowner = CityHelpers.getTagOwnerById(tagOwnerId);
-		const sheetowner = game.actors.find(x=> x.id == sheetownerId);
+	'defaultTagDirection': function (tagName, tagOwnerId, tagId, tokenId=null) {
+		if (typeof tokenId == "object") {
+			tokenId = null;
+			//Fix for handlebars overcall with arguments
+		}
+		console.log(`tagname ${tagName}, tagowner:${tagOwnerId}, tagId ${tagId}, tokenId:${tokenId}`);
+		const tagowner = CityHelpers.getOwner(tagOwnerId, tokenId);
+		// const tagowner = CityHelpers.getTagOwnerById(tagOwnerId);
 		if (tagowner == undefined) {
 			console.warn( "null tag owner passed into defualtTagDirection Handlebars helper");
 		}
@@ -145,7 +150,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return -1;
 		}
 		const tag = tagowner.items.find(x=> x.id == tagId);
-		return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner, sheetowner);
+		return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
 	},
 
 		'hasActivatedTag': function (sheetownerId, _actorId, tagId, tokenId = null) {

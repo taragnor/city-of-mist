@@ -3,7 +3,7 @@
 	direction
 	activated
 	locked -->
-	<span class="tag-name-block">
+	<span class="tag-name-block" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" >
 		<span class="tag-symbols">
 			{{#if (eq data.subtype "story")}}
 			<a title="Story Tag" ><i class="fas fa-tag"></i> </a>
@@ -39,7 +39,7 @@
 						 {{#if (lt direction 0)}} negative-selected{{/if}}
 						 {{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
 						 {{#if (and (not data.burned) locked)}} tag-select-button  {{/if}}
-						 {{#if (gt (defaultTagDirection sheetowner.id owner.id tag.id ) 0)}}
+						 {{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
 					    default-positive {{else}} default-negative
 						 {{/if}}
 						 {{#if (gt data.burned 0)}} burned-tag burn-level-{{data.burned}}  {{/if}}
