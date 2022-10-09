@@ -1,4 +1,5 @@
 import {CityDB} from "./city-db.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 
 export class CityActor extends Actor {
 
@@ -695,7 +696,7 @@ export class CityActor extends Actor {
 
 	async toggleLockState() {
 		const locked = !this.system.locked;
-		await CityHelpers.clearAllActivatedItems();
+		await SelectedTagsAndStatus.clearAllActivatedItems();
 		await CityHelpers.playLockOpen();
 		return await this.update( {"data.locked": locked});
 	}

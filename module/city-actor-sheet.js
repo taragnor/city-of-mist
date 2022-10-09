@@ -4,6 +4,7 @@ import { CityDialogs } from "./city-dialogs.mjs";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
 import { CityLogger } from "./city-logger.mjs";
+import { SelectedTagsAndStatus } from "./selected-tags.mjs";
 
 export class CityActorSheet extends CitySheet {
 	constructor(...args) {
@@ -47,8 +48,10 @@ export class CityActorSheet extends CitySheet {
 		html.find('.tag-delete').click(this._deleteTag.bind(this) );
 		html.find('.imp-delete').click(this._deleteImprovement.bind(this) );
 		html.find('.theme-delete').click(this._deleteTheme.bind(this) );
-		html.find('.tag-select-button').click(this._tagSelect.bind(this));
-		html.find('.tag-select-button').rightclick(x=> this._tagSelect(x, true));
+		html.find('.tag-select-button').click(SelectedTagsAndStatus.selectTagHandler);
+		html.find('.tag-select-button').rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		// html.find('.tag-select-button').click(this._tagSelect.bind(this));
+		// html.find('.tag-select-button').rightclick(x=> this._tagSelect(x, true));
 		html.find('.tag-select-button').middleclick(this._tagEdit.bind(this));
 		html.find('.tag-edit-button').click(this._tagEdit.bind(this));
 		html.find('.tag-edit-button').middleclick(this._tagEdit.bind(this));
@@ -68,8 +71,10 @@ export class CityActorSheet extends CitySheet {
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
 		html.find('.status-delete').click(this._deleteStatus.bind(this));
 		html.find('.status-delete').middleclick(x => this._deleteStatus(x, true));
-		html.find('.status-select-button').click(this._statusSelect.bind(this));
-		html.find('.status-select-button').rightclick(	x=> this._statusSelect(x, true));
+		html.find('.status-select-button').click(SelectedTagsAndStatus.selectStatusHandler);
+		html.find('.status-select-button').rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		// html.find('.status-select-button').click(this._statusSelect.bind(this));
+		// html.find('.status-select-button').rightclick(	x=> this._statusSelect(x, true));
 		html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
 		html.find('.status-add').click(this._statusAdd.bind(this));
 		html.find('.status-subtract').click(this._statusSubtract.bind(this));
@@ -370,10 +375,10 @@ export class CityActorSheet extends CitySheet {
 			throw new Error(`Bad Actor Id ${actorId}`);
 		}
 		const subtype = tag.system.subtype;
-		let direction = CityHelpers.getDefaultTagDirection(tag, owner, actor);
+		let direction = SelectedTagsAndStatus.getDefaultTagDirection(tag, owner, actor);
 		if (invert)
 			direction *= -1;
-		const activated = CityHelpers.toggleSelectedItem(tag, direction);
+		const activated = SelectedTagsAndStatus.toggleSelectedItem(tag, direction);
 
 		if (activated === null) return;
 		const html = $(event.currentTarget);
@@ -629,44 +634,6 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _statusSelect (event, invert = false) {
-		const id = getClosestData(event, "statusId");
-		const actorId = getClosestData(event, "sheetOwnerId");
-		const actor = await this.getOwner(actorId);
-		const tagownerId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const sceneId = getClosestData(event, "sceneId");
-		if (!tagownerId || tagownerId.length <0)
-			console.warn(`No ID for status owner : ${tagownerId}`);
-		const statusName = getClosestData(event, "statusName");
-		const amount = getClosestData(event, "tier");
-		const type = actor.type;
-		if (type != "character" && type != "extra") {
-			console.warn (`Invalid Type to select a tag: ${type}`);
-			return;
-		}
-		if (actorId.length < 5)
-			throw new Error(`Bad Actor Id ${actorId}`);
-		let direction = -1;
-		if (invert)
-			direction *= -1;
-		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
-		const status = await owner.getStatus(id);
-		const activated = CityHelpers.toggleSelectedItem(status, direction)
-		const html = $(event.currentTarget);
-		html.removeClass("positive-selected");
-		html.removeClass("negative-selected");
-		if (activated != 0) {
-			if (activated > 0)
-				html.addClass("positive-selected");
-			else
-				html.addClass("negative-selected");
-			await CityHelpers.playTagOn();
-		}
-		else {
-			await CityHelpers.playTagOff();
-		}
-	}
 
 	async _createClue (_event) {
 		const owner = this.actor;
@@ -971,11 +938,11 @@ export class CityActorSheet extends CitySheet {
 		const options = {
 			newtype
 		};
-		const selectedTagsAndStatuses = CityHelpers.getPlayerActivatedTagsAndStatus();
+		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
 		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		if (roll == null)
 			return;
-		CityHelpers.clearAllActivatedItems();
+		SelectedTagsAndStatus.clearAllActivatedItems();
 		this.render(true);
 		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
 		for (const effect of move.effect_classes) {

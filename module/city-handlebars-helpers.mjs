@@ -1,4 +1,5 @@
 import {HandlebarsHelpers} from "./tools/handlebars-helpers.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
@@ -128,7 +129,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			tokenId = null;
 			//Fix for handlebars overcall with arguments
 		}
-		const amount = CityHelpers.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
+		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
 		if (amount > 0) return 1;
 		if (amount < 0) return -1;
 		return 0;
@@ -144,12 +145,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return -1;
 		}
 		const tag = tagowner.items.find(x=> x.id == tagId);
-		return CityHelpers.getDefaultTagDirection(tag, tagowner, sheetowner);
+		return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner, sheetowner);
 	},
 
 		'hasActivatedTag': function (sheetownerId, _actorId, tagId, tokenId = null) {
 			//TODO: actorId isn't used but is there for compatibility with older version
-			return CityHelpers.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
+			return SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
 		},
 
 		'devMode': function () {

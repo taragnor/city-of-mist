@@ -18,11 +18,12 @@
 			<div class="other-status-list">
 
 				{{#each character.statuses as |status id|}}
-				<div class="status status-name status-line" data-status-id="{{status.id}}" data-owner-id="{{character.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{character.tokenId}}" data-scene-Id="{{status._sceneId}}">
-					<div class="status-select-button {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id character.tokenId ) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id character.tokenId) -1)}} negative-selected {{/if}} {{#if (gt status.system.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.system.pips 0)}} {{status.system.pips}} pips {{/if}}">
-						{{status.name}}-{{status.system.tier}}
-					</div>
-				</div>
+				{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status sheetowner=../../sheetowner owner=status.parent locked=true}}
+				<!-- <div class="status status-name status-line" data-status-id="{{status.id}}" data-owner-id="{{character.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{character.tokenId}}" data-scene-Id="{{status._sceneId}}"> -->
+				<!-- 	<div class="status-select-button {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id character.tokenId ) 1)}} positive-selected {{/if}} {{#if (eq (activatedDirection ../../sheetowner.id ../character.id status.id character.tokenId) -1)}} negative-selected {{/if}} {{#if (gt status.system.pips 0)}} status-with-pips {{/if}}" title="{{#if (gt status.system.pips 0)}} {{status.system.pips}} pips {{/if}}"> -->
+				<!-- 		{{status.name}}-{{status.system.tier}} -->
+				<!-- 	</div> -->
+				<!-- </div> -->
 				{{/each}}
 			</div>
 		</div>

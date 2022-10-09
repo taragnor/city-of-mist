@@ -4,6 +4,7 @@ import { ClueChatCards } from "./clue-cards.mjs";
 import {CityDialogs } from "./city-dialogs.mjs";
 import {CitySockets} from "./city-sockets.mjs";
 import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 
 export class CityRoll {
 	#roll;
@@ -95,22 +96,6 @@ export class CityRoll {
 				tags[0].amount = 3;
 			}
 		}
-		// NOTE: OOLD HELP / HURT SYSTEM
-		// if (options.helpId && options.helpAmount > 0) {
-		// 	const helper = game.actors.find( x =>
-		// 		x.type == "character"
-		// 		&& x.items.find( i => i.id == options.helpId)
-		// 	);
-		// 	const helpJuice = helper.items.find( i => i.id == options.helpId);
-		// 	allModifiers.push( {
-		// 		name: `Help From ${helper.name} (must be deducted manually)`,
-		// 		id: options.helpId,
-		// 		amount: Math.min( options.helpAmount, helpJuice.system.amount),
-		// 		ownerId: helper.id,
-		// 		tagId: null,
-		// 		type: "status",
-		// 	});
-		// }
 		let usedStatus = [];
 		if (!options.noStatus) {
 			const status = allModifiers.filter (x=> x.type == "status");
@@ -387,10 +372,10 @@ export class CityRoll {
 	}
 
 	async modifierPopup(move_id, actor) {
-		const activated = CityHelpers.getPlayerActivatedTagsAndStatus();
+		const activated = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
 		const tagListLongForm =  activated
 			.map( tagShortHand =>  {
-				const item = CityHelpers.resolveTagAndStatusShorthand(tagShortHand);
+				const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
 				return {
 					item,
 					review: "pending",
