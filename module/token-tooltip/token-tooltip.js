@@ -7,10 +7,13 @@ const CSS_NAME = `${CSS_PREFIX}name`;
 export class TokenTooltip {
 
 	constructor() {
+		this._tokenhover = false;
+		this._boxHover = false;
 		this.element = TokenTooltip.div(CSS_TOOLTIP);
 		this.nameElement = TokenTooltip.div(CSS_NAME);
 		this.element.appendChild(this.nameElement);
 		this.currentToken = null;
+		$(this.element).hover( this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token, hovered) => {
 			this.onHover(token, hovered);
@@ -26,8 +29,8 @@ export class TokenTooltip {
 	async onHover(token, hovered) {
 		if (hovered) {
 			try {
-			if (!game.settings.get("city-of-mist", "tokenToolTip"))
-				return true;
+				if (!game.settings.get("city-of-mist", "tokenToolTip"))
+					return true;
 			} catch (e) {
 				console.warn(e);
 				return true;
@@ -35,19 +38,52 @@ export class TokenTooltip {
 			if (! await this.updateData(token))
 				return true;
 			this.currentToken = token;
+			this._tokenHover = true;
 			this.updatePosition(token);
-			this.show();
+			this.updateVisibility();
+			// this.show();
 		} else {
+			const token = this.currentToken;
+			setTimeout( () => {
+				if (this.currentToken != token) return;
+				this._tokenHover = false;
+				this.updateVisibility();
+			}, 100);
+		}
+		return true;
+	}
+
+	updateVisibility() {
+		console.log(`Updating Visibility ${this._tokenHover} ${this._boxHover}`);
+		if (this._tokenHover || this._boxHover)
+			this.show();
+		else {
 			this.currentToken = null;
 			this.hide();
 		}
-		return true;
+	}
+
+	onBoxHover() {
+		console.log("Box hover");
+		if ($(this.element).hasClass(CSS_SHOW)) {
+			this._boxHover = true;
+			console.log(`${this._boxHover}`);
+			this.updateVisibility();
+		}
+	}
+
+	onBoxUnHover() {
+		console.log("Box Unhover");
+		if ($(this.element).hasClass(CSS_SHOW)) {
+			this._boxHover = false;
+			this.updateVisibility();
+		}
 	}
 
 	updatePosition(token) {
 		const top = Math.floor(token.worldTransform.ty - 8);
       const tokenWidth = token.w * canvas.stage.scale.x;
-      const left = Math.ceil(token.worldTransform.tx + tokenWidth + 8);
+      const left = Math.ceil(token.worldTransform.tx + tokenWidth + 4);
       this.element.style.left = `${left}px`;
 		this.element.style.top = `${top}px`;
 	}
