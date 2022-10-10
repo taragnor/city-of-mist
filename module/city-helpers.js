@@ -120,6 +120,12 @@ export class CityHelpers {
 		return TokenTools.getSceneTokenActors(scene);
 	}
 
+	/** Gets the current tags and statuses for the given scene, defaults to current scene
+	*/
+	static getSceneTagsAndStatuses(scene = game.scenes.current) {
+		return [];
+	}
+
 	static createTokenActorData(tokendata) {
 		//creates specialized dummy data, probably isn't needed
 		const token = new Token(tokendata);

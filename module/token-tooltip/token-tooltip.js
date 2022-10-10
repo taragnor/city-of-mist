@@ -1,5 +1,7 @@
 import {SelectedTagsAndStatus} from "../selected-tags.mjs";
 
+import {HTMLTools} from "../tools/HTMLTools.mjs";
+
 const KEY = 'city-of-mist';
 const CSS_PREFIX = `${KEY}--`;
 const CSS_TOOLTIP = `${CSS_PREFIX}tooltip`;
@@ -11,9 +13,9 @@ export class TokenTooltip {
 	constructor() {
 		this._tokenhover = false;
 		this._boxHover = false;
-		this.element = TokenTooltip.div(CSS_TOOLTIP);
+		this.element = HTMLTools.div(CSS_TOOLTIP);
 		$(this.element).addClass("tag-selection-context");
-		this.nameElement = TokenTooltip.div(CSS_NAME);
+		this.nameElement = HTMLTools.div(CSS_NAME);
 		this.element.appendChild(this.nameElement);
 		this.currentToken = null;
 		$(this.element).hover( this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
@@ -115,60 +117,6 @@ export class TokenTooltip {
 		$(this.nameElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
 		$(this.nameElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		return true;
-	}
-
-	async _tagSelect(event, invert = false) {
-		const id = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "sheetOwnerId");
-		const actor = await this.getOwner(actorId);
-		const tagownerId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const sceneId = getClosestData(event, "sceneId");
-		const owner = await this.getOwner(tagownerId, tokenId, sceneId );
-		if (!owner)
-			throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);
-		const tag = await owner.getTag(id);
-		if (!tag) {
-			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
-		}
-		const type = actor.type;
-		if (type != "character" && type != "extra") {
-			console.warn (`Invalid Type to select a tag: ${type}`);
-			return;
-		}
-		if (actorId.length < 5){
-			throw new Error(`Bad Actor Id ${actorId}`);
-		}
-		const subtype = tag.system.subtype;
-		let direction = CityHelpers.getDefaultTagDirection(tag, owner, actor);
-		if (invert)
-			direction *= -1;
-		const activated = CityHelpers.toggleSelectedItem(tag, direction);
-
-		if (activated === null) return;
-		const html = $(event.currentTarget);
-		html.removeClass("positive-selected");
-		html.removeClass("negative-selected");
-		if (activated != 0) {
-			CityHelpers.playTagOn();
-			if (activated > 0)
-				html.addClass("positive-selected");
-			else
-				html.addClass("negative-selected");
-		} else {
-			CityHelpers.playTagOff();
-		}
-	}
-
-	async _statusSelect(event) {
-		console.log("Placehodler");
-
-	}
-
-	static div(cssClass) {
-		const div = document.createElement('div');
-		div.classList.add(cssClass);
-		return div;
 	}
 
 } // end of class

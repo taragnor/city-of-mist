@@ -169,6 +169,16 @@ export class HTMLTools {
 		return await this.multiChoiceBox(list, title);
 	}
 
+	static div(cssClass) {
+		if (typeof cssClass == "string")
+			cssClass = [cssClass];
+		const div = document.createElement('div');
+		for (const cl of cssClass) {
+			div.classList.add(cl);
+		}
+		return div;
+	}
+
 // **************************************************
 // **************   EventHandlers  *************** *
 // **************************************************

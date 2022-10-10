@@ -3048,3 +3048,18 @@ span.secret {
   animation: blinker 1s step-start infinite;
 }
 
+
+.scene-tag-window {
+	position: absolute;
+	/* background: rgba(255, 255, 255, 0.75); */
+	border-radius: 2px;
+	border: 2px solid rgba(255, 255, 255, 0.9);
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+}
+
+.scene-tags-template {
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+}
+

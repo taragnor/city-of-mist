@@ -25,6 +25,7 @@ import {} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 import { VersionUpdater } from "./version-update.mjs";
 import { CityHandlebarsHelpers } from "./city-handlebars-helpers.mjs";
+import {} from "./story-tag-window.mjs";
 import {CitySockets} from "./city-sockets.mjs";
 
 import {ClueChatCards } from "./clue-cards.mjs";
