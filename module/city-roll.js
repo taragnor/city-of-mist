@@ -279,7 +279,8 @@ export class CityRoll {
 		if (CityHelpers.altPowerEnabled())
 			return this.getAltPower(rollOptions);
 		const { power, adjustment} = this.getRollPower(rollOptions);
-		return {power: power + adjustment, adjustment:0};
+		const adjPower = Math.max( 1, power+ adjustment);
+		return {power: adjPower, adjustment:0};
 	}
 
 	static getAltPower(rollOptions) {
