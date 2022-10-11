@@ -5,6 +5,7 @@ export class DBAccessor {
 			this._loadPacks();
 			this._initHooks();
 			console.log("Database initialized");
+			Hooks.callAll("DB Ready");
 		});
 	}
 
@@ -57,10 +58,10 @@ export class DBAccessor {
 		let retarr;
 		switch (type) {
 			case "Actor":
-				retarr =  this.filterActors( x => x.id == id);
+				retarr =  DBAccessor.filterActors( x => x.id == id);
 				break;
 			case "Item":
-				retarr = this.filterItems( x => x.id == id);
+				retarr = DBAccessor.filterItems( x => x.id == id);
 				break;
 			default:
 				throw new Error(`Unsupported Type ${type}`);

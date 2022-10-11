@@ -3,16 +3,11 @@
 	<div class="flex-row tool-tip">
 		{{#each actor.my_statuses as |status|}}
 		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=status sheetowner=null locked=true}}
-		<!-- <div class="narrated-status-name">{{status.name}}-{{status.system.tier}}</div> -->
 		{{/each}}
 	</div>
 	<div class="flex-row tool-tip">
 		{{#each actor.my_story_tags as |tag|}}
 		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=true}}
-		<!-- <div class="narrated-story-tag"> -->
-		<!-- 	<a title="Story Tag" ><i class="fas fa-tag"></i> </a> -->
-		<!-- 	{{tag.name}} -->
-		<!-- </div> -->
 		{{/each}}
 	</div>
 </div>

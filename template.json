@@ -117,7 +117,8 @@
 			"counterexample2": "",
 			"restricton0": "",
 			"restricton1": "",
-			"restricton2": ""
+			"restricton2": "",
+			"sceneId":""
 		},
 		"theme": {
 			"templates": ["default"],
@@ -152,7 +153,8 @@
 			"hidden": false,
 			"spectrum_status": "",
 			"temporary": false,
-			"permanent": false
+			"permanent": false,
+			"sceneId":""
 		},
 		"spectrum" : {
 			"max_tier" : 0

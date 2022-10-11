@@ -1,5 +1,6 @@
 import {CityDB} from "./city-db.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 export class CityActor extends Actor {
 
@@ -335,7 +336,7 @@ export class CityActor extends Actor {
 	}
 
 	async createNewTheme(name, themebook_id) {
-		const themebooks  = await CityHelpers.getAllItemsByType("themebook", game);
+		const themebooks  = CityHelpers.getAllItemsByType("themebook", game);
 		const themebook = themebooks.find( x=> x.id == themebook_id);
 		const img = themebook.img;
 		if (!img )
@@ -704,7 +705,7 @@ export class CityActor extends Actor {
 
 	async toggleLockState() {
 		const locked = !this.system.locked;
-		await SelectedTagsAndStatus.clearAllActivatedItems();
+		SelectedTagsAndStatus.clearAllActivatedItems();
 		await CityHelpers.playLockOpen();
 		return await this.update( {"data.locked": locked});
 	}
@@ -897,7 +898,7 @@ export class CityActor extends Actor {
 		let status = this.hasStatus(name2);
 		if (status) {
 			if (reloaded) {
-				tier2= CityHelpers.statusTiertoBoxes(tier2, pips); //convert to boxes
+				tier2= CityHelpers.statusTierToBoxes(tier2, pips); //convert to boxes
 			}
 			return await status.addStatus(tier2);
 		} else {

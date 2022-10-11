@@ -4,6 +4,7 @@ export class SelectedTagsAndStatus {
 
 	static clearAllActivatedItems() {
 		this._playerActivatedStuff = [];
+		Hooks.callAll("TagOrStatusSelect");
 	}
 
 	/** returns -1, 0, 1 for which direction activateabley is set in
@@ -28,6 +29,7 @@ export class SelectedTagsAndStatus {
 
 	static removeSelectedItem(tagOrStatusId, tokenId) {
 		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> !(x.id == tagOrStatusId && x.tokenId == tokenId ));
+		Hooks.callAll("TagOrStatusSelect");
 	}
 
 	static activateSelectedItem(tagOrStatus, direction = 1) {
@@ -51,6 +53,7 @@ export class SelectedTagsAndStatus {
 			tokenId
 		}
 		this._playerActivatedStuff.push(newItem);
+		Hooks.callAll("TagOrStatusSelect");
 	}
 
 	/** returns shorthand version of tags and statuses

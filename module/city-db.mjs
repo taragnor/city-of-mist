@@ -275,4 +275,3 @@ export class CityDB extends DBAccessor {
 
 CityDB.init();
 
-

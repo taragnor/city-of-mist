@@ -35,6 +35,7 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/tag-or-status-name.hbs",
 	  "systems/city-of-mist/templates/parts/status-with-controls.hbs",
 	  "systems/city-of-mist/templates/dialogs/roll-modifier.hbs",
+	  "systems/city-of-mist/templates/parts/tag-or-status.hbs",
 
   ];
 

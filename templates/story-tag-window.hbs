@@ -1,7 +1,19 @@
-<div>
-	Scene Tags
+<div class="flex-row">
+	<div class="flex-wide">
+		{{localize "CityOfMist.terms.scene"}} {{localize "CityOfMist.terms.tags"}} / {{localize "CityOfMist.terms.statuses"}}
+	</div>
+	<div class="shrink-icon">
+		<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
+	</div>
+	<div class="shrink-icon">
+		<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+	</div>
 </div>
 <hr>
-<ul>
-	<li> test Tag</li>
+<ul class="tag-list">
+	{{#each tagsAndStatuses as |item|}}
+	<li>
+		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=item sheetowner=null locked=true}}
+	</li>
+	{{/each}}
 </ul>

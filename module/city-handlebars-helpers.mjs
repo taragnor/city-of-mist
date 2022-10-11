@@ -132,21 +132,27 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
 	},
 
-	'defaultTagDirection': function (tagName, tagOwnerId, tagId, tokenId=null) {
-		if (typeof tokenId == "object") {
-			tokenId = null;
-			//Fix for handlebars overcall with arguments
-		}
-		const tagowner = CityHelpers.getOwner(tagOwnerId, tokenId);
-		if (tagowner == undefined) {
-			console.warn( "null tag owner passed into defualtTagDirection Handlebars helper");
-		}
-		if (tagowner.documentName == "Scene") {
-			return -1;
-		}
-		const tag = tagowner.items.find(x=> x.id == tagId);
-		return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
-	},
+		'defaultTagDirection': function (tagName, tagOwnerId, tagId, tokenId=null) {
+			if (typeof tokenId == "object") {
+				tokenId = null;
+				//Fix for handlebars overcall with arguments
+			}
+			let tagowner;
+			try{
+				tagowner = CityHelpers.getOwner(tagOwnerId, tokenId);
+			} catch (e) {
+				console.log(`Trouble finding tag owner ${tagOwnerId}, tokenID = ${tokenId}`);
+				console.log(e);
+			}
+			if (tagowner == undefined) {
+				console.warn( "null tag owner passed into defualtTagDirection Handlebars helper");
+			}
+			if (tagowner.documentName == "Scene") {
+				return -1;
+			}
+			const tag = tagowner.items.find(x=> x.id == tagId);
+			return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
+		},
 
 		'hasActivatedTag': function (sheetownerId, _actorId, tagId, tokenId = null) {
 			//TODO: actorId isn't used but is there for compatibility with older version
