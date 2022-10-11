@@ -16,11 +16,14 @@ export class StoryTagDisplayContainer {
 	}
 
 	async refreshContents() {
-		if (CityHelpers.getSceneTagsAndStatuses().length == 0 && !game.user.isGM) {
+		const tagsAndStatuses = CityHelpers.getSceneTagsAndStatuses();
+		if (tagsAndStatuses.length == 0 && !game.user.isGM) {
 			this.dataElement.innerHTML= "";
 			return false;
 		}
-		const templateData = {};
+		const templateData = {
+			tagsAndStatuses
+		};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		// this.dataElement.style.display = "block";
 		this.dataElement.innerHTML = html;
