@@ -1,5 +1,6 @@
 import {MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 
 
 export class JuiceMasterSession extends MasterSession {
@@ -103,10 +104,13 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 	}
 
 	async start() {
-		this.registerSubscribers( game.users.filter( x=> x.isGM));
+		const gms = game.users.filter( x=> x.isGM && x.active);
+		this.registerSubscribers(gms);
+		console.log(`GMs detected :${gms.length}`);
+		if (gms.length == 0)
+			return this.tagList;
 		let state = "pending";
 		let returnTagList;
-		const origTagList = this.tagList.slice();
 
 		while (state != "approved") {
 			try {
@@ -122,7 +126,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				returnTagList = result.tagList
 					.map( ( {item, amount, review} ) => {
 						return {
-							item: CityHelpers.resolveTagAndStatusShorthand(item),
+							item: SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
 							review,
 							amount
 						};
@@ -143,7 +147,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		return this.tagList
 			.map ( item => {
 				return {
-					item : CityHelpers.fullTagOrStatusToShorthand(item.item),
+					item : SelectedTagsAndStatus.fullTagOrStatusToShorthand(item.item),
 					review: item.review,
 					amount: item.amount,
 				};
@@ -174,7 +178,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 				return {
 					review,
 					amount,
-					item: CityHelpers.fullTagOrStatusToShorthand(item)
+					item: SelectedTagsAndStatus.fullTagOrStatusToShorthand(item)
 				};
 			});
 		replyFn ( {

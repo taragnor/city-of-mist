@@ -59,7 +59,8 @@ export class StoryTagDisplayContainer {
 }
 
 Hooks.once('cityDBLoaded', () => {
-	//NOTE: delated until DB is ready
-	new StoryTagDisplayContainer();
+	if (CityHelpers.sceneTagWindowEnabled())  {
+		new StoryTagDisplayContainer();
+	}
 });
 

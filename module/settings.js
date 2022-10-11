@@ -200,6 +200,17 @@ export const registerSystemSettings = function() {
 		restrict: true,
 	});
 
+	game.settings.register("city-of-mist", "sceneTagWindow", {
+		name: localize("CityOfMist.settings.sceneTagWindow.name"),
+		hint: localize("CityOfMist.settings.sceneTagWindow.hint"),
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
 	game.settings.register("city-of-mist", "devMode", {
 		name: localize("CityOfMist.settings.devMode.name"),
 		hint: localize("CityOfMist.settings.devMode.hint"),

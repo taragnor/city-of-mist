@@ -421,8 +421,12 @@
 "CityOfMist.settings.tagReview.name": "MC Tag Review",
 "CityOfMist.settings.tagReview.hint": "Before roll is made MC gets to review what tags and statuses are included.",
 
+"CityOfMist.settings.sceneTagWindow.name": "Scene Tags",
+"CityOfMist.settings.sceneTagWindow.hint": "Displays scene tags and statuses on the main screen (may cause screen clutter)",
+
 "CityOfMist.settings.devMode.name": "Developer Mode",
 "CityOfMist.settings.devMode.hint": "Exposes various internal variables of the system (advanced use only).",
+
 
 "CityOfMist.settings.statusAdditionSystem.name": "Status Addition",
 "CityOfMist.settings.statusAdditionSystem.hint": "Choose which system to use when adding statuses",

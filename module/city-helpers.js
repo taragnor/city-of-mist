@@ -799,4 +799,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return game.settings.get('city-of-mist', "tagReview") ?? false;
 	}
 
+	static sceneTagWindowEnabled() {
+		return game.settings.get('city-of-mist', "sceneTagWindow") ?? false;
+	}
+
 } //end of class
