@@ -744,7 +744,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 						icon: '<i class="fas fa-check"></i>',
 						label: label,
 						callback: async() => conf(CityHelpers.sendToChat(text, sender)),
-						// callback: async() => conf(CityHelpers.sendToChat(text, sender)),
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
@@ -780,7 +779,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 						icon: '<i class="fas fa-check"></i>',
 						label: label,
 						callback: async() => conf(true),
-						// callback: async() => conf(CityHelpers.sendToChat(text, sender)),
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
