@@ -1,3 +1,4 @@
+import {CityDialogs} from "./city-dialogs.mjs";
 export class SceneTags {
 
 	static async #getSceneContainer() {
@@ -23,11 +24,11 @@ export class SceneTags {
 
 	}
 
-	static async createSceneTag(name = "") {
+	static async createSceneTag(name = "", restrictDuplicates= true) {
 		if (!name)
 			return await this.#createSceneTagInteractive();
 		const container = await this.#getSceneContainer();
-		const tag = await container.createStoryTag(name, true);
+		const tag = await container.createStoryTag(name, restrictDuplicates);
 		Debug(tag);
 		if (tag)
 			await tag.update( {"data.sceneId": game.scenes.current.id});
@@ -47,13 +48,25 @@ export class SceneTags {
 
 	static async #createSceneTagInteractive() {
 		const container = await this.#getSceneContainer();
-		throw new Error("Not yet implemented");
-
+		const item = await this.createSceneTag("Unnamed Tag", false);
+		const updateObj = await CityDialogs.itemEditDialog(item);
+		if (updateObj) {
+			CityHelpers.modificationLog(container, "Created", updateObj, `tier  ${updateObj.system.tier}`);
+		} else {
+			await container.deleteTag(obj.id);
+		}
 	}
 
 	static async #createSceneStatusInteractive() {
 		const container = await this.#getSceneContainer();
-		throw new Error("Not yet implemented");
+		const item = await this.createSceneStatus("Unnamed Status", 1, 0);
+		const updateObj = await CityDialogs.itemEditDialog(item);
+		if (updateObj) {
+			Debug(updateObj);
+			CityHelpers.modificationLog(container, "Created", updateObj, `tier  ${updateObj.system.tier}`);
+		} else {
+			await container.deleteStatus(obj.id);
+		}
 
 	}
 

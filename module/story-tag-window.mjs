@@ -50,6 +50,6 @@ export class StoryTagDisplayContainer {
 
 Hooks.once('DB Ready', () => {
 	//NOTE: delated until DB is ready
-	setTimeout(() =>  new StoryTagDisplayContainer(), 5000);
+	setTimeout(() =>  new StoryTagDisplayContainer(), 2000);
 });
 

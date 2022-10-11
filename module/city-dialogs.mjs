@@ -474,6 +474,22 @@ export class CityDialogs {
 
 		});
 	}
+
+	static async itemEditDialog(item) {
+		item.sheet.render(true);
+		return await new Promise ( (conf, _rej) => {
+			const checker = () =>  {
+				const isOpen = item.sheet._state != -1; //window state check
+				if (isOpen)
+					setTimeout( checker, 500);
+				else
+					conf(item);
+			}
+			setTimeout(checker, 1000);
+		});
+
+	}
+
 }
 
 
