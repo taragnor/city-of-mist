@@ -646,7 +646,6 @@ export class CityRoll {
 				};
 				console.log("Pushing Juice!");
 				this.#selectedList.push(newItem);
-				Debug(this.#selectedList);
 			});
 	}
 
@@ -665,7 +664,7 @@ export class CityRoll {
 			$(html).find('.effect-slider-block').show();
 		}
 		this.#options.powerModifier = Number(
-			$(html).find('#effect-slider').val()
+			$(html).find('#effect-slider').val() ?? 0
 		);
 		console.log("power:" + this.#options.powerModifier);
 		this.#prepareModifiers();
