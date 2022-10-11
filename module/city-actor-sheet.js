@@ -331,16 +331,6 @@ export class CityActorSheet extends CitySheet {
 
 	async _deleteTag (event) {
 		await HTMLHandlers.deleteTag(event);
-		// const tagId = getClosestData(event, "tagId");
-		// const actorId = getClosestData(event, "ownerId");
-		// const actor = await this.getOwner(actorId);
-		// const tag = await actor.getTag(tagId);
-		// const tagName = tag.name;
-		// if (tag.system.subtype != "story")
-		// 	if (!await this.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
-		// 		return;
-		// await actor.deleteTag(tagId);
-		// await CityHelpers.modificationLog(actor, `Deleted` , tag);
 	}
 
 	async _deleteImprovement (event) {
@@ -459,29 +449,10 @@ export class CityActorSheet extends CitySheet {
 
 	async _burnTag (event) {
 		await HTMLHandlers.burnTag(event);
-		// const actorId = getClosestData(event, "ownerId");
-		// const actor = await this.getOwner(actorId);
-		// const id = getClosestData( event, "tagId");
-		// const tag = await actor.getTag(id);
-		// const tagname = tag.name;
-		// if (!await this.confirmBox(`Burn ${tagname}`, `Confirm Burn ${tagname}`))
-		// 	return;
-		// await actor.burnTag(id);
-		// CityHelpers.modificationLog(actor, "Burned", tag);
-		// // CityHelpers.modificationLog(`${actor.name}: Burned ${tagname}`);
 	}
 
 	async _unburnTag (event) {
 		await HTMLHandlers.unburnTag(event);
-		// const id = getClosestData( event, "tagId");
-		// const actorId = getClosestData(event, "ownerId");
-		// const actor = await this.getOwner(actorId);
-		// const tag = await actor.getTag(id);
-		// if (await this.confirmBox("Unburn Tag", `unburning ${tag.name}`)) {
-		// 	await actor.burnTag(id, 0);
-		// }
-		// CityHelpers.modificationLog(actor, `Unburned`, tag);
-		// CityHelpers.modificationLog(`${actor.name}: Unburned ${tag.name}`);
 	}
 
 	async _addAttentionOrFade (event) {
@@ -630,14 +601,6 @@ export class CityActorSheet extends CitySheet {
 
 	async _deleteStatus (event, autodelete = false) {
 		await HTMLHandlers.deleteStatus(event, autodelete);
-// 		const status_id = getClosestData(event, "statusId");
-// 		const actorId = getClosestData(event, "ownerId");
-// 		const owner = await this.getOwner(actorId);
-// 		const status = await owner.getStatus(status_id);
-// 		if (!this.actor.system.locked || autodelete || await this.confirmBox("Delete Status", `Delete ${status.name}`)) {
-// 			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
-// 			await owner.deleteStatus(status_id);
-// 		}
 	}
 
 
@@ -714,18 +677,6 @@ export class CityActorSheet extends CitySheet {
 	async _statusAdd (event) {
 		//adds a second status to existing
 		await HTMLHandlers.statusAdd(event);
-		// const status_id = getClosestData(event, "statusId");
-		// const ownerId = getClosestData(event, "ownerId");
-		// const owner = await this.getOwner(ownerId);
-		// const status = await owner.getStatus(status_id);
-		// const {data: {name, data: {tier, pips}}} = status;
-		// let ret = null;
-		// if (ret = await this.statusAddDialog(status)) {
-		// 	const {name: newname, tier: amt} = ret;
-		// 	// console.log(`${name} : ${tier}`);
-		// 	await status.addStatus(amt, newname);
-		// 	await this.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
-		// }
 	}
 
 	async statusDrop({name, tier}) {
@@ -751,34 +702,14 @@ export class CityActorSheet extends CitySheet {
 
 	async _statusSubtract (event) {
 		return HTMLHandlers.statusSubtract(event);
-		// const status_id = getClosestData(event, "statusId");
-		// const ownerId = getClosestData(event, "ownerId");
-		// const owner = await this.getOwner(ownerId);
-		// const status = await owner.getStatus(status_id);
-		// const {data: {name, data: {tier, pips}}} = status;
-		// let ret = null;
-		// if (ret = await this.statusSubtractDialog(status)) {
-		// 	const {name: newname, tier: amt} = ret;
-		// 	const revised_status = await status.subtractStatus(amt, newname);
-		// 	await this.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
-		// 	if (revised_status.system.tier <= 0)
-		// 		owner.deleteStatus(revised_status.id);
-		// }
 	}
 
 	async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
 		await HTMLHandlers.reportStatusAdd.apply(HTMLHandlers, arguments);
-		// const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		// const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-		// CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
-
 	}
 
 	async reportStatsuSubtract(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
 		await HTMLHandlers.reportStatusSubtract.apply(HTMLHandlers, arguments);
-		// const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		// const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-		// CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
 	}
 
 	async _statusEdit (event) {

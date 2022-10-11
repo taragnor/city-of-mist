@@ -672,7 +672,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static async _statusAddSubDialog(status, title,type ="addition") {
 		const classic = CityHelpers.isClassicCoM(type);
 		const reloaded = CityHelpers.isCoMReloaded(type);
-		const templateData = {status: status.data, data: status.system, classic, reloaded};
+		const templateData = {status, data: status.system, classic, reloaded};
+		// const templateData = {status: status.data, data: status.system, classic, reloaded};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, reject) => {
 			const options ={};
