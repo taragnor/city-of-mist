@@ -120,7 +120,7 @@ export class StatusTracker {
 
 		const status = await actor.getStatus(statusId);
 
-		const {data: {name, data: {tier, pips}}} = status;
+		const {name, system: {tier, pips}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.addto"), "addition")) {
 			//TODO: add in logging function for loggable chat
@@ -136,7 +136,7 @@ export class StatusTracker {
 
 		const status = await actor.getStatus(statusId);
 
-		const {data: {name, data: {tier, pips}}} = status;
+		const {name, system: {tier, pips}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.subtract"), "subtraction")) {
 			//TODO: add in logging function for loggable chat
