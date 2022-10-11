@@ -7,6 +7,6 @@
 	{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=item.parent activated=false tag=item data=item.system sheetowner=sheetowner tagdirection=(getDirection item) }}
 	{{/if}}
 	{{#if (eq item.type "status") }}
-	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked owner=item.parent status=item sheetowner=sheetowner direction=(getDirection item)}}
+	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked status=item }}
 	{{/if}}
 </div>
