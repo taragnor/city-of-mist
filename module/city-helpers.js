@@ -801,4 +801,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return game.settings.get('city-of-mist', "sceneTagWindow") ?? false;
 	}
 
+	static altPowerEnabled() {
+		return game.settings.get('city-of-mist', "altPower") ?? false;
+	}
+
 } //end of class

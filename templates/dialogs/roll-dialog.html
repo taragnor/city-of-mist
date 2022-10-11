@@ -1,6 +1,5 @@
 <form class="{{cssClass}} roll-dialog" autocomplete="off">
 	<section class="header">
-		{{#if variantPower}}
 		<div>
 			<span class="dialog-label">Roll Bonus:</span>
 			<span class="roll-bonus"></span>
@@ -9,12 +8,6 @@
 			<span class="dialog-label"> Effect:</span>
 			<span class="move-effect"></span>
 		</div>
-		{{else}}
-		<div>
-			<span>Power:</span>
-			<span class="move-power">{{power}}</span>
-		</div>
-		{{/if}}
 		<div class="modifierList">
 			{{#each tagAndStatusList as |item|}}
 			{{> "systems/city-of-mist/templates/dialogs/roll-modifier.hbs" item=item}}
@@ -28,7 +21,7 @@
 	<input id="roll-modifier-amt" type="number" value="0">
 	<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>
 	<input id="roll-dynamite-allowed" type="checkbox" {{#if dynamite}} checked {{/if}}>
-	{{#if variantPower}}
+	{{#if altPower}}
 	<div class="effect-slider-block">
 		<label class="dialog-label" for="effect-slider"> Take Penalty to Increase Effect
 		</label>

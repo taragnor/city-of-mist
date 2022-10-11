@@ -276,6 +276,13 @@ export class CityRoll {
 	}
 
 	static getPower(rollOptions) {
+		if (CityHelpers.altPowerEnabled())
+			return this.getAltPower(rollOptions);
+		const { power, adjustment} = this.getRollPower(rollOptions);
+		return {power: power + adjustment, adjustment:0};
+	}
+
+	static getAltPower(rollOptions) {
 		let adjustment = rollOptions.powerModifier ?? 0;
 		let power = (rollOptions.burnTag) ? 3 : 2 + adjustment;
 		return { power: power, adjustment: 0 };
@@ -426,7 +433,8 @@ export class CityRoll {
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder
-		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList};
+		const altPower = CityHelpers.altPowerEnabled();
+		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList, altPower};
 		Debug(templateData);
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		let juiceSession = null, gmSession = null;

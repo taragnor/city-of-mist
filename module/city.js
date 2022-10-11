@@ -47,10 +47,6 @@ Hooks.on('ready', () => {
 	window.CitySockets = CitySockets;
 });
 
-Hooks.once("ready", () => {
-	ui.notifications.notify("Running Taragnor Expiremental");
-});
-
 Hooks.once("cityDBLoaded", async function() {
 	if (game.user.isGM) {
 		await VersionUpdater.update();

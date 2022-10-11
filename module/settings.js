@@ -297,7 +297,18 @@ export const registerSystemSettings = function() {
 				game.settings.set('city-of-mist', "system", "custom");
 			}
 		});
-	} // end of custom settings
+
+	game.settings.register("city-of-mist", "altPower", {
+		name: localize("CityOfMist.settings.altPower.name"),
+		hint: localize("CityOfMist.settings.altPower.hint"),
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: Boolean,
+		default: false,
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+} // end of custom settings
 
 
 // Example Getter
