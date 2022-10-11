@@ -1,6 +1,7 @@
 import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {SceneTags} from "./scene-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import {HTMLHandlers} from "./universal-html-handlers.mjs";
 
 export class StoryTagDisplayContainer {
 
@@ -46,33 +47,13 @@ export class StoryTagDisplayContainer {
 		$(this.dataElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		$(this.dataElement).find(".create-story-tag").click(() => SceneTags.createSceneTag() );
 		$(this.dataElement).find(".create-status").click( () => SceneTags.createSceneStatus() );
-		$(this.dataElement).find('.status-delete').click(this.#deleteStatus.bind(this));
-		$(this.dataElement).find('.tag-delete').click(this.#deleteTag.bind(this) );
+		$(this.dataElement).find('.status-delete').click(HTMLHandlers.deleteStatus.bind(this));
+		$(this.dataElement).find('.tag-delete').click(HTMLHandlers.deleteTag);
+		$(this.dataElement).find('.status-add').click(HTMLHandlers.statusAdd);
+		$(this.dataElement).find('.status-subtract').click(HTMLHandlers.statusSubtract);
+		$(this.dataElement).find('.tag-burn').click(HTMLHandlers.burnTag);
+		$(this.dataElement).find('.tag-unburn').click(HTMLHandlers.unburnTag.bind(this));
 
-	}
-
-	async #deleteTag (event) {
-		const tagId = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await CityHelpers.getOwner(actorId);
-		const tag = await actor.getTag(tagId);
-		const tagName = tag.name;
-		if (tag.system.subtype != "story")
-			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
-				return;
-		await actor.deleteTag(tagId);
-		await CityHelpers.modificationLog(actor, `Deleted` , tag);
-	}
-
-	async #deleteStatus (event, autodelete = false) {
-		const status_id = getClosestData(event, "statusId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await CityHelpers.getOwner(actorId);
-		const status = await owner.getStatus(status_id);
-		if ( autodelete || (!owner.system.locked && await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`))) {
-			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
-			await owner.deleteStatus(status_id);
-		}
 	}
 
 }

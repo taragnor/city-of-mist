@@ -131,6 +131,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = "") {
+			console.warn("activatedDirection is a deprecated helper, use getDirection instead");
 		if (typeof tokenId == "object") {
 			tokenId = "";
 			//Fix for handlebars overcall with arguments

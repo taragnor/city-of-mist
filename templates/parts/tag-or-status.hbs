@@ -4,7 +4,7 @@
 
 <div class="tag-or-status">
 	{{#if (eq item.type "tag")}}
-	{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=item locked=false}}
+	{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=item locked=false canBurn=true}}
 	{{/if}}
 	{{#if (eq item.type "status")}}
 	{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=item locked=false}}
