@@ -382,12 +382,9 @@ export class CityRoll {
 					amount: tagShortHand.amount
 				}
 			});
-		// const activeTags = tagListLongForm.filter( x=> x.item.type == "tag");
-		// const activeStatus = tagListLongForm.filter( x=> x.item.type == "status");
 		const burnableTags = activated
-			.filter(x => x.direction > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const tagAndStatusList = tagListLongForm.filter( x=> x.item.type == "tag" || x.item.type == "status");
-		// const tags = activated.filter( x=> x.type == "tag");
 		const title = `Make Roll`;
 		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
 		let power = 0; //placeholder

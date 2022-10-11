@@ -32,55 +32,6 @@ export class SelectedTagsAndStatus {
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-	static activateSelectedItem(tagOrStatus, direction = 1) {
-		const x = tagOrStatus;
-		const tagOwner = tagOrStatus?.parent;
-		const tokenId = tagOwner?.token?.id ?? "";
-		const tag = x.type == "tag" ? tagOrStatus : null;
-		const subtype = tag ? tag.system.subtype : "";
-		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
-		const newItem = {
-			name: x.name,
-			id: x.id,
-			amount,
-			ownerId: tagOwner?.id ?? "" ,
-			tagId: tag ? x.id : "",
-			type: x.type,
-			description: tag ? tag.system.description : "",
-			subtype,
-			strikeout: false,
-			review: "pending",
-			tokenId
-		}
-		this._playerActivatedStuff.push(newItem);
-		Hooks.callAll("TagOrStatusSelected", newItem);
-		Hooks.callAll("TagOrStatusSelectChange");
-	}
-
-	static activateSelectedItem(tagOrStatus, direction = 1) {
-		const x = tagOrStatus;
-		const tagOwner = tagOrStatus?.parent;
-		const tokenId = tagOwner?.token?.id ?? "";
-		const tag = x.type == "tag" ? tagOrStatus : null;
-		const subtype = tag ? tag.system.subtype : "";
-		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
-		const newItem = {
-			name: x.name,
-			id: x.id,
-			amount,
-			ownerId: tagOwner?.id ?? "" ,
-			tagId: tag ? x.id : "",
-			type: x.type,
-			description: tag ? tag.system.description : "",
-			subtype,
-			strikeout: false,
-			review: "pending",
-			tokenId
-		}
-		this._playerActivatedStuff.push(newItem);
-		Hooks.callAll("TagOrStatusSelected", newItem);
-		Hooks.callAll("TagOrStatusSelectChange");
-	}
 
 	static activateSelectedItem(tagOrStatus, direction = 1) {
 		const x = tagOrStatus;
