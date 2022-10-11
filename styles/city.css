@@ -3051,15 +3051,27 @@ span.secret {
 
 .scene-tag-window {
 	position: absolute;
-	/* background: rgba(255, 255, 255, 0.75); */
-	border-radius: 2px;
-	border: 2px solid rgba(255, 255, 255, 0.9);
-	background-image: url(../images/extracardbg.webp);
-	background-color: black;
+	margin: 0.3em;
+	padding: 0.6em 1em;
+
+	font-size: 1.1em;
+	line-height: 1.2em;
+	font-family: 'Averia Serif Libre';
+
+	/* font-size: 1em; */
+	/* line-height: 1.3em; */
+	/* font-family: 'PT Serif'; */
+	color: var(--logos-text);
+	background: url(../images/paperbg.webp) repeat;
+	background-size: 500%;
+	border: none;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
 }
 
 .scene-tags-template {
-	background-image: url(../images/extracardbg.webp);
-	background-color: black;
 }
+
 

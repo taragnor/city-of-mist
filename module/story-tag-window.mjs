@@ -5,8 +5,10 @@ export class StoryTagDisplayContainer {
 
 	constructor() {
 		this.element = HTMLTools.div(["scene-tag-window", "tag-selection-context"]);
-		this.element.style.left = "100px";
-		this.element.style.top = "100px";
+		const width =  (-50) + $(document).find("#controls").width();
+		const height =  50+ $(document).find("#navigation").height();
+		this.element.style.left = `${width}px`;
+		this.element.style.top = `${height}px`;
 		this.dataElement = HTMLTools.div("scene-tags-template");
 		this.element.appendChild(this.dataElement);
 		document.body.appendChild(this.element);
@@ -20,7 +22,7 @@ export class StoryTagDisplayContainer {
 		}
 		const templateData = {};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
-		this.dataElement.style.display = "block";
+		// this.dataElement.style.display = "block";
 		this.dataElement.innerHTML = html;
 		return true;
 	}
