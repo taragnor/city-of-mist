@@ -71,6 +71,8 @@ export class HTMLTools {
 		return await this.singleChoiceBox( revlist, title);
 	}
 
+	/** List is in the form of {id, data:[rows], description} returns null if abort or the id of the selection.
+		*/
 	static async singleChoiceBox( list, headerText) {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
@@ -111,6 +113,70 @@ export class HTMLTools {
 			}, options);
 			dialog.render(true);
 		});
+	}
+
+	/** List is in the form of {id, data:[rows], description}
+	returns null if abort or the id of the selection.
+		*/
+	static async multiChoiceBox(list, headerText) {
+		const options = {};
+		const templateData = {list};
+		const html = await renderTemplate(`systems/${game.system.id}/module/tools/multiChoiceBox.hbs`, templateData);
+		return await new Promise( (conf, _reject) => {
+			const dialog = new Dialog({
+				title: `${headerText}`,
+				content: html,
+				buttons: {
+					one: {
+						icon: `<i class="fas fa-check"></i>`,
+						label: "Confirm",
+						callback: (htm) => {
+							let selection = [];
+							$(htm).find(".multi-choice-box").find("input:checked").each(function() {
+								selection.push($(this).val());
+							});
+							if (selection.length > 0) {
+								conf(selection);
+							} else {
+								conf(null);
+							}
+						}
+					},
+					two: {
+						icon: `<i class="fas fa-times"></i>`,
+						label: "Cancel",
+						callback: () => conf(null)
+					}
+				},
+				close: () => {
+					conf(null);
+				},
+			}, options);
+			dialog.render(true);
+		});
+
+	}
+
+	/** returns an array of actors */
+	static async PCSelector(pclist, title = "Select PCs") {
+		const list = pclist.map ( actor => {
+			return {
+				id: actor.id,
+				data: [actor.name],
+				description: "",
+			};
+		});
+		return await this.multiChoiceBox(list, title);
+	}
+
+	static div(cssClass) {
+		if (typeof cssClass == "string")
+			cssClass = [cssClass];
+		const div = document.createElement('div');
+		for (const cl of cssClass) {
+			div.classList.add(cl);
+		}
+		return div;
 	}
 
 // **************************************************

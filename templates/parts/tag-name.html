@@ -1,9 +1,9 @@
 <!-- Template ::
 	tag
-	direction
+	tagdirection
 	activated
 	locked -->
-	<span class="tag-name-block">
+	<span class="tag-name-block" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" >
 		<span class="tag-symbols">
 			{{#if (eq data.subtype "story")}}
 			<a title="Story Tag" ><i class="fas fa-tag"></i> </a>
@@ -30,27 +30,28 @@
 			<a title="Permanent Story Tag" ><i class="fas fa-square"></i> </a>
 			{{/if}}
 		</span>
+		<!-- dir: {{direction}} -->
 		<span class="flex-tag-name
-						 {{data.subtype}}-tag
-						 {{#if tag.isMissingParent}} tag-error {{/if}}
-						 {{#if (and locked (eq data.burned 0))}} active-tag {{/if}}
-						 {{#if (ne direction 0)}} selected-tag {{/if}}
-						 {{#if (gt direction 0)}} positive-selected-tag{{/if}}
-						 {{#if (lt direction 0)}} negative-selected-tag{{/if}}
-						 {{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
-						 {{#if (and (not data.burned) locked)}} tag-select-button  {{/if}}
-						 {{#if (gt (defaultTagDirection sheetowner.id owner.id tag.id ) 0)}}
-					    default-positive {{else}} default-negative
-						 {{/if}}
-						 {{#if (gt data.burned 0)}} burned-tag burn-level-{{data.burned}}  {{/if}}
-						 " title= "
-						 {{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
-						 {{/if}}
-						 {{#if (not data.custom_tag)}} {{data.question_letter}}. {{/if}}{{data.question}} {{#if data.description}}  &#013;{{data.description}} {{/if}}" > {{tag.name}}
-						 {{#if tag.location}}
-						 <span class="story-tag-location">
-							 ( {{tag.location}} )
-						 </span>
-						 {{/if}}
+		{{data.subtype}}-tag
+		name
+		{{#if tag.isMissingParent}} tag-error {{/if}}
+		{{#if (and locked (eq data.burned 0))}} active-tag {{/if}}
+		{{#if (gt tagdirection 0)}} positive-selected{{/if}}
+		{{#if (lt tagdirection 0)}} negative-selected{{/if}}
+		{{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
+		{{#if (and (not data.burned) locked)}} tag-select-button  {{/if}}
+		{{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
+		default-positive {{else}} default-negative
+		{{/if}}
+		{{#if (gt data.burned 0)}} burned-tag burn-level-{{data.burned}}  {{/if}}
+		" title= "
+		{{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
+		{{/if}}
+		{{#if (not data.custom_tag)}} {{data.question_letter}}. {{/if}}{{data.question}} {{#if data.description}}  &#013;{{data.description}} {{/if}}" > {{tag.name}}
+		{{#if tag.location}}
+		<span class="story-tag-location">
+			( {{tag.location}} )
+		</span>
+			{{/if}}
 		</span>
 	</span>

@@ -2,11 +2,11 @@
 	<input type="text" class="borderless character-name" name="name" value="{{actor.name}}" title="Character Name" placeholder="Character Name" {{#if data.locked}} disabled {{/if}}>
 </div>
 <div class="header-row">
-	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.data.data.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos'}}" title="{{localize 'CityOfMist.terms.mythos'}}" {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.system.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos'}}" title="{{localize 'CityOfMist.terms.mythos'}}" {{#if data.locked}} disabled {{/if}}>
 	<div class="separator-icon"> &diams;</div>
-	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.data.data.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }}" title="{{localize 'CityOfMist.terms.logos' }}" {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.system.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }}" title="{{localize 'CityOfMist.terms.logos' }}" {{#if data.locked}} disabled {{/if}}>
 </div>
 <div class="header-row">
-	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.data.data.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if data.locked}} disabled {{/if}}>
 </div>
 

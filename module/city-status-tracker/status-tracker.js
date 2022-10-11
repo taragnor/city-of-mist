@@ -9,14 +9,14 @@ export class StatusTracker {
 	}
 
 	static load() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.data.type == "threat" || x.data.type == "extra" || x.data.type == "character");
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || x.type == "character");
 
 		const actors = tokenActors.map( x=> {
 			return {
 				name: x.getDisplayedName(),
 				actor: x,
 				id: x.id,
-				type: x.data.type,
+				type: x.type,
 				statuses: x.getStatuses(),
 				tags: x.getStoryTags()
 			};
@@ -27,7 +27,7 @@ export class StatusTracker {
 				name: "Scene",
 				actor: x,
 				id: x.id,
-				type: x.data.type,
+				type: x.type,
 				statuses: x.getStatuses(),
 				tags: x.getStoryTags()
 			};
@@ -101,7 +101,7 @@ export class StatusTracker {
 		const status = await actor.getStatus(obj.id);
 		const updateObj = await CityHelpers.itemDialog(status);
 		if (updateObj) {
-			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.data.data.tier}`);
+			CityHelpers.modificationLog(actor, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
 			await owner.deleteStatus(obj.id);
 		}
@@ -120,7 +120,7 @@ export class StatusTracker {
 
 		const status = await actor.getStatus(statusId);
 
-		const {data: {name, data: {tier, pips}}} = status;
+		const {name, system: {tier, pips}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.addto"), "addition")) {
 			//TODO: add in logging function for loggable chat
@@ -136,14 +136,14 @@ export class StatusTracker {
 
 		const status = await actor.getStatus(statusId);
 
-		const {data: {name, data: {tier, pips}}} = status;
+		const {name, system: {tier, pips}} = status;
 		let ret = null;
 		if (ret = await this._statusAddSubDialog(status, game.i18n.localize("CityOfMistTracker.trackerwindow.status.subtract"), "subtraction")) {
 			//TODO: add in logging function for loggable chat
 			const {name: newname, tier: amt} = ret;
 			// console.log(`${name} : ${tier}`);
 			const revised_status = await status.subtractStatus(amt, newname);
-			if (revised_status.data.data.tier <= 0)
+			if (revised_status.system.tier <= 0)
 				actor.deleteStatus(revised_status.id);
 		}
 		//TODO: add in logging function for loggable chat

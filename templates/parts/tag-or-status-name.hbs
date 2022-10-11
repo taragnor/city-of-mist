@@ -1,0 +1,12 @@
+<!--"item" :  a tag or status
+	"sheetowner": owner the sheet or null
+	"locked" : is item locked?
+-->
+<div class="{{#if (eq item.type "tag")}} tag {{else}} status {{/if}}" data-item-id="{{item.id}}" data-owner-id="{{item.parent.id}}">
+	{{#if (eq item.type "tag") }}
+	{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=item.parent activated=false tag=item data=item.system sheetowner=sheetowner tagdirection=(getDirection item) }}
+	{{/if}}
+	{{#if (eq item.type "status") }}
+	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked status=item }}
+	{{/if}}
+</div>

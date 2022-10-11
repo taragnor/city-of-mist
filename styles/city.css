@@ -509,21 +509,32 @@ textarea:focus {
 	border: 1px solid var(--mythos-pink);
 }
 
-.dialog .dialog-buttons button.default {
+.dialog .dialog-buttons button.default:not(.disabled) {
 	font-size: 15px;
 	background-color: #502c5dbd;
 	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 	border: 1px solid var(--mythos-pink);
 }
 
-.dialog .dialog-buttons button:hover {
+.dialog .dialog-buttons button.disabled {
+	font-size: 15px;
+	background-color: #200c2dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.dialog .dialog-buttons button.disabled:hover {
+	cursor: default;
+}
+
+.dialog .dialog-buttons button:hover:not(.disabled) {
 	color: white;
 	background: #c5044b;
 	box-shadow: 0 0 5px rgba(255, 0, 91, 0.75),
 	0 0 10px rgba(0, 0, 0, 0.3) inset;
 }
 
-.dialog .dialog-buttons button.default:hover {
+.dialog .dialog-buttons button.default:hover:not(.disabled) {
 	color: white;
 	background: #c5044b;
 	box-shadow: 0 0 5px rgba(255, 0, 91, 0.75),
@@ -1177,7 +1188,7 @@ section.ally-card {
 	color: black;
 }
 
-.active-tag.default-negative:hover{
+.tag-selection-context .active-tag.default-negative:hover{
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1195,7 +1206,7 @@ section.ally-card {
 	transition: font-weight 0.1s;
 }
 
-.status-name:hover{
+.tag-selection-context .status-name:hover{
 
 	font-weight: bold;
 	border-radius: 0.8em 0.3em;
@@ -1211,7 +1222,7 @@ section.ally-card {
 
 	transition: font-weight 0.1s;
 }
-.active-tag.default-positive:hover {
+.tag-selection-context .active-tag.default-positive:hover {
 	font-weight: bold;
 
 	margin: 0 -0.4em;
@@ -1354,6 +1365,11 @@ span.tag-symbols {
 	max-width: 10%;
 }
 
+.flex-nomargin {
+	margin:0px;
+
+}
+
 .flex-wide {
 	margin: auto;
 	flex: 3 0 60%;
@@ -1400,6 +1416,13 @@ ul.tag-list {
 	/* margin-bottom: 7px; */
 }
 
+ul.tag-or-status-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	/* margin-bottom: 7px; */
+}
+
 ul.sub-tag-list {
 	list-style: none;
 	padding: 0;
@@ -1418,6 +1441,13 @@ ul.improvement-list {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-around;
+}
+
+.flex-row-center {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
 }
 
 .flex-line {
@@ -1758,8 +1788,8 @@ div.burn-flame-cell {
 }
 
 .red-highlight,
-.negative-selected-tag,
-.negative-selected-status.status-select-button {
+.tag-selection-context .tag .negative-selected,
+.tag-selection-context .status .negative-selected {
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1777,8 +1807,8 @@ div.burn-flame-cell {
 }
 
 .yellow-highlight,
-.positive-selected-tag,
-.positive-selected-status.status-select-button {
+.tag-selection-context .tag .positive-selected,
+.tag-selection-context .status .positive-selected {
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
 	border-radius: 0.8em 0.3em;
@@ -2996,3 +3026,59 @@ input.checkbox {
 	color: yellow;
 	text-transform: uppercase;
 }
+
+div.juice-pending {
+  animation: blinker 1s step-start infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}
+
+span.secret {
+	opacity: 70%;
+}
+
+.item-control.active {
+	font-size: 1.5rem;
+	color: red;
+}
+
+
+.modifierList .modifier.rejected {
+	text-decoration: line-through;
+}
+
+.modifierList .modifier.request-clarification .name {
+  animation: blinker 1s step-start infinite;
+}
+
+
+.scene-tag-window {
+	position: absolute;
+	margin: 0.3em;
+	padding: 0.6em 1em;
+
+	font-size: 1.1em;
+	line-height: 1.2em;
+	font-family: 'Averia Serif Libre';
+
+	/* font-size: 1em; */
+	/* line-height: 1.3em; */
+	/* font-family: 'PT Serif'; */
+	color: var(--logos-text);
+	background: url(../images/paperbg.webp) repeat;
+	background-size: 500%;
+	border: none;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+}
+
+.scene-tags-template {
+}
+
+

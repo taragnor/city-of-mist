@@ -1,8 +1,8 @@
-<section class="status-data-block" data-status-id="{{status._id}}" data-owner-id="{{owner._id}}" data-tier="{{status.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
+<section class="status-data-block status" data-status-id="{{status._id}}" data-owner-id="{{owner._id}}" data-tier="{{status.data.tier}}" data-status-name="{{status.name}}" data-token-id="{{status._tokenId}}" data-scene-Id="{{status._sceneId}}">
 	{{#if (eq owner sheetowner)}}
 	<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
 	{{/if}}
-	<span id="status-name-{{status._id}}" class="card-name status-name {{#if locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (activatedDirection sheetowner._id owner._id status._id) 1)}} positive-selected-status {{/if}} {{#if (eq (activatedDirection sheetowner._id owner._id status._id) -1)}} negative-selected-status {{/if}}">
+	<span id="status-name-{{status._id}}" class="card-name status-name {{#if locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (getDirection status) 1)}} positive-selected {{/if}} {{#if (eq (getDirection status) -1)}} negative-selected {{/if}}">
 		{{status.name}}-{{status.data.tier}}
 	</span>
 	{{#if (eq owner sheetowner)}}

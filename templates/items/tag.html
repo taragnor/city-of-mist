@@ -33,14 +33,66 @@
 	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if data.permanent}} checked{{/if}} >
 	{{/if}}
 	<div class="description-header">{{localize "CityOfMist.terms.description"}}</div>
-	<textarea name="data.description">{{item.data.data.description}}</textarea>
+	<textarea name="data.description">{{item.system.description}}</textarea>
 	<label> {{localize "CityOfMist.misc.subtagOf"}}</label>
 	<select class="" name="data.parentId" >
-		{{#select item.data.data.parentId}}
+		{{#select item.system.parentId}}
 		<option value=""> None </option>
 		{{#each otherTagList as |tag id|}}
 		<option value="{{tag.id}}"> {{tag.name}} </option>
 		{{/each}}
 		{{/select}}
 	</select>
+	<hr>
+	<section class="extra-questions">
+		<div class="examples">
+			<div class="title">
+				{{localize "CityOfMist.dialog.tag.usageExamples"}}
+			</div>
+			<ul>
+				<li>
+					<input type="text" class="usage-example" name="data.example0" value="{{item.system.example0}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.example1" value="{{item.system.example1}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.example2" value="{{item.system.example2}}">
+				</li>
+			</ul>
+		</div>
+		<div class="counter-examples">
+			<div class="title">
+				{{localize "CityOfMist.dialog.tag.counterExamples"}}
+			</div>
+			<ul>
+				<li>
+					<input type="text" class="usage-example" name="data.counterexample0" value="{{item.system.counterexample0}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.counterexample1" value="{{item.system.counterexample1}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.counterexample2" value="{{item.system.counterexample2}}">
+				</li>
+			</ul>
+		</div>
+		<div class="restrictions">
+			<div class="title">
+				{{localize "CityOfMist.dialog.tag.restrictions"}}
+			</div>
+			<ul>
+				<li>
+					<input type="text" class="usage-example" name="data.restriction0" value="{{item.system.restriction0}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.restriction1" value="{{item.system.restriction1}}">
+				</li>
+				<li>
+					<input type="text" class="usage-example" name="data.restriction2" value="{{item.system.restriction2}}">
+				</li>
+			</ul>
+		</div>
+	</section>
 </form>
+

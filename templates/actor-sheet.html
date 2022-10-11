@@ -1,4 +1,4 @@
-<form class="{{cssClass}} actor-sheet flex-col {{#if actor.data.data.locked}} locked {{else}} unlocked {{/if}}" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
+<form class="{{cssClass}} actor-sheet flex-col {{#if actor.system.locked}} locked {{else}} unlocked {{/if}} tag-selection-context " autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<header id="basic-info" class="sheet-header">
 			<div class="image-block">
 				<img class="profile-img" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" />
@@ -63,7 +63,7 @@
 					{{#each items as |item|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.data.data locked=../data.locked sheetowner=../actor themetype="character" themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../data.locked sheetowner=../actor themetype="character" themebook=item.system.themebook tbdata=item.system.themebook.system}}
 					</div>
 					{{/if}}
 					{{/each}}
@@ -74,12 +74,12 @@
 				{{#each data.crewThemes as |item |}}
 				<!-- Should be max of 1 -->
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.data.data.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.data.data.themebook tbdata=item.data.data.themebook.data.data data=item.data.data}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.system.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.system.themebook tbdata=item.system.themebook.system data=item.system}}
 				</div>
 				{{/each}}
 				{{#if data.activeExtra}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.data.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.data.data.themebook data=data.activeExtra.data.data tbdata=data.activeExtra.data.data.themebook.data.data}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.system.themebook data=data.activeExtra.system tbdata=data.activeExtra.system.themebook.system}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">
@@ -124,7 +124,7 @@
 				<div class="flex-row-left">
 					{{#each (getJuiceList actor) as |item id|}}
 					{{#if (eq item.type "juice")}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
 					{{/if}}
 					{{/each}}
 				</div>
@@ -136,7 +136,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHelpList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
 					{{/each}}
 				</div>
 			</section>
@@ -147,7 +147,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHurtList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.data.data}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
 					{{/each}}
 				</div>
 			</section>
@@ -160,12 +160,12 @@
 				</div>
 				{{#each items as |item id|}}
 				{{#if (eq item.type "clue")}}
-				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item data=item.data.data}}
+				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item data=item.system}}
 				{{/if}}
 				{{/each}}
 				<hr>
 				{{#each actor.clueJournal as |journal|}}
-				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=journal data=journal.data.data}}
+				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=journal data=journal.system}}
 				{{/each}}
 			</section>
 		</div>
@@ -199,9 +199,9 @@
 				<ul class="evolutions-list">
 					{{#each items as |item id|}}
 					{{#if (eq item.type "improvement")}}
-					{{#if (eq item.data.data.theme_id "")}}
+					{{#if (eq item.system.theme_id "")}}
 					<li class="evolution-list-item">
-						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../data.locked sheetowner=../actor data=item.data.data}}
+						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../data.locked sheetowner=../actor data=item.system}}
 					</li>
 					{{/if}}
 					{{/if}}
@@ -210,7 +210,7 @@
 			</section>
 		</div>
 		<div class="tab tab-content flexcol space-between bio-section" data-group="primary" data-tab="bio">
-			{{> "systems/city-of-mist/templates/parts/bio-display.html" actor=actor data=data locked=data.locked sheetowner=actor owner=isOwner}}
+			{{> "systems/city-of-mist/templates/parts/bio-display.html" actor=actor data=data locked=actor.system.locked sheetowner=actor owner=isOwner}}
 		</div>
 	</section>
 </form>

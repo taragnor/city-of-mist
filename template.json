@@ -108,7 +108,17 @@
 			"temporary": false,
 			"permanent": false,
 			"parentId": "",
-			"subtagRequired": false
+			"subtagRequired": false,
+			"example0": "",
+			"example1": "",
+			"example2":"",
+			"counterexample0": "",
+			"counterexample1": "",
+			"counterexample2": "",
+			"restricton0": "",
+			"restricton1": "",
+			"restricton2": "",
+			"sceneId":""
 		},
 		"theme": {
 			"templates": ["default"],
@@ -143,7 +153,8 @@
 			"hidden": false,
 			"spectrum_status": "",
 			"temporary": false,
-			"permanent": false
+			"permanent": false,
+			"sceneId":""
 		},
 		"spectrum" : {
 			"max_tier" : 0

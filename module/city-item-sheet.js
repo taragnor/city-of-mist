@@ -16,16 +16,16 @@ export class CityItemSheet extends ItemSheet {
 	getData(options) {
 		let data = super.getData();
 		//Fix for compatibility with .0.8
-		const itemData = this.item.data.toObject(false);
+		const itemData = this.item.toObject(false);
 		data.item = this.item;
-		data.data = itemData.data;
+		data.data = itemData.system;
 		data.data.movelist = CityHelpers.getMoves()
-			.filter( x=> x.data.data.category == "Core")
+			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );
 		if (this.item.type == "tag") {
 			data.otherTagList = this.item.parent
 				?.getTags()
-				?.filter(tag => tag.data.data.theme_id == this.item.data.data.theme_id && !tag.data.data.parentId)
+				?.filter(tag => tag.system.theme_id == this.item.system.theme_id && !tag.system.parentId)
 		}
 		return data;
 	}
@@ -39,8 +39,8 @@ export class CityItemSheet extends ItemSheet {
 	get template() {
 		const path = "systems/city-of-mist/templates/items";
 		const simple_item_types = [];
-		let template_name = `${this.item.data.type}`;
-		if (simple_item_types.indexOf(this.item.data.type) >= 0) {
+		let template_name = `${this.item.type}`;
+		if (simple_item_types.indexOf(this.item.type) >= 0) {
 			template_name = "simple";
 		}
 		return `${path}/${template_name}.html`;
@@ -49,7 +49,7 @@ export class CityItemSheet extends ItemSheet {
 	_getSubmitData( updateData = {}) {
 		//Verify that status format includes dashes
 		let data = super._getSubmitData(updateData);
-		if (this.item.data.type == "status") {
+		if (this.item.type == "status") {
 			data.name = CityHelpers.replaceSpaces(data.name);
 		}
 		return data;
@@ -79,7 +79,7 @@ export class CityItemSheet extends ItemSheet {
 	async _deletePowerTagQuestion (event) {
 		const type = $(event.currentTarget).data("tagType");
 		const letter = $(event.currentTarget).data("questionLetter");
-		const questions = this.item.data.data[type];
+		const questions = this.item.system[type];
 		let pq2 = {};
 		questions[letter] = undefined;
 		const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -92,36 +92,15 @@ export class CityItemSheet extends ItemSheet {
 		}
 		let letter2 = letters[currentlet];
 		pq2[letter2] = "_DELETED_";
-		let obj = {data: {}};
-		obj.data[type] = pq2;
+		let obj = {system: {}};
+		obj.system[type] = pq2;
 		return this.item.update(obj);
 	}
-
-//NOTE: I really need to refactor this awful format at some point
-	// async _addPowerTagQuestion(event) {
-	// 	const type = $(event.currentTarget).data("tagType");
-	// 	event.preventDefault();
-	// 	let questions = this.item.data.data[type];
-	// 	const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	// 	let currlet = 0;
-	// 	let pq2 = Object.assign({}, questions);
-	// 	let found = false;
-	// 	while (currlet < 25 && !found) {
-	// 		let letter = letters[currlet++];
-	// 		if (pq2[letter] == undefined || pq2[letter] == "_DELETED_") {
-	// 			found = true;
-	// 			pq2[letter] =  "";
-	// 		}
-	// 	}
-	// 	let obj = {data: {}};
-	// 	obj.data[type] = pq2;
-	// 	return await this.item.update(obj);
-	// }
 
 	async _addPowerTagQuestion(event) {
 		const type = $(event.currentTarget).data("tagType");
 		event.preventDefault();
-		let questions = this.item.data.data[type];
+		let questions = this.item.system[type];
 		const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let currlet = 0;
 		let pq2 = Object.assign({}, questions);
@@ -136,14 +115,14 @@ export class CityItemSheet extends ItemSheet {
 				};
 			}
 		}
-		let obj = {data: {}};
-		obj.data[type] = pq2;
+		let obj = {system: {}};
+		obj.system[type] = pq2;
 		return await this.item.update(obj);
 	}
 
 	async _addImprovement (event) {
 		event.preventDefault();
-		let improvements = this.item.data.data.improvements;
+		let improvements = this.item.system.improvements;
 		if (improvements == undefined)
 			throw new Error("Improvement undefined");
 		let i2 = Object.assign({}, improvements);
@@ -158,7 +137,7 @@ export class CityItemSheet extends ItemSheet {
 
 	async _deleteImprovement (event) {
 		const index = $(event.currentTarget).data("improvementIndex");
-		const improvements = this.item.data.data.improvements;
+		const improvements = this.item.system.improvements;
 		let i2 = Object.assign({}, improvements);
 		i2[index]= "_DELETED_";
 		return await this.item.update({data:{improvements:i2}});
@@ -168,7 +147,7 @@ export class CityItemSheet extends ItemSheet {
 	async _addMoveListItem (event) {
 		const moveId = getClosestData(event, "ownerId");
 		const move = this.item;
-		let lists = move.data.data.listConditionals.slice();
+		let lists = move.system.listConditionals.slice();
 		lists.push( {condition: "gtPartial", text:"", cost: 1});
 		await move.update({"data.listConditionals": lists});
 	}
@@ -180,7 +159,7 @@ export class CityItemSheet extends ItemSheet {
 		const moveId = getClosestData(event, "ownerId");
 		const move = this.item;
 		// const move = game.items.get(moveId);
-		let lists = move.data.data.listConditionals.slice();
+		let lists = move.system.listConditionals.slice();
 		let elem = Object.assign({}, lists[index]);
 		lists[index] = elem;
 		if (!elem)
@@ -202,7 +181,7 @@ export class CityItemSheet extends ItemSheet {
 		const val = target.val();
 		const moveId = getClosestData(event, "ownerId");
 		const move = this.item;
-		let lists = move.data.data.listConditionals.slice();
+		let lists = move.system.listConditionals.slice();
 		lists.splice(index,1);
 		await move.update({"data.listConditionals": lists});
 	}

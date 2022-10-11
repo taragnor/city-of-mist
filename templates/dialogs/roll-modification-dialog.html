@@ -1,4 +1,12 @@
 <form class="roll-modifier-dialog" autocomplete="off">
+	<select class="move-select">
+		{{#select moveId}}
+		{{#each moves as |move|}}
+		<option value="{{move.id}}">{{move.displayedName}}</option>
+		{{/each}}
+		{{/select}}
+	</select>
+	<hr>
 	<label class="dialog-label" for="roll-modifier-amt"> Modifier </label>
 	<input id="roll-modifier-amt" class="number-modifier-box" type="number" value="0">
 	<br>

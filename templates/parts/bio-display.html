@@ -3,7 +3,7 @@
 		{{localize "CityOfMist.terms.description"}}
 	</div>
 	<div class="editor-box">
-		{{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+		{{editor data.description target="system.description" button=true owner=owner editable=true}}
 	</div>
 </div>
 <div class="bio-subsection bio-area">
@@ -11,7 +11,7 @@
 		{{localize "CityOfMist.terms.biography"}}
 	</div>
 	<div class="editor-box">
-	{{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
+	{{editor data.biography target="system.biography" button=true owner=owner editable=true}}
 	</div>
 </div>
 {{#if (and (isGM) (not lockout))}}
@@ -20,7 +20,7 @@
 		{{localize "CityOfMist.terms.mc_notes"}}
 	</div>
 	<div class="editor-box">
-	{{editor content=data.gmnotes target="data.gmnotes" button=true owner=owner editable=true}}
+	{{editor data.gmnotes target="system.gmnotes" button=true owner=owner editable=true}}
 	</div>
 </div>
 {{/if}}

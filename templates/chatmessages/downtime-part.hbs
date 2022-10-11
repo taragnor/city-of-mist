@@ -1,0 +1,25 @@
+<!-- takes {num: number, choosers: {characters: CityActor[], option:number}}
+-->
+
+	<tr>
+		<td>
+			{{#if (isGM)}}
+			<div class="choosers">
+				{{#each choosers as |chooser|}}
+				{{#if (eq chooser.option num)}}
+				<span class="name"> {{chooser.name}}</span>
+				{{/if}}
+				{{else}}
+				{{/each}}
+			</div>
+			{{else}}
+			<input type="radio" name="downtime-option" value="{{num}}">
+			{{/if}}
+		</td>
+
+		<td>
+			<div class="option-name">
+				{{localize (concat "CityOfMist.moves.downtime." num)}}
+			</div>
+		</td>
+	</tr>

@@ -20,33 +20,8 @@ export class CityCrewSheet extends CityActorSheet {
 	}
 	activateListeners(html) {
 		super.activateListeners(html);
-		html.find('.item-add-member').click(this._addCrewMember.bind(this));
-		html.find('.crew-member-delete').click(this._removeCrewMember.bind(this));
 		html.find('.crew-prev').hide();
 		html.find('.crew-next').hide();
-	}
-
-	async _addCrewMember(event) {
-		const crewId = getClosestData(event, "ownerId");
-		if (this.actor._id != crewId) {
-			throw new Error(`Id mismatch x:${crewId} y:${this.actor._id}`);
-		}
-		const list = game.actors.map(x=>x).filter(x=>x.data.type == "character");
-		const existing = this.actor.data.data.memberIds.map( x=> game.actors.find(actor => actor._id == x));
-		const flist = list.filter( x => !existing.includes(x));
-		const input = flist.map( x => {
-			return {id: x._id,
-				data: [x.data.name],
-				description: ""};
-		});
-		const actorId = await CitySheet.singleChoiceBox( input);
-		await this.actor.addCrewMember(actorId);
-	}
-
-	async _removeCrewMember(event) {
-		const memberId = getClosestData(event, "memberId");
-		// const crewId = getClosestData(event, "ownerId");
-		await this.actor.removeCrewMember(memberId);
 	}
 
 }

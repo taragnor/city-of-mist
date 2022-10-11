@@ -1,0 +1,21 @@
+<!--
+	"status": status passed in
+	"locked": boolean
+-->
+
+<div class="status-line status" data-status-id="{{status.id}}" data-owner-id="{{status.parent.id}}" data-tier="{{status.system.tier}}" data-status-name="{{status.name}}" data-token-id="{{status.parent.tokenId}}" data-scene-Id="{{status.parent.sceneId}}">
+	<div class="flextiny">
+		{{#if status.parent.isOwner}}
+		<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
+		{{/if}}
+	</div>
+	{{> "systems/city-of-mist/templates/parts/status-name.hbs" status=status locked=locked}}
+	{{#if status.parent.isOwner }}
+	<div class="plus-minus flextiny">
+		<a class="item-control status-add" title="Add to Status"><i class="fas fa-plus"></i></a>
+		<a class="item-control status-subtract" title="Subtract from Status"><i class="fas fa-minus"></i></a>
+	</div>
+	{{/if}}
+
+	</div>
+

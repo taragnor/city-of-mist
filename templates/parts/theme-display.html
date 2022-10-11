@@ -1,4 +1,4 @@
-<div class="{{tbdata.type}}-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}">
+<div class="{{tbdata.type}}-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
 	<div class="themebook-name"> {{themebook.displayedName}}</div>
 	<div class ="theme-title">
 		{{#if (ne themetype "character")}}
@@ -22,7 +22,7 @@
 			{{#if (eq locked false)}}
 			<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
 			{{/if}}
-		{{#if theme.data.data.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
+		{{#if theme.system.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
 	</div>
 	<div class="att-fade-section">
 		<div class="attention-block">
@@ -41,9 +41,9 @@
 			</div>
 
 			<div class="attention-label">
-				<div class="attention-text flex-std"> 
+				<div class="attention-text flex-std">
 					{{localize 'CityOfMist.terms.attention' }}
-					</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}} 
+					</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}}
 				</div>
 
 			</div>
@@ -138,9 +138,9 @@
 		<ul class="improvement-list">
 			{{#each owner.items as |imp |}}
 			{{#if (eq imp.type "improvement")}}
-			{{#if (eq imp.data.data.theme_id ../theme.id)}}
+			{{#if (eq imp.system.theme_id ../theme.id)}}
 			<li>
-				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner data=imp.data.data}}
+				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner data=imp.system}}
 			</li>
 			{{/if}}
 			{{/if}}
