@@ -24,7 +24,17 @@ export class StoryTagDisplayContainer {
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		// this.dataElement.style.display = "block";
 		this.dataElement.innerHTML = html;
+		this.updateHandlers();
 		return true;
+	}
+
+	updateHandlers() {
+		$(this.dataElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		$(this.dataElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		$(this.dataElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		$(this.dataElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+
+
 	}
 
 }
