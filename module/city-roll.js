@@ -669,16 +669,10 @@ export class CityRoll {
 		);
 		console.log("power:" + this.#options.powerModifier);
 		this.#prepareModifiers();
-<<<<<<< HEAD
 		const {bonus} = CityRoll.getRollBonus(this.#options);
 		const {power} = CityRoll.getPower(this.#options);
 		$(html).find(".roll-bonus").text(String(bonus));
 		$(html).find(".move-effect").text(String(power));
-=======
-		let {power} = CityRoll.getPower(	this.#options);
-		// console.log(`Update Power ${power}`);
-		$(html).find(".move-power").text(String(power));
->>>>>>> main
 	}
 
 	updateSliderValMax(html) {
