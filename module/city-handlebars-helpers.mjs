@@ -124,6 +124,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(html);
 		},
 
+		'getDirection': function (tag) {
+			const tagId = tag.id;
+			const tokenId = tag?.parent?.tokenId;
+			return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
+		},
+
 	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = "") {
 		if (typeof tokenId == "object") {
 			tokenId = "";
@@ -154,7 +160,15 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
 		},
 
-		'hasActivatedTag': function (sheetownerId, _actorId, tagId, tokenId = null) {
+		'hasActivatedItem': function (tag) {
+			const tagId = tag.id;
+			const tokenId = tag?.parent?.tokenId;
+			return SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
+		},
+
+
+		'hasActivatedTag': function (_sheetownerId, _actorId, tagId, tokenId = null) {
+			console.warn("hasActivatedTag is a deprecated helper, use hasActivatedItem instead");
 			//TODO: actorId isn't used but is there for compatibility with older version
 			return SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
 		},

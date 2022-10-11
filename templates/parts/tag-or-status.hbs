@@ -1,2 +1,13 @@
-		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item sheetowner=null locked=true}}
+<!-- arguments -->
+<!-- item: the tag or status in question -->
+<!-- locked: is the item locked -->
+
+<div class="tag-or-status">
+	{{#if (eq item.type "tag")}}
+	{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=item locked=false}}
+	{{/if}}
+	{{#if (eq item.type "status")}}
+	{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=item locked=false}}
+	{{/if}}
+</div>
 

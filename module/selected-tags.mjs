@@ -4,7 +4,7 @@ export class SelectedTagsAndStatus {
 
 	static clearAllActivatedItems() {
 		this._playerActivatedStuff = [];
-		Hooks.callAll("TagOrStatusSelect");
+		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
 	/** returns -1, 0, 1 for which direction activateabley is set in
@@ -29,7 +29,7 @@ export class SelectedTagsAndStatus {
 
 	static removeSelectedItem(tagOrStatusId, tokenId) {
 		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> !(x.id == tagOrStatusId && x.tokenId == tokenId ));
-		Hooks.callAll("TagOrStatusSelect");
+		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
 	static activateSelectedItem(tagOrStatus, direction = 1) {
@@ -53,7 +53,57 @@ export class SelectedTagsAndStatus {
 			tokenId
 		}
 		this._playerActivatedStuff.push(newItem);
-		Hooks.callAll("TagOrStatusSelect");
+		Hooks.callAll("TagOrStatusSelected", newItem);
+		Hooks.callAll("TagOrStatusSelectChange");
+	}
+
+	static activateSelectedItem(tagOrStatus, direction = 1) {
+		const x = tagOrStatus;
+		const tagOwner = tagOrStatus?.parent;
+		const tokenId = tagOwner?.token?.id ?? "";
+		const tag = x.type == "tag" ? tagOrStatus : null;
+		const subtype = tag ? tag.system.subtype : "";
+		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
+		const newItem = {
+			name: x.name,
+			id: x.id,
+			amount,
+			ownerId: tagOwner?.id ?? "" ,
+			tagId: tag ? x.id : "",
+			type: x.type,
+			description: tag ? tag.system.description : "",
+			subtype,
+			strikeout: false,
+			review: "pending",
+			tokenId
+		}
+		this._playerActivatedStuff.push(newItem);
+		Hooks.callAll("TagOrStatusSelected", newItem);
+		Hooks.callAll("TagOrStatusSelectChange");
+	}
+
+	static activateSelectedItem(tagOrStatus, direction = 1) {
+		const x = tagOrStatus;
+		const tagOwner = tagOrStatus?.parent;
+		const tokenId = tagOwner?.token?.id ?? "";
+		const tag = x.type == "tag" ? tagOrStatus : null;
+		const subtype = tag ? tag.system.subtype : "";
+		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
+		const newItem = {
+			name: x.name,
+			id: x.id,
+			amount,
+			ownerId: tagOwner?.id ?? "" ,
+			tagId: tag ? x.id : "",
+			type: x.type,
+			description: tag ? tag.system.description : "",
+			subtype,
+			strikeout: false,
+			review: "pending",
+			tokenId
+		}
+		this._playerActivatedStuff.push(newItem);
+		Hooks.callAll("TagOrStatusSelected", newItem);
 	}
 
 	/** returns shorthand version of tags and statuses

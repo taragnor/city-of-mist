@@ -10,9 +10,9 @@
 	</div>
 </div>
 <hr>
-<ul class="tag-list">
+<ul class="tag-or-status-list">
 	{{#each tagsAndStatuses as |item|}}
-	<li>
+	<li class="tag-or-status">
 		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=item sheetowner=null locked=true}}
 	</li>
 	{{/each}}

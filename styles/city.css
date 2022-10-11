@@ -1416,6 +1416,13 @@ ul.tag-list {
 	/* margin-bottom: 7px; */
 }
 
+ul.tag-or-status-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	/* margin-bottom: 7px; */
+}
+
 ul.sub-tag-list {
 	list-style: none;
 	padding: 0;

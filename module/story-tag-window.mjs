@@ -1,5 +1,6 @@
 import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {SceneTags} from "./scene-tags.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 export class StoryTagDisplayContainer {
 
@@ -18,7 +19,9 @@ export class StoryTagDisplayContainer {
 		Hooks.on("updateItem", ()=> this.refreshContents() );
 		Hooks.on("createItem", ()=> this.refreshContents() );
 		Hooks.on("createActor", ()=> this.refreshContents() );
-		Hooks.on("TagOrStatusSelect", ()=> this.refreshContents() );
+		Hooks.on("deleteItem", ()=> this.refreshContents() );
+		Hooks.on("deleteActor", ()=> this.refreshContents() );
+		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
 	}
 
 	async refreshContents() {
@@ -31,7 +34,6 @@ export class StoryTagDisplayContainer {
 			tagsAndStatuses
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
-		// this.dataElement.style.display = "block";
 		this.dataElement.innerHTML = html;
 		this.updateHandlers();
 		return true;
@@ -44,12 +46,39 @@ export class StoryTagDisplayContainer {
 		$(this.dataElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		$(this.dataElement).find(".create-story-tag").click(() => SceneTags.createSceneTag() );
 		$(this.dataElement).find(".create-status").click( () => SceneTags.createSceneStatus() );
+		$(this.dataElement).find('.status-delete').click(this.#deleteStatus.bind(this));
+		$(this.dataElement).find('.tag-delete').click(this.#deleteTag.bind(this) );
+
+	}
+
+	async #deleteTag (event) {
+		const tagId = getClosestData(event, "tagId");
+		const actorId = getClosestData(event, "ownerId");
+		const actor = await CityHelpers.getOwner(actorId);
+		const tag = await actor.getTag(tagId);
+		const tagName = tag.name;
+		if (tag.system.subtype != "story")
+			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
+				return;
+		await actor.deleteTag(tagId);
+		await CityHelpers.modificationLog(actor, `Deleted` , tag);
+	}
+
+	async #deleteStatus (event, autodelete = false) {
+		const status_id = getClosestData(event, "statusId");
+		const actorId = getClosestData(event, "ownerId");
+		const owner = await CityHelpers.getOwner(actorId);
+		const status = await owner.getStatus(status_id);
+		if ( autodelete || (!owner.system.locked && await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`))) {
+			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
+			await owner.deleteStatus(status_id);
+		}
 	}
 
 }
 
-Hooks.once('DB Ready', () => {
+Hooks.once('cityDBLoaded', () => {
 	//NOTE: delated until DB is ready
-	setTimeout(() =>  new StoryTagDisplayContainer(), 2000);
+	new StoryTagDisplayContainer();
 });
 

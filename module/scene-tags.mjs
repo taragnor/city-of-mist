@@ -67,9 +67,7 @@ export class SceneTags {
 		} else {
 			await container.deleteStatus(obj.id);
 		}
-
 	}
-
 
 }
 
