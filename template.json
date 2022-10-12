@@ -1,6 +1,6 @@
 {
 	"Actor": {
-		"types": ["threat", "character", "extra" ,"crew", "storyTagContainer"],
+		"types": ["threat", "character", "extra" ,"crew"],
 		"templates": {
 			"default": {
 				"locked": true,
@@ -55,11 +55,7 @@
 			"is_template": false,
 			"template_ids": [],
 			"collective_size": 0
-		},
-		"storyTagContainer": {
-			"templates": ["default"]
 		}
-
 	},
 	"Item": {
 		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal"],
