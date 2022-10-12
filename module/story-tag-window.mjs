@@ -22,10 +22,13 @@ export class StoryTagDisplayContainer {
 		Hooks.on("createActor", ()=> this.refreshContents() );
 		Hooks.on("deleteItem", ()=> this.refreshContents() );
 		Hooks.on("deleteActor", ()=> this.refreshContents() );
+		Hooks.on("updateScene", () => this.refreshContents() );
+		Hooks.on("canvasReady", () => this.refreshContents() );
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
+
 	}
 
-	async refreshContents() {
+	async refreshContents(scene) {
 		const tagsAndStatuses = await SceneTags.getSceneTagsAndStatuses();
 		if (tagsAndStatuses.length == 0 && !game.user.isGM) {
 			this.dataElement.innerHTML= "";
@@ -63,4 +66,5 @@ Hooks.once('cityDBLoaded', () => {
 		new StoryTagDisplayContainer();
 	}
 });
+
 

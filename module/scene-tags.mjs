@@ -19,6 +19,10 @@ export class SceneTags {
 	/** Gets the current tags and statuses for the given scene, defaults to current scene
 	*/
 	static async getSceneTagsAndStatuses(scene = game.scenes.current) {
+		if (!scene) {
+			console.error("Couldn't find tags and statuses: null scene");
+			return [];
+		}
 		const container = await this.#getSceneContainer();
 		return container.items.filter( x=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id);
 
@@ -29,7 +33,6 @@ export class SceneTags {
 			return await this.#createSceneTagInteractive();
 		const container = await this.#getSceneContainer();
 		const tag = await container.createStoryTag(name, restrictDuplicates);
-		Debug(tag);
 		if (tag)
 			await tag.update( {"data.sceneId": game.scenes.current.id});
 		else

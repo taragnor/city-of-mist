@@ -2,6 +2,7 @@ import {CitySockets} from "./city-sockets.mjs";
 import {CityDB} from "./city-db.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {SceneTags} from "./scene-tags.mjs";
 
 export class CityDialogs {
 
@@ -98,7 +99,7 @@ export class CityDialogs {
 			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
 			if (container)
 				for ( const tagName of taglist.map(x=>x.name) )
-					await container.createStoryTag(tagName);
+					await SceneTags.createSceneTag(tagName);
 			await CityHelpers.sendNarratedMessage(modified_html);
 		}
 		const options = {width: 900, height: 800};
