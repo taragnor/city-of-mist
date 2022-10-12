@@ -22,8 +22,7 @@ export class StoryTagDisplayContainer {
 		Hooks.on("createActor", ()=> this.refreshContents() );
 		Hooks.on("deleteItem", ()=> this.refreshContents() );
 		Hooks.on("deleteActor", ()=> this.refreshContents() );
-		Hooks.on("updateScene", () => this.refreshContents() );
-		Hooks.on("canvasReady", () => this.refreshContents() );
+		Hooks.on("updateSceneTags", () => this.refreshContents() );
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
 
 	}

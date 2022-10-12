@@ -11,7 +11,12 @@ const CSS_NAME = `${CSS_PREFIX}name`;
 export class TokenTooltip {
 
 	constructor() {
-		this._tokenhover = false;
+		Hooks.on("canvasReady", () => {
+			this._tokenHover = false;
+			this._boxHover = false;
+			this.updateVisibility();
+		});
+		this._tokenHover = false;
 		this._boxHover = false;
 		this.element = HTMLTools.div(CSS_TOOLTIP);
 		$(this.element).addClass("tag-selection-context");
@@ -25,6 +30,11 @@ export class TokenTooltip {
 			return true;
 		});
 		Hooks.on('deleteToken',(token) => {
+			if (token.id == this.currentToken?.id)
+				this.hide();
+			return true;
+		});
+		Hooks.on('',(token) => {
 			if (token.id == this.currentToken?.id)
 				this.hide();
 			return true;

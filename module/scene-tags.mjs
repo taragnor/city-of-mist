@@ -74,5 +74,12 @@ export class SceneTags {
 
 }
 
+Hooks.on("canvasReady", () => {
+	Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+});
+Hooks.on("updateScene", () => {
+	Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+});
+
 window.SceneTags = SceneTags;
 window.getSceneTagsAndStatuses = SceneTags.getSceneTagsAndStatuses.bind(SceneTags);
