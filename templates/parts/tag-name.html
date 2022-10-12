@@ -50,7 +50,7 @@
 		{{#if (not data.custom_tag)}} {{data.question_letter}}. {{/if}}{{data.question}} {{#if data.description}}  &#013;{{data.description}} {{/if}}" > {{tag.name}}
 		{{#if tag.location}}
 		<span class="story-tag-location">
-			( {{tag.location}} )
+			( {{tag.parent.displayedName}} )
 		</span>
 			{{/if}}
 		</span>

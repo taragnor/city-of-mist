@@ -84,6 +84,13 @@ export class CityActor extends Actor {
 
 	}
 
+	get visible() {
+		if (this.type == "threat" && this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
+			return false;
+		else
+			return super.visible;
+	}
+
 	/** Gets amount of juice for a given provided actor id.
 	whichOne can be either "help" | "hurt"
 	returns Number
@@ -769,7 +776,7 @@ export class CityActor extends Actor {
 	}
 
 	getDisplayedName() {
-		if (this.type == "storyTagContainer")
+		if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
 			return "Scene";
 		if (this.isToken)
 			return this.token.name;

@@ -6,7 +6,6 @@ import {HTMLHandlers} from "./universal-html-handlers.mjs";
 export class StoryTagDisplayContainer {
 
 	constructor() {
-		console.log("Creating story tag container");
 		this.element = HTMLTools.div(["scene-tag-window", "tag-selection-context"]);
 		const width =  (-50) + $(document).find("#controls").width();
 		const height =  50+ $(document).find("#navigation").height();

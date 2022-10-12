@@ -1,29 +1,40 @@
 import {CityDialogs} from "./city-dialogs.mjs";
+import {CityActor} from "./city-actor.js";
+
 export class SceneTags {
+	static SCENE_CONTAINER_ACTOR_NAME ="__SCENE_CONTAINER__";
+
+	static async init() {
+		this.sceneContainer = await this.#getSceneContainer();
+	}
 
 	static async #getSceneContainer() {
-		const cont = game.actors.find( x=> x.type == "storyTagContainer");
+		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat");
 		if (cont)
 			return cont;
 		const newContainer = await CityActor.create( {
-			name: "Scene Tags",
-			type: "storyTagContainer",
+			name: SceneTags.SCENE_CONTAINER_ACTOR_NAME,
+			type: "threat",
 		});
 		return newContainer;
 	}
 
-	static async getSceneContainer() {
-		return await this.#getSceneContainer();
+	static getSceneContainer() {
+		if (this.sceneContainer)
+			return this.sceneContainer;
+		const msg = "Scene Cotnainer is non-existent"
+		// ui.notifications.error(msg);
+		throw new Error(msg);
 	}
 
 	/** Gets the current tags and statuses for the given scene, defaults to current scene
 	*/
-	static async getSceneTagsAndStatuses(scene = game.scenes.current) {
+	static getSceneTagsAndStatuses(scene = game.scenes.current) {
 		if (!scene) {
 			console.error("Couldn't find tags and statuses: null scene");
 			return [];
 		}
-		const container = await this.#getSceneContainer();
+		const container = this.getSceneContainer();
 		return container.items.filter( x=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id);
 
 	}
@@ -74,11 +85,15 @@ export class SceneTags {
 
 }
 
+Hooks.on("ready", () => SceneTags.init());
+
 Hooks.on("canvasReady", () => {
-	Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+	if ( SceneTags.sceneContainer)
+		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
 });
 Hooks.on("updateScene", () => {
-	Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+	if ( SceneTags.sceneContainer)
+		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
 });
 
 window.SceneTags = SceneTags;
