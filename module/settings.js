@@ -44,7 +44,7 @@ export const registerSystemSettings = function() {
 		restrict: true,
 		onChange: newSystem => {
 			CityHelpers.refreshSystem(newSystem);
-			window.location.reload();
+			setTimeout(() =>  window.location.reload(), 2500);
 		}
 
 	});
@@ -241,7 +241,7 @@ export const registerSystemSettings = function() {
 			restrict: true,
 			onChange: _ => {
 				game.settings.set('city-of-mist', "system", "custom");
-				window.location.reload();
+				setTimeout(() =>  window.location.reload(), 500);
 			}
 		});
 
@@ -259,7 +259,7 @@ export const registerSystemSettings = function() {
 			restrict: true,
 			onChange: _ => {
 				game.settings.set('city-of-mist', "system", "custom");
-				window.location.reload();
+				setTimeout(() =>  window.location.reload(), 500);
 			}
 		});
 
@@ -306,7 +306,6 @@ export const registerSystemSettings = function() {
 		type: Boolean,
 		default: false,
 		restrict: true,
-		onChange: _ => window.location.reload()
 	});
 } // end of custom settings
 

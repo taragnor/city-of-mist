@@ -643,8 +643,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 
 	static refreshSystem(system) {
 		try{
-		if (!system)
-			system = game.settings.get("city-of-mist", "system");
+			if (!system)
+				system = game.settings.get("city-of-mist", "system");
 		} catch (e) {
 			console.log("defaulting to classic CoM");
 			system = "classic";
@@ -655,12 +655,16 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
 				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
+				game.settings.set("city-of-mist", "altPower", false);
+				game.settings.set("city-of-mist", "system", "classic");
 				return;
 			case "reloaded":
 				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
 				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
+				game.settings.set("city-of-mist", "altPower", false);
+				game.settings.set("city-of-mist", "system", "reloaded");
 				return;
 			case "custom":
 				return;
