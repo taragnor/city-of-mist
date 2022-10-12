@@ -5,7 +5,8 @@ export class HTMLHandlers {
 	static async deleteTag (event) {
 		const tagId = getClosestData(event, "tagId");
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await CityHelpers.getOwner(actorId);
+		const tokenId = getClosestData(event, "tokenId");
+		const actor = await CityHelpers.getOwner(actorId, tokenId);
 		const tag = await actor.getTag(tagId);
 		const tagName = tag.name;
 		if (tag.system.subtype != "story")
@@ -18,7 +19,8 @@ export class HTMLHandlers {
 	static async deleteStatus (event, autodelete = false) {
 		const status_id = getClosestData(event, "statusId");
 		const actorId = getClosestData(event, "ownerId");
-		const owner = await CityHelpers.getOwner(actorId);
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(actorId, tokenId);
 		const status = await owner.getStatus(status_id);
 		if ( autodelete || (await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
 			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
@@ -28,7 +30,8 @@ export class HTMLHandlers {
 
 	static async burnTag (event) {
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await CityHelpers.getOwner(actorId);
+		const tokenId = getClosestData(event, "tokenId");
+		const actor = await CityHelpers.getOwner(actorId, tokenId);
 		const id = getClosestData( event, "tagId");
 		const tag = await actor.getTag(id);
 		const tagname = tag.name;
@@ -41,7 +44,8 @@ export class HTMLHandlers {
 	static async unburnTag (event) {
 		const id = getClosestData( event, "tagId");
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await CityHelpers.getOwner(actorId);
+		const tokenId = getClosestData(event, "tokenId");
+		const actor = await CityHelpers.getOwner(actorId, tokenId);
 		const tag = await actor.getTag(id);
 		if (await CityHelpers.confirmBox("Unburn Tag", `unburning ${tag.name}`)) {
 			await actor.burnTag(id, 0);
@@ -53,8 +57,13 @@ export class HTMLHandlers {
 		//adds a second status to existing
 		const status_id = getClosestData(event, "statusId");
 		const ownerId = getClosestData(event, "ownerId");
-		const owner = await CityHelpers.getOwner(ownerId);
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(ownerId, tokenId);
 		const status = await owner.getStatus(status_id);
+		if (!status) {
+			console.error(`Couldn't find status ${status_id} on ${ownerId }`);
+			throw new Error("couldn't find status");
+		}
 		const {name, system: {tier, pips}} = status;
 		let ret = null;
 		if (ret = await HTMLHandlers.statusAddDialog(status)) {
@@ -67,7 +76,8 @@ export class HTMLHandlers {
 	static async statusSubtract (event) {
 		const status_id = getClosestData(event, "statusId");
 		const ownerId = getClosestData(event, "ownerId");
-		const owner = await CityHelpers.getOwner(ownerId);
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(ownerId, tokenId);
 		const status = await owner.getStatus(status_id);
 		const {name, system: {tier, pips}} = status;
 		let ret = null;

@@ -1,4 +1,5 @@
 import { CityHelpers } from "../city-helpers.js";
+import { SceneTags } from "../scene-tags.mjs";
 
 export class StatusTracker {
 	/**
@@ -21,7 +22,7 @@ export class StatusTracker {
 				tags: x.getStoryTags()
 			};
 		});
-	const scene = game.actors.filter( x=> x.type == "storyTagContainer")
+		const scene = [ SceneTags.getSceneContainer() ]
 		.map( x=> {
 			return  {
 				name: "Scene",
@@ -58,9 +59,10 @@ export class StatusTracker {
 	}
 
 	static pc_type_sort(a,b) {
-		if (a.type == "storyTagContainer" && b.type != "storyTagContainer")
+		const sceneName = SceneTags.SCENE_CONTAINER_ACTOR_NAME;
+		if (a.name == sceneName && b.name != sceneName)
 			return -1;
-		if (a.type != "storyTagContainer" && b.type == "storyTagContainer")
+		if (a.name != sceneName && b.name == sceneName)
 			return 1;
 		if (a.type == "character" && b.type != "character")
 			return -1;

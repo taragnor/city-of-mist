@@ -797,17 +797,12 @@ export class CityActor extends Actor {
 		//return characters that include this actor
 		switch (this.type) {
 			case "crew":
-			case "extra":
 				if (this.isOwner) {
 					return game.actors.filter ( (act) => {
 						return act.type == "character" && act.isOwner;
 					});
 				}
 				break;
-			case "storyTagContainer":
-				return game.actors.filter ( (act) => {
-					return act.type == "character" && act.isOwner;
-				});
 			case "threat":
 				//check for updates to extra-type
 				if (this.isOwner && this.getThemes().length > 0) {
@@ -824,6 +819,8 @@ export class CityActor extends Actor {
 			case "character":
 				return game.actors.filter( act=> act.type == "character");
 			default:
+				console.error(`Unknown type ${this.type}`);
+				return [];
 		}
 		return [];
 	}

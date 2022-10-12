@@ -254,7 +254,7 @@ export class CityDB extends DBAccessor {
 
 	static async onTokenCreate(token) {
 		const type = game.actors.get(token.actor.id).type;
-		if (type == "character" || type == "extra" || type == "crew" || type == "storyTagContainer")
+		if (type == "character" || type == "crew" )
 			await CityHelpers.ensureTokenLinked(token.scene, token);
 		if (type == "threat") {
 			await this.onTokenUpdate(token);

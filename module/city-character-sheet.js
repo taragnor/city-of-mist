@@ -1,6 +1,7 @@
 import { CityActorSheet } from "./city-actor-sheet.js";
 // import { CityRoll } from "./city-roll.js";
 import { CitySheet } from "./city-sheet.js";
+import {SceneTags } from "./scene-tags.mjs";
 
 export class CityCharacterSheet extends CityActorSheet {
 	constructor(...args) {
@@ -225,8 +226,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 		retTags = retTags.concat(tokenTagData.flat(1));
 		const storyContainers =  game.actors.filter( actor => {
-			if (actor.type != "storyTagContainer")
-				return false;
 			if (retTags.find( x=> x.ownerId == actor.id ))
 				return false;
 			return true;
@@ -270,8 +269,6 @@ export class CityCharacterSheet extends CityActorSheet {
 				if (token?.name)
 					return token.name
 				else return cont.name;
-			case "storyTagContainer":
-				return "Scene"
 			default:
 				if (token?.name)
 					return token.name;
@@ -284,7 +281,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || (x.type == "character" && x.id != this.actor.id));
 		const applicableTargets = tokenActors
 			.concat(
-				game.actors.filter(x=> x.type == "storyTagContainer")
+				[SceneTags.getSceneContainer()]
 			);
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.type == "status"));

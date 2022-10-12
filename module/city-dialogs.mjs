@@ -68,7 +68,7 @@ export class CityDialogs {
 
 	}
 
-	static async narratorDialog(container= null) {
+	static async narratorDialog() {
 		if (game.users.current.role != 4)
 			return;
 		if (!game.user.isGM)
@@ -90,16 +90,13 @@ export class CityDialogs {
 			}
 			return 0;
 		};
-		if (!container)
-			container = game.actors.find(x => x.type == "storyTagContainer");
 		let html = new String();
 		html += `<textarea class="narrator-text"></textarea>`;
 		const submit = async function (html) {
 			const text = $(html).find(".narrator-text").val();
 			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
-			if (container)
-				for ( const tagName of taglist.map(x=>x.name) )
-					await SceneTags.createSceneTag(tagName);
+			for ( const tagName of taglist.map(x=>x.name) )
+				await SceneTags.createSceneTag(tagName);
 			await CityHelpers.sendNarratedMessage(modified_html);
 		}
 		const options = {width: 900, height: 800};

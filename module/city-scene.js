@@ -1,5 +1,7 @@
 import {CityItem} from "./city-item.js";
 
+//NOTE: this could all be dead code
+
 export class CityScene extends Scene {
 	async addTag(tagName) {
 		let tagList = this.getTagList();

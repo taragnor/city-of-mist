@@ -48,6 +48,7 @@ export class SceneTags {
 			await tag.update( {"data.sceneId": game.scenes.current.id});
 		else
 			console.warn("No Tag to stamp wtih scene Id");
+		Hooks.callAll("createSceneItem", tag, game.scenes.current);
 		return tag;
 	}
 
@@ -57,6 +58,7 @@ export class SceneTags {
 		const container = await this.#getSceneContainer();
 		const status = await container.addOrCreateStatus(name, tier, pips);
 		await status.update( {"data.sceneId": game.scenes.current.id});
+		Hooks.callAll("createSceneItem", status, game.scenes.current);
 		return status;
 	}
 

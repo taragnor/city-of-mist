@@ -17,7 +17,6 @@ import { CityExtraSheet } from "./city-extra-sheet.js";
 import { CityThreatSheet } from "./city-threat-sheet.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
-import { CityStoryTagContainerSheet } from "./city-story-tag-container-sheet.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
 import {} from "./tools/electron-fix.mjs";
 import {HTMLTools} from "./tools/HTMLTools.mjs";
@@ -82,9 +81,7 @@ Hooks.once("init", async function() {
 	Actors.unregisterSheet("core", ActorSheet);
 	Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
 	Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
-	Actors.registerSheet("city", CityExtraSheet, { types: ["extra"], makeDefault: true });
 	Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
-	Actors.registerSheet("city", CityStoryTagContainerSheet, { types: ["storyTagContainer"], makeDefault: true });
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
 	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
