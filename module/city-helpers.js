@@ -292,6 +292,8 @@ export class CityHelpers {
 					return "auto-apply";
 				case "i":
 					return "ignore-collective";
+				case "s":
+					return "scene";
 				default:
 					console.warn(`Unrecognized option: ${option}`);
 					return "";

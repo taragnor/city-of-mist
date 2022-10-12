@@ -1,6 +1,7 @@
 import {CityDB} from "./city-db.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import {SceneTags} from "./scene-tags.mjs";
 
 export class CityActor extends Actor {
 
@@ -610,6 +611,7 @@ export class CityActor extends Actor {
 	}
 
 	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false) {
+		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getTags().find( x=> x.name == name))
 				return null;
@@ -872,14 +874,21 @@ export class CityActor extends Actor {
 
 	async executeGMMove (move) {
 		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove();
-		console.log(options);
 		if (await CityHelpers.sendToChat(html, options)) {
-			for (const {name : tagname} of taglist)
-				await this.createStoryTag(tagname, true);
-			for (const {name, tier} of statuslist
+			for (const {name : tagname, options} of taglist) {
+				if (!options.includes("scene"))
+					await this.createStoryTag(tagname, true);
+				else
+					await  SceneTags.createSceneTag(tagname, true);
+			}
+			for (const {name, tier, options} of statuslist
 				.filter( x=>x.options.includes("auto-apply"))
 			)
 				await this.addOrCreateStatus(name, tier);
+			for (const {name, tier, options} of statuslist
+				.filter( x=>x.options.includes("scene"))
+			)
+				await SceneTags.createSceneStatus(name, tier);
 		}
 
 	}
