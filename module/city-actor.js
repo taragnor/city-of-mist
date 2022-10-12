@@ -804,7 +804,8 @@ export class CityActor extends Actor {
 				}
 				break;
 			case "threat":
-				//check for updates to extra-type
+				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
+					return game.actors.filter( actor=> actor.type == "character");
 				if (this.isOwner && this.getThemes().length > 0) {
 					return game.actors.filter ( (act) => {
 						return act.type == "character" && act.isOwner;
