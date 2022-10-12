@@ -176,11 +176,6 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	getSceneStoryTags() {
-		// const storyContainers =  game.actors.filter( actor => {
-		// 	if (actor.type != "storyTagContainer")
-		// 		return false;
-		// 	return true;
-		// });
 		const storyContainers = [ SceneTags.getSceneContainer() ];
 		const tagData = storyContainers.map ( cont => {
 			return cont.getStoryTags().map( x=> {
