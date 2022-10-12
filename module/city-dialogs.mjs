@@ -1,6 +1,7 @@
 import {CitySockets} from "./city-sockets.mjs";
 import {CityDB} from "./city-db.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 
 export class CityDialogs {
 
@@ -366,7 +367,7 @@ export class CityDialogs {
 		const tagList = simplifiedTagList
 			.map( ({item, review, amount }) =>  {
 				return {
-					item : CityHelpers.resolveTagAndStatusShorthand(item),
+					item : SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
 					review,
 					amount,
 				};
