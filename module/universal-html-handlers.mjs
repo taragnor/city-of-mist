@@ -16,13 +16,11 @@ export class HTMLHandlers {
 	}
 
 	static async deleteStatus (event, autodelete = false) {
-		console.log("Deleting status");
 		const status_id = getClosestData(event, "statusId");
 		const actorId = getClosestData(event, "ownerId");
 		const owner = await CityHelpers.getOwner(actorId);
 		const status = await owner.getStatus(status_id);
-		//TODO: dialgo isn't coming up
-		if ( autodelete || (!owner.system.locked && await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`))) {
+		if ( autodelete || (await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
 			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
 			await owner.deleteStatus(status_id);
 		}
