@@ -13,7 +13,6 @@ import { CityScene } from "./city-scene.js";
 import { CityItem } from "./city-item.js";
 import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
 import { CityCrewSheet } from "./city-crew-sheet.js";
-import { CityExtraSheet } from "./city-extra-sheet.js";
 import { CityThreatSheet } from "./city-threat-sheet.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
@@ -23,7 +22,7 @@ import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 import { VersionUpdater } from "./version-update.mjs";
-import { CityHandlebarsHelpers } from "./city-handlebars-helpers.mjs";
+import {} from "./city-handlebars-helpers.mjs";
 import {} from "./story-tag-window.mjs";
 import {CitySockets} from "./city-sockets.mjs";
 
