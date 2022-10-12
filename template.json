@@ -1,6 +1,6 @@
 {
 	"Actor": {
-		"types": ["threat", "character", "extra" ,"crew"],
+		"types": ["threat", "character","crew"],
 		"templates": {
 			"default": {
 				"locked": true,
@@ -43,9 +43,6 @@
 			"unspentBU": 0,
 			"flashback_used": false,
 			"crewThemeSelected": 0
-		},
-		"extra": {
-			"templates": ["default", "themeholder", "aliasable"]
 		},
 		"crew": {
 			"templates": ["default", "themeholder"]
