@@ -154,6 +154,21 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 			});
 	}
 
+	/**refreshs the list with a new list on the other end useful when something new gets added*/
+	async updateTagList( list) {
+		try {
+			this.tagList = list;
+			await this.notify("updateTagList", {
+				tagList: this.simplifiedTagList,
+			});
+			return true;
+		} catch (e) {
+			console.log(`Add Item failed on ${tagOrStatus?.name}`);
+			console.error(e);
+		}
+		return false;
+	}
+
 	onReply( dataObj, meta) {
 		// console.log(`reply Recieved : ${dataObj?.state} `)
 	}
@@ -163,10 +178,17 @@ export class TagReviewSlaveSession extends SlaveSession {
 	setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
+		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
 	}
 
 	setDialog(dialog) {
 		this.dialog  = dialog;
+	}
+
+	async onUpdateTagList(list) {
+		//TODO FINISH THIS
+		this.dialog
+
 	}
 
 	async onReviewRequest(replyFn, dataObj) {

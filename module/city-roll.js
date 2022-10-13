@@ -417,9 +417,8 @@ export class CityRoll {
 		return true;
 	}
 
-	async modifierPopup(move_id, actor) {
-		const activated = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
-		const tagListLongForm =  activated
+	static tagShortHandToReviewForm(taglist) {
+		return taglist
 			.map( tagShortHand =>  {
 				const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
 				return {
@@ -428,6 +427,20 @@ export class CityRoll {
 					amount: tagShortHand.amount
 				}
 			});
+	}
+
+	async modifierPopup(move_id, actor) {
+		let activated = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
+		const tagListLongForm =  CityRoll.tagShortHandToReviewForm(activated)
+// 		const tagListLongForm =  activated
+// 			.map( tagShortHand =>  {
+// 				const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
+// 				return {
+// 					item,
+// 					review: "pending",
+// 					amount: tagShortHand.amount
+// 				}
+// 			});
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const tagAndStatusList = tagListLongForm.filter( x=> x.item.type == "tag" || x.item.type == "status");
@@ -461,10 +474,11 @@ export class CityRoll {
 						html.find("div.juice-section")
 							.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
 						this.activateHelpHurt(owner, amount, direction, actor.id);
+						if (gmSession)
+							gmSession.updateTagList()//TODO: fix
 						this.updateModifierPopup(html);
 					}, actor.id, move_id)
 					juiceSession.addNotifyHandler("pending", (dataObj) => {
-						console.log("Notify Handler tripped");
 						const {type, ownerId} = dataObj;
 						const owner = CityHelpers.getOwner(ownerId);
 						CityHelpers.playPing();

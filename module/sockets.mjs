@@ -70,7 +70,9 @@ export class SocketInterface {
 	async execSession(masterSession) {
 		this.#sessions.set(masterSession.id, masterSession);
 		masterSession.setSocketInterface(this);
+		masterSession.setStarted();
 		const ret= await masterSession.start();
+		masterSession.setEnded();
 		console.log("Destroying Session");
 		masterSession.destroy();
 		this.removeSession(masterSession);
@@ -259,11 +261,30 @@ class Session {
 }
 
 export class MasterSession extends Session {
+	#started;
 
 	constructor( name = "Unnamed Master Session", id = undefined, userIdList = undefined) {
 		if (!name)
 			name = `${this.constructor.name} Session`;
 		super(name, id, userIdList);
+		this.#started =false;
+	}
+
+	isRunning() {
+		return this.#started;
+	}
+
+	setStarted() {
+		if (this.#started)
+			throw new Error("Session already started? Can't start twice");
+		this.#started = true;
+	}
+
+	setEnded() {
+		if (!this.#started)
+			throw new Error("Session not started. can't end twice");
+		this._started = false;
+
 	}
 
 	setHandlers() {
