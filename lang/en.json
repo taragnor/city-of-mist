@@ -343,6 +343,7 @@
 "CityOfMist.themebook.shrouding.name": "Shrouding",
 
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
+"CityOfMist.dialog.roll.title": "Make Roll",
 
 "CityOfMist.dialog.tag.usageExamples": "Examples of where Tag would apply",
 "CityOfMist.dialog.tag.counterExamples": "Examples of where Tag wouldn't apply",

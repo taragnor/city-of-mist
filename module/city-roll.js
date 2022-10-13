@@ -5,6 +5,7 @@ import {CityDialogs } from "./city-dialogs.mjs";
 import {CitySockets} from "./city-sockets.mjs";
 import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {RollDialog} from "./roll-dialog.mjs";
 
 export class CityRoll {
 	#roll;
@@ -49,9 +50,14 @@ export class CityRoll {
 		const type = options?.newtype ?? move.system.type;
 		switch (type) {
 			case "standard":
-				if (await CityRoll.verifyRequiredInfo(moveId, actor))
-					if (!await this.modifierPopup(moveId, actor))
+				if (await CityRoll.verifyRequiredInfo(moveId, actor)) {
+					let {modList, options} = await RollDialog.create(this, moveId, actor);
+					if (mods == null)
 						return null;
+					this.#selectedList = modList;
+					this.#options = {...options,
+						...this.#options};
+				}
 				break;
 			case "logosroll":
 				await this.logosRoll(moveId, actor);
@@ -417,298 +423,287 @@ export class CityRoll {
 		return true;
 	}
 
-	static tagShortHandToReviewForm(taglist) {
-		return taglist
-			.map( tagShortHand =>  {
-				const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
-				return {
-					item,
-					review: "pending",
-					amount: tagShortHand.amount
-				}
-			});
-	}
+	// static tagShortHandToReviewForm(taglist) {
+	// 	return taglist
+	// 		.map( tagShortHand =>  {
+	// 			const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
+	// 			return {
+	// 				item,
+	// 				review: "pending",
+	// 				amount: tagShortHand.amount
+	// 			}
+	// 		});
+	// }
 
-	async modifierPopup(move_id, actor) {
-		let activated = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
-		const tagListLongForm =  CityRoll.tagShortHandToReviewForm(activated)
-// 		const tagListLongForm =  activated
-// 			.map( tagShortHand =>  {
-// 				const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(tagShortHand);
-// 				return {
-// 					item,
-// 					review: "pending",
-// 					amount: tagShortHand.amount
-// 				}
-// 			});
-		const burnableTags = activated
-			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
-		const tagAndStatusList = tagListLongForm.filter( x=> x.item.type == "tag" || x.item.type == "status");
-		const title = `Make Roll`;
-		const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
-		let power = 0; //placeholder
-		const altPower = CityHelpers.altPowerEnabled();
-		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList, altPower};
-		Debug(templateData);
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
-		let juiceSession = null, gmSession = null;
-		const rollOptions = await new Promise ( (conf, _reject) => {
-			const options = {};
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				close : (html) => {
-					juiceSession.destroy();
-					conf(null);
-				},
-				render: (html) => {
-					juiceSession =new JuiceMasterSession( (ownerId, direction, amount) => {
-						//handler function when it recieves juice
-						const owner = CityHelpers.getOwner(ownerId);
-						const type = (direction > 0)
-							? localize("CityOfMist.terms.help")
-							: localize("CityOfMist.terms.hurt");
-						html.find("div.juice-section")
-							.find(`div.juice-pending[data-characterId='${ownerId}']`)
-							.remove();
-						html.find("div.juice-section")
-							.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
-						this.activateHelpHurt(owner, amount, direction, actor.id);
-						if (gmSession)
-							gmSession.updateTagList()//TODO: fix
-						this.updateModifierPopup(html);
-					}, actor.id, move_id)
-					juiceSession.addNotifyHandler("pending", (dataObj) => {
-						const {type, ownerId} = dataObj;
-						const owner = CityHelpers.getOwner(ownerId);
-						CityHelpers.playPing();
-						html.find("div.juice-section")
-							.append( `<div class='juice-pending' data-characterId='${owner.id}'>${owner.name} pending </div>`);
-						if (type == "hurt") {
-							//TODO: program lock on button
-						};
-					});
-					CitySockets.execSession(juiceSession);
-					this.updateModifierPopup(html);
-					$(html).find("#effect-slider").change( (ev) => {
-						this.updateModifierPopup(html, ev);
-					});
-					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
-					$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
-					const confirmButton = html.find("button.one");
-					if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
-						CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
-						gmSession = new TagReviewMasterSession( tagListLongForm, move_id);
-						gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
-							const targetTag = tagListLongForm.find(x => x.item.id == itemId);
-							targetTag.review = changeType;
-							CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
-						});
-						const finalModifiers = CitySockets.execSession(gmSession);
-						confirmButton.prop("disabled", true);
-						confirmButton.oldHTML = confirmButton.html();
-						confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
-						confirmButton.addClass("disabled");
-						finalModifiers.then( (newList) => {
-							confirmButton.prop("disabled", false);
-							confirmButton.html(confirmButton.oldHTML);
-							confirmButton.removeClass("disabled");
-							tagListLongForm.forEach( tag => {
-								const state = newList.find( x=> tag.item.id == x.item.id);
-								if (state) {
-									tag.review = state.review;
-								} else
-									tag.review = "rejected";
-							});
-							CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
-							const approvedIds = newList
-								.map( x=> x.item.id);
-							this.#selectedList = this.#selectedList
-								.filter( item => {
-									return approvedIds.includes(item.id)
-								});
-							this.updateModifierPopup(html)
-						});
-					}
+	//async modifierPopup(move_id, actor) {
+	//	let activated = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
+	//	const tagListLongForm =  CityRoll.tagShortHandToReviewForm(activated)
+	//	const burnableTags = activated
+	//		.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
+	//	const tagAndStatusList = tagListLongForm.filter( x=> x.item.type == "tag" || x.item.type == "status");
+	//	const title = `Make Roll`;
+	//	const dynamite = actor.getActivatedImprovementEffects(move_id).some(x => x?.dynamite);
+	//	let power = 0; //placeholder
+	//	const altPower = CityHelpers.altPowerEnabled();
+	//	const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList, altPower};
+	//	Debug(templateData);
+	//	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
+	//	let juiceSession = null, gmSession = null;
+	//	const rollOptions = await new Promise ( (conf, _reject) => {
+	//		const options = {};
+	//		const dialog = new Dialog({
+	//			title:`${title}`,
+	//			content: html,
+	//			close : (html) => {
+	//				juiceSession.destroy();
+	//				conf(null);
+	//			},
+	//			render: (html) => {
+	//				juiceSession =new JuiceMasterSession( (ownerId, direction, amount) => {
+	//					//handler function when it recieves juice
+	//					const owner = CityHelpers.getOwner(ownerId);
+	//					const type = (direction > 0)
+	//						? localize("CityOfMist.terms.help")
+	//						: localize("CityOfMist.terms.hurt");
+	//					html.find("div.juice-section")
+	//						.find(`div.juice-pending[data-characterId='${ownerId}']`)
+	//						.remove();
+	//					html.find("div.juice-section")
+	//						.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
+	//					this.activateHelpHurt(owner, amount, direction, actor.id);
+	//					if (gmSession)
+	//						gmSession.updateTagList()//TODO: fix
+	//					this.updateModifierPopup(html);
+	//				}, actor.id, move_id)
+	//				juiceSession.addNotifyHandler("pending", (dataObj) => {
+	//					const {type, ownerId} = dataObj;
+	//					const owner = CityHelpers.getOwner(ownerId);
+	//					CityHelpers.playPing();
+	//					html.find("div.juice-section")
+	//						.append( `<div class='juice-pending' data-characterId='${owner.id}'>${owner.name} pending </div>`);
+	//					if (type == "hurt") {
+	//						//TODO: program lock on button
+	//					};
+	//				});
+	//				CitySockets.execSession(juiceSession);
+	//				this.updateModifierPopup(html);
+	//				$(html).find("#effect-slider").change( (ev) => {
+	//					this.updateModifierPopup(html, ev);
+	//				});
+	//				$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
+	//				$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
+	//				const confirmButton = html.find("button.one");
+	//				if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
+	//					CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
+	//					gmSession = new TagReviewMasterSession( tagListLongForm, move_id);
+	//					gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
+	//						const targetTag = tagListLongForm.find(x => x.item.id == itemId);
+	//						targetTag.review = changeType;
+	//						CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
+	//					});
+	//					const finalModifiers = CitySockets.execSession(gmSession);
+	//					confirmButton.prop("disabled", true);
+	//					confirmButton.oldHTML = confirmButton.html();
+	//					confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
+	//					confirmButton.addClass("disabled");
+	//					finalModifiers.then( (newList) => {
+	//						confirmButton.prop("disabled", false);
+	//						confirmButton.html(confirmButton.oldHTML);
+	//						confirmButton.removeClass("disabled");
+	//						tagListLongForm.forEach( tag => {
+	//							const state = newList.find( x=> tag.item.id == x.item.id);
+	//							if (state) {
+	//								tag.review = state.review;
+	//							} else
+	//								tag.review = "rejected";
+	//						});
+	//						CityRoll._modifierPopupRefreshHTML(html, tagListLongForm);
+	//						const approvedIds = newList
+	//							.map( x=> x.item.id);
+	//						this.#selectedList = this.#selectedList
+	//							.filter( item => {
+	//								return approvedIds.includes(item.id)
+		//							});
+		//						this.updateModifierPopup(html)
+	//					});
+	//				}
+	// },
+	// close: () => {
+	// 	if (gmSession)
+	// 		gmSession.destroy();
+	// 	juiceSession.destroy();
+	// 	conf(null);
+	// },
+	// buttons: {
+	// 	one: {
+	// 		icon: '<i class="fas fa-check"></i>',
+	// 		label: "Confirm",
+	// 		callback: (html) => {
+	// 			this.updateModifierPopup(html);
+	// 			juiceSession.destroy();
+	// 			conf(true);
+	// 		},
+	// 	},
+	// 	two: {
+	// 		icon: '<i class="fas fa-times"></i>',
+	// 		label: "Cancel",
+		// 		callback: () => {
+		// 			if (gmSession)
+	// 				gmSession.destroy();
+	// 			juiceSession.destroy();
+	// 			conf(null);
+		// 		}
+	// 	}
+	// },
+		// default: "one"
+	// }, options);
+	// dialog.render(true);
+	// });
+	// if (!rollOptions)
+	// return false;
+	// return true;
+	// }
 
-				},
-				close: () => {
-					if (gmSession)
-						gmSession.destroy();
-					juiceSession.destroy();
-					conf(null);
-				},
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: "Confirm",
-						callback: (html) => {
-							this.updateModifierPopup(html);
-							juiceSession.destroy();
-							conf(true);
-						},
-					},
-					two: {
-						icon: '<i class="fas fa-times"></i>',
-						label: "Cancel",
-						callback: () => {
-							if (gmSession)
-								gmSession.destroy();
-							juiceSession.destroy();
-							conf(null);
-						}
-					}
-				},
-				default: "one"
-			}, options);
-			dialog.render(true);
-		});
-		if (!rollOptions)
-			return false;
-		return true;
-	}
+	// static async _modifierPopupRefreshHTML(html, tagLFList = []) {
+	// 	const modList = $(html).find(".modifierList");
+	// 	if (modList.length == 0)
+	// 		throw new Error("Can't find mod list");
+	// 	for (const tagLF of tagLFList) {
+	// 		const found = modList
+	// 			.find(".modifier")
+	// 			.filter ( function () {
+	// 				const id = $(this).data("itemId");
+	// 				return id == tagLF.item.id;
+	// 			})
+	// 			.length;
+	// 		if (!found) {
+	// 			console.log(`Not found ${tagLF.item.name} ${tagLF.item.id} adding manually (result ${found})`);
+	// 			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modifier.hbs", {item: tagLF} );
+	// 			modList.append(html);
+	// 		}
+	// 	}
+	// 	modList
+	// 		.find(".modifier")
+	// 		.each (function () {
+	// 			const id = $(this).data("itemId");
+	// 			const status = tagLFList.find( x=> x.item.id == id).review;
+	// 			const icon = $(this).find(".review-icon");
+	// 			$(this).removeClass("rejected");
+	// 			$(this).removeClass("approved");
+	// 			$(this).removeClass("request-clarification");
+	// 			icon.empty();
+	// 			let text, item;
+	// 			switch (status) {
+	// 				case "approved":
+	// 					text = localize( 'CityOfMist.dialog.tagReview.approved' );
+	// 					item = `<a class="approved" title="${text}"><i class="fas fa-check"></i></a>`;
+	// 					icon.append(item);
+	// 					$(this).addClass("approved");
+	// 					break;
+	// 				case "rejected":
+	// 					text = localize( 'CityOfMist.dialog.tagReview.rejected' )
+	// 					item = `<a class="rejected" title="${text}"><i class="fas fa-cancel"></i></a>`;
+	// 					icon.append(item);
+	// 					$(this).addClass("rejected");
+	// 					break;
+	// 				case "request-clarification":
+	// 					text = localize("CityOfMist.dialog.tagReview.clarification_requested")
+	// 					item = `<a class="clarification-requested" title="${text}"><i class="fas fa-question"></i></a>`;
+	// 					icon.append(item);
+	// 					$(this).addClass("request-clarification");
+	// 					break;
+	// 				case "pending":
+	// 					text = localize( 'CityOfMist.dialog.tagReview.pending' )
+	// 					item = `<a class="pending" title="${text}"><i class="fas fa-comment-dots"></i></a>`;
+	// 					icon.append(item);
+	// 					break;
+	// 				default:
+	// 					throw new Error(`Unknown status ${status}`);
+	// 			}
+	// 		});
+	// }
 
-	static async _modifierPopupRefreshHTML(html, tagLFList = []) {
-		const modList = $(html).find(".modifierList");
-		if (modList.length == 0)
-			throw new Error("Can't find mod list");
-		for (const tagLF of tagLFList) {
-			const found = modList
-				.find(".modifier")
-				.filter ( function () {
-					const id = $(this).data("itemId");
-					return id == tagLF.item.id;
-				})
-				.length;
-			if (!found) {
-				console.log(`Not found ${tagLF.item.name} ${tagLF.item.id} adding manually (result ${found})`);
-				const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modifier.hbs", {item: tagLF} );
-				modList.append(html);
-			}
-		}
-		modList
-			.find(".modifier")
-			.each (function () {
-				const id = $(this).data("itemId");
-				const status = tagLFList.find( x=> x.item.id == id).review;
-				const icon = $(this).find(".review-icon");
-				$(this).removeClass("rejected");
-				$(this).removeClass("approved");
-				$(this).removeClass("request-clarification");
-				icon.empty();
-				let text, item;
-				switch (status) {
-					case "approved":
-						text = localize( 'CityOfMist.dialog.tagReview.approved' );
-						item = `<a class="approved" title="${text}"><i class="fas fa-check"></i></a>`;
-						icon.append(item);
-						$(this).addClass("approved");
-						break;
-					case "rejected":
-						text = localize( 'CityOfMist.dialog.tagReview.rejected' )
-						item = `<a class="rejected" title="${text}"><i class="fas fa-cancel"></i></a>`;
+	// activateHelpHurt( owner, amount, direction, targetCharacterId) {
+	// 	let type, arr;
+	// 	if ( direction > 0) {
+	// 		type = "help";
+	// 		arr = owner.helpPoints;
+	// 	} else {
+	// 		type = "hurt";
+	// 		arr = owner.hurtPoints;
+	// 	}
+	// 	const targetedJuice = arr .filter( x=> x.targets(targetCharacterId));
+	// 	if (targetedJuice.length == 0) {
+	// 		throw new Error("Lenght 0 wtf?!");
+	// 	}
+	// 		targetedJuice.forEach( item => {
+	// 			if (amount <= 0) {
+	// 				console.log("Amount is 0 or less returning");
+	// 				return;
+	// 			}
+	// 			let targetAmt = Math.min (amount , item.system.amount);
+	// 			amount -= targetAmt;
+	// 			const newItem = {
+	// 				name: `${owner.name} ${type}`,
+	// 				id: item.id,
+	// 				amount: targetAmt * direction,
+	// 				ownerId: owner.id,
+	// 				tagId: null,
+	// 				type,
+	// 				description: "",
+	// 				subtype: type,
+	// 				strikeout: false,
+	// 				tokenId: null
+	// 			};
+	// 			console.log("Pushing Juice!");
+	// 			this.#selectedList.push(newItem);
+	// 		});
+	// }
 
-						icon.append(item);
-						$(this).addClass("rejected");
-						break;
-					case "request-clarification":
-						text = localize("CityOfMist.dialog.tagReview.clarification_requested")
-						item = `<a class="clarification-requested" title="${text}"><i class="fas fa-question"></i></a>`;
-						icon.append(item);
-						$(this).addClass("request-clarification");
-						break;
-					case "pending":
-						text = localize( 'CityOfMist.dialog.tagReview.pending' )
-						item = `<a class="pending" title="${text}"><i class="fas fa-comment-dots"></i></a>`;
-						icon.append(item);
-						break;
-					default:
-						throw new Error(`Unknown status ${status}`);
-				}
-			});
-	}
+	// updateModifierPopup(html) {
+	// 	this.updateSliderValMax(html);
+	// 	this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
+	// 	this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
+	// 	this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
+	// 	this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+	// 	if (this.#options.burnTag || this.usedWeaknessTag()) {
+	// 		$(html).find('#effect-slider').val(0);
+	// 		$(html).find('.effect-slider-block').hide();
+	// 	} else {
+	// 		$(html).find('.effect-slider-block').show();
+	// 	}
+	// 	this.#options.powerModifier = Number(
+	// 		$(html).find('#effect-slider').val() ?? 0
+	// 	);
+	// 	console.log("power:" + this.#options.powerModifier);
+	// 	this.#prepareModifiers();
+	// 	const {bonus} = CityRoll.getRollBonus(this.#options);
+	// 	const {power} = CityRoll.getPower(this.#options);
+	// 	$(html).find(".roll-bonus").text(String(bonus));
+	// 	$(html).find(".move-effect").text(String(power));
+	// }
 
-	activateHelpHurt( owner, amount, direction, targetCharacterId) {
-		let type, arr;
-		if ( direction > 0) {
-			type = "help";
-			arr = owner.helpPoints;
-		} else {
-			type = "hurt";
-			arr = owner.hurtPoints;
-		}
-		const targetedJuice = arr .filter( x=> x.targets(targetCharacterId));
-		if (targetedJuice.length == 0) {
-			throw new Error("Lenght 0 wtf?!");
-		}
-			targetedJuice.forEach( item => {
-				if (amount <= 0) {
-					console.log("Amount is 0 or less returning");
-					return;
-				}
-				let targetAmt = Math.min (amount , item.system.amount);
-				amount -= targetAmt;
-				const newItem = {
-					name: `${owner.name} ${type}`,
-					id: item.id,
-					amount: targetAmt * direction,
-					ownerId: owner.id,
-					tagId: null,
-					type,
-					description: "",
-					subtype: type,
-					strikeout: false,
-					tokenId: null
-				};
-				console.log("Pushing Juice!");
-				this.#selectedList.push(newItem);
-			});
-	}
-
-	updateModifierPopup(html) {
-		this.updateSliderValMax(html);
-		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
-		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
-		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
-		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-		if (this.#options.burnTag || this.usedWeaknessTag()) {
-			$(html).find('#effect-slider').val(0);
-			$(html).find('.effect-slider-block').hide();
-		} else {
-			$(html).find('.effect-slider-block').show();
-		}
-		this.#options.powerModifier = Number(
-			$(html).find('#effect-slider').val() ?? 0
-		);
-		console.log("power:" + this.#options.powerModifier);
-		this.#prepareModifiers();
-		const {bonus} = CityRoll.getRollBonus(this.#options);
-		const {power} = CityRoll.getPower(this.#options);
-		$(html).find(".roll-bonus").text(String(bonus));
-		$(html).find(".move-effect").text(String(power));
-	}
-
-	updateSliderValMax(html) {
-		const itemId = $(html).find("#help-dropdown").val();
-		if (!itemId) {
-			$(html).find("#help-slider-container").hide();
-			return;
-		}
-		const clue = game.actors.find( x =>
-			x.type == "character"
-			&& x.items.find( i => i.id == itemId)
-		).items
-			.find(i => i.id == itemId);
-		const amount = clue.system.amount;
-		$(html).find("#help-slider").prop("max", amount);
-		$(html).find(".slidervalue").html(1);
-		if (amount)
-			$(html).find("#help-slider-container").show().prop("max", amount);
-		else
-			$(html).find("#help-slider-container").hide();
-		const value = $(html).find("#help-slider").val();
-		$(html).find(".slidervalue").html(value);
-	}
+	// updateSliderValMax(html) {
+	// 	const itemId = $(html).find("#help-dropdown").val();
+	// 	if (!itemId) {
+	// 		$(html).find("#help-slider-container").hide();
+	// 		return;
+	// 	}
+	// 	const clue = game.actors.find( x =>
+	// 		x.type == "character"
+	// 		&& x.items.find( i => i.id == itemId)
+	// 	).items
+	// 		.find(i => i.id == itemId);
+	// 	const amount = clue.system.amount;
+	// 	$(html).find("#help-slider").prop("max", amount);
+	// 	$(html).find(".slidervalue").html(1);
+	// 	if (amount)
+	// 		$(html).find("#help-slider-container").show().prop("max", amount);
+	// 	else
+	// 		$(html).find("#help-slider-container").hide();
+	// 	const value = $(html).find("#help-slider").val();
+	// 	$(html).find(".slidervalue").html(value);
+	// }
 
 
 	async logosRoll (_move_id, _actor) {
