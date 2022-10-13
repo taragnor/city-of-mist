@@ -476,14 +476,7 @@ export class CityRoll {
 					});
 					CitySockets.execSession(juiceSession);
 					this.updateModifierPopup(html);
-					$(html).find("#help-dropdown").change((ev) => {
-						$(html).find("#help-slider").val(1);
-						this.updateModifierPopup(html, ev)
-					});
 					$(html).find("#effect-slider").change( (ev) => {
-						this.updateModifierPopup(html, ev);
-					});
-					$(html).find("#help-slider").change( (ev) => {
 						this.updateModifierPopup(html, ev);
 					});
 					$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
@@ -664,8 +657,6 @@ export class CityRoll {
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val();
 		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-		this.#options.helpId = $(html).find("#help-dropdown").val();
-		this.#options.helpAmount = (this.#options.helpId) ? $(html).find("#help-slider").val(): 0;
 		if (this.#options.burnTag || this.usedWeaknessTag()) {
 			$(html).find('#effect-slider').val(0);
 			$(html).find('.effect-slider-block').hide();
