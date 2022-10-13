@@ -4,6 +4,7 @@
 -->
 
 <div class="flexlarge status-name-block" data-status-id="{{status.id}}" data-owner-id="{{status.parent.id}}" data-tier="{{status.system.tier}}" data-token-id="{{status.parent.tokenId}}" data-scene-id="{{status.parent.sceneId}}" >
+	<a title="Status"> <i class="fas fa-life-ring"></i></a>
 	{{#if  status.system.temporary}}
 	<a title="Temporary Status" ><i class="fas fa-hourglass"></i> </a>
 	{{/if}}

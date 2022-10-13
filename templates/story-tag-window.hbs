@@ -2,12 +2,14 @@
 	<div class="flex-wide">
 		{{localize "CityOfMist.terms.scene"}} {{localize "CityOfMist.terms.tags"}} / {{localize "CityOfMist.terms.statuses"}}
 	</div>
+	{{#if (isGM)}}
 	<div class="shrink-icon">
 		<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
 	</div>
 	<div class="shrink-icon">
 		<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 	</div>
+	{{/if}}
 </div>
 <hr>
 <ul class="tag-or-status-list">
