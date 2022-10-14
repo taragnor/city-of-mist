@@ -121,25 +121,13 @@ export class CityActorSheet extends CitySheet {
 				}
 			}
 		}
-		data.data.personalStoryTags = this.getPersonalStoryTags();
-		data.data.storyTags = this.getStoryTags();
+		// data.data.personalStoryTags = this.getPersonalStoryTags();
+		data.storyTags = this.getStoryTags();
 		return data;
 	}
 
 	getPersonalStoryTags() {
-		return this.actor.getStoryTags().map( x=> {
-			return {
-				type: x.type,
-				name: x.name,
-				location: "",
-				id: x.id,
-				system: x.system,
-				data: x.system,
-				ownerId: this.actor.id,
-				owner: this.actor,
-				parent: this.actor,
-			};
-		});
+		return this.actor.getStoryTags();
 	}
 
 	getStoryTags() {

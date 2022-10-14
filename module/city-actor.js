@@ -43,6 +43,11 @@ export class CityActor extends Actor {
 		return this.type == "character";
 	}
 
+
+	is_scene_container() {
+		return this.name.includes(SceneTags.SCENE_CONTAINER_ACTOR_NAME);
+	}
+
 	is_danger_or_extra() {
 		return this.type ==  "threat";
 	}

@@ -59,7 +59,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.data.activeExtra = this.getActiveExtra();
 
 		//Status Container
-		data.data.otherStatuses = this.getOtherStatuses();
+		data.otherStatuses = this.getOtherStatuses();
+		Debug(data);
 
 		//Story Tags
 		data.data.crewStoryTags = this.getCrewStoryTags();
@@ -139,12 +140,12 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getCrewStoryTags() {
 		return this.getTokenStoryTags()
-			.filter(x => x.owner.type == "character");
+			.filter(x => x.parent.type == "character");
 	}
 
 	getDangerStoryTags() {
 		return this.getTokenStoryTags()
-			.filter(x => x.owner.type == "threat");
+			.filter(x => x.parent.type == "threat");
 	}
 
 	getTokenStoryTags() {
@@ -157,21 +158,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			);
 		const tokenTagData = tokens.map( token => {
 			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
-			return storyTags.map( x=> {
-				return {
-					type: x.type,
-					name: x.name,
-					location: this.getLocationName(token.actor, token),
-					id: x.id,
-					// data: x.data, // removed V10
-					system: x.system,
-					ownerId: token.actor.id,
-					owner: token.actor,
-					parent: token.actor,
-					tokenId: token.id,
-					_sceneId: token?.scene?.id
-				};
-			});
+			return storyTags;
 		});
 		return tokenTagData.flat(1);
 	}
@@ -179,21 +166,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	getSceneStoryTags() {
 		const storyContainers = [ SceneTags.getSceneContainer() ];
 		const tagData = storyContainers.map ( cont => {
-			return cont.getStoryTags().map( x=> {
-				return {
-					type: x.type,
-					name: x.name,
-					location: this.getLocationName(cont),
-					id: x.id,
-					system: x.system,
-					data: x.system,
-					ownerId: cont.id,
-					owner: cont,
-					parent: cont,
-					tokenId: null,
-					_sceneId: undefined
-				};
-			});
+			return cont.getStoryTags();
 		});
 		return tagData.flat(1);
 	}
@@ -209,57 +182,31 @@ export class CityCharacterSheet extends CityActorSheet {
 			);
 		const tokenTagData = tokens.map( token => {
 			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
-			return storyTags.map( x=> {
-				return {
-					type: x.type,
-					name: x.name,
-					location: this.getLocationName(token.actor, token),
-					id: x.id,
-					system: x.system,
-					data: x.system,
-					ownerId: token.actor.id,
-					owner: token.actor,
-					tokenId: token?.id,
-					_sceneId: token?.scene?.id
-				};
-			});
+			return storyTags;
 		});
-		retTags = retTags.concat(tokenTagData.flat(1));
-		const storyContainers =  game.actors.filter( actor => {
-			if (retTags.find( x=> x.ownerId == actor.id ))
-				return false;
-			return true;
-		});
-		const tagData = storyContainers.map ( cont => {
-			return cont.getStoryTags().map( x=> {
-				return {
-					type: x.type,
-					name: x.name,
-					location: this.getLocationName(cont),
-					id: x.id,
-					data: x.system,
-					system: x.system,
-					ownerId: cont.id,
-					owner: cont,
-					tokenId: null,
-					_sceneId: undefined
-				};
-			});
-		});
-		retTags = retTags.concat(tagData.flat(1));
-		const mytags= super.getStoryTags();
-		retTags = retTags.concat(mytags.flat(1));
-		retTags = retTags.sort( (a, b) => {
-			if (a.ownerId == this.actor.id) return -1;
-			if (b.ownerId == this.actor.id) return 1;
-			if (a.owner.type == "character" && b.owner.type != "character")
-				return -1;
-			if (b.owner.type == "character" && a.owner.type != "character")
-				return 1;
-			return 0;
-		});
-		return retTags;
-	}
+	retTags = retTags.concat(tokenTagData.flat(1));
+	const storyContainers =  game.actors.filter( actor => {
+		if (retTags.find( x=> x.ownerId == actor.id ))
+			return false;
+		return true;
+	});
+	const tagData = storyContainers.map ( cont => {
+		return cont.getStoryTags();
+	});
+	retTags = retTags.concat(tagData.flat(1));
+	const mytags= super.getStoryTags();
+	retTags = retTags.concat(mytags.flat(1));
+	retTags = retTags.sort( (a, b) => {
+		if (a.parent.id == this.actor.id) return -1;
+		if (b.parent.id == this.actor.id) return 1;
+		if (a.parent.type == "character" && b.parent.type != "character")
+			return -1;
+		if (b.parent.type == "character" && a.parent.type != "character")
+			return 1;
+		return 0;
+	});
+	return retTags;
+}
 
 	getLocationName(cont, token) {
 		switch (cont.type)	 {
@@ -285,23 +232,11 @@ export class CityCharacterSheet extends CityActorSheet {
 			);
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.type == "status"));
-		const statusblock = filteredTargets.map( x=> {
-			if (typeof x?.token?.id == "object")
-				throw Error("wtf??!");
-			return {
-				name: x.displayedName,
-				system: x.system,
-				data: x.system,
-				id: x.id,
-				type: x.type,
-				tokenId: x?.token?.id ?? null,
-				statuses: x.items.filter(x => x.type == "status" && !x.system.hidden)
-			};
-		});
+		const statusblock = filteredTargets;
 		const sorted = statusblock.sort( (a,b) => {
-			if (a.name == "Scene")
+			if (a.is_scene_container())
 				return -1;
-			if (b.name == "Scene")
+			if (b.is_scene_container())
 				return 1;
 			if (a.name < b.name)
 				return -1;
