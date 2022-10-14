@@ -35,9 +35,9 @@
 			<section id="active-extra-selection">
 				<label for="extra-drop-down"> {{localize 'CityOfMist.terms.activeExtraTheme' }} </label>
 				<select class="active-extra-drop-down" name="active-extra-drop-down" id="active-extra-drop-down">
-					<option value="" {{#if (eq data.activeExtraId "")}} selected="selected" {{/if}}>- </option>
-					{{#each data.extras as |extra| }}
-					<option value="{{extra.id}}" {{#if (eq extra.id ../data.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
+					<option value="" {{#if (eq actor.system.activeExtraId "")}} selected="selected" {{/if}}>- </option>
+					{{#each extras as |extra| }}
+					<option value="{{extra.id}}" {{#if (eq extra.id ../actor.system.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
 					{{/each}}
 				</select>
 			</section>
@@ -77,9 +77,9 @@
 					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.system.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.system.themebook tbdata=item.system.themebook.system data=item.system}}
 				</div>
 				{{/each}}
-				{{#if data.activeExtra}}
+				{{#if activeExtra}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=data.activeExtra.owner theme=data.activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=data.activeExtra.system.themebook data=data.activeExtra.system tbdata=data.activeExtra.system.themebook.system}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.owner theme=activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=activeExtra.system.themebook data=activeExtra.system tbdata=activeExtra.system.themebook.system}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">

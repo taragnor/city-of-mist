@@ -55,8 +55,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.data.crewThemes = this.getCrewThemes();
 
 		//Extra themes
-		data.data.extras = this.getExtras();
-		data.data.activeExtra = this.getActiveExtra();
+		data.extras = this.getExtras();
+		data.activeExtra = this.getActiveExtra();
 
 		//Status Container
 		data.otherStatuses = this.getOtherStatuses();
