@@ -3047,11 +3047,11 @@ span.secret {
 }
 
 
-.modifierList .modifier.rejected {
+.modifier-list .modifier.rejected {
 	text-decoration: line-through;
 }
 
-.modifierList .modifier.request-clarification .name {
+.modifier-list .modifier.request-clarification .name {
   animation: blinker 1s step-start infinite;
 }
 

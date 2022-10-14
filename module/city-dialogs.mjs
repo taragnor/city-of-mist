@@ -361,15 +361,16 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(simplifiedTagList, moveId, session) {
-		const tagList = simplifiedTagList
-			.map( ({item, review, amount }) =>  {
-				return {
-					item : SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
-					review,
-					amount,
-				};
-			});
+	static async tagReview(reviewList, moveId, session) {
+		const tagList = reviewList;
+		// const tagList = simplifiedTagList
+		// 	.map( ({item, review, amount }) =>  {
+		// 		return {
+		// 			item : SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
+		// 			review,
+		// 			amount,
+		// 		};
+		// 	});
 		if (tagList.length == 0) {
 			return {state: "approved", tagList};
 		}

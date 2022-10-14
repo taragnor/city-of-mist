@@ -1,7 +1,19 @@
-<div class="modifier flex-row-center" data-item-id="{{item.item.id}}">
+<div class="modifier flex-row-center {{item.review}}" data-item-id="{{item.item.id}}">
 	<div class="review-icon flex-narrow flex-nomargin shrink-icon">
 		<!-- JS Generated -->
 	</div>
+		{{#if (eq item.review "approved")}}
+		<a class="approved" title="{{localize 'CityOfMist.dialog.tagReview.approved' }}"><i class="fas fa-check"></i></a>
+		{{/if}}
+		{{#if (eq item.review "rejected")}}
+		<a class="rejected" title="{{localize 'CityOfMist.dialog.tagReview.rejected' }}"><i class="fas fa-cancel"></i></a>
+		{{/if}}
+		{{#if (eq item.review "request-clarification")}}
+		<a class="clarification-requested" title="{{localize 'CityOfMist.dialog.tagReview.clarification_requested' }}"><i class="fas fa-question"></i></a>
+		{{/if}}
+		{{#if (eq item.review "pending")}}
+		<a class="pending" title="{{localize 'CityOfMist.dialog.tagReview.pending'}} "><i class="fas fa-comment-dots"></i></a>
+		{{/if}}
 	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
 </div>
 

@@ -19,7 +19,6 @@ export class SelectedTagsAndStatus {
 			} else {
 				item.amount *=  -1;
 				return item.amount;
-
 			}
 		} else {
 			this.activateSelectedItem(tagOrStatus, direction);
@@ -106,7 +105,8 @@ export class SelectedTagsAndStatus {
 		return {
 			id: tag.id,
 			ownerId: tag?.parent?.id ?? null ,
-			tokenId: tag?.parent?.token?.id  ?? null
+			tokenId: tag?.parent?.token?.id  ?? null,
+			type: tag.type
 		};
 	}
 

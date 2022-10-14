@@ -137,41 +137,29 @@ export class RollDialog extends Dialog {
 		$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 	}
 
-	spawnGMReview(html) {
+	async spawnGMReview(html) {
 		const confirmButton = html.find("button.one");
-		this.updateModifierHTML(html, tagListLongForm);
-		gmSession = new TagReviewMasterSession( tagListLongForm, this.move_id);
-		gmSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
-			const targetTag = tagListLongForm.find(x => x.item.id == itemId);
+		const tagList = this.#modifierList;
+		// this.updateModifierHTML(html, tagList);
+		await this.refreshHTML(html);
+		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id);
+		const reviewSession = this.#tagReviewSession;
+		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
+			const targetTag = tagList.find(x => x.item.id == itemId);
 			targetTag.review = changeType;
-			this.updateModifierHTML(html, tagListLongForm);
+			this.updateModifierPopup(html);
+			this.refreshHTML(html);
 		});
-		const finalModifiers = CitySockets.execSession(gmSession);
+		const finalModifiers = CitySockets.execSession(reviewSession);
 		confirmButton.prop("disabled", true);
 		confirmButton.oldHTML = confirmButton.html();
 		confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
 		confirmButton.addClass("disabled");
-		finalModifiers.then( (newList) => {
-			confirmButton.prop("disabled", false);
-			confirmButton.html(confirmButton.oldHTML);
-			confirmButton.removeClass("disabled");
-			tagListLongForm.forEach( tag => {
-				const state = newList.find( x=> tag.item.id == x.item.id);
-				if (state) {
-					tag.review = state.review;
-				} else
-					tag.review = "rejected";
-			});
-			this.updateModifierHTML(html, tagListLongForm);
-			const approvedIds = newList
-				.map( x=> x.item.id);
-			this.#modifierList = this.#modifierList
-				.filter( item => {
-					return approvedIds.includes(item.id)
-				});
-			this.updateModifierPopup(html)
-		});
-
+		const newList = await finalModifiers;
+		confirmButton.prop("disabled", false);
+		confirmButton.html(confirmButton.oldHTML);
+		confirmButton.removeClass("disabled");
+		Debug(newList);
 	}
 
 	async onRender(html) {
@@ -180,22 +168,19 @@ export class RollDialog extends Dialog {
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
 			this.spawnGMReview(html);
 		} else {
-			console.log("Approving all since no GM");
 			this.#modifierList.approveAll();
 		}
 		await this.refreshHTML(html);
 	}
 
-	async onClose(html) {
+	async onClose(_html) {
 		this.terminateSessions();
 		this.#resolve(null);
 	}
 
-	async refreshHTML(html) {
+	async refreshHTML(_html) {
 		let activated = this.#modifierList.toValidActivatedTagForm();
 		const tagListReviewForm = this.#modifierList;
-		console.log(`Refreshing HTML ${activated.length}`);
-		Debug(activated);
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;
@@ -206,17 +191,15 @@ export class RollDialog extends Dialog {
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
-
-
 	}
 
 	activateHelpHurt( owner, amount, direction, targetCharacterId) {
-		let type, arr;
+		let subtype, arr;
 		if ( direction > 0) {
-			type = "help";
+			subtype = "help";
 			arr = owner.helpPoints;
 		} else {
-			type = "hurt";
+			subtype = "hurt";
 			arr = owner.hurtPoints;
 		}
 		const targetedJuice = arr.filter( x=> x.targets(targetCharacterId));
@@ -230,20 +213,21 @@ export class RollDialog extends Dialog {
 				}
 				let targetAmt = Math.min (amount , item.system.amount);
 				amount -= targetAmt;
-				const newItem = {
-					name: `${owner.name} ${type}`,
-					id: item.id,
-					amount: targetAmt * direction,
-					ownerId: owner.id,
-					tagId: null,
-					type,
-					description: "",
-					subtype: type,
-					strikeout: false,
-					tokenId: null
-				};
+				// const newItem = {
+				// 	name: `${owner.name} ${subtype}`,
+				// 	id: item.id,
+				// 	amount: targetAmt * direction,
+				// 	ownerId: owner.id,
+				// 	tagId: null,
+				// 	type: "juice",
+				// 	description: "",
+				// 	subtype: subtype,
+				// 	strikeout: false,
+				// 	tokenId: null
+				// };
 				console.log("Pushing Juice!");
-				this.#modifierList.push(newItem);
+				const usedAmount = targetAmt * direction;
+				this.#modifierList.addReviewable(item, usedAmount);
 			});
 	}
 
@@ -253,7 +237,7 @@ export class RollDialog extends Dialog {
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() ?? "";
 		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-		const usedWeaknessTag = this.#modifierList.some( ({item}) =>item.isWeaknessTag && item.isWeaknessTag());
+		const usedWeaknessTag = this.#modifierList.some( ({item}) =>item?.isWeaknessTag && item.isWeaknessTag());
 		if (this.#options.burnTag || usedWeaknessTag) {
 			$(html).find('#effect-slider').val(0);
 			$(html).find('.effect-slider-block').hide();
@@ -263,7 +247,6 @@ export class RollDialog extends Dialog {
 		this.#options.powerModifier = Number(
 			$(html).find('#effect-slider').val() ?? 0
 		);
-		console.log("power:" + this.#options.powerModifier);
 		const {bonus} = CityRoll.getRollBonus(this.#options, this.#modifierList );
 		const {power} = CityRoll.getPower(this.#options, this.#modifierList);
 		$(html).find(".roll-bonus").text(String(bonus));
@@ -292,63 +275,4 @@ export class RollDialog extends Dialog {
 		$(html).find(".slidervalue").html(value);
 	}
 
-	async updateModifierHTML(html, tagLFList = []) {
-		const modList = $(html).find(".modifierList");
-		if (modList.length == 0)
-			throw new Error("Can't find mod list");
-		for (const tagLF of tagLFList) {
-			const found = modList
-				.find(".modifier")
-				.filter ( function () {
-					const id = $(this).data("itemId");
-					return id == tagLF.item.id;
-				})
-				.length;
-			if (!found) {
-				console.log(`Not found ${tagLF.item.name} ${tagLF.item.id} adding manually (result ${found})`);
-				const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modifier.hbs", {item: tagLF} );
-				modList.append(html);
-			}
-		}
-		modList
-			.find(".modifier")
-			.each (function () {
-				const id = $(this).data("itemId");
-				const status = tagLFList.find( x=> x.item.id == id).review;
-				const icon = $(this).find(".review-icon");
-				$(this).removeClass("rejected");
-				$(this).removeClass("approved");
-				$(this).removeClass("request-clarification");
-				icon.empty();
-				let text, item;
-				switch (status) {
-					case "approved":
-						text = localize( 'CityOfMist.dialog.tagReview.approved' );
-						item = `<a class="approved" title="${text}"><i class="fas fa-check"></i></a>`;
-						icon.append(item);
-						$(this).addClass("approved");
-						break;
-					case "rejected":
-						text = localize( 'CityOfMist.dialog.tagReview.rejected' )
-						item = `<a class="rejected" title="${text}"><i class="fas fa-cancel"></i></a>`;
-
-						icon.append(item);
-						$(this).addClass("rejected");
-						break;
-					case "request-clarification":
-						text = localize("CityOfMist.dialog.tagReview.clarification_requested")
-						item = `<a class="clarification-requested" title="${text}"><i class="fas fa-question"></i></a>`;
-						icon.append(item);
-						$(this).addClass("request-clarification");
-						break;
-					case "pending":
-						text = localize( 'CityOfMist.dialog.tagReview.pending' )
-						item = `<a class="pending" title="${text}"><i class="fas fa-comment-dots"></i></a>`;
-						icon.append(item);
-						break;
-					default:
-						throw new Error(`Unknown status ${status}`);
-				}
-			});
-	}
 }

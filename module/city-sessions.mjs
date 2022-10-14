@@ -1,6 +1,7 @@
 import {MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
 
 
 export class JuiceMasterSession extends MasterSession {
@@ -90,9 +91,9 @@ tag: fullFormatTag,
 state: string (status of tag (REjected, Accepted, pending, etc),
 }
 */
-	constructor( tagList, moveId) {
+	constructor( reviewableTagList, moveId) {
 		super();
-		this.tagList = tagList;
+		this.tagList = reviewableTagList;
 		if (moveId == undefined)
 			throw new Error("no move Id given");
 		this.moveId = moveId;
@@ -106,7 +107,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 	async start() {
 		const gms = game.users.filter( x=> x.isGM && x.active);
 		this.registerSubscribers(gms);
-		console.log(`GMs detected :${gms.length}`);
+		// console.log(`GMs detected :${gms.length}`);
 		if (gms.length == 0)
 			return this.tagList;
 		let state = "pending";
@@ -114,23 +115,25 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 
 		while (state != "approved") {
 			try {
-				const sendObj = {
-					tagList: this.simplifiedTagList,
-					moveId: this.moveId,
-				}
+				// const sendObj = {
+				// 	tagList: this.simplifiedTagList,
+				// 	moveId: this.moveId,
+				// }
+				const sendObj = this.sendObject;
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value;
 				if (!result) throw new Error("Empty result");
 				// console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
-				returnTagList = result.tagList
-					.map( ( {item, amount, review} ) => {
-						return {
-							item: SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
-							review,
-							amount
-						};
-					});
+				const returnTagList = ReviewableModifierList.fromSendableForm(result.tagList);
+				// returnTagList = result.tagList
+				// 	.map( ( {item, amount, review} ) => {
+				// 		return {
+				// 			item: SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
+				// 			review,
+				// 			amount
+				// 		};
+				// 	});
 				this.tagList = returnTagList;
 			} catch (e) {
 				console.error(e);
@@ -138,21 +141,28 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				throw new Error("AAAHAHHH!!");
 			}
 		}
-		let filteredReturnTagList = returnTagList
-			.filter( ({item: _item, review, amount: _amt}) => review == "approved");
-		return filteredReturnTagList;
+		// let filteredReturnTagList = returnTagList
+		// 	.filter( ({item: _item, review, amount: _amt}) => review == "approved");
+		return this.tagList;
 	}
 
-	get simplifiedTagList() {
-		return this.tagList
-			.map ( item => {
-				return {
-					item : SelectedTagsAndStatus.fullTagOrStatusToShorthand(item.item),
-					review: item.review,
-					amount: item.amount,
-				};
-			});
+	get sendObject() {
+		return {
+			tagList: this.tagList.toSendableForm(),
+			moveId: this.moveId,
+		}
 	}
+
+	// get simplifiedTagList() {
+	// 	return this.tagList
+	// 		.map ( item => {
+	// 			return {
+	// 				item : SelectedTagsAndStatus.fullTagOrStatusToShorthand(item.item),
+	// 				review: item.review,
+	// 				amount: item.amount,
+	// 			};
+	// 		});
+	// }
 
 	/**refreshs the list with a new list on the other end useful when something new gets added*/
 	async updateTagList( list) {
@@ -187,24 +197,26 @@ export class TagReviewSlaveSession extends SlaveSession {
 
 	async onUpdateTagList(list) {
 		//TODO FINISH THIS
-		this.dialog
 
 	}
 
 	async onReviewRequest(replyFn, dataObj) {
-		const tagList = dataObj.tagList;
+		Debug(dataObj);
+		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
-		const {tagList: newComplexTagList, state} = await CityDialogs.tagReview(tagList, moveId, this);
-		const newSimpleTagList = newComplexTagList
-			.map( ({review, amount, item}) => {
-				return {
-					review,
-					amount,
-					item: SelectedTagsAndStatus.fullTagOrStatusToShorthand(item)
-				};
-			});
+		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this);
+		const sendableTagList = reviewList.toSendableForm();
+		// const newSimpleTagList = newComplexTagList
+		// 	.map( ({review, amount, item}) => {
+		// 		return {
+		// 			review,
+		// 			amount,
+		// 			item: SelectedTagsAndStatus.fullTagOrStatusToShorthand(item)
+		// 		};
+		// 	});
 		replyFn ( {
-			tagList: newSimpleTagList,
+			// tagList: newSimpleTagList,
+			tagList: sendableTagList,
 			state
 		});
 	}
