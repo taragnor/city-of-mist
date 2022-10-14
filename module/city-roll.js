@@ -51,9 +51,12 @@ export class CityRoll {
 		switch (type) {
 			case "standard":
 				if (await CityRoll.verifyRequiredInfo(moveId, actor)) {
-					let {modList, options} = await RollDialog.create(this, moveId, actor);
-					if (mods == null)
-						return null;
+					const dialogReturn = await RollDialog.create(this, moveId, actor);
+					if (!dialogReturn)
+						return;
+					let {modList, options} = dialogReturn;
+
+					Debug(modList);
 					this.#selectedList = modList;
 					this.#options = {...options,
 						...this.#options};
@@ -258,8 +261,8 @@ export class CityRoll {
 		return { total: bonus + roll.total, roll_adjustment};
 	}
 
-	static getRollBonus(rollOptions) {
-		const {power} = CityRoll.getRollPower(rollOptions);
+	static getRollBonus(rollOptions, modifiers= rollOptions.modifiers ) {
+		const {power} = CityRoll.getRollPower(rollOptions, modifiers);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power);
 		const roll_adjustment = capped - power;
@@ -267,8 +270,7 @@ export class CityRoll {
 	}
 
 
-	static getRollPower (rollOptions) {
-		const modifiers = rollOptions.modifiers;
+	static getRollPower (rollOptions, modifiers= rollOptions.modifiers) {
 		const validModifiers = modifiers.filter(x => !x.strikeout);
 		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
 		const base_power = validModifiers
@@ -281,10 +283,10 @@ export class CityRoll {
 		return { power: final_power, adjustment } ;
 	}
 
-	static getPower(rollOptions) {
+	static getPower(rollOptions, modifiers= rollOptions.modifiers) {
 		if (CityHelpers.altPowerEnabled())
 			return this.getAltPower(rollOptions);
-		const { power, adjustment} = this.getRollPower(rollOptions);
+		const { power, adjustment} = this.getRollPower(rollOptions, modifiers);
 		const adjPower = Math.max( 1, power+ adjustment);
 		return {power: adjPower, adjustment:0};
 	}
@@ -792,7 +794,6 @@ export class CityRoll {
 		const listitem = getClosestData(event, "origtext");
 		let item = moveList.find( x=> x.origText === listitem);
 		if (!item) {
-			Debug(moveList);
 			if (moveList == moveListRaw)
 				throw new Error(`Couldn't find ${listitem}`);
 			moveList = moveListRaw
@@ -886,7 +887,6 @@ export class CityRoll {
 				message.getFlag("city-of-mist", "checkedOptions"),
 				roll
 			);
-			Debug(checkedOptions);
 			let newContent;
 			if (checkedOptions)
 				newContent = await CityRoll.#_getContent(roll, {moveList: checkedOptions});

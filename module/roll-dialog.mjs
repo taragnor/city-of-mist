@@ -28,7 +28,8 @@ export class RollDialog extends Dialog {
 					callback: (html) => {
 						this.updateModifierPopup(html);
 						this.terminateSessions();
-						const modifierList = this.getModifierList();
+						Debug(this.#modifierList.slice());
+						const modifierList = this.#modifierList.toValidActivatedTagForm();
 						this.#resolve( {
 							modList: modifierList,
 							options: this.#options
@@ -179,6 +180,9 @@ export class RollDialog extends Dialog {
 		this.updateModifierPopup(html);
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
 			this.spawnGMReview(html);
+		} else {
+			console.log("Approving all since no GM");
+			this.#modifierList.approveAll();
 		}
 	}
 
@@ -197,7 +201,6 @@ export class RollDialog extends Dialog {
 		let power = this.#power; //placeholder
 		const altPower = CityHelpers.altPowerEnabled();
 		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList: tagListReviewForm, altPower};
-		Debug(templateData);
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
@@ -248,7 +251,6 @@ export class RollDialog extends Dialog {
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() ?? "";
 		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
-		Debug(this.#modifierList);
 		const usedWeaknessTag = this.#modifierList.some( ({item}) =>item.isWeaknessTag && item.isWeaknessTag());
 		if (this.#options.burnTag || usedWeaknessTag) {
 			$(html).find('#effect-slider').val(0);
@@ -260,8 +262,8 @@ export class RollDialog extends Dialog {
 			$(html).find('#effect-slider').val() ?? 0
 		);
 		console.log("power:" + this.#options.powerModifier);
-		const {bonus} = CityRoll.getRollBonus(this.#options);
-		const {power} = CityRoll.getPower(this.#options);
+		const {bonus} = CityRoll.getRollBonus(this.#options, this.#modifierList );
+		const {power} = CityRoll.getPower(this.#options, this.#modifierList);
 		$(html).find(".roll-bonus").text(String(bonus));
 		$(html).find(".move-effect").text(String(power));
 	}

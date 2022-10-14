@@ -32,15 +32,14 @@ export class SelectedTagsAndStatus {
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-
-	static activateSelectedItem(tagOrStatus, direction = 1) {
+	static toActivatedTagFormat(tagOrStatus, direction =1) {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.system.subtype : "";
 		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
-		const newItem = {
+		return {
 			name: x.name,
 			id: x.id,
 			amount,
@@ -53,6 +52,10 @@ export class SelectedTagsAndStatus {
 			review: "pending",
 			tokenId
 		}
+	}
+
+	static activateSelectedItem(tagOrStatus, direction = 1) {
+		const newItem = SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction);
 		this._playerActivatedStuff.push(newItem);
 		Hooks.callAll("TagOrStatusSelected", newItem);
 	}
@@ -221,8 +224,5 @@ export class SelectedTagsAndStatus {
 	}
 
 }
-
-
-
 
 window.SelectedTagsAndStatus = SelectedTagsAndStatus;

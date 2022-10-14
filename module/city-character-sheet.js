@@ -60,7 +60,6 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		//Status Container
 		data.otherStatuses = this.getOtherStatuses();
-		Debug(data);
 
 		//Story Tags
 		data.data.crewStoryTags = this.getCrewStoryTags();

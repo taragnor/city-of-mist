@@ -3,13 +3,28 @@ import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 export class ReviewableModifierList extends Array {
 
 	toValidItems() {
-		return this.approved
-		.map ( x=> x.item);
+		return Array.from(
+			this.approved.map ( x=> x.item)
+		);
 	}
 
 	toValidShortHand() {
-		return this.approved
-		.map ( x=> SelectedTagsAndStatus.fullTagOrStatusToShorthand(x.item));
+		return Array.from(
+			this.approved
+			.map ( x=> SelectedTagsAndStatus.fullTagOrStatusToShorthand(x.item))
+		);
+
+	}
+
+	toValidActivatedTagForm() {
+		return Array.from(
+			this.approved
+			.map (x => {
+				const tagOrStatus = x.item;
+				const direction = x.amount > 0 ? 1 : -1;
+				return SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction)
+			})
+		)
 	}
 
 	get approved() {
@@ -30,6 +45,10 @@ export class ReviewableModifierList extends Array {
 			review: "pending",
 			amount: shortHandItem.amount
 		};
+	}
+
+	approveAll() {
+		this.forEach( item => item.review = "approved");
 	}
 
 }
