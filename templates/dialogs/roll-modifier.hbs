@@ -14,6 +14,6 @@
 		{{#if (eq item.review "pending")}}
 		<a class="pending" title="{{localize 'CityOfMist.dialog.tagReview.pending'}} "><i class="fas fa-comment-dots"></i></a>
 		{{/if}}
-	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
+	{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true amount=item.amount}}
 </div>
 

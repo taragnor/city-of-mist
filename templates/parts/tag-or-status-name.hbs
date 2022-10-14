@@ -9,4 +9,9 @@
 	{{#if (eq item.type "status") }}
 	{{> "systems/city-of-mist/templates/parts/status-name.hbs" locked=locked status=item }}
 	{{/if}}
+	{{#if (eq item.type "juice") }}
+	<div class="juice">
+		{{item.displayedName}} {{amount}}
+	</div>
+	{{/if}}
 </div>

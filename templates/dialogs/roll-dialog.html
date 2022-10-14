@@ -14,6 +14,9 @@
 			{{/each}}
 		</div>
 		<div class="juice-section">
+			{{#each pendingJuice as |juicer|}}
+			<div class='juice-pending' data-characterId='{{juicer.id}}'>{{juicer.displayedName}} pending </div>`);
+			{{/each}}
 		</div>
 	</section>
 	<hr>

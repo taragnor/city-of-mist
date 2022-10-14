@@ -553,9 +553,9 @@ export class CityItem extends Item {
 				if (!this.isHelpHurt())
 					return this.name;
 				if (this.isHelp())
-					return "Help " + this.getTargetName();
+					return `Help ${this.getTargetName()} (${this.parent.name})`;
 				if (this.isHurt())
-					return "Hurt "+ this.getTargetName();
+					return `Hurt ${this.getTargetName()} (${this.parent.name})`;
 				throw new Error("Something odd happened?");
 			default:
 				if (this.system?.locale_name)

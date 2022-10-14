@@ -97,6 +97,7 @@ export class ReviewableModifierList extends Array {
 	}
 
 	approveAll() {
+		console.log("aproving all");
 		this.forEach( item => item.review = "approved");
 	}
 

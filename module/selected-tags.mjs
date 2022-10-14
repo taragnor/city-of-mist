@@ -37,10 +37,11 @@ export class SelectedTagsAndStatus {
 		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.system.subtype : "";
-		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
+		const base_amount = tagOrStatus.type == "status" ? tagOrStatus.system.tier : 1;
+		const amount = direction * base_amount;
 		const crispy = tagOrStatus.system?.crispy ?? tagOrStatus.system?.temporary ?? false;
 		return {
-			name: x.name,
+			name: x.displayedName,
 			id: x.id,
 			amount,
 			ownerId: tagOwner?.id ?? "" ,

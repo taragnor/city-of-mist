@@ -800,6 +800,8 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static gmReviewEnabled() {
+		if (!game.users.some( x=> x.isGM && x.active))
+			return false;
 		return game.settings.get('city-of-mist', "tagReview") ?? false;
 	}
 

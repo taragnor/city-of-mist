@@ -12,6 +12,7 @@ export class RollDialog extends Dialog {
 	#modifierList;
 	#options;
 	#power;
+	#pendingJuice;
 
 	constructor(roll, moveId, actor) {
 		const title = localize("CityOfMist.dialog.roll.title");
@@ -57,6 +58,7 @@ export class RollDialog extends Dialog {
 				SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus()
 			);
 		this.#options = {};
+		this.#pendingJuice = [];
 	}
 
 	terminateSessions() {
@@ -101,15 +103,17 @@ export class RollDialog extends Dialog {
 			const type = (direction > 0)
 				? localize("CityOfMist.terms.help")
 				: localize("CityOfMist.terms.hurt");
-			html.find("div.juice-section")
-				.find(`div.juice-pending[data-characterId='${ownerId}']`)
-				.remove();
-			html.find("div.juice-section")
-				.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
+			// html.find("div.juice-section")
+			// 	.find(`div.juice-pending[data-characterId='${ownerId}']`)
+			// 	.remove();
+			// html.find("div.juice-section")
+			// 	.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
+			this.#pendingJuice = this.#pendingJuice.filter( x=> x!= owner);
 			this.activateHelpHurt(owner, amount, direction, this.actor.id);
 			if (this.#tagReviewSession)
 				this.#tagReviewSession.updateTagList()//TODO: fix
 			this.updateModifierPopup(html);
+			this.refreshHTML(this.element);
 		}
 
 	}
@@ -120,11 +124,12 @@ export class RollDialog extends Dialog {
 			const {type, ownerId} = dataObj;
 			const owner = CityHelpers.getOwner(ownerId);
 			CityHelpers.playPing();
-			html.find("div.juice-section")
-				.append( `<div class='juice-pending' data-characterId='${owner.id}'>${owner.name} pending </div>`);
+			this.#pendingJuice.push(owner);
 			if (type == "hurt") {
 				//TODO: program lock on button
 			};
+			this.updateModifierPopup(this.element);
+			this.refreshHTML(this.element);
 		});
 		CitySockets.execSession(this.#juiceSession);
 	}
@@ -159,7 +164,6 @@ export class RollDialog extends Dialog {
 		confirmButton.prop("disabled", false);
 		confirmButton.html(confirmButton.oldHTML);
 		confirmButton.removeClass("disabled");
-		Debug(newList);
 		this.#modifierList = newList;
 		this.updateModifierPopup(html);
 		this.refreshHTML(html);
@@ -209,29 +213,32 @@ export class RollDialog extends Dialog {
 		if (targetedJuice.length == 0) {
 			throw new Error("Lenght 0 wtf?!");
 		}
-			targetedJuice.forEach( item => {
-				if (amount <= 0) {
-					console.log("Amount is 0 or less returning");
-					return;
-				}
-				let targetAmt = Math.min (amount , item.system.amount);
-				amount -= targetAmt;
-				// const newItem = {
-				// 	name: `${owner.name} ${subtype}`,
-				// 	id: item.id,
-				// 	amount: targetAmt * direction,
-				// 	ownerId: owner.id,
-				// 	tagId: null,
-				// 	type: "juice",
-				// 	description: "",
-				// 	subtype: subtype,
-				// 	strikeout: false,
-				// 	tokenId: null
-				// };
-				console.log("Pushing Juice!");
-				const usedAmount = targetAmt * direction;
-				this.#modifierList.addReviewable(item, usedAmount);
-			});
+		targetedJuice.forEach( item => {
+			if (amount <= 0) {
+				console.log("Amount is 0 or less returning");
+				return;
+			}
+			let targetAmt = Math.min (amount , item.system.amount);
+			amount -= targetAmt;
+			// const newItem = {
+			// 	name: `${owner.name} ${subtype}`,
+			// 	id: item.id,
+			// 	amount: targetAmt * direction,
+			// 	ownerId: owner.id,
+			// 	tagId: null,
+			// 	type: "juice",
+			// 	description: "",
+			// 	subtype: subtype,
+			// 	strikeout: false,
+			// 	tokenId: null
+			// };
+			console.log("Pushing Juice!");
+			const usedAmount = targetAmt * direction;
+			this.#modifierList.addReviewable(item, usedAmount);
+			if (! ( !game.user.isGM && CityHelpers.gmReviewEnabled() ) ) {
+				this.#modifierList.approveAll()
+			}
+		});
 	}
 
 	updateModifierPopup(html) {
