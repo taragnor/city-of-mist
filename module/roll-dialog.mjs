@@ -160,6 +160,9 @@ export class RollDialog extends Dialog {
 		confirmButton.html(confirmButton.oldHTML);
 		confirmButton.removeClass("disabled");
 		Debug(newList);
+		this.#modifierList = newList;
+		this.updateModifierPopup(html);
+		this.refreshHTML(html);
 	}
 
 	async onRender(html) {
