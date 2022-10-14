@@ -115,10 +115,6 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 
 		while (state != "approved") {
 			try {
-				// const sendObj = {
-				// 	tagList: this.simplifiedTagList,
-				// 	moveId: this.moveId,
-				// }
 				const sendObj = this.sendObject;
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value;
@@ -126,14 +122,6 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				// console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
 				const returnTagList = ReviewableModifierList.fromSendableForm(result.tagList);
-				// returnTagList = result.tagList
-				// 	.map( ( {item, amount, review} ) => {
-				// 		return {
-				// 			item: SelectedTagsAndStatus.resolveTagAndStatusShorthand(item),
-				// 			review,
-				// 			amount
-				// 		};
-				// 	});
 				this.tagList = returnTagList;
 			} catch (e) {
 				console.error(e);
@@ -141,8 +129,6 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				throw new Error("AAAHAHHH!!");
 			}
 		}
-		// let filteredReturnTagList = returnTagList
-		// 	.filter( ({item: _item, review, amount: _amt}) => review == "approved");
 		return this.tagList;
 	}
 
@@ -152,17 +138,6 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 			moveId: this.moveId,
 		}
 	}
-
-	// get simplifiedTagList() {
-	// 	return this.tagList
-	// 		.map ( item => {
-	// 			return {
-	// 				item : SelectedTagsAndStatus.fullTagOrStatusToShorthand(item.item),
-	// 				review: item.review,
-	// 				amount: item.amount,
-	// 			};
-	// 		});
-	// }
 
 	/**refreshs the list with a new list on the other end useful when something new gets added*/
 	async updateTagList( list) {
@@ -206,16 +181,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		const moveId = dataObj.moveId;
 		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this);
 		const sendableTagList = reviewList.toSendableForm();
-		// const newSimpleTagList = newComplexTagList
-		// 	.map( ({review, amount, item}) => {
-		// 		return {
-		// 			review,
-		// 			amount,
-		// 			item: SelectedTagsAndStatus.fullTagOrStatusToShorthand(item)
-		// 		};
-		// 	});
 		replyFn ( {
-			// tagList: newSimpleTagList,
 			tagList: sendableTagList,
 			state
 		});
