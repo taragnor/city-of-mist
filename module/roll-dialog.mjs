@@ -29,7 +29,6 @@ export class RollDialog extends Dialog {
 					callback: (html) => {
 						this.updateModifierPopup(html);
 						this.terminateSessions();
-						Debug(this.#modifierList.slice());
 						const modifierList = this.#modifierList.toValidActivatedTagForm();
 						this.#resolve( {
 							modList: modifierList,

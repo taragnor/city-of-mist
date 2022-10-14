@@ -118,7 +118,7 @@ export class CityRoll {
 		}
 		let helpHurt = [];
 		if (!options.noHelpHurt) {
-			helpHurt = allModifiers.filter (x=> x.type == "help" || x.type == "hurt");
+			helpHurt = allModifiers.filter (x=> x.type == "juice");
 		}
 		let modifiers = tags
 			.concat(usedStatus)
