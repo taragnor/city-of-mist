@@ -175,7 +175,6 @@ export class RollDialog extends Dialog {
 	}
 
 	async onRender(html) {
-		await this.refreshHTML(html);
 		this.spawnJuiceSession();
 		this.updateModifierPopup(html);
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
@@ -184,6 +183,7 @@ export class RollDialog extends Dialog {
 			console.log("Approving all since no GM");
 			this.#modifierList.approveAll();
 		}
+		await this.refreshHTML(html);
 	}
 
 	async onClose(html) {
@@ -192,8 +192,10 @@ export class RollDialog extends Dialog {
 	}
 
 	async refreshHTML(html) {
-		let activated = this.#modifierList.toValidItems();
+		let activated = this.#modifierList.toValidActivatedTagForm();
 		const tagListReviewForm = this.#modifierList;
+		console.log(`Refreshing HTML ${activated.length}`);
+		Debug(activated);
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;

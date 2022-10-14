@@ -21,7 +21,7 @@ export class ReviewableModifierList extends Array {
 			this.approved
 			.map (x => {
 				const tagOrStatus = x.item;
-				const direction = x.amount > 0 ? 1 : -1;
+				const direction = x.amount >= 0 ? 1 : -1;
 				return SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction)
 			})
 		)

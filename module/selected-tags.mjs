@@ -39,6 +39,7 @@ export class SelectedTagsAndStatus {
 		const tag = x.type == "tag" ? tagOrStatus : null;
 		const subtype = tag ? tag.system.subtype : "";
 		const amount = direction * (tag ? 1 : tagOrStatus.system.tier);
+		const crispy = tagOrStatus.system?.crispy ?? tagOrStatus.system?.temporary ?? false;
 		return {
 			name: x.name,
 			id: x.id,
@@ -50,7 +51,8 @@ export class SelectedTagsAndStatus {
 			subtype,
 			strikeout: false,
 			review: "pending",
-			tokenId
+			tokenId,
+			crispy
 		}
 	}
 
