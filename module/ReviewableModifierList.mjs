@@ -97,14 +97,13 @@ export class ReviewableModifierList extends Array {
 	}
 
 	approveAll() {
-		console.log("aproving all");
 		this.forEach( item => item.review = "approved");
 	}
 
-	addReviewable( item, amount) {
+	addReviewable( item, amount, reviewStatus = "pending") {
 		const obj = {
 			item,
-			review: "pending",
+			review: reviewStatus,
 			amount
 		}
 		this.push(obj);

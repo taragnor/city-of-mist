@@ -13,6 +13,7 @@ export class RollDialog extends Dialog {
 	#options;
 	#power;
 	#pendingJuice;
+	#acceptedJuice;
 
 	constructor(roll, moveId, actor) {
 		const title = localize("CityOfMist.dialog.roll.title");
@@ -29,6 +30,9 @@ export class RollDialog extends Dialog {
 					callback: (html) => {
 						this.updateModifierPopup(html);
 						this.terminateSessions();
+						for (const {item, usedAmount} of this.#acceptedJuice) {
+							this.#modifierList.addReviewable(item, usedAmount, "approved");
+						}
 						const modifierList = this.#modifierList.toValidActivatedTagForm();
 						this.#resolve( {
 							modList: modifierList,
@@ -58,6 +62,7 @@ export class RollDialog extends Dialog {
 			);
 		this.#options = {};
 		this.#pendingJuice = [];
+		this.#acceptedJuice = [];
 	}
 
 	terminateSessions() {
@@ -102,15 +107,11 @@ export class RollDialog extends Dialog {
 			const type = (direction > 0)
 				? localize("CityOfMist.terms.help")
 				: localize("CityOfMist.terms.hurt");
-			// html.find("div.juice-section")
-			// 	.find(`div.juice-pending[data-characterId='${ownerId}']`)
-			// 	.remove();
-			// html.find("div.juice-section")
-			// 	.append( `<div class='juice'> ${owner.name} ${type} ${amount} </div>`);
 			this.#pendingJuice = this.#pendingJuice.filter( x=> x!= owner);
 			this.activateHelpHurt(owner, amount, direction, this.actor.id);
-			if (this.#tagReviewSession)
-				this.#tagReviewSession.updateTagList()//TODO: fix
+			//TODO: make this work
+			// if (this.#tagReviewSession)
+			// 	this.#tagReviewSession.updateTagList()//TODO: fix
 			this.updateModifierPopup(html);
 			this.refreshHTML(this.element);
 		}
@@ -186,7 +187,10 @@ export class RollDialog extends Dialog {
 
 	async refreshHTML(_html) {
 		let activated = this.#modifierList.toValidActivatedTagForm();
-		const tagListReviewForm = this.#modifierList;
+		const tagListReviewForm = this.#modifierList.slice();
+		for (const {item, usedAmount} of this.#acceptedJuice) {
+			tagListReviewForm.addReviewable(item, usedAmount, "approved");
+		}
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;
@@ -233,7 +237,11 @@ export class RollDialog extends Dialog {
 			// };
 			console.log("Pushing Juice!");
 			const usedAmount = targetAmt * direction;
-			this.#modifierList.addReviewable(item, usedAmount);
+			this.#acceptedJuice.push( {
+				item,
+				usedAmount
+			});
+			// this.#modifierList.addReviewable(item, usedAmount, "approved");
 			if (! ( !game.user.isGM && CityHelpers.gmReviewEnabled() ) ) {
 				this.#modifierList.approveAll()
 			}
