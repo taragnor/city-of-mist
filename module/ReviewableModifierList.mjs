@@ -24,7 +24,8 @@ export class ReviewableModifierList extends Array {
 				.map (x => {
 					const tagOrStatus = x.item;
 					const direction = x.amount >= 0 ? 1 : -1;
-					return SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction)
+					const amountUsed = (x.item.type == "juice" ? Math.abs(x.amount) : 1);
+					return SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction, amountUsed);
 				})
 			)
 		} catch (e) {

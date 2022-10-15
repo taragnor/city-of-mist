@@ -31,14 +31,16 @@ export class SelectedTagsAndStatus {
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-	static toActivatedTagFormat(tagOrStatus, direction =1) {
+	static toActivatedTagFormat(tagOrStatus, direction =1, amountUsed = 1) {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
-		const subtype = tag ? tag.system.subtype : "";
+		let subtype = tag ? tag.system.subtype : "";
+		subtype = tagOrStatus.type == "juice" && direction>0 ? "help": subtype;
+		subtype = tagOrStatus.type == "juice" && direction>0 ? "hurt": subtype;
 		const base_amount = tagOrStatus.type == "status" ? tagOrStatus.system.tier : 1;
-		const amount = direction * base_amount;
+		const amount = direction * base_amount * Math.abs(amountUsed);
 		const crispy = tagOrStatus.system?.crispy ?? tagOrStatus.system?.temporary ?? false;
 		return {
 			name: x.displayedName,
