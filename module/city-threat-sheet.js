@@ -132,7 +132,7 @@ export class CityThreatSheet extends CityActorSheet {
 		const ownerId = getClosestData(event, "ownerId");
 		const owner = await this.getOwner(ownerId);
 		const move = await owner.getGMMove(move_id);
-		await move.GMMovePopUp();
+		await move.GMMovePopUp(this.actor);
 	}
 
 	async moveDialog(item) {

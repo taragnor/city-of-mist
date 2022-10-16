@@ -3,8 +3,13 @@ import {CityDB} from "./city-db.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {SceneTags} from "./scene-tags.mjs";
+import {HTMLTools} from "./tools/HTMLTools.mjs";
 
 export class CityDialogs {
+
+	static async confirmBox(title, text, defaultYes = false) {
+		return await HTMLTools.confirmBox(title, text, defaultYes);
+	}
 
 	static async statusDropDialog(actor, name, tier, facedanger = false) {
 		const classic = CityHelpers.isClassicCoM("addition");
@@ -202,6 +207,41 @@ export class CityDialogs {
 
 		}, options);
 
+		});
+	}
+
+	static async GMMoveTextBox(title, text, options = {}) {
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
+		const render = options?.disable ? (args) => {
+			console.log("Trying to disable");
+			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
+		} : () => 0;
+
+		let sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor) {
+			alias = actor.getDisplayedName();
+		}
+		return new Promise( (conf, rej) => {
+			const options = {};
+			let dialog = new Dialog({
+				title: `${title}`,
+				content: text,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: label,
+						callback: async() => conf(true),
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: async () => conf(null)
+					}
+				},
+				default: "two",
+				render
+			}, options);
+			dialog.render(true);
 		});
 	}
 

@@ -2,6 +2,7 @@ import {CityDB} from "./city-db.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {SceneTags} from "./scene-tags.mjs";
+import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CityActor extends Actor {
 
@@ -875,7 +876,7 @@ export class CityActor extends Actor {
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
 		if (CityHelpers.autoExecEntranceMoves()
-			|| await CityHelpers.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
+			|| await CityDialogs.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				await this.executeGMMove(move);
 			}
@@ -883,7 +884,7 @@ export class CityActor extends Actor {
 	}
 
 	async executeGMMove (move) {
-		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove();
+		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove(this);
 		if (await CityHelpers.sendToChat(html, options)) {
 			for (const {name : tagname, options} of taglist) {
 				if (!options.includes("scene"))
@@ -900,7 +901,6 @@ export class CityActor extends Actor {
 			)
 				await SceneTags.createSceneStatus(name, tier);
 		}
-
 	}
 
 	async undoGMMove(move) {
@@ -917,7 +917,7 @@ export class CityActor extends Actor {
 		let status = this.hasStatus(name2);
 		if (status) {
 			if (reloaded) {
-				tier2= CityHelpers.statusTierToBoxes(tier2, pips); //convert to boxes
+				tier2 = CityHelpers.statusTierToBoxes(tier2, pips); //convert to boxes
 			}
 			return await status.addStatus(tier2);
 		} else {

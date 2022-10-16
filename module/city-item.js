@@ -1,5 +1,6 @@
 import { ClueChatCards } from "./clue-cards.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {CityDialogs} from "./city-dialogs.mjs";
 
 export class CityItem extends Item {
 
@@ -481,29 +482,6 @@ export class CityItem extends Item {
 
 	}
 
-	formatGMMoveText(actor, options = {showPrivate: false}) {
-		const text = CityHelpers.newlineSubstitution(this.system.description);
-		if (!actor)
-			throw new Error(`No actor provided on move ${this.name}`);
-		let collective_size = actor.system?? 0;
-		collective_size = Number(collective_size);
-		if (Number.isNaN(collective_size)) {
-			collective_size = 0;
-		}
-		let displayedText = text;
-	if (!options?.showPrivate) {
-		displayedText = CityHelpers.removeWithinBraces(text);
-	} else {
-		displayedText = CityHelpers.formatWithinBraces(text);
-	}
-		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
-		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
-		let html = CityHelpers.statusClassSubstitution(statushtml);
-		if (actor)
-			html = CityHelpers.nameSubstitution(html, {"name" : actor.displayedName});
-		let statuslist = neostatuslist.concat(extrastatuslist);
-		return {html, taglist, statuslist};
-	}
 
 	isHelpHurt() {
 		if (this.type != "juice") return false;
@@ -677,21 +655,19 @@ export class CityItem extends Item {
 			})
 	}
 
-	async GMMovePopUp() {
+	async GMMovePopUp(actor = this.parent) {
 		if (this.type != "gmmove" )
 			throw new Error("Type is not GM move");
-		const actor = this.parent;
-		const {taglist, statuslist, html, options} = await this.prepareToRenderGMMove();
-		if (await CityHelpers.GMMoveTextBox(this.name, html, options)) {
+		const {taglist, statuslist, html, options} = await this.prepareToRenderGMMove(actor);
+		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options)) {
 			actor.executeGMMove(this);
 		}
 	}
 
 	/** returns Promise<{taglist, statuslist, html and options}>
 	**/
-	async prepareToRenderGMMove() {
+	async prepareToRenderGMMove(actor = this.parent) {
 		//TODO: X substitution
-		const actor = this.parent;
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
 		const {taglist, statuslist} = this.formatGMMoveText(actor);
 		const options = { token: null ,
@@ -701,6 +677,30 @@ export class CityItem extends Item {
 			}
 		};
 		return {html, options, taglist, statuslist};
+	}
+
+	formatGMMoveText(actor, options = {showPrivate: false}) {
+		const text = CityHelpers.newlineSubstitution(this.system.description);
+		if (!actor)
+			throw new Error(`No actor provided on move ${this.name}`);
+		let collective_size = actor.system?? 0;
+		collective_size = Number(collective_size);
+		if (Number.isNaN(collective_size)) {
+			collective_size = 0;
+		}
+		let displayedText = text;
+	if (!options?.showPrivate) {
+		displayedText = CityHelpers.removeWithinBraces(text);
+	} else {
+		displayedText = CityHelpers.formatWithinBraces(text);
+	}
+		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
+		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
+		let html = CityHelpers.statusClassSubstitution(statushtml);
+		if (actor)
+			html = CityHelpers.nameSubstitution(html, {"name" : actor.displayedName});
+		let statuslist = neostatuslist.concat(extrastatuslist);
+		return {html, taglist, statuslist};
 	}
 
 }
