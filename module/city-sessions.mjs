@@ -235,7 +235,10 @@ export class JuiceSpendingSessionM extends MasterSession {
 
 	async start() {
 		const gm = game.users.find(x=> x.isGM && x.active);
-		if (!gm) throw new Error("No GM found to spend juice!");
+		if (!gm) {
+			ui.notifications.error("No GM found, can't spend juice");
+			throw new Error("No GM found to spend juice!");
+		}
 		this.registerSubscribers([gm]);
 		const result = await this.request("spendJuice", this.dataObj);
 		return result;

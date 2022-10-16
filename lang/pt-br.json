@@ -40,7 +40,7 @@
 "CityOfMist.terms.mythos": "Mythos",
 "CityOfMist.terms.short_desc": "Descrição Curta",
 "CityOfMist.terms.attention": "Atenção",
-"CityOfMist.terms.crack": "Falha",
+"CityOfMist.terms.crack": "Quebra",
 "CityOfMist.terms.fade": "Dissipação",
 "CityOfMist.terms.strike": "Acertar",
 "CityOfMist.terms.mystery": "Mistério",
@@ -93,7 +93,9 @@
 "CityOfMist.terms.custom": "Personalizado",
 "CityOfMist.terms.customMove": "Movimento Personalizado",
 "CityOfMist.terms.customMoves": "Movimentos Personalizados",
+"CityOfMist.terms.downtimeMoves": "Movimentos de Intervalo",
 "CityOfMist.terms.enterScene": "Ao Entrar numa Cena",
+"CityOfMist.terms.downtimeTrigger": "No Intervalo",
 "CityOfMist.terms.templates": "Modelos",
 "CityOfMist.terms.isTemplate": "Modelo?",
 "CityOfMist.terms.collectiveSize": "Tamanho Coletivo",
@@ -338,6 +340,8 @@
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
 
+"CityOfMist.dialog.roll.waitForMC": "Aguardando aprovação da MC",
+
 "CityOfMist.dialog.SHB.warning0":"Você tem certeza que quer Não. Se. Conter?",
 "CityOfMist.dialog.SHB.warning1":"As consequências podem ser IRREVERSÍVEIS!",
 "CityOfMist.dialog.SHB.source":"Fonte do seu poder",
@@ -348,8 +352,13 @@
 "CityOfMist.dialog.statusAdd.CoMClassic": "Escolha o qualificador da condição para adicionar/subtrair",
 "CityOfMist.dialog.statusAdd.CoMReloaded": "Escolha o número de caixas para adicionar/subtrair",
 "CityOfMist.dialog.statusDrop.CoMReloaded": "Escolha o número de caixas para subtrair",
+"CityOfMist.dialog.downtime.query": "Partir pro Intervalo?",
+"CityOfMist.dialog.endOfSession.query": "Executar Movimento de Final da sessão?",
+"CityOfMist.dialog.endOfSession.name": "Final da sessão",
 
-
+"CityOfMist.dialog.spendHelpHurt.Initial": "Gastar Apoio/Antagonismo",
+"CityOfMist.dialog.spendHelpHurt.spendHelp": "Apoio",
+"CityOfMist.dialog.spendHelpHurt.spendHurt": "Antagonismo",
 
 "CityOfMist.settings.gritMode.name": "Modo Brutal",
 "CityOfMist.settings.gritMode.hint": "Ativa o Modo Brutal (como descrito nas regras)",
