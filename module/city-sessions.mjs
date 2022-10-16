@@ -255,11 +255,11 @@ export class JuiceSpendingSessionS extends SlaveSession {
 			const juice = await actor.getJuice(juiceId);
 			await juice.spend(amount);
 			replyFn({confirm: true});
+			return;
 		} else {
 			replyFn(null, "error");
 			throw new Error("Couldn't find actor");
 		}
-		replyFn ("Done");
 	}
 }
 
