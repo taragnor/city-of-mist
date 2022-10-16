@@ -7,9 +7,7 @@
 	<div class="flex-narrow flex-line flex-trash">
 		{{#if (eq locked false)}}
 		{{#if tag.parent.isOwner}}
-		{{#if (eq tag.system.subtype "story")}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>
-		{{/if}}
 		{{/if}}
 		{{/if}}
 	</div>
