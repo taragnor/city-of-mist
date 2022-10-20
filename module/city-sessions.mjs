@@ -208,7 +208,6 @@ export class TagReviewSlaveSession extends SlaveSession {
 	}
 
 	async onReviewRequest(replyFn, dataObj) {
-		Debug(dataObj);
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
 		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this);

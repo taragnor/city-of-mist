@@ -229,7 +229,6 @@ export class RollDialog extends Dialog {
 	refreshConfirmButton() {
 		const confirmButton = this.element.find("button.one");
 		if (this.#modifierList.isPending()) {
-			console.log("DIsable button");
 			confirmButton.prop("disabled", true);
 			const waitMsg = localize("CityOfMist.dialog.roll.waitForMC");
 			if (confirmButton.html() != waitMsg) {
@@ -238,7 +237,6 @@ export class RollDialog extends Dialog {
 			confirmButton.html(waitMsg);
 			confirmButton.addClass("disabled");
 		} else {
-			console.log("Enable button");
 			confirmButton.prop("disabled", false);
 			confirmButton.html(this.#oldButtonHTML);
 			confirmButton.removeClass("disabled");
@@ -281,7 +279,6 @@ export class RollDialog extends Dialog {
 			}
 			let targetAmt = Math.min (amount , item.system.amount);
 			amount -= targetAmt;
-			console.log("Pushing Juice!");
 			const usedAmount = targetAmt * direction;
 			this.#acceptedJuice.push( {
 				item,
