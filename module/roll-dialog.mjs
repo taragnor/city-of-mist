@@ -148,7 +148,7 @@ export class RollDialog extends Dialog {
 		// this.updateModifierHTML(html, tagList);
 		await this.refreshHTML(html);
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id);
-		this.$tagReviewSession.setDialog(this);
+		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
 		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
 			const targetTag = tagList.find(x => x.item.id == itemId);
@@ -166,9 +166,6 @@ export class RollDialog extends Dialog {
 		confirmButton.html(confirmButton.oldHTML);
 		confirmButton.removeClass("disabled");
 		await this.setReviewList(newList);
-		// this.#modifierList = newList;
-		// this.updateModifierPopup(html);
-		// this.refreshHTML(html);
 	}
 
 	async onRender(html) {
@@ -239,18 +236,6 @@ export class RollDialog extends Dialog {
 			}
 			let targetAmt = Math.min (amount , item.system.amount);
 			amount -= targetAmt;
-			// const newItem = {
-			// 	name: `${owner.name} ${subtype}`,
-			// 	id: item.id,
-			// 	amount: targetAmt * direction,
-			// 	ownerId: owner.id,
-			// 	tagId: null,
-			// 	type: "juice",
-			// 	description: "",
-			// 	subtype: subtype,
-			// 	strikeout: false,
-			// 	tokenId: null
-			// };
 			console.log("Pushing Juice!");
 			const usedAmount = targetAmt * direction;
 			this.#acceptedJuice.push( {
