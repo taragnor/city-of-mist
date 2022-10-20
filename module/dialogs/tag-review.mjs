@@ -43,14 +43,14 @@ export class TagReviewDialog extends EnhancedDialog {
 		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
 		// console.log(`Sending state ${state}`);
-		this.resolve({state, tagList});
+		this.resolve({state, tagList: this.#reviewList});
 	}
 
 	onButtonApproveAll(html) {
-		tagList.forEach( tag => tag.review = "approved");
-		const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+		this.#reviewList.forEach( tag => tag.review = "approved");
+		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
-		this.resolve({state, tagList});
+		this.resolve({state, tagList: this.#reviewList});
 	}
 
 	getDefaultButton() {
@@ -60,7 +60,7 @@ export class TagReviewDialog extends EnhancedDialog {
 	onClose(_html) {
 		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
-		this.resolve({state, tagList});
+		this.resolve({state, tagList: this.#reviewList});
 	}
 
 	async refreshHTML() {
@@ -71,7 +71,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
 		this.setHTML(html);
-
+		this.setListeners();
 	}
 
 	setReviewList(reviewList) {
@@ -175,8 +175,8 @@ export class TagReviewDialog extends EnhancedDialog {
 		});
 	}
 
-	onRender(html) {
-		this.refreshHTML();
+	setListeners(_html) {
+		const html = this.element;
 		$(html).find(".item-control.approved").click(
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
@@ -207,6 +207,10 @@ export class TagReviewDialog extends EnhancedDialog {
 				this.refreshHTML();
 				// CityDialogs.refreshDialog(html, tagList);
 			});
+	}
+
+	onRender(html) {
+		this.refreshHTML();
 	}
 
 	static async create(reviewList, moveId, session) {

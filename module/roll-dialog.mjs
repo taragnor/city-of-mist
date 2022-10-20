@@ -190,8 +190,8 @@ export class RollDialog extends Dialog {
 	*/
 	async setModifierList(newList) {
 		this.#modifierList = newList;
-		this.updateModifierPopup(html);
-		await this.refreshHTML(html);
+		this.updateModifierPopup();
+		await this.refreshHTML();
 	}
 
 	async refreshHTML(_html) {
