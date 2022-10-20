@@ -79,32 +79,11 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
-	// static async refreshDialog(html, tagList) {
-	// 	$(html).find(".item-control").each( function () {
-	// 		const control = $(this);
-	// 		console.log("Refeshing Dialog Item");
-	// 		const id = getClosestData(control, "itemId");
-	// 		const listItem = tagList.find( x=> x.item.id == id);
-	// 		control.removeClass("active")
-	// 		switch (listItem.review) {
-	// 			case "pending":
-	// 				break;
-	// 			case "approved":
-	// 				if (control.hasClass("approved"))
-	// 					control.addClass("active")
-	// 				break;
-	// 			case "challenged":
-	// 				if (control.hasClass("request-clarification"))
-	// 					control.addClass("active")
-	// 				break;
-	// 			case "rejected":
-	// 				if (control.hasClass("rejected"))
-	// 					control.addClass("active")
-	// 				break;
-	// 		}
-
-	// 	});
-	// }
+	addReviewableItem(item, amount) {
+		this.#reviewList.addReviewable( item, amount, "approved");
+		this.#session.updateList(this.#reviewList);
+		this.refreshHTML();
+	}
 
 	static async tagReview(reviewList, moveId, session) {
 		const options = {};

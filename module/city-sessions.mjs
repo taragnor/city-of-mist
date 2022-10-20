@@ -97,11 +97,17 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		if (moveId == undefined)
 			throw new Error("no move Id given");
 		this.moveId = moveId;
+		this.dialog = null;
 	}
 
 	setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("tagReview", this.onReply.bind(this));
+		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
+	}
+
+	setDialog(dialog) {
+		this.dialog  = dialog;
 	}
 
 	async start() {
@@ -139,6 +145,22 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		}
 	}
 
+	async updateList(reviewableList) {
+		const obj  = {
+			tagList: reviewableList.toSendableForm()
+			};
+		await this.notify("updateTagList", obj);
+
+	}
+
+	async onUpdateTagList(sendObj) {
+		const {tagList} = sendObj;
+		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
+		if (this.dialog)
+			this.setReviewList(reviewableList);
+	}
+
+
 	/**refreshs the list with a new list on the other end useful when something new gets added*/
 	async updateTagList( list) {
 		try {
@@ -170,9 +192,19 @@ export class TagReviewSlaveSession extends SlaveSession {
 		this.dialog  = dialog;
 	}
 
-	async onUpdateTagList(list) {
-		//TODO FINISH THIS
+	async updateList(reviewableList) {
+		const obj  = {
+			tagList: reviewableList.toSendableForm()
+			};
+		await this.notify("updateTagList", obj);
 
+	}
+
+	async onUpdateTagList(sendObj) {
+		const {tagList} = sendObj;
+		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
+		if (this.dialog)
+			this.setReviewList(reviewableList);
 	}
 
 	async onReviewRequest(replyFn, dataObj) {

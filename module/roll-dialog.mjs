@@ -148,6 +148,7 @@ export class RollDialog extends Dialog {
 		// this.updateModifierHTML(html, tagList);
 		await this.refreshHTML(html);
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id);
+		this.$tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
 		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
 			const targetTag = tagList.find(x => x.item.id == itemId);
@@ -164,7 +165,7 @@ export class RollDialog extends Dialog {
 		confirmButton.prop("disabled", false);
 		confirmButton.html(confirmButton.oldHTML);
 		confirmButton.removeClass("disabled");
-		await this.setModifierList(newList);
+		await this.setReviewList(newList);
 		// this.#modifierList = newList;
 		// this.updateModifierPopup(html);
 		// this.refreshHTML(html);
@@ -188,7 +189,7 @@ export class RollDialog extends Dialog {
 
 	/** takes a new ReviewableModifierList and replaces the old one
 	*/
-	async setModifierList(newList) {
+	async setReviewList(newList) {
 		this.#modifierList = newList;
 		this.updateModifierPopup();
 		await this.refreshHTML();
@@ -210,6 +211,12 @@ export class RollDialog extends Dialog {
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
+	}
+
+	addReviewableItem(item, amount) {
+		this.#modifierList.addReviewable(item, amount, "pending");
+		this.#tagReviewSession.updateList(this.#modifierList);
+		this.refreshHTML();
 	}
 
 	activateHelpHurt( owner, amount, direction, targetCharacterId) {
