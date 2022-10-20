@@ -6,7 +6,6 @@ export class TagReviewDialog extends EnhancedDialog {
 	#moveId;
 	#move;
 
-
 	constructor(reviewList, moveId, session) {
 		const title = TagReviewDialog.title();
 		const buttons = TagReviewDialog.buttons();
@@ -22,6 +21,11 @@ export class TagReviewDialog extends EnhancedDialog {
 	static cssClass() {
 		return "tag-review" ;
 	}
+
+	static instance() {
+		return this._instance ?? null;
+	}
+
 
 	static title() {
 		return localize("CityOfMist.dialog.tagReview.title");
@@ -128,7 +132,10 @@ export class TagReviewDialog extends EnhancedDialog {
 			return {state: "approved", tagList: reviewList};
 		}
 		const dialog = new TagReviewDialog(reviewList, moveId, session);
-		return await dialog.getResult();
+		this._instance = dialog;
+		const ret = await dialog.getResult();
+		this._instance = null;
+		return ret;
 	}
 
 }

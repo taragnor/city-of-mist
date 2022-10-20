@@ -65,6 +65,10 @@ export class RollDialog extends Dialog {
 		this.#acceptedJuice = [];
 	}
 
+	instance() {
+		return this._instance ?? null;
+	}
+
 	terminateSessions() {
 		if (this.#juiceSession) {
 			this.#juiceSession.destroy();
@@ -78,8 +82,13 @@ export class RollDialog extends Dialog {
 	}
 
 	static async create (roll, moveId, actor) {
+		if (this._instance)
+			this._instance.close();
 		const dialog = new RollDialog(roll, moveId, actor);
-		return await dialog.getResult();
+		this._instance = dialog;
+		const ret =  await dialog.getResult();
+		this._instance = null;
+		return ret;
 	}
 
 	setPromise( res, rej) {
