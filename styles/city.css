@@ -3083,3 +3083,6 @@ span.secret {
 }
 
 
+.auto-height {
+	height: auto !important;
+}

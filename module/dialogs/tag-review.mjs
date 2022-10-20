@@ -8,7 +8,10 @@ export class TagReviewDialog extends EnhancedDialog {
 
 
 	constructor(reviewList, moveId, session) {
-		super();
+		const title = TagReviewDialog.title();
+		const buttons = TagReviewDialog.buttons();
+		const cssClass = TagReviewDialog.cssClass();
+		super(title, cssClass, buttons);
 		this.#moveId = moveId;
 		this.#reviewList = reviewList;
 		this.#session = session;
@@ -16,36 +19,38 @@ export class TagReviewDialog extends EnhancedDialog {
 		session.setDialog(this);
 	}
 
-	cssClass() {
+	static cssClass() {
 		return "tag-review" ;
 	}
 
-	getTitle() {
+	static title() {
 		return localize("CityOfMist.dialog.tagReview.title");
 	}
 
-	getButtons() {
+	static buttons() {
 		return {
-			okay: {
+			Okay: {
 				icon: '<i class="fas fa-check"></i>',
 				label: localize("CityOfMist.dialog.tagReview.Okay"),
-				callback: (html) => {
-					const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
-						"approved" : "pending";
-					// console.log(`Sending state ${state}`);
-					conf ({state, tagList});
-				},
 			},
-			approveAll: {
+			ApproveAll: {
 				label: localize("CityOfMist.dialog.tagReview.ApproveAll"),
-				callback: (_html) => {
-					tagList.forEach( tag => tag.review = "approved");
-					const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
-						"approved" : "pending";
-					conf ({state, tagList});
-				},
 			},
 		};
+	}
+
+	onButtonOkay(html) {
+		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
+			"approved" : "pending";
+		// console.log(`Sending state ${state}`);
+		this.resolve({state, tagList});
+	}
+
+	onButtonApproveAll(html) {
+		tagList.forEach( tag => tag.review = "approved");
+		const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+			"approved" : "pending";
+		this.resolve({state, tagList});
 	}
 
 	getDefaultButton() {
@@ -53,7 +58,7 @@ export class TagReviewDialog extends EnhancedDialog {
 	}
 
 	onClose(_html) {
-		const state = tagList.every(x=> x.review == "approved" || x.review == "rejected") ?
+		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
 		this.resolve({state, tagList});
 	}
@@ -67,6 +72,11 @@ export class TagReviewDialog extends EnhancedDialog {
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
 		this.setHTML(html);
 
+	}
+
+	setReviewList(reviewList) {
+		this.#reviewList = reviewList;
+		this.refreshHTML();
 	}
 
 	// static async refreshDialog(html, tagList) {
@@ -199,7 +209,6 @@ export class TagReviewDialog extends EnhancedDialog {
 			});
 	}
 
-
 	static async create(reviewList, moveId, session) {
 		if (reviewList.length == 0) {
 			return {state: "approved", tagList: reviewList};
@@ -207,7 +216,5 @@ export class TagReviewDialog extends EnhancedDialog {
 		const dialog = new TagReviewDialog(reviewList, moveId, session);
 		return await dialog.getResult();
 	}
-
-
 
 }

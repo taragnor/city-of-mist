@@ -2,15 +2,25 @@
 export class EnhancedDialog extends Dialog {
 	#resolve;
 	#reject;
+	#cssClass
 
-	constructor() {
-		const consObject = this._getConsObject();
-		const options = {
-			height: this._getHeight(),
-			width: this._getWidth(),
+	constructor(title, cssClass, buttons, optionsObject = {}, defaultButton = null) {
+		const consObject = {
+			title,
+			content: `<div class="${cssClass}"> </div>`,
+			close: (html) => this.onClose(html),
+			render: (html) => this._onRender(html),
+			buttons,
+			default: defaultButton,
 		};
+		const options = optionsObject;
+		for (const [key, value] of Object.entries(buttons)) {
+			if (!defaultButton) defaultButton = key;
+			value.callback = (html) => this[`onButton${key}`](html);
+		}
 		super(consObject, options);
-
+		this.#cssClass = cssClass;
+		this.element.addClass("auto-height");
 	}
 
 	_setPromise( res, rej) {
@@ -33,50 +43,37 @@ export class EnhancedDialog extends Dialog {
 		this.#reject(result);
 	}
 
-
-	_getConsObject() {
-		return {
-			title: this.getTitle(),
-			content: `<div class="${this._cssClass()}"> </div>`,
-			close: (html) => this.onClose(html),
-			render: (html) => this.onRender(html),
-			buttons: this._getButtons(),
-			default: this.getDefaultButton(),
-		}
-
+	_cssClass() {
+		return this.#cssClass;
 	}
 
+	_onRender(html) {
+		this.element.addClass("auto-height");
+		this.onRender(html);
+	}
 
 	clearHTML() {
 		this.element
-			.find(`.${this.cssClass()}`)
+			.find(`.${this._cssClass()}`)
 			.empty();
 	}
 
 	setHTML(html) {
 		this.clearHTML();
 		this.element
-			.find(`.${this.cssClass()}`)
+			.find(`.${this._cssClass()}`)
 			.html(html);
+		Debug(this.element);
 	}
+
+
 
 	// **************************************************
 	// ***********   extensible elements  ************ *
 	// **************************************************
 
-
 	async refreshHTML() {
 		this.setHTML("");
-	}
-
-	getButtons() {
-		return {
-			one: {
-				icon: '<i class="fas fa-check"></i>',
-				label: "Generic Button",
-				callback: (_html) => { this.resolve(); }
-			}
-		}
 	}
 
 	onClose() {
@@ -86,19 +83,5 @@ export class EnhancedDialog extends Dialog {
 	onRender(_html) {
 
 	}
-
-	getTitle() {
-		return "Untitled Enhanced Dialog";
-	}
-
-	cssClass() {
-		return "enhanced-dialog";
-	}
-
-
-	getDefaultButton() {
-		return "one";
-	}
-
 
 }
