@@ -164,9 +164,10 @@ export class RollDialog extends Dialog {
 		confirmButton.prop("disabled", false);
 		confirmButton.html(confirmButton.oldHTML);
 		confirmButton.removeClass("disabled");
-		this.#modifierList = newList;
-		this.updateModifierPopup(html);
-		this.refreshHTML(html);
+		await this.setModifierList(newList);
+		// this.#modifierList = newList;
+		// this.updateModifierPopup(html);
+		// this.refreshHTML(html);
 	}
 
 	async onRender(html) {
@@ -183,6 +184,14 @@ export class RollDialog extends Dialog {
 	async onClose(_html) {
 		this.terminateSessions();
 		this.#resolve(null);
+	}
+
+	/** takes a new ReviewableModifierList and replaces the old one
+	*/
+	async setModifierList(newList) {
+		this.#modifierList = newList;
+		this.updateModifierPopup(html);
+		await this.refreshHTML(html);
 	}
 
 	async refreshHTML(_html) {
