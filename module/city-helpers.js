@@ -681,7 +681,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		const templateData = {status, data: status.system, classic, reloaded};
 		// const templateData = {status: status.data, data: status.system, classic, reloaded};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
-		return new Promise ( (conf, reject) => {
+		return new Promise ( (conf, _reject) => {
 			const options ={};
 			const returnfn = function (html, tier) {
 				conf( {

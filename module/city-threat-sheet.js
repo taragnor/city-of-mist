@@ -1,6 +1,5 @@
 import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
-import { HTMLTools } from "./tools/HTMLTools.mjs";
 import {CityDB} from "./city-db.mjs";
 
 export class CityThreatSheet extends CityActorSheet {
@@ -63,7 +62,7 @@ export class CityThreatSheet extends CityActorSheet {
 		return true;
 	}
 
-	async _createSpectrum (event) {
+	async _createSpectrum (_event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewSpectrum("Unnamed Spectrum")
 		const spec = await owner.getSpectrum(obj.id);
@@ -97,7 +96,7 @@ export class CityThreatSheet extends CityActorSheet {
 		await this.actor.setTokenName(val);
 	}
 
-	async _createGMMove(event) {
+	async _createGMMove(_event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewGMMove("Unnamed Move")
 		const move = await owner.getGMMove(obj.id);

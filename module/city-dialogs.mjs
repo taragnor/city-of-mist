@@ -181,8 +181,8 @@ export class CityDialogs {
 		const templateData = {
 			owners: ownerList
 		}
-		const html = await renderTemplate(`${game.system.path}/templates/dialogs/gm-move-chooser.hbs`, templateData);
-		return new Promise( (conf, rej) => {
+		const html =  await renderTemplate(`${game.system.path}/templates/dialogs/gm-move-chooser.hbs`, templateData);
+		return new Promise( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog({
 				title: `${title}`,
@@ -221,7 +221,7 @@ export class CityDialogs {
 		if (!sender?.alias && sender.actor) {
 			alias = actor.getDisplayedName();
 		}
-		return new Promise( (conf, rej) => {
+		return new Promise( (conf, _rej) => {
 			const options = {};
 			let dialog = new Dialog({
 				title: `${title}`,
