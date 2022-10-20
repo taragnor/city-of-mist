@@ -139,3 +139,17 @@ export class TagReviewDialog extends EnhancedDialog {
 	}
 
 }
+
+Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) => {
+	const dialog = TagReviewDialog.instance();
+	if (dialog) {
+		Debug(selectedTagOrStatus);
+		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
+		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
+		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
+		CityHelpers.playTagOnSpecial();
+		return false;
+	}
+	else
+		return true;
+});

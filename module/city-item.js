@@ -522,6 +522,7 @@ export class CityItem extends Item {
 	isHurt() { return this.type == "juice" && this.getSubtype() == "hurt"; }
 	isHelp() { return this.type == "juice" && this.getSubtype() == "help"; }
 	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
+	isStatus() { return this.type == "status"; }
 
 	getDisplayedName() {
 		switch (this.type) {

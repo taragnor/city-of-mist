@@ -157,7 +157,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
-			this.setReviewList(reviewableList);
+			this.dialog.setReviewList(reviewableList);
 	}
 
 
@@ -204,7 +204,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
-			this.setReviewList(reviewableList);
+			this.dialog.setReviewList(reviewableList);
 	}
 
 	async onReviewRequest(replyFn, dataObj) {

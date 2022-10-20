@@ -21,8 +21,9 @@ export class SelectedTagsAndStatus {
 				return item.amount;
 			}
 		} else {
-			this.activateSelectedItem(tagOrStatus, direction);
-			return direction;
+			if (this.activateSelectedItem(tagOrStatus, direction))
+				return direction;
+			else return null ;
 		}
 	}
 
@@ -58,10 +59,15 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static activateSelectedItem(tagOrStatus, direction = 1) {
+	static activateSelectedItem(tagOrStatus, direction = 1, amountUsed = 1) {
 		const newItem = SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction);
-		this._playerActivatedStuff.push(newItem);
-		Hooks.callAll("TagOrStatusSelected", newItem);
+		const x = Hooks.call("preTagOrStatusSelected", tagOrStatus, direction, amountUsed);
+		if (x) {
+			this._playerActivatedStuff.push(newItem);
+			Hooks.callAll("TagOrStatusSelected", newItem, direction, amountUsed);
+			return true;
+		}
+		return false;
 	}
 
 	/** returns shorthand version of tags and statuses
@@ -134,9 +140,9 @@ export class SelectedTagsAndStatus {
 		return -1;
 	}
 
-	static activateTag( tag, direction= 1) { this.activateSelectedItem(tag, direction); }
+	static activateTag( tag, direction= 1) { return this.activateSelectedItem(tag, direction); }
 
-	static activateStatus(status, direction= 1) { this.activateSelectedItem(status, direction); }
+	static activateStatus(status, direction= 1) { return this.activateSelectedItem(status, direction); }
 
 
 	static async selectTagHandler_invert(event) {

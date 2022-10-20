@@ -14,6 +14,9 @@ export class RollDialog extends Dialog {
 	#power;
 	#pendingJuice;
 	#acceptedJuice;
+	#oldButtonHTML
+
+
 
 	constructor(roll, moveId, actor) {
 		const title = localize("CityOfMist.dialog.roll.title");
@@ -65,7 +68,7 @@ export class RollDialog extends Dialog {
 		this.#acceptedJuice = [];
 	}
 
-	instance() {
+	static instance() {
 		return this._instance ?? null;
 	}
 
@@ -151,7 +154,8 @@ export class RollDialog extends Dialog {
 		$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
 	}
 
-	async spawnGMReview(html) {
+	async spawnGMReview() {
+		const html = this.html;
 		const confirmButton = html.find("button.one");
 		const tagList = this.#modifierList;
 		// this.updateModifierHTML(html, tagList);
@@ -160,24 +164,26 @@ export class RollDialog extends Dialog {
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
 		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
-			const targetTag = tagList.find(x => x.item.id == itemId);
+			const targetTag = this.#modifierList.find(x => x.item.id == itemId);
 			targetTag.review = changeType;
 			this.updateModifierPopup(html);
 			this.refreshHTML(html);
 		});
 		const finalModifiers = CitySockets.execSession(reviewSession);
-		confirmButton.prop("disabled", true);
-		confirmButton.oldHTML = confirmButton.html();
-		confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
-		confirmButton.addClass("disabled");
+		// confirmButton.prop("disabled", true);
+		// confirmButton.oldHTML = confirmButton.html();
+		// confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
+		// confirmButton.addClass("disabled");
 		const newList = await finalModifiers;
-		confirmButton.prop("disabled", false);
-		confirmButton.html(confirmButton.oldHTML);
-		confirmButton.removeClass("disabled");
 		await this.setReviewList(newList);
+		this.#tagReviewSession = null;
+		// confirmButton.prop("disabled", false);
+		// confirmButton.html(confirmButton.oldHTML);
+		// confirmButton.removeClass("disabled");
 	}
 
 	async onRender(html) {
+		this.element.addClass("auto-height");
 		this.spawnJuiceSession();
 		this.updateModifierPopup(html);
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
@@ -217,11 +223,41 @@ export class RollDialog extends Dialog {
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
+		this.refreshConfirmButton();
+	}
+
+	refreshConfirmButton() {
+		const confirmButton = this.element.find("button.one");
+		if (this.#modifierList.isPending()) {
+			console.log("DIsable button");
+			confirmButton.prop("disabled", true);
+			const waitMsg = localize("CityOfMist.dialog.roll.waitForMC");
+			if (confirmButton.html() != waitMsg) {
+				this.#oldButtonHTML = confirmButton.html();
+			}
+			confirmButton.html(waitMsg);
+			confirmButton.addClass("disabled");
+		} else {
+			console.log("Enable button");
+			confirmButton.prop("disabled", false);
+			confirmButton.html(this.#oldButtonHTML);
+			confirmButton.removeClass("disabled");
+		}
 	}
 
 	addReviewableItem(item, amount) {
-		this.#modifierList.addReviewable(item, amount, "pending");
-		this.#tagReviewSession.updateList(this.#modifierList);
+		if (this.#tagReviewSession) {
+			this.#modifierList.addReviewable(item, amount, "pending");
+			this.#tagReviewSession.updateList(this.#modifierList);
+		} else {
+			if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
+				this.#modifierList.addReviewable(item, amount, "pending");
+				this.spawnGMReview();
+				this.refreshConfirmButton();
+			} else {
+				this.#modifierList.addReviewable(item, amount, "approved");
+			}
+		}
 		this.refreshHTML();
 	}
 
@@ -303,3 +339,17 @@ export class RollDialog extends Dialog {
 	}
 
 }
+
+Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) => {
+	const dialog = RollDialog.instance();
+	if (dialog) {
+		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
+		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
+		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
+		CityHelpers.playTagOnSpecial();
+		return false;
+	}
+	else
+		return true;
+});
+

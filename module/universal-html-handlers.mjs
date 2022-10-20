@@ -2,6 +2,50 @@ import {CityHelpers} from "./city-helpers.js";
 
 export class HTMLHandlers {
 
+	async _tagSelect(event, invert = false) {
+		const id = getClosestData(event, "tagId");
+		const actorId = getClosestData(event, "sheetOwnerId");
+		const actor = await CityHelpers.getOwner(actorId);
+		const tagownerId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const sceneId = getClosestData(event, "sceneId");
+		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
+		if (!owner)
+			throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);
+		const tag = await owner.getTag(id);
+		if (!tag) {
+			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
+		}
+		const type = actor.type;
+		if (type != "character" && type != "extra") {
+			console.warn (`Invalid Type to select a tag: ${type}`);
+			return;
+		}
+		if (actorId.length < 5){
+			throw new Error(`Bad Actor Id ${actorId}`);
+		}
+		const subtype = tag.system.subtype;
+		let direction = SelectedTagsAndStatus.getDefaultTagDirection(tag, owner, actor);
+		if (invert)
+			direction *= -1;
+		const activated = SelectedTagsAndStatus.toggleSelectedItem(tag, direction);
+
+		if (activated === null) return;
+		const html = $(event.currentTarget);
+		html.removeClass("positive-selected");
+		html.removeClass("negative-selected");
+		if (activated != 0) {
+			CityHelpers.playTagOn();
+			if (activated > 0)
+				html.addClass("positive-selected");
+			else
+				html.addClass("negative-selected");
+		} else {
+			CityHelpers.playTagOff();
+		}
+
+	}
+
 	static async deleteTag (event) {
 		const tagId = getClosestData(event, "tagId");
 		const actorId = getClosestData(event, "ownerId");

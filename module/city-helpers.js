@@ -58,6 +58,11 @@ export class CityHelpers {
 		return await this.playSound("button-off.mp3");
 	}
 
+	static async playTagOnSpecial() {
+		//TODO: find another sound for this
+		return await this.playSound("button-on.mp3");
+	}
+
 	static async playPing() {
 		return await this.playSound("beep.wav");
 	}

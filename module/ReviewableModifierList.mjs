@@ -17,6 +17,10 @@ export class ReviewableModifierList extends Array {
 
 	}
 
+	isPending() {
+		return this.some( x=> x.review == "pending" || x.review == "challenged" || x.review == "request-clarification");
+	}
+
 	toValidActivatedTagForm() {
 		try {
 			return Array.from(
