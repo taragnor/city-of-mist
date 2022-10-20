@@ -10,7 +10,6 @@ export class SelectedTagsAndStatus {
 	/** returns -1, 0, 1 for which direction activateabley is set in
 	*/
 	static toggleSelectedItem(tagOrStatus, direction= 1) {
-		// Debug(tagOrStatus);
 		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent.tokenId);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
@@ -61,10 +60,10 @@ export class SelectedTagsAndStatus {
 
 	static activateSelectedItem(tagOrStatus, direction = 1, amountUsed = 1) {
 		const newItem = SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction);
-		const x = Hooks.call("preTagOrStatusSelected", tagOrStatus, direction, amountUsed);
-		if (x) {
+		const noInterruptions = Hooks.call("preTagOrStatusSelected", tagOrStatus, direction, amountUsed);
+		if (noInterruptions) {
 			this._playerActivatedStuff.push(newItem);
-			Hooks.callAll("TagOrStatusSelected", newItem, direction, amountUsed);
+			Hooks.callAll("TagOrStatusSelected", tagOrStatus, direction, amountUsed);
 			return true;
 		}
 		return false;
@@ -212,6 +211,7 @@ export class SelectedTagsAndStatus {
 			return;
 		}
 		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
+		if (activated === null) return;
 		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");

@@ -74,8 +74,6 @@ export class CityActorSheet extends CitySheet {
 		html.find('.status-delete').middleclick(x => this._deleteStatus(x, true));
 		html.find('.status-select-button').click(SelectedTagsAndStatus.selectStatusHandler);
 		html.find('.status-select-button').rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
-		// html.find('.status-select-button').click(this._statusSelect.bind(this));
-		// html.find('.status-select-button').rightclick(	x=> this._statusSelect(x, true));
 		html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
 		html.find('.status-add').click(this._statusAdd.bind(this));
 		html.find('.status-subtract').click(this._statusSubtract.bind(this));

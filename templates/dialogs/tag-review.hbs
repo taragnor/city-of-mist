@@ -9,7 +9,7 @@
 {{#each tagAndStatusList as |item|}}
 </div>
 <div class="tag flex-row-center" data-item-id="{{item.item.id}}" data-owner-id="{{item.item.parent.id}}">
-	<div>
+	<div class=" {{#if (gt amount 0)}} positive-selected {{else}} negative-selected {{/if}}">
 		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=item.item sheetowner=null locked=true}}
 	</div>
 	<div class= "review-icons">
