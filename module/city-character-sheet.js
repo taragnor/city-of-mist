@@ -19,8 +19,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 	}
 
-	getData() {
-		let data = super.getData();
+	async getData() {
+		let data = await super.getData();
 
 		//Sort Mythos themes always come first
 		data.items.sort( (a, b) => {

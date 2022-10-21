@@ -107,8 +107,8 @@ export class CityActorSheet extends CitySheet {
 		html.find('.theme-text').click(this._destructionTest.bind(this));
 	}
 
-	getData() {
-		let data = super.getData();
+	async getData() {
+		let data = await super.getData();
 		for (let item of data.items) {
 			if (item.type == "theme") {
 				try {
@@ -121,6 +121,14 @@ export class CityActorSheet extends CitySheet {
 		}
 		// data.data.personalStoryTags = this.getPersonalStoryTags();
 		data.storyTags = this.getStoryTags();
+		const object =  {
+			secrets: this.actor.isOwner,
+			async: true,
+			relativeTo: this.actor
+		};
+		data.gmnotes = await TextEditor.enrichHTML(this.actor.system.gmnotes, object);
+		data.description = await TextEditor.enrichHTML(this.actor.system.description, object)
+		data.biography = await TextEditor.enrichHTML(this.actor.system.biography, object)
 		return data;
 	}
 

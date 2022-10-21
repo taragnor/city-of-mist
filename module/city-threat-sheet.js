@@ -15,11 +15,6 @@ export class CityThreatSheet extends CityActorSheet {
 		});
 	}
 
-	getData() {
-		let data = super.getData();
-		return data;
-	}
-
 	activateListeners(html) {
 		super.activateListeners(html);
 
