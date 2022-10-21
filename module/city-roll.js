@@ -31,8 +31,12 @@ export class CityRoll {
 		await this.#getRoll();
 		await this.#getContent();
 		await this.#sendRollToChat();
-		await this.#secondaryEffects();
-		await this.#rollCleanupAndAftermath();
+		try {
+			await this.#secondaryEffects();
+			await this.#rollCleanupAndAftermath();
+		} catch (e) {
+			console.error(e);
+		}
 		return this;
 	}
 
@@ -390,7 +394,11 @@ export class CityRoll {
 			const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
-				const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
+				try {
+					const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
+				} catch (e) {
+					console.warn("Error in remote Juice spending");
+				}
 			}
 		} catch (e) {
 			console.warn("Error spending Juice");
