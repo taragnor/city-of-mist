@@ -395,7 +395,8 @@ export class CityRoll {
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
 				try {
-					const result = await CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
+					//TODO: Bug here in this code but I stopped awaiting to hopefully not prevent it from exiting
+					CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
 				} catch (e) {
 					console.warn("Error in remote Juice spending");
 				}
