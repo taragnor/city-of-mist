@@ -40,7 +40,7 @@ export class StatusTrackerWindow extends Application {
 			const indexActor = jQuery(this).data("actor");
 			const action = jQuery(this).data("action");
 
-			const tracker = window.statusTrackerWindow.getData().statusTracker;
+			const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 
 			switch (action) {
 				case "status-new":
@@ -75,57 +75,31 @@ export class StatusTrackerWindow extends Application {
 		html.find(".tag-burn").click (this._burnTag);
 		html.find(".tag-burn").mousedown(CityHelpers.rightClick(this._unburnTag));
 
-		/*html.on("dblclick", "p.aspect-description", async function () {
-		const index = jQuery(this).data("index");
-
-		const list = window.aspectTrackerWindow.getData().tracker;
-
-		await list.toggleEditing(index);
-
-		window.aspectTrackerWindow.render(true);
-	 });
-
-	 html.on("keypress", "p.edit-description", async function(e){
-		if(e.which === 13){
-		  const index = jQuery(this).data("index");
-		  const desc = jQuery(this).children().get(0).value;
-
-		  const list = window.aspectTrackerWindow.getData().tracker;
-
-		  let aspect = list.aspects[index];
-		  aspect.description = desc;
-
-		  await list.updateAspect(index, aspect);
-		  await list.toggleEditing(index);
-
-		  window.aspectTrackerWindow.render(true);
-		}
-	});*/
 	}
 
 	async _openTokenSheet(event) {
 		const indexActor = getClosestData(event, "actor");
-		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 		await tracker._openTokenSheet(indexActor);
 	}
 
 	async _centerOnToken(event) {
 		const indexActor = getClosestData(event, "actor");
-		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 		await tracker._centerOnToken(indexActor);
 	}
 
 	async _burnTag(event) {
 		const indexActor = getClosestData(event, "actor");
 		const tag = getClosestData(event, "tag");
-		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 		await tracker.burnTag(indexActor, tag);
 	}
 
 	async _unburnTag(event) {
 		const indexActor = getClosestData(event, "actor");
 		const tag = getClosestData(event, "tag");
-		const tracker = window.statusTrackerWindow.getData().statusTracker;
+		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 		await tracker.unburnTag(indexActor, tag);
 	}
 
@@ -133,9 +107,9 @@ export class StatusTrackerWindow extends Application {
 	 * @returns {StatusTracker}
 	 * @returns {boolean}
 	 */
-	getData() {
+	async getData() {
 		return {
-			statusTracker: StatusTracker.load()
+			statusTracker: await StatusTracker.load()
 		};
 	}
 }

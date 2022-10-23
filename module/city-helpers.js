@@ -32,6 +32,10 @@ export class CityHelpers {
 		});
 	}
 
+	static async sleep(sec) {
+		return await this.asyncwait(sec);
+	}
+
 	static async getUserId() {
 		if (game.userId != null)
 			return game.userId;

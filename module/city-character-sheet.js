@@ -59,12 +59,12 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.activeExtra = this.getActiveExtra();
 
 		//Status Container
-		data.otherStatuses = this.getOtherStatuses();
+		data.otherStatuses = await this.getOtherStatuses();
 
 		//Story Tags
-		data.data.crewStoryTags = this.getCrewStoryTags();
-		data.data.sceneStoryTags = this.getSceneStoryTags();
-		data.data.dangerStoryTags = this.getDangerStoryTags();
+		data.crewStoryTags = this.getCrewStoryTags();
+		data.sceneStoryTags = await this.getSceneStoryTags();
+		data.dangerStoryTags = this.getDangerStoryTags();
 
 		const moveList = CityHelpers.getMoves();
 		data.data.coremoves = moveList.filter( x=> x.system.category == "Core");
@@ -162,8 +162,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		return tokenTagData.flat(1);
 	}
 
-	getSceneStoryTags() {
-		const storyContainers = [ SceneTags.getSceneContainer() ];
+	async getSceneStoryTags() {
+		const storyContainers = [ await SceneTags.getSceneContainer() ];
 		const tagData = storyContainers.map ( cont => {
 			return cont.getStoryTags();
 		});
@@ -223,11 +223,11 @@ export class CityCharacterSheet extends CityActorSheet {
 		return "";
 	}
 
-	getOtherStatuses() {
+	async getOtherStatuses() {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || (x.type == "character" && x.id != this.actor.id));
 		const applicableTargets = tokenActors
 			.concat(
-				[SceneTags.getSceneContainer()]
+				[await SceneTags.getSceneContainer()]
 			);
 		const filteredTargets = applicableTargets.filter(
 			x=> x.items.find( y=> y.type == "status"));

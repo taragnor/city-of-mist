@@ -9,7 +9,7 @@ export class StatusTracker {
 		this.actors = actors;
 	}
 
-	static load() {
+	static async load() {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || x.type == "character");
 
 		const actors = tokenActors.map( x=> {
@@ -22,7 +22,7 @@ export class StatusTracker {
 				tags: x.getStoryTags()
 			};
 		});
-		const scene = [ SceneTags.getSceneContainer() ]
+		const scene = [ await SceneTags.getSceneContainer() ]
 		.map( x=> {
 			return  {
 				name: "Scene",
@@ -34,6 +34,7 @@ export class StatusTracker {
 			};
 		});
 		const combined = actors.concat(scene);
+		Debug(combined);
 
 		let sortFn = null;
 		switch ( game.settings.get("city-of-mist", "trackerSort")) {

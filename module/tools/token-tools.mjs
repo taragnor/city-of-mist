@@ -1,7 +1,8 @@
 export class TokenTools {
 
 	static getActiveScene() {
-		return window.game.scenes.active;
+		// return window.game.scenes.active;
+		return window.game.scenes.current;
 	}
 
 	static getActiveSceneTokens() {
