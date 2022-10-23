@@ -84,6 +84,22 @@ export class RollDialog extends Dialog {
 
 	}
 
+	allowSubmit() {
+		return !this.#modifierList.isPending();
+	}
+
+	_onKeyDown(event) {
+		console.log("Calling variant handler");
+		if ( event.key === "Enter"  && !this.allowSubmit()) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		} else {
+			return super._onKeyDown(event);
+		}
+	}
+
+
 	static async create (roll, moveId, actor) {
 		if (this._instance)
 			this._instance.close();
@@ -170,16 +186,9 @@ export class RollDialog extends Dialog {
 			this.refreshHTML(html);
 		});
 		const finalModifiers = CitySockets.execSession(reviewSession);
-		// confirmButton.prop("disabled", true);
-		// confirmButton.oldHTML = confirmButton.html();
-		// confirmButton.html(localize("CityOfMist.dialog.roll.waitForMC"));
-		// confirmButton.addClass("disabled");
 		const newList = await finalModifiers;
 		await this.setReviewList(newList);
 		this.#tagReviewSession = null;
-		// confirmButton.prop("disabled", false);
-		// confirmButton.html(confirmButton.oldHTML);
-		// confirmButton.removeClass("disabled");
 	}
 
 	async onRender(html) {
@@ -228,7 +237,7 @@ export class RollDialog extends Dialog {
 
 	refreshConfirmButton() {
 		const confirmButton = this.element.find("button.one");
-		if (this.#modifierList.isPending()) {
+		if (!this.allowSubmit()) {
 			confirmButton.prop("disabled", true);
 			const waitMsg = localize("CityOfMist.dialog.roll.waitForMC");
 			if (confirmButton.html() != waitMsg) {
@@ -342,8 +351,9 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 	if (dialog) {
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
-		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
-		CityHelpers.playTagOnSpecial();
+		const itWorked = dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
+		if (itWorked)
+			CityHelpers.playTagOnSpecial();
 		return false;
 	}
 	else

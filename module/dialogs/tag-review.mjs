@@ -146,8 +146,9 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 		Debug(selectedTagOrStatus);
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
-		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
-		CityHelpers.playTagOnSpecial();
+		const itWorked = dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
+		if (itWorked)
+			CityHelpers.playTagOnSpecial();
 		return false;
 	}
 	else

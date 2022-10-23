@@ -106,12 +106,15 @@ export class ReviewableModifierList extends Array {
 	}
 
 	addReviewable( item, amount, reviewStatus = "pending") {
+		if (this.some(i => item.id == i.item.id))
+			return false;
 		const obj = {
 			item,
 			review: reviewStatus,
 			amount
 		}
 		this.push(obj);
+		return true;
 	}
 
 }
