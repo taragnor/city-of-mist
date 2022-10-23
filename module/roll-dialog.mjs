@@ -174,7 +174,6 @@ export class RollDialog extends Dialog {
 		const html = this.html;
 		const confirmButton = html.find("button.one");
 		const tagList = this.#modifierList;
-		// this.updateModifierHTML(html, tagList);
 		await this.refreshHTML(html);
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id);
 		this.#tagReviewSession.setDialog(this);
@@ -225,14 +224,24 @@ export class RollDialog extends Dialog {
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;
-		const dynamite = actor.getActivatedImprovementEffects(this.move_id).some(x => x?.dynamite);
+		const dynamite = this.#options.dynamiteAllowed ?? actor.getActivatedImprovementEffects(this.move_id).some(x => x?.dynamite);
 		let power = this.#power; //placeholder
 		const altPower = CityHelpers.altPowerEnabled();
-		const templateData = {burnableTags, actor: actor, data: actor.system, dynamite, power, tagAndStatusList: tagListReviewForm, altPower};
+		const templateData = {
+			burnableTags,
+			actor: actor,
+			data: actor.system,
+			dynamite,
+			power,
+			tagAndStatusList: tagListReviewForm,
+			altPower,
+			sliderVal : this.#options.powerModifier ?? 0,
+		};
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
 		this.refreshConfirmButton();
+		this.updateModifierPopup();
 	}
 
 	refreshConfirmButton() {
@@ -300,7 +309,7 @@ export class RollDialog extends Dialog {
 		});
 	}
 
-	updateModifierPopup(html) {
+	updateModifierPopup(html = this.html) {
 		this.updateSliderValMax(html);
 		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
