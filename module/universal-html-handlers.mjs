@@ -5,6 +5,7 @@ import {CityLogger} from "./city-logger.mjs";
 
 export class HTMLHandlers {
 
+	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
 	static applyBasicHandlers(htmlorJQueryElement) {
 		const html = $( htmlorJQueryElement );
 		html.find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
