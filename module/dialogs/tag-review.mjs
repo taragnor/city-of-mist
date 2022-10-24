@@ -103,7 +103,6 @@ export class TagReviewDialog extends EnhancedDialog {
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.approveTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "approved";
-				// CityDialogs.refreshDialog(html, tagList);
 				this.refreshHTML();
 			});
 		$(html).find(".item-control.request-clarification").click(
@@ -113,7 +112,6 @@ export class TagReviewDialog extends EnhancedDialog {
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.requestClarification(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "challenged";
-				// CityDialogs.refreshDialog(html, tagList);
 				this.refreshHTML();
 			});
 		$(html).find(".item-control.rejected").click(
@@ -124,7 +122,6 @@ export class TagReviewDialog extends EnhancedDialog {
 				this.#session.rejectTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "rejected";
 				this.refreshHTML();
-				// CityDialogs.refreshDialog(html, tagList);
 			});
 	}
 
