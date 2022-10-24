@@ -114,3 +114,4 @@ Hooks.on("renderApplication", function(control) {
 		window.statusTrackerWindow.render(false);
 	}
 });
+

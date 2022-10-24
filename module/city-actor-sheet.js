@@ -1,5 +1,4 @@
 
-
 import { CityDialogs } from "./city-dialogs.mjs";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
@@ -37,7 +36,7 @@ export class CityActorSheet extends CitySheet {
 		super.activateListeners(html);
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
-
+		HTMLHandlers.applyBasicHandlers(html);
 		html.find('.theme-item-edit').change( this._modifyThemeField.bind(this));
 		html.find('.theme-item-edit').focusout( this._modifyThemeField.bind(this));
 		html.find('.theme-name-input').change( this._themebookNameInput.bind(this));
@@ -46,18 +45,18 @@ export class CityActorSheet extends CitySheet {
 		html.find('.theme-create-weakness-tag').click(this._createTagOrImprovement.bind(this) );
 		html.find('.theme-create-bonus-tag').click(this._createBonusTag.bind(this) );
 		html.find('.theme-create-improvement').click(this._createTagOrImprovement.bind(this) );
-		html.find('.tag-delete').click(this._deleteTag.bind(this) );
+		// html.find('.tag-delete').click(this._deleteTag.bind(this) );
 		html.find('.imp-delete').click(this._deleteImprovement.bind(this) );
 		html.find('.theme-delete').click(this._deleteTheme.bind(this) );
-		html.find('.tag-select-button').click(SelectedTagsAndStatus.selectTagHandler);
-		html.find('.tag-select-button').rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		// html.find('.tag-select-button').click(SelectedTagsAndStatus.selectTagHandler);
+		// html.find('.tag-select-button').rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		// html.find('.tag-select-button').click(this._tagSelect.bind(this));
 		// html.find('.tag-select-button').rightclick(x=> this._tagSelect(x, true));
-		html.find('.tag-select-button').middleclick(this._tagEdit.bind(this));
-		html.find('.tag-edit-button').click(this._tagEdit.bind(this));
-		html.find('.tag-edit-button').middleclick(this._tagEdit.bind(this));
-		html.find('.tag-burn').click(this._burnTag.bind(this));
-		html.find('.tag-unburn').click(this._unburnTag.bind(this));
+		// html.find('.tag-select-button').middleclick(this._tagEdit.bind(this));
+		// html.find('.tag-edit-button').click(this._tagEdit.bind(this));
+		// html.find('.tag-edit-button').middleclick(this._tagEdit.bind(this));
+		// html.find('.tag-burn').click(this._burnTag.bind(this));
+		// html.find('.tag-unburn').click(this._unburnTag.bind(this));
 		html.find('.theme-add-attention').click(this._addAttentionOrFade.bind(this));
 		html.find('.theme-remove-attention').click( this._removeAttentionOrFade.bind(this) );
 		html.find('.theme-add-fade').click(this._addAttentionOrFade.bind(this));
@@ -70,13 +69,13 @@ export class CityActorSheet extends CitySheet {
 		html.find('.active-extra-drop-down').change(this._activeExtraChange.bind(this));
 		html.find('.create-status').click(this._createStatus.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
-		html.find('.status-delete').click(this._deleteStatus.bind(this));
-		html.find('.status-delete').middleclick(x => this._deleteStatus(x, true));
-		html.find('.status-select-button').click(SelectedTagsAndStatus.selectStatusHandler);
-		html.find('.status-select-button').rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
-		html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
-		html.find('.status-add').click(this._statusAdd.bind(this));
-		html.find('.status-subtract').click(this._statusSubtract.bind(this));
+		// html.find('.status-delete').click(this._deleteStatus.bind(this));
+		// html.find('.status-delete').middleclick(x => this._deleteStatus(x, true));
+		// html.find('.status-select-button').click(SelectedTagsAndStatus.selectStatusHandler);
+		// html.find('.status-select-button').rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		// html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
+		// html.find('.status-add').click(this._statusAdd.bind(this));
+		// html.find('.status-subtract').click(this._statusSubtract.bind(this));
 		html.find('.status-edit-button').click(this._statusEdit.bind(this));
 
 		html.find('.create-clue').click(this._createClue.bind(this));
@@ -351,13 +350,13 @@ export class CityActorSheet extends CitySheet {
 		return await CityHelpers.itemDialog(obj);
 	}
 
-	async _tagEdit(event) {
-		const id = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const tag = await owner.getTag(id);
-		await this.tagDialog(tag);
-	}
+	// async _tagEdit(event) {
+	// 	const id = getClosestData(event, "tagId");
+	// 	const actorId = getClosestData(event, "ownerId");
+	// 	const owner = await this.getOwner(actorId);
+	// 	const tag = await owner.getTag(id);
+	// 	await this.tagDialog(tag);
+	// }
 
 	async _improvementEdit(event) {
 		const id = getClosestData(event, "impId");

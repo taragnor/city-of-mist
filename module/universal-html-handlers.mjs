@@ -1,6 +1,27 @@
 import {CityHelpers} from "./city-helpers.js";
+import {SceneTags} from "./scene-tags.mjs";
+import {CityDialogs} from "./city-dialogs.mjs";
+import {CityLogger} from "./city-logger.mjs";
 
 export class HTMLHandlers {
+
+	static applyBasicHandlers(htmlorJQueryElement) {
+		const html = $( htmlorJQueryElement );
+		html.find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		html.find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		html.find('.tag .name').middleclick(HTMLHandlers._tagEdit);
+		html.find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		html.find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		html.find('.status-delete').click(HTMLHandlers.deleteStatus);
+		html.find(".status .name").middleclick(HTMLHandlers._statusEdit);
+		html.find('.tag-delete').click(HTMLHandlers.deleteTag);
+		html.find('.status-add').click(HTMLHandlers.statusAdd);
+		html.find('.status-subtract').click(HTMLHandlers.statusSubtract);
+		html.find('.tag-burn').click(HTMLHandlers.burnTag);
+		html.find('.tag-unburn').click(HTMLHandlers.unburnTag);
+		html.find('.tag-edit-button').click(HTMLHandlers._tagEdit);
+		html.find('.tag-edit-button').middleclick(HTMLHandlers._tagEdit);
+	}
 
 	async _tagSelect(event, invert = false) {
 		const id = getClosestData(event, "tagId");
@@ -52,6 +73,10 @@ export class HTMLHandlers {
 		const tokenId = getClosestData(event, "tokenId");
 		const actor = await CityHelpers.getOwner(actorId, tokenId);
 		const tag = await actor.getTag(tagId);
+		if (!tag.isOwner) {
+			ui.notifications.error("You don't own this tag and can't delete it");
+			return;
+		}
 		const tagName = tag.name;
 		if (tag.system.subtype != "story")
 			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
@@ -60,12 +85,50 @@ export class HTMLHandlers {
 		await CityHelpers.modificationLog(actor, `Deleted` , tag);
 	}
 
+	static async _tagEdit(event) {
+		const id = getClosestData(event, "tagId");
+		const actorId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(actorId, tokenId);
+		const tag = await owner.getTag(id);
+		if (!tag.isOwner) {
+			ui.notifications.error("You don't own this tag and can't edit it");
+			return;
+		}
+		return await CityDialogs.itemEditDialog(tag);
+	}
+
+	static async _statusEdit (event) {
+		const status_id = getClosestData(event, "statusId");
+		const actorId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(actorId, tokenId);
+		const status = await owner.getStatus(status_id);
+		if (!status.isOwner) {
+			ui.notifications.error("You don't own this status and can't edit it");
+			return;
+		}
+		const oldtier = status.system.tier;
+		const oldpips = status.system.pips;
+		const oldname = status.name;
+		const updateObj = await CityDialogs.itemEditDialog(status);
+		if (updateObj)  {
+			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
+			const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
+			CityLogger.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
+		}
+	}
+
 	static async deleteStatus (event, autodelete = false) {
 		const status_id = getClosestData(event, "statusId");
 		const actorId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const owner = await CityHelpers.getOwner(actorId, tokenId);
 		const status = await owner.getStatus(status_id);
+		if (!status.isOwner) {
+			ui.notifications.error("You don't own this status and can't edit it");
+			return;
+		}
 		if ( autodelete || (await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
 			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
 			await owner.deleteStatus(status_id);
