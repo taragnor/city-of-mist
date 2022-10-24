@@ -9,21 +9,21 @@ export class HTMLHandlers {
 	static applyBasicHandlers(htmlorJQueryElement) {
 		const html = $( htmlorJQueryElement );
 		Debug(html);
-		html.find(".item-selection-context .tag .name").click(SelectedTagsAndStatus.selectTagHandler);
-		html.find(".item-selection-context .tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
-		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers._tagEdit);
+		html.find(".item-selection-context .tag .name:not(.burned-tag)").click(SelectedTagsAndStatus.selectTagHandler);
+		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
+		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers._statusEdit);
 		html.find(".item-selection-context .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
 		html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		html.find('.status-delete').click(HTMLHandlers.deleteStatus);
-		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers._statusEdit);
 		html.find('.tag-delete').click(HTMLHandlers.deleteTag);
 		html.find('.status-add').click(HTMLHandlers.statusAdd);
 		html.find('.status-subtract').click(HTMLHandlers.statusSubtract);
 		html.find('.tag-burn').click(HTMLHandlers.burnTag);
 		html.find('.tag-unburn').click(HTMLHandlers.unburnTag);
-		html.find('.item-edit-context .tag .name').click(HTMLHandlers._tagEdit);
-		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers._tagEdit);
-		html.find('.item-edit-context .status .name').click(HTMLHandlers._statusEdit);
+		html.find('.item-edit-context .tag .name').click(HTMLHandlers.tagEdit);
+		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers.tagEdit);
+		html.find('.item-edit-context .status .name').click(HTMLHandlers.statusEdit);
 	}
 
 	async _tagSelect(event, invert = false) {
@@ -88,7 +88,7 @@ export class HTMLHandlers {
 		await CityHelpers.modificationLog(actor, `Deleted` , tag);
 	}
 
-	static async _tagEdit(event) {
+	static async tagEdit(event) {
 		const id = getClosestData(event, "tagId");
 		const actorId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
@@ -101,7 +101,7 @@ export class HTMLHandlers {
 		return await CityDialogs.itemEditDialog(tag);
 	}
 
-	static async _statusEdit (event) {
+	static async statusEdit (event) {
 		const status_id = getClosestData(event, "statusId");
 		const actorId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");

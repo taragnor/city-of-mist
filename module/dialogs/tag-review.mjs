@@ -1,4 +1,7 @@
 import {EnhancedDialog} from "./enhanced-dialog.mjs";
+import {HTMLHandlers} from "../universal-html-handlers.mjs";
+
+
 export class TagReviewDialog extends EnhancedDialog {
 
 	#session;
@@ -91,11 +94,13 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	setListeners(_html) {
 		const html = this.element;
+		$(html).find(".tag .name").click( HTMLHandlers.tagEdit);
+		$(html).find(".status .name").click( HTMLHandlers.statusEdit);
 		$(html).find(".item-control.approved").click(
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
 				const ownerId = getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Cna't find ID");
+				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.approveTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "approved";
 				// CityDialogs.refreshDialog(html, tagList);
@@ -105,7 +110,7 @@ export class TagReviewDialog extends EnhancedDialog {
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
 				const ownerId = getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Cna't find ID");
+				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.requestClarification(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "challenged";
 				// CityDialogs.refreshDialog(html, tagList);
@@ -115,7 +120,7 @@ export class TagReviewDialog extends EnhancedDialog {
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
 				const ownerId = getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Cna't find ID");
+				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.rejectTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "rejected";
 				this.refreshHTML();
