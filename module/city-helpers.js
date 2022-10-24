@@ -42,6 +42,16 @@ export class CityHelpers {
 		else
 			throw new Error("Unknown User");
 	}
+
+	static async cacheSounds() {
+		console.log("Caching sounds");
+		this.playSound("lock.mp3", 0.01);
+		this.playSound("burn-tag.mp3", 0.01);
+		this.playSound("button-on.mp3", 0.01);
+		this.playSound("button-off.mp3", 0.01);
+		this.playSound("beep.wav", 0.01);
+	}
+
 	static async playLockOpen() {
 		return await this.playSound("lock.mp3", 0.3);
 	}

@@ -56,7 +56,9 @@ Hooks.once("cityDBLoaded", async function() {
 	return true;
 });
 
-Hooks.once("ready", x=> CityHelpers.refreshSystem());
+Hooks.once("ready", _=> CityHelpers.refreshSystem());
+
+Hooks.once("ready", _=> CityHelpers.cacheSounds());
 
 Hooks.once("init", async function() {
 	console.log(`***********************************`);
