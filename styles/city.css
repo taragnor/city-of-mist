@@ -1188,7 +1188,7 @@ section.ally-card {
 	color: black;
 }
 
-.item-selection-context .active-tag.default-negative:hover{
+.item-selection-context .active-tag.default-negative:hover:not(.positive-selected){
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1222,7 +1222,7 @@ section.ally-card {
 
 	transition: font-weight 0.1s;
 }
-.item-selection-context .active-tag.default-positive:hover {
+.item-selection-context .active-tag.default-positive:hover:not(.negative-selected) {
 	font-weight: bold;
 
 	margin: 0 -0.4em;
