@@ -7,12 +7,13 @@ import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 export class StoryTagDisplayContainer {
 
 	constructor() {
-		this.element = HTMLTools.div(["scene-tag-window", "tag-selection-context"]);
+		this.element = HTMLTools.div(["scene-tag-window"]);
 		const width =  (-50) + $(document).find("#controls").width();
 		const height =  50+ $(document).find("#navigation").height();
 		this.element.style.left = `${width}px`;
 		this.element.style.top = `${height}px`;
 		this.dataElement = HTMLTools.div("scene-tags-template");
+		$(this.dataElement).addClass("item-selection-context");
 		this.element.appendChild(this.dataElement);
 		document.body.appendChild(this.element);
 		this.refreshContents();
@@ -43,8 +44,8 @@ export class StoryTagDisplayContainer {
 	}
 
 	updateHandlers() {
-		HTMLHandlers.applyBasicHandlers(this.dataElement);
-		const html = $(this.dataElement);
+		HTMLHandlers.applyBasicHandlers(this.element);
+		const html = $(this.element);
 		html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
 		html.find(".create-status").click( () => SceneTags.createSceneStatus() );
 

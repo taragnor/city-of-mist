@@ -1188,7 +1188,7 @@ section.ally-card {
 	color: black;
 }
 
-.tag-selection-context .active-tag.default-negative:hover{
+.item-selection-context .active-tag.default-negative:hover{
 	font-weight: bold;
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
@@ -1206,7 +1206,7 @@ section.ally-card {
 	transition: font-weight 0.1s;
 }
 
-.tag-selection-context .status-name:hover{
+.item-selection-context .status-name:hover{
 
 	font-weight: bold;
 	border-radius: 0.8em 0.3em;
@@ -1222,7 +1222,7 @@ section.ally-card {
 
 	transition: font-weight 0.1s;
 }
-.tag-selection-context .active-tag.default-positive:hover {
+.item-selection-context .active-tag.default-positive:hover {
 	font-weight: bold;
 
 	margin: 0 -0.4em;
@@ -1788,8 +1788,8 @@ div.burn-flame-cell {
 }
 
 .red-highlight,
-.tag-selection-context .tag .negative-selected,
-.tag-selection-context .status .negative-selected,
+.item-selection-context .tag .negative-selected,
+.item-selection-context .status .negative-selected,
 .negative-selected .tag,
 .negative-selected .status {
 	font-weight: bold;
@@ -1809,8 +1809,8 @@ div.burn-flame-cell {
 }
 
 .yellow-highlight,
-.tag-selection-context .tag .positive-selected,
-.tag-selection-context .status .positive-selected,
+.item-selection-context .tag .positive-selected,
+.item-selection-context .status .positive-selected,
 .positive-selected .tag,
 .positive-selected .status {
 	margin: 0 -0.4em;

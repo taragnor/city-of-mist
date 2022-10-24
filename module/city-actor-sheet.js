@@ -76,7 +76,7 @@ export class CityActorSheet extends CitySheet {
 		// html.find('.status-select-button').middleclick(this._statusEdit.bind(this));
 		// html.find('.status-add').click(this._statusAdd.bind(this));
 		// html.find('.status-subtract').click(this._statusSubtract.bind(this));
-		html.find('.status-edit-button').click(this._statusEdit.bind(this));
+		// html.find('.status-edit-button').click(this._statusEdit.bind(this));
 
 		html.find('.create-clue').click(this._createClue.bind(this));
 		html.find('.clue-delete').click(this._deleteClue.bind(this));

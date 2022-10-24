@@ -1,4 +1,4 @@
-<form class="{{cssClass}} threat-sheet flexcol" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
+<form class="{{cssClass}} threat-sheet flexcol {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}}" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<header class="sheet-header">
 		<div class="image-block">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
@@ -50,7 +50,7 @@
 			{{localize 'CityOfMist.terms.bio' }}
 		</a>
 	</nav>
-	<section class="sheet-body">
+	<section class="sheet-body {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} ">
 		<div class="tab tab-content" data-group="primary" data-tab="moves">
 			<div class="flex-row">
 				<div class="flex-overview-block">

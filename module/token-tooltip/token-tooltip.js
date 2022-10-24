@@ -1,4 +1,5 @@
 import {SelectedTagsAndStatus} from "../selected-tags.mjs";
+import {HTMLHandlers} from "../universal-html-handlers.mjs";
 
 import {HTMLTools} from "../tools/HTMLTools.mjs";
 
@@ -19,9 +20,9 @@ export class TokenTooltip {
 		this._tokenHover = false;
 		this._boxHover = false;
 		this.element = HTMLTools.div(CSS_TOOLTIP);
-		$(this.element).addClass("tag-selection-context");
 		this.nameElement = HTMLTools.div(CSS_NAME);
 		this.element.appendChild(this.nameElement);
+		$(this.nameElement).addClass("item-selection-context");
 		this.currentToken = null;
 		$(this.element).hover( this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
 		document.body.appendChild(this.element);
@@ -122,10 +123,11 @@ export class TokenTooltip {
 		}
 		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
-		$(this.nameElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
-		$(this.nameElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
-		$(this.nameElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
-		$(this.nameElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		HTMLHandlers.applyBasicHandlers(this.element);
+		// $(this.nameElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		// $(this.nameElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		// $(this.nameElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		// $(this.nameElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		return true;
 	}
 

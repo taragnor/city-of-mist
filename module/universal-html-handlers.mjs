@@ -8,20 +8,22 @@ export class HTMLHandlers {
 	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
 	static applyBasicHandlers(htmlorJQueryElement) {
 		const html = $( htmlorJQueryElement );
-		html.find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
-		html.find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
-		html.find('.tag .name').middleclick(HTMLHandlers._tagEdit);
-		html.find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
-		html.find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		Debug(html);
+		html.find(".item-selection-context .tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		html.find(".item-selection-context .tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers._tagEdit);
+		html.find(".item-selection-context .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		html.find('.status-delete').click(HTMLHandlers.deleteStatus);
-		html.find(".status .name").middleclick(HTMLHandlers._statusEdit);
+		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers._statusEdit);
 		html.find('.tag-delete').click(HTMLHandlers.deleteTag);
 		html.find('.status-add').click(HTMLHandlers.statusAdd);
 		html.find('.status-subtract').click(HTMLHandlers.statusSubtract);
 		html.find('.tag-burn').click(HTMLHandlers.burnTag);
 		html.find('.tag-unburn').click(HTMLHandlers.unburnTag);
-		html.find('.tag-edit-button').click(HTMLHandlers._tagEdit);
-		html.find('.tag-edit-button').middleclick(HTMLHandlers._tagEdit);
+		html.find('.item-edit-context .tag .name').click(HTMLHandlers._tagEdit);
+		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers._tagEdit);
+		html.find('.item-edit-context .status .name').click(HTMLHandlers._statusEdit);
 	}
 
 	async _tagSelect(event, invert = false) {
