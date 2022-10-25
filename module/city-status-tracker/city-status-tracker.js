@@ -18,7 +18,7 @@ export class StatusTrackerWindow extends Application {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "city-of-mist-tracker-app",
-			template: "systems/city-of-mist/module/city-status-tracker/tracker-new.hbs",
+			template: "systems/city-of-mist/module/city-status-tracker/tracker.hbs",
 			// template: "systems/city-of-mist/module/city-status-tracker/city-status-tracker.hbs",
 			width: 315,
 			height: 630,
