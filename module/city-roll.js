@@ -399,6 +399,7 @@ export class CityRoll {
 					CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
 				} catch (e) {
 					console.warn("Error in remote Juice spending");
+					console.error(e);
 				}
 			}
 		} catch (e) {

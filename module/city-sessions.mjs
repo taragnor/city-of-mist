@@ -264,6 +264,13 @@ export class JuiceSpendingSessionM extends MasterSession {
 		this.dataObj = { juiceId, ownerId, amount};
 	}
 
+	setHandlers() {
+		super.setHandlers();
+		this.setReplyHandler("spendJuice", this.onJuiceReply.bind(this));
+	}
+
+	onJuiceReply() {}
+
 	async start() {
 		const gm = game.users.find(x=> x.isGM && x.active);
 		if (!gm) {

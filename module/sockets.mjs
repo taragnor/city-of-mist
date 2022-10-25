@@ -349,8 +349,7 @@ export class MasterSession extends Session {
 			return await handler(data, meta, senderId);
 			}
 		} else {
-			Debug(this.replyHandlers);
-			throw new Error(`No handler for ${data.replyCode}`);
+			console.debug(`No handler for reply ${meta.replyCode}`);
 		}
 	}
 
