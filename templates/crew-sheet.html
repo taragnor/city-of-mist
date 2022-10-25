@@ -1,4 +1,4 @@
-<form class="{{cssClass}} crew-sheet {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}}" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" >
+<form class="{{cssClass}} crew-sheet {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}}" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-token-id="{{actor.tokenId}}" data-scene-id="{{actor.sceneId}}">
 	<header id="basic-info" class="sheet-header">
 		<div class="image-block">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>

@@ -1,6 +1,7 @@
 /* global jQuery, Handlebars, Sortable */
 /* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
 
+import {HTMLHandlers} from "../universal-html-handlers.mjs";
 import { StatusTracker } from "./status-tracker.js";
 
 Hooks.on('updateActor', function() {window.statusTrackerWindow.render(false)});
@@ -17,7 +18,8 @@ export class StatusTrackerWindow extends Application {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "city-of-mist-tracker-app",
-			template: "systems/city-of-mist/module/city-status-tracker/city-status-tracker.hbs",
+			template: "systems/city-of-mist/module/city-status-tracker/tracker-new.hbs",
+			// template: "systems/city-of-mist/module/city-status-tracker/city-status-tracker.hbs",
 			width: 315,
 			height: 630,
 			minimizable: true,
@@ -31,50 +33,11 @@ export class StatusTrackerWindow extends Application {
 	 *
 	 * @param {JQuery} html is the rendered HTML provided by jQuery
 	 **/
-	activateListeners(html) {
+	async activateListeners(html) {
 		super.activateListeners(html);
-
-		html.on("click", "a.status-control", async function () {
-			const indexStatus = jQuery(this).data("status");
-			const indexTag = jQuery(this).data("tag");
-			const indexActor = jQuery(this).data("actor");
-			const action = jQuery(this).data("action");
-
-			const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
-
-			switch (action) {
-				case "status-new":
-					await tracker.newStatus(indexActor);
-					break;
-				case "status-delete":
-					await tracker.deleteStatus(indexActor, indexStatus);
-					break;
-				case "status-increase":
-					await tracker.increaseStatus(indexActor, indexStatus);
-					break;
-				case "status-decrease":
-					await tracker.decreaseStatus(indexActor, indexStatus);
-					break;
-				case "tag-new":
-					await tracker.newTag(indexActor);
-					break;
-				case "tag-delete":
-					await tracker.deleteTag(indexActor, indexTag);
-					break
-				default:
-					return;
-			}
-
-			window.statusTrackerWindow.render(false);
-		});
-
-		html.find(".status-actor").click( this._openTokenSheet);
-
-		html.find(".status-actor").mousedown( CityHelpers.rightClick( this._centerOnToken));
-
-		html.find(".tag-burn").click (this._burnTag);
-		html.find(".tag-burn").mousedown(CityHelpers.rightClick(this._unburnTag));
-
+		HTMLHandlers.applyBasicHandlers(html);
+		html.find(".actor-name").click( this._openTokenSheet);
+		html.find(".actor-name").mousedown( CityHelpers.rightClick( this._centerOnToken));
 	}
 
 	async _openTokenSheet(event) {
@@ -108,8 +71,61 @@ export class StatusTrackerWindow extends Application {
 	 * @returns {boolean}
 	 */
 	async getData() {
+		const actors = await this.loadActorData();
+		const scene = await this.loadSceneData();
+		const combined = actors.concat(scene);
+		const sortFn = this.sortFunction();
+		const sorted = combined.sort(sortFn);
+		const statusTracker = new StatusTracker(sorted);
 		return {
-			statusTracker: await StatusTracker.load()
+			statusTracker: statusTracker
 		};
 	}
+
+	async loadActorData() {
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "character");
+		const actors = tokenActors.map( x=> {
+			return {
+				name: x.getDisplayedName(),
+				actor: x,
+				id: x.id,
+				type: x.type,
+				statuses: x.getStatuses(),
+				tags: x.getStoryTags()
+			};
+		});
+		return actors;
+	}
+
+	async loadSceneData() {
+		return []; //returning empty scene as changing scnee stuff with the tracker will cause errors as the hook won't get called properly (needs refactor)
+		// const scene = [ await SceneTags.getSceneContainer() ]
+		// 	.map( x=> {
+		// 		return  {
+		// 			name: "Scene",
+		// 			actor: x,
+		// 			id: x.id,
+		// 			type: x.type,
+		// 			statuses: x.getStatuses(),
+		// 			tags: x.getStoryTags()
+		// 		};
+		// 	});
+		// return scene;
+	}
+
+	 sortFunction() {
+		switch ( game.settings.get("city-of-mist", "trackerSort")) {
+			case "alpha":
+				return StatusTracker.alpha_sort;
+			case "pc_alpha":
+				return StatusTracker.pc_alpha_sort;
+			case "tag_sort":
+				return StatusTracker.tag_sort;
+			default:
+				console.warn("Using Default Sorting algorithm for StatusTracker");
+				return StatusTracker.alpha_sort;
+		}
+	}
+
 }
+

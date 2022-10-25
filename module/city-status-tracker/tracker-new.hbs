@@ -1,0 +1,20 @@
+<div class="city-status-tracker">
+	{{#each statusTracker.actors as |actor indexActor| }}
+	<div class="status-block item-selection-context" data-actor="{{ @indexActor }}" data-owner-id="{{actor.id}}" data-token-id="{{actor.tokenId}}" data-scene-id="{{actor.sceneId}}" >
+		<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+		<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
+		<span class="actor-name">
+		{{actor.name}}
+		</span>
+		<ol id="city-status-tracker-list">
+			{{#each actor.statuses as |status|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
+			{{/each}}
+			{{#each actor.tags as |tag indexTag|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
+			{{/each}}
+		</ol>
+	</div>
+	{{/each}}
+</div>
+

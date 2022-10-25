@@ -11,7 +11,6 @@ export class StatusTracker {
 
 	static async load() {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || x.type == "character");
-
 		const actors = tokenActors.map( x=> {
 			return {
 				name: x.getDisplayedName(),

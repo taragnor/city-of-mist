@@ -8,7 +8,6 @@ export class HTMLHandlers {
 	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
 	static applyBasicHandlers(htmlorJQueryElement) {
 		const html = $( htmlorJQueryElement );
-		Debug(html);
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").click(SelectedTagsAndStatus.selectTagHandler);
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
@@ -24,51 +23,88 @@ export class HTMLHandlers {
 		html.find('.item-edit-context .tag .name').click(HTMLHandlers.tagEdit);
 		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers.tagEdit);
 		html.find('.item-edit-context .status .name').click(HTMLHandlers.statusEdit);
+		html.find('.create-status').click(HTMLHandlers.createStatus);
+		html.find('.create-story-tag').click(HTMLHandlers.createStoryTag);
 	}
 
-	async _tagSelect(event, invert = false) {
-		const id = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "sheetOwnerId");
-		const actor = await CityHelpers.getOwner(actorId);
-		const tagownerId = getClosestData(event, "ownerId");
+	static async createStatus(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		const ownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
-		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
-		if (!owner)
-			throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);
-		const tag = await owner.getTag(id);
-		if (!tag) {
-			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
-		}
-		const type = actor.type;
-		if (type != "character" && type != "extra") {
-			console.warn (`Invalid Type to select a tag: ${type}`);
-			return;
-		}
-		if (actorId.length < 5){
-			throw new Error(`Bad Actor Id ${actorId}`);
-		}
-		const subtype = tag.system.subtype;
-		let direction = SelectedTagsAndStatus.getDefaultTagDirection(tag, owner, actor);
-		if (invert)
-			direction *= -1;
-		const activated = SelectedTagsAndStatus.toggleSelectedItem(tag, direction);
-
-		if (activated === null) return;
-		const html = $(event.currentTarget);
-		html.removeClass("positive-selected");
-		html.removeClass("negative-selected");
-		if (activated != 0) {
-			CityHelpers.playTagOn();
-			if (activated > 0)
-				html.addClass("positive-selected");
-			else
-				html.addClass("negative-selected");
+		const owner = await CityHelpers.getOwner(ownerId, tokenId, sceneId);
+		const obj = await owner.createNewStatus("Unnamed Status")
+		const status = await owner.getStatus(obj.id);
+		const updateObj = await CityDialogs.itemEditDialog(status);
+		if (updateObj) {
+			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
-			CityHelpers.playTagOff();
+			await owner.deleteStatus(obj.id);
 		}
-
 	}
+
+	static async createStoryTag(event, restrictDuplicates = true) {
+		event.stopPropagation();
+		event.preventDefault();
+		const ownerId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const sceneId = getClosestData(event, "sceneId");
+		console.warn("firing");
+		const owner = await CityHelpers.getOwner(ownerId, tokenId, sceneId);
+		const retobj = await owner.createStoryTag();
+		const tag = await owner.getTag(retobj.id);
+		const updateObj =		await CityDialogs.itemEditDialog(tag);
+		if (updateObj)
+			await CityHelpers.modificationLog(owner, "Created", tag);
+		else
+			await owner.deleteTag(retobj.id);
+		return false;
+	}
+
+	// async _tagSelect(event, invert = false) {
+	// 	const id = getClosestData(event, "tagId");
+	// 	const actorId = getClosestData(event, "sheetOwnerId");
+	// 	const actor = await CityHelpers.getOwner(actorId);
+	// 	const tagownerId = getClosestData(event, "ownerId");
+	// 	const tokenId = getClosestData(event, "tokenId");
+	// 	const sceneId = getClosestData(event, "sceneId");
+	// 	const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
+	// 	if (!owner)
+	// 		throw new Error(`Owner not found for tagId ${id}, actor: ${actorId},  token: ${tokenId}`);
+	// 	const tag = await owner.getTag(id);
+	// 	if (!tag) {
+	// 		throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
+	// 	}
+	// 	const type = actor.type;
+	// 	if (type != "character" && type != "extra") {
+	// 		console.warn (`Invalid Type to select a tag: ${type}`);
+	// 		return;
+	// 	}
+	// 	if (actorId.length < 5){
+	// 		throw new Error(`Bad Actor Id ${actorId}`);
+	// 	}
+	// 	const subtype = tag.system.subtype;
+	// 	let direction = SelectedTagsAndStatus.getDefaultTagDirection(tag, owner, actor);
+	// 	if (invert)
+	// 		direction *= -1;
+	// 	const activated = SelectedTagsAndStatus.toggleSelectedItem(tag, direction);
+
+	// 	if (activated === null) return;
+	// 	const html = $(event.currentTarget);
+	// 	html.removeClass("positive-selected");
+	// 	html.removeClass("negative-selected");
+	// 	if (activated != 0) {
+	// 		CityHelpers.playTagOn();
+	// 		if (activated > 0)
+	// 			html.addClass("positive-selected");
+	// 		else
+	// 			html.addClass("negative-selected");
+	// 	} else {
+	// 		CityHelpers.playTagOff();
+	// 	}
+
+	// }
 
 	static async deleteTag (event) {
 		const tagId = getClosestData(event, "tagId");

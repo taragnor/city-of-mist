@@ -1,6 +1,7 @@
 
 export class HTMLTools {
-	static getClosestData ( eventOrJQObj, prop) {
+	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
+	static getClosestData ( eventOrJQObj, prop, default_value = undefined) {
 		const target = (eventOrJQObj.currentTarget) ? eventOrJQObj.currentTarget : eventOrJQObj;
 		const convert = function (string) {
 			return Array.from(string).map(x => {
@@ -14,6 +15,10 @@ export class HTMLTools {
 		const data = $(target).closest(`[data-${cssprop}]`).data(prop);
 		if (data != null) return data;
 		else {
+			if (default_value !== undefined) {
+				console.log(`Return defautl value : ${default_value}`);
+				return default_value;
+			}
 			throw new Error(`Couldn't find ${prop} property`);
 		}
 	}
