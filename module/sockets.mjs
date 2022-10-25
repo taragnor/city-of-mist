@@ -71,7 +71,12 @@ export class SocketInterface {
 		this.#sessions.set(masterSession.id, masterSession);
 		masterSession.setSocketInterface(this);
 		masterSession.setStarted();
-		const ret= await masterSession.start();
+		let ret = null;
+		try {
+			ret = await masterSession.start();
+		} catch (e) {
+			console.error(e);
+		}
 		masterSession.setEnded();
 		console.log("Destroying Session");
 		masterSession.destroy();
@@ -412,6 +417,7 @@ export class SlaveSession extends Session {
 		this.requestHandlers.set(codeStr, handlerFn);
 	}
 
+	//TODO: shift this to not use the replyFn and conventional try/catch
 	async recieveRequest(data,  meta) {
 		const handler = this.requestHandlers.get(meta.requestCode);
 		if (handler) {
@@ -419,13 +425,19 @@ export class SlaveSession extends Session {
 				throw new Error("Request Code can't be null");
 			this.replyCode = meta.requestCode;
 			const interactionNum = ++this.interactionNum;
-			const replyFn = (dataObj, error) => {
+			try {
+				const dataObj = await handler( data, meta);
 				if (interactionNum == this.interactionNum)
-					this.reply(dataObj, error);
-				else
+					return await this.reply(dataObj, null);
+				else {
 					console.debug("invalid interaction num");
+					return;
+				}
+			} catch (e) {
+				console.log("Caught an error");
+				Debug(e);
+				return await this.reply({}, {error:e.toString()});
 			}
-			return await handler(replyFn, data, meta);
 		} else {
 			throw new Error(`No handler for ${data.requestCode}`);
 		}
@@ -436,8 +448,10 @@ export class SlaveSession extends Session {
 			replyCode: this.replyCode
 		}
 		if (!error) {
+			console.log(`replying ${dataObj}`);
 			await this.send(Session.codes.reply,  dataObj, meta);
 		} else {
+			console.log(`replying Error: ${error}`);
 			await this.send(Session.codes.replyError,  error, meta);
 		}
 		// this.replyCode = null;

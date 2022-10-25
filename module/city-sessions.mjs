@@ -47,23 +47,23 @@ export class JuiceSlaveSession extends SlaveSession {
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	async onJuiceRequest(replyFn, dataObj) {
+	async onJuiceRequest( dataObj) {
 		const character = game.user.character;
 		if (!character) {
-			replyFn(null, "Error: No Character");
+			throw new Error("Error: No Character");
 		}
 		try {
 			const {direction, amount, actorId} = 	await CityDialogs.getHelpHurt(dataObj, this);
-			replyFn( {
+			this.dialog = null;
+			return {
 				amount,
 				direction,
 				juiceOwnerId: actorId,
-			} );
-			this.dialog = null;
+			};
 		} catch (err) {
-			console.log("error in request");
-			replyFn( null, err);
-			return;
+			const msg=  "error in request";
+			console.log(msg);
+			throw new Error(msg);
 		}
 	}
 
@@ -207,15 +207,15 @@ export class TagReviewSlaveSession extends SlaveSession {
 			this.dialog.setReviewList(reviewableList);
 	}
 
-	async onReviewRequest(replyFn, dataObj) {
+	async onReviewRequest( dataObj) {
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
 		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this);
 		const sendableTagList = reviewList.toSendableForm();
-		replyFn ( {
+		return {
 			tagList: sendableTagList,
 			state
-		});
+		};
 	}
 
 	async requestClarification	(itemId, ownerId) {
@@ -282,16 +282,14 @@ export class JuiceSpendingSessionS extends SlaveSession {
 		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
 	}
 
-	async onSpendRequest(replyFn,  data,_meta) {
+	async onSpendRequest(data,_meta) {
 		const{juiceId, ownerId, amount} = data
 		const actor = game.actors.get(ownerId);
 		if (actor) {
 			const juice = await actor.getJuice(juiceId);
 			await juice.spend(amount);
-			replyFn({confirm: true});
-			return;
+			return {confirm:true};
 		} else {
-			replyFn(null, "error");
 			throw new Error("Couldn't find actor");
 		}
 	}
@@ -338,7 +336,7 @@ export class DummySlaveSession extends SlaveSession {
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	async onJuiceRequest (replyFn, _dataobj) {
+	async onJuiceRequest ( _dataobj) {
 		if (!this.answer) this.answer = 42;
 		console.log("Request Received");
 		await CityHelpers.asyncwait(5);
@@ -346,12 +344,11 @@ export class DummySlaveSession extends SlaveSession {
 		this.getTimeExtension(10);
 		await CityHelpers.asyncwait(10);
 		if (this.answer == 42)
-			await replyFn( {
+			return {
 				amount: this.answer++
-			});
+			};
 		else
-			await replyFn( null, "error");
-		console.log("Replied Late ");
+			throw new Error("error");
 	}
 
 }
