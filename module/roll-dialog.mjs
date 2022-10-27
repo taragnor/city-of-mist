@@ -15,8 +15,6 @@ export class RollDialog extends Dialog {
 	#pendingJuice;
 	#oldButtonHTML
 
-
-
 	constructor(roll, moveId, actor) {
 		const title = localize("CityOfMist.dialog.roll.title");
 		const html  = `<div class="roll-dialog"></div>`;
