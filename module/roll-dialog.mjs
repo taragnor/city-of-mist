@@ -13,7 +13,6 @@ export class RollDialog extends Dialog {
 	#options;
 	#power;
 	#pendingJuice;
-	#acceptedJuice;
 	#oldButtonHTML
 
 
@@ -33,9 +32,6 @@ export class RollDialog extends Dialog {
 					callback: (html) => {
 						this.updateModifierPopup(html);
 						this.terminateSessions();
-						for (const {item, usedAmount} of this.#acceptedJuice) {
-							this.#modifierList.addReviewable(item, usedAmount, "approved");
-						}
 						const modifierList = this.#modifierList.toValidActivatedTagForm();
 						this.#resolve( {
 							modList: modifierList,
@@ -65,7 +61,6 @@ export class RollDialog extends Dialog {
 			);
 		this.#options = {};
 		this.#pendingJuice = [];
-		this.#acceptedJuice = [];
 	}
 
 	static instance() {
@@ -218,9 +213,6 @@ export class RollDialog extends Dialog {
 	async refreshHTML(_html) {
 		let activated = this.#modifierList.toValidActivatedTagForm();
 		const tagListReviewForm = this.#modifierList.slice();
-		for (const {item, usedAmount} of this.#acceptedJuice) {
-			tagListReviewForm.addReviewable(item, usedAmount, "approved");
-		}
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;
@@ -288,7 +280,7 @@ export class RollDialog extends Dialog {
 		}
 		const targetedJuice = arr.filter( x=> x.targets(targetCharacterId));
 		if (targetedJuice.length == 0) {
-			throw new Error("Lenght 0 wtf?!");
+			throw new Error("No juice available somehow?!");
 		}
 		targetedJuice.forEach( item => {
 			if (amount <= 0) {
@@ -298,15 +290,17 @@ export class RollDialog extends Dialog {
 			let targetAmt = Math.min (amount , item.system.amount);
 			amount -= targetAmt;
 			const usedAmount = targetAmt * direction;
-			this.#acceptedJuice.push( {
-				item,
-				usedAmount
-			});
-			// this.#modifierList.addReviewable(item, usedAmount, "approved");
-			if (! ( !game.user.isGM && CityHelpers.gmReviewEnabled() ) ) {
+			this.#modifierList.addReviewable(item, usedAmount, "pending");
+			if (this.#tagReviewSession) {
+				this.#tagReviewSession.updateList(this.#modifierList);
+			} else if (! ( !game.user.isGM && CityHelpers.gmReviewEnabled() ) ) {
 				this.#modifierList.approveAll()
+			} else {
+				this.spawnGMReview();
 			}
 		});
+		this.refreshConfirmButton();
+		this.refreshHTML();
 	}
 
 	updateModifierPopup(html = this.html) {

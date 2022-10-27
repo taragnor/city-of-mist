@@ -60,7 +60,7 @@ export class CityRoll {
 						return;
 					let {modList, options} = dialogReturn;
 
-					Debug(modList);
+					// Debug(modList);
 					this.#selectedList = modList;
 					this.#options = {...options,
 						...this.#options};
