@@ -6,31 +6,31 @@
 	<label>
 		{{localize "CityOfMist.terms.clueQuestion"}}
 	</label>
-	{{#if (not data.custom_tag) }}
+	{{#if (not item.system.custom_tag) }}
 	<div class="question" > {{data.question_letter}} - {{data.question}} </div>
 	{{else}}
 	<input type="text" class="tag-question-entry" name="data.question" value="{{data.question}}">
 	{{/if}}
-	{{#if (eq data.subtype "power")}}
+	{{#if (eq item.system.subtype "power")}}
 	<label for="crispy">
 		{{localize "CityOfMist.terms.crispyTag"}}
 	</label>
-	<input type="checkbox" class="item-checkbox" name="data.crispy" {{#if data.crispy}} checked{{/if}}>
+	<input type="checkbox" class="item-checkbox" name="data.crispy" {{#if item.system.crispy}} checked{{/if}}>
 	{{/if}}
-	{{#if (eq data.subtype "power")}}
+	{{#if (eq item.system..subtype "power")}}
 	<label for="broad">
 		{{localize "CityOfMist.terms.broadTag"}}
 	</label>
-	<input type="checkbox" class="item-checkbox" name="data.broad" {{#if data.broad}} checked{{/if}} >
+	<input type="checkbox" class="item-checkbox" name="data.broad" {{#if item.system.broad}} checked{{/if}} >
 	{{/if}}
-	{{#if (eq data.subtype "story")}}
+	{{#if (eq item.system.subtype "story")}}
 	<label for="broad">
 		{{localize "CityOfMist.terms.temporaryTag"}} </label>
-	<input type="checkbox" class="item-checkbox" name="data.temporary" {{#if data.temporary}} checked{{/if}} >
+	<input type="checkbox" class="item-checkbox" name="data.temporary" {{#if item.system.temporary}} checked{{/if}} >
 	{{/if}}
-	{{#if (eq data.subtype "story")}}
+	{{#if (eq item.system.subtype "story")}}
 	<label for="broad"> {{localize "CityOfMist.terms.permanentStoryTag"}} </label>
-	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if data.permanent}} checked{{/if}} >
+	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if item.system.permanent}} checked{{/if}} >
 	{{/if}}
 	<div class="description-header">{{localize "CityOfMist.terms.description"}}</div>
 	<textarea name="data.description">{{item.system.description}}</textarea>
