@@ -232,7 +232,7 @@ export class CityHelpers {
 				return before;
 			}
 			const parts2 = rest.split("}");
-			// const inner = parts2.shift();
+			parts2.shift();
 			const after = parts2.join("}");
 			text = before + after;
 		}
