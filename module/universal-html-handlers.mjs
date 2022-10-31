@@ -6,7 +6,7 @@ import {CityLogger} from "./city-logger.mjs";
 export class HTMLHandlers {
 
 	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
-	static applyBasicHandlers(htmlorJQueryElement) {
+	static applyBasicHandlers(htmlorJQueryElement, allowCreation = true) {
 		const html = $( htmlorJQueryElement );
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").click(SelectedTagsAndStatus.selectTagHandler);
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
@@ -23,8 +23,10 @@ export class HTMLHandlers {
 		html.find('.item-edit-context .tag .name').click(HTMLHandlers.tagEdit);
 		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers.tagEdit);
 		html.find('.item-edit-context .status .name').click(HTMLHandlers.statusEdit);
-		html.find('.create-status').click(HTMLHandlers.createStatus);
-		html.find('.create-story-tag').click(HTMLHandlers.createStoryTag);
+		if (allowCreation) {
+			html.find('.create-status').click(HTMLHandlers.createStatus);
+			html.find('.create-story-tag').click(HTMLHandlers.createStoryTag);
+		}
 	}
 
 	static async createStatus(event) {

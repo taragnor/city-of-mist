@@ -44,23 +44,10 @@ export class StoryTagDisplayContainer {
 	}
 
 	updateHandlers() {
-		HTMLHandlers.applyBasicHandlers(this.element);
+		HTMLHandlers.applyBasicHandlers(this.element, false);
 		const html = $(this.element);
-		html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
+	html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
 		html.find(".create-status").click( () => SceneTags.createSceneStatus() );
-
-		// $(this.dataElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
-		// $(this.dataElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
-		// $(this.dataElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
-		// $(this.dataElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
-		// $(this.dataElement).find(".create-story-tag").click(() => SceneTags.createSceneTag() );
-		// $(this.dataElement).find(".create-status").click( () => SceneTags.createSceneStatus() );
-		// $(this.dataElement).find('.status-delete').click(HTMLHandlers.deleteStatus.bind(this));
-		// $(this.dataElement).find('.tag-delete').click(HTMLHandlers.deleteTag);
-		// $(this.dataElement).find('.status-add').click(HTMLHandlers.statusAdd);
-		// $(this.dataElement).find('.status-subtract').click(HTMLHandlers.statusSubtract);
-		// $(this.dataElement).find('.tag-burn').click(HTMLHandlers.burnTag);
-		// $(this.dataElement).find('.tag-unburn').click(HTMLHandlers.unburnTag.bind(this));
 
 	}
 
