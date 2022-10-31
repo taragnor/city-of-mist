@@ -11,7 +11,7 @@ export class HTMLHandlers {
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").click(SelectedTagsAndStatus.selectTagHandler);
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
-		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers._statusEdit);
+		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers.statusEdit);
 		html.find(".item-selection-context .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
 		html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		html.find('.status-delete').click(HTMLHandlers.deleteStatus);
