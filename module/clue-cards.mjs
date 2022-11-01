@@ -18,7 +18,6 @@ export class ClueChatCards {
 		const messageId = html.data("messageId");
 		const message = game.messages.get(messageId);
 		const question = $(html).find(".clue-reveal").data("question");
-		// const answer = $(html).find(".clue-reveal").data("answer");
 		const actorId = $(html).find(".clue-reveal").data("actorId");
 		const method = $(html).find(".clue-reveal").data("method");
 		const source = $(html).find(".clue-reveal").data("source");
@@ -28,17 +27,13 @@ export class ClueChatCards {
 		if (!metaSource)
 			console.warn("No metasource for clue");
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
-		// const msg = await  message.update( {content:new_html});
-		// await ui.chat.updateMessage( msg, false);
 		const user = message.user;
-		const speaker = message.speaker;
 		await message.delete();
 		const actor = CityDB.getActorById(actorId);
-		// console.log(new_html);
 		console.log("Creating message");
-		const msg = await CityLogger.sendToChat2(new_html, {actor});
-		await msg.update( {user} );
-
+		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:""});
+		Debug(msg);
+		await msg.update( {"user" : user.id} );
 	}
 
 	static async clueEditButtonHandlers(_app, html, _data) {
