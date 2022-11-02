@@ -259,6 +259,7 @@ export class CityHelpers {
 	}
 
 	static unifiedSubstitution(text, status_mod = 0) {
+		// console.debug(`status_mod: ${status_mod}`);
 		// const regex= /\[([ \w,]*:)?([\w\- ]+)\]/gm;
 		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;
 		let match = regex.exec(text);

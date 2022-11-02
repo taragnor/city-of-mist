@@ -950,7 +950,7 @@ export class CityActor extends Actor {
 	}
 
 	hasTemplate(id) {
-		if (!this?.data?.data?.template_ids)
+		if (!this?.system?.template_ids)
 			return false;
 		return this.system.template_ids.includes(id);
 	}

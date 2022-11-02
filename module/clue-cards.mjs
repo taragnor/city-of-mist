@@ -30,9 +30,9 @@ export class ClueChatCards {
 		const user = message.user;
 		await message.delete();
 		const actor = CityDB.getActorById(actorId);
-		console.log("Creating message");
 		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:""});
-		Debug(msg);
+		// console.log("Creating message");
+		// Debug(msg);
 		await msg.update( {"user" : user.id} );
 	}
 

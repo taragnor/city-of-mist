@@ -684,7 +684,7 @@ export class CityItem extends Item {
 		const text = CityHelpers.newlineSubstitution(this.system.description);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);
-		let collective_size = actor.system?? 0;
+		let collective_size = actor?.system?.collective_size ?? 0;
 		collective_size = Number(collective_size);
 		if (Number.isNaN(collective_size)) {
 			collective_size = 0;
