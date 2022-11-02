@@ -66,11 +66,11 @@ export class SceneTags {
 
 	}
 
-	static async createSceneTag(name = "", restrictDuplicates= true) {
+	static async createSceneTag(name = "", restrictDuplicates= true, options) {
 		if (!name)
 			return await this.#createSceneTagInteractive();
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const tag = await container.createStoryTag(name, restrictDuplicates);
+		const tag = await container.createStoryTag(name, restrictDuplicates, options);
 		if (tag)
 			await tag.update( {"data.sceneId": game.scenes.current.id});
 		else
@@ -79,11 +79,11 @@ export class SceneTags {
 		return tag;
 	}
 
-	static async createSceneStatus(name = "", tier = 1, pips=0) {
+	static async createSceneStatus(name = "", tier = 1, pips=0, options= {}) {
 		if (!name)
 			return await this.#createSceneStatusInteractive();
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const status = await container.addOrCreateStatus(name, tier, pips);
+		const status = await container.addOrCreateStatus(name, tier, pips, options);
 		await status.update( {"data.sceneId": game.scenes.current.id});
 		Hooks.callAll("createSceneItem", status, game.scenes.current);
 		return status;

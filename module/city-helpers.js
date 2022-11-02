@@ -269,14 +269,14 @@ export class CityHelpers {
 		while (match != null) {
 			if ( loop ++ > 1000 ) break;
 			let options = CityHelpers.parseOptions(match[1]);
-			const name = match[2];
+			const name = match[2].trim();
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
 				let tier = name.at(-1);
-				if (tier != "X" && !options.includes("ignore-collective")) {
+				if (tier != "X" && !options.ignoreCollective) {
 					tier = String(Number(tier) + status_mod);
 				}
-				const autoStatus = options.includes("auto-apply") ? "auto-status" : "";
+				const autoStatus = options.autoApply ? "auto-status" : "";
 				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
 				text = text.replace(match[0], newtext);
 				statuslist.push( {
@@ -305,20 +305,28 @@ export class CityHelpers {
 		if (! optionString?.length)
 			return [];
 		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
-		return optionString.split(",")
+		optionString = optionString.split(",")
 			.map( option => {
 			switch (option.trim()) {
 				case "a":
-					return "auto-apply";
+					return "autoApply";
 				case "i":
-					return "ignore-collective";
+					return "ignoreCollective";
 				case "s":
 					return "scene";
+				case "p":
+					return "permanent";
+				case "t":
+					return "temporary";
 				default:
 					console.warn(`Unrecognized option: ${option}`);
 					return "";
 			}
 		});
+		return optionString.reduce( (acc, item) => {
+			acc[item] = true;
+			return acc;
+		}, {});
 	}
 
 	static isStatusParseable(name) {
@@ -350,7 +358,7 @@ export class CityHelpers {
 				const tier = match[2];
 				return { name,
 					tier,
-					options:["auto-apply"]
+					options:{autoApply: true}
 				};
 			}
 			return null;

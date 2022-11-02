@@ -375,9 +375,11 @@ export class CityActor extends Actor {
 		return (await this.createEmbeddedDocuments("Item", [obj]))[0];
 	}
 
-	async createNewStatus (name, tier=1, pips=0) {
+	async createNewStatus (name, tier=1, pips=0, options= {}) {
+		const temporary  = options.temporary ?? false;
+		const permanent  = options.permanent ?? false;
 		const obj = {
-			name, type: "status", data : {pips, tier}};
+			name, type: "status", data : {pips, tier, temporary, permanent}};
 		return await this.createNewItem(obj);
 	}
 
@@ -623,7 +625,7 @@ export class CityActor extends Actor {
 		return this.items.filter(x => x.type == "improvement" && x.system.theme_id.length == 0);
 	}
 
-	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false) {
+	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options = {}) {
 		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getTags().find( x=> x.name == name))
@@ -633,7 +635,8 @@ export class CityActor extends Actor {
 		const theme_id = "";
 		const crispy = false;
 		const question = "";
-		const temporary = !(game.users.current.isGM);
+		const temporary = options?.temporary ?? !(game.users.current.isGM);
+		const permanent = options?.permanent ?? false;
 		const question_letter = "_";
 		const subtype = "story";
 		const obj = {
@@ -646,7 +649,8 @@ export class CityActor extends Actor {
 				question,
 				crispy,
 				burned,
-				temporary
+				temporary,
+				permanent
 			}
 		};
 		return await this.createNewItem(obj);
@@ -887,19 +891,29 @@ export class CityActor extends Actor {
 		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove(this);
 		if (await CityHelpers.sendToChat(html, options)) {
 			for (const {name : tagname, options} of taglist) {
-				if (!options.includes("scene"))
-					await this.createStoryTag(tagname, true);
-				else
-					await  SceneTags.createSceneTag(tagname, true);
+				await this._processMoveTag(tagname.trim(), options);
 			}
-			for (const {name, tier, options} of statuslist
-				.filter( x=>x.options.includes("auto-apply"))
-			)
-				await this.addOrCreateStatus(name, tier);
-			for (const {name, tier, options} of statuslist
-				.filter( x=>x.options.includes("scene"))
-			)
-				await SceneTags.createSceneStatus(name, tier);
+			for (const {name, tier, options} of statuslist)
+				await this._processMoveStatus(name, tier, options);
+		}
+	}
+
+	async _processMoveTag(tagname, options) {
+		if (!options.scene)
+			await this.createStoryTag(tagname.trim(), true, options);
+		else
+			await SceneTags.createSceneTag(tagname.trim(), true, options);
+	}
+
+	async _processMoveStatus(name, tier, options) {
+		//TODO: confvert options to object with false /true
+		if (options.scene) {
+			await SceneTags.createSceneStatus(name.trim(), tier, options);
+			return;
+		}
+		if (options.autoApply) {
+				await this.addOrCreateStatus(name.trim(), tier, 0, options);
+			return;
 		}
 	}
 
@@ -911,7 +925,7 @@ export class CityActor extends Actor {
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2, tier2, pips=0) {
+	async addOrCreateStatus (name2, tier2, pips=0, options= {}) {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		let status = this.hasStatus(name2);
@@ -921,7 +935,7 @@ export class CityActor extends Actor {
 			}
 			return await status.addStatus(tier2);
 		} else {
-			return await this.createNewStatus(name2, tier2, pips);
+			return await this.createNewStatus(name2, tier2, pips, options);
 		}
 	}
 
