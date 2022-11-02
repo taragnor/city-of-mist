@@ -389,13 +389,13 @@ export class CityRoll {
 
 	async #rollCleanupAndAftermath () {
 		const tags = this.#tags;
+		const statuses = this.#modifiers.filter( x=> x.type == "status");
 		const options = this.#options;
 		try {
 			const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
 				try {
-					//TODO: Bug here in this code but I stopped awaiting to hopefully not prevent it from exiting
 					CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId, Math.abs(hh.amount)));
 				} catch (e) {
 					console.warn("Error in remote Juice spending");
@@ -420,6 +420,16 @@ export class CityRoll {
 			}
 			if (tag.system.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
+			}
+		}
+		for (const {ownerId, id, tokenId} of statuses) {
+			const status = await CityHelpers.getOwner(ownerId, tokenId).getStatus(id);
+			if (!status)
+				throw new Error("Couldn't find status");
+			Debug(status);
+			if (status.isTemporary()) {
+				console.log(`Deleted status ${status.name}`);
+				status.delete();
 			}
 		}
 	}

@@ -524,6 +524,9 @@ export class CityItem extends Item {
 	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
 	isStatus() { return this.type == "status"; }
 
+	isTemporary() {return this.system.temporary ?? "false";}
+	isPermanent() { return this.system.permanent ?? "false";}
+
 	getDisplayedName() {
 		switch (this.type) {
 			case "journal":
