@@ -60,7 +60,6 @@ export class CityRoll {
 						return;
 					let {modList, options} = dialogReturn;
 
-					// Debug(modList);
 					this.#selectedList = modList;
 					this.#options = {...options,
 						...this.#options};
@@ -426,7 +425,6 @@ export class CityRoll {
 			const status = await CityHelpers.getOwner(ownerId, tokenId).getStatus(id);
 			if (!status)
 				throw new Error("Couldn't find status");
-			Debug(status);
 			if (status.isTemporary()) {
 				console.log(`Deleted status ${status.name}`);
 				status.delete();
