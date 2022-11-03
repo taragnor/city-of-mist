@@ -49,6 +49,18 @@ export class ReviewableModifierList extends Array {
 
 	}
 
+	/** flips the direction of the item with amatching id, throws an error if it can't find the id */
+	flipAmount (id) {
+		const item = this.find( x=> x.item.id == id);
+		if (!item) {
+			Debug(this);
+			throw new Error(`Can't find item with id ${id} in RevieableList`);
+		}
+		item.amount *= -1;
+		if (!game.user.isGM)
+			item.review = "pending";
+	}
+
 	static fromSendableForm(sendableArray) {
 		const items = sendableArray.map ( ({sendableItem, review, amount}) => {
 			return {
@@ -61,14 +73,14 @@ export class ReviewableModifierList extends Array {
 	}
 
 	static #convertToSendableItem(item) {
-			switch (item.type) {
-				case "tag":
-				case "status":
-				case "juice":
-					return SelectedTagsAndStatus.fullTagOrStatusToShorthand(item);
-				default:
-					throw new Error(`${item.type} isn't yet implemented to send`);
-			}
+		switch (item.type) {
+			case "tag":
+			case "status":
+			case "juice":
+				return SelectedTagsAndStatus.fullTagOrStatusToShorthand(item);
+			default:
+				throw new Error(`${item.type} isn't yet implemented to send`);
+		}
 	}
 
 	static #convertFromSendableItem(sendableItem) {

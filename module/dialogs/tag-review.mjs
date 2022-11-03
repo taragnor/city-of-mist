@@ -1,5 +1,6 @@
 import {EnhancedDialog} from "./enhanced-dialog.mjs";
 import {HTMLHandlers} from "../universal-html-handlers.mjs";
+import {CityHelpers} from "../city-helpers.js";
 
 
 export class TagReviewDialog extends EnhancedDialog {
@@ -92,10 +93,13 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
+
 	setListeners(_html) {
 		const html = this.element;
 		$(html).find(".tag .name").click( HTMLHandlers.tagEdit);
+		$(html).find(".tag .name").rightclick( this.flipTag.bind(this) );
 		$(html).find(".status .name").click( HTMLHandlers.statusEdit);
+		$(html).find(".status .name").rightclick( this.flipStatus.bind(this));
 		$(html).find(".item-control.approved").click(
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
@@ -138,6 +142,33 @@ export class TagReviewDialog extends EnhancedDialog {
 		const ret = await dialog.getResult();
 		this._instance = null;
 		return ret;
+	}
+
+	async flipTag(event) {
+		const tagId = getClosestData(event, "tagId");
+		const actorId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(actorId, tokenId);
+		const tag = await owner.getTag(tagId);
+		if (!tag)
+			throw new Error(`Can't find tag ${tagId} in ${owner.name}`);
+		CityHelpers.playTagOff();
+		await this.flipItem(tag);
+	}
+
+	async flipStatus(event) {
+		const status_id = getClosestData(event, "statusId");
+		const actorId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const owner = await CityHelpers.getOwner(actorId, tokenId);
+		const status = await owner.getStatus(status_id);
+		await this.flipItem(status);
+	}
+
+	async flipItem(item) {
+		this.#reviewList.flipAmount(item.id);
+		this.#session.updateList(this.#reviewList);
+		this.refreshHTML();
 	}
 
 }
