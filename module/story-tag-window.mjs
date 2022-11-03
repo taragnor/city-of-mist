@@ -25,6 +25,8 @@ export class StoryTagDisplayContainer {
 		Hooks.on("deleteActor", ()=> this.refreshContents() );
 		Hooks.on("updateSceneTags", () => this.refreshContents() );
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
+		Hooks.on("createCombatant", () =>this.refreshContents() );
+		Hooks.on("deleteCombatant", () =>this.refreshContents());
 
 	}
 
@@ -34,8 +36,15 @@ export class StoryTagDisplayContainer {
 			this.dataElement.innerHTML= "";
 			return false;
 		}
+		const combatActors = ui.combat.combats
+			.map( combat => {
+				return combat.combatants.map( battler => battler.actor);
+			})
+			.flat(1);
+		console.log(combatActors);
 		const templateData = {
-			tagsAndStatuses
+			tagsAndStatuses,
+			combatActors
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		this.dataElement.innerHTML = html;

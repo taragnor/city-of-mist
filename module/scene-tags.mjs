@@ -62,8 +62,16 @@ export class SceneTags {
 			return [];
 		}
 		const container = await this.#getSceneContainer(scene);
-		return container.items.filter( x=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id);
-
+		return container.items
+			.filter( x=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id)
+			.sort( (a, b) => {
+				if (a.type != b.type) {
+					if (a.type == "tag")
+						return -1;
+					else return 1;
+				}
+				return a.displayedName.localeCompare(b.displayedName);
+			});
 	}
 
 	static async createSceneTag(name = "", restrictDuplicates= true, options) {
