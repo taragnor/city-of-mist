@@ -32,4 +32,22 @@
 	{{/each}}
 </ul>
 {{/each}}
+<hr>
+{{#each showcasedActors as |actor|}}
+<div class="combatant-name">
+	{{actor.displayedName}}
+</div>
+<ul class="tag-or-status-list">
+	{{#each actor.my_story_tags as |tag|}}
+	{{#if tag.isShowcased}}
+	{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
+	{{/if}}
+	{{/each}}
+	{{#each actor.my_statuses as |status|}}
+	{{#if status.isShowcased}}
+	{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
+	{{/if}}
+	{{/each}}
+</ul>
+{{/each}}
 

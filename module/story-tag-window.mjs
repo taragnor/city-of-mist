@@ -41,9 +41,14 @@ export class StoryTagDisplayContainer {
 				return combat.combatants.map( battler => battler.actor);
 			})
 			.flat(1);
+		const showcasedActors = game.actors
+			.filter( actor => !combatActors.includes(actor)
+				&& actor.items.some( item=> item.isShowcased)
+			);
 		const templateData = {
 			tagsAndStatuses,
-			combatActors
+			combatActors,
+			showcasedActors
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		this.dataElement.innerHTML = html;

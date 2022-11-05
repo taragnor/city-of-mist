@@ -32,6 +32,12 @@
 	<label for="broad"> {{localize "CityOfMist.terms.permanentStoryTag"}} </label>
 	<input type="checkbox" class="item-checkbox" name="data.permanent" {{#if item.system.permanent}} checked{{/if}} >
 	{{/if}}
+	{{#if (showcasePossible item)}}
+	<label for="showcased">
+		{{localize "CityOfMist.terms.showcased"}}
+	</label>
+	<input type="checkbox" class="item-checkbox" name="data.showcased" {{#if item.system.showcased}} checked{{/if}}>
+	{{/if}}
 	<div class="description-header">{{localize "CityOfMist.terms.description"}}</div>
 	<textarea name="data.description">{{item.system.description}}</textarea>
 	<label> {{localize "CityOfMist.misc.subtagOf"}}</label>

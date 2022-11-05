@@ -1,5 +1,6 @@
 import {HandlebarsHelpers} from "./tools/handlebars-helpers.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
@@ -180,6 +181,19 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'isOldFormQuestion': function (question) {
 			return typeof question == "string";
+		},
+
+		'showcasePossible': function (tagOrStatus) {
+			if (!CityHelpers.sceneTagWindowEnabled()) return false;
+			const isTokenActor = !!tagOrStatus?.parent?.token;
+			switch (tagOrStatus.type) {
+				case "status":
+					return !isTokenActor;
+				case "tag":
+					return !isTokenActor && tagOrStatus.isStoryTag();
+				default:
+					return false;
+			}
 		}
 
 	}; //end of object holding helpers

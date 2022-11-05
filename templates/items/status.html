@@ -9,6 +9,12 @@
 	<input id="temporary-status-checkbox" class="item-checkbox" type="checkbox" name="data.temporary" value="{{data.temporary}}" {{#if data.temporary}} checked {{/if}}>
 	<label class="dialog-label" for="permanent"> Permanent </label>
 	<input id="permanent-status-checkbox" class="item-checkbox" type="checkbox" name="data.permanent" value="{{data.permanent}}" {{#if data.permanent}} checked {{/if}}>
-	<HR>
+	{{#if (showcasePossible item)}}
+	<label for="showcased">
+		{{localize "CityOfMist.terms.showcased"}}
+	</label>
+	<input type="checkbox" class="item-checkbox" name="data.showcased" {{#if item.system.showcased}} checked{{/if}}>
+	{{/if}}
+	<hr>
 </form>
 

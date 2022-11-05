@@ -53,8 +53,20 @@ export class CityItem extends Item {
 		return this.system.subtagRequired && !this.system.parentId;
 	}
 
+	get isShowcased() {
+		return (this.system?.showcased ?? false);
+	}
+
 	isDowntimeTriggeredMove() {
 		return (this.system.subtype == "downtime");
+	}
+
+	get subtype() {
+		return this.system.subtype;
+	}
+
+	isStoryTag() {
+		return this.subtype == "story";
 	}
 
 	isImprovementActivated(move_id, actor) {
