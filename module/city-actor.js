@@ -800,7 +800,12 @@ export class CityActor extends Actor {
 				return owned.name;
 			return null;
 		};
-		return this._tokenname ?? this?.token?.name ?? controlled() ?? this?.token?.name ?? this.name ?? "My Name is Error";
+		return this?.token?.name
+			?? controlled()
+			?? this?.token?.name
+			?? this?.prototypeToken?.name
+			?? this?.name
+			?? "My Name is Error";
 	}
 
 	getDependencies() {

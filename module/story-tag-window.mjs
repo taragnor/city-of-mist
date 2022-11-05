@@ -41,7 +41,6 @@ export class StoryTagDisplayContainer {
 				return combat.combatants.map( battler => battler.actor);
 			})
 			.flat(1);
-		console.log(combatActors);
 		const templateData = {
 			tagsAndStatuses,
 			combatActors

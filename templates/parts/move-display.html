@@ -1,9 +1,9 @@
 <section data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
 	<div class="description-header"> Description </div>
-	<textarea name="data.description" type="text">{{data.description}}</textarea>
+	<textarea name="data.description" type="text">{{item.system.description}}</textarea>
 	<label class="type-header"> Type </div>
 	<select name="data.type">
-		{{#select data.type}}
+		{{#select item.system.type}}
 		<option value="standard">Standard </option>
 		<option value="noroll"> No Roll </option>
 		<option value="logosroll"> Logos Roll </option>
@@ -12,29 +12,29 @@
 	</select>
 	<label class="type-header"> Category </div>
 	<select name="data.category">
-		{{#select data.category}}
+		{{#select item.system.category}}
 		<option value="Core">Core </option>
 		<option value="Advanced"> Advanced </option>
 		<option value="SHB"> Stop.Holding.Back </option>
 		{{/select}}
 	</select>
 	<div class="move-result-header"> Always Displayed</div>
-	<textarea type="text" name="data.always">{{data.always}}</textarea>
+	<textarea type="text" name="data.always">{{item.system.always}}</textarea>
 	<div class="move-result-header"> On Miss </div>
-	<textarea type="text" name="data.onMiss">{{data.onMiss}}</textarea>
+	<textarea type="text" name="data.onMiss">{{item.system.onMiss}}</textarea>
 	<div class="move-result-header"> On Partial </div>
-	<textarea type="text" name="data.onPartial">{{data.onPartial}}</textarea>
+	<textarea type="text" name="data.onPartial">{{item.system.onPartial}}</textarea>
 	<div class="move-result-header"> On Success </div>
-	<textarea type="text" name="data.onSuccess">{{data.onSuccess}}</textarea>
+	<textarea type="text" name="data.onSuccess">{{item.system.onSuccess}}</textarea>
 	<div class="move-result-header"> On Dynamite </div>
-	<textarea type="text" name="data.onDynamite">{{data.onDynamite}}</textarea>
+	<textarea type="text" name="data.onDynamite">{{item.system.onDynamite}}</textarea>
 	<div class="move-list-section">
 		<div class="move-list-header"> List Elements
 			{{#if (eq locked false)}}
 			<a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
 			{{/if}}
 		</div>
-		{{#each data.listConditionals as |li index| }}
+		{{#each item.system.listConditionals as |li index| }}
 		<div class="move-conditonal-block" data-index="{{index}}">
 			<select class="move-condition-input">
 				{{#select li.condition}}
@@ -71,11 +71,11 @@
 				{{/select}}
 			</select>
 	<label> Move Special Identifiers </label>
-	<input type="text" value="{{data.effect_class}}" name="data.effect_class" title="Advanced Uses (special coded)">
+	<input type="text" value="{{item.system.effect_class}}" name="data.effect_class" title="Advanced Uses (special coded)">
 	<label> Move Abbreviation </label>
-	<input type="text" value="{{data.abbreviation}}" name="data.abbreviation" title="Abbreviation Code (All caps)">
+	<input type="text" value="{{item.system.abbreviation}}" name="data.abbreviation" title="Abbreviation Code (All caps)">
 	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}} title="Will be replaced by non-overrideable move of same name"> <br>
+	<input type="checkbox" name="data.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable move of same name"> <br>
 
 	{{/if}}
 

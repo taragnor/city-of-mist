@@ -12,7 +12,7 @@ export class EnhancedActorDirectory {
 				ui.actors.render(true);
 				return true;
 			}
-			if (!actor.isToken && diff?.token?.name)
+			if (!actor.isToken && diff?.prototypeToken?.name)
 				ui.actors.render(true);
 			return true;
 		});
