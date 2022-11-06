@@ -59,8 +59,8 @@ export class StoryTagDisplayContainer {
 			.filter ( item => item.isShowcased())
 			.length;
 		}, 3);
-		const shrink = combatActorsSize + showcasedActorsSize > 40;
-		console.log(`Shrink: ${shrink}, cas: ${combatActorsSize}, saz: ${showcasedActorsSize}`);
+		const shrink = (combatActorsSize + showcasedActorsSize) > 50;
+		// console.log(`Shrink: ${shrink}, cas: ${combatActorsSize}, saz: ${showcasedActorsSize}`);
 		const templateData = {
 			tagsAndStatuses,
 			combatActors,
