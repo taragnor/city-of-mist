@@ -1,6 +1,7 @@
 import { ClueChatCards } from "./clue-cards.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 export class CityItem extends Item {
 
@@ -536,7 +537,7 @@ export class CityItem extends Item {
 	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
 	isStatus() { return this.type == "status"; }
 
-	isTemporary() {return this.system.temporary ?? "false";}
+	isTemporary() {return this.system.temporary ?? this.system.crispy ?? "false";}
 	isPermanent() { return this.system.permanent ?? "false";}
 
 	getDisplayedName() {
@@ -572,6 +573,15 @@ export class CityItem extends Item {
 			return await this.delete();
 		}
 		return obj;
+	}
+
+	async deleteTemporary() {
+		if (!this.isTemporary()) {
+			console.log.warn(`trying to delete non-temporary tag ${this.name}`);
+			return false;
+		}
+		await CityHelpers.playBurn();
+		await this.delete();
 	}
 
 	getAmount() {

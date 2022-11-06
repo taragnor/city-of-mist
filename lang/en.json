@@ -113,6 +113,8 @@
 "CityOfMist.terms.target": "Target",
 "CityOfMist.terms.scene": "Scene",
 "CityOfMist.terms.showcased": "Show in Scene Tag Window",
+"CityOfMist.terms.permanent": "Permanent",
+"CityOfMist.terms.temporary": "Temporary",
 
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
