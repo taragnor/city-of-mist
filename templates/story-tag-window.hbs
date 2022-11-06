@@ -1,8 +1,8 @@
 <div class="story-tag-window {{#if shrink}} font-shrink {{/if}}">
-	<div class="flex-row">
-		<div class="flex-wide combatant-name">
+	<div class="combatant-name flex-row">
+		<span class="name flex-wide">
 			{{localize "CityOfMist.terms.scene"}}
-		</div>
+		</span>
 		{{#if (isGM)}}
 		<div class="shrink-icon">
 			<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
@@ -26,12 +26,14 @@
 			<span class="name flex-wide">
 				{{combatant.displayedName}}
 			</span>
+			{{#if combatant.isOwner}}
 			<div class="shrink-icon">
 				<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" data-actor-id="{{combatant.id}}" > <i class="fas fa-tag"> </i> </a>
 			</div>
 			<div class="shrink-icon">
 				<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id="{{combatant.id}}" > <i class="fas fa-plus-square"></i></a>
 			</div>
+			{{/if}}
 		</div>
 	</div>
 
