@@ -40,7 +40,13 @@ export class StoryTagDisplayContainer {
 			.map( combat => {
 				return combat.combatants.map( battler => battler.actor);
 			})
-			.flat(1);
+			.flat(1)
+			.filter(actor => {
+				if (CityHelpers.sceneTagWindowFilterEmpty())
+					return actor.storyTagsAndStatuses.length > 0;
+				else return true;
+			}
+			);
 		const showcasedActors = game.actors
 			.filter( actor => !combatActors.includes(actor)
 				&& actor.items.some( item=> item.isShowcased)
@@ -59,9 +65,8 @@ export class StoryTagDisplayContainer {
 	updateHandlers() {
 		HTMLHandlers.applyBasicHandlers(this.element, false);
 		const html = $(this.element);
-	html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
+		html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
 		html.find(".create-status").click( () => SceneTags.createSceneStatus() );
-
 	}
 
 }

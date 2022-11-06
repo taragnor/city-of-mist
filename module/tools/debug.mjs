@@ -1,4 +1,6 @@
 export class Debug {
+	static DEBUG = true;
+
 	static Debug(str) {
 		if (self._DList == null)
 			self._DList= [];
@@ -15,6 +17,13 @@ export class Debug {
 		if (thing == undefined)
 			throw new Error("Attempting to get undefined Value");
 		return thing;
+	}
+
+	static setDebugMode(bool) {
+		if (typeof bool != "boolean")
+			throw new Error(`Expected boolean and got ${typeof bool} :${bool}`);
+		this.DEBUG = bool;
+		console.log(`Debug mode set to ${bool}`);
 	}
 }
 

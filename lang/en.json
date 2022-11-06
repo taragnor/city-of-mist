@@ -427,6 +427,10 @@
 
 "CityOfMist.settings.sceneTagWindow.name": "Scene Tags",
 "CityOfMist.settings.sceneTagWindow.hint": "Displays scene tags and statuses on the main screen (may cause screen clutter)",
+"CityOfMist.settings.sceneTagWindow.choice0": "No Scene Tag Window",
+"CityOfMist.settings.sceneTagWindow.choice1": "Include combatants with at least one tag or status",
+"CityOfMist.settings.sceneTagWindow.choice2": "Include all combatants on combat tracker",
+
 
 "CityOfMist.settings.devMode.name": "Developer Mode",
 "CityOfMist.settings.devMode.hint": "Exposes various internal variables of the system (advanced use only).",
@@ -450,6 +454,9 @@
 "CityOfMist.settings.system.0": "CoM Classic",
 "CityOfMist.settings.system.1": "CoM Reloaded",
 "CityOfMist.settings.system.2": "Custom",
+
+"CityOfMist.settings.debugMode.name": "Debug Mode",
+"CityOfMist.settings.debugMode.hint": "Turns on internal Javascript debug code",
 
 "CityOfMist.tooltip.createStory": "Create Story Tag",
 "CityOfMist.tooltip.createStatus": "Create New Status",

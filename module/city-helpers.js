@@ -790,7 +790,13 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static sceneTagWindowEnabled() {
-		return game.settings.get('city-of-mist', "sceneTagWindow") ?? false;
+		const setting = game.settings.get('city-of-mist', "sceneTagWindow");
+		return setting != "none" ?? false;
+	}
+
+	static sceneTagWindowFilterEmpty() {
+		const setting = game.settings.get('city-of-mist', "sceneTagWindow");
+		return setting == "omitEmpty" ?? false;
 	}
 
 	static altPowerEnabled() {

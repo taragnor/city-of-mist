@@ -80,6 +80,10 @@ export class CityActor extends Actor {
 		return this?.token?.parent?.id ?? "";
 	}
 
+	get storyTagsAndStatuses() {
+		return this.my_statuses.concat(this.my_story_tags);
+	}
+
 	hasHelpFor(actorId) {
 		return this.helpPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
 

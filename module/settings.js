@@ -1,4 +1,7 @@
+import {Debug} from "./tools/debug.mjs";
+
 export const registerSystemSettings = function() {
+
 
 	// game.settings.register("city-of-mist", "color-theme", {
 	// 	name: "Color Scheme",
@@ -205,8 +208,13 @@ export const registerSystemSettings = function() {
 		hint: localize("CityOfMist.settings.sceneTagWindow.hint"),
 		scope: "world",
 		config: true,
-		type: Boolean,
-		default: true,
+		type: String,
+		default: "all",
+		choices: {
+			"none" : localize("CityOfMist.settings.sceneTagWindow.choice0"),
+			"omitEmpty": localize("CityOfMist.settings.sceneTagWindow.choice1"),
+			"full": localize("CityOfMist.settings.sceneTagWindow.choice2")
+		},
 		restrict: true,
 		onChange: _ => window.location.reload()
 	});
@@ -222,81 +230,81 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
-		// **************************************************
-		// ************   Developer Settings  ************* *
-		// **************************************************
+	// **************************************************
+	// ************   Developer Settings  ************* *
+	// **************************************************
 
-		game.settings.register("city-of-mist", "movesInclude_core", {
-			name: "Include Core Moves",
-			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
-			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
-			type: String,
-			default: "classic",
-			choices: {
-				"classic" : "Classic City of Mist core moves",
-				"reloaded": "CoM: Reloaded core moves",
-				"none": "No core moves",
-			},
-			restrict: true,
-			onChange: _ => {
-				game.settings.set('city-of-mist', "system", "custom");
-				setTimeout(() =>  window.location.reload(), 500);
-			}
-		});
+	game.settings.register("city-of-mist", "movesInclude_core", {
+		name: "Include Core Moves",
+		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : "Classic City of Mist core moves",
+			"reloaded": "CoM: Reloaded core moves",
+			"none": "No core moves",
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+			setTimeout(() =>  window.location.reload(), 500);
+		}
+	});
 
-		game.settings.register("city-of-mist", "movesInclude_advanced", {
-			name: "Include Advanced Moves",
-			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
-			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
-			type: String,
-			default: "classic",
-			choices: {
-				"classic" : "Classic City of Mist advanced moves",
-				"none": "No advanced moves",
-			},
-			restrict: true,
-			onChange: _ => {
-				game.settings.set('city-of-mist', "system", "custom");
-				setTimeout(() =>  window.location.reload(), 500);
-			}
-		});
+	game.settings.register("city-of-mist", "movesInclude_advanced", {
+		name: "Include Advanced Moves",
+		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : "Classic City of Mist advanced moves",
+			"none": "No advanced moves",
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+			setTimeout(() =>  window.location.reload(), 500);
+		}
+	});
 
-		game.settings.register("city-of-mist", "statusAdditionSystem", {
-			name: localize("CityOfMist.settings.statusAdditionSystem.name"),
-			hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
-			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
-			type: String,
-			default: "classic",
-			choices: {
-				"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
-				"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
-				"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
-			},
-			restrict: true,
-			onChange: _ => {
-				game.settings.set('city-of-mist', "system", "custom");
-			}
-		});
+	game.settings.register("city-of-mist", "statusAdditionSystem", {
+		name: localize("CityOfMist.settings.statusAdditionSystem.name"),
+		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
+			"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
+			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+		}
+	});
 
-		game.settings.register("city-of-mist", "statusSubtractionSystem", {
-			name: localize("CityOfMist.settings.statusSubtractionSystem.name"),
-			hint: localize("CityOfMist.settings.statusSubtractionSystem.hint"),
-			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
-			type: String,
-			default: "classic",
-			choices: {
-				"classic" : localize("CityOfMist.settings.statusSubtractionSystem.0"),
-				"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1")
-			},
-			restrict: true,
-			onChange: _ => {
-				game.settings.set('city-of-mist', "system", "custom");
-			}
-		});
+	game.settings.register("city-of-mist", "statusSubtractionSystem", {
+		name: localize("CityOfMist.settings.statusSubtractionSystem.name"),
+		hint: localize("CityOfMist.settings.statusSubtractionSystem.hint"),
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : localize("CityOfMist.settings.statusSubtractionSystem.0"),
+			"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1")
+		},
+		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+		}
+	});
 
 	game.settings.register("city-of-mist", "altPower", {
 		name: localize("CityOfMist.settings.altPower.name"),
@@ -307,6 +315,24 @@ export const registerSystemSettings = function() {
 		default: false,
 		restrict: true,
 	});
+
+	game.settings.register("city-of-mist", "debugMode", {
+		name: localize("CityOfMist.settings.debugMode.name"),
+		hint: localize("CityOfMist.settings.debugMode.hint"),
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "devMode") == true),
+		type: Boolean,
+		default: false,
+		restrict: true,
+		onChange: val => {
+			Debug.setDebugMode(val);
+		},
+	});
+
+	const devMode = game.settings.get("city-of-mist", "devMode")
+	const debug = game.settings.get("city-of-mist", "debugMode");
+	Debug.setDebugMode(devMode && debug);
+
 } // end of custom settings
 
 
