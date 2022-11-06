@@ -52,7 +52,6 @@ export class HTMLHandlers {
 		const ownerId = getClosestData(event, "ownerId");
 		const tokenId = getClosestData(event, "tokenId");
 		const sceneId = getClosestData(event, "sceneId");
-		console.warn("firing");
 		const owner = await CityHelpers.getOwner(ownerId, tokenId, sceneId);
 		const retobj = await owner.createStoryTag();
 		const tag = await owner.getTag(retobj.id);

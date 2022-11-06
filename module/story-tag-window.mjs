@@ -51,10 +51,21 @@ export class StoryTagDisplayContainer {
 			.filter( actor => !combatActors.includes(actor)
 				&& actor.items.some( item=> item.isShowcased)
 			);
+		const combatActorsSize= combatActors.reduce ( (acc, x) => {
+			return acc + 2 + x.storyTagsAndStatuses.length;
+		}, 3);
+		const showcasedActorsSize = showcasedActors.reduce ( (acc, x) => {
+			return acc + 2 + x.storyTagsAndStatuses
+			.filter ( item => item.isShowcased())
+			.length;
+		}, 3);
+		const shrink = combatActorsSize + showcasedActorsSize > 40;
+		console.log(`Shrink: ${shrink}, cas: ${combatActorsSize}, saz: ${showcasedActorsSize}`);
 		const templateData = {
 			tagsAndStatuses,
 			combatActors,
-			showcasedActors
+			showcasedActors,
+			shrink
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		this.dataElement.innerHTML = html;
@@ -65,8 +76,36 @@ export class StoryTagDisplayContainer {
 	updateHandlers() {
 		HTMLHandlers.applyBasicHandlers(this.element, false);
 		const html = $(this.element);
-		html.find(".create-story-tag").click(() => SceneTags.createSceneTag() );
-		html.find(".create-status").click( () => SceneTags.createSceneStatus() );
+		html.find(".create-story-tag").click( this.createStoryTag );
+		html.find(".create-status").click( this.createStatus );
+	}
+
+	async createStoryTag(event) {
+		//somewhat hack-y code with the exception as a branch
+		try {
+			const ownerId = getClosestData(event, "ownerId");
+			const tokenId = getClosestData(event, "tokenId");
+			const sceneId = getClosestData(event, "sceneId");
+			await CityHelpers.getOwner(ownerId, tokenId, sceneId);
+		} catch(e) {
+			console.log("Creating story Tag");
+			console.log(e);
+			return await SceneTags.createSceneTag();
+		}
+		return await HTMLHandlers.createStoryTag(event);
+	}
+
+	async createStatus (event) {
+		//somewhat hack-y code with the exception as a branch
+		try {
+			const ownerId = getClosestData(event, "ownerId");
+			const tokenId = getClosestData(event, "tokenId");
+			const sceneId = getClosestData(event, "sceneId");
+			await CityHelpers.getOwner(ownerId, tokenId, sceneId);
+		} catch(e) {
+			return await SceneTags.createSceneStatus();
+		}
+		return await HTMLHandlers.createStatus(event);
 	}
 
 }
