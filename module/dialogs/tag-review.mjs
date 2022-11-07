@@ -9,8 +9,9 @@ export class TagReviewDialog extends EnhancedDialog {
 	#reviewList;
 	#moveId;
 	#move;
+	#actor;
 
-	constructor(reviewList, moveId, session) {
+	constructor(reviewList, moveId, session, actor) {
 		const title = TagReviewDialog.title();
 		const buttons = TagReviewDialog.buttons();
 		const cssClass = TagReviewDialog.cssClass();
@@ -19,6 +20,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.#reviewList = reviewList;
 		this.#session = session;
 		this.#move = CityHelpers.getMoveById(moveId);
+		this.#actor = actor;
 		session.setDialog(this);
 	}
 
@@ -72,14 +74,37 @@ export class TagReviewDialog extends EnhancedDialog {
 	}
 
 	async refreshHTML() {
-		console.log("Refeshing Dialog");
 		const templateData = {
 			tagAndStatusList: this.#reviewList,
-			move: this.#move
+			move: this.#move,
+			actor: this.#actor,
+			suggestions: this.getSuggestedList()
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
 		this.setHTML(html);
 		this.setListeners();
+	}
+
+	getSuggestedList() {
+		const actor = this.#actor;
+		const items = this.#reviewList.toAllItems();
+		const weaknessTags = items
+			.filter( x => x.isTag()
+				&& x.parent == actor
+				&& x.isPowerTag())
+			.map( ptag=> ptag.theme)
+			.reduce( (arr, theme) => {
+				if (!arr.includes(theme))
+					arr.push(theme);
+				return arr;
+			}, [])
+			.map ( theme=> actor.items.filter(x=> x.isWeaknessTag() && x.theme == theme))
+			.flat(1)
+			.filter( tag => !items.includes(tag))
+
+		const statuses = this.#actor.my_statuses
+			.filter( status => !items.includes(status));
+		return weaknessTags.concat(statuses);
 	}
 
 	setReviewList(reviewList) {
@@ -96,10 +121,15 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	setListeners(_html) {
 		const html = this.element;
-		$(html).find(".tag .name").click( HTMLHandlers.tagEdit);
-		$(html).find(".tag .name").rightclick( this.flipTag.bind(this) );
-		$(html).find(".status .name").click( HTMLHandlers.statusEdit);
-		$(html).find(".status .name").rightclick( this.flipStatus.bind(this));
+		$(html).find(".tag .name").middleclick( HTMLHandlers.tagEdit);
+		$(html).find(".selected-list .tag .name").click( this.flipTag.bind(this) );
+		$(html).find(".status .name").middleclick( HTMLHandlers.statusEdit);
+		$(html).find(".selected-list .status .name").click( this.flipStatus.bind(this));
+		$(html).find(".suggestion-list .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		$(html).find(".suggestion-list .tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		$(html).find(".suggestion-list .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		$(html).find(".suggestion-list .tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+
 		$(html).find(".item-control.approved").click(
 			(event) => {
 				const tagId = getClosestData(event, "itemId");
@@ -133,11 +163,11 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
-	static async create(reviewList, moveId, session) {
+	static async create(reviewList, moveId, session, actor) {
 		if (reviewList.length == 0) {
 			return {state: "approved", tagList: reviewList};
 		}
-		const dialog = new TagReviewDialog(reviewList, moveId, session);
+		const dialog = new TagReviewDialog(reviewList, moveId, session, actor);
 		this._instance = dialog;
 		const ret = await dialog.getResult();
 		this._instance = null;

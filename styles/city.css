@@ -3116,3 +3116,10 @@ span.secret {
 .font-shrink {
 	font-size:smaller;
 }
+
+.center-label {
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: larger;
+}

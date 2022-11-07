@@ -69,8 +69,18 @@ export class CityItem extends Item {
 	}
 
 	isStoryTag() {
-		return this.subtype == "story";
+		return this.isTag() && this.subtype == "story";
 	}
+
+	isPowerTag() {
+		return this.isTag() && this.subtype == "power";
+	}
+
+	isTag() { return this.type == "tag"; }
+
+	isImprovement() {return this.type == "improvement"};
+
+	isTheme() {return this.type == "theme"};
 
 	isImprovementActivated(move_id, actor) {
 		const move = CityHelpers.getMoveById(move_id);
@@ -591,7 +601,6 @@ export class CityItem extends Item {
 	}
 
 	async deleteTemporary() {
-		Debug(this);
 		if (!this.isTemporary()) {
 			console.log.warn(`trying to delete non-temporary tag ${this.name}`);
 			return false;
@@ -608,6 +617,22 @@ export class CityItem extends Item {
 
 	getAmount() {
 		return this.system.amount;
+	}
+
+	get theme() {
+		if (this.isTag() || this.isImprovement()) {
+			const theme = this.parent.getTheme(this.system.theme_id);
+			if (!theme) return null;
+			return theme;
+		}
+		return null;
+	}
+	get themebook() {
+		if (this.isTag() || this.isImprovement()) {
+			return this.theme.getThemebook();
+		}
+		if (this.isTheme()) return this.getThemebook();
+		else return null;
 	}
 
 	async reloadImprovementFromCompendium() {

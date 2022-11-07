@@ -402,8 +402,8 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(reviewList, moveId, session) {
-		return await TagReviewDialog.create(reviewList, moveId, session);
+	static async tagReview(reviewList, moveId, session, actor) {
+		return await TagReviewDialog.create(reviewList, moveId, session, actor);
 	}
 
 

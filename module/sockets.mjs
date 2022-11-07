@@ -447,7 +447,6 @@ export class SlaveSession extends Session {
 			replyCode: this.replyCode
 		}
 		if (!error) {
-			console.log(`replying ${dataObj}`);
 			await this.send(Session.codes.reply,  dataObj, meta);
 		} else {
 			console.log(`replying Error: ${error}`);

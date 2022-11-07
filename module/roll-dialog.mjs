@@ -130,9 +130,6 @@ export class RollDialog extends Dialog {
 				: localize("CityOfMist.terms.hurt");
 			this.#pendingJuice = this.#pendingJuice.filter( x=> x!= owner);
 			this.activateHelpHurt(owner, amount, direction, this.actor.id);
-			//TODO: make this work
-			// if (this.#tagReviewSession)
-			// 	this.#tagReviewSession.updateTagList()//TODO: fix
 			this.updateModifierPopup(html);
 			this.refreshHTML(this.element);
 		}
@@ -168,7 +165,7 @@ export class RollDialog extends Dialog {
 		const confirmButton = html.find("button.one");
 		const tagList = this.#modifierList;
 		await this.refreshHTML(html);
-		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id);
+		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id, this.actor);
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
 		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {

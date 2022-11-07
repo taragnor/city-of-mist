@@ -92,13 +92,14 @@ tag: fullFormatTag,
 state: string (status of tag (REjected, Accepted, pending, etc),
 }
 */
-	constructor( reviewableTagList, moveId) {
+	constructor( reviewableTagList, moveId, actor) {
 		super();
 		this.tagList = reviewableTagList;
 		if (moveId == undefined)
 			throw new Error("no move Id given");
 		this.moveId = moveId;
 		this.dialog = null;
+		this.actor =actor;
 	}
 
 	setHandlers() {
@@ -143,6 +144,8 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		return {
 			tagList: this.tagList.toSendableForm(),
 			moveId: this.moveId,
+			actorId: this.actor.id,
+			tokenId: this.actor.tokenId,
 		}
 	}
 
@@ -209,9 +212,12 @@ export class TagReviewSlaveSession extends SlaveSession {
 	}
 
 	async onReviewRequest( dataObj) {
+		const {actorId, tokenId} = dataObj;
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
-		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this);
+		const actor = CityHelpers.getOwner(actorId, tokenId);
+		Debug(actor);
+		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this, actor);
 		const sendableTagList = reviewList.toSendableForm();
 		return {
 			tagList: sendableTagList,

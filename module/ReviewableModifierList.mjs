@@ -9,6 +9,12 @@ export class ReviewableModifierList extends Array {
 		);
 	}
 
+	toAllItems() {
+		return Array.from(
+			this.map( x=> x.item)
+		);
+	}
+
 	toValidShortHand() {
 		return Array.from(
 			this.approved

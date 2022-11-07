@@ -56,7 +56,7 @@ export class StoryTagDisplayContainer {
 		}, 3);
 		const showcasedActorsSize = showcasedActors.reduce ( (acc, x) => {
 			return acc + 2 + x.storyTagsAndStatuses
-			.filter ( item => item.isShowcased())
+			.filter ( item => item.isShowcased)
 			.length;
 		}, 3);
 		const shrink = (combatActorsSize + showcasedActorsSize) > 50;
