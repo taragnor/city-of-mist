@@ -6,7 +6,7 @@
 <div class="flex-row">
 	<div class="selected-list">
 		<div class="center-label">
-			Selected Items
+			{{localize "CityOfMist.dialog.tagReview.SelectedItems" }}
 		</div>
 		{{#each tagAndStatusList as |item|}}
 		<div class="flex-row-center" data-item-id="{{item.item.id}}" data-owner-id="{{item.item.parent.id}}">
@@ -23,7 +23,7 @@
 	</div>
 	<div class="suggestion-list item-selection-context">
 		<div class="center-label">
-			Suggestions
+			{{localize "CityOfMist.dialog.tagReview.Suggestions" }}
 		</div>
 		{{#each suggestions as |item| }}
 		<div class="flex-row-center" data-item-id="{{item.id}}" data-owner-id="{{item.parent.id}}" data-token-id="{{item.parent.tokenId}}">

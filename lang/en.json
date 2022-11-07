@@ -373,6 +373,8 @@
 
 "CityOfMist.dialog.tagReview.title": "Review Tags",
 "CityOfMist.dialog.tagReview.purpose": "MC can review tags and accept/reject them",
+"CityOfMist.dialog.tagReview.SelectedItems" : "SelectedItems",
+"CityOfMist.dialog.tagReview.Suggestions" : "Suggestions",
 "CityOfMist.dialog.tagReview.ApproveAll" : "Approve All",
 "CityOfMist.dialog.tagReview.Okay": "confirm",
 "CityOfMist.dialog.tagReview.approve": "Approve this tag/status",
