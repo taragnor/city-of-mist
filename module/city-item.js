@@ -92,7 +92,7 @@ export class CityItem extends Item {
 	}
 
 	isWeaknessTag() {
-		return this.type == "tag" && this.system.subtype == "weakness";
+		return this.type == "tag" && this.subtype == "weakness";
 	}
 
 	getActivatedEffect() {
@@ -248,6 +248,10 @@ export class CityItem extends Item {
 	async burnTag( state =1 ) {
 		// await this.unselectForAll();
 		await this.update({data: {burned: state}});
+	}
+
+	get isBurnable() {
+		return !this.isBurned() && !this.isWeaknessTag();
 	}
 
 	isBurned() {

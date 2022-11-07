@@ -16,6 +16,7 @@
 	</div>
 	<div class="flex-narrow flex-line flex-burn-flame-cell">
 		{{#if tag.parent.isOwner}}
+		{{#if tag.isBurnable}}
 		{{#if (eq tag.system.burned 0)}}
 		{{#if canBurn}}
 		<a class="tag-burn" title="Burn Tag" > <i class="fas fa-fire"></i> </a>
@@ -23,6 +24,7 @@
 		{{else}}
 		{{#if (eq tag.system.burned 1)}}
 		<a class="tag-unburn" title="Unburn Tag" ><i class="fas fa-undo"></i> </a>
+		{{/if}}
 		{{/if}}
 		{{/if}}
 		{{/if}}
