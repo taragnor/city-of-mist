@@ -121,6 +121,9 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	setListeners(_html) {
 		const html = this.element;
+		$(html).mouseover( () => {
+			TagReviewDialog._instance = this;
+		});
 		$(html).find(".tag .name").middleclick( HTMLHandlers.tagEdit);
 		$(html).find(".selected-list .tag .name").click( this.flipTag.bind(this) );
 		$(html).find(".status .name").middleclick( HTMLHandlers.statusEdit);
@@ -159,6 +162,12 @@ export class TagReviewDialog extends EnhancedDialog {
 			});
 	}
 
+	close() {
+		super.close();
+		if (this == TagReviewDialog._instance)
+			TagReviewDialog._instance = null;
+	}
+
 	onRender(html) {
 		this.refreshHTML();
 	}
@@ -170,7 +179,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		const dialog = new TagReviewDialog(reviewList, moveId, session, actor);
 		this._instance = dialog;
 		const ret = await dialog.getResult();
-		this._instance = null;
+		// this._instance = null;
 		return ret;
 	}
 
@@ -206,7 +215,6 @@ export class TagReviewDialog extends EnhancedDialog {
 Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) => {
 	const dialog = TagReviewDialog.instance();
 	if (dialog) {
-		Debug(selectedTagOrStatus);
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
 		const itWorked = dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
