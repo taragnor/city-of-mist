@@ -2,6 +2,7 @@ import {MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 
 export class JuiceMasterSession extends MasterSession {
@@ -302,60 +303,54 @@ export class JuiceSpendingSessionS extends SlaveSession {
 	}
 }
 
-export class DummyMasterSession extends MasterSession {
+export class TagAndStatusCleanupSessionM extends MasterSession {
+	constructor (commandString, itemId, ownerId, tokenId, burnState) {
+		super();
+		this.dataObj = {commandString, itemId, ownerId, tokenId, burnState};
+	}
 
-	setHandlers () {
+	setHandlers() {
 		super.setHandlers();
-		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
+		this.setReplyHandler("cleanupTagStatus", () => {});
 	}
 
 	async start() {
-		this.registerSubscribers(game.users);
-		console.log("Starting 1");
-		const result = await this.request("juice");
-		console.log("Finished 1");
-		console.log("Starting 2");
-		const result2 = await this.request("juice");
-		console.log("Finished 2");
-		return await result2;
-	}
-
-	async onJuiceReply(dataObj, _meta, senderId) {
-		console.log("Reply Recieved");
-		const sender = game.users.find(x=> x.id == senderId);
-		console.log(`${sender.name} said ${dataObj.amount}`);
-	}
-
-	defaultTimeOut(userId) {
-		const user = game.users.find(x => x.id == userId);
-		if (user.isGM)
-			return Infinity;
-		else
-			return 60 * 5;
+		const gm = game.users.find(x=> x.isGM && x.active);
+		if (!gm) {
+			ui.notifications.error("No GM found, can't spend juice");
+			throw new Error("No GM found to spend juice!");
+		}
+		this.registerSubscribers([gm]);
+		return await this.request("cleanupTagStatus", this.dataObj);
 	}
 
 }
 
-export class DummySlaveSession extends SlaveSession {
-
+export class TagAndStatusCleanupSessionS extends SlaveSession {
 	setHandlers() {
 		super.setHandlers();
-		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
+		this.setRequestHandler("cleanupTagStatus", this.onCleanupRequest.bind(this));
 	}
 
-	async onJuiceRequest ( _dataobj) {
-		if (!this.answer) this.answer = 42;
-		console.log("Request Received");
-		await CityHelpers.asyncwait(5);
-		console.log("asking for more time");
-		this.getTimeExtension(10);
-		await CityHelpers.asyncwait(10);
-		if (this.answer == 42)
-			return {
-				amount: this.answer++
-			};
-		else
-			throw new Error("error");
+	async onCleanupRequest(data, _meta) {
+		const {itemId, ownerId, tokenId, commandString, burnState} = data;
+		const actor = CityHelpers.getOwner(ownerId, tokenId);
+		const item = actor.items.find( x => x.id == itemId);
+		if (item) {
+			switch (commandString) {
+				case "burn":
+					await item.burnTag(burnState);
+					break;
+				case "delete":
+					await item.deleteTemporary();
+					break;
+				default:
+					throw new Error(`Unknown command ${commandString}`);
+			}
+			return {confirm: true};
+		} else {
+			throw new Error("Item Id ${itemId} not found on actorId ${ownerId}");
+		}
 	}
 
 }

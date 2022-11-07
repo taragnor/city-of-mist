@@ -1,6 +1,6 @@
 import {SocketInterface, MasterSession, SlaveSession} from "./sockets.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
-import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession, DummyMasterSession, DummySlaveSession, JuiceSpendingSessionM, JuiceSpendingSessionS} from "./city-sessions.mjs"
+import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession, JuiceSpendingSessionM, JuiceSpendingSessionS, TagAndStatusCleanupSessionS, TagAndStatusCleanupSessionM} from "./city-sessions.mjs"
 
 export class CitySockets {
 
@@ -17,10 +17,10 @@ export class CitySockets {
 
 	static init() {
 		this.sockets = new SocketInterface("system.city-of-mist");
-		this.sockets.addSlaveSessionConstructor(DummyMasterSession, DummySlaveSession);
 		this.sockets.addSlaveSessionConstructor(JuiceMasterSession, JuiceSlaveSession);
 		this.sockets.addSlaveSessionConstructor(JuiceSpendingSessionM, JuiceSpendingSessionS);
 		this.sockets.addSlaveSessionConstructor(TagReviewMasterSession, TagReviewSlaveSession);
+		this.sockets.addSlaveSessionConstructor(TagAndStatusCleanupSessionM, TagAndStatusCleanupSessionS);
 	}
 
 	static async test() {

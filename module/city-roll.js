@@ -427,7 +427,7 @@ export class CityRoll {
 				throw new Error("Couldn't find status");
 			if (status.isTemporary()) {
 				console.log(`Deleted status ${status.name}`);
-				status.deleteTemporary();
+				await status.deleteTemporary();
 			}
 		}
 	}

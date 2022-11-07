@@ -9,7 +9,7 @@
 	{{#if (not item.system.custom_tag) }}
 	<div class="question" > {{data.question_letter}} - {{data.question}} </div>
 	{{else}}
-	<input type="text" class="tag-question-entry" name="data.question" value="{{data.question}}">
+	<input type="text" class="tag-question-entry" name="data.question" value="{{item.system.question}}">
 	{{/if}}
 	{{#if (eq item.system.subtype "power")}}
 	<label for="crispy">

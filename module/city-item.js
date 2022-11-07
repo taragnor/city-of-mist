@@ -2,6 +2,8 @@ import { ClueChatCards } from "./clue-cards.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import {TagAndStatusCleanupSessionM} from "./city-sessions.mjs";
+import {CitySockets} from "./city-sockets.mjs";
 
 export class CityItem extends Item {
 
@@ -246,8 +248,17 @@ export class CityItem extends Item {
 	}
 
 	async burnTag( state =1 ) {
-		// await this.unselectForAll();
-		await this.update({data: {burned: state}});
+		if (this.isOwner) {
+			await this.update({data: {burned: state}});
+			if (state == 3)
+				CityHelpers.playBurn();
+		} else  {
+			const session = new TagAndStatusCleanupSessionM("burn", this.id, this.parent.id, this.parent.tokenId, state);
+			await CitySockets.execSession(session);
+			if (state == 3)
+				CityHelpers.playBurn();
+			await CityHelpers.playBurn();
+		}
 	}
 
 	get isBurnable() {
@@ -541,7 +552,7 @@ export class CityItem extends Item {
 	isJuice() { return this.type == "juice" && this.getSubtype() == ""; }
 	isStatus() { return this.type == "status"; }
 
-	isTemporary() {return this.system.temporary ?? this.system.crispy ?? "false";}
+	isTemporary() {return this.system.temporary ?? this.system.crispy ?? false;}
 	isPermanent() { return this.system.permanent ?? "false";}
 
 	getDisplayedName() {
@@ -580,12 +591,19 @@ export class CityItem extends Item {
 	}
 
 	async deleteTemporary() {
+		Debug(this);
 		if (!this.isTemporary()) {
 			console.log.warn(`trying to delete non-temporary tag ${this.name}`);
 			return false;
 		}
+		if (this.isOwner) {
+			await CityHelpers.playBurn();
+			await this.delete();
+			return;
+		}
+		const session = new TagAndStatusCleanupSessionM("delete", this.id, this.parent.id, this.parent.tokenId);
+		await CitySockets.execSession(session);
 		await CityHelpers.playBurn();
-		await this.delete();
 	}
 
 	getAmount() {
