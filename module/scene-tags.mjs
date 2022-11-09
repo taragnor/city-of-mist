@@ -90,6 +90,8 @@ export class SceneTags {
 	static async createSceneStatus(name = "", tier = 1, pips=0, options= {}) {
 		if (!name)
 			return await this.#createSceneStatusInteractive();
+		Debug(name);
+		Debug(options);
 		const container = await this.#getSceneContainer(game.scenes.current);
 		const status = await container.addOrCreateStatus(name, tier, pips, options);
 		await status.update( {"data.sceneId": game.scenes.current.id});

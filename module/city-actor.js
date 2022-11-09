@@ -380,6 +380,8 @@ export class CityActor extends Actor {
 	}
 
 	async createNewStatus (name, tier=1, pips=0, options= {}) {
+		// Debug(name);
+		// Debug(options);
 		const temporary  = options.temporary ?? false;
 		const permanent  = options.permanent ?? false;
 		const obj = {
@@ -915,9 +917,9 @@ export class CityActor extends Actor {
 	}
 
 	async _processMoveStatus(name, tier, options) {
-		//TODO: confvert options to object with false /true
+		//TODO: convert options to object with false /true
 		if (options.scene) {
-			await SceneTags.createSceneStatus(name.trim(), tier, options);
+			await SceneTags.createSceneStatus(name.trim(), tier,0, options);
 			return;
 		}
 		if (options.autoApply) {
