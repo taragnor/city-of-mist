@@ -56,7 +56,7 @@ export class HTMLHandlers {
 		const owner = await CityHelpers.getOwner(ownerId, tokenId, sceneId);
 		const retobj = await owner.createStoryTag();
 		const tag = await owner.getTag(retobj.id);
-		const updateObj =		await CityDialogs.itemEditDialog(tag);
+		const updateObj =	await CityDialogs.itemEditDialog(tag);
 		if (updateObj)
 			await CityHelpers.modificationLog(owner, "Created", tag);
 		else
@@ -75,7 +75,7 @@ export class HTMLHandlers {
 			return;
 		}
 		const tagName = tag.name;
-		if (tag.system.subtype != "story")
+		if (tag.isPermanent())
 			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 				return;
 		await actor.deleteTag(tagId);

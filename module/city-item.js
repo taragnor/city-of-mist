@@ -574,7 +574,13 @@ export class CityItem extends Item {
 	isStatus() { return this.type == "status"; }
 
 	isTemporary() {return this.system.temporary ?? this.system.crispy ?? false;}
-	isPermanent() { return this.system.permanent ?? "false";}
+
+	isPermanent() {
+		return this?.system?.permanent
+			|| this.isPowerTag()
+			|| this.isWeaknessTag()
+			|| false;
+}
 
 	getDisplayedName() {
 		switch (this.type) {
