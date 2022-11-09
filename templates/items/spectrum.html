@@ -1,9 +1,9 @@
 <form class="{{cssClass}} spectrum-sheet flex-col item-edit-dialog" autocomplete="off">
-	<label class="dialog-label" for="name"> Name </label>
+	<label class="dialog-label" for="name"> {{localize "CityOfMist.terms.name"}} </label>
 	<input type="text" name="name" value="{{item.name}}">
 	<hr>
 	<span>
-	<label class="dialog-label" for="name"> Max Tier </label>
+	<label class="dialog-label" for="name"> {{localize "CityOfMist.terms.maxTier"}} </label>
 	<input type="radio" name="data.max_tier" value="1" {{#if (eq "1" data.max_tier)}} checked {{/if}} > 1 </input>
 	<input type="radio" name="data.max_tier" value="2" {{#if (eq "2" data.max_tier)}} checked {{/if}}  > 2 </input>
 	<input type="radio" name="data.max_tier" value="3" {{#if (eq "3" data.max_tier)}} checked {{/if}}  > 3 </input>

@@ -1,6 +1,6 @@
 <div class="improvement-block" data-imp-id="{{improvement.id}}">
 	{{#if (eq locked false)}}
-	<a class="item-control imp-delete" title="Delete Improvement" ><i class="fas fa-trash"></i></a>
+	<a class="item-control imp-delete" title="{{localize 'CityOfMist.command.deleteImprovement'}}" ><i class="fas fa-trash"></i></a>
 	{{/if}}
 	<span class="{{#if locked}} improvement-name {{else}} improvement-edit {{/if}}{{#if data.uses.expended}} improvement-expended {{/if}}" title="{{data.description}}" > {{localizeS improvement.name}} {{#if data.choice_item}} ({{data.choice_item}}) {{/if}}</span>
 </div>

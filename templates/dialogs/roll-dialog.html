@@ -1,11 +1,11 @@
 <form class="{{cssClass}} roll-dialog" autocomplete="off">
 	<section class="header">
 		<div>
-			<span class="dialog-label">Roll Bonus:</span>
+			<span class="dialog-label"> {{localize "CityOfMist.dialog.roll.rollBonus"}} </span>
 			<span class="roll-bonus"></span>
 		</div>
 		<div>
-			<span class="dialog-label"> Effect:</span>
+			<span class="dialog-label"> {{localize "CityOfMist.dialog.roll.effect"}} </span>
 			<span class="move-effect"></span>
 		</div>
 		<div class="modifier-list">
@@ -20,21 +20,21 @@
 		</div>
 	</section>
 	<hr>
-	<label class="dialog-label" for="roll-modifier-amt"> Custom Modifier </label>
+	<label class="dialog-label" for="roll-modifier-amt"> {{localize "CityOfMist.dialog.roll.customModifier"}} </label>
 	<input id="roll-modifier-amt" type="number" value="0">
-	<label class="dialog-label" for="dynamite-allowed"> Allow Dynamite </label>
+	<label class="dialog-label" for="dynamite-allowed"> {{localize "CityOfMist.dialog.roll.allowDynamite"}} </label>
 	<input id="roll-dynamite-allowed" type="checkbox" {{#if dynamite}} checked {{/if}}>
 	{{#if altPower}}
 	<div class="effect-slider-block">
-		<label class="dialog-label" for="effect-slider"> Take Penalty to Increase Effect
+		<label class="dialog-label" for="effect-slider"> {{localize "CityOfMist.dialog.roll.takePenalty"}}
 		</label>
 		<input type="range" min="0" max="4" value="{{sliderVal}}" class="slider" id="effect-slider">
 	</div>
 	{{/if}}
 	<br>
-	<label class="dialog-label" for="burn-tag"> Burn Tag </label>
+	<label class="dialog-label" for="burn-tag"> {{localize "CityOfMist.dialog.roll.burnTag"}} </label>
 	<select id="roll-burn-tag">
-		<option value="" selected> Don't Burn </option>`;
+		<option value="" selected> {{localize "CityOfMist.dialog.roll.dontBurn"}} </option>`;
 		{{#each burnableTags as |tag|}}
 		<option value="{{tag.tagId}}"> {{tag.name}} </option>
 		{{/each}}
