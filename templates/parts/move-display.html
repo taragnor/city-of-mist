@@ -1,35 +1,35 @@
 <section data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
-	<div class="description-header"> Description </div>
+	<div class="description-header"> {{localize "CityOfMist.terms.description"}} </div>
 	<textarea name="data.description" type="text">{{item.system.description}}</textarea>
-	<label class="type-header"> Type </div>
+	<label class="type-header"> {{localize "CityOfMist.terms.type"}} </div>
 	<select name="data.type">
 		{{#select item.system.type}}
-		<option value="standard">Standard </option>
-		<option value="noroll"> No Roll </option>
-		<option value="logosroll"> Logos Roll </option>
-		<option value="mythosroll">  Mythos Roll </option>
+		<option value="standard"> {{localize "CityOfMist.terms.standard"}} </option>
+		<option value="noroll"> {{localize "CityOfMist.terms.noRoll"}} </option>
+		<option value="logosroll"> {{localize "CityOfMist.terms.logosRoll"}} </option>
+		<option value="mythosroll">  {{localize "CityOfMist.terms.mythosRoll"}} </option>
 		{{/select}}
 	</select>
-	<label class="type-header"> Category </div>
+	<label class="type-header"> {{localize "CityOfMist.terms.category"}} </div>
 	<select name="data.category">
 		{{#select item.system.category}}
-		<option value="Core">Core </option>
-		<option value="Advanced"> Advanced </option>
-		<option value="SHB"> Stop.Holding.Back </option>
+		<option value="Core"> {{localize "CityOfMist.terms.core"}} </option>
+		<option value="Advanced"> {{localize "CityOfMist.terms.advanced"}} </option>
+		<option value="SHB"> {{localize "CityOfMist.terms.SHB"}} </option>
 		{{/select}}
 	</select>
-	<div class="move-result-header"> Always Displayed</div>
+	<div class="move-result-header"> {{localize "CityOfMist.terms.alwaysDisplayed"}} </div>
 	<textarea type="text" name="data.always">{{item.system.always}}</textarea>
-	<div class="move-result-header"> On Miss </div>
+	<div class="move-result-header"> {{localize "CityOfMist.terms.onMiss"}} </div>
 	<textarea type="text" name="data.onMiss">{{item.system.onMiss}}</textarea>
-	<div class="move-result-header"> On Partial </div>
+	<div class="move-result-header"> {{localize "CityOfMist.terms.onPartial"}} </div>
 	<textarea type="text" name="data.onPartial">{{item.system.onPartial}}</textarea>
-	<div class="move-result-header"> On Success </div>
+	<div class="move-result-header"> {{localize "CityOfMist.terms.onSuccess"}} </div>
 	<textarea type="text" name="data.onSuccess">{{item.system.onSuccess}}</textarea>
-	<div class="move-result-header"> On Dynamite </div>
+	<div class="move-result-header"> {{localize "CityOfMist.terms.onDynamite"}} </div>
 	<textarea type="text" name="data.onDynamite">{{item.system.onDynamite}}</textarea>
 	<div class="move-list-section">
-		<div class="move-list-header"> List Elements
+		<div class="move-list-header"> {{localize "CityOfMist.command.listElements"}}
 			{{#if (eq locked false)}}
 			<a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
 			{{/if}}
@@ -38,13 +38,13 @@
 		<div class="move-conditonal-block" data-index="{{index}}">
 			<select class="move-condition-input">
 				{{#select li.condition}}
-				<option value="gtPartial"> &gt;= Partial </option>
-				<option value="gtSuccess"> &gt;= Success </option>
-				<option value="eqDynamite"> Dynamite </option>
-				<option value="eqPartial"> Partial </option>
-				<option value="eqSuccess">  Success </option>
-				<option value="Always">  Always </option>
-				<option value="Miss" >  Miss </option>
+				<option value="gtPartial"> &gt;= {{localize "CityOfMist.terms.partial"}} </option>
+				<option value="gtSuccess"> &gt;= {{localize "CityOfMist.terms.success"}} </option>
+				<option value="eqDynamite"> {{localize "CityOfMist.terms.dynamite"}} </option>
+				<option value="eqPartial"> {{localize "CityOfMist.terms.partial"}} </option>
+				<option value="eqSuccess">  {{localize "CityOfMist.terms.success"}} </option>
+				<option value="Always">  {{localize "CityOfMist.terms.always"}} </option>
+				<option value="Miss" >  {{localize "CityOfMist.terms.miss"}} </option>
 				{{/select}}
 			</select>
 			<input class="move-list-input" type="text" value="{{li.text}}"/>
@@ -54,7 +54,7 @@
 				<option value="2"> 2 </option>
 				<option value="3"> 3 </option>
 				<option value="0"> 0 </option>
-				<option value="-1"> GM </option>
+				<option value="-1"> {{localize "CityOfMist.terms.GM"}} </option>
 				{{/select}}
 			</select>
 			<a class="delete-move-list-element" title="Delete List Element"><i class="theme-trash fas fa-trash"></i></a>
