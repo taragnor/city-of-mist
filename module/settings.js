@@ -1,5 +1,6 @@
 import {Debug} from "./tools/debug.mjs";
 
+
 export const registerSystemSettings = function() {
 
 
@@ -219,6 +220,23 @@ export const registerSystemSettings = function() {
 		onChange: _ => window.location.reload()
 	});
 
+	game.settings.register("city-of-mist", "handleTempItems", {
+		name: localize("CityOfMist.settings.handleTempItems.name"),
+		hint: localize("CityOfMist.settings.handleTempItems.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "all",
+		choices: {
+			"none" : localize("CityOfMist.settings.handleTempItems.choice0"),
+			"tagOnly": localize("CityOfMist.settings.handleTempItems.choice1"),
+			"all": localize("CityOfMist.settings.handleTempItems.choice2")
+		},
+		restrict: true,
+		onChange: _ => window.location.reload()
+	});
+
+
 	game.settings.register("city-of-mist", "devMode", {
 		name: localize("CityOfMist.settings.devMode.name"),
 		hint: localize("CityOfMist.settings.devMode.hint"),
@@ -334,6 +352,21 @@ export const registerSystemSettings = function() {
 	Debug.setDebugMode(devMode && debug);
 
 } // end of custom settings
+
+export class CitySettings {
+	static get(settingName) {
+		return game.settings.get('city-of-mist', settingName);
+
+	}
+	static deleteTemporaryStatuses() {
+		return this.get("handleTempItems") =="all";
+	}
+
+	static burnTemporaryTags() {
+		return this.get("handleTempItems") !="none";
+	}
+
+}
 
 
 // Example Getter

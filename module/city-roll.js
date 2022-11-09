@@ -388,10 +388,16 @@ export class CityRoll {
 
 	async #rollCleanupAndAftermath () {
 		const tags = this.#tags;
-		const statuses = this.#modifiers.filter( x=> x.type == "status");
 		const options = this.#options;
-		try {
-			const helpHurt = this.#modifiers
+		await this.#spendHelpHurt();
+		await this.#handleBurnTags();
+		await this.#handleWeakness();
+		await this.#deleteTempStatuses();
+	}
+
+	async #spendHelpHurt() {
+
+		try { const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
 				try {
@@ -405,22 +411,40 @@ export class CityRoll {
 			console.warn("Error spending Juice");
 			console.log(e);
 		}
+	}
 
+	async #handleBurnTags() {
+		const tags = this.#tags;
+		const options = this.#options;
 		if (options.burnTag && options.burnTag.length)
-			for (let {ownerId, tagId, tokenId} of tags)
+			for (const {ownerId, tagId, tokenId} of tags)
 				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
-		for (let {ownerId, tagId, amount, tokenId} of tags) {
+		for (const {ownerId, tagId, tokenId} of tags) {
 			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
-			if (tag.system.crispy || tag.system.temporary) {
-				try {await CityHelpers.getOwner(ownerId, tokenId).burnTag(tag.id);}
-				catch (e) {
+			if (tag.system?.crispy || tag.system?.temporary) {
+				try {
+					await CityHelpers.getOwner(ownerId, tokenId).burnTag(tag.id);
+				} catch (e) {
 					console.warn(`Unable to Burn tag ${tag.name}`);
 				}
 			}
+		}
+	}
+
+	async #handleWeakness() {
+		const tags = this.#tags;
+		for (const {ownerId, amount, tagId, tokenId} of tags) {
+			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
 			if (tag.system.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}
+	}
+
+	async #deleteTempStatuses() {
+		if (!CitySettings.deleteTemporaryStatuses())
+			return;
+		const statuses = this.#modifiers.filter( x=> x.type == "status");
 		for (const {ownerId, id, tokenId} of statuses) {
 			const status = await CityHelpers.getOwner(ownerId, tokenId).getStatus(id);
 			if (!status)
@@ -430,7 +454,8 @@ export class CityRoll {
 				await status.deleteTemporary();
 			}
 		}
-	}
+
+}
 
 	static async verifyRequiredInfo(move_id, actor) {
 		const relevantImprovements = actor.getImprovements().filter(imp => imp.hasEffectClass(`THEME_DYN_SELECT`) )
