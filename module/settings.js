@@ -233,7 +233,6 @@ export const registerSystemSettings = function() {
 			"all": localize("CityOfMist.settings.handleTempItems.choice2")
 		},
 		restrict: true,
-		onChange: _ => window.location.reload()
 	});
 
 

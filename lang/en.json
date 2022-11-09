@@ -495,9 +495,9 @@
 
 "CityOfMist.settings.handleTempItems.name": "Temp Status/Tags",
 "CityOfMist.settings.handleTempItems.hint": "What to do when a temporary/crispy tag or status is used in a roll",
-"CityOfMist.settings.handleTempItems.choice0": "Nothing",
+"CityOfMist.settings.handleTempItems.choice0": "Take no action",
 "CityOfMist.settings.handleTempItems.choice1": "Burn temporary or crispy tags",
-"CityOfMist.settings.handleTempItems.choice2": "Burn Temporary and crispy tags and delete statuses.",
+"CityOfMist.settings.handleTempItems.choice2": "Burn Temporary and crispy tags and delete statuses",
 
 "CityOfMist.tooltip.createStory": "Create Story Tag",
 "CityOfMist.tooltip.createStatus": "Create New Status",

@@ -6,6 +6,7 @@ import {CitySockets} from "./city-sockets.mjs";
 import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {RollDialog} from "./roll-dialog.mjs";
+import {CitySettings} from "./settings.js";
 
 export class CityRoll {
 	#roll;
@@ -419,6 +420,8 @@ export class CityRoll {
 		if (options.burnTag && options.burnTag.length)
 			for (const {ownerId, tagId, tokenId} of tags)
 				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
+		if (!CitySettings.burnTemporaryTags())
+			return;
 		for (const {ownerId, tagId, tokenId} of tags) {
 			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
 			if (tag.system?.crispy || tag.system?.temporary) {
@@ -454,8 +457,7 @@ export class CityRoll {
 				await status.deleteTemporary();
 			}
 		}
-
-}
+	}
 
 	static async verifyRequiredInfo(move_id, actor) {
 		const relevantImprovements = actor.getImprovements().filter(imp => imp.hasEffectClass(`THEME_DYN_SELECT`) )
