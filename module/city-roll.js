@@ -230,6 +230,8 @@ export class CityRoll {
 				name: x.name,
 				strikeout: x.strikeout,
 				description: x.description,
+				ownerId: x.ownerId,
+				tokenId: x.tokenId,
 			};
 		});
 		const options = roll.options;

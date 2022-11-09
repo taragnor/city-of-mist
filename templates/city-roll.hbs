@@ -19,26 +19,7 @@
 			</ol>
 			<ul class="roll-modifiers">
 				{{#each modifiers as |modifier id|}}
-					<li data-modifier-id="{{modifier.id}}">
-						<span class="name {{#if modifier.strikeout}} strikeout{{/if}}" title="{{modifier.description}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
-						{{#if (not modifier.strikeout)}}
-							{{#if (eq modifier.type "tag")}}
-								{{#if (lt modifier.amount 0)}}
-									{{#if (eq modifier.subtype "weakness")}}
-										{{#if (eq ../options.autoAttention true)}}
-											<span class="attention-award">
-												({{localize "CityOfMist.message.attentionAwarded"}})
-											</span>
-										{{else}}
-											<span class="attention-award">
-												({{localize "CityOfMist.message.attentionManual"}})
-											</span>
-										{{/if}}
-									{{/if}}
-								{{/if}}
-							{{/if}}
-						{{/if}}
-					</li>
+				{{> "systems/city-of-mist/templates/parts/city-roll-modifier.hbs" modifier=modifier}}
 				{{/each}}
 				{{#if (neq powerAdjustment 0)}}
 					<li>

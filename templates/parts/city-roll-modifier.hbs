@@ -1,0 +1,20 @@
+<li data-modifier-id="{{modifier.id}}">
+	<span class="name {{#if modifier.strikeout}} strikeout{{/if}}" title="{{modifier.description}}"> {{modifier.name}} {{#if (gt modifier.amount 0)}} +{{/if}}{{modifier.amount}} </span>
+	{{#if (shouldBurn modifier)}}
+	<span class="burns-on-use">
+		({{localize "CityOfMist.message.burns-on-use"}})
+	</span>
+	{{/if}}
+	{{#if (grantsAttention modifier)}}
+	{{#if (autoAttention) }}
+	<span class="attention-award">
+		({{localize "CityOfMist.message.attentionAwarded"}})
+	</span>
+	{{else}}
+	<span class="attention-award">
+		({{localize "CityOfMist.message.attentionManual"}})
+	</span>
+	{{/if}}
+	{{/if}}
+</li>
+

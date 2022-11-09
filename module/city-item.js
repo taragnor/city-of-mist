@@ -163,6 +163,17 @@ export class CityItem extends Item {
 		return devel;
 	}
 
+
+	expendsOnUse() {
+		switch (this.type) {
+			case "tag": return this.isTemporary();
+			case "status": return this.isTemporary();
+			case "juice": return true;
+			case "clue": return true;
+			default: return false;
+		}
+	}
+
 	upgradeCost() {
 		switch (this.type) {
 			case "tag" :

@@ -1,6 +1,7 @@
 import {HandlebarsHelpers} from "./tools/handlebars-helpers.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import {CitySettings} from "./settings.js";
 
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
@@ -194,6 +195,29 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				default:
 					return false;
 			}
+		},
+		'shouldBurn': function (rollModifierType) {
+			const modifier = rollModifierType;
+			Debug(modifier);
+			if (!modifier.ownerId) return false;
+			const {ownerId, id, tokenId} = modifier;
+			const item =CityHelpers.getOwner(ownerId, tokenId).getItem(id);
+			return item.expendsOnUse();
+		},
+
+		'grantsAttention': function (rollModifierType) {
+			const modifier = rollModifierType;
+			if (modifier.strikeout)
+				return false;
+			return modifier.type == "tag"
+				&& modifier.amount < 0
+				&& modifier.subtype == "weakness";
+		},
+
+		'autoAttention': function () {
+			if (!CitySettings.awardAttentionForWeakness())
+				return false;
+			return true;
 		}
 
 	}; //end of object holding helpers

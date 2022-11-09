@@ -365,6 +365,10 @@ export class CitySettings {
 		return this.get("handleTempItems") !="none";
 	}
 
+	static awardAttentionForWeakness() {
+		return (this.get("autoWeakness") ?? false) == true;
+	}
+
 }
 
 

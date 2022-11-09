@@ -332,6 +332,7 @@
 "CityOfMist.message.clueBanked" : "banked",
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "Must add attention manually",
+"CityOfMist.message.burns-on-use": "Burns on Use",
 "CityOfMist.message.noExtraSelected": "No Extra Theme Selected",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
