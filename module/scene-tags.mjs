@@ -157,7 +157,10 @@ Hooks.on("deleteScene",async (scene) => {
 	const container= await SceneTags.getSceneContainer(scene)
 	console.log(`deleting scene container for ${scene.name}`);
 	SceneTags.deleteContainer(scene.id, container);
+});
 
+Hooks.on("deleteCombat", async () => {
+		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
 });
 
 window.SceneTags = SceneTags;
