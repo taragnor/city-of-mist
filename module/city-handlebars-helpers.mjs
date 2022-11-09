@@ -198,26 +198,30 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 		'shouldBurn': function (rollModifierType) {
 			const modifier = rollModifierType;
-			Debug(modifier);
-			if (!modifier.ownerId) return false;
+			if (!modifier?.ownerId) return false;
+			try {
 			const {ownerId, id, tokenId} = modifier;
 			const item =CityHelpers.getOwner(ownerId, tokenId).getItem(id);
 			return item.expendsOnUse();
+			} catch (e) {
+				console.error(e);
+				return false;
+			}
 		},
 
 		'grantsAttention': function (rollModifierType) {
 			const modifier = rollModifierType;
-			if (modifier.strikeout)
+			if (modifier?.strikeout)
 				return false;
-			return modifier.type == "tag"
-				&& modifier.amount < 0
-				&& modifier.subtype == "weakness";
+			return modifier?.type == "tag"
+				&& modifier?.amount < 0
+				&& modifier?.subtype == "weakness";
 		},
 
 		'autoAttention': function () {
-			if (!CitySettings.awardAttentionForWeakness())
-				return false;
-			return true;
+			if (CitySettings.awardAttentionForWeakness())
+				return true;
+			return false;
 		}
 
 	}; //end of object holding helpers
