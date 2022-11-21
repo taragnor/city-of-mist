@@ -22,19 +22,18 @@ export class StatusTracker {
 			};
 		});
 		const scene = [ await SceneTags.getSceneContainer() ]
-		.map( x=> {
-			return  {
-				name: "Scene",
-				actor: x,
-				id: x.id,
-				type: x.type,
-				statuses: x.getStatuses(),
-				tags: x.getStoryTags()
-			};
-		});
+			.filter( x=> x)
+			.map( x=> {
+				return  {
+					name: "Scene",
+					actor: x,
+					id: x.id,
+					type: x.type,
+					statuses: x.getStatuses(),
+					tags: x.getStoryTags()
+				};
+			});
 		const combined = actors.concat(scene);
-		Debug(combined);
-
 		let sortFn = null;
 		switch ( game.settings.get("city-of-mist", "trackerSort")) {
 			case "alpha":

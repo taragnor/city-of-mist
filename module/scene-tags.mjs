@@ -38,11 +38,10 @@ export class SceneTags {
 	}
 
 	static async getSceneContainer(scene = game.scenes.current) {
+		if (!scene) return null;
 		if (this.sceneContainers.has(scene.id))
 			return this.sceneContainers.get(scene.id);
 		else return this.#getSceneContainer(scene);
-
-
 	}
 
 	static getSceneContainerSync(scene = game.scenes.current) {
@@ -58,7 +57,7 @@ export class SceneTags {
 	*/
 	static async getSceneTagsAndStatuses(scene = game.scenes.current) {
 		if (!scene) {
-			console.error("Couldn't find tags and statuses: null scene");
+			console.warn("Couldn't find tags and statuses: null scene");
 			return [];
 		}
 		const container = await this.#getSceneContainer(scene);
@@ -72,6 +71,16 @@ export class SceneTags {
 				}
 				return a.displayedName.localeCompare(b.displayedName);
 			});
+	}
+
+	static async getSceneStoryTags(scene = game.scenes.current) {
+		return (await this.getSceneTagsAndStatuses(scene))
+			.filter (x=> x.type == "tag");
+	}
+
+	static async getSceneStatuses(scene = game.scenes.current) {
+		return (await this.getSceneTagsAndStatuses(scene))
+			.filter (x=> x.type == "status");
 	}
 
 	static async createSceneTag(name = "", restrictDuplicates= true, options) {
