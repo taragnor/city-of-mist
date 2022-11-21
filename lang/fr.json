@@ -311,7 +311,7 @@
 "CityOfMist.command.executeMove": "Exécuter la Manoeuvre",
 "CityOfMist.command.destroyTheme": "Thème Détruit",
 "CityOfMist.command.deleteImprovement": "Détruire l'Amélioration",
-"CityOfMist.command.buildUpGained": "Points d'Accumulation (Build Up) Gagnés",
+"CityOfMist.command.buildUpGained": "Points de Progression Gagnés",
 "CityOfMist.command.editClue": "Éditer l'Indice",
 "CityOfMist.command.addToJounral": "Ajouter au Journal",
 "CityOfMist.command.askQuestion": "Poser une Question",
@@ -332,6 +332,7 @@
 "CityOfMist.message.clueBanked" : "Indice Conservé",
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "L'Attention doit être ajoutée manuellement",
+"CityOfMist.message.burns-on-use": "Se détruit quand utilisé",
 "CityOfMist.message.noExtraSelected": "Aucun Theme Bonus sélectionné",
 
 "CityOfMist.misc.newMoE": "Nouveaux Moments d'Évolution",
@@ -492,6 +493,12 @@
 
 "CityOfMist.settings.debugMode.name": "Mode Debug",
 "CityOfMist.settings.debugMode.hint": "Active le code Javascript interne de débogage.",
+
+"CityOfMist.settings.handleTempItems.name": "Traits/Statuts Temporaires",
+"CityOfMist.settings.handleTempItems.hint": "Que faire lorsqu'un Trait ou Statut Temporaire/Fragile est utilisé lors d'un lancer",
+"CityOfMist.settings.handleTempItems.choice0": "Ne rien faire",
+"CityOfMist.settings.handleTempItems.choice1": "Détruire les Traits Temporaires ou Fragiles",
+"CityOfMist.settings.handleTempItems.choice2": "Détruire les Traits Temporaires ou Fragiles et supprimer les Statuts",
 
 "CityOfMist.tooltip.createStory": "Créer un Trait d'Intrigue",
 "CityOfMist.tooltip.createStatus": "Créer un Statut",
