@@ -36,7 +36,7 @@ export class CityItem extends Item {
 		OPTION_FACE_X: X is some number 0-9, unlocks extra options in moves (future)
 		THEME_TAG_SELECT: used to tell choice type to select a tag
 
-	*/
+*/
 
 	hasEffectClass(cl) {
 		return this.effect_classes.includes(cl);
@@ -410,7 +410,7 @@ export class CityItem extends Item {
 	async unselectForAll() {
 		game.actors.forEach( actor => {
 			if (actor.hasActivatedTag(this.id))
-				 actor.toggleTagActivation(this.id);
+				actor.toggleTagActivation(this.id);
 		});
 	}
 
@@ -426,13 +426,13 @@ export class CityItem extends Item {
 		let html = "";
 		html += localizeS(data.always);
 		if (numRes == 2)
-				html += localizeS(data.onSuccess);
+			html += localizeS(data.onSuccess);
 		if (numRes == 3)
-				html += localizeS(data.onDynamite);
+			html += localizeS(data.onDynamite);
 		if (numRes == 1)
-				html += localizeS(data.onPartial);
+			html += localizeS(data.onPartial);
 		if (numRes == 0)
-				html += localizeS(data.onMiss);
+			html += localizeS(data.onMiss);
 		return CityItem.substitutePower(html, power);
 	}
 
@@ -580,7 +580,7 @@ export class CityItem extends Item {
 			|| this.isPowerTag()
 			|| this.isWeaknessTag()
 			|| false;
-}
+	}
 
 	getDisplayedName() {
 		switch (this.type) {
@@ -724,10 +724,10 @@ export class CityItem extends Item {
 					subtag = false;
 				} else if (typeof data == "object") {
 					({question, subtag} = data);
-					}
+				}
 				return { letter,question, subtag};
 			}).filter( item => !item.question.includes("_DELETED_"));
-		}
+	}
 
 	themebook_getImprovements () {
 		const improvementsObj = this.system.improvements;
@@ -755,7 +755,7 @@ export class CityItem extends Item {
 	}
 
 	/** returns Promise<{taglist, statuslist, html and options}>
-	**/
+	 **/
 	async prepareToRenderGMMove(actor = this.parent) {
 		//TODO: X substitution
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
@@ -779,16 +779,23 @@ export class CityItem extends Item {
 			collective_size = 0;
 		}
 		let displayedText = text;
-	if (!options?.showPrivate) {
-		displayedText = CityHelpers.removeWithinBraces(text);
-	} else {
-		displayedText = CityHelpers.formatWithinBraces(text);
-	}
+		if (!options?.showPrivate) {
+			displayedText = CityHelpers.removeWithinBraces(text);
+		} else {
+			displayedText = CityHelpers.formatWithinBraces(text);
+		}
 		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
-		if (actor)
-			html = CityHelpers.nameSubstitution(html, {"name" : actor.displayedName});
+		if (actor) {
+			const nameSubstitutions  = {
+				"name" : actor.displayedName,
+				"pr0": actor.pronouns[0] ?? "",
+				"pr1": actor.pronouns[1] ?? "",
+				"pr2": actor.pronouns[2] ?? "",
+			}
+			html = CityHelpers.nameSubstitution(html, nameSubstitutions);
+		}
 		let statuslist = neostatuslist.concat(extrastatuslist);
 		return {html, taglist, statuslist};
 	}

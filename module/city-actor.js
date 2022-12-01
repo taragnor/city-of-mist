@@ -775,6 +775,37 @@ export class CityActor extends Actor {
 		return this.getDisplayedName();
 	}
 
+	get pronouns() {
+		const prString = this.system.pronouns;
+		if (!prString) return [];
+		const prArray = prString
+			.split("/")
+			.map ( str => {
+				if (!str) return "";
+				return str.trim().toLowerCase();
+			});
+		return CityItem._derivePronouns(prArray);
+	}
+
+	/** takes an array of pronounds and substitutes if it is incomplete
+	*/
+	static _derivePronouns(prArray) {
+		if (!prArray[0])
+			return [];
+		const subtable = {
+			"he": ["him", "his"],
+			"she": ["her" , "hers"],
+			"it": ["it", "its"],
+			"they": ["them", "their"],
+		}
+		const subtableEntry = subtable[prArray[0]];
+		if (!subtableEntry) return prArray;
+		for (let i = 1; i <= subtableEntry.length; i++)
+			if (!prArray[i])
+				prArray[i] = subtableEntry[i-1];
+		return prArray;
+	}
+
 	get directoryName() {
 		const mythos = this.system.mythos ? ` [${this.system.mythos}]` : "";
 		const owner_name = this.name + mythos;

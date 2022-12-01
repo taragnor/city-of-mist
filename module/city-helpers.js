@@ -195,16 +195,17 @@ export class CityHelpers {
 		return retarr;
 	}
 
+	/**Replaces text following a $ with the appropriate term in key,value in replaceObj
+	example: nameSubstitution("#name", {name: "Tom"})
+	*/
 	static nameSubstitution(text, replaceObj = {} ) {
-		//Replaces text following a pound with the appropriate term in key,value in replaceObj
-		//example: nameSubstitution("#name", {name: "Tom"})
-		const regex = /\$(\w*)\b/gm;
+		const regex = /\$([\w]+[\d]*)\b/gm;
 		let match = regex.exec(text);
 		//TODO: FIX THIS
 		while (match != null) {
 			let replacetext = match[1];
 			let lowerify = replacetext.toLowerCase();
-			if (replaceObj[lowerify] === undefined) {
+			if (!replaceObj[lowerify]) {
 				console.warn(`String ${replacetext} not found in replacement Object`)
 				text = text.replace('$' + replacetext, '?????');
 				match = regex.exec(text);
@@ -658,7 +659,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	static delay(time) {
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
-
 
 	static async _statusAddSubDialog(status, title,type = "addition") {
 		const classic = CityHelpers.isClassicCoM(type);
