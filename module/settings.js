@@ -1,8 +1,10 @@
 import {Debug} from "./tools/debug.mjs";
+import {CityHelpers} from "./city-helpers.js";
 
 
 export const registerSystemSettings = function() {
 
+	Hooks.once("ready", _=> CitySettings.refreshSystem());
 
 	// game.settings.register("city-of-mist", "color-theme", {
 	// 	name: "Color Scheme",
@@ -47,8 +49,8 @@ export const registerSystemSettings = function() {
 		},
 		restrict: true,
 		onChange: newSystem => {
-			CityHelpers.refreshSystem(newSystem);
-			setTimeout(() =>  window.location.reload(), 2500);
+			CitySettings.refreshSystem(newSystem);
+			delayedReload();
 		}
 
 	});
@@ -180,7 +182,9 @@ export const registerSystemSettings = function() {
 		type: Boolean,
 		default: true,
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ => {
+			delayedReload();
+		}
 	});
 
 	game.settings.register("city-of-mist", "clueBoxes", {
@@ -191,7 +195,8 @@ export const registerSystemSettings = function() {
 		type: Boolean,
 		default: true,
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ =>	delayedReload()
+
 	});
 
 	game.settings.register("city-of-mist", "tagReview", {
@@ -217,7 +222,7 @@ export const registerSystemSettings = function() {
 			"full": localize("CityOfMist.settings.sceneTagWindow.choice2")
 		},
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ => delayedReload()
 	});
 
 	game.settings.register("city-of-mist", "handleTempItems", {
@@ -244,7 +249,9 @@ export const registerSystemSettings = function() {
 		type: Boolean,
 		default: false,
 		restrict: true,
-		onChange: _ => window.location.reload()
+		onChange: _ => {
+			delayedReload();
+		}
 	});
 
 	// **************************************************
@@ -266,7 +273,7 @@ export const registerSystemSettings = function() {
 		restrict: true,
 		onChange: _ => {
 			game.settings.set('city-of-mist', "system", "custom");
-			setTimeout(() =>  window.location.reload(), 500);
+			delayedReload();
 		}
 	});
 
@@ -284,7 +291,7 @@ export const registerSystemSettings = function() {
 		restrict: true,
 		onChange: _ => {
 			game.settings.set('city-of-mist', "system", "custom");
-			setTimeout(() =>  window.location.reload(), 500);
+			delayedReload();
 		}
 	});
 
@@ -369,8 +376,50 @@ export class CitySettings {
 		return (this.get("autoWeakness") ?? false) == true;
 	}
 
+	static refreshSystem(system) {
+		try{
+			if (!system)
+				system = game.settings.get("city-of-mist", "system");
+		} catch (e) {
+			console.log("defaulting to classic CoM");
+			system = "classic";
+		}
+		switch (system) {
+			case "classic":
+				game.settings.set("city-of-mist", "movesInclude_core", "classic");
+				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
+				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
+				game.settings.set("city-of-mist", "altPower", false);
+				game.settings.set("city-of-mist", "system", "classic");
+				return;
+			case "reloaded":
+				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
+				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
+				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
+				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
+				game.settings.set("city-of-mist", "altPower", false);
+				game.settings.set("city-of-mist", "system", "reloaded");
+				return;
+			case "custom":
+				return;
+			default:
+				console.error(`Unknown System ${system}`);
+		}
+	}
+
+
 }
 
+let isDelayedReload = false;
+
+function delayedReload() {
+	if (!isDelayedReload) {
+		ui.notifications.notify("Browser Window will reload shortly for all players due to setting change");
+		setTimeout(() =>  window.location.reload(), 4000);
+	}
+	isDelayedReload= true;
+}
 
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");

@@ -658,37 +658,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
 
-	static refreshSystem(system) {
-		try{
-			if (!system)
-				system = game.settings.get("city-of-mist", "system");
-		} catch (e) {
-			console.log("defaulting to classic CoM");
-			system = "classic";
-		}
-		switch (system) {
-			case "classic":
-				game.settings.set("city-of-mist", "movesInclude_core", "classic");
-				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
-				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
-				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
-				game.settings.set("city-of-mist", "altPower", false);
-				game.settings.set("city-of-mist", "system", "classic");
-				return;
-			case "reloaded":
-				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
-				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
-				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
-				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
-				game.settings.set("city-of-mist", "altPower", false);
-				game.settings.set("city-of-mist", "system", "reloaded");
-				return;
-			case "custom":
-				return;
-			default:
-				console.error(`Unknown System ${system}`);
-		}
-	}
 
 	static async _statusAddSubDialog(status, title,type ="addition") {
 		const classic = CityHelpers.isClassicCoM(type);
