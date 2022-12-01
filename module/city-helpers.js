@@ -45,11 +45,12 @@ export class CityHelpers {
 
 	static async cacheSounds() {
 		console.log("Caching sounds");
-		this.playSound("lock.mp3", 0.01);
-		this.playSound("burn-tag.mp3", 0.01);
-		this.playSound("button-on.mp3", 0.01);
-		this.playSound("button-off.mp3", 0.01);
-		this.playSound("beep.wav", 0.01);
+		const lowVolume = 0.001;
+		this.playSound("lock.mp3", lowVolume);
+		this.playSound("burn-tag.mp3", lowVolume);
+		this.playSound("button-on.mp3", lowVolume);
+		this.playSound("button-off.mp3", lowVolume);
+		this.playSound("beep.wav", lowVolume);
 	}
 
 	static async playLockOpen() {

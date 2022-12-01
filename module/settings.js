@@ -368,6 +368,10 @@ export class CitySettings {
 		return this.get("handleTempItems") =="all";
 	}
 
+	static isDevMode() {
+		return this.get("devMode");
+	}
+
 	static burnTemporaryTags() {
 		return this.get("handleTempItems") !="none";
 	}

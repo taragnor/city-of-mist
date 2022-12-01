@@ -183,7 +183,7 @@
 			"category": "Core",
 			"effect_class": "",
 			"abbreviation": "",
-			"system": ""
+			"system": "custom"
 		},
 		"gmmove": {
 			"templates": ["default"],
