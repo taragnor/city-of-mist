@@ -660,7 +660,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 
-	static async _statusAddSubDialog(status, title,type ="addition") {
+	static async _statusAddSubDialog(status, title,type = "addition") {
 		const classic = CityHelpers.isClassicCoM(type);
 		const reloaded = CityHelpers.isCoMReloaded(type);
 		const templateData = {status, data: status.system, classic, reloaded};
