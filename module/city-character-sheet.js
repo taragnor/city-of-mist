@@ -77,23 +77,24 @@ export class CityCharacterSheet extends CityActorSheet {
 		const crew = game.actors.find(actor =>
 			actor.type == "crew" && actor.isOwner
 		);
-		let crewThemes = [];
+		// let crewThemes = [];
 		if (!crew) {
 			return [];
 		}
 
-		for (const theme of crew.items.filter(x=> x.type == "theme")) {
-			this.linkThemebook(theme);
-			theme.system.owner = {
-				id: crew.id,
-				name: crew.name,
-				system: crew.system,
-				data: crew.system,
-				items: crew.items,
-				img: crew.img
-			};
-			crewThemes.push(theme);
-		}
+		const crewThemes = crew.items.filter(x => x.type =="theme");
+		// for (const theme of crew.items.filter(x=> x.type == "theme")) {
+		// 	this.linkThemebook(theme);
+		// 	theme.system.owner = {
+		// 		id: crew.id,
+		// 		name: crew.name,
+		// 		system: crew.system,
+		// 		data: crew.system,
+		// 		items: crew.items,
+		// 		img: crew.img
+		// 	};
+		// 	crewThemes.push(theme);
+		// }
 		const selected = (this.actor.system.crewThemeSelected % crewThemes.length) || 0;
 		if (crewThemes[selected])
 			return [crewThemes[selected]];

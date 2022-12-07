@@ -123,6 +123,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	linkThemebook(theme) {
+		throw new Error("Deprecated");
 		const themedata = theme.system;
 		themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
 	}
