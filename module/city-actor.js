@@ -448,6 +448,10 @@ export class CityActor extends Actor {
 		else return null;
 	}
 
+	getThemeKit(id) {
+		return this.items.find( x=> x.id == id && x.type =="themekit");
+	}
+
 	getThemes() {
 		return this.items.filter( x=> x.type == "theme");
 	}

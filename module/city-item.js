@@ -65,7 +65,11 @@ export class CityItem extends Item {
 	}
 
 	get subtype() {
-		return this.system.subtype;
+		switch (this.type) {
+			case "themebook": return this.system.type;
+			case "themekit": return this.themebook?.subtype ?? this.system.type;
+			default: return this.system.subtype;
+		}
 	}
 
 	isThemeKit() {
@@ -145,8 +149,9 @@ export class CityItem extends Item {
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
 		const id = this.system.themebook_id;
-		const tb = CityHelpers.getThemebook(this.system.themebook_name, id) ??
-			actor.items.find( x=> x.id == id);
+		if (!id) return null;
+		const tb = actor.items.find( x=> x.id == id) ??
+CityHelpers.getThemebook(this.system.themebook_name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb;
 	}

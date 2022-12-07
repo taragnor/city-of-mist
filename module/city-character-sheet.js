@@ -103,30 +103,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (filterList.length == 0)
 			return null;
 		const activeExtra = filterList[0];
+		if (activeExtra  == null) return null;
 		const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
-		Debug(activeTheme);
 		return activeTheme;
-		if (activeExtra != undefined)	 {
-			for (let theme of activeExtra.items.filter(x=> x.type== "theme")) {
-				this.linkThemebook(theme);
-				let fakeExtraData = {
-					name: theme.name,
-					id: theme.id,
-					system: theme.system,
-					data: theme.system
-				};
-				fakeExtraData.owner = {
-					id: activeExtra.id,
-					name: activeExtra.name,
-					system: activeExtra.system,
-					data: activeExtra.system,
-					items: activeExtra.items,
-					img: activeExtra.img
-				};
-				return fakeExtraData;
-			}
-		}
-		return null;
 	}
 
 	getCrewStoryTags() {

@@ -22,6 +22,7 @@ export class CitySheet extends ActorSheet {
 		if (!this.options.editable) return;
 
 		html.find(".item-create-theme").click(this._addThemeBook.bind(this));
+		html.find(".edit-themekit").click(this._editThemeKit.bind(this));
 		html.find('.sheet-lock-button').click(this._toggleLockState.bind(this));
 		html.find('.alias-toggle').click(this._aliasToggle.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
@@ -40,6 +41,12 @@ export class CitySheet extends ActorSheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		await actor.toggleLockState();
+	}
+
+	async _editThemeKit(event) {
+		const TKId = getClosestData(event, "tkId");
+		const tk = this.actor.getThemeKit(TKId);
+		await CityDialogs.itemEditDialog(tk);
 	}
 
 	async _aliasToggle(event) {
@@ -61,62 +68,6 @@ export class CitySheet extends ActorSheet {
 	async _scrollSheet (event) {
 		this.scrollTop = $(".actor-sheet").scrollTop();
 	}
-
-
-	// async themeBookSelector() {
-	// 	const all_themebooks = await CityHelpers.getAllItemsByType("themebook", game);
-	// 	const actorThemes = this.actor.getThemes();
-	// 	const actorThemebooks = await Promise.all(actorThemes.map( theme => theme.getThemebook()));
-	// 	const sorted = all_themebooks.sort( (a, b) => {
-	// 		if (a.displayedName < b.displayedName)
-	// 			return -1;
-	// 		if (a.displayedName > b.displayedName)
-	// 			return 1;
-	// 		if (a.data.free_content && !b.data.free_content)
-	// 			return 1;
-	// 		if (b.data.free_content && !a.data.free_content)
-	// 			return -1;
-	// 		return 0;
-	// 	});
-	// 	const remduplicates = sorted.reduce( (acc, x) => {
-	// 		if (!acc.find( item => item.name == x.name))
-	// 			acc.push(x);
-	// 		return acc;
-	// 	}, []);
-	// 	const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
-	// 	Debug(themebooks);
-	// 	const templateData = {actor: this.actor, data: this.actor.system, themebooks};
-	// 	const title = "Select Themebook";
-	// 	const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
-	// 	return new Promise ( (conf, reject) => {
-	// 		const options = {};
-	// 		const dialog = new Dialog({
-	// 			title:`${title}`,
-	// 			content: html,
-	// 			buttons: {
-	// 				one: {
-	// 					label: "Select",
-	// 					callback: (html) => {
-	// 						const selected = $(html).find("#themebook-choices input[type='radio']:checked");
-	// 						if (selected.length == 0) {
-	// 							console.log("Nothing selected");
-	// 							conf(null);
-	// 						}
-	// 						const themebookName = selected.val();
-	// 						const themebook = themebooks.find( x=> x.name == themebookName);
-	// 						conf(themebook);
-	// 					},
-	// 					cancel: {
-	// 						label: "Cancel",
-	// 						callback: () => conf(null)
-	// 					}
-	// 				},
-	// 			},
-	// 			default: "cancel"
-	// 		}, options);
-	// 		dialog.render(true);
-	// 	});
-	// }
 
 	async confirmBox(title, text, defaultYes = false) {
 		const loc_title = localizeS(title);

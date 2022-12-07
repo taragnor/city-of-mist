@@ -1,4 +1,4 @@
-<div class="{{tbdata.type}}-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
+<div class="{{themebook.subtype}}-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
 	<div class="themebook-name"> {{themebook.displayedName}}</div>
 	<div class ="theme-title">
 		{{#if (ne themetype "character")}}
@@ -16,12 +16,15 @@
 			{{/if}}
 		</div>
 		{{/if}}
-			<form>
+		<form>
 			<textarea class="theme-name-input borderless" type="text" wrap="soft" rows="2" maxlength="26" {{#if locked}} disabled {{/if}}>{{theme.name}}</textarea>
-			</form>
-			{{#if (eq locked false)}}
-			<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
-			{{/if}}
+		</form>
+		{{#if (eq locked false)}}
+		{{#if (eq themebook.type "themekit")}}
+		<a class="item-control edit-themekit" title="Edit ThemeKit" data-tk-id="{{themebook.id}}"><i class="fas fa-pencil"></i></a>
+		{{/if}}
+		<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
+		{{/if}}
 		{{#if theme.system.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
 	</div>
 	<div class="att-fade-section">
@@ -66,36 +69,36 @@
 				{{/if}}
 			</div>
 			<div class="fade-text flex-std">
-				{{#if (eq tbdata.type "Logos")}} {{localize 'CityOfMist.terms.crack' }}
+				{{#if (eq themebook.subtype "Logos")}} {{localize 'CityOfMist.terms.crack' }}
 				{{/if}}
-				{{#if (eq tbdata.type "Mythos")}} {{localize 'CityOfMist.terms.fade' }}
+				{{#if (eq themebook.subtype "Mythos")}} {{localize 'CityOfMist.terms.fade' }}
 				{{/if}}
-				{{#if (eq tbdata.type "Mist")}} {{localize 'CityOfMist.terms.strike' }}
+				{{#if (eq themebook.subtype "Mist")}} {{localize 'CityOfMist.terms.strike' }}
 				{{/if}}
-				{{#if (eq tbdata.type "Crew")}} {{localize 'CityOfMist.terms.crack' }}
+				{{#if (eq themebook.subtype "Crew")}} {{localize 'CityOfMist.terms.crack' }}
 				{{/if}}
-				{{#if (eq tbdata.type "Extra")}} {{localize 'CityOfMist.terms.crack' }}
+				{{#if (eq themebook.subtype "Extra")}} {{localize 'CityOfMist.terms.crack' }}
 				{{/if}}
 			</div>
 		</div>
 	</div>
-	{{#if (eq tbdata.type "Logos")}}
+	{{#if (eq themebook.subtype "Logos")}}
 	<div class="themebook-identity-label"> <b class="themebook-identity">
 			{{localize 'CityOfMist.terms.identity' }}
 		</b> </div>
 	{{/if}}
-	{{#if (eq tbdata.type "Mythos")}}
+	{{#if (eq themebook.subtype "Mythos")}}
 	<div class="themebook-mystery-label"> <b class="themebook-mystery">
 			{{localize 'CityOfMist.terms.mystery' }}
 		</b> </div>
 	{{/if}}
-	{{#if (eq tbdata.type "Mist")}}
+	{{#if (eq themebook.subtype "Mist")}}
 	<div class="themebook-mist-label"> <b class="themebook-directive">
 			{{localize 'CityOfMist.terms.directive' }}
 		</b> </div>
 	{{/if}}
 	<!-- Crew and Extra -->
-	{{#if (or (eq tbdata.type "Crew") (eq tbdata.type "Extra"))}}
+	{{#if (or (eq themebook.subtype "Crew") (eq themebook.subtype "Extra"))}}
 	<div class="themebook-crew-label"> <b class="themebook-mystery">
 			{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
 		</b> </div>
