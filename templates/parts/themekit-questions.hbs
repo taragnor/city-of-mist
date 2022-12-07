@@ -1,6 +1,6 @@
-<div id="{{tagtype}}-questions">
-	<h1 id="{{tagtype}}-tags-header"> {{tagtype}} tags
-		<a class="tk-create-{{tagtype}}-tag" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
+<div class="{{tagtype}}-questions">
+	<h1 class="header"> {{tagtype}} tags
+		<a class="tk-create-{{tagtype}}-tag" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 	</h1>
 	{{#each tagList as |tag ind|}}
 	{{#if ../item.system.themebook_name}}

@@ -3123,3 +3123,15 @@ span.secret {
 	text-decoration: underline;
 	font-size: larger;
 }
+
+.improvements-section .header,
+.power-questions .header,
+.weakness-questions .header {
+	font-size: 1.4em;
+	font-family: "Rift Bold";
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 0;
+	margin-left: 0.3em;
+	margin-top: 7px;
+}

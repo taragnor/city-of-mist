@@ -1,9 +1,12 @@
 <div class="improvements-section">
-	<div class="header">
+	<h1 class="header">
 		Improvements
-	</div>
+		<a class="tk-create-imp"> <i class="fas fa-plus-square"></i></a>
+	</h1>
 	{{#each item.system.improvements as |imp ind|}}
-<!-- //TODO THIS -->
+	{{imp.name}}
+	<!-- //TODO THIS -->
+	<a class="tk-delete-imp" title="Delete Improvement" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
 	{{/each}}
 </div>
 </h2>
