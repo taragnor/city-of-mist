@@ -243,11 +243,32 @@ export class CityItem extends Item {
 
 	}
 
-	/** delete a tag from a themekit
-	type : "power" || "weakness"
+	/** add an improvement to a theme kit
 	*/
-	async deleteTag(index, type = "power") {
-		const listname = `${type}_tags`;
+	async addImprovement() {
+		if (!this.isThemeKit())
+			throw new Error("trying to add tag to non-theme kit");
+		const imps = Array.from( Object.values(this.system.improvements));
+		const description = "";
+		imps.push( {name: "Unnamed Improvement", description});
+		const impObj = Object.assign({}, imps);
+		await this.update( {"system.improvements": impObj});
+	}
+
+	/** delete a tag or improvement from a themekit
+	type : "power" || "weakness" || "improvement"
+	*/
+	async deleteTagOrImprovement(index, type = "power") {
+		let listname;
+		switch (type) {
+			case "power":
+			case "weakness":
+				listname = `${type}_tags`;
+				break;
+			case "improvement":
+				listname = `improvements`;
+				break;
+		}
 		let tags = Array.from(Object.values(this.system[listname]));
 		tags.splice(index, 1);
 		tags.sort( (a,b) => a.letter.localeCompare(b.letter));

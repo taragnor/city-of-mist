@@ -68,8 +68,10 @@ export class CityItemSheet extends ItemSheet {
 		if (!this.options.editable) return;
 		html.find(".tk-create-power-tag").click(this._addTKPowerTag.bind(this));
 		html.find(".tk-create-weakness-tag").click(this._addTKWeaknessTag.bind(this));
+		html.find(".tk-create-imp").click(this._addTKImprovement.bind(this));
 		html.find(".tk-delete-power-tag").click(this._deleteTKPowerTag.bind(this));
 		html.find(".tk-delete-weakness-tag").click(this._deleteTKWeaknessTag.bind(this));
+		html.find(".tk-delete-imp").click(this._deleteTKImprovement.bind(this));
 		html.find(".item-create-power-tag-question").click(this._addPowerTagQuestion.bind(this));
 		html.find(".item-create-weakness-tag-question").click(this._addPowerTagQuestion.bind(this));
 		html.find(".delete-tag-question").click(this._deletePowerTagQuestion.bind(this));
@@ -215,16 +217,23 @@ export class CityItemSheet extends ItemSheet {
 		await this.item.addWeaknessTag();
 	}
 
+	async _addTKImprovement() {
+		await this.item.addImprovement();
+	}
+
 	async _deleteTKPowerTag(event) {
 		const index = getClosestData(event, "index");
-		console.log(`Delete Power Tag -- index ${index}`);
-		await this.item.deleteTag(index, "power");
+		await this.item.deleteTagOrImprovement(index, "power");
 	}
 
 	async _deleteTKWeaknessTag(event) {
 		const index = getClosestData(event, "index");
-		console.log(`Delete Weakn Tag -- index ${index}`);
-		await this.item.deleteTag(index, "weakness");
+		await this.item.deleteTagOrImprovement(index, "weakness");
+	}
+
+	async _deleteTKImprovement(event) {
+		const index = getClosestData(event, "index");
+		await this.item.deleteTagOrImprovement(index, "improvement");
 	}
 
 }
