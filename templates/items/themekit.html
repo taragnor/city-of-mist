@@ -32,6 +32,7 @@
 		<textarea name="data.description">{{data.description}}</textarea>
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="power" tagList=item.system.power_tags}}
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="weakness" tagList=item.system.weakness_tags}}
+	{{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
 	</section>
 
 </form>
