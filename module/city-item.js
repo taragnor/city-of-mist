@@ -149,9 +149,10 @@ export class CityItem extends Item {
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
 		const id = this.system.themebook_id;
-		if (!id) return null;
+		const name = this.system.themebook_name;
+		if (!name) return null;
 		const tb = actor.items.find( x=> x.id == id) ??
-CityHelpers.getThemebook(this.system.themebook_name, id);
+CityHelpers.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb;
 	}
