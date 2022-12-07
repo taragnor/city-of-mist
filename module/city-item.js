@@ -142,7 +142,7 @@ export class CityItem extends Item {
 		return themebook.system.type;
 	}
 
-	/** gets themebook from a theme
+	/** gets themebook or themekit from a theme or themekit
 	*/
 	getThemebook() {
 		if (this.type != "theme" && !this.isThemeKit())

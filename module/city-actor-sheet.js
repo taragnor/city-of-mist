@@ -57,7 +57,6 @@ export class CityActorSheet extends CitySheet {
 
 		html.find('.identity-input').change(this._themeChangeInput.bind(this));
 		html.find('.active-extra-drop-down').change(this._activeExtraChange.bind(this));
-		// html.find('.create-status').click(this._createStatus.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
 
 		html.find('.create-clue').click(this._createClue.bind(this));
@@ -75,7 +74,6 @@ export class CityActorSheet extends CitySheet {
 		html.find('.decrement-buildup').click( this._buildUpDecrement.bind(this) );
 		html.find('.add-buildup-improvement').click( this._addBUImprovement.bind(this) );
 		html.find('.execute-move-button').click( this._executeMove.bind(this) );
-		// html.find('.create-story-tag').click(this._createStoryTag.bind(this));
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
 		html.find('.clue-use-button').click(this._useClue.bind(this));
 		// this.testHandlers(html);
