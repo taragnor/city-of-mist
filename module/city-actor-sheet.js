@@ -90,18 +90,6 @@ export class CityActorSheet extends CitySheet {
 
 	async getData() {
 		let data = await super.getData();
-		for (let item of data.items) {
-			//trying to remove linking
-			// if (item.type == "theme") {
-			// 	try {
-			// 		this.linkThemebook(item);
-			// 	} catch (e) {
-			// 		Debug(item);
-			// 		throw e;
-			// 	}
-			// }
-		}
-		// data.data.personalStoryTags = this.getPersonalStoryTags();
 		data.storyTags = this.getStoryTags();
 		const object =  {
 			secrets: this.actor.isOwner,
@@ -124,8 +112,8 @@ export class CityActorSheet extends CitySheet {
 
 	linkThemebook(theme) {
 		throw new Error("Deprecated");
-		const themedata = theme.system;
-		themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
+		// const themedata = theme.system;
+		// themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
 	}
 
 	/* -------------------------------------------- */
