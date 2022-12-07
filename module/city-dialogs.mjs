@@ -78,19 +78,19 @@ export class CityDialogs {
 	/** opens an edit dialog to make a new theme kit, allowing choice of a base themebook
 	*/
 	static async createThemeKitDialog(actor) {
-
+		const tk = await actor.createNewThemeKit();
+		const ret = await this.itemEditDialog(tk);
+		if (ret) return ret;
+		else {
+			await actor.deleteThemeKit(tk.id);
+			return null;
+		}
 	}
 
 	static async statusDropDialog(actor, name, tier, facedanger = false) {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const statusList = actor.my_statuses;
-		// if (statusList.length == 0)
-		// 	return {
-		// 		action: "create",
-		// 		name,
-		// 		tier
-		// 	};
 			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger, classic, reloaded});
 			return new Promise ( (conf, _reject) => {
 				const dialog = new Dialog({

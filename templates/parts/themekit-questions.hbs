@@ -1,0 +1,17 @@
+<div id="{{tagtype}}-questions">
+	<h1 id="{{tagtype}}-tags-header"> {{tagtype}} tags
+		<a class="tk-create-{{tagtype}}-tag" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
+	</h1>
+	{{#each tagList as |tag ind|}}
+	{{#if ../item.system.themebook_name}}
+	<span>Question</span>
+	<div class="question">
+		{{tag.letter}}
+		{{getTBQuestion ../item.themebook tag.letter "power"}}
+	</div>
+	{{/if}}
+		<input class="tk-tagname-entry" name="data.{{../tagtype}}_tags.{{ind}}.name" type="text" value="{{tag.name}}" placeholder=""/>
+		<a class="tk-delete-{{../tagtype}}-tag" title="Delete Item" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
+	</div>
+	{{/each}}
+

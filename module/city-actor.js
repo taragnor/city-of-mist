@@ -40,10 +40,10 @@ export class CityActor extends Actor {
 		return this.getSpectrums();
 	}
 
+
 	is_character() {
 		return this.type == "character";
 	}
-
 
 	is_scene_container() {
 		return this.name.includes(SceneTags.SCENE_CONTAINER_ACTOR_NAME);
@@ -313,20 +313,6 @@ export class CityActor extends Actor {
 			await this.deleteJuice(id);
 	}
 
-	// getActivated() {
-	// 	if (this.system.selectedTags)
-	// 		return this.system.selectedTags;
-	// 	else return [];
-	// }
-
-	//getActivatedTags() {
-	//	//return personal non-story tags that are activated
-	//	return this.getActivated().
-	//		filter(x => x.type == "tag" && x.subtype != "story").
-	//		map( x=> this.getTag(x.tagId)).
-	//		filter (x=>x);
-	//}
-
 	async deleteImprovement(impId) {
 		const imp  = await this.getImprovement(impId);
 		if (!imp)
@@ -345,8 +331,15 @@ export class CityActor extends Actor {
 	}
 
 	async deleteTheme(themeId) {
+		const theme = this.getTheme(themeId);
+		if (theme.usesThemeKit)
+			await this.deleteThemeKit(theme.themebook.id);
 		await this.deleteEmbeddedById(themeId);
 		await this.update({data: {num_themes: this.system.num_themes-1}});
+	}
+
+	async deleteThemeKit(themeKitId) {
+		await this.deleteEmbeddedById(themeKitId);
 	}
 
 	getImprovements(id = null) {
@@ -355,7 +348,8 @@ export class CityActor extends Actor {
 
 	async createNewTheme(name, themebook_id) {
 		const themebooks  = CityHelpers.getAllItemsByType("themebook", game);
-		const themebook = themebooks.find( x=> x.id == themebook_id);
+		const themebook = themebooks.find( x=> x.id == themebook_id)
+			?? this.items.find(item => item.id == themebook_id);
 		const img = themebook.img;
 		if (!img )
 			throw new Error(`Themebook ID #${themebook_id} not found`);
@@ -363,10 +357,19 @@ export class CityActor extends Actor {
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
 		const obj = {
-			name, type: "theme", img, data: {themebook_id, themebook_name, unspent_upgrades, nascent}
+			name, type: "theme", data: {themebook_id, themebook_name, unspent_upgrades, nascent}
 		};
 		await this.createNewItem(obj);
 		await this.update({data: {num_themes: this.system.num_themes+1}});
+	}
+
+	async createNewThemeKit() {
+		const obj = {
+			name,
+			type: "themebook",
+			is_theme_kit: true,
+		}
+		return await this.createNewItem(obj);
 	}
 
 	getActivatedImprovementEffects(move_id) {

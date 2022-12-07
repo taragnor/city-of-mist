@@ -56,7 +56,7 @@
 		}
 	},
 	"Item": {
-		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal"],
+		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal", "themekit"],
 		"templates": {
 			"default": {
 				"description": "",
@@ -87,9 +87,15 @@
 			"type": "Logos",
 			"power_questions": [],
 			"weakness_questions": [],
-			"improvements": [],
-			"is_theme_kit": false,
-			"theme_kit_basis": ""
+			"improvements": []
+		},
+		"themekit": {
+			"themebook_id": "",
+			"themebook_name":"",
+			"use_tb_improvements": false,
+			"power_tags": {},
+			"weakness_tags":{},
+			"improvements":{}
 		},
 		"tag": {
 			"templates": ["default", "actorSelectable"],
@@ -128,8 +134,7 @@
 			"themebook_name":"",
 			"unspent_upgrades":0,
 			"img": "",
-			"nascent" : false,
-			"is_theme_kit": false
+			"nascent" : false
 		},
 		"improvement": {
 			"templates": ["default", "expendable"],

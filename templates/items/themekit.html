@@ -1,0 +1,38 @@
+<form class="{{cssClass}} theme-kit-sheet" autocomplete="off">
+	<header class="sheet-header">
+		<div class="header-fields">
+			<h1 class="item-name"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+			<h1 class="item-name"><input name="data.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Locale Name"/></h1>
+		</div>
+	</header>
+	<section class="sheet-body flex-vertical">
+		<select name="data.type" data-dtype="String">
+			{{#select item.system.type}}
+			<option value="">—</option>
+			<option value="Crew">Crew</option>
+			<option value="Extra">Extra</option>
+			<option value="Logos">Logos</option>
+			<option value="Mythos">Mythos</option>
+			<option value="Mist">Mist</option>
+			{{/select}}
+		</select>
+		<label>
+			Basis Themebook
+		</label>
+		<select name="data.themebook_name" data-dtype="String">
+			<option value="">-</option>
+			{{#select item.system.themebook_name}}
+			{{#each themebooks as |themebook|}}
+			<option value="{{themebook.name}}">
+			{{themebook.displayedName}}
+			</option>
+			{{/each}}
+			{{/select}}
+		</select>
+		<textarea name="data.description">{{data.description}}</textarea>
+		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="power" tagList=item.system.power_tags}}
+		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="weakness" tagList=item.system.weakness_tags}}
+	</section>
+
+</form>
+

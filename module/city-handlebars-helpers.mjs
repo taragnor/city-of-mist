@@ -222,6 +222,16 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			if (CitySettings.awardAttentionForWeakness())
 				return true;
 			return false;
+		},
+
+		'getTBQuestion': function(tb, letter, type="power") {
+			try {
+				return tb.getQuestion(type, letter);
+			}  catch (e) {
+				console.error(e);
+				return "ERROR";
+			}
+
 		}
 
 	}; //end of object holding helpers

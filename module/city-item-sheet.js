@@ -28,6 +28,9 @@ export class CityItemSheet extends ItemSheet {
 				?.getTags()
 				?.filter(tag => tag.system.theme_id == this.item.system.theme_id && !tag.system.parentId)
 		}
+		if (this.item.isThemeKit()) {
+			data.themebooks = CityHelpers.getAllItemsByType("themebook", game);
+		}
 		return data;
 	}
 
@@ -63,6 +66,10 @@ export class CityItemSheet extends ItemSheet {
 		super.activateListeners(html);
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
+		html.find(".tk-create-power-tag").click(this._addTKPowerTag.bind(this));
+		html.find(".tk-create-weakness-tag").click(this._addTKWeaknessTag.bind(this));
+		html.find(".tk-delete-power-tag").click(this._deleteTKPowerTag.bind(this));
+		html.find(".tk-delete-weakness-tag").click(this._deleteTKWeaknessTag.bind(this));
 		html.find(".item-create-power-tag-question").click(this._addPowerTagQuestion.bind(this));
 		html.find(".item-create-weakness-tag-question").click(this._addPowerTagQuestion.bind(this));
 		html.find(".delete-tag-question").click(this._deletePowerTagQuestion.bind(this));
@@ -200,7 +207,29 @@ export class CityItemSheet extends ItemSheet {
 		return false;
 	}
 
+	async _addTKPowerTag() {
+		await this.item.addPowerTag();
+	}
+
+	async _addTKWeaknessTag() {
+		await this.item.addWeaknessTag();
+	}
+
+	async _deleteTKPowerTag(event) {
+		const index = getClosestData(event, "index");
+		console.log(`Delete Power Tag -- index ${index}`);
+		await this.item.deleteTag(index, "power");
+	}
+
+	async _deleteTKWeaknessTag(event) {
+		const index = getClosestData(event, "index");
+		console.log(`Delete Weakn Tag -- index ${index}`);
+		await this.item.deleteTag(index, "weakness");
+	}
+
 }
+
+
 
 export class CityItemSheetLarge extends CityItemSheet {
 	/** @override */

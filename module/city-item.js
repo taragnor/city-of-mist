@@ -68,6 +68,14 @@ export class CityItem extends Item {
 		return this.system.subtype;
 	}
 
+	isThemeKit() {
+		return this.type == "themekit";
+	}
+
+	usesThemeKit() {
+		return this.type == "theme" && this.themebook.isThemeKit;
+	}
+
 	isStoryTag() {
 		return this.isTag() && this.subtype == "story";
 	}
@@ -130,15 +138,16 @@ export class CityItem extends Item {
 		return themebook.system.type;
 	}
 
+	/** gets themebook from a theme
+	*/
 	getThemebook() {
+		if (this.type != "theme" && !this.isThemeKit())
+			throw new Error("Can only be called from a theme or themekit");
+		const actor = this.parent;
 		const id = this.system.themebook_id;
-		let tb;
-		if (this.system.is_theme_kit) {
-			tb = this.items.find( x=> x.id == id);
-		} else {
-			tb = CityHelpers.getThemebook(this.system.themebook_name, id);
-		}
-		if (!tb) throw new Error(`Can't fuind themebook for ${this.system.themebook_id} on ${this.name}`)
+		const tb = CityHelpers.getThemebook(this.system.themebook_name, id) ??
+			actor.items.find( x=> x.id == id);
+		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb;
 	}
 
@@ -150,12 +159,12 @@ export class CityItem extends Item {
 		return this.actor.items.filter( x => x.type == "improvement" && x.system.theme_id == this.id);
 	}
 
+	/** returns the amount of build u points a theme is worth
+	*/
 	getBuildUpValue() {
-		//used by theme
 		const tagValue = this.tags().reduce( (a,tag) => tag.upgradeCost() + a , 0);
 		const impValue = this.improvements().reduce( (a,imp) => a + imp.upgradeCost() , 0);
 		return Math.max(0, impValue + tagValue - 3);
-		//returns amount of BU points a theme has
 	}
 
 	developmentLevel () {
@@ -171,6 +180,85 @@ export class CityItem extends Item {
 		return devel;
 	}
 
+	/** gets the relevant question from a themebook
+	type is "power" or "weakness"
+	*/
+	getQuestion(type, letter) {
+		if (this.type != "themebook")
+			throw new Error("Can only be run on a themebook");
+		switch (type) {
+			case "power":
+				break;
+			case "weakness":
+				break;
+			default: throw new Error(`bad type: ${type}`);
+
+		}
+		const question = this.system[`${type}_questions`][letter].question;
+		return question;
+	}
+
+	/** add a power tag to themekit
+	*/
+	async addPowerTag() {
+		if (!this.isThemeKit())
+			throw new Error("trying to add power tag to non-theme kit");
+		const powerTags = Array.from(Object.values(this.system.power_tags));
+		const letters = Array.from("ABCDEFGHIJK");
+		const letter = letters.reduce( (acc, l) => {
+			if (acc) return acc;
+			if (powerTags.some( x=> x.letter == l)) return acc;
+			return l;
+		}, null);
+		if (!letter) {
+			ui.notifications.error("Max number of power tags reached");
+			return;
+		}
+		powerTags.push( {name: "Unnamed Tag", letter});
+		powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
+		const powerTagsObj = Object.assign({}, powerTags);
+		await this.update({ "system.power_tags": powerTagsObj});
+	}
+
+	/** add a weakness tag to themekit
+	*/
+	async addWeaknessTag() {
+		if (!this.isThemeKit())
+			throw new Error("trying to add tag to non-theme kit");
+		const weakTags = Array.from( Object.values(this.system.weakness_tags));
+		const letters = Array.from("ABCDE");
+		const letter = letters.reduce( (acc, l) => {
+			if (acc) return acc;
+			if (weakTags.some( x=> x.letter == l)) return acc;
+			return l;
+		}, null);
+		if (!letter) {
+			ui.notifications.error("Max number of weakness tags reached");
+			return;
+		}
+		weakTags.push( {name: "Unnamed Tag", letter});
+		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
+		const weakTagsObj = Object.assign({}, weakTags);
+		await this.update( {"system.weakness_tags": weakTagsObj});
+
+	}
+
+	/** delete a tag from a themekit
+	type : "power" || "weakness"
+	*/
+	async deleteTag(index, type = "power") {
+		const listname = `${type}_tags`;
+		let tags = Array.from(Object.values(this.system[listname]));
+		tags.splice(index, 1);
+		tags.sort( (a,b) => a.letter.localeCompare(b.letter));
+		const tagsObj = Object.assign({}, tags);
+		let clearObj  = {};
+		clearObj[`system.${listname}`]  = 0;
+		let updateObj  = {};
+		updateObj[`system.${listname}`]  = tagsObj;
+		await this.update(clearObj);
+		await this.update(updateObj);
+	}
 
 	expendsOnUse() {
 		switch (this.type) {
@@ -656,8 +744,13 @@ export class CityItem extends Item {
 		if (this.isTag() || this.isImprovement()) {
 			return this.theme.getThemebook();
 		}
-		if (this.isTheme()) return this.getThemebook();
-		else return null;
+		try {
+		if (this.isTheme() || this.isThemeKit()) return this.getThemebook();
+		} catch (e) {
+			console.error(e);
+			return null;
+		}
+		return null;
 	}
 
 	async reloadImprovementFromCompendium() {
