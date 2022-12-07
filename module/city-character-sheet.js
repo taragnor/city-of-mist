@@ -30,8 +30,8 @@ export class CityCharacterSheet extends CityActorSheet {
 				return -1;
 			if (b.type != "theme")
 				return 1;
-			const tba  = a.system.themebook;
-			const tbb  = b.system.themebook;
+			const tba  = a.themebook;
+			const tbb  = b.themebook;
 			const value_convert = function (type) {
 				switch (type) {
 					case "Mythos": return 1;
@@ -114,6 +114,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (filterList.length == 0)
 			return null;
 		const activeExtra = filterList[0];
+		const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
+		Debug(activeTheme);
+		return activeTheme;
 		if (activeExtra != undefined)	 {
 			for (let theme of activeExtra.items.filter(x=> x.type== "theme")) {
 				this.linkThemebook(theme);

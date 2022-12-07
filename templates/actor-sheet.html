@@ -63,7 +63,7 @@
 					{{#each items as |item|}}
 					{{#if (eq item.type "theme")}}
 					<div class="flex-theme-block">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.system.themebook tbdata=item.system.themebook.system}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.themebook tbdata=item.themebook.system}}
 					</div>
 					{{/if}}
 					{{/each}}
@@ -74,12 +74,12 @@
 				{{#each data.crewThemes as |item |}}
 				<!-- Should be max of 1 -->
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.system.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.system.themebook tbdata=item.system.themebook.system data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.system.owner theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.themebook tbdata=item.themebook.system data=item.system}}
 				</div>
 				{{/each}}
 				{{#if activeExtra}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.owner theme=activeExtra locked=true sheetowner=actor themetype="extra" items=../items themebook=activeExtra.system.themebook data=activeExtra.system tbdata=activeExtra.system.themebook.system}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.parent theme=activeExtra locked=true sheetowner=actor themetype="extra" items=activeExtra.parent.items themebook=activeExtra.themebook data=activeExtra.system tbdata=activeExtra.themebook.system}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">
