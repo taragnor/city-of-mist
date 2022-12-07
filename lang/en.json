@@ -382,6 +382,8 @@
 "CityOfMist.dialog.roll.burnTag": "Burn Tag",
 "CityOfMist.dialog.roll.dontBurn": "Don't Burn",
 
+"CityOfMist.dialog.themebook_select.themekit": "Use Theme Kit",
+
 "CityOfMist.dialog.tag.usageExamples": "Examples of where Tag would apply",
 "CityOfMist.dialog.tag.counterExamples": "Examples of where Tag wouldn't apply",
 "CityOfMist.dialog.tag.restrictions": "General Restrictions to the tag's usage",

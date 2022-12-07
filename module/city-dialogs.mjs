@@ -12,6 +12,75 @@ export class CityDialogs {
 		return await HTMLTools.confirmBox(title, text, defaultYes);
 	}
 
+	static async themeBookSelector(actor) {
+		const all_themebooks = CityHelpers.getAllItemsByType("themebook", game);
+		const actorThemes = actor.getThemes();
+		const actorThemebooks = actorThemes.map( theme => theme.themebook);
+		const sorted = all_themebooks.sort( (a, b) => {
+			if (a.displayedName < b.displayedName)
+				return -1;
+			if (a.displayedName > b.displayedName)
+				return 1;
+			if (a.system.free_content && !b.system.free_content)
+				return 1;
+			if (b.system.free_content && !a.system.free_content)
+				return -1;
+			return 0;
+		});
+		const remduplicates = sorted.reduce( (acc, x) => {
+			if (!acc.find( item => item.name == x.name))
+				acc.push(x);
+			return acc;
+		}, []);
+		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
+		const templateData = {actor: actor, data: actor.system, themebooks};
+		const title = "Select Themebook";
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
+		return new Promise ( (conf, reject) => {
+			const options = {};
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: "Select",
+						callback: async (html) => {
+							const selected = $(html).find("#themebook-choices input[type='radio']:checked");
+							if (selected.length == 0) {
+								console.log("Nothing selected");
+								conf(null);
+							}
+							const themebookName = selected.val();
+							if (themebookName != "theme-kit") {
+								const themebook = themebooks.find( x=> x.name == themebookName);
+								conf(themebook);
+							}
+							else {
+								const tk = await this.createThemeKitDialog(actor);
+								if (tk)
+									conf(tk);
+								else conf(null);
+							}
+						},
+						cancel: {
+							label: "Cancel",
+							callback: () => conf(null)
+						}
+					},
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+
+	}
+
+	/** opens an edit dialog to make a new theme kit, allowing choice of a base themebook
+	*/
+	static async createThemeKitDialog(actor) {
+
+	}
+
 	static async statusDropDialog(actor, name, tier, facedanger = false) {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
@@ -405,8 +474,6 @@ export class CityDialogs {
 	static async tagReview(reviewList, moveId, session, actor) {
 		return await TagReviewDialog.create(reviewList, moveId, session, actor);
 	}
-
-
 
 	static async itemEditDialog(item) {
 		item.sheet.render(true);

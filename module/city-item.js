@@ -131,7 +131,15 @@ export class CityItem extends Item {
 	}
 
 	getThemebook() {
-		return CityHelpers.getThemebook(this.system.themebook_name, this.system.themebook_id);
+		const id = this.system.themebook_id;
+		let tb;
+		if (this.system.is_theme_kit) {
+			tb = this.items.find( x=> x.id == id);
+		} else {
+			tb = CityHelpers.getThemebook(this.system.themebook_name, id);
+		}
+		if (!tb) throw new Error(`Can't fuind themebook for ${this.system.themebook_id} on ${this.name}`)
+		return tb;
 	}
 
 	tags() {
@@ -606,7 +614,7 @@ export class CityItem extends Item {
 		return this.getDisplayedName();
 	}
 
-	async spend( amount= 1 ) {
+	async spend( amount = 1 ) {
 		const curr = this.getAmount();
 		if (amount > curr)
 			console.error("${this.name}: Trying to spend more ${this.type} (${amount}) than you have ${curr}");

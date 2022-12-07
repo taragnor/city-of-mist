@@ -87,7 +87,9 @@
 			"type": "Logos",
 			"power_questions": [],
 			"weakness_questions": [],
-			"improvements": []
+			"improvements": [],
+			"is_theme_kit": false,
+			"theme_kit_basis": ""
 		},
 		"tag": {
 			"templates": ["default", "actorSelectable"],
@@ -126,7 +128,8 @@
 			"themebook_name":"",
 			"unspent_upgrades":0,
 			"img": "",
-			"nascent" : false
+			"nascent" : false,
+			"is_theme_kit": false
 		},
 		"improvement": {
 			"templates": ["default", "expendable"],
