@@ -214,7 +214,8 @@ export class CityItem extends Item {
 			ui.notifications.error("Max number of power tags reached");
 			return;
 		}
-		powerTags.push( {name: "Unnamed Tag", letter});
+		const description = "";
+		powerTags.push( {name: "Unnamed Tag", letter, description});
 		powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
 		const powerTagsObj = Object.assign({}, powerTags);
 		await this.update({ "system.power_tags": powerTagsObj});
@@ -236,11 +237,11 @@ export class CityItem extends Item {
 			ui.notifications.error("Max number of weakness tags reached");
 			return;
 		}
-		weakTags.push( {name: "Unnamed Tag", letter});
+		const description = "";
+		weakTags.push( {name: "Unnamed Tag", letter, description});
 		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
 		const weakTagsObj = Object.assign({}, weakTags);
 		await this.update( {"system.weakness_tags": weakTagsObj});
-
 	}
 
 	/** add an improvement to a theme kit

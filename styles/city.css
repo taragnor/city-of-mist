@@ -3135,3 +3135,33 @@ span.secret {
 	margin-left: 0.3em;
 	margin-top: 7px;
 }
+
+.tk-improvement,
+.tk-tag {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+}
+
+.tk-delete-imp,
+.tk-delete-power-tag,
+.tk-delete-weakness-tag {
+	width: 5%;
+	max-width: 5%;
+}
+
+.tk-imp-name,
+.tk-tagname-entry
+{
+	max-width: 20%;
+	min-width: 15%;
+}
+
+.tk-imp-description,
+.tk-tagname-description
+{
+	min-width: 70%;
+	max-width: 70%;
+}
+

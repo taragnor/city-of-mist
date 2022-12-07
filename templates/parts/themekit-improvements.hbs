@@ -4,9 +4,11 @@
 		<a class="tk-create-imp"> <i class="fas fa-plus-square"></i></a>
 	</h1>
 	{{#each item.system.improvements as |imp ind|}}
-	{{imp.name}}
-	<!-- //TODO THIS -->
-	<a class="tk-delete-imp" title="Delete Improvement" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
+	<div class="tk-improvement">
+		<a class="tk-delete-imp" title="Delete Improvement" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
+		<input class="tk-imp-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
+		<input class="tk-imp-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
+	</div>
 	{{/each}}
 </div>
 </h2>
