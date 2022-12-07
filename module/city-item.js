@@ -73,7 +73,7 @@ export class CityItem extends Item {
 	}
 
 	usesThemeKit() {
-		return this.type == "theme" && this.themebook.isThemeKit;
+		return this.type == "theme" && this.themebook.isThemeKit();
 	}
 
 	isStoryTag() {

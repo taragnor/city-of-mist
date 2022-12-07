@@ -332,13 +332,14 @@ export class CityActor extends Actor {
 
 	async deleteTheme(themeId) {
 		const theme = this.getTheme(themeId);
-		if (theme.usesThemeKit)
+		if (theme.usesThemeKit())
 			await this.deleteThemeKit(theme.themebook.id);
 		await this.deleteEmbeddedById(themeId);
 		await this.update({data: {num_themes: this.system.num_themes-1}});
 	}
 
 	async deleteThemeKit(themeKitId) {
+		console.log("Deleting Theme Kit");
 		await this.deleteEmbeddedById(themeKitId);
 	}
 
@@ -363,10 +364,10 @@ export class CityActor extends Actor {
 		await this.update({data: {num_themes: this.system.num_themes+1}});
 	}
 
-	async createNewThemeKit() {
+	async createNewThemeKit( name = "Unnamed Theme Kit") {
 		const obj = {
 			name,
-			type: "themebook",
+			type: "themekit",
 			is_theme_kit: true,
 		}
 		return await this.createNewItem(obj);
