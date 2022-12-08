@@ -48,7 +48,7 @@ export class CityItem extends Item {
 				try {
 					if (this.themebook && this.themebook.isThemeKit()) {
 						const tags = this.themebook.themekit_getTags(this.subtype);
-						return tags.find(x=> x.name = this.name).description ?? "";
+						return tags.find(x=> x.name = this.name)?.description ?? "";
 					}
 				} catch (e) {
 					console.error(e);
@@ -174,7 +174,7 @@ export class CityItem extends Item {
 		const actor = this.parent;
 		const id = this.system.themebook_id;
 		const name = this.system.themebook_name;
-		if (!name) return null;
+		if (!name && !id) return null;
 		const tb = actor.items.find( x=> x.id == id) ??
 			CityHelpers.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
@@ -248,6 +248,7 @@ export class CityItem extends Item {
 		powerTags.push( {name: "Unnamed Tag", letter, description});
 		powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
 		const powerTagsObj = Object.assign({}, powerTags);
+		await this.update({ "system.power_tags": 0});
 		await this.update({ "system.power_tags": powerTagsObj});
 	}
 
@@ -270,7 +271,9 @@ export class CityItem extends Item {
 		const description = "";
 		weakTags.push( {name: "Unnamed Tag", letter, description});
 		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
+		await this.update( {"system.weakness_tags": 0});
 		const weakTagsObj = Object.assign({}, weakTags);
+		console.log(weakTagsObj);
 		await this.update( {"system.weakness_tags": weakTagsObj});
 	}
 
@@ -282,6 +285,8 @@ export class CityItem extends Item {
 		const imps = Array.from( Object.values(this.system.improvements));
 		const description = "";
 		imps.push( {name: "Unnamed Improvement", description});
+		//clear the object
+		await this.update( {"system.improvements": 0});
 		const impObj = Object.assign({}, imps);
 		await this.update( {"system.improvements": impObj});
 	}
@@ -792,6 +797,7 @@ export class CityItem extends Item {
 		}
 		return null;
 	}
+
 	get themebook() {
 		if (this.isTag() || this.isImprovement()) {
 			if (!this.theme)
@@ -873,7 +879,7 @@ export class CityItem extends Item {
 		const tags = this.system[`${type}_tags`];
 		if (!tags)
 			return [];
-		return Array.from(Object.values(tags));
+		return Array.from(Object.values({...tags}));
 	}
 
 	/** gets improvements as an array from a themebook*/

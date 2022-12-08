@@ -641,7 +641,6 @@ export class CityActor extends Actor {
 		const theme = await this.getTheme(theme_id);
 		const themebook = await theme.themebook;
 		const data = themebook.system;
-		// const imp = data.improvements[number];
 		const imp = themebook.isThemeBook()
 			? themebook.themebook_getImprovements()[number]
 			: themebook.themekit_getImprovements()[number];
@@ -662,7 +661,7 @@ export class CityActor extends Actor {
 			}
 		};
 		try {
-			const docs =	await this.createNewItem(obj);
+			const docs = await this.createNewItem(obj);
 			await theme.decUnspentUpgrades();
 			return docs;
 		}

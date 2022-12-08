@@ -510,13 +510,16 @@ export class CityDialogs {
 		if (itemtype == "tag") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.system.question_letter == x._id && a.system.theme_id == themeId && a.system.subtype == subtype;
+					return a.system.question_letter == x._id
+						&& a.system.theme_id == themeId
+						&& a.system.subtype == subtype;
 				});
 			});
 		} else if (itemtype == "improvement") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {
-					return a.name == x.name && a.system.theme_id == themeId;
+					return a.name == x.name
+						&& a.system.theme_id == themeId;
 				});
 			});
 			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");

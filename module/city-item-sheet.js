@@ -20,7 +20,7 @@ export class CityItemSheet extends ItemSheet {
 		const itemData = this.item.toObject(false);
 		data.item = this.item;
 		data.data = itemData.system;
-		data.data.movelist = CityHelpers.getMoves()
+		data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );
 		if (this.item.type == "tag") {
@@ -237,7 +237,6 @@ export class CityItemSheet extends ItemSheet {
 	}
 
 }
-
 
 
 export class CityItemSheetLarge extends CityItemSheet {
