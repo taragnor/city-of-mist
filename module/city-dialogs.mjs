@@ -522,7 +522,8 @@ export class CityDialogs {
 		} else throw new Error(`Unknown Type ${type}`);
 		const inputList = filterlist
 			.map( x => {
-				const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   localizeS(x.name.trim());
+				const letterPart = x?.subtype && x?._id ? `${x._id}. ` :"";
+				const name = letterPart + localizeS(x.name.trim());
 				const data = [name];
 				return {
 					id: x._id, data, description: x.description
@@ -542,15 +543,18 @@ export class CityDialogs {
 		switch (type) 	 {
 			case "tag":
 				//TODO: cover case for themekit
-				list = themebook.themebook_getTagQuestions(subtype)
+				const baseList = themebook.isThemeBook() 
+					? themebook.themebook_getTagQuestions(subtype)
+				: themebook.themekit_getTags(subtype);
+				list = baseList
 				.map( x=> {
 					return  {
 						_id: x.letter,
-						name: x.question,
+						name: x.question ?? x.name,
 						theme_id: theme.id,
 						subtype,
-						subtag: x.subtag,
-						description: ""
+						subtag: x.subtag ?? false,
+						description: x.description ?? ""
 					};
 				});
 				break;
@@ -571,7 +575,6 @@ export class CityDialogs {
 				throw new Error(`Unknown Type ${type}`);
 		}
 		return list;
-
 	}
 }
 

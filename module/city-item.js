@@ -72,9 +72,6 @@ export class CityItem extends Item {
 		}
 	}
 
-	isThemeKit() {
-		return this.type == "themekit";
-	}
 
 	/** returns true if tag or improvement is part of a theme kit
 	*/
@@ -98,10 +95,10 @@ export class CityItem extends Item {
 	}
 
 	isTag() { return this.type == "tag"; }
-
 	isImprovement() {return this.type == "improvement"};
-
 	isTheme() {return this.type == "theme"};
+	isThemeKit() { return this.type == "themekit"; }
+	isThemeBook() { return this.type == "themebook"; }
 
 	isImprovementActivated(move_id, actor) {
 		const move = CityHelpers.getMoveById(move_id);
