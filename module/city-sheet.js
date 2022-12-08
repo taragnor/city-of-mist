@@ -46,6 +46,11 @@ export class CitySheet extends ActorSheet {
 	async _editThemeKit(event) {
 		const TKId = getClosestData(event, "tkId");
 		const tk = this.actor.getThemeKit(TKId);
+		if (this.actor.type != "character" && !game.user.isGM) {
+			const msg = localize("CityOfMist.error.MCEditOnly");
+			ui.notifications.warn(msg);
+			return;
+		}
 		await CityDialogs.itemEditDialog(tk);
 	}
 

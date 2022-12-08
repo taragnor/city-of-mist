@@ -495,7 +495,7 @@ export class CityDialogs {
 	*/
 	static async improvementOrTagChoiceList(actor, theme, itemtype = "tag", subtype = "power") {
 		if (!theme) throw new Error("No theme provided");
-		const list = await this._listGenFunction(actor, theme, itemtype);
+		const list = await this._listGenFunction(actor, theme, itemtype, subtype);
 		const themeId = theme.id;
 		let currList;
 		if (itemtype == "tag") {
@@ -506,6 +506,7 @@ export class CityDialogs {
 			throw new Error(`Unknown itemType: ${itemtype}`);
 		}
 		let filterlist = [];
+		//TODO: filter bug not filtering power tags correctly for theme kit
 		if (itemtype == "tag") {
 			filterlist = list.filter( x => {
 				return !currList.find(a => {

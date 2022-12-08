@@ -557,7 +557,7 @@ export class CityActor extends Actor {
 				subtype = "weakness";
 				question = tagdata.question;
 				subtag = tagdata.subtag;
-				if (this.numOfWeaknessTags(theme_id) >= 1)
+				if (this.numOfWeaknessTags(theme.id) >= 1)
 					await theme.incUnspentUpgrades();
 				break;
 			case "bonus" :
@@ -606,7 +606,7 @@ export class CityActor extends Actor {
 				subtype = "weakness";
 				tagname = tagdata.name;
 				subtag = false;
-				if (this.numOfWeaknessTags(theme_id) >= 1)
+				if (this.numOfWeaknessTags(theme.id) >= 1)
 					await theme.incUnspentUpgrades();
 				break;
 			case "bonus":
