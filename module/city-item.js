@@ -851,7 +851,26 @@ CityHelpers.getThemebook(name, id);
 		await this.spend();
 	}
 
-	//convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
+	/** gets the tags from a themekit
+	type: "power" || "weakness"
+	*/
+	themekit_getTags(type = "power") {
+		const tags = this.system[`${type}_tags`];
+		if (!tags)
+			return [];
+		return Array.from(Object.values(tags));
+	}
+
+	/** gets improvements as an array from a themebook*/
+	themekit_getImprovements() {
+		const imps = this.system.improvements;
+		if (!imps)
+			return [];
+		return Array.from(Object.values(imps));
+	}
+
+	/**convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
+	*/
 	themebook_getTagQuestions (type = "power") {
 		const questionObj = this.system[`${type}_questions`];
 		if (!questionObj) return [];

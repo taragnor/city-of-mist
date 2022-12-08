@@ -524,11 +524,18 @@ export class CityActor extends Actor {
 			throw new Error(`Couldn't get Theme for id ${theme_id} on ${this.name}`);
 		}
 		const themebook = theme.themebook;
+		if (crispy == undefined)
+			if (this.type != "character" && temp_subtype != "weakness") {
+				crispy = true;
+			} else {
+				crispy = false;
+			}
+
 		switch (themebook.type) {
 			case "themebook":
 				return await this._addTagFromThemeBook(theme, temp_subtype, question_letter, crispy);
 			case "themekit":
-				return await this._addTagFromThemekit(theme, question_letter, crispy);
+				return await this._addTagFromThemekit(theme, temp_subtype, question_letter, crispy);
 		}
 	}
 
@@ -563,12 +570,6 @@ export class CityActor extends Actor {
 			default:
 				throw new Error(`Unrecognized Tag Type ${temp_subtype}`);
 		}
-		if (crispy == undefined)
-			if (this.type != "character" && subtype != "weakness") {
-				crispy = true;
-			} else {
-				crispy = false;
-			}
 		const obj = {
 			name: "Unnamed Tag",
 			type: "tag",
@@ -585,7 +586,53 @@ export class CityActor extends Actor {
 		return await this.createNewItem(obj);
 	}
 
-	async _addTagFromThemekit(theme, question_letter, crispy) {
+	async _addTagFromThemekit(theme, temp_subtype, question_letter, crispy) {
+		const themebook = theme.themebook;
+		const tagdata = themebook
+			.themekit_getTags(temp_subtype)
+			.find( x=> x.letter == question_letter);
+		let custom_tag = false;
+		let subtag = false;
+		let question = "-";
+		let tagname, subtype;
+		switch(temp_subtype) {
+			case "power":
+				subtype = "power";
+				tagname = tagdata.name;
+				subtag = false;
+				await theme.decUnspentUpgrades();
+				break;
+			case "weakness":
+				subtype = "weakness";
+				tagname = tagdata.name;
+				subtag = false;
+				if (this.numOfWeaknessTags(theme_id) >= 1)
+					await theme.incUnspentUpgrades();
+				break;
+			case "bonus":
+				subtype = "power";
+				custom_tag = true;
+				question_letter = "_";
+				question = "???";
+				break;
+			default:
+				throw new Error(`Unknwon tag subtype ${temp_subtype}`);
+		}
+
+		const obj = {
+			name: tagname ?? "Unnamed Tag",
+			type: "tag",
+			data: {
+				subtype,
+				theme_id: theme.id,
+				question_letter,
+				question,
+				crispy,
+				custom_tag,
+				subtagRequired : subtag,
+			}
+		};
+		return await this.createNewItem(obj);
 
 	}
 
