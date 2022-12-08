@@ -630,7 +630,7 @@ export class CityActor extends Actor {
 				crispy,
 				custom_tag,
 				subtagRequired : subtag,
-			}
+			},
 		};
 		return await this.createNewItem(obj);
 

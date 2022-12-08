@@ -487,9 +487,93 @@ export class CityDialogs {
 			}
 			setTimeout(checker, 1000);
 		});
-
 	}
 
+	/** generate lsit to choose improvement or new tag for a theme:
+	itemType: "tag" || "improvement"
+	subtype: "power" || "weakness"
+	*/
+	static async improvementOrTagChoiceList(actor, theme, itemtype = "tag", subtype = "power") {
+		if (!theme) throw new Error("No theme provided");
+		const list = await this._listGenFunction(actor, theme, itemtype);
+		const themeId = theme.id;
+		let currList;
+		if (itemtype == "tag") {
+			currList = await actor.getTags(themeId, subtype);
+		} else if (itemtype == "improvement") {
+			currList = await actor.getImprovements(themeId);
+		} else {
+			throw new Error(`Unknown itemType: ${itemtype}`);
+		}
+		let filterlist = [];
+		if (itemtype == "tag") {
+			filterlist = list.filter( x => {
+				return !currList.find(a => {
+					return a.system.question_letter == x._id && a.system.theme_id == themeId && a.system.subtype == subtype;
+				});
+			});
+		} else if (itemtype == "improvement") {
+			filterlist = list.filter( x => {
+				return !currList.find(a => {
+					return a.name == x.name && a.system.theme_id == themeId;
+				});
+			});
+			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
+		} else throw new Error(`Unknown Type ${type}`);
+		const inputList = filterlist
+			.map( x => {
+				const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   localizeS(x.name.trim());
+				const data = [name];
+				return {
+					id: x._id, data, description: x.description
+				};
+			});
+		return await HTMLTools.singleChoiceBox(inputList, "Choose Item");
+	}
+
+	/**
+	return the list of tags or improvements to choose from for the given theme
+	type : "tag" || "improvement"
+	subtype: "power" || "weakness" || null
+	*/
+	static async _listGenFunction(actor, theme, type, subtype) {
+		const themebook = theme.themebook;
+		let list = [];
+		switch (type) 	 {
+			case "tag":
+				//TODO: cover case for themekit
+				list = themebook.themebook_getTagQuestions(subtype)
+				.map( x=> {
+					return  {
+						_id: x.letter,
+						name: x.question,
+						theme_id: theme.id,
+						subtype,
+						subtag: x.subtag,
+						description: ""
+					};
+				});
+				break;
+			case "improvement":
+				list = themebook.themebook_getImprovements()
+					.map( x=> {
+						return {
+							_id: x.number,
+							name: x.name,
+							description: x.description,
+							uses: x.uses,
+							effect_class: x.effect_class,
+							theme_id: theme.id
+						};
+					});
+				break;
+			default:
+				throw new Error(`Unknown Type ${type}`);
+		}
+		return list;
+
+	}
 }
+
 
 

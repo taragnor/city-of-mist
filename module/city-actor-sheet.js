@@ -158,106 +158,108 @@ export class CityActorSheet extends CitySheet {
 		await theme.update({obj});
 	}
 
-	async _listGenFunction(event) {
-		const themeId = getClosestData(event, "themeId");
-		if (themeId == undefined)
-			throw new Exception("Error Reading Theme Id from HTML");
-		const type = getClosestData(event, "itemType");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(themeId);
-		const themebook = theme.themebook;
-		let list = [];
-		switch (type) 	 {
-			case "tag":
-				//TODO: cover case for themekit
-				const subtype = getClosestData(event, "subType");
-				list = themebook.themebook_getTagQuestions(subtype)
-				.map( x=> {
-					return  {
-						_id: x.letter,
-						name: x.question,
-						theme_id: themeId,
-						subtype,
-						subtag: x.subtag,
-						description: ""
-					};
-				});
-				break;
-			case "improvement":
-				list = themebook.themebook_getImprovements()
-					.map( x=> {
-						return {
-							_id: x.number,
-							name: x.name,
-							description: x.description,
-							uses: x.uses,
-							effect_class: x.effect_class,
-							theme_id: themeId
-						};
-					});
-				break;
-			default:
-				throw new Error(`Unknown Type ${type}`);
-		}
-		return list;
-	}
+	//async _listGenFunction(event) {
+	//	const themeId = getClosestData(event, "themeId");
+	//	if (themeId == undefined)
+	//		throw new Exception("Error Reading Theme Id from HTML");
+	//	const type = getClosestData(event, "itemType");
+	//	const actorId = getClosestData(event, "ownerId");
+	//	const actor = await this.getOwner(actorId);
+	//	const theme = await actor.getTheme(themeId);
+	//	const themebook = theme.themebook;
+	//	let list = [];
+	//	switch (type) 	 {
+	//		case "tag":
+	//			//TODO: cover case for themekit
+	//			const subtype = getClosestData(event, "subType");
+	//			list = themebook.themebook_getTagQuestions(subtype)
+	//			.map( x=> {
+	//				return  {
+	//					_id: x.letter,
+	//					name: x.question,
+	//					theme_id: themeId,
+	//					subtype,
+	//					subtag: x.subtag,
+	//					description: ""
+	//				};
+	//			});
+	//			break;
+	//		case "improvement":
+	//			list = themebook.themebook_getImprovements()
+	//				.map( x=> {
+	//					return {
+	//						_id: x.number,
+	//						name: x.name,
+	//						description: x.description,
+	//						uses: x.uses,
+	//						effect_class: x.effect_class,
+	//						theme_id: themeId
+	//					};
+	//				});
+	//			break;
+	//		default:
+	//			throw new Error(`Unknown Type ${type}`);
+	//	}
+	//	return list;
+	//}
 
-	async improvementOrTagChoiceList(event) {
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const list = await this._listGenFunction.call(this, event);
-		const themeId = getClosestData(event, "themeId");
-		const itemtype = getClosestData(event, "itemType");
-		let currList, subtype = "";
-		if (itemtype == "tag") {
-			subtype = getClosestData(event, "subType");
-			currList = await owner.getTags(themeId, subtype);
-		} else if (itemtype == "improvement") {
-			currList = await owner.getImprovements(themeId);
-		} else {
-			throw new Error(`Unknown itemType: ${itemtype}`);
-		}
-		// const themeType = getClosestData(event, "themeType");
-		let filterlist = [];
-		if (itemtype == "tag") {
-			filterlist = list.filter( x => {
-				return !currList.find(a => {
-					return a.system.question_letter == x._id && a.system.theme_id == themeId && a.system.subtype == subtype;
-				});
-			});
-		} else if (itemtype == "improvement") {
-			filterlist = list.filter( x => {
-				return !currList.find(a => {
-					return a.name == x.name && a.system.theme_id == themeId;
-				});
-			});
-			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
-		} else throw new Error(`Unknown Type ${type}`);
-		const inputList = filterlist.map( x => {
-			const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   localizeS(x.name.trim());
-			const data = [name];
-			return {
-				id: x._id, data, description: x.description
-			};
-		});
-		return await CitySheet.singleChoiceBox(inputList, "Choose Item");
-	}
+	// async improvementOrTagChoiceList(event) {
+	// 	const ownerId = getClosestData(event, "ownerId");
+	// 	const owner = await this.getOwner(ownerId);
+	// 	const list = await this._listGenFunction.call(this, event);
+	// 	const themeId = getClosestData(event, "themeId");
+	// 	const itemtype = getClosestData(event, "itemType");
+	// 	let currList, subtype = "";
+	// 	if (itemtype == "tag") {
+	// 		subtype = getClosestData(event, "subType");
+	// 		currList = await owner.getTags(themeId, subtype);
+	// 	} else if (itemtype == "improvement") {
+	// 		currList = await owner.getImprovements(themeId);
+	// 	} else {
+	// 		throw new Error(`Unknown itemType: ${itemtype}`);
+	// 	}
+	// 	// const themeType = getClosestData(event, "themeType");
+	// 	let filterlist = [];
+	// 	if (itemtype == "tag") {
+	// 		filterlist = list.filter( x => {
+	// 			return !currList.find(a => {
+	// 				return a.system.question_letter == x._id && a.system.theme_id == themeId && a.system.subtype == subtype;
+	// 			});
+	// 		});
+	// 	} else if (itemtype == "improvement") {
+	// 		filterlist = list.filter( x => {
+	// 			return !currList.find(a => {
+	// 				return a.name == x.name && a.system.theme_id == themeId;
+	// 			});
+	// 		});
+	// 		filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
+	// 	} else throw new Error(`Unknown Type ${type}`);
+	// 	const inputList = filterlist.map( x => {
+	// 		const name = (x?.subtype && x?._id ? `${x._id}. ` :"") +   localizeS(x.name.trim());
+	// 		const data = [name];
+	// 		return {
+	// 			id: x._id, data, description: x.description
+	// 		};
+	// 	});
+	// 	return await CitySheet.singleChoiceBox(inputList, "Choose Item");
+	// }
 
 	async _createTagOrImprovement (event, bonus = false) {
 		//TODO: allow for text string attachment to improvements
+		const ownerId = getClosestData(event, "ownerId");
+		const owner = await this.getOwner(ownerId);
+		const themeId = getClosestData(event, "themeId");
+		const themeType = getClosestData(event, "themeType");
+		const itemtype = getClosestData(event, "itemType");
+		const theme = owner.getTheme(themeId);
+		const subtype = getClosestData(event, "subType", null);
 		let idChoice;
 		if (!bonus) {
-			idChoice  = await this.improvementOrTagChoiceList(event);
+			idChoice  = await CityDialogs.improvementOrTagChoiceList(owner, theme, itemtype, subtype );
 			if (idChoice == null)
 				return;
 		}
-		const themeId = getClosestData(event, "themeId");
-		const themeType = getClosestData(event, "themeType");
 		// const crispy = themeType == "character" ? false : true;
-		const itemtype = getClosestData(event, "itemType");
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
 		let retobj = null;
 		let tag, improvement;
 		if (itemtype == "tag")  {
