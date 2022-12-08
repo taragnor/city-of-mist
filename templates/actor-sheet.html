@@ -53,8 +53,8 @@
 					</h1>
 					<section class="move-section">
 						<span class="move-section-header"></span>
-						{{createSelect (getMoveGroups) "data.selectedMoveGroup" data.selectedMoveGroup "select-move-group"}}
-						{{createSelect (getMoveGroup actor) "data.selectedMove" data.selectedMove  "select-move" }}
+						{{createSelect (getMoveGroups) "system.selectedMoveGroup" actor.system.selectedMoveGroup "select-move-group"}}
+						{{createSelect (getMoveGroup actor) "system.selectedMove" actor.system.selectedMove  "select-move" }}
 						<button class="execute-move-button" type="button"> {{localize 'CityOfMist.command.executeMove' }}
 						</button>
 					</section>

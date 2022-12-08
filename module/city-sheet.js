@@ -12,7 +12,8 @@ export class CitySheet extends ActorSheet {
 		//Fix for compatibility with .0.8.6
 		// data.actor = this.actor;
 		// data.data = this.actor.system;
-		// data.items = this.actor.items.map(x=>x);
+
+		data.items = this.actor.items.map(x=>x);
 		return data;
 	}
 

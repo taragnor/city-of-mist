@@ -45,7 +45,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			html += "</select>";
 			return new Handlebars.SafeString(html);
 		},
-		'getMoveGroups': function (_actor) {
+		'getMoveGroups': function () {
 			const data = [
 				["core" , localize("CityOfMist.terms.coreMoves")],
 				["special" , localize("CityOfMist.terms.specialMoves")],
@@ -62,13 +62,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			const data = actor.system;
 			if (!data)
 				throw new Error(`NO Data for ${actor.name}`)
+			const moveList = CityHelpers.getMoves();
 			switch (data.selectedMoveGroup) {
-				case "core": return data.coremoves;
-				case "special": return data.specialmoves;
-				case "SHB": return data.shbmoves;
+				case "core": return moveList.filter(x=> x.system.category=="Core");
+				case "special": return moveList.filter(x=> x.system.category=="Advanced");
+				case "SHB": return moveList.filter(x=> x.system.category=="SHB");
 				default:
 					console.warn(`No default move group for actor group: ${data?.selectedMoveGroup}`);
-					return data.coremoves;
+					return moveList.filter(x=> x.system.category == "Core");
 			}
 		},
 		'hasGMMoveOfType': function (actor, subtype, _options) {
