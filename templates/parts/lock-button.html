@@ -1,6 +1,6 @@
-<div class="pushable {{#if data.locked}} locked {{else}} unlocked {{/if}} sheet-lock-button">
-	<a class="front sheet-lock-button {{#if data.locked}} locked {{else}} unlocked {{/if}}" title="{{localize 'CityOfMist.command.toggleLock' }}">
-		{{#if data.locked}}
+<div class="pushable {{#if actor.system.locked}} locked {{else}} unlocked {{/if}} sheet-lock-button">
+	<a class="front sheet-lock-button {{#if actor.system.locked}} locked {{else}} unlocked {{/if}}" title="{{localize 'CityOfMist.command.toggleLock' }}">
+		{{#if actor.system.locked}}
 		<i class="fas fa-lock"></i>
 		{{else}}
 		<i class="fas fa-unlock"></i>

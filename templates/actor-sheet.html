@@ -1,10 +1,10 @@
 <form class="{{cssClass}} actor-sheet flex-col {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} " autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor" data-token-id="{{actor.tokenId}}" data-scene-id="{{actor.sceneId}}">
 	<header id="basic-info" class="sheet-header">
 			<div class="image-block">
-				<img class="profile-img" src="{{actor.img}}" {{#if (eq data.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" />
+				<img class="profile-img" src="{{actor.img}}" {{#if (eq actor.system.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" />
 			</div>
 			<div class="character-basic-info">
-				{{> "systems/city-of-mist/templates/parts/character-sheet-header.html" locked=data.locked sheetowner=actor data=data actor=actor}}
+				{{> "systems/city-of-mist/templates/parts/character-sheet-header.html" locked=actor.system.locked sheetowner=actor data=data actor=actor}}
 			</div>
 			<div class="lock-button">
 				{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
@@ -45,8 +45,8 @@
 			<div name="Personal Themes">
 				<div class="flexrow section-header">
 					<h1 id="Theme-header" class="item-block no-border">
-						{{#if (eq data.locked false)}}
-						{{#if (lt data.num_themes 4)}}
+						{{#if (eq actor.system.locked false)}}
+						{{#if (lt actor.system.num_themes 4)}}
 						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> {{localize 'CityOfMist.command.addTheme' }} <i class="fas fa-plus-square"></i></a>
 						{{/if}}
 						{{/if}}
@@ -69,9 +69,9 @@
 					{{/each}}
 				</div>
 			</div>
-			{{#if (gt data.num_themes 2)}}
+			{{#if (gt actor.system.num_themes 2)}}
 			<div class="theme-block-group">
-				{{#each data.crewThemes as |item |}}
+				{{#each crewThemes as |item |}}
 				<!-- Should be max of 1 -->
 				<div class="flex-theme-block">
 					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.themebook tbdata=item.themebook.system data=item.system}}
@@ -89,26 +89,26 @@
 				</div>
 				{{/if}}
 				<div class="flex-theme-block status-box" >
-					{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=data.locked sheetowner=actor otherStatuses=otherStatuses}}
+					{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.system.locked sheetowner=actor otherStatuses=otherStatuses}}
 				</div>
 				<div class="flex-theme-block story-tag-box" >
 					<div class="story-tags" >
-						{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=data.locked sheetowner=actor}}
+						{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=actor.system.locked sheetowner=actor}}
 						<div class="story-tag-category">
 							<div class="section-title"> My Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=actor.my_story_tags}}
+							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=actor.my_story_tags}}
 						</div>
 						<div class="story-tag-category">
 							<div class="section-title"> Scene Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=sceneStoryTags}}
+							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=sceneStoryTags}}
 						</div>
 						<div class="story-tag-category">
 							<div class="section-title"> Crew Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=crewStoryTags}}
+							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=crewStoryTags}}
 						</div>
 						<div class="story-tag-category">
 							<div class="section-title"> Danger Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=data.locked sheetowner=actor canBurn=true taglist=dangerStoryTags}}
+							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=dangerStoryTags}}
 						</div>
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 				<div class="flex-row-left">
 					{{#each (getJuiceList actor) as |item id|}}
 					{{#if (eq item.type "juice")}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
 					{{/if}}
 					{{/each}}
 				</div>
@@ -136,7 +136,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHelpList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
 					{{/each}}
 				</div>
 			</section>
@@ -147,7 +147,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHurtList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../data.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
 					{{/each}}
 				</div>
 			</section>
@@ -160,12 +160,12 @@
 				</div>
 				{{#each items as |item id|}}
 				{{#if (eq item.type "clue")}}
-				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=item data=item.system}}
+				{{> "systems/city-of-mist/templates/parts/clue-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor clue=item data=item.system}}
 				{{/if}}
 				{{/each}}
 				<hr>
 				{{#each actor.clueJournal as |journal|}}
-				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../data.locked sheetowner=../actor clue=journal data=journal.system}}
+				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor clue=journal data=journal.system}}
 				{{/each}}
 			</section>
 		</div>
@@ -175,24 +175,24 @@
 					<div class="BUPoints-header">
 						{{localize "CityOfMist.terms.bu_points"}}
 					</div>
-					{{#each data.buildup as |pt rank|}}
+					{{#each actor.system.buildup as |pt rank|}}
 					{{#if (eq pt 1)}}
 					<span class="filled-circle tracker-circle"></span>
 					{{else}}
 					<span class="empty-circle tracker-circle"></span>
 					{{/if}}
 					{{/each}}
-					{{#if (ne data.unspentBU 0)}}
-					({{data.unspentBU}})
+					{{#if (ne actor.system.unspentBU 0)}}
+					({{actor.system.unspentBU}})
 					{{/if}}
-					{{#if (eq data.locked false)}}
+					{{#if (eq actor.system.locked false)}}
 					<a class="increment-buildup"  data-type="buildup" > <i class="fas fa-plus-square"></i></a>
 					<a class="decrement-buildup"  data-type="buildup" > <i class="fas fa-minus-square"></i></a>
 					{{/if}}
 				</div>
 				<div class="section-header">
 					{{localize "CityOfMist.terms.MoEs"}}
-					{{#if (gt data.unspentBU 0)}}
+					{{#if (gt actor.system.unspentBU 0)}}
 					<a class="add-buildup-improvement" data-type="buildup"> <i class="fas fa-plus-square"></i></a>
 					{{/if}}
 				</div>
@@ -201,7 +201,7 @@
 					{{#if (eq item.type "improvement")}}
 					{{#if (eq item.system.theme_id "")}}
 					<li class="evolution-list-item">
-						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../data.locked sheetowner=../actor data=item.system}}
+						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../actor.system.locked sheetowner=../actor data=item.system}}
 					</li>
 					{{/if}}
 					{{/if}}
