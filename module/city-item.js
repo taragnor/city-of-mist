@@ -76,6 +76,15 @@ export class CityItem extends Item {
 		return this.type == "themekit";
 	}
 
+	/** returns true if tag or improvement is part of a theme kit
+	*/
+	isPartOfThemeKit() {
+		if (this.type != "tag" && this.type != "improvement")
+			return false;
+		const themeOrThemeKit= this.themebook;
+
+	}
+
 	usesThemeKit() {
 		return this.type == "theme" && this.themebook.isThemeKit();
 	}
@@ -165,7 +174,7 @@ CityHelpers.getThemebook(name, id);
 		return this.actor.items.filter( x => x.type == "improvement" && x.system.theme_id == this.id);
 	}
 
-	/** returns the amount of build u points a theme is worth
+	/** returns the amount of Build Up points a theme is worth
 	*/
 	getBuildUpValue() {
 		const tagValue = this.tags().reduce( (a,tag) => tag.upgradeCost() + a , 0);
@@ -770,10 +779,12 @@ CityHelpers.getThemebook(name, id);
 	}
 	get themebook() {
 		if (this.isTag() || this.isImprovement()) {
+			if (!this.theme)
+				return null;
 			return this.theme.getThemebook();
 		}
 		try {
-		if (this.isTheme() || this.isThemeKit()) return this.getThemebook();
+			if (this.isTheme() || this.isThemeKit()) return this.getThemebook();
 		} catch (e) {
 			console.error(e);
 			return null;

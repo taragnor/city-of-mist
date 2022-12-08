@@ -264,7 +264,8 @@ export class CityActorSheet extends CitySheet {
 			const subtype = bonus ? "bonus" : getClosestData(event, "subType");
 			retobj = await owner.addTag(themeId, subtype, idChoice);
 			tag = await owner.getTag(retobj.id);
-			await this.tagDialog(tag);
+			if (!tag.isPartOfThemeKit())
+				await this.tagDialog(tag);
 			await CityHelpers.modificationLog(owner, "Created",  tag);
 		} else {
 			retobj = await owner.addImprovement(themeId, idChoice);

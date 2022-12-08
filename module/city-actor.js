@@ -519,12 +519,21 @@ export class CityActor extends Actor {
 	}
 
 	async addTag(theme_id, temp_subtype,  question_letter, crispy = undefined) {
-		const theme = await this.getTheme(theme_id);
+		const theme = this.getTheme(theme_id);
 		if (!theme) {
 			throw new Error(`Couldn't get Theme for id ${theme_id} on ${this.name}`);
 		}
-		const themebook = await theme.getThemebook();
-		const data = themebook.system;
+		const themebook = theme.themebook;
+		switch (themebook.type) {
+			case "themebook":
+				return await this._addTagFromThemeBook(theme, temp_subtype, question_letter, crispy);
+			case "themekit":
+				return await this._addTagFromThemekit(theme, question_letter, crispy);
+		}
+	}
+
+		async _addTagFromThemeBook(theme, temp_subtype, question_letter, crispy) {
+		const themebook = theme.themebook;
 		const tagdata = themebook
 			.themebook_getTagQuestions(temp_subtype)
 			.find( x=> x.letter == question_letter);
@@ -565,7 +574,7 @@ export class CityActor extends Actor {
 			type: "tag",
 			data: {
 				subtype,
-				theme_id,
+				theme_id: theme.id,
 				question_letter,
 				question,
 				crispy,
@@ -574,6 +583,10 @@ export class CityActor extends Actor {
 			}
 		};
 		return await this.createNewItem(obj);
+	}
+
+	async _addTagFromThemekit(theme, question_letter, crispy) {
+
 	}
 
 	async addImprovement(theme_id, number) {
