@@ -641,7 +641,10 @@ export class CityActor extends Actor {
 		const theme = await this.getTheme(theme_id);
 		const themebook = await theme.themebook;
 		const data = themebook.system;
-		const imp = data.improvements[number];
+		// const imp = data.improvements[number];
+		const imp = themebook.isThemeBook()
+			? themebook.themebook_getImprovements()[number]
+			: themebook.themekit_getImprovements()[number];
 		if (!imp)
 			throw new Error(`improvement number ${number} not found in theme ${theme_id}`);
 		const obj = {

@@ -881,13 +881,27 @@ export class CityItem extends Item {
 		const imps = this.system.improvements;
 		if (!imps)
 			return [];
+		let baseImps = [];
+		if (this.system.use_tb_improvements) {
+			console.log("Using TB imnprovements");
+			if (!this.themebook) {
+				console.warn(`No themebook found for themekit ${this.name}`);
+				return retImps;
+			}
+			baseImps = this.themebook.themebook_getImprovements();
+			console.log(baseImps);
+		}
 		const arr= Array.from(Object.values(imps));
-		return arr.map( (x,i) => {
-			return {
-				...x,
-				number:i
-			};
-		});
+		const retImps = baseImps
+			.concat(arr)
+			.map( (x,i) => {
+				return {
+					...x,
+					number:i
+				};
+			});
+		console.log(retImps);
+		return retImps;
 	}
 
 	/**convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff

@@ -372,6 +372,8 @@
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
 
+"CityOfMist.themekit.html.inherit_improvements_checkbox": "Include Improvements  from base themebook",
+
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 "CityOfMist.dialog.roll.title": "Make Roll",
 "CityOfMist.dialog.roll.rollBonus": "Roll Bonus:",
