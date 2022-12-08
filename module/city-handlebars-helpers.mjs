@@ -58,16 +58,16 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				};
 			});
 		},
-		'getMoveGroup': function (actordata) {
-			const data = actordata;
+		'getMoveGroup': function (actor) {
+			const data = actor.system;
 			if (!data)
 				throw new Error(`NO Data for ${actor.name}`)
-			switch (data?.data?.selectedMoveGroup) {
+			switch (data.selectedMoveGroup) {
 				case "core": return data.coremoves;
 				case "special": return data.specialmoves;
 				case "SHB": return data.shbmoves;
 				default:
-					console.warn(`No default move group for actor group: ${data?.data?.selectedMoveGroup}`);
+					console.warn(`No default move group for actor group: ${data?.selectedMoveGroup}`);
 					return data.coremoves;
 			}
 		},

@@ -69,8 +69,8 @@ export class HTMLTools {
 	   const revlist = itemlist.map ( x=> {
 			return {
 				id: x.id,
-				data: [x.name].concat(list_of_properties.map (y => x.data.data[y])),
-				description: x?.description ?? x.data.data.description
+				data: [x.name].concat(list_of_properties.map (y => x.system[y])),
+				description: x?.description ?? x.system?.description ?? "",
 		};
 		} );
 		return await this.singleChoiceBox( revlist, title);

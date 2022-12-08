@@ -181,7 +181,7 @@ export class CityRoll {
 		return this.#tags.some( x=> {
 			const tag = CityHelpers.getOwner(x.ownerId).getTag(x.tagId);
 			return x.type == "tag"
-				&& tag.data.data.subtype == "weakness"
+				&& tag.system.subtype == "weakness"
 				&& x.amount < 0
 		});
 	}

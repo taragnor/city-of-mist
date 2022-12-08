@@ -6,7 +6,7 @@
 	<label class="dialog-label" for="free-content"> Allow Override </label>
 	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
 	<label class="dialog-label" for="Flags"> Special Flags </label>
-	<input type="text" name="data.effect_class" value="{{item.data.data.effect_class}}">
+	<input type="text" name="data.effect_class" value="{{item.system.effect_class}}">
 	<label>
 		{{localize "CityOfMist.terms.description"}}
 	</label>
@@ -20,7 +20,7 @@
 	</label>
 	{{#if (eq data.choice_type "core_move")}}
 	<select name="data.choice_item">
-		{{#select item.data.data.choice_item}}
+		{{#select item.system.choice_item}}
 		{{#each movelist as |move|}}
 		<option value="{{move}}"> {{move}} </option>
 		{{move}}

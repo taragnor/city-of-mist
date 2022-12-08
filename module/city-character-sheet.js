@@ -52,7 +52,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 
 		//Crew Themes
-		data.data.crewThemes = this.getCrewThemes();
+		data.crewThemes = this.getCrewThemes();
 
 		//Extra themes
 		data.extras = this.getExtras();
@@ -67,9 +67,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.dangerStoryTags = this.getDangerStoryTags();
 
 		const moveList = CityHelpers.getMoves();
-		data.data.coremoves = moveList.filter( x=> x.system.category == "Core");
-		data.data.specialmoves = moveList.filter( x=> x.system.category == "Advanced");
-		data.data.shbmoves = moveList.filter( x=> x.system.category == "SHB");
+		data.coremoves = moveList.filter( x=> x.system.category == "Core");
+		data.specialmoves = moveList.filter( x=> x.system.category == "Advanced");
+		data.shbmoves = moveList.filter( x=> x.system.category == "SHB");
 		return data;
 	}
 

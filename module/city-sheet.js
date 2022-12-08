@@ -10,9 +10,9 @@ export class CitySheet extends ActorSheet {
 		let data = super.getData();
 
 		//Fix for compatibility with .0.8.6
-		data.actor = this.actor;
-		data.data = this.actor.system;
-		data.items = this.actor.items.map(x=>x);
+		// data.actor = this.actor;
+		// data.data = this.actor.system;
+		// data.items = this.actor.items.map(x=>x);
 		return data;
 	}
 
@@ -57,7 +57,7 @@ export class CitySheet extends ActorSheet {
 	async _aliasToggle(event) {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
-		if (actor.data.data.useAlias )
+		if (actor.system.useAlias )
 			if (! await this.confirmBox("reveal Alias", "Reveal True Name?"))
 				return;
 		await actor.toggleAliasState();
@@ -145,7 +145,7 @@ export class CitySheet extends ActorSheet {
 				const move = await owner.getGMMove(move_id);
 				if (!move)
 					throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);
-				await this.actor.createNewGMMove(move.name, move.data.data);
+				await this.actor.createNewGMMove(move.name, move.system);
 				//TODO: make draggable GM moves
 				break;
 			case "threat":
