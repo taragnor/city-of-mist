@@ -166,35 +166,23 @@ export class CityActorSheet extends CitySheet {
 		const actorId = getClosestData(event, "ownerId");
 		const actor = await this.getOwner(actorId);
 		const theme = await actor.getTheme(themeId);
-		const themebook = theme.getThemebook();
+		const themebook = theme.themebook;
 		let list = [];
 		switch (type) 	 {
 			case "tag":
-				let subtypex;
+				//TODO: cover case for themekit
 				const subtype = getClosestData(event, "subType");
-				switch (subtype) {
-					case "power": {
-						subtypex = "power_questions";
-						break;
-					}
-					case "weakness": {
-						subtypex = "weakness_questions";
-						break;
-					}
-					default:
-						throw new Error(`Unknown Tag Subtype ${subtype}`);
-				}
 				list = themebook.themebook_getTagQuestions(subtype)
-					.map( x=> {
-						return  {
-							_id: x.letter,
-							name: x.question,
-							theme_id: themeId,
-							subtype,
-							subtag: x.subtag,
-							description: ""
-						};
-					});
+				.map( x=> {
+					return  {
+						_id: x.letter,
+						name: x.question,
+						theme_id: themeId,
+						subtype,
+						subtag: x.subtag,
+						description: ""
+					};
+				});
 				break;
 			case "improvement":
 				list = themebook.themebook_getImprovements()
