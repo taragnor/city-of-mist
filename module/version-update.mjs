@@ -41,7 +41,9 @@ export class VersionUpdater {
 					await tag.delete();
 					continue;
 				}
-				const themebook = theme.getThemebook();
+				const themebook = theme.themebook;
+				if (themebook.isThemeKit())
+					return;
 				const subtype = tag.system.subtype;
 				const letter =tag.system.question_letter;
 				if (letter == "_") {

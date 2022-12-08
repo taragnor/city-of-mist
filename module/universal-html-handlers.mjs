@@ -89,7 +89,13 @@ export class HTMLHandlers {
 		const owner = await CityHelpers.getOwner(actorId, tokenId);
 		const tag = await owner.getTag(id);
 		if (!tag.isOwner) {
-			ui.notifications.error("You don't own this tag and can't edit it");
+			const msg = localize("CityOfMist.error.dontOwnTag");
+			ui.notifications.error(msg);
+			return;
+		}
+		if (tag.themebook.isThemeKit()) {
+			const msg = localize("CityOfMist.error.themeKitTagEdit");
+			ui.notifications.notify(msg);
 			return;
 		}
 		return await CityDialogs.itemEditDialog(tag);

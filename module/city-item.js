@@ -42,6 +42,25 @@ export class CityItem extends Item {
 		return this.effect_classes.includes(cl);
 	}
 
+	get description() {
+		switch (this.type) {
+			case "tag":
+				try {
+					if (this.themebook && this.themebook.isThemeKit()) {
+						const tags = this.themebook.themekit_getTags(this.subtype);
+						return tags.find(x=> x.name = this.name).description ?? "";
+					}
+				} catch (e) {
+					console.error(e);
+					break;
+				}
+				break;
+
+			default: break;
+		}
+		return this.system.descriptinon
+	}
+
 	get effect_classes() {
 		return this?.system?.effect_class?.split(" ") ?? [];
 	}
@@ -78,8 +97,7 @@ export class CityItem extends Item {
 	isPartOfThemeKit() {
 		if (this.type != "tag" && this.type != "improvement")
 			return false;
-		const themeOrThemeKit= this.themebook;
-
+		return this.themebook.isThemeKit();
 	}
 
 	usesThemeKit() {
@@ -158,7 +176,7 @@ export class CityItem extends Item {
 		const name = this.system.themebook_name;
 		if (!name) return null;
 		const tb = actor.items.find( x=> x.id == id) ??
-CityHelpers.getThemebook(name, id);
+			CityHelpers.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb;
 	}
