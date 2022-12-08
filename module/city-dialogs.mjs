@@ -541,10 +541,10 @@ export class CityDialogs {
 		const themebook = theme.themebook;
 		let list = [];
 		switch (type) 	 {
-			case "tag":
+			case "tag": {
 				//TODO: cover case for themekit
-				const baseList = themebook.isThemeBook() 
-					? themebook.themebook_getTagQuestions(subtype)
+				const baseList = themebook.isThemeBook()
+				? themebook.themebook_getTagQuestions(subtype)
 				: themebook.themekit_getTags(subtype);
 				list = baseList
 				.map( x=> {
@@ -558,19 +558,24 @@ export class CityDialogs {
 					};
 				});
 				break;
-			case "improvement":
-				list = themebook.themebook_getImprovements()
-					.map( x=> {
-						return {
-							_id: x.number,
-							name: x.name,
-							description: x.description,
-							uses: x.uses,
-							effect_class: x.effect_class,
-							theme_id: theme.id
-						};
-					});
+			}
+			case "improvement": {
+				const baseList = themebook.isThemeBook()
+				? themebook.themebook_getImprovements()
+				: themebook.themekit_getImprovements();
+				list = baseList
+				.map( x=> {
+					return {
+						_id: x.number,
+						name: x.name,
+						description: x.description,
+						uses: x.uses,
+						effect_class: x.effect_class,
+						theme_id: theme.id
+					};
+				});
 				break;
+			}
 			default:
 				throw new Error(`Unknown Type ${type}`);
 		}

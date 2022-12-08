@@ -259,7 +259,6 @@ export class CityActorSheet extends CitySheet {
 			if (idChoice == null)
 				return;
 		}
-		// const crispy = themeType == "character" ? false : true;
 		let retobj = null;
 		let tag, improvement;
 		if (itemtype == "tag")  {

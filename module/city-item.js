@@ -863,7 +863,13 @@ CityHelpers.getThemebook(name, id);
 		const imps = this.system.improvements;
 		if (!imps)
 			return [];
-		return Array.from(Object.values(imps));
+		const arr= Array.from(Object.values(imps));
+		return arr.map( (x,i) => {
+			return {
+				...x,
+				number:i
+			};
+		});
 	}
 
 	/**convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff

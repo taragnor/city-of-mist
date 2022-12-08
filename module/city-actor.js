@@ -639,7 +639,7 @@ export class CityActor extends Actor {
 	async addImprovement(theme_id, number) {
 		//TODO: accomodate new effect class in improvement this may not be right spot
 		const theme = await this.getTheme(theme_id);
-		const themebook = await theme.getThemebook();
+		const themebook = await theme.themebook;
 		const data = themebook.system;
 		const imp = data.improvements[number];
 		if (!imp)
