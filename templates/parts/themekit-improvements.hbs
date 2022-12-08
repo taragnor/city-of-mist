@@ -12,8 +12,8 @@
 	{{#each item.system.improvements as |imp ind|}}
 	<div class="tk-improvement">
 		<a class="tk-delete-imp" title="Delete Improvement" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
-		<input class="tk-imp-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
-		<input class="tk-imp-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
+		<input class="tk-imp-name" name="system.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
+		<input class="tk-imp-description" name="system.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
 	</div>
 	{{/each}}
 </div>

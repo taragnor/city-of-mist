@@ -93,8 +93,8 @@
 			"themebook_id": "",
 			"themebook_name":"",
 			"use_tb_improvements": false,
-			"power_tags": {},
-			"weakness_tags":{},
+			"power_tagstk": {},
+			"weakness_tagstk":{},
 			"improvements":{}
 		},
 		"tag": {

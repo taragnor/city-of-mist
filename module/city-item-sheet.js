@@ -15,7 +15,6 @@ export class CityItemSheet extends ItemSheet {
 
 	getData(options) {
 		let data = super.getData();
-
 		//Fix for compatibility with .0.8
 		//TODO remove need for this since I think it conflicts with v10
 		// const itemData = this.item.toObject(false);

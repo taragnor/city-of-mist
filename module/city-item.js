@@ -233,7 +233,7 @@ export class CityItem extends Item {
 	async addPowerTag() {
 		if (!this.isThemeKit())
 			throw new Error("trying to add power tag to non-theme kit");
-		const powerTags = Array.from(Object.values(this.system.power_tags));
+		const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
 		const letters = Array.from("ABCDEFGHIJK");
 		const letter = letters.reduce( (acc, l) => {
 			if (acc) return acc;
@@ -245,11 +245,11 @@ export class CityItem extends Item {
 			return;
 		}
 		const description = "";
-		powerTags.push( {name: "Unnamed Tag", letter, description});
+		powerTags.push( {tagname: "Unnamed Tag", letter, description});
 		powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
 		const powerTagsObj = Object.assign({}, powerTags);
-		await this.update({ "system.power_tags": 0});
-		await this.update({ "system.power_tags": powerTagsObj});
+		await this.update({ "system.power_tagstk": "x"});
+		await this.update({ "system.power_tagstk": powerTagsObj});
 	}
 
 	/** add a weakness tag to themekit
@@ -257,7 +257,7 @@ export class CityItem extends Item {
 	async addWeaknessTag() {
 		if (!this.isThemeKit())
 			throw new Error("trying to add tag to non-theme kit");
-		const weakTags = Array.from( Object.values(this.system.weakness_tags));
+		const weakTags = Array.from( Object.values({...this.system.weakness_tagstk}));
 		const letters = Array.from("ABCDE");
 		const letter = letters.reduce( (acc, l) => {
 			if (acc) return acc;
@@ -269,12 +269,12 @@ export class CityItem extends Item {
 			return;
 		}
 		const description = "";
-		weakTags.push( {name: "Unnamed Tag", letter, description});
+		weakTags.push( {tagname: "Unnamed Tag", letter, description});
 		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
-		await this.update( {"system.weakness_tags": 0});
+		await this.update( {"system.weakness_tagstk": 0});
 		const weakTagsObj = Object.assign({}, weakTags);
 		console.log(weakTagsObj);
-		await this.update( {"system.weakness_tags": weakTagsObj});
+		await this.update( {"system.weakness_tagstk": weakTagsObj});
 	}
 
 	/** add an improvement to a theme kit
@@ -299,7 +299,7 @@ export class CityItem extends Item {
 		switch (type) {
 			case "power":
 			case "weakness":
-				listname = `${type}_tags`;
+				listname = `${type}_tagstk`;
 				break;
 			case "improvement":
 				listname = `improvements`;
@@ -876,10 +876,17 @@ export class CityItem extends Item {
 	type: "power" || "weakness"
 	*/
 	themekit_getTags(type = "power") {
-		const tags = this.system[`${type}_tags`];
+		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
 			return [];
-		return Array.from(Object.values({...tags}));
+		return Array
+			.from(Object.values({...tags}))
+		.map(x=> {return {
+			...x,
+			name: x.tagname,
+		};
+		});
+		;
 	}
 
 	/** gets improvements as an array from a themebook*/

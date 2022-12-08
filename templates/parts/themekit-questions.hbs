@@ -12,8 +12,8 @@
 	{{/if}}
 	<div class="tk-tag">
 		<a class="tk-delete-{{../tagtype}}-tag" title="Delete Item" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
-		<input class="tk-tagname-entry" name="data.{{../tagtype}}_tags.{{ind}}.name" type="text" value="{{tag.name}}" placeholder=""/>
-		<input class="tk-tagname-description" name="data.{{../tagtype}}_tags.{{ind}}.description" type="text" value="{{tag.description}}" placeholder=""/>
+		<input class="tk-tagname-entry" name="system.{{../tagtype}}_tagstk.{{ind}}.tagname" type="text" value="{{tag.tagname}}" placeholder=""/>
+		<input class="tk-tagname-description" name="system.{{../tagtype}}_tagstk.{{ind}}.description" type="text" value="{{tag.description}}" placeholder=""/>
 	</div>
 </div>
 {{/each}}

@@ -588,6 +588,8 @@ export class CityActor extends Actor {
 
 	async _addTagFromThemekit(theme, temp_subtype, question_letter, crispy) {
 		const themebook = theme.themebook;
+		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
+			console.log("Detected");
 		const tagdata = themebook
 			.themekit_getTags(temp_subtype)
 			.find( x=> x.letter == question_letter);
@@ -618,7 +620,6 @@ export class CityActor extends Actor {
 			default:
 				throw new Error(`Unknwon tag subtype ${temp_subtype}`);
 		}
-
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
 			type: "tag",
@@ -632,8 +633,12 @@ export class CityActor extends Actor {
 				subtagRequired : subtag,
 			},
 		};
-		return await this.createNewItem(obj);
-
+		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
+			console.log("Detected");
+		const ret =await this.createNewItem(obj);
+		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
+			console.log("Detected");
+		return ret;
 	}
 
 	async addImprovement(theme_id, number) {
