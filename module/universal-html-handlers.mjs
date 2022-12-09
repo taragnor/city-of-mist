@@ -93,7 +93,7 @@ export class HTMLHandlers {
 			ui.notifications.error(msg);
 			return;
 		}
-		if (tag.themebook.isThemeKit()) {
+		if (tag.themebook && tag.themebook.isThemeKit()) {
 			const msg = localize("CityOfMist.error.themeKitTagEdit");
 			ui.notifications.notify(msg);
 			return;

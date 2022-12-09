@@ -510,7 +510,7 @@
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. &#013;[a:name] will make a status auto-applied when the move is triggered. &#013;[i:name] will ignore collective bonus.&#013; [a,i:name] will do both.&#013; [s:name] will add the used status or tag to the scene tags/statuses. Using {} around a block of text will make it visible only to the GM. That text will not post to chat.&#013 Other Commands: &#013 &#013 t: make status temporary, &#013 p: permanent make tag permanent",
 "CityOfMist.tooltip.error.missingParent": "ERROR: This tag needs to be a sub-tag of another tag.",
 
-"CityOfMist.error.themeKitTagEdit": "Can't edit themekit tag",
+"CityOfMist.error.themeKitTagEdit": "Can't edit Theme Kit tag",
 "CityOfMist.error.dontOwnTag": "You don't own this tag and can't edit it",
 "CityOfMist.error.MCEditOnly" : "Only MC may edit this."
 }
