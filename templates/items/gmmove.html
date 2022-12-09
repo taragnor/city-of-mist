@@ -3,7 +3,7 @@
 		{{localize "CityOfMist.terms.name"}}
 	</label>
 	<input type="text" name="name" value="{{item.name}}">
-	<select name="data.subtype">
+	<select name="system.subtype">
 		{{#select item.system.subtype }}
 		<option value="soft">
 		{{localize "CityOfMist.terms.softMove" }}
@@ -29,5 +29,5 @@
 	<label class="dialog-label" for="description">
 		{{localize "CityOfMist.terms.description" }}
 	</label>
-	<textarea class="gmmove-description" title="{{{localize 'CityOfMist.tooltip.gmmove'}}}" name="data.description">{{item.system.description}}</textarea>
+	<textarea class="gmmove-description" title="{{{localize 'CityOfMist.tooltip.gmmove'}}}" name="system.description">{{item.system.description}}</textarea>
 </form>
