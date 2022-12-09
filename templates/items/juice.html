@@ -3,8 +3,8 @@
 	<label class="dialog-label" for="target">
 		{{localize "CityOfMist.terms.target"}}
 	</label>
-	<select name="data.targetCharacterId" data-dtype="String">
-		{{#select data.targetCharacterId}}
+	<select name="system.targetCharacterId" data-dtype="String">
+		{{#select item.system.targetCharacterId}}
 		{{#each (PCList) as |pc|}}
 		<option value="{{pc.id}}">{{displayAlias pc}}</option>
 	   {{/each}}
@@ -20,16 +20,16 @@
 	<label class="dialog-label" for="amount">
 		{{localize "CityOfMist.terms.amount"}}
 	</label>
-	<input type="number"  name="data.amount" value="{{data.amount}}">
+	<input type="number"  name="system.amount" value="{{item.system.amount}}">
 	{{#if (not (isHelpHurt item))}}
 	<label class="dialog-label" for="source">
 		{{localize "CityOfMist.terms.juiceSource"}}
 	</label>
-	<input type="text" name="data.source" value="{{data.source}}">
+	<input type="text" name="system.source" value="{{item.system.source}}">
 	<label class="dialog-label" for="method">
 		{{localize "CityOfMist.terms.juiceMethod"}}
 	</label>
-	<input type="text" name="data.method" value="{{data.method}}">
+	<input type="text" name="system.method" value="{{item.system.method}}">
 	{{/if}}
 	<hr>
 </form>

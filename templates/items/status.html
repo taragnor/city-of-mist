@@ -2,18 +2,18 @@
 	<label class="dialog-label" for="name"> Name </label>
 	<input class="status-name-input" type="text" name="name" value="{{item.name}}">
 	<label class="dialog-label" for="tier"> Tier </label>
-	<input id="status-tier" type="number" name="data.tier" value="{{item.system.tier}}">
+	<input id="status-tier" type="number" name="system.tier" value="{{item.system.tier}}">
 	<label class="dialog-label" for="pips"> Pips </label>
-	<input id="status-pips" type="number" name="data.pips" value="{{item.system.pips}}">
+	<input id="status-pips" type="number" name="system.pips" value="{{item.system.pips}}">
 	<label class="dialog-label" for="temp"> Temporary </label>
-	<input id="temporary-status-checkbox" class="item-checkbox" type="checkbox" name="data.temporary" {{#if item.system.temporary}} checked {{/if}}>
+	<input id="temporary-status-checkbox" class="item-checkbox" type="checkbox" name="system.temporary" {{#if item.system.temporary}} checked {{/if}}>
 	<label class="dialog-label" for="permanent"> Permanent </label>
-	<input id="permanent-status-checkbox" class="item-checkbox" type="checkbox" name="data.permanent" {{#if item.system.permanent}} checked {{/if}}>
+	<input id="permanent-status-checkbox" class="item-checkbox" type="checkbox" name="system.permanent" {{#if item.system.permanent}} checked {{/if}}>
 	{{#if (showcasePossible item)}}
 	<label for="showcased">
 		{{localize "CityOfMist.terms.showcased"}}
 	</label>
-	<input type="checkbox" class="item-checkbox" name="data.showcased" {{#if item.system.showcased}} checked{{/if}}>
+	<input type="checkbox" class="item-checkbox" name="system.showcased" {{#if item.system.showcased}} checked{{/if}}>
 	{{/if}}
 	<hr>
 </form>

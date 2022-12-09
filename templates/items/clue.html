@@ -6,19 +6,19 @@
 	<label class="dialog-label" for="amount">
 		{{localize "CityOfMist.terms.amount"}}
 	</label>
-	<input type="number"  name="data.amount" value="{{data.amount}}">
+	<input type="number"  name="system.amount" value="{{item.system.amount}}">
 	<label class="dialog-label" for="source">
 		{{localize "CityOfMist.terms.clueSource"}}
 	</label>
-	<input type="text" name="data.source" value="{{data.source}}">
+	<input type="text" name="system.source" value="{{item.system.source}}">
 	<label class="dialog-label" for="method">
 		{{localize "CityOfMist.terms.clueMethod"}}
 	</label>
-	<input type="text" name="data.method" value="{{data.method}}">
+	<input type="text" name="system.method" value="{{item.system.method}}">
 	<label class="dialog-label" for="partial">
 		{{localize "CityOfMist.terms.partialClue"}}
 	</label>
-	<input id="partial-clue" type="checkbox" name="data.partial" {{#if data.partial}} checked {{/if}}>
+	<input id="partial-clue" type="checkbox" name="system.partial" {{#if item.system.partial}} checked {{/if}}>
 	<hr>
 </form>
 
