@@ -29,7 +29,7 @@
 			{{/each}}
 			{{/select}}
 		</select>
-		<textarea name="data.description">{{data.description}}</textarea>
+		<textarea name="system.description">{{item.system.description}}</textarea>
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="power" tagList=item.system.power_tagstk}}
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="weakness" tagList=item.system.weakness_tagstk}}
 	{{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
