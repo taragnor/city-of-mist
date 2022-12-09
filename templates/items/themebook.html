@@ -2,12 +2,12 @@
 	<header class="sheet-header">
 		<div class="header-fields">
 			<h1 class="item-name"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-			<h1 class="item-name"><input name="data.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Locale Name"/></h1>
+			<h1 class="item-name"><input name="system.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Locale Name"/></h1>
 		</div>
 	</header>
 	<section class="sheet-body flex-vertical">
-		<select name="data.type" data-dtype="String">
-			{{#select data.type}}
+		<select name="system.type" data-dtype="String">
+			{{#select item.system.type}}
 			<option value="">—</option>
 			<option value="Crew">Crew</option>
 			<option value="Extra">Extra</option>
@@ -17,21 +17,21 @@
 			{{/select}}
 		</select>
 	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
-		<textarea name="data.description">{{data.description}}</textarea>
-						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="power" questionList=data.power_questions}}
-						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="weakness" questionList=data.weakness_questions}}
+	<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
+		<textarea name="system.description">{{item.system.description}}</textarea>
+						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="power" questionList=item.system.power_questions}}
+						{{> "systems/city-of-mist/templates/parts/themebook-questions.hbs" item=item data=data tagtype="weakness" questionList=item.system.weakness_questions}}
 		<div id="improvements">
 			<h1 id="improvements-header"> Improvements
 				<a class="add-improvement" data-distinct="true" data-tag-type="weakness_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a></p>
 			</h1>
-			{{#each data.improvements as |imp ind|}}
+			{{#each item.system.improvements as |imp ind|}}
 			{{#if (ne imp "_DELETED_")}}
 			<div id="improvement-question-{ind}" class="themebook-improvement-entry">
-				<input class="improvement-name" name="data.improvements.{{ind}}.name" type="text" value="{{imp.name}}" title="Improvement Name" placeholder=""/>
-				<input class="improvement-description" name="data.improvements.{{ind}}.description" type="text" value="{{imp.description}}" title= "Description" placeholder=""/>
-				<input class="improvement-uses" name="data.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder="" title="Number of Uses"/>
-				<input class="effect-class" name="data.improvements.{{ind}}.effect_class" type="text" value="{{imp.effect_class}}" placeholder="" title="Effect Class"/>
+				<input class="improvement-name" name="system.improvements.{{ind}}.name" type="text" value="{{imp.name}}" title="Improvement Name" placeholder=""/>
+				<input class="improvement-description" name="system.improvements.{{ind}}.description" type="text" value="{{imp.description}}" title= "Description" placeholder=""/>
+				<input class="improvement-uses" name="system.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder="" title="Number of Uses"/>
+				<input class="effect-class" name="system.improvements.{{ind}}.effect_class" type="text" value="{{imp.effect_class}}" placeholder="" title="Effect Class"/>
 				<a class="delete-improvement" data-improvement-index="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/if}}
