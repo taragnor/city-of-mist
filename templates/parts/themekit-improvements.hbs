@@ -14,6 +14,10 @@
 		<a class="tk-delete-imp" title="Delete Improvement" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
 		<input class="tk-imp-name" name="system.improvements.{{ind}}.name" type="text" value="{{imp.name}}" placeholder=""/>
 		<input class="tk-imp-description" name="system.improvements.{{ind}}.description" type="text" value="{{imp.description}}" placeholder=""/>
+		<input class="improvement-uses" name="system.improvements.{{ind}}.uses" type="number" value="{{imp.uses}}" placeholder="" title="Number of Uses"/>
+		{{#if (devMode)}}
+				<input class="effect-class" name="system.improvements.{{ind}}.effect_class" type="text" value="{{imp.effect_class}}" placeholder="" title="Effect Class"/>
+				{{/if}}
 	</div>
 	{{/each}}
 </div>
