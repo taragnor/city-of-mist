@@ -902,7 +902,6 @@ export class CityItem extends Item {
 				return retImps;
 			}
 			baseImps = this.themebook.themebook_getImprovements();
-			console.log(baseImps);
 		}
 		const arr= Array.from(Object.values(imps));
 		const retImps = baseImps
@@ -913,7 +912,6 @@ export class CityItem extends Item {
 					number:i
 				};
 			});
-		console.log(retImps);
 		return retImps;
 	}
 

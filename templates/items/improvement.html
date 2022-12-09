@@ -1,25 +1,25 @@
 <form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item.id}}" data-sheet-owner-id="{{item.id}}" data-owner-class="item">
-	{{#if (not data.chosen)}}
+	{{#if (not item.system.chosen)}}
 	<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 	<label> Uses </label>
-	<input name="data.uses.max" value="{{data.uses.max}}">
+	<input name="system.uses.max" value="{{item.system.uses.max}}">
 	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="data.free_content" {{#if data.free_content}} checked {{/if}}> <br>
+	<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}}> <br>
 	<label class="dialog-label" for="Flags"> Special Flags </label>
-	<input type="text" name="data.effect_class" value="{{item.system.effect_class}}">
+	<input type="text" name="system.effect_class" value="{{item.system.effect_class}}">
 	<label>
 		{{localize "CityOfMist.terms.description"}}
 	</label>
-	<textarea  type="text" name="data.description">{{data.description}}</textarea>
+	<textarea type="text" name="system.description">{{item.system.description}}</textarea>
 	{{else}}
 	<div class="improvement-name-send"> Description </div>
-	<div>{{data.description}}</div>
+	<div>{{item.system.description}}</div>
 	<hr>
 	<label>
 		{{localize "CityOfMist.terms.choice"}}
 	</label>
-	{{#if (eq data.choice_type "core_move")}}
-	<select name="data.choice_item">
+	{{#if (eq item.system.choice_type "core_move")}}
+	<select name="system.choice_item">
 		{{#select item.system.choice_item}}
 		{{#each movelist as |move|}}
 		<option value="{{move}}"> {{move}} </option>
@@ -28,10 +28,10 @@
 		{{/select}}
 	</select>
 	{{else}}
-	<input class="input-small" type="text" name="data.choice_item" value="{{data.choice_item}}">
+	<input class="input-small" type="text" name="system.choice_item" value="{{item.system.choice_item}}">
 	{{/if}}
-	{{#if data.uses.max}}
-	<div> Uses {{data.uses.current}} / {{data.uses.max}} </div>
+	{{#if item.system.uses.max}}
+	<div> Uses {{item.system.uses.current}} / {{item.system.uses.max}} </div>
 	{{/if}}
 	{{/if}}
 

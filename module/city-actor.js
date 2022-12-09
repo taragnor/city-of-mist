@@ -623,7 +623,7 @@ export class CityActor extends Actor {
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
 			type: "tag",
-			data: {
+			system: {
 				subtype,
 				theme_id: theme.id,
 				question_letter,
@@ -649,12 +649,13 @@ export class CityActor extends Actor {
 		const imp = themebook.isThemeBook()
 			? themebook.themebook_getImprovements()[number]
 			: themebook.themekit_getImprovements()[number];
+		console.log(imp);
 		if (!imp)
 			throw new Error(`improvement number ${number} not found in theme ${theme_id}`);
 		const obj = {
 			name: imp.name,
 			type: "improvement",
-			data: {
+			system: {
 				description: imp.description,
 				uses: {
 					max: imp?.uses ?? 0,
