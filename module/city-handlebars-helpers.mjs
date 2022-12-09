@@ -225,7 +225,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return false;
 		},
 
-		'getTBQuestion': function(tb, letter, type="power") {
+		'getTBQuestion': function(tb, letter, type) {
+			if (!type || typeof type != "string") {
+				console.error(`Must provide type, type provided ${type}`);
+				return "ERROR";
+			}
 			try {
 				return tb.getQuestion(type, letter);
 			}  catch (e) {

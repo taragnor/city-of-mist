@@ -234,7 +234,7 @@ export class CityItem extends Item {
 		if (!this.isThemeKit())
 			throw new Error("trying to add power tag to non-theme kit");
 		const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
-		const letters = Array.from("ABCDEFGHIJK");
+		const letters = Array.from("ABCDEFGHIJ");
 		const letter = letters.reduce( (acc, l) => {
 			if (acc) return acc;
 			if (powerTags.some( x=> x.letter == l)) return acc;
