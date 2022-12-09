@@ -3165,3 +3165,7 @@ span.secret {
 	max-width: 70%;
 }
 
+.improvement-edit:hover {
+	text-shadow: 0 0 8px #f82973;
+}
+

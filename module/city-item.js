@@ -747,6 +747,14 @@ export class CityItem extends Item {
 				if (this.isHurt())
 					return `Hurt ${this.getTargetName()} (${this.parent.name})`;
 				throw new Error("Something odd happened?");
+			case "improvement":
+				let x = localizeS(this.name);
+				if (this.system?.locale_name)
+					x = localizeS(this.system.locale_name);
+				if (this.system.choice_item)
+					return `${x} (${this.system.choice_item})`;
+				else return x;
+
 			default:
 				if (this.system?.locale_name)
 					return localizeS(this.system.locale_name).toString();
