@@ -1,11 +1,11 @@
 <section class="card-style clue-data-block" data-clue-id="{{clue.id}}" data-owner-id="{{owner.id}}">
 	<a class="item-control clue-delete" title="Delete Clue"><i class="fas fa-trash"></i></a>
 	<span id="clue-name-{{clue.id}}" class="card-name clue-name {{#if locked}} clue-select-button {{else}} clue-edit-button {{/if}}">
-		{{#if (gt data.amount 1)}}
-		({{data.amount}})
+		{{#if (gt clue.system.amount 1)}}
+		({{clue.system.amount}})
 		{{/if}}
-		{{clue.name}}
-		{{#if data.partial}}
+		{{clue.displayedName}}
+		{{#if clue.system.partial}}
 		(partial)
 		{{/if}}
 	</span>
@@ -13,9 +13,9 @@
 		<i class="fas fa-question"></i>
 	</span>
 	<div class="clue-source">
-		<b> {{localize "CityOfMist.terms.clueSource"}} :</b> {{data.source}}
+		<b> {{localize "CityOfMist.terms.clueSource"}} :</b> {{clue.system.source}}
 	</div>
 	<div class="clue-method">
-		<b> {{localize "CityOfMist.terms.clueMethod"}} :</b> {{data.method}}
+		<b> {{localize "CityOfMist.terms.clueMethod"}} :</b> {{clue.system.method}}
 	</div>
 </section>
