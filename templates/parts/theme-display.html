@@ -30,7 +30,7 @@
 	<div class="att-fade-section">
 		<div class="attention-block">
 			<div class="dots-section flex-std">
-				{{#each data.attention as |attention rank|}}
+				{{#each theme.system.attention as |attention rank|}}
 				{{#if (eq attention 1)}}
 				<span class="filled-circle tracker-circle"></span>
 				{{else}}
@@ -46,14 +46,14 @@
 			<div class="attention-label">
 				<div class="attention-text flex-std">
 					{{localize 'CityOfMist.terms.attention' }}
-					</span>{{#if (ne data.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{data.unspent_upgrades}})</span>{{/if}}
+					</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
 				</div>
 
 			</div>
 		</div>
 		<div class="fade-block">
 			<div class="dots-section flex-std">
-				{{#each data.crack as |crack rank|}}
+				{{#each theme.system.crack as |crack rank|}}
 				{{#if (eq crack 1)}}
 				<span class="filled-circle tracker-circle"></span>
 				{{else}}
@@ -61,7 +61,7 @@
 				{{/if}}
 				{{/each}}
 				<a class="theme-add-fade"  data-type="crack" > <i class="fas fa-plus-square"></i></a>
-				{{#if (gt data.unspent_upgrades 0)}}
+				{{#if (gt theme.system.unspent_upgrades 0)}}
 				<a class="theme-reset-fade"  data-type="crack" title="Reset Fade"> <i class="fas fa-undo"></i></a>
 				{{/if}}
 				{{#if (ne locked true)}}
@@ -103,11 +103,11 @@
 			{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
 		</b> </div>
 	{{/if}}
-	<textarea class="themebook-mystery identity-input" type="text" value="{{data.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{data.mystery}}</textarea>
+	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
 	<div class="tag-add-icons">
 		<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
 
-			{{#if (gt data.unspent_upgrades 0)}}
+			{{#if (gt theme.system.unspent_upgrades 0)}}
 			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
 			{{else}}
 			<span title ="Not enough attention to add power tag">
@@ -130,7 +130,7 @@
 	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
 	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
 		<div id="improvements-header" class="improvements-header"> {{localize 'CityOfMist.terms.improvements' }}
-			{{#if (gt data.unspent_upgrades 0)}}
+			{{#if (gt theme.system.unspent_upgrades 0)}}
 			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner.id}}" data-theme-id="{{theme.id}}" title= "Add Improvement"> <i class="fas fa-plus-square"></i></a>
 			{{else}}
 			<span title="Not enough attention to add improvement">
@@ -143,7 +143,7 @@
 			{{#if (eq imp.type "improvement")}}
 			{{#if (eq imp.system.theme_id ../theme.id)}}
 			<li>
-				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner data=imp.system}}
+				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner }}
 			</li>
 			{{/if}}
 			{{/if}}

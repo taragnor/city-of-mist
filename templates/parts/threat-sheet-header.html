@@ -1,5 +1,5 @@
 <div class="header-row">
-	<input type="text" class="borderless danger-name" name="name" value="{{actor.name}}" title="Danger Name" placeholder="Danger Name" {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless danger-name" name="name" value="{{actor.name}}" title="Danger Name" placeholder="Danger Name" {{#if actor.system.locked}} disabled {{/if}}>
 	<div class="separator-icon"> &diams;</div>
 	{{#if actor.isToken}}
 	<input class="alias-input alias-input-unlinked-token borderless" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}" title="{{localize 'CityOfMist.terms.alias' }} " placeholder="{{localize 'CityOfMist.terms.alias' }} ">
@@ -8,12 +8,12 @@
 	{{/if}}
 </div>
 <div class="header-row">
-	<input type="text" class="borderless mythos-name" name="data.mythos" value="{{actor.system.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos' }} " title="{{localize 'CityOfMist.terms.mythos' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless mythos-name" name="system.mythos" value="{{actor.system.mythos}}" placeholder="{{localize 'CityOfMist.terms.mythos' }} " title="{{localize 'CityOfMist.terms.mythos' }} " {{#if actor.system.locked}} disabled {{/if}}>
 	<div class="separator-icon"> &diams;</div>
-	<input type="text" class="borderless logos-name" name="data.logos" value="{{actor.system.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }} " title="{{localize 'CityOfMist.terms.logos' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless logos-name" name="system.logos" value="{{actor.system.logos}}" placeholder="{{localize 'CityOfMist.terms.logos' }} " title="{{localize 'CityOfMist.terms.logos' }} " {{#if actor.system.locked}} disabled {{/if}}>
 </div>
 <div class="header-row">
-	<input type="text" class="borderless short-description" name="data.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }} " title="{{localize 'CityOfMist.terms.short_desc' }} " {{#if data.locked}} disabled {{/if}}>
+	<input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }} " title="{{localize 'CityOfMist.terms.short_desc' }} " {{#if actor.system.locked}} disabled {{/if}}>
 </div>
 {{#if actor.system.locked}}
 <div class="header-row">
@@ -32,13 +32,13 @@
 	<label class="dialog-label" for="name">
 		{{localize "CityOfMist.terms.collectiveSize"}}
 	</label>
-	<input type="radio" name="data.collective_size" value="0" {{#if (eq "0" data.collective_size)}} checked {{/if}} > 0 </input>
-	<input type="radio" name="data.collective_size" value="1" {{#if (eq "1" data.collective_size)}} checked {{/if}} > 1 </input>
-	<input type="radio" name="data.collective_size" value="2" {{#if (eq "2" data.collective_size)}} checked {{/if}}  > 2 </input>
-	<input type="radio" name="data.collective_size" value="3" {{#if (eq "3" data.collective_size)}} checked {{/if}}  > 3 </input>
-	<input type="radio" name="data.collective_size" value="4" {{#if (eq "4" data.collective_size)}} checked {{/if}}  >4 </input>
-	<input type="radio" name="data.collective_size" value="5" {{#if (eq "5" data.collective_size)}} checked {{/if}}  >5 </input>
-	<input type="radio" name="data.collective_size" value="6" {{#if (eq "6" data.collective_size)}} checked {{/if}}  >6 </input>
+	<input type="radio" name="system.collective_size" value="0" {{#if (eq "0" actor.system..collective_size)}} checked {{/if}} > 0 </input>
+	<input type="radio" name="system.collective_size" value="1" {{#if (eq "1" actor.system.collective_size)}} checked {{/if}} > 1 </input>
+	<input type="radio" name="system.collective_size" value="2" {{#if (eq "2" actor.system.collective_size)}} checked {{/if}}  > 2 </input>
+	<input type="radio" name="system.collective_size" value="3" {{#if (eq "3" actor.system.collective_size)}} checked {{/if}}  > 3 </input>
+	<input type="radio" name="system.collective_size" value="4" {{#if (eq "4" actor.system.collective_size)}} checked {{/if}}  >4 </input>
+	<input type="radio" name="system.collective_size" value="5" {{#if (eq "5" actor.system.collective_size)}} checked {{/if}}  >5 </input>
+	<input type="radio" name="system.collective_size" value="6" {{#if (eq "6" actor.system.collective_size)}} checked {{/if}}  >6 </input>
 </div>
 
 

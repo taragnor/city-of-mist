@@ -16,8 +16,8 @@
 		<section id="theme-section" class="theme-section">
 			<h1 id="Theme Header" class="flex-horizontal item-block">
 				<p>Themes
-				{{#if (eq data.locked false)}}
-				{{#if (lt data.num_themes 3)}}
+				{{#if (eq actor.system.locked false)}}
+				{{#if (lt actor.system.num_themes 3)}}
 				<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 				{{/if}}
 				{{/if}}
@@ -27,7 +27,7 @@
 				{{#each actor.items as |item|}}
 				{{#if (eq item.type "theme")}}
 				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../data.locked sheetowner=../actor themetype="crew" data=item.system themebook=item.system.themebook tbdata=item.system.themebook.system}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="crew" data=item.system themebook=item.themebook tbdata=item.themebook.system}}
 				</div>
 				{{/if}}
 				{{/each}}
