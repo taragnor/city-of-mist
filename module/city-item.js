@@ -118,14 +118,14 @@ export class CityItem extends Item {
 	isThemeKit() { return this.type == "themekit"; }
 	isThemeBook() { return this.type == "themebook"; }
 
-	isImprovementActivated(move_id, actor) {
+	isImprovementActivated(move_id) {
 		const move = CityHelpers.getMoveById(move_id);
 		const moveAbbr = move.system.abbreviation;
 		if (!this.system.effect_class)
 			return false;
 		if ( this.hasEffectClass(`ALWAYS_DYN_${moveAbbr}`) )
 			return true;
-		const theme = actor.getTheme(this.system.theme_id);
+		const theme = this.parent.getTheme(this.system.theme_id);
 		if (theme) {
 			const hasThemeTagActivated = SelectedTagsAndStatus
 				.getPlayerActivatedTagsAndStatusItems()

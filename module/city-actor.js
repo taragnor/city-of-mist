@@ -347,6 +347,34 @@ export class CityActor extends Actor {
 		return this.items.filter(x => x.type == "improvement" && (id == null || x.system.theme_id == id));
 	}
 
+	/** get improvements from self and from other activeExtra and crew theme
+	*/
+	getAllImprovements() {
+		if (!this.is_character())
+			return this.getImprovements();
+		const base = this.getImprovements();
+		const crewImprovements = this.getCrewThemes()
+			.map( x=> x.getImprovements());
+		const activeExtraImprovements =
+			this.getActiveExtras()
+			.map(x=> x.getImprovements());
+		return base
+			.concat(crewImprovements)
+			.concat(activeExtraImprovements)
+			.flat(1);
+	}
+
+	getActiveExtras() {
+		const id = this.system.activeExtraId ;
+		if (!id) return [];
+		else return game.actors
+			.filter(x=> x.id == id);
+	}
+
+	getCrewThemes() {
+		return game.actors.filter( x=> x.is_crew_theme() && x.isOwner);
+	}
+
 	async createNewTheme(name, themebook_id) {
 		const themebooks  = CityHelpers.getAllItemsByType("themebook", game);
 		const themebook = themebooks.find( x=> x.id == themebook_id)
@@ -374,8 +402,8 @@ export class CityActor extends Actor {
 	}
 
 	getActivatedImprovementEffects(move_id) {
-		return this.getImprovements()
-			.filter( x=> x.isImprovementActivated(move_id, this))
+		return this.getAllImprovements()
+			.filter( x=> x.isImprovementActivated(move_id))
 			.map (x => x.getActivatedEffect());
 	}
 

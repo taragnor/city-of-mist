@@ -78,7 +78,6 @@ export class SocketInterface {
 			console.error(e);
 		}
 		masterSession.setEnded();
-		console.log("Destroying Session");
 		masterSession.destroy();
 		this.removeSession(masterSession);
 		return ret;
@@ -213,8 +212,9 @@ class Session {
 	async send(typeStr, dataObj = {}, metaObj  = {}) {
 		if (this.active)
 			return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
-		else
+		else {
 			console.debug("inacitve session can't send");
+		}
 	}
 
 	/** sends to a user Id or an Array of userIds
