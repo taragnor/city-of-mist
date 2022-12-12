@@ -48,7 +48,7 @@ export class CityItem extends Item {
 				try {
 					if (this.themebook && this.themebook.isThemeKit()) {
 						const tags = this.themebook.themekit_getTags(this.subtype);
-						return tags.find(x=> x.name = this.name)?.description ?? "";
+						return tags.find(x=> x.tagname == this.name)?.description ?? "";
 					}
 				} catch (e) {
 					console.error(e);

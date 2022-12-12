@@ -39,13 +39,14 @@ export class CityCharacterSheet extends CityActorSheet {
 					case "Logos": return 3;
 					case "Extra": return 4;
 					case "Crew" : return 5;
+					case "None": return 6;
 					default:
 						console.warn(` Unknown Type ${type}`);
 						return 1000;
 				}
 			}
-			const atype = value_convert(tba.system.type);
-			const btype = value_convert(tbb.system.type);
+			const atype = value_convert(tba?.system?.type ?? "None");
+			const btype = value_convert(tbb?.system?.type ?? "None");
 			if (atype < btype)  return -1;
 			if (atype > btype)  return 1;
 			else return 0;

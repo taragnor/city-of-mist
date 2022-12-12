@@ -379,17 +379,16 @@ export class CityActor extends Actor {
 		const themebooks  = CityHelpers.getAllItemsByType("themebook", game);
 		const themebook = themebooks.find( x=> x.id == themebook_id)
 			?? this.items.find(item => item.id == themebook_id);
-		const img = themebook.img;
-		if (!img )
+		if (!themebook )
 			throw new Error(`Themebook ID #${themebook_id} not found`);
 		const nascent = !this.isNewCharacter();
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
 		const obj = {
-			name, type: "theme", data: {themebook_id, themebook_name, unspent_upgrades, nascent}
+			name, type: "theme", system: {themebook_id, themebook_name, unspent_upgrades, nascent}
 		};
 		await this.createNewItem(obj);
-		await this.update({data: {num_themes: this.system.num_themes+1}});
+		await this.update({system: {num_themes: this.system.num_themes+1}});
 	}
 
 	async createNewThemeKit( name = "Unnamed Theme Kit") {
@@ -616,8 +615,6 @@ export class CityActor extends Actor {
 
 	async _addTagFromThemekit(theme, temp_subtype, question_letter, crispy) {
 		const themebook = theme.themebook;
-		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
-			console.log("Detected");
 		const tagdata = themebook
 			.themekit_getTags(temp_subtype)
 			.find( x=> x.letter == question_letter);
@@ -625,6 +622,7 @@ export class CityActor extends Actor {
 		let subtag = false;
 		let question = "-";
 		let tagname, subtype;
+		const description = tagdata.description ?? "";
 		switch(temp_subtype) {
 			case "power":
 				subtype = "power";
@@ -659,13 +657,11 @@ export class CityActor extends Actor {
 				crispy,
 				custom_tag,
 				subtagRequired : subtag,
+				description,
 			},
 		};
-		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
-			console.log("Detected");
+		console.log(obj);
 		const ret =await this.createNewItem(obj);
-		if ( themebook.themekit_getTags(temp_subtype).some( x=> x.letter != x.name))
-			console.log("Detected");
 		return ret;
 	}
 
