@@ -118,7 +118,7 @@ export class VersionUpdater {
 				const [themenew] = await danger.createEmbeddedDocuments( "Item",[ theme.data]);
 				for (let tag of await extra.getTags(theme.id)) {
 					const tagdata = tag.system.data;
-					let newtag = await danger.addTag(themenew.id, tagdata.subtype, tagdata.question_letter, {crispy: true})
+					let [newtag] = await danger.addTag(themenew.id, tagdata.subtype, tagdata.question_letter, {crispy: true})
 					await newtag.update( {"name": tag.name, "data.burned": tagdata.burned});
 					await tag.delete();
 				}

@@ -674,14 +674,14 @@ export class CityActor extends Actor {
 		let question = "-";
 		let tagname, subtype;
 		let upgrades = 0;
-		const description = tagdata.description ?? "";
+		const description = tagdata?.description ?? "";
 		switch(temp_subtype) {
 			case "power":
 				subtype = "power";
 				tagname = tagdata.name;
 				subtag = false;
 				await theme.decUnspentUpgrades();
-				upgrades ++;
+				upgrades --;
 				break;
 			case "weakness":
 				subtype = "weakness";
@@ -689,10 +689,8 @@ export class CityActor extends Actor {
 				subtag = false;
 				if (options.awardImprovement) {
 					await theme.incUnspentUpgrades();
-					upgrades --;
+					upgrades ++;
 				}
-				// if (this.numOfWeaknessTags(theme.id) >= 1)
-				// 	await theme.incUnspentUpgrades();
 				break;
 			case "bonus":
 				subtype = "power";

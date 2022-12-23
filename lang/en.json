@@ -451,7 +451,7 @@
 "CityOfMist.settings.autoWeakness.name": "Auto-apply Weakness Attention",
 "CityOfMist.settings.autoWeakness.hint": "Automatically add an attention when a weakness tag is used",
 
-"CityOfMist.settings.autoAwardWeaknessImp.name": "Automatically Award bonus improvement for weakness",
+"CityOfMist.settings.autoAwardWeaknessImp.name": "Weakness Tags auto-improvement",
 "CityOfMist.settings.autoAwardWeaknessImp.hint": "When adding 2 or more weakness tags to a theme you will automatically gain a bonus improvement ot that theme. If this is switched off a prompt will instead come up.",
 
 
