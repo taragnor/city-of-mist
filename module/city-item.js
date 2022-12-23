@@ -821,6 +821,15 @@ export class CityItem extends Item {
 		return null;
 	}
 
+	get weaknessTags() {
+		if (this.isTheme() || this.isThemeBook()) {
+			return this.parent.items.filter( x=> x.isWeaknessTag() && x.theme == this);
+		}
+		console.warn(`trying to use get weaknesstags on improprer type: ${this.type}`);
+		return [];
+
+	}
+
 	async reloadImprovementFromCompendium() {
 		const themeId = this.system.theme_id;
 		const owner =this.actor;

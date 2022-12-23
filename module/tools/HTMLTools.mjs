@@ -48,18 +48,34 @@ export class HTMLTools {
 // *****************   Dialogs  ****************** *
 // **************************************************
 
-	static async confirmBox(title, text, defaultYes = false) {
+	/** brings up a confirmation window
+	@param {string} title
+	@param {string} text
+	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
+	*/
+	static async confirmBox(title, text, options = {}) {
 		const templateData = {text};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
-		return await new Promise( (conf, _reject) => {
+		return await new Promise( (conf, reject) => {
 			Dialog.confirm({
 				title,
 				content: html,
 				yes: conf.bind(null, true),
 				no: conf.bind(null, false),
-				defaultYes,
+				defaultYes: options?.defaultYes ?? false,
 				close: () => {
-					conf(false);
+					switch (options?.onClose ?? "false") {
+						case "false":
+							conf(false);
+						case "true":
+							conf(true);
+						case "error":
+							reject("close");
+						default:
+							const msg = (`Unknown Option in options.onClose: ${options.onClose}`)
+							console.warn(msg);
+							reject(msg);
+					}
 				},
 			});
 		});

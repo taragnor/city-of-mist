@@ -1,10 +1,13 @@
 
 import { CityDialogs } from "./city-dialogs.mjs";
+import {CityHelpers} from "./city-helpers.js";
+import {CityActor} from "./city-actor.js";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
 import { CityLogger } from "./city-logger.mjs";
 import { SelectedTagsAndStatus } from "./selected-tags.mjs";
 import {HTMLHandlers} from "./universal-html-handlers.mjs";
+import {CitySettings} from "./settings.js";
 
 export class CityActorSheet extends CitySheet {
 	constructor(...args) {
@@ -122,6 +125,9 @@ export class CityActorSheet extends CitySheet {
 		return this.options.template;
 	}
 
+	/** returns the owner of the given id, tokenId and sceneId
+	@return {Promise<CityActor>}
+	*/
 	async getOwner(id, tokenId, sceneId) {
 		if (!id || id == this.actor.id)
 			return this.actor;
@@ -133,7 +139,7 @@ export class CityActorSheet extends CitySheet {
 		const field = getClosestData(event, "property");
 		const val =  $(event.currentTarget).val();
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
+		const actor = this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
 		await theme.setField(field, val);
 	}
@@ -142,7 +148,7 @@ export class CityActorSheet extends CitySheet {
 		const id = getClosestData(event, "themeId");
 		const name =  $(event.currentTarget).val();
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
+		const actor = this.getOwner(actorId);
 		const theme = await actor.getTheme(id);
 		await theme.update ({name});
 	}
@@ -151,7 +157,7 @@ export class CityActorSheet extends CitySheet {
 		const theme_id = getClosestData(event, "themeId");
 		const field = getClosestData(event, "dataField");
 		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
+		const actor = this.getOwner(actorId);
 		const theme = await actor.getTheme(theme_id);
 		var obj = {};
 		obj.field = $(event.currentTarget).val();
@@ -164,6 +170,7 @@ export class CityActorSheet extends CitySheet {
 		const owner = await this.getOwner(ownerId);
 		const themeId = getClosestData(event, "themeId");
 		const itemtype = getClosestData(event, "itemType");
+		Debug(owner);
 		const theme = owner.getTheme(themeId);
 		const subtype = getClosestData(event, "subType", null);
 		let idChoice;
@@ -176,11 +183,25 @@ export class CityActorSheet extends CitySheet {
 		let tag, improvement;
 		if (itemtype == "tag")  {
 			const subtype = bonus ? "bonus" : getClosestData(event, "subType");
-			retobj = await owner.addTag(themeId, subtype, idChoice);
-			tag = await owner.getTag(retobj.id);
-			if (!tag.isPartOfThemeKit())
-				await this.tagDialog(tag);
-			await CityHelpers.modificationLog(owner, "Created",  tag);
+			const awardImprovement =
+				subtype == "weakness"
+				&& theme.weaknessTags.length >= 1
+				? (
+					CitySettings.autoAwardImpForWeakness()
+					|| await CityDialogs.confirmBox(
+						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title"),
+						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body"),
+						{onClose : "reject"}
+					)
+				): false ;
+			const options = {
+				awardImprovement
+			};
+			retobj = await owner.addTag(themeId, subtype, idChoice, options);
+			// tag = await owner.getTag(retobj.id);
+			// if (!tag.isPartOfThemeKit())
+			// 	await this.tagDialog(tag);
+			// await CityHelpers.modificationLog(owner, "Created",  tag);
 		} else {
 			retobj = await owner.addImprovement(themeId, idChoice);
 			improvement = await owner.getImprovement(retobj.id);
@@ -222,14 +243,6 @@ export class CityActorSheet extends CitySheet {
 	async improvementDialog(obj) {
 		return await CityHelpers.itemDialog(obj);
 	}
-
-	// async _tagEdit(event) {
-	// 	const id = getClosestData(event, "tagId");
-	// 	const actorId = getClosestData(event, "ownerId");
-	// 	const owner = await this.getOwner(actorId);
-	// 	const tag = await owner.getTag(id);
-	// 	await this.tagDialog(tag);
-	// }
 
 	async _improvementEdit(event) {
 		const id = getClosestData(event, "impId");

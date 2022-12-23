@@ -134,6 +134,16 @@ export const registerSystemSettings = function() {
 		restrict: true
 	});
 
+	game.settings.register("city-of-mist", "autoAwardImpForWeakness", {
+		name: localize("CityOfMist.settings.autoAwardWeaknessImp.name"),
+		hint: localize("CityOfMist.settings.autoAwardWeaknessImp.hint"),
+		scope: "world",
+		config: true,
+		type: Boolean,
+		default: true,
+		restrict: true
+	});
+
 	game.settings.register("city-of-mist", "execEntranceMoves", {
 		name: localize("CityOfMist.settings.execEntranceMoves.name"),
 		hint: localize("CityOfMist.settings.execEntranceMoves.hint"),
@@ -378,6 +388,13 @@ export class CitySettings {
 
 	static awardAttentionForWeakness() {
 		return (this.get("autoWeakness") ?? false) == true;
+	}
+
+	/**
+	@return {boolean} if the proper CoM setting si on to atuto award improvements for more than 1 weakness tag
+	*/
+	static autoAwardImpForWeakness() {
+		return (this.get("autoAwardImpForWeakness") ?? false);
 	}
 
 	static refreshSystem(system) {

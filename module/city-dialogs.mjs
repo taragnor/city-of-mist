@@ -8,8 +8,13 @@ import {TagReviewDialog} from "./dialogs/tag-review.mjs";
 
 export class CityDialogs {
 
-	static async confirmBox(title, text, defaultYes = false) {
-		return await HTMLTools.confirmBox(title, text, defaultYes);
+	/** brings up a confirmation window
+	@param {string} title
+	@param {string} text
+	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
+	*/
+	static async confirmBox(title, text, options) {
+		return await HTMLTools.confirmBox(title, text, options);
 	}
 
 	static async themeBookSelector(actor) {
@@ -585,7 +590,8 @@ export class CityDialogs {
 		}
 		return list;
 	}
-}
+
+} //end of class
 
 
 

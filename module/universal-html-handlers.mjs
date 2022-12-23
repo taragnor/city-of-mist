@@ -3,6 +3,9 @@ import {SceneTags} from "./scene-tags.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import {CityLogger} from "./city-logger.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {CitySettings} from "./settings.js";
+import {CityActor} from "./city-actor.js";
+import {CityItem} from "./city-item.js";
 
 export class HTMLHandlers {
 
@@ -78,8 +81,18 @@ export class HTMLHandlers {
 		if (tag.isPermanent())
 			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 				return;
-		await actor.deleteTag(tagId);
-		await CityHelpers.modificationLog(actor, `Deleted` , tag);
+		const removeImprovement =
+			tag.isWeaknessTag()
+			&& tag.theme.weaknessTags.length >= 2
+			? (
+				CitySettings.autoAwardImpForWeakness()
+				|| await CityDialogs.confirmBox(
+					localize("CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title"),
+					localize("CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body"),
+					{onClose: "reject"}
+				)
+			): false;
+		await actor.deleteTag(tagId, {removeImprovement});
 	}
 
 	static async tagEdit(event) {

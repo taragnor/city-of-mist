@@ -3,6 +3,7 @@ import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {SceneTags} from "./scene-tags.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
+import {CityLogger} from "./city-logger.mjs";
 
 export class CityActor extends Actor {
 
@@ -175,18 +176,30 @@ export class CityActor extends Actor {
 
 	}
 
+	/** returns the theme for a given id
+	@return {CityItem}
+	*/
 	getTheme(id) {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}
 
+	/** returns the tag for a given id
+	@return {CityItem}
+	*/
 	getTag(id) {
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
 
+	/** returns the item for a given id
+	@return {CityItem}
+	*/
 	getItem(id) {
 		return this.items.find(x =>  x.id == id);
 	}
 
+	/** returns the tag for a given id
+	@return {[CityItem]}
+	*/
 	getStoryTags() {
 		return this.items.filter( x => {
 			return x.type == "tag" && x.system.subtype == "story";
@@ -236,12 +249,15 @@ export class CityActor extends Actor {
 		return this.items.find( x => x.type == "status" && x.name == name);
 	}
 
+	/** @deprecated use theme.weaknessTags.length instead*/
 	numOfWeaknessTags(theme_id) {
-		return this.items.reduce ((acc, x) => {
-			if (x.type =="tag" && x.system.subtype == "weakness" && x.system.theme_id == theme_id )
-				return acc + 1;
-			return acc;
-		}, 0);
+		console.warning("Function is deprecated, use theme.weaknessTags.length instead");
+		return this.getTheme(theme_id).weaknessTags().length;
+		// return this.items.reduce ((acc, x) => {
+		// 	if (x.type =="tag" && x.system.subtype == "weakness" && x.system.theme_id == theme_id )
+		// 		return acc + 1;
+		// 	return acc;
+		// }, 0);
 	}
 
 	isNewCharacter() {
@@ -261,18 +277,26 @@ export class CityActor extends Actor {
 		return this.items.filter(x => x.type == "tag" && this.hasActivatedTag(x.id));
 	}
 
-	async deleteTag(tagId) {
+	/** Deletes a tag from the actor
+@param {string} tagId
+@param {{removeImprovement ?: boolean}} options
+@param {boolean} options.removeImprovement removes an improvement from the actor as tag is deleted
+*/
+	async deleteTag(tagId, options = {}) {
 		const tag  = await this.getTag(tagId);
-		if (tag.system.theme_id.length > 0 && !tag.isBonusTag()) {
-			const tid = tag.system.theme_id;
-			const theme = await this.getTheme(tid);
-			if (tag.system.subtype != "weakness") {
+		let afterMsg = "";
+		if (tag.theme != null && !tag.isBonusTag()) {
+			const theme = tag.theme;
+			if (tag.isPowerTag()) {
 				await theme.incUnspentUpgrades();
-			} else {
-				if (this.numOfWeaknessTags(tid) > 1)
-					await theme.decUnspentUpgrades();
+				afterMsg = localize("CityOfMist.log.theme.addImp");
+			}
+			if (tag.isWeaknessTag() && options?.removeImprovement) {
+				await theme.decUnspentUpgrades();
+				afterMsg = localize("CityOfMist.log.theme.remImp");
 			}
 		}
+		await CityLogger.modificationLog(this, `Deleted` , tag, afterMsg);
 		return await this.deleteEmbeddedById(tagId);
 	}
 
@@ -284,6 +308,9 @@ export class CityActor extends Actor {
 		return await this.deleteEmbeddedById(id);
 	}
 
+	/**deletes a status by name
+	@param {string} name
+	*/
 	async deleteStatusByName(name) {
 		const status = this.getStatuses().find (x=> x.name == name);
 		if (status)
@@ -545,47 +572,71 @@ export class CityActor extends Actor {
 		return this.system.buildup.reduce( (acc, i) => acc+i, 0);
 	}
 
-	async addTag(theme_id, temp_subtype,  question_letter, crispy = undefined) {
+	/** adds a tag to a chosen theme on the actor
+	args
+	@param {string} theme_id - id of theme,
+	@param temp_subtype {"power" | "weakness" | "bonus"},
+	@param question_letter{string} letter of the answered question or "_" for bonus,
+	@param {{crispy ?: boolean, awardImprovement ?: boolean, noEdit ?: boolean}} options
+	*/
+	async addTag(theme_id, temp_subtype,  question_letter, options = {}) {
 		const theme = this.getTheme(theme_id);
 		if (!theme) {
 			throw new Error(`Couldn't get Theme for id ${theme_id} on ${this.name}`);
 		}
 		const themebook = theme.themebook;
-		if (crispy == undefined)
+		if (options?.crispy == undefined)
 			if (this.type != "character" && temp_subtype != "weakness") {
-				crispy = true;
+				options.crispy = true;
 			} else {
-				crispy = false;
+				options.crispy = false;
 			}
-
+		let tag, upgrades;
 		switch (themebook.type) {
 			case "themebook":
-				return await this._addTagFromThemeBook(theme, temp_subtype, question_letter, crispy);
+				[tag, upgrades]= await this._addTagFromThemeBook(theme, temp_subtype, question_letter, options);
+				break;
 			case "themekit":
-				return await this._addTagFromThemekit(theme, temp_subtype, question_letter, crispy);
+				[tag, upgrades]= await this._addTagFromThemekit(theme, temp_subtype, question_letter, options);
+				break;
+			default: throw new Error(`Bad Type : $${themebook.type}`);
 		}
+		if (!options?.noEdit && !tag.isPartOfThemeKit()) {
+			await CityDialogs.itemEditDialog(tag);
+		}
+		let afterMsg = "";
+		if (upgrades > 0)
+			afterMsg = localize("CityOfMist.log.theme.addImp" );
+		else if (upgrades < 0)
+			afterMsg = localize("CityOfMist.log.theme.remImp" );
+		await CityLogger.modificationLog(this, "Created",  tag, afterMsg);
+
 	}
 
-		async _addTagFromThemeBook(theme, temp_subtype, question_letter, crispy) {
+	async _addTagFromThemeBook(theme, temp_subtype, question_letter, options) {
 		const themebook = theme.themebook;
 		const tagdata = themebook
 			.themebook_getTagQuestions(temp_subtype)
 			.find( x=> x.letter == question_letter);
 		let custom_tag = false;
 		let question, subtag, subtype;
+		let upgrades = 0;
 		switch (temp_subtype) {
 			case "power":
 				subtype = "power";
 				question = tagdata.question;
 				subtag = tagdata.subtag;
 				await theme.decUnspentUpgrades();
+				upgrades--;
 				break;
 			case "weakness":
 				subtype = "weakness";
 				question = tagdata.question;
 				subtag = tagdata.subtag;
-				if (this.numOfWeaknessTags(theme.id) >= 1)
+				if (options.awardImprovement){ 
 					await theme.incUnspentUpgrades();
+					upgrades++;
+				}
 				break;
 			case "bonus" :
 				subtype = "power";
@@ -605,15 +656,15 @@ export class CityActor extends Actor {
 				theme_id: theme.id,
 				question_letter,
 				question,
-				crispy,
+				crispy: options?.crispy ?? false,
 				custom_tag,
 				subtagRequired : subtag,
 			}
 		};
-		return await this.createNewItem(obj);
+		return [await this.createNewItem(obj), upgrades];
 	}
 
-	async _addTagFromThemekit(theme, temp_subtype, question_letter, crispy) {
+	async _addTagFromThemekit(theme, temp_subtype, question_letter, options) {
 		const themebook = theme.themebook;
 		const tagdata = themebook
 			.themekit_getTags(temp_subtype)
@@ -622,6 +673,7 @@ export class CityActor extends Actor {
 		let subtag = false;
 		let question = "-";
 		let tagname, subtype;
+		let upgrades = 0;
 		const description = tagdata.description ?? "";
 		switch(temp_subtype) {
 			case "power":
@@ -629,13 +681,18 @@ export class CityActor extends Actor {
 				tagname = tagdata.name;
 				subtag = false;
 				await theme.decUnspentUpgrades();
+				upgrades ++;
 				break;
 			case "weakness":
 				subtype = "weakness";
 				tagname = tagdata.name;
 				subtag = false;
-				if (this.numOfWeaknessTags(theme.id) >= 1)
+				if (options.awardImprovement) {
 					await theme.incUnspentUpgrades();
+					upgrades --;
+				}
+				// if (this.numOfWeaknessTags(theme.id) >= 1)
+				// 	await theme.incUnspentUpgrades();
 				break;
 			case "bonus":
 				subtype = "power";
@@ -654,15 +711,13 @@ export class CityActor extends Actor {
 				theme_id: theme.id,
 				question_letter,
 				question,
-				crispy,
+				crispy: options?.crispy ?? false,
 				custom_tag,
 				subtagRequired : subtag,
 				description,
 			},
 		};
-		console.log(obj);
-		const ret =await this.createNewItem(obj);
-		return ret;
+		return [await this.createNewItem(obj), upgrades];
 	}
 
 	async addImprovement(theme_id, number) {

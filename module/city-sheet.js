@@ -75,11 +75,9 @@ export class CitySheet extends ActorSheet {
 		this.scrollTop = $(".actor-sheet").scrollTop();
 	}
 
-	async confirmBox(title, text, defaultYes = false) {
+	async confirmBox(title, text, options) {
 		const loc_title = localizeS(title);
-		// if (loc_title == title)
-		// 	console.warn("term for ${title} not localized");
-		return await CityHelpers.confirmBox(loc_title, text, defaultYes);
+		return await CityHelpers.confirmBox(loc_title, text, options);
 	}
 
 	themeDeleteChoicePrompt(themename) {

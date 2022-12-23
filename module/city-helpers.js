@@ -95,6 +95,12 @@ export class CityHelpers {
 		return CityDB.getTagOwnerById(tagOwnerId);
 	}
 
+	/** returns the actor owner based on ownerId, tokenId, sceneId
+	@param  {string} ownerId
+	@param  {string | undefined } tokenId
+	@param  {string | undefined } sceneId
+	@return {CityActor}
+	*/
 	static getOwner(ownerId, tokenId, sceneId) {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
@@ -472,8 +478,13 @@ export class CityHelpers {
 		return [array, improvements];
 	}
 
-	static async confirmBox(title, text, defaultYes = false) {
-		return await HTMLTools.confirmBox(title, text, defaultYes);
+	/** brings up a confirmation window
+	@param {string} title
+	@param {string} text
+	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
+	*/
+	static async confirmBox(title, text, options) {
+		return await HTMLTools.confirmBox(title, text, options);
 	}
 
 	static middleClick (handler) { return HTMLTools.middleClick(handler); }

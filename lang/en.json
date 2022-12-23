@@ -384,6 +384,11 @@
 "CityOfMist.dialog.roll.burnTag": "Burn Tag",
 "CityOfMist.dialog.roll.dontBurn": "Don't Burn",
 
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Grant Improvement?",
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Grant a free improvement for taking 2+ weakness tags on same theme?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Remove Imrovement?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body": "Remove the free improvement for taking 2+ weakness tags on a theme?",
+
 "CityOfMist.dialog.themebook_select.themekit": "Use Theme Kit",
 
 "CityOfMist.dialog.tag.usageExamples": "Examples of where Tag would apply",
@@ -445,6 +450,10 @@
 
 "CityOfMist.settings.autoWeakness.name": "Auto-apply Weakness Attention",
 "CityOfMist.settings.autoWeakness.hint": "Automatically add an attention when a weakness tag is used",
+
+"CityOfMist.settings.autoAwardWeaknessImp.name": "Automatically Award bonus improvement for weakness",
+"CityOfMist.settings.autoAwardWeaknessImp.hint": "When adding 2 or more weakness tags to a theme you will automatically gain a bonus improvement ot that theme. If this is switched off a prompt will instead come up.",
+
 
 "CityOfMist.settings.execEntranceMoves.name": "Danger Entrance Moves",
 "CityOfMist.settings.execEntranceMoves.hint": "Set Automation options for 'enter scene' type moves on dangers. Triggers when token is revealed or created. Removed when token is hidden or deleted.",
@@ -509,6 +518,9 @@
 
 "CityOfMist.tooltip.gmmove": "Use [] around a word to make a status or tag. &#013;[a:name] will make a status auto-applied when the move is triggered. &#013;[i:name] will ignore collective bonus.&#013; [a,i:name] will do both.&#013; [s:name] will add the used status or tag to the scene tags/statuses. Using {} around a block of text will make it visible only to the GM. That text will not post to chat.&#013 Other Commands: &#013 &#013 t: make status temporary, &#013 p: permanent make tag permanent",
 "CityOfMist.tooltip.error.missingParent": "ERROR: This tag needs to be a sub-tag of another tag.",
+
+"CityOfMist.log.theme.addImp" : "+1 Theme Improvement",
+"CityOfMist.log.theme.remImp" : "-1 Theme Improvement",
 
 "CityOfMist.error.themeKitTagEdit": "Can't edit Theme Kit tag",
 "CityOfMist.error.dontOwnTag": "You don't own this tag and can't edit it",
