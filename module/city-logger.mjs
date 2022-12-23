@@ -5,7 +5,8 @@ export class CityLogger extends Logger {
 	static async logToChat(actor, action, object = null, aftermsg = "") {
 		if (action != undefined) {
 			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
-			const after_message = aftermsg ? `(${aftermsg})` : "";
+			const afterMsgString = aftermsg?.join ? aftermsg.join(" ,") : aftermsg;
+			const after_message = afterMsgString ? `(${afterMsgString})` : "";
 			const message = await renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
 			try { return await this.gmMessage(message, actor);}
 			catch (e) {console.error(e);}

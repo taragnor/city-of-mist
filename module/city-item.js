@@ -699,7 +699,7 @@ export class CityItem extends Item {
 		return this.type == "juice" && this.system?.subtype;
 	}
 
-	/** On juiice object tell who the juice targets
+	/** On juice object tell who the juice targets
 	*/
 	getTarget() {
 		const targetId = this.system?.targetCharacterId;
