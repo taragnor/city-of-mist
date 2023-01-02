@@ -1676,7 +1676,7 @@ div.themebook-name {
 
 .image-block {
 	/* flex-shrink: 5; */
-	max-height: 300px;
+	max-height: 180px;
 	text-align: center;
 	/* height: 300px; */
 }
@@ -1699,7 +1699,8 @@ div.themebook-name {
 	/* background-image: url(../images/coffee1.webp); */
 }
 
-.profile-img {
+img.profile-img {
+	max-height: 180px !important;
 	/* width: auto; */
 	/* height: 100% !important; */
 }
