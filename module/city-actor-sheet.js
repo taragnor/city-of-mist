@@ -126,7 +126,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	/** returns the owner of the given id, tokenId and sceneId
-	@return {Promise<CityActor>}
+	@return {CityActor}
 	*/
 	getOwner(id, tokenId, sceneId) {
 		if (!id || id == this.actor.id)
