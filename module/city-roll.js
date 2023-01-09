@@ -374,11 +374,12 @@ export class CityRoll {
 						.join(", ");
 					if (total >= 7) {
 						const totalClues = Math.max(power, 1);
+						const tagStr = tags.length > 1 ? `: ${tags}` : "";
 						for (let i=0; i < totalClues; i++) {
 							await ClueChatCards.postClue( {
 								actorId: actor.id,
 								metaSource,
-								method: `${move.name} : ${tags}`,
+								method: `${move.name} ${tagStr}`,
 							});
 						}
 					}

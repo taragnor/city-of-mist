@@ -7,18 +7,24 @@
 		{{localize "CityOfMist.message.clueBanked" }}
 	</h2>
 	{{else}}
-	{{#if showSource}}
+	{{#if source}}
 	<div class="clue-source">
 		<span>
-			{{localize "CityOfMist.terms.clueSource"}}
+			<b>
+				{{localize "CityOfMist.terms.clueSource"}}:
+			</b>
 		</span>
 		<span>
 			{{source}}
 		</span>
 	</div>
+	{{/if}}
+	{{#if method}}
 	<div class="clue-method">
 		<span>
-			{{localize "CityOfMist.terms.clueMethod"}}
+			<b>
+			{{localize "CityOfMist.terms.clueMethod"}}:
+			</b>
 		</span>
 		<span>
 			{{method}}

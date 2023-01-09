@@ -10,7 +10,6 @@ export class ClueChatCards {
 	@param {CityItem | string} templateData.metaSource the clue itself that is being spent or message Id of roll
 	@param {string} templateData.method The method of the clue
 	@param {string} templateData.source The source for the clue
-	@param {boolean | undefined} templateData.showSource Shows the method and source of the clue
 	*/
 	static async postClue (templateData) {
 		const actor = CityDB.getActorById(templateData.actorId);
