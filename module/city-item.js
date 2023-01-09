@@ -884,7 +884,8 @@ export class CityItem extends Item {
 			actorId: this.actor.id,
 			metaSource: this,
 			method: this.system.method,
-			source: this.system.source
+			source: this.system.source,
+			showSource: true,
 		});
 		await this.spend();
 	}

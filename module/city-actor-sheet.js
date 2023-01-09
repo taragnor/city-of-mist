@@ -571,7 +571,7 @@ export class CityActorSheet extends CitySheet {
 	async _juiceEdit (event) {
 		const juice_id = getClosestData(event, "juiceId");
 		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
+		const owner = this.getOwner(ownerId);
 		const juice = await owner.getJuice(juice_id);
 		const oldname = juice.name;
 		const oldamount = juice.system.amount;
