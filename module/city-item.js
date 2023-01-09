@@ -877,7 +877,7 @@ export class CityItem extends Item {
 		return await this.update(updateObj);
 	}
 
-	async spend_clue() {
+	async spendClue() {
 		if (this.getAmount() <= 0)
 			throw new Error("Can't spend clue with no amount")
 		await ClueChatCards.postClue( {

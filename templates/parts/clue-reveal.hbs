@@ -3,75 +3,93 @@
 		{{localize "CityOfMist.terms.clue"}}
 	</h1>
 	{{#if banked}}
-		<h2 class="banked-clue">
-			{{localize "CityOfMist.message.clueBanked" }}
-		</h2>
+	<h2 class="banked-clue">
+		{{localize "CityOfMist.message.clueBanked" }}
+	</h2>
 	{{else}}
-		<div class="gm-only partial-clue">
-			<label> {{localize "CityOfMist.terms.partialClue" }} </label>
-			<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
-		</div>
-		<div class="3rd-party player-only partial-clue">
-			{{#if partial_clue}} Partial Clue {{/if}}
-		</div>
-		<div class="player-only rejected-question">
-			{{#if question_rejected}}
-				{{localize "CityOfMist.message.rejectedQuestion"}}
-			{{/if}}
-		</div>
-		<section class="question-part">
-			{{#if question}}
-				<div class="3rd-party question-block">
-					<span class="header">
-						{{localize "CityOfMist.terms.clueQuestion"}}
-					</span>
-					<span class="text">{{question}}</span>
-				</div>
-			{{else}}
-				<textarea class="player-only question-input">{{partial_clue_text}}</textarea>
-				<button class="player-only submit-button">
-					{{localize "CityOfMist.command.askQuestion"}}
-				</button>
-				<button class="player-only bank-button">
-					{{localize "CityOfMist.command.bankClue"}}
-				</button>
-				<div class="3rd-party gm-only waiting-msg">
-					{{localize "CityOfMist.message.waitingPlayer" }}
-				</div>
-				<div class="3rd-party gm-only waiting-msg">
-					<img class="gm-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
-				</div>
-			{{/if}}
-		</section>
-		{{#if question}}
-			<section class="answer-part">
-				{{#if answer}}
-					<div class="3rd-party answer-block">
-						<span class="header"> Answer: </span>
-						<span class="text">{{answer}}</span>
-					</div>
-					<button class="gm-only edit-button">
-						{{localize "CityOfMist.command.editClue"}}
-					</button>
-					<button class="player-only add-to-journal-button">
-						{{localize "CityOfMist.command.addToJounral"}}
-					</button>
-				{{else}}
-					<textarea class="gm-only answer-input">{{partial_answer_text}}</textarea>
-					<button class="gm-only submit-button">
-						{{localize "CityOfMist.command.submit"}}
-					</button>
-					<button class="gm-only refund-button">
-						{{localize "CityOfMist.command.refundClue" }}
-					</button>
-					<div class="3rd-party player-only waiting-msg">
-						{{localize "CityOfMist.message.waitingMC" }}
-					</div>
-					<div class="3rd-party player-only waiting-msg">
-						<img class="3rd-party player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
-					</div>
-				{{/if}}
-			</section>
+	{{#if showMethod}}
+	<div class="clue-source">
+		<span>
+			{{localize "CityOfMist.terms.clueSource"}}
+		</span>
+		<span>
+			{{source}}
+		</span>
+	</div>
+	<div class="clue-method">
+		<span>
+			{{localize "CityOfMist.terms.clueMethod"}}
+		</span>
+		<span>
+			{{method}}
+		</span>
+	</div>
+	{{/if}}
+	<div class="gm-only partial-clue">
+		<label> {{localize "CityOfMist.terms.partialClue" }} </label>
+		<input type="checkbox" class="partial-clue" {{#if partial_clue}} checked{{/if}}>
+	</div>
+	<div class="3rd-party player-only partial-clue">
+		{{#if partial_clue}} Partial Clue {{/if}}
+	</div>
+	<div class="player-only rejected-question">
+		{{#if question_rejected}}
+		{{localize "CityOfMist.message.rejectedQuestion"}}
 		{{/if}}
+	</div>
+	<section class="question-part">
+		{{#if question}}
+		<div class="3rd-party question-block">
+			<span class="header">
+				{{localize "CityOfMist.terms.clueQuestion"}}
+			</span>
+			<span class="text">{{question}}</span>
+		</div>
+		{{else}}
+		<textarea class="player-only question-input">{{partial_clue_text}}</textarea>
+		<button class="player-only submit-button">
+			{{localize "CityOfMist.command.askQuestion"}}
+		</button>
+		<button class="player-only bank-button">
+			{{localize "CityOfMist.command.bankClue"}}
+		</button>
+		<div class="3rd-party gm-only waiting-msg">
+			{{localize "CityOfMist.message.waitingPlayer" }}
+		</div>
+		<div class="3rd-party gm-only waiting-msg">
+			<img class="gm-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
+		</div>
+		{{/if}}
+	</section>
+	{{#if question}}
+	<section class="answer-part">
+		{{#if answer}}
+		<div class="3rd-party answer-block">
+			<span class="header"> Answer: </span>
+			<span class="text">{{answer}}</span>
+		</div>
+		<button class="gm-only edit-button">
+			{{localize "CityOfMist.command.editClue"}}
+		</button>
+		<button class="player-only add-to-journal-button">
+			{{localize "CityOfMist.command.addToJounral"}}
+		</button>
+		{{else}}
+		<textarea class="gm-only answer-input">{{partial_answer_text}}</textarea>
+		<button class="gm-only submit-button">
+			{{localize "CityOfMist.command.submit"}}
+		</button>
+		<button class="gm-only refund-button">
+			{{localize "CityOfMist.command.refundClue" }}
+		</button>
+		<div class="3rd-party player-only waiting-msg">
+			{{localize "CityOfMist.message.waitingMC" }}
+		</div>
+		<div class="3rd-party player-only waiting-msg">
+			<img class="3rd-party player-only waiting-msg" src="systems/city-of-mist/images/loading.gif" height=100 width=100>
+		</div>
+		{{/if}}
+	</section>
+	{{/if}}
 	{{/if}}
 </div>

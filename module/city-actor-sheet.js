@@ -596,10 +596,10 @@ export class CityActorSheet extends CitySheet {
 		}
 		const clue_id = getClosestData(event, "clueId");
 		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
+		const owner =  this.getOwner(actorId);
 		const clue = await owner.getClue(clue_id);
-		if (await  this.confirmBox("Use Clue", "Use Clue?"))
-			await clue.spend_clue();
+		if (await this.confirmBox("Use Clue", "Use Clue?"))
+			await clue.spendClue();
 	}
 
 	async _buildUpDecrement(event) {

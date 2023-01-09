@@ -3,6 +3,15 @@ import {CityLogger} from "./city-logger.mjs";
 
 
 export class ClueChatCards {
+
+	/**  posts a clue card to the chat
+	@param {Object} templateData
+	@param {string} templateData.actorId id of actor spending clue
+	@param {CityItem | string} templateData.metaSource the clue itself that is being spent or message Id of roll
+	@param {string} templateData.method The method of the clue
+	@param {string} templateData.source The source for the clue
+	@param {boolean | undefined} templateData.showMethod Shows the method and source of the clue
+	*/
 	static async postClue (templateData) {
 		const actor = CityDB.getActorById(templateData.actorId);
 		// const	templateData= {actorId, metaSource, method};
