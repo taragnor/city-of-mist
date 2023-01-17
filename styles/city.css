@@ -3170,3 +3170,18 @@ span.secret {
 	text-shadow: 0 0 8px #f82973;
 }
 
+button.clue-use-button {
+	flex: none !important;
+	margin: 0.5em;
+	border-radius: 0.5em;
+	color: white;
+	background-color: #502c5dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	max-width: 64px;
+}
+
+button.clue-use-button:hover {
+	background: #c5044b;
+	transition: all 0.4s ease-in-out;
+}
+

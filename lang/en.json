@@ -137,6 +137,9 @@
 "CityOfMist.terms.GM": "GM",
 "CityOfMist.terms.maxTier": "Max Tier",
 
+"CityOfMist.characterSheet.useClue.tooltip": "Post Clue Card to Chat",
+"CityOfMist.characterSheet.useClue.button": "Use",
+
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
 "CityOfMist.moves.CTG.name":"Change the Game",
