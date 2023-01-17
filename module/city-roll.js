@@ -331,9 +331,9 @@ export class CityRoll {
 		if (game.settings.get("city-of-mist", "gritMode")) {
 			if (standardPower >=7)
 				return -(standardPower - 4);
-			else if  (modifiersTotal >= 4)
+			else if  (standardPower >= 4)
 				return -(standardPower - 3);
-			else if (modifiersTotal == 3)
+			else if (standardPower == 3)
 				return -(standardPower - 2);
 		}
 		return 0;
