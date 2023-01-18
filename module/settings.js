@@ -453,7 +453,8 @@ let isDelayedReload = false;
 
 function delayedReload() {
 	if (!isDelayedReload) {
-		ui.notifications.notify("Browser Window will reload shortly for all players due to setting change");
+		const msg = localize("CityOfMist.notification.reloadRequired" );
+		ui.notifications.notify(msg);
 		setTimeout(() =>  window.location.reload(), 4000);
 	}
 	isDelayedReload= true;
