@@ -475,7 +475,7 @@ export class CityActorSheet extends CitySheet {
 		const owner = await this.getOwner(actorId);
 		const clue = await owner.getJournalClue(clue_id);
 		await owner.deleteClue(clue_id);
-		CityHelpers.modificationLog(owner, "Removed", clue );
+		// CityHelpers.modificationLog(owner, "Removed", clue );
 
 	}
 
