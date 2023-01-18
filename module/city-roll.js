@@ -207,7 +207,7 @@ export class CityRoll {
 		r.options.tags = this.#tags;
 		r.options.actorId = this.#actor?.id;
 		r.options.moveId = this.#moveId;
-		r.options.autoAttention = game.settings.get("city-of-mist", "autoWeakness");
+		r.options.autoAttention = CitySettings.isAutoWeakness();
 		this.#roll = r;
 	}
 
@@ -278,7 +278,7 @@ export class CityRoll {
 
 	static getRollPower (rollOptions, modifiers= rollOptions.modifiers) {
 		const validModifiers = modifiers.filter(x => !x.strikeout);
-		const weaknessCap = game.settings.get("city-of-mist", "weaknessCap");
+		const weaknessCap = CitySettings.getWeaknessCap();
 		const base_power = validModifiers
 			.reduce( (acc, x) => acc + x.amount, 0);
 		const cap = validModifiers.some( x=> x.subtype == "weakness" && x.amount < 0) ? weaknessCap : 999;
@@ -328,7 +328,7 @@ export class CityRoll {
 		}
 
 	static calculateGritPenalty(standardPower) {
-		if (game.settings.get("city-of-mist", "gritMode")) {
+		if (CitySettings.isGritMode()) {
 			if (standardPower >=7)
 				return -(standardPower - 4);
 			else if  (standardPower >= 4)
@@ -351,7 +351,7 @@ export class CityRoll {
 	}
 
 	async #secondaryEffects() {
-		if (game.settings.get('city-of-mist', "clueBoxes"))
+		if (CitySettings.useClueBoxes())
 			await this.#clueBoxes();
 	}
 
@@ -441,7 +441,7 @@ export class CityRoll {
 		const tags = this.#tags;
 		for (const {ownerId, amount, tagId, tokenId} of tags) {
 			const tag = CityHelpers.getOwner(ownerId, tokenId).getTag(tagId);
-			if (tag.system.subtype == "weakness" && amount < 0 && game.settings.get("city-of-mist", "autoWeakness")) {
+			if (tag.system.subtype == "weakness" && amount < 0 && CitySettings.isAutoWeakness()) {
 				await CityHelpers.getOwner(ownerId)?.grantAttentionForWeaknessTag(tag.id);
 			}
 		}

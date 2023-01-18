@@ -378,6 +378,10 @@ export class CitySettings {
 		return this.get("handleTempItems") =="all";
 	}
 
+	static isGritMode() {
+		return this.get("gritMode") ?? false;
+	}
+
 	static isDevMode() {
 		return this.get("devMode");
 	}
@@ -387,8 +391,21 @@ export class CitySettings {
 	}
 
 	static awardAttentionForWeakness() {
-		return (this.get("autoWeakness") ?? false) == true;
+		return this.get("autoWeakness") ?? false == true;
 	}
+
+	static isAutoWeakness() {
+		return this.get("autoWeakness") ?? false;
+	}
+
+	static getWeaknessCap() {
+		return this.get("weaknessCap") ?? 999;
+	}
+
+	static useClueBoxes() {
+		return this.get("clueBoxes") ?? true;
+	}
+
 
 	/**
 	@return {boolean} if the proper CoM setting si on to atuto award improvements for more than 1 weakness tag
