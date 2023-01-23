@@ -54,9 +54,9 @@
 "CityOfMist.terms.statusName": "Status Name",
 "CityOfMist.terms.spectrums": "Spektren",
 "CityOfMist.terms.themeTags": "Themenmerkmale",
-"CityOfMist.terms.improvements": "Verbesserugen",
+"CityOfMist.terms.improvements": "Verbesserungen",
 "CityOfMist.terms.tag": "Merkmal",
-"CityOfMist.terms.tags": "Markmale",
+"CityOfMist.terms.tags": "Merkmale",
 "CityOfMist.terms.powerTags": "Stärkemerkmale",
 "CityOfMist.terms.weaknessTags": "Schwächemerkmale",
 "CityOfMist.terms.storyTags": "Handlungsmerkamle",
@@ -138,8 +138,8 @@
 "CityOfMist.moves.FD.partial": "Du erhältst du den Status, aber mit einer um eins reduzierten Stufe.",
 "CityOfMist.moves.FD.success": "Du wehrst du den Effekt ab und erhältst keinen Status.",
 "CityOfMist.moves.FD.dynamite": "Du vermeidest den Status komplett und wähle eins:",
-"CityOfMist.moves.FD.0": "Du reflektierst den Status auf deinen Angreifer oder verwendest ihn sonstwie gegen ihn. Gib deinem Angreifer einen passenden Status deiner Wahl mit einer Stufe glecih der des ursprünglichen Status.",
-"CityOfMist.moves.FD.1": "Du stärkst deine Verteidigung. Du erhällst einen passenden, anhaltenden Status deiner Wahl mit einer um eins geringeren Stufe, der deine verbeserte Verteidigung beschreibt.",
+"CityOfMist.moves.FD.0": "Du reflektierst den Status auf deinen Angreifer oder verwendest ihn sonstwie gegen ihn. Gib deinem Angreifer einen passenden Status deiner Wahl mit einer Stufe gleich der des ursprünglichen Status.",
+"CityOfMist.moves.FD.1": "Du stärkst deine Verteidigung. Du erhällst einen passenden, anhaltenden Status deiner Wahl mit einer um eins geringeren Stufe, der deine verbesserte Verteidigung beschreibt.",
 
 "CityOfMist.moves.GTTT.name": "Kräfte messen",
 "CityOfMist.moves.GTTT.partial": "Wähle eins",
@@ -160,9 +160,9 @@
 "CityOfMist.moves.HWAYG.4": "Du gewinnst die Oberhand (+1 Saft).",
 "CityOfMist.moves.HWAYG.5": "(Bombastisch) Außergewöhlicher Treffer: Wähle drei der normalen Optionen des Spielzugs.",
 "CityOfMist.moves.HWAYG.6": "(Bombastisch) Verteidige jemand: Du beschützt dich und einen anderen Verbündeten vor einem Gegenschalg. Das Ziel kann deinen Verbündeten in seinem nächsten Zug nicht angreifen.",
-"CityOfMist.moves.HWAYG.7": "(Bombastisch) Schwer treffen: Du triffst schwer und erhöhst die Stufe des Status um 2 oder triffst zwei oder mehr Ziele mit dem selbem Status.",
+"CityOfMist.moves.HWAYG.7": "(Bombastisch) Schwer treffen: Du triffst schwer und erhöhst die Stufe des Status um 2 oder triffst zwei oder mehr Ziele mit dem selben Status.",
 "CityOfMist.moves.HWAYG.8": "(Bombastisch) Extremer Kollateralschaden: Alles und jeder um das Ziel erhält einen Status ähnlich des vergebenen Status, mit einer Stufe in Höhe der Kraft. Dies betrifft auch dich und Verbündete, wenn ihr in der Nähe seid",
-"CityOfMist.moves.HWAYG.9": "(Bombastisch) Den Konflickt kontrollieren: Erhalte 2 Saft, die du benutzen kannst, um Effekte vom das Blatt wenden Spielzug zu wählen.",
+"CityOfMist.moves.HWAYG.9": "(Bombastisch) Den Konflikt kontrollieren: Erhalte 2 Saft, die du benutzen kannst, um Effekte vom das Blatt wenden Spielzug zu wählen.",
 
 "CityOfMist.moves.investigate.name": "Nachforschen",
 "CityOfMist.moves.investigate.partial": "Du erhälst PWR Hinweise. Du kannst deine Hinweise ausgeben, um entweder dem Spielleiter Fragen zum Gegenstand deiner Nachforschungen oder einem anderen Spieler relevante Fragen zu seinem Charakter zu stellen. Sie müssen dir eine ehrliche Antwort geben oder eine klare Spur liefern. Der Spielleiter kann eine Komplikation wählen:",
@@ -206,7 +206,7 @@
 "CityOfMist.moves.downtime.always": "Wenn dein Charakter etwas Auszeit hat, wähle eine Möglichkeit, wie er sie verbringt:",
 "CityOfMist.moves.downtime.0": "Einem deiner Logos- oder Bonusthemen Aufmerksamkeit widmen. Beschreibe den anderen Spielern, was du dafür tust, und markiere Aufmerksamkeit auf diesem Thema.",
 "CityOfMist.moves.downtime.1": "Den Fall bearbeiten. Beschreibe den anderen Spielern, was du dafür tust, und notiere dir drei Hinweise mit einer Methode und einer Quelle, die zu deiner Beschreibung passen.",
-"CityOfMist.moves.downtime.2": "Deinen Mythos erforschen. Beschreibe den anderen Spielern, wie du welchem deinerMysterien nachgehst. Du erhältst einen Hinweis mit einer Methode und Quelle, die zu deiner Beschreibung passen. Markiere Aufmerksamkeit auf dem Thema des Mysteriums.",
+"CityOfMist.moves.downtime.2": "Deinen Mythos erforschen. Beschreibe den anderen Spielern, wie du welchem deiner Mysterien nachgehst. Du erhältst einen Hinweis mit einer Methode und Quelle, die zu deiner Beschreibung passen. Markiere Aufmerksamkeit auf dem Thema des Mysteriums.",
 "CityOfMist.moves.downtime.3": "Deine nächste Tätigkeit vorbereiten. Beschreibe den anderen Spielern, wie du dich vorbereitest, und stelle ENTWEDER alle deine ausgebrannten Merkmale wieder her ODER erhalte drei Punkte Saft mit einer Methode, die zu deiner Beschreibung passt. Diese kannst du für die unter Das Blatt wenden beschriebenen Effektverbesserungen einsetzen.",
 "CityOfMist.moves.downtime.4": "Dich von deiner letzten Tätigkeit erholen. Der Spielleiter teilt dir für jeden auf dir liegenden anhaltenden Status mit, ob und wie du ihn während deiner Auszeit reduzieren kannst und um wie viele Stufen. Alternativ gestattet er dir, alle oder einige deiner Status pro relevantem Merkmal, das du besitzt, um eine Stufe zu reduzieren.",
 
@@ -214,7 +214,7 @@
 "CityOfMist.moves.answers.always": "Wenn du Antworten auf dein Mysterium erhälst, wähle eine, zwei oder drei der folgenden Optionen:",
 "CityOfMist.moves.answers.0": "Du erlangst ein tieferes Verständnis deines Mythos, dem Gegenstand deines Mysteriums oder der Verbindung zwischen deinem Mysterium und deinem Mythos. Markeire Aufmerksamkeit auf dem Thema dieses Mysteriums.",
 "CityOfMist.moves.answers.1": "Du bist von der Erkenntnis derart erschüttert, dass du deinen Mythos oder einen Aspekt deines gewöhnlichen Lebens von dir weist. Markiere Schwund/Bruch auf einem bliebigen Thema.",
-"CityOfMist.moves.answers.2": "Deine Fragen wurden beantwortet. Wähle ein neues Mysterium für diese Thema.",
+"CityOfMist.moves.answers.2": "Deine Fragen wurden beantwortet. Wähle ein neues Mysterium für dieses Thema.",
 
 "CityOfMist.moves.flashback.name": "Rückblende",
 "CityOfMist.moves.flashback.always": "Wenn du gerade im Rampenlicht stehst, kannst du einmal pro Sitzung eine der folgenden Optionen wählen:",
@@ -229,7 +229,7 @@
 "CityOfMist.moves.hardchoice.name": "Eine schwierige Entscheidung treffen",
 "CityOfMist.moves.hardchoice.0": "Wenn Antworten auf dein Mysterium zum Greifen nahe sind, du aber auf sie verzichtest, markierst du Schwund auf deinem Thema des Mysteriums.",
 "CityOfMist.moves.hardchoice.1": "Wenn deine Identität verlangt, dass du auf eine bestimmte Weise handelst oder sprichst, du es aber nicht tust, markierst du Bruch auf dem Thema der Identität.",
-"CityOfMist.moves.hardchoice.2": "wenn du etwas opferst, was du aufrichtig begehrst, um deiner Identität gerecht zu werden, markeirst du Aufmerksamkeit auf dem Thema der Identität.",
+"CityOfMist.moves.hardchoice.2": "Wenn du etwas opferst, was du aufrichtig begehrst, um deiner Identität gerecht zu werden, markeirst du Aufmerksamkeit auf dem Thema der Identität.",
 
 "CityOfMist.moves.monologue.name": "Erzählerischer Monolog",
 "CityOfMist.moves.monologue.always": "Zu beginn jeder Sitzung hält ein Spieler einen Monolog aus der Perspektive seines Charakters, in dem er dessen Gedanken und Gefühle zum aktuellen Handlungszeitpunkt wiedergibt.",
@@ -420,4 +420,14 @@
 
 "CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird.",
 "CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein."
+
+"CityOfMist.log.theme.addImp" : "+1 Themenverbesserung",
+"CityOfMist.log.theme.remImp" : "-1 Themenverbesserung",
+
+"CityOfMist.error.themeKitTagEdit": "Themensetmerkmal kann nicht bearbeitet werden",
+"CityOfMist.error.dontOwnTag": "Du bist nicht Besitzer des Merkmals und kannst es daher nicht bearbeiten",
+"CityOfMist.error.MCEditOnly" : "Nur die Spielleitung kann es bearbeiten.",
+
+"CityOfMist.notification.reloadRequired" : "Das Browserfenster wird sich in Kürze für alle SPpielnden aktualiseiren weil sich Einstellungen geändert haben."
+
 }
