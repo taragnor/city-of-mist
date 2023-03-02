@@ -92,6 +92,17 @@ Hooks.once("init", async function() {
 
 });
 
+//Support for TaragnorSecurity module if installed
+Hooks.on("encryptionPreEnable", (taragnorSec) => {
+	taragnorSec.setEncryptable(CityActor,
+		[CityCharacterSheet, CityThreatSheet, CityCrewSheet],
+		["system.gmnotes", "system.mythos"]);
+	taragnorSec.setEncryptable(CityItem,
+		[CityItemSheetLarge],
+		["system.description"]);
+	console.log("Taragnor Security: CoM Encryption support enabled");
+});
+
 /* City of Mist Status Tracker */
 Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
 	window.statusTrackerWindow = new StatusTrackerWindow();

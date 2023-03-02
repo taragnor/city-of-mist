@@ -17,7 +17,7 @@ export class SceneTags {
 	static async #getSceneContainer(scene) {
 		if (!scene)
 			throw new Error("No scene Provided");
-		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && x.system.mythos == scene.id);
+		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
 		if (cont)
 			return cont;
 		if (!game.user.isGM) {
@@ -27,7 +27,7 @@ export class SceneTags {
 		const newContainer = await CityActor.create( {
 			name: SceneTags.SCENE_CONTAINER_ACTOR_NAME,
 			type: "threat",
-			system: { mythos: scene.id},
+			system: { alias: scene.id},
 		});
 		console.log(`Creating new container for ${scene.name}`);
 		return newContainer;

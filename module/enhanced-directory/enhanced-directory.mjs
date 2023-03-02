@@ -5,10 +5,27 @@
 export class EnhancedActorDirectory {
 
 	static init () {
+		Hooks.on( "encryptionEnable", async () => {
+			ui.actors.render(true);
+		});
 
-		Hooks.on("updateActor", (actor, diff) => {
+		const oldRender = ActorDirectory.prototype._render;
+		ActorDirectory.prototype._render = async function (...args) {
+			// console.log("Decrypting All");
+			const promises = game.actors.map( async (actor) => {
+				if (actor.decryptData)
+					await actor.decryptData();
+			});
+			await Promise.all(promises);
+			await oldRender.call(this, ...args);
+		};
+
+		Hooks.on("updateActor", async (actor, diff) => {
 			//NOTE: There's probably a better way to just re-render the actor instead of drawing the whole sidebar, but I don't know what that is right now
+			if (actor.decryptData)
+				await actor.decryptData();
 			if (diff?.system?.mythos) {
+				//compabitlity with TaragnorSecurity Module
 				ui.actors.render(true);
 				return true;
 			}

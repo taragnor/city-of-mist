@@ -39,6 +39,16 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.template-name').click(this._jumpToTemplate.bind(this));
 	}
 
+	async getData() {
+		const data = await super.getData();
+		for (let gmmove of this.actor.gmmoves) {
+			if (gmmove.decryptData)
+				await gmmove.decryptData();
+		}
+		return data;
+
+	}
+
 	async _changelinkedtokenName (event) {
 		const val =  $(event.currentTarget).val();
 		if (val)
