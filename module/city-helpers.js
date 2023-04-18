@@ -6,6 +6,7 @@ import { CityLogger } from "./city-logger.mjs";
 import { Sounds } from "./tools/sounds.mjs";
 import { TokenTools } from "./tools/token-tools.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
+import {SceneTags} from "./scene-tags.mjs";
 
 export class CityHelpers {
 
@@ -184,8 +185,53 @@ export class CityHelpers {
 	}
 
 	static async narratorDialog(container= null) {
-		return await CityDialogs.narratorDialog(container);
+		const text = await CityDialogs.narratorDialog(container);
+		if (!text) return;
+		const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
+		await this.processTextTagsStatuses(taglist, statuslist, null);
+		await CityHelpers.sendNarratedMessage(modified_html);
+
 	}
+
+	/**applies tags and statuses in lists where actor is the active actor
+
+@param {CityItem[]} taglist
+@param {CityItem[]}statuslist
+@param {CityActor} actor
+*/
+	static async processTextTagsStatuses(taglist, statuslist, actor = null) {
+		for (const {name: tagname, options} of taglist) {
+			if (options.scene) {
+				await SceneTags.createSceneTag(tagname.trim(), true, options);
+				continue;
+			}
+			if (options.autoApply) {
+				if (actor)
+					await actor.createStoryTag(tagname.trim(), true, options);
+				else
+					await SceneTags.createSceneTag(tagname.trim(), true, options);
+			}
+		}
+
+		for (const {name, tier, options} of statuslist) {
+			console.log(name);
+			if (options.scene) {
+				await SceneTags.createSceneStatus(name.trim(), tier,0, options);
+				continue;
+			}
+			if (options.autoApply) {
+				if (actor)
+					await actor.addOrCreateStatus(name.trim(), tier, 0, options);
+				else
+					await SceneTags.createSceneStatus(name.trim(), tier, 0, options);
+			}
+
+
+		}
+
+	}
+
+
 
 	static parseTags(text) {
 		let retarr = [];

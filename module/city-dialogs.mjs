@@ -159,11 +159,11 @@ export class CityDialogs {
 				return el.selectionStart;
 			} else if (document.selection) {
 				el.focus();
-				var r = document.selection.createRange();
+				let r = document.selection.createRange();
 				if (r == null) {
 					return 0;
 				}
-				var re = el.createTextRange(), rc = re.duplicate();
+				let re = el.createTextRange(), rc = re.duplicate();
 				re.moveToBookmark(r.getBookmark());
 				rc.setEndPoint('EndToStart', re);
 				return rc.text.length;
@@ -173,13 +173,11 @@ export class CityDialogs {
 		let html = new String();
 		html += `<textarea class="narrator-text"></textarea>`;
 		const submit = async function (html) {
-			const text = $(html).find(".narrator-text").val();
-			const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
-			for ( const tagName of taglist.map(x=>x.name) )
-				await SceneTags.createSceneTag(tagName);
-			await CityHelpers.sendNarratedMessage(modified_html);
+			const text= $(html).find(".narrator-text").val();
+			return text;
 		}
 		const options = {width: 900, height: 800};
+		return await new Promise( (conf, reject) => {
 		const dialog = new Dialog({
 			title: `GM Narration`,
 			content: html,
@@ -211,18 +209,23 @@ export class CityDialogs {
 				one: {
 					icon: '<i class="fas fa-check"></i>',
 					label: "Add",
-					callback: (html) => submit(html)
+					callback: async (html) => {
+						const x = await submit(html);
+						conf(x);
+					}
 				},
 				two: {
 					icon: '<i class="fas fa-times"></i>',
 					label: "Cancel",
-					callback: () => false
+					callback: () => conf(false)
 				}
 			}
 		}, options);
-		if (!$(document).find(".narrator-text").length)
-			dialog.render(true);
+			if (!$(document).find(".narrator-text").length)
+				dialog.render(true);
+		});
 	}
+
 
 	/** List takes a [ { moveId:string , moveOwnerId: string} ]
 	*/

@@ -1085,30 +1085,7 @@ export class CityActor extends Actor {
 	async executeGMMove (move) {
 		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove(this);
 		if (await CityHelpers.sendToChat(html, options)) {
-			for (const {name : tagname, options} of taglist) {
-				await this._processMoveTag(tagname.trim(), options);
-			}
-			for (const {name, tier, options} of statuslist)
-				await this._processMoveStatus(name, tier, options);
-		}
-	}
-
-	async _processMoveTag(tagname, options) {
-		if (!options.scene)
-			await this.createStoryTag(tagname.trim(), true, options);
-		else
-			await SceneTags.createSceneTag(tagname.trim(), true, options);
-	}
-
-	async _processMoveStatus(name, tier, options) {
-		//TODO: convert options to object with false /true
-		if (options.scene) {
-			await SceneTags.createSceneStatus(name.trim(), tier,0, options);
-			return;
-		}
-		if (options.autoApply) {
-				await this.addOrCreateStatus(name.trim(), tier, 0, options);
-			return;
+			await CityHelpers.processTextTagsStatuses(taglist, statuslist, this);
 		}
 	}
 
