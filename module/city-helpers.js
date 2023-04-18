@@ -225,10 +225,7 @@ export class CityHelpers {
 				else
 					await SceneTags.createSceneStatus(name.trim(), tier, 0, options);
 			}
-
-
 		}
-
 	}
 
 
