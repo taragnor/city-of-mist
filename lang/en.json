@@ -483,6 +483,11 @@
 "CityOfMist.settings.sceneTagWindow.choice1": "Include combatants with at least one tag or status",
 "CityOfMist.settings.sceneTagWindow.choice2": "Include all combatants on combat tracker",
 
+"CityOfMist.settings.sceneTagWindowPosition.name": "Scene Tags",
+"CityOfMist.settings.sceneTagWindowPosition.hint": "Position on screen taht the Scene Tag Window will appear",
+"CityOfMist.settings.sceneTagWindowPosition.choice0": "Left",
+"CityOfMist.settings.sceneTagWindowPosition.choice1": "Right",
+"CityOfMist.settings.sceneTagWindowPosition.choice2": "Hide",
 
 "CityOfMist.settings.devMode.name": "Developer Mode",
 "CityOfMist.settings.devMode.hint": "Exposes various internal variables of the system (advanced use only).",

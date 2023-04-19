@@ -225,7 +225,7 @@ export const registerSystemSettings = function() {
 		scope: "world",
 		config: true,
 		type: String,
-		default: "all",
+		default: "full",
 		choices: {
 			"none" : localize("CityOfMist.settings.sceneTagWindow.choice0"),
 			"omitEmpty": localize("CityOfMist.settings.sceneTagWindow.choice1"),
@@ -233,6 +233,23 @@ export const registerSystemSettings = function() {
 		},
 		restrict: true,
 		onChange: _ => delayedReload()
+	});
+
+	game.settings.register("city-of-mist", "sceneTagWindowPosition", {
+		name: localize("CityOfMist.settings.sceneTagWindowPosition.name"),
+		hint: localize("CityOfMist.settings.sceneTagWindowPosition.hint"),
+		scope: "user",
+		config: true,
+		type: String,
+		default: "left",
+		choices: {
+			"left" : localize("CityOfMist.settings.sceneTagWindowPosition.choice0"),
+			"right": localize("CityOfMist.settings.sceneTagWindowPosition.choice1"),
+			"hide": localize("CityOfMist.settings.sceneTagWindowPosition.choice2")
+		},
+		restrict: true,
+		onChange: _ => delayedReload()
+
 	});
 
 	game.settings.register("city-of-mist", "handleTempItems", {
@@ -404,6 +421,10 @@ export class CitySettings {
 
 	static useClueBoxes() {
 		return this.get("clueBoxes") ?? true;
+	}
+
+	static sceneTagWindowPosition() {
+		return this.get("sceneTagWindowPosition");
 	}
 
 

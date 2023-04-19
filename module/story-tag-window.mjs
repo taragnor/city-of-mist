@@ -3,13 +3,25 @@ import {SceneTags} from "./scene-tags.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {HTMLHandlers} from "./universal-html-handlers.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import { CitySettings } from "./settings.js";
 
 export class StoryTagDisplayContainer {
 
 	constructor() {
 		this.element = HTMLTools.div(["scene-tag-window"]);
-		const width =  (-50) + $(document).find("#controls").width();
-		const height =  50+ $(document).find("#navigation").height();
+		let width, height;
+		switch (CitySettings.sceneTagWindowPosition()) {
+			case "left":
+				width =  (-50) + $(document).find("#controls").width();
+				height =  50+ $(document).find("#navigation").height();
+				break;
+			case "right":
+				width =  (-350) + $(document).find("#ui-right").position().left;
+				height =  50+ $(document).find("#navigation").height();
+				break;
+			default:
+				return;
+		}
 		this.element.style.left = `${width}px`;
 		this.element.style.top = `${height}px`;
 		this.dataElement = HTMLTools.div("scene-tags-template");
