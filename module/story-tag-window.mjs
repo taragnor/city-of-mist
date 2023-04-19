@@ -81,7 +81,7 @@ export class StoryTagDisplayContainer {
 	}
 
 	async createStoryTag(event) {
-		//somewhat hack-y code with the exception as a branch
+		//somewhat hacky code with the exception as a branch
 		try {
 			const ownerId = getClosestData(event, "ownerId");
 			const tokenId = getClosestData(event, "tokenId");
@@ -96,7 +96,7 @@ export class StoryTagDisplayContainer {
 	}
 
 	async createStatus (event) {
-		//somewhat hack-y code with the exception as a branch
+		//somewhat hacky code with the exception as a branch
 		try {
 			const ownerId = getClosestData(event, "ownerId");
 			const tokenId = getClosestData(event, "tokenId");

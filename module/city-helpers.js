@@ -118,8 +118,10 @@ export class CityHelpers {
 				return this.getOwner(ownerId);
 			if (!tokenId)
 				throw new Error(` No Token Id provided`);
-			const sceneTokenActors = this.getSceneTokenActors(scene);
-			return sceneTokenActors.find( x=> x?.token?.id == tokenId);
+			const token = scene.tokens.get(tokenId);
+			return token.actor;
+			// const sceneTokenActors = this.getSceneTokenActors(scene);
+			// return sceneTokenActors.find( x=> x?.token?.id == tokenId);
 		}
 	}
 

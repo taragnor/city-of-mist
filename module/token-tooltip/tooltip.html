@@ -1,13 +1,23 @@
-<div class="token-tooltip-container item-selection-context">
-	<div class="tooltip-token-name">{{token.name}}</div>
+<div class="token-tooltip-container item-selection-context" data-token-id="{{token.id}}" data-owner-id="{{token.actor.id}}" data-scene-id="{{token.scene.id}}">
+	<div class="flex-row-center">
+		<div class="tooltip-token-name">{{token.name}}</div>
+		{{#if token.isOwner}}
+		<div class="shrink-icon">
+			<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
+		</div>
+		<div class="shrink-icon">
+			<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+		</div>
+		{{/if}}
+	</div>
 	<div class="flex-row tool-tip">
 		{{#each actor.my_statuses as |status|}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=status sheetowner=null locked=false}}
+		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=false}}
 		{{/each}}
 	</div>
 	<div class="flex-row tool-tip">
 		{{#each actor.my_story_tags as |tag|}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status-name.hbs" item=tag sheetowner=null locked=false}}
+		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=false}}
 		{{/each}}
 	</div>
 </div>
