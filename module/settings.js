@@ -235,21 +235,19 @@ export const registerSystemSettings = function() {
 		onChange: _ => delayedReload()
 	});
 
-	game.settings.register("city-of-mist", "sceneTagWindowPosition", {
+	game.settings.register("city-of-mist", "sceneTagWindowPos", {
 		name: localize("CityOfMist.settings.sceneTagWindowPosition.name"),
 		hint: localize("CityOfMist.settings.sceneTagWindowPosition.hint"),
-		scope: "user",
+		scope: "world",
 		config: true,
 		type: String,
 		default: "left",
+		requiresReload: true,
 		choices: {
 			"left" : localize("CityOfMist.settings.sceneTagWindowPosition.choice0"),
 			"right": localize("CityOfMist.settings.sceneTagWindowPosition.choice1"),
 			"hide": localize("CityOfMist.settings.sceneTagWindowPosition.choice2")
 		},
-		restrict: true,
-		onChange: _ => delayedReload()
-
 	});
 
 	game.settings.register("city-of-mist", "handleTempItems", {
@@ -424,7 +422,7 @@ export class CitySettings {
 	}
 
 	static sceneTagWindowPosition() {
-		return this.get("sceneTagWindowPosition");
+		return this.get("sceneTagWindowPos");
 	}
 
 
