@@ -238,11 +238,13 @@ export const registerSystemSettings = function() {
 	game.settings.register("city-of-mist", "sceneTagWindowPos", {
 		name: localize("CityOfMist.settings.sceneTagWindowPosition.name"),
 		hint: localize("CityOfMist.settings.sceneTagWindowPosition.hint"),
+		//NOTE: FOR SOME REASON scop wil not shift to client
 		scope: "world",
 		config: true,
 		type: String,
 		default: "left",
 		requiresReload: true,
+		restricted: true,
 		choices: {
 			"left" : localize("CityOfMist.settings.sceneTagWindowPosition.choice0"),
 			"right": localize("CityOfMist.settings.sceneTagWindowPosition.choice1"),

@@ -10,7 +10,6 @@ const CSS_SHOW = `${CSS_PREFIX}show`;
 const CSS_NAME = `${CSS_PREFIX}name`;
 
 export class TokenTooltip {
-
 	constructor() {
 		Hooks.on("canvasReady", () => {
 			this._tokenHover = false;
@@ -115,19 +114,11 @@ export class TokenTooltip {
 	}
 
 	async updateData(token) {
-		// emptyNode(this.nameElement);
 		this.nameElement.style.display = '';
-		// if (token.actor.my_statuses.length + token.actor.my_story_tags.length <= 0) {
-		// 	this.nameElement.innerHTML = "";
-		// 	return false;
-		// }
 		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
 		HTMLHandlers.applyBasicHandlers(this.element);
-		// $(this.nameElement).find(".tag .name").click(SelectedTagsAndStatus.selectTagHandler);
-		// $(this.nameElement).find(".tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
-		// $(this.nameElement).find(".status .name").click(SelectedTagsAndStatus.selectStatusHandler);
-		// $(this.nameElement).find(".status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		//TODO: refersh window on delete tag or status
 		return true;
 	}
 
