@@ -63,8 +63,6 @@ export class DragAndDrop {
 			event.preventDefault();
 			const {clientX:x,clientY :y} = event;
 			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
-			console.log(`x: ${evX}, y:${evY}`);
-			// const tokens = game.scenes.current.tokens;
 			const tokens = canvas.tokens.children[0].children;
 			const token = tokens.find( (tok) => {
 				const {x, y, width, height} = tok.bounds;
