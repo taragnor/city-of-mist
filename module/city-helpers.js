@@ -811,4 +811,52 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return game.settings.get('city-of-mist', "altPower") ?? false;
 	}
 
+	static async toggleTokensCombatState(tokens) {
+		for (const token of tokens) {
+			if (token.inCombat)
+				await this.removeTokensFromCombat([token]);
+			else
+				await this.addTokensToCombat([token]);
+		}
+	}
+
+	static async addTokensToCombat(tokens) {
+		Debug(tokens);
+		const combat = await this.getOrCreateCombat();
+		Debug(combat);
+      const createData = tokens.map(t => {
+        return {
+          tokenId: t.id,
+          sceneId: t.scene.id,
+          actorId: t.document.actorId,
+          hidden: t.document.hidden
+        }
+      });
+      return combat.createEmbeddedDocuments("Combatant", createData);
+	}
+
+	static async removeTokensFromCombat(tokens) {
+		const combat = await this.getOrCreateCombat();
+		const tokenIds = new Set(tokens.map(t => t.id));
+		const combatantIds = combat.combatants.reduce((ids, c) => {
+			if (tokenIds.has(c.tokenId)) ids.push(c.id);
+			return ids;
+		}, []);
+		return combat.deleteEmbeddedDocuments("Combatant", combatantIds);
+	}
+
+	static async getOrCreateCombat() {
+		let combat = game.combats.viewed;
+		if ( !combat ) {
+			if ( game.user.isGM ) {
+				const cls = getDocumentClass("Combat");
+				combat = await cls.create({scene: canvas.scene.id, active: true}, {render: !state || !tokens.length});
+			} else {
+				ui.notifications.warn("COMBAT.NoneActive", {localize: true});
+				throw new Error("No combat active");
+			}
+		}
+		return combat;
+	}
+
 } //end of class

@@ -118,8 +118,19 @@ export class TokenTooltip {
 		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
 		HTMLHandlers.applyBasicHandlers(this.element);
+		$(this.element).find(".toggle-combat").on("click", ev => this.toggleCombat(ev))
+
 		//TODO: refersh window on delete tag or status
 		return true;
+	}
+
+	async toggleCombat(event) {
+		// const ownerId = getClosestData(event, "ownerId");
+		const tokenId = getClosestData(event, "tokenId");
+		const sceneId = getClosestData(event, "sceneId");
+		// const owner = await CityHeleprs.getOwner(ownerId, tokenId, sceneId);
+		const token = game.scenes.active.tokens.get(tokenId);
+		await CityHelpers.toggleTokensCombatState([token.object]);
 	}
 
 } // end of class

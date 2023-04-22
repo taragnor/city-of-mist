@@ -21,8 +21,10 @@ export class DragAndDrop {
 	}
 
 	static async dropDraggableOnActor(draggable, actor) {
+		if (!actor.isOwner) return;
 		let options = draggable.data("options") ??{};
-		switch (draggable.data("draggableType")) {
+		const type = DragAndDrop.getDraggableType(draggable);
+		switch (type) {
 			case "status":{
 				DragAndDrop.dropStatusOnActor(draggable.text(), actor, options);
 				break;
