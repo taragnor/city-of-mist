@@ -28,8 +28,7 @@ export class CitySheet extends ActorSheet {
 		html.find('.sheet-lock-button').click(this._toggleLockState.bind(this));
 		html.find('.alias-toggle').click(this._aliasToggle.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
-		html.find('.draggable').on("dragstart", this._dragStart.bind(this));
-		html.find('.draggable').on("dragend", this._dragEnd.bind(this));
+		DragAndDrop.addDragFunctionality( html);
 		html.on("drop", this._dragDropEvent.bind(this));
 
 		//Restore Scroll positon
@@ -113,14 +112,6 @@ export class CitySheet extends ActorSheet {
 
 	static async singleChoiceBox( list, headerText) {
 		return await HTMLTools.singleChoiceBox(list, headerText);
-	}
-
-	async _dragStart (event) {
-		return await CityHelpers.dragStart(event);
-	}
-
-	async _dragEnd (event) {
-		return await CityHelpers.dragEnd(event);
 	}
 
 	async _dragDropEvent (_event) {

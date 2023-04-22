@@ -39,7 +39,7 @@ window.getClosestData = HTMLTools.getClosestData;
 
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
-Hooks.on('renderChatMessage', (app, html, data) => CityHelpers.dragFunctionality(app, html, data));
+Hooks.on('renderChatMessage', (_app, html, _data) => DragAndDrop.addDragFunctionality(html));
 Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
 Hooks.on('ready', () => {
 	CitySockets.init();

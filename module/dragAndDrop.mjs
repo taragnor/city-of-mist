@@ -6,8 +6,8 @@ export class DragAndDrop {
 	}
 
 	static async dropStatusOnActor(textStatus, actor) {
-			const protostatus = await CityHelpers.parseStatusString(textStatus);
-			const status = await actor.sheet.statusDrop(protostatus);
+		const protostatus = await CityHelpers.parseStatusString(textStatus);
+		const status = await actor.sheet.statusDrop(protostatus);
 
 	}
 
@@ -32,41 +32,59 @@ export class DragAndDrop {
 
 				break;
 			default: console.warn("Unknown draggableType: ${type}");
+		}
 	}
 
+	static async addDragFunctionality(html) {
+		html.find('.draggable').on("dragstart", DragAndDrop.dragStart);
+		html.find('.draggable').on("dragend", DragAndDrop.dragEnd);
+	}
+
+	static async dragStart(event) {
+		event.stopPropagation();
+		$(event.currentTarget).addClass("dragging");
+		return true;
+	}
+
+	static async dragEnd(event) {
+		event.stopPropagation();
+		$(event.currentTarget).removeClass("dragging");
+		return true;
+	}
+
+	static initCanvasDropping() {
+		const old = DragDrop.prototype._handleDrop;
+		DragDrop.prototype._handleDrop = function(event) {
+			const dragged = $(document).find(".dragging");
+			if (dragged.length == 0) {
+				old.call(this, event);
+				return;
+			}
+			event.preventDefault();
+			const {clientX:x,clientY :y} = event;
+			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
+			console.log(`x: ${evX}, y:${evY}`);
+			// const tokens = game.scenes.current.tokens;
+			const tokens = canvas.tokens.children[0].children;
+			const token = tokens.find( (tok) => {
+				const {x, y, width, height} = tok.bounds;
+				if (evX >= x && evX <x+width
+					&& evY >= y && evY <y+height)
+					return true;
+				return false;
+			});
+			if (!token) return;
+			const actor = token.document.actor;
+			DragAndDrop.dropDraggableOnActor(dragged, actor);
+
+}
 	}
 }
 
+DragAndDrop.initCanvasDropping();
 
-// CONFIG.debug.hooks=true;
 Hooks.on("canvasReady", DragAndDrop.init);
 
 
-
-const old = DragDrop.prototype._handleDrop;
-DragDrop.prototype._handleDrop = function(event) {
-	const dragged = $(document).find(".dragging");
-	if (dragged.length == 0) {
-		old.call(this, event);
-		return;
-	}
-	event.preventDefault();
-	const {clientX:x,clientY :y} = event;
-	const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
-	console.log(`x: ${evX}, y:${evY}`);
-	// const tokens = game.scenes.current.tokens;
-	const tokens = canvas.tokens.children[0].children;
-	const token = tokens.find( (tok) => {
-		const {x, y, width, height} = tok.bounds;
-		if (evX >= x && evX <x+width
-			&& evY >= y && evY <y+height)
-			return true;
-		return false;
-	});
-	if (!token) return;
-	const actor = token.document.actor;
-	DragAndDrop.dropDraggableOnActor(dragged, actor);
-
-}
 
 

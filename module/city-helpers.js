@@ -627,24 +627,6 @@ export class CityHelpers {
 		return setting == "auto";
 	}
 
-	static async dragFunctionality(_app, html, _data) {
-		html.find('.draggable').on("dragstart", this.dragStart.bind(this));
-		html.find('.draggable').on("dragend", this.dragEnd.bind(this));
-	}
-
-	static async dragStart(event) {
-		event.stopPropagation();
-		$(event.currentTarget).addClass("dragging");
-		return true;
-	}
-
-	static async dragEnd(event) {
-		event.stopPropagation();
-		$(event.currentTarget).removeClass("dragging");
-		return true;
-	}
-
-
 	static getStatusAdditionSystem() {
 return game.settings.get("city-of-mist", "statusAdditionSystem");
 	}
