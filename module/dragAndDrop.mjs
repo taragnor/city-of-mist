@@ -1,3 +1,5 @@
+import { CityDB } from "./city-db.mjs";
+
 export class DragAndDrop {
 
 	static init() {
@@ -6,6 +8,31 @@ export class DragAndDrop {
 	static async dropStatusOnActor(textStatus, actor) {
 			const protostatus = await CityHelpers.parseStatusString(textStatus);
 			const status = await actor.sheet.statusDrop(protostatus);
+
+	}
+
+	static async dropDraggableOnActor(draggable, actor) {
+		switch (draggable.data("draggableType")) {
+			case "status":
+				DragAndDrop.dropStatusOnActor(draggable.text(), actor);
+				break;
+			case "gmmove":
+				const move_id= draggable.data("moveId");
+				const owner_id = draggable.data("ownerId");
+				if (owner_id == actor.id)
+					return; // can't add a move on actor that already has it
+				const owner = CityDB.getActorById(owner_id);
+				const move = await owner.getGMMove(move_id);
+				if (!move)
+					throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);
+				await actor.createNewGMMove(move.name, move.system);
+				//TODO: make draggable GM moves
+				break;
+			case "threat":
+
+				break;
+			default: console.warn("Unknown draggableType: ${type}");
+	}
 
 	}
 }
@@ -23,8 +50,7 @@ DragDrop.prototype._handleDrop = function(event) {
 		old.call(this, event);
 		return;
 	}
-	console.log("drop");
-	console.log(event);
+	event.preventDefault();
 	const {clientX:x,clientY :y} = event;
 	const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
 	console.log(`x: ${evX}, y:${evY}`);
@@ -39,15 +65,8 @@ DragDrop.prototype._handleDrop = function(event) {
 	});
 	if (!token) return;
 	const actor = token.document.actor;
-	// console.log(dragged);
-	switch (dragged.data("draggableType")) {
-		case "status":
-			DragAndDrop.dropStatusOnActor(dragged.text(), actor);
-			break;
-		default: console.warn("Unknown draggableType: ${type}");
+	DragAndDrop.dropDraggableOnActor(dragged, actor);
 
-
-	}
 }
 
 
