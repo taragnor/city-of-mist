@@ -1,15 +1,6 @@
 export class DragAndDrop {
 
 	static init() {
-		console.log("CANVAS READY CALLED");
-		// const canvas=  document.querySelector("canvas");
-		// canvas.addEventListener("drop", this.onDrop);
-	}
-
-	static onDrop(event) {
-		console.log("Drop");
-		console.log(event);
-
 	}
 
 	static async dropStatusOnActor(textStatus, actor) {
