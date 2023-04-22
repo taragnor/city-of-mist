@@ -25,6 +25,7 @@ import { VersionUpdater } from "./version-update.mjs";
 import {} from "./city-handlebars-helpers.mjs";
 import {} from "./story-tag-window.mjs";
 import {CitySockets} from "./city-sockets.mjs";
+import {DragAndDrop} from "./dragAndDrop.mjs";
 
 import {ClueChatCards } from "./clue-cards.mjs";
 

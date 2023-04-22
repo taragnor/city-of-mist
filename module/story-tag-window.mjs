@@ -29,7 +29,7 @@ export class StoryTagDisplayContainer {
 		this.element.appendChild(this.dataElement);
 		document.body.appendChild(this.element);
 		this.refreshContents();
-		Hooks.on("updateActor", ()=> this.refreshContents() );
+		Hooks.on("updateActor", ()=> this.refrejshContents() );
 		Hooks.on("updateItem", ()=> this.refreshContents() );
 		Hooks.on("createItem", ()=> this.refreshContents() );
 		Hooks.on("createActor", ()=> this.refreshContents() );
