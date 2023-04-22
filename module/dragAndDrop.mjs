@@ -8,6 +8,7 @@ export class DragAndDrop {
 	static async dropStatusOnActor(textStatus, actor, options = {}) {
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
 		const status = await actor.sheet.statusDrop(protostatus);
+				// TODO: options are not yet supported for actual addition of statuses
 
 	}
 
@@ -17,18 +18,10 @@ export class DragAndDrop {
 
 	static getDraggableType(draggable) {
 		return draggable.data("draggableType");
-
 	}
 
 	static async dropDraggableOnActor(draggable, actor) {
-		let optionstxt = draggable.data("options") ??"{}";
-		let options;
-		try {
-			options = JSON.parse(optionstxt) ?? {};
-		} catch (e) {
-			options = {};
-		}
-
+		let options = draggable.data("options") ??{};
 		switch (draggable.data("draggableType")) {
 			case "status":{
 				DragAndDrop.dropStatusOnActor(draggable.text(), actor, options);

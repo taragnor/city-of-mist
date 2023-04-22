@@ -328,7 +328,7 @@ export class CityHelpers {
 					tier = String(Number(tier) + status_mod);
 				}
 				const autoStatus = options.autoApply ? "auto-status" : "";
-				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options="${JSON.stringify(options)}">${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
+				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
 				text = text.replace(match[0], newtext);
 				statuslist.push( {
 					name: formatted_statusname,
@@ -340,7 +340,7 @@ export class CityHelpers {
 					name,
 					options
 				});
-				const newtext = `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options="${JSON.stringify(options)}">${name}</span>`;
+				const newtext = `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
 				text = text.replace(match[0] , newtext);
 			}
 			match = regex.exec(text);
