@@ -5,17 +5,39 @@ export class DragAndDrop {
 	static init() {
 	}
 
-	static async dropStatusOnActor(textStatus, actor) {
+	static async dropStatusOnActor(textStatus, actor, options = {}) {
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
 		const status = await actor.sheet.statusDrop(protostatus);
 
 	}
 
+	static async dropTagOnActor(textTag, actor, options = {}) {
+		await actor.createStoryTag(textTag, true, options);
+	}
+
+	static getDraggableType(draggable) {
+		return draggable.data("draggableType");
+
+	}
+
 	static async dropDraggableOnActor(draggable, actor) {
+		let optionstxt = draggable.data("options") ??"{}";
+		let options;
+		try {
+			options = JSON.parse(optionstxt) ?? {};
+		} catch (e) {
+			options = {};
+		}
+
 		switch (draggable.data("draggableType")) {
-			case "status":
-				DragAndDrop.dropStatusOnActor(draggable.text(), actor);
+			case "status":{
+				DragAndDrop.dropStatusOnActor(draggable.text(), actor, options);
 				break;
+			}
+			case "tag": {
+				DragAndDrop.dropTagOnActor(draggable.text(), actor, options);
+				break;
+			}
 			case "gmmove":
 				const move_id= draggable.data("moveId");
 				const owner_id = draggable.data("ownerId");
