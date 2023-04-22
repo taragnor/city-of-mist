@@ -821,9 +821,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 	static async addTokensToCombat(tokens) {
-		Debug(tokens);
 		const combat = await this.getOrCreateCombat();
-		Debug(combat);
       const createData = tokens.map(t => {
         return {
           tokenId: t.id,
