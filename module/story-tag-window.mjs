@@ -142,12 +142,12 @@ export class StoryTagDisplayContainer {
 		const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
 		if (tokenId)  {
 			const token = game.scenes.current.tokens.get(tokenId)
-			if (token)
+			if (token && token.actor.isOwner)
 				token.actor.sheet.render(true);
 			return;
 		} else if (ownerId) {
 			const actor = game.actors.get(ownerId);
-			if (actor) {
+			if (actor && actor.isOwner) {
 				actor.sheet.render(true);
 			}
 			return;
