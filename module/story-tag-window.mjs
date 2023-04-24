@@ -48,17 +48,17 @@ export class StoryTagDisplayContainer {
 			this.dataElement.innerHTML= "";
 			return false;
 		}
-		const combatActors = ui.combat.combats
-			.map( combat => {
-				return combat.combatants.map( battler => battler.actor);
+		const combatants = ui.combat.combats
+			.flatMap( combat => {
+				return combat.combatants.map( battler => battler);
 			})
-			.flat(1)
-			.filter(actor => {
+			.filter(combatant => {
 				if (CityHelpers.sceneTagWindowFilterEmpty())
-					return actor.storyTagsAndStatuses.length > 0;
+					return combatant.actor.storyTagsAndStatuses.length > 0;
 				else return true;
 			}
 			);
+		const combatActors = combatants.map( x=> x.actor);
 		const showcasedActors = game.actors
 			.filter( actor => !combatActors.includes(actor)
 				&& actor.items.some( item=> item.isShowcased)
@@ -75,7 +75,7 @@ export class StoryTagDisplayContainer {
 		// console.log(`Shrink: ${shrink}, cas: ${combatActorsSize}, saz: ${showcasedActorsSize}`);
 		const templateData = {
 			tagsAndStatuses,
-			combatActors,
+			combatants,
 			showcasedActors,
 			shrink
 		};
@@ -90,6 +90,11 @@ export class StoryTagDisplayContainer {
 		const html = $(this.element);
 		html.find(".create-story-tag").click( this.createStoryTag );
 		html.find(".create-status").click( this.createStatus );
+		html.find(".combatant-name").click( this.centerOnToken );
+		html.find(".combatant-name").rightclick( this.openSheet );
+
+		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
+
 	}
 
 	async createStoryTag(event) {
@@ -118,6 +123,35 @@ export class StoryTagDisplayContainer {
 			return await SceneTags.createSceneStatus();
 		}
 		return await HTMLHandlers.createStatus(event);
+	}
+
+	async centerOnToken(event) {
+		const ownerId = HTMLTools.getClosestDataNT(event, "ownerId");
+		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId");
+		const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
+		if (!tokenId)  return;
+		const token = game.scenes.current.tokens.get(tokenId)?.object;
+		if (!token || !token.actor.isOwner) return;
+		if (token.center)
+			await canvas.animatePan (token.center);
+	}
+
+	async openSheet(event) {
+		const ownerId = HTMLTools.getClosestDataNT(event, "ownerId");
+		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId");
+		const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
+		if (tokenId)  {
+			const token = game.scenes.current.tokens.get(tokenId)
+			if (token)
+				token.actor.sheet.render(true);
+			return;
+		} else if (ownerId) {
+			const actor = game.actors.get(ownerId);
+			if (actor) {
+				actor.sheet.render(true);
+			}
+			return;
+		}
 	}
 
 }

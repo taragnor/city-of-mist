@@ -3193,3 +3193,6 @@ button.clue-use-button:hover {
 	transition: all 0.4s ease-in-out;
 }
 
+.fas.green-icon {
+	color:green;
+}

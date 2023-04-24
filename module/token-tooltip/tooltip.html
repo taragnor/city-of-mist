@@ -2,7 +2,7 @@
 	<div class="flex-row-center">
 		{{#if (isGM)}}
 		<div class>
-			<a class="toggle-combat" title="{{localize 'CityOfMist.tooltip.toggleTokenInStoryTagWindow'}}"> <i class="fas fa-thumbtack"> </i> </a>
+			<a class="toggle-combat" title="{{localize 'CityOfMist.tooltip.toggleTokenInStoryTagWindow'}}"> <i class="fas fa-thumbtack {{#if token.inCombat}} green-icon {{/if}}"> </i> </a>
 		</div>
 		{{/if}}
 		<div class="tooltip-token-name">{{token.name}}</div>

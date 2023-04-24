@@ -857,4 +857,17 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return combat;
 	}
 
+	static async toggleCombat(event) {
+		const tokenId = getClosestData(event, "tokenId");
+		if (!tokenId)
+			throw new Error("No token ID given");
+		const sceneId = getClosestData(event, "sceneId");
+		const token = game.scenes.active.tokens.get(tokenId);
+		await CityHelpers.toggleTokensCombatState([token.object]);
+		if (token.inCombat)
+			await CityHelpers.playTagOn();
+		else
+			await CityHelpers.playTagOff()
+	}
+
 } //end of class
