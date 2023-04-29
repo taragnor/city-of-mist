@@ -151,7 +151,7 @@ export class StoryTagDisplayContainer {
 				actor.sheet.render(true);
 			}
 			return;
-		}
+			}
 	}
 
 }

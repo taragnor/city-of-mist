@@ -88,15 +88,15 @@ export class CitySheet extends ActorSheet {
 				content: `Destroy ${themename}`,
 				buttons: {
 					one: {
-						label: "Just Delete",
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.0"),
 						callback: () => conf("delete")
 					},
 					two: {
-						label: "Replace (award build-up)",
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.1"),
 						callback: () => conf("replace")
 					},
 					cancel: {
-						label: "Cancel",
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.2"),
 						callback: () => conf (null)
 					}
 				},

@@ -392,6 +392,13 @@
 "CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Remove Imrovement?",
 "CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body": "Remove the free improvement for taking 2+ weakness tags on a theme?",
 
+"CityOfMist.dialog.actorSheet.deleteTheme.title": "Delete Theme",
+"CityOfMist.dialog.actorSheet.deleteTheme.body": "Delete Theme without adding Build-up points? This action can't be undone.",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.0": "Just Delete",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.1": "Replace (award build-up)",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.2": "Cancel",
+
+
 "CityOfMist.dialog.themebook_select.themekit": "Use Theme Kit",
 
 "CityOfMist.dialog.tag.usageExamples": "Examples of where Tag would apply",

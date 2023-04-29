@@ -82,13 +82,6 @@ export class CityActorSheet extends CitySheet {
 		// this.testHandlers(html);
 	}
 
-	testHandlers(html) {
-		console.log("*************************");
-		console.log("Test Handlers enabled!");
-		console.log("*************************");
-		html.find('.theme-text').click(this._destructionTest.bind(this));
-	}
-
 	async getData() {
 		let data = await super.getData();
 		data.storyTags = this.getStoryTags();
@@ -262,7 +255,7 @@ export class CityActorSheet extends CitySheet {
 		const themeName = theme.name;
 		if (actor.isNewCharacter()) {
 			if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
-				await	actor.deleteTheme(themeId);
+				await	actor.deleteTheme(themeId, false);
 				await CityHelpers.modificationLog(actor, "Deleted", theme);
 			}
 		} else {
@@ -270,22 +263,20 @@ export class CityActorSheet extends CitySheet {
 			if (ret = await this.themeDeleteChoicePrompt(themeName)) {
 				switch (ret) {
 					case "replace":
-						const BUV = theme.getBuildUpValue();
-						const imp = await this.actor.incBuildUp(BUV);
-						await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
-						await	actor.deleteTheme(themeId);
-						// await CityHelpers.modificationLog(actor, "Deleted", theme);
+						await	actor.deleteTheme(themeId, true);
 						break;
 					case "delete":
-						await	actor.deleteTheme(themeId);
-						await CityHelpers.modificationLog(actor, "Deleted", theme);
-						break;
-					default:
-						return true;
+
+						if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title"), localize("CityOfMist.dialog.actorSheet.deleteTheme.title"))) {
+							await	actor.deleteTheme(themeId, false);
+						}
+							break;
+							default:
+							return true;
+						}
 				}
 			}
 		}
-	}
 
 	async _burnTag (event) {
 		await HTMLHandlers.burnTag(event);
@@ -318,12 +309,11 @@ export class CityActorSheet extends CitySheet {
 					else
 						txt += ` (Current ${await theme.getCrack()})`;
 					await CityHelpers.modificationLog(actor, txt);
-					if (theme_destroyed)  {
-						const BUV = theme.getBuildUpValue();
-						const imp = await this.actor.incBuildUp(BUV);
-
-						await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
-					}
+					// if (theme_destroyed)  {
+					// 	const BUV = theme.getBuildUpValue();
+					// 	const imp = await this.actor.incBuildUp(BUV);
+					// 	await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
+					// }
 				}
 				break;
 			default:
@@ -331,14 +321,6 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _destructionTest (event) {
-		console.log("Destruction Test");
-		const id = getClosestData( event, "themeId");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
-		await CityHelpers.modificationLog(this.actor, await theme.printDestructionManifest(0));
-	}
 
 	async _removeAttentionOrFade (event) {
 		const id = getClosestData( event, "themeId");

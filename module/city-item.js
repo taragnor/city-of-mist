@@ -4,6 +4,7 @@ import {CityDialogs} from "./city-dialogs.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {TagAndStatusCleanupSessionM} from "./city-sessions.mjs";
 import {CitySockets} from "./city-sockets.mjs";
+import { CityLogger } from "./city-logger.mjs";
 
 export class CityItem extends Item {
 
@@ -344,12 +345,21 @@ export class CityItem extends Item {
 		return this.system.tag_question == "_" || this.system.custom_tag;
 	}
 
+	async destroyThemeMessage(BUImpGained = 0) {
+		await CityLogger.rawHTMLLog(this.parent, await this.printDestructionManifest(0), false);
+
+	}
+
+	async destructionTest(BUImpGained = 0) {
+		return CityLogger.rawHTMLLog(this.parent, await this.printDestructionManifest(0), false);
+	}
+
 	async printDestructionManifest(BUImpGained) {
 		//used on themes and returns html string
 		const BUGenerated = this.getBuildUpValue();
-		const tagdata = this.tags().map(x=> x.data);
-		const impdata = this.improvements().map(x=> x.data);
-		const manifest = await renderTemplate("systems/city-of-mist/templates/theme-destruction.html", { BUGenerated, owner: this.parent, theme: this.data, tags: tagdata, improvements: impdata, BUImpGained} );
+		const tagdata = this.tags();
+		const impdata = this.improvements();
+		const manifest = await renderTemplate("systems/city-of-mist/templates/theme-destruction.html", { BUGenerated, owner: this.parent, theme: this, tags: tagdata, improvements: impdata, BUImpGained} );
 		return manifest.replaceAll("\n", "");
 	}
 

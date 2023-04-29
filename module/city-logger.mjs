@@ -26,8 +26,13 @@ export class CityLogger extends Logger {
 		}
 	}
 
-	static async rawHTMLLog(actor, html) {
-		await this.gmMessage(html, actor);
+	static async rawHTMLLog(actor, html, gmOnly=true) {
+		if (gmOnly) {
+			await this.gmMessage(html, actor);
+		} else {
+			const speaker = ChatMessage.getSpeaker({alias: actor.getDisplayedName()});
+			await Logger.sendToChat(html, speaker);
+		}
 	}
 
 }

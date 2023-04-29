@@ -357,8 +357,13 @@ export class CityActor extends Actor {
 		await this.update({token: {name}});
 	}
 
-	async deleteTheme(themeId) {
+	async deleteTheme(themeId, awardBU = true) {
 		const theme = this.getTheme(themeId);
+		if (awardBU) {
+			const BUV = theme.getBuildUpValue();
+			const BUImpGained = await this.incBuildUp(BUV);
+			await theme.destroyThemeMessage(BUImpGained);
+		}
 		if (theme.usesThemeKit())
 			await this.deleteThemeKit(theme.themebook.id);
 		await this.deleteEmbeddedById(themeId);
@@ -856,7 +861,7 @@ export class CityActor extends Actor {
 		const theme= await this.getTheme(themeId);
 		const theme_destroyed = await theme.addFade(amount);
 		if (theme_destroyed) {
-			await this.deleteTheme(themeId);
+			await this.deleteTheme(themeId, true);
 		}
 		return theme_destroyed;
 	}
