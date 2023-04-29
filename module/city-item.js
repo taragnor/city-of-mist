@@ -363,6 +363,17 @@ export class CityItem extends Item {
 		return manifest.replaceAll("\n", "");
 	}
 
+	get crack() {
+		const crack = this.system?.crack ?? -999;
+		if (crack == -999)
+		throw new Error(`crack not available on ${this.type}`);
+		return crack.reduce( (acc, v) => acc+v, 0);
+	}
+
+	get fade() {
+		return this.crack;
+	}
+
 	async addFade(amount = 1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.system.crack;
@@ -404,6 +415,7 @@ export class CityItem extends Item {
 		else if (extra_upgrades > 0)
 			nascent = false;
 		await this.update( {data: {attention: newArr, unspent_upgrades, nascent}});
+		await CityHelpers.modificationLog(this.parent, `Attention Gained `, this, `Current ${await this.getAttention()}`);
 		return extra_upgrades;
 	}
 
@@ -422,6 +434,7 @@ export class CityItem extends Item {
 		else if (extra_upgrades > 0)
 			nascent = false;
 		await this.update( {data: {attention: newArr, unspent_upgrades, nascent}});
+		await CityHelpers.modificationLog(this.parent,  `Attention removed`, this, `Current ${await this.getAttention()}`);
 		return extra_upgrades;
 	}
 

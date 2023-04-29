@@ -295,26 +295,10 @@ export class CityActorSheet extends CitySheet {
 		const themeName = theme.name;
 		switch (type) {
 			case "attention":
-				if (await this.confirmBox("Add Attention", `Add Attention to ${themeName}`)) {
-					await actor.addAttention(id);
-					await CityHelpers.modificationLog(actor, `Attention Gained `, theme, `Current ${await theme.getAttention()}`);
-				}
+				await actor.addAttention(id);
 				break;
 			case "crack":
-				if (await this.confirmBox("Add Fade/Crack", `Add Fade/Crack to ${themeName}`)) {
-					const theme_destroyed = await actor.addFade(id);
-					let txt =`Crack/Fade added to ${themeName}`
-					if (theme_destroyed)
-						txt += " ---- Theme Destroyed!";
-					else
-						txt += ` (Current ${await theme.getCrack()})`;
-					await CityHelpers.modificationLog(actor, txt);
-					// if (theme_destroyed)  {
-					// 	const BUV = theme.getBuildUpValue();
-					// 	const imp = await this.actor.incBuildUp(BUV);
-					// 	await CityLogger.rawHTMLLog(this.actor, await theme.printDestructionManifest(imp));
-					// }
-				}
+				await actor.addFade(id);
 				break;
 			default:
 				throw new Error(`Unrecognized Type ${type}`);
@@ -331,22 +315,10 @@ export class CityActorSheet extends CitySheet {
 		const themeName = theme.name;
 		switch (type) {
 			case "attention":
-				if (await this.confirmBox("Remove Attention", `Remove Attention from ${themeName}`)) {
-					await actor.removeAttention(id);
-					await CityHelpers.modificationLog(actor,  `Attention removed`, theme, `Current ${await theme.getAttention()}`);
-					// CityHelpers.modificationLog(`${actor.name}: Attention removed to ${themeName} (Current ${await theme.getAttention()})`);
-				}
+				await actor.removeAttention(id);
 				break;
 			case "crack":
-				if (await this.confirmBox("Remove Fade/Crack", `Remove Fade/Crack to ${themeName}`)) {
-					const theme_destroyed = await actor.removeFade(id);
-					let txt =`${actor.name}: Crack/Fade removed from ${themeName}`
-					if (theme_destroyed)
-						txt += " ---- Theme Destroyed!";
-					else
-						txt += ` (Current ${await theme.getCrack()})`;
-					CityHelpers.modificationLog(actor, txt);
-				}
+				await actor.removeFade(id);
 				break;
 			default:
 				throw new Error(`Unrecognized Type ${type}`);
@@ -362,7 +334,6 @@ export class CityActorSheet extends CitySheet {
 		if (await this.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
 			actor.resetFade(id);
 			await CityHelpers.modificationLog(actor, `Spent Theme Upgrade to Reset Fade`, theme);
-			// CityHelpers.modificationLog(`${this.actor.name}: Spent Theme Upgrade to Reset Fade for ${themename}`);
 		}
 	}
 

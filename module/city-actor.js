@@ -859,16 +859,31 @@ export class CityActor extends Actor {
 
 	async addFade(themeId, amount=1) {
 		const theme= await this.getTheme(themeId);
+		if (theme.crack == 2) {
+			if (! await CityHelpers.confirmBox(
+				localize("CityOfMist.dialog.actorSheet.addFade.title"),
+				localize("CityOfMist.dialog.actorSheet.addFade.body")
+			)) return false;
+		}
 		const theme_destroyed = await theme.addFade(amount);
 		if (theme_destroyed) {
 			await this.deleteTheme(themeId, true);
 		}
+		let txt =`Crack/Fade added to ${theme.displayedName}`
+		if (theme_destroyed)
+			txt += " ---- Theme Destroyed!";
+		else
+			txt += ` (Current ${await theme.getCrack()})`;
+		await CityHelpers.modificationLog(this, txt);
 		return theme_destroyed;
 	}
 
 	async removeFade (themeId, amount=1) {
 		const theme= await this.getTheme(themeId);
 		await theme.removeFade(amount);
+		let txt =`${actor.name}: Crack/Fade removed from ${themeName}`
+		txt += ` (Current ${await theme.getCrack()})`;
+		await CityHelpers.modificationLog(this, txt);
 		return false;
 	}
 

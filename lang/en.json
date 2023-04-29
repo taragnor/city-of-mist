@@ -398,6 +398,8 @@
 "CityOfMist.dialog.actorSheet.deleteTheme.option.1": "Replace (award build-up)",
 "CityOfMist.dialog.actorSheet.deleteTheme.option.2": "Cancel",
 
+"CityOfMist.dialog.actorSheet.addFade.title": "Confirm Add Fade/Crack",
+"CityOfMist.dialog.actorSheet.addFade.body": "This action will cause the theme to be destroyed (you will get build-up points). Are you sure?",
 
 "CityOfMist.dialog.themebook_select.themekit": "Use Theme Kit",
 
