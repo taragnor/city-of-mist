@@ -305,7 +305,6 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-
 	async _removeAttentionOrFade (event) {
 		const id = getClosestData( event, "themeId");
 		const type = getClosestData( event, "type");

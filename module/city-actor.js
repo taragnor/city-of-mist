@@ -363,6 +363,8 @@ export class CityActor extends Actor {
 			const BUV = theme.getBuildUpValue();
 			const BUImpGained = await this.incBuildUp(BUV);
 			await theme.destroyThemeMessage(BUImpGained);
+		} else {
+			await CityHelpers.modificationLog(this, `Theme Deleted`, theme);
 		}
 		if (theme.usesThemeKit())
 			await this.deleteThemeKit(theme.themebook.id);
