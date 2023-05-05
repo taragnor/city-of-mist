@@ -236,7 +236,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				console.error(e);
 				return "ERROR";
 			}
-
+		},
+		'hasMist': function (actor) {
+			return actor.getNumberOfThemes("Mist") >= 1;
+		},
+		'hasMythos': function (actor) {
+			return actor.getNumberOfThemes("Mythos") >= 1;
 		}
 
 	}; //end of object holding helpers

@@ -663,7 +663,7 @@ export class CityActorSheet extends CitySheet {
 		const SHB = move_group == "SHB";
 		let newtype = null;
 		if (SHB) {
-			const SHBType = await this.SHBDialog();
+			const SHBType = await this.SHBDialog(this.actor);
 			if (!SHBType)
 				return;
 			newtype = SHBType;
@@ -709,20 +709,9 @@ export class CityActorSheet extends CitySheet {
 		return await CityHelpers.itemDialog(obj);
 	}
 
-	// async statusAddDialog(status) {
-	// 	const title = `Add Tier to Status`;
-	// 	return await CityHelpers._statusAddSubDialog(status, title, "addition");
-	// }
-
-	// async statusSubtractDialog(status) {
-	// 	const title = `Subtract Tier to Status`;
-	// 	return await CityHelpers._statusAddSubDialog(status, title, "subtraction");
-	// }
-
-
-	async SHBDialog () {
+	async SHBDialog (actor) {
 		const title = "You sure about this?";
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {});
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
 		return new Promise ( (conf, rej) => {
 			const options = {};
 			const dialog = new Dialog({

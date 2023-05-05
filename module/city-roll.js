@@ -543,7 +543,7 @@ export class CityRoll {
 				rollOptions.mistRoll = true;
 				break;
 			default:
-				throw new Error(`Unknwon SHB type : ${type}`);
+				throw new Error(`Unknown SHB type : ${type}`);
 		}
 		mergeObject(this.#options, rollOptions);
 	}
