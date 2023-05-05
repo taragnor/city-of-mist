@@ -55,16 +55,6 @@ export class CityRoll {
 		const type = options?.newtype ?? move.system.type;
 		switch (type) {
 			case "standard":
-				if (await CityRoll.verifyRequiredInfo(moveId, actor)) {
-					const dialogReturn = await RollDialog.create(this, moveId, actor);
-					if (!dialogReturn)
-						return;
-					let {modList, options} = dialogReturn;
-
-					this.#selectedList = modList;
-					this.#options = {...options,
-						...this.#options};
-				}
 				break;
 			case "logosroll":
 				await this.logosRoll(moveId, actor);
@@ -72,11 +62,30 @@ export class CityRoll {
 			case "mythosroll":
 				await this.mythosRoll(moveId, actor);
 				break;
+			case "mistroll":
+				await this.mistRoll(moveId, actor);
+				break;
 			case "noroll":
 				await this.noRoll(moveId, actor);
 				break;
 			default:
 				throw new Error(`Unknown Move Type ${type}`);
+		}
+		if (move.isAutoDynamite())
+			options.dynamiteAllowed = true;
+		if (move.hasEffectClass("ALLOW_STATUS"))
+			options.noStatus = false;
+		if (!(options.noTags && options.noStatus)) {
+			if (await CityRoll.verifyRequiredInfo(moveId, actor)) {
+				const dialogReturn = await RollDialog.create(this, moveId, actor);
+				if (!dialogReturn)
+					return;
+				let {modList, options} = dialogReturn;
+
+					this.#selectedList = modList;
+					this.#options = {...options,
+						...this.#options};
+				}
 		}
 		return await this.execRoll();
 	}
@@ -144,6 +153,17 @@ export class CityRoll {
 				id: "Mythos",
 				name: localize("CityOfMist.terms.mythosThemes"),
 				amount: actor.getNumberOfThemes("Mythos"),
+				ownerId: null,
+				tagId: null,
+				type: "modifier",
+				strikeout: false,
+			});
+		}
+		if (options.mistRoll) {
+			modifiers.push({
+				id: "Mist",
+				name: localize("CityOfMist.terms.mistThemes"),
+				amount: actor.getNumberOfThemes("Mist"),
 				ownerId: null,
 				tagId: null,
 				type: "modifier",
@@ -491,16 +511,39 @@ export class CityRoll {
 		});
 	}
 
+	async mistRoll () {
+		mergeObject(this.#options, {
+			noTags: true,
+			noStatus: true,
+			mistRoll: true,
+			setRoll: 0
+		});
+	}
+
 	async SHBRoll (_move_id, _actor, type = "Logos") {
 		const rollOptions = {
 			noTags: true,
 			noStatus: true,
 			logosRoll: true,
+			mythosRoll: false,
+			mistRoll: false,
 			setRoll: 0
 		};
-		if (type == "Mythos") {
-			rollOptions.logosRoll = false;
-			rollOptions.mythosRoll = true;
+		switch (type) {
+			case "Mythos":
+				rollOptions.logosRoll = false;
+				rollOptions.mythosRoll = true;
+				rollOptions.mistRoll = false;
+				break;
+			case "Logos":
+				break;
+			case "Mist":
+				rollOptions.logosRoll = false;
+				rollOptions.mythosRoll = false;
+				rollOptions.mistRoll = true;
+				break;
+			default:
+				throw new Error(`Unknwon SHB type : ${type}`);
 		}
 		mergeObject(this.#options, rollOptions);
 	}

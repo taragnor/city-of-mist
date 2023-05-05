@@ -43,6 +43,10 @@ export class CityItem extends Item {
 		return this.effect_classes.includes(cl);
 	}
 
+	isAutoDynamite() {
+		return this.hasEffectClass("AUTODYN");
+	}
+
 	get description() {
 		switch (this.type) {
 			case "tag":

@@ -69,7 +69,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		const moveList = CityHelpers.getMoves();
 		data.coremoves = moveList.filter( x=> x.system.category == "Core");
-		data.specialmoves = moveList.filter( x=> x.system.category == "Advanced");
+		data.specialmoves = moveList.filter( x=> x.system.category == "Advanced" && this.actor.canUseMove(x));
 		data.shbmoves = moveList.filter( x=> x.system.category == "SHB");
 		return data;
 	}
@@ -228,9 +228,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find(".non-char-theme-name"	).click( this.openOwnerSheet.bind(this));
 		html.find(".crew-prev").click(this.crewPrevious.bind(this));
 		html.find(".crew-next").click(this.crewNext.bind(this));
-		if (!this.actor.hasFlashbackAvailable()) {
-			let ret = html.find(`option`).filter(function () {return $(this).html() == " Flashback "}).remove();
-		}
+		// if (!this.actor.hasFlashbackAvailable()) {
+		// 	let ret = html.find(`option`).filter(function () {return $(this).html() == " Flashback "}).remove();
+		// }
 	}
 
 	async monologue () {

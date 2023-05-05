@@ -1167,4 +1167,31 @@ export class CityActor extends Actor {
 		//placeholder may use later
 	}
 
+	canUseMove(move) {
+		const type = move.system.type;
+		switch (type) {
+			case "mistroll":
+				if(this.getNumberOfThemes("Mist") <= 0) return false;
+				break;
+			case "mythosroll":
+				if(this.getNumberOfThemes("Mythos") <= 0) return false;
+				break;
+			case "logosroll":
+				if( this.getNumberOfThemes("Logos") <= 0) return false;
+				break;
+			case "noroll":
+			case "standard":
+				break;
+			default:
+				throw new Error(`Unknown Move Type ${type}`);
+		}
+		if (move.system.abbreviation == "FLASH" && !this.hasFlashbackAvailable())
+			return false;
+			if (move.hasEffectClass("MIST") && this.getNumberOfThemes("Mist") <=0)
+			return false;
+			if (move.hasEffectClass("MYTHOS") && this.getNumberOfThemes("Mythos") <=0)
+			return false;
+		return true;
+	}
+
 } //end of class

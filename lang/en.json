@@ -106,6 +106,7 @@
 "CityOfMist.terms.customModifier": "Custom Modifier",
 "CityOfMist.terms.mythosThemes": "Mythos Themes",
 "CityOfMist.terms.logosThemes": "Logos Themes",
+"CityOfMist.terms.mistThemes": "Mist Themes",
 "CityOfMist.terms.biography": "Biography",
 "CityOfMist.terms.mc_notes": "MC Notes",
 "CityOfMist.terms.bu_points": "Build-Up Points",
@@ -121,6 +122,7 @@
 "CityOfMist.terms.noRoll": "No Roll",
 "CityOfMist.terms.logosRoll": "Logos Roll",
 "CityOfMist.terms.mythosRoll": "Mythos Roll",
+"CityOfMist.terms.mistRoll": "Mist Roll",
 "CityOfMist.terms.category": "Category",
 "CityOfMist.terms.advanced": "Advanced",
 "CityOfMist.terms.SHB": "Stop.Holding.Back",
@@ -268,6 +270,17 @@
 "CityOfMist.moves.sessionEnd.0": "How has the crew grown this session? Recover a burnt crew power tag or mark Attention on a crew theme.",
 "CityOfMist.moves.sessionEnd.1": "Which character had the most meaningful interaction with your character this session? Add one Help point or one Hurt point next to their name on your character card.",
 "CityOfMist.moves.sessionEnd.2": "Which of your themes is under the most strain? If it collapses, what new aspect will show up in its place? Write down the answer under FLIPSIDE on that theme’s card.",
+
+"CityOfMist.moves.escapeFromMemory.name": "Escape From Memory",
+
+
+"CityOfMist.moves.performanceReview.name": "Performance Review",
+"CityOfMist.moves.performanceReview.always": "<p>When you receive credit from your superiors for successfully accomplishing a task given to you as a Directive, mark Attention on its theme. You may also mark Crack on one of your Logos themes to represent an upcoming promotion</p><br><p> When you are accused by your superiors of failing to accomplish a task given to you as a Directive or crossing a line defined by a Directive, mark 1 Strike on the Directive’s theme (2 Strikes if your transgression was especially severe, as chosen by your superiors).</p><br><p> When the Directive is resolved, or if your superiors elect to reassign you, choose an appropriate new Directive for this theme with the MC.</p>",
+
+"CityOfMist.moves.hardchoiceGK.name": "Make a Hard Choice (Gatekeeper)",
+"CityOfMist.moves.hardchoiceGK.always": "<p>When following your Directive demands you act or speak in a given way and you don’t, if it’s discovered, it will show up on your Performance Review.</p><br><p> When your Identity demands you act or speak in a given way and you don’t, mark Crack on that Identity’s theme.</p><br><p> When you sacrifice something you truly want in order to abide by your Identity, mark Attention on that Identity’s theme.</p>",
+
+"CityOfMist.moves.LBTM.name": "Look Behind the Mist",
 
 "CityOfMist.reloaded.moves.stunt.name": "Stunt",
 "CityOfMist.reloaded.moves.stunt.partial": "You succeed, but the MC chooses a complication:",
