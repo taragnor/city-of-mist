@@ -444,6 +444,13 @@ export class CitySettings {
 		return this.get("sceneTagWindowPos");
 	}
 
+	static sceneTagWindowUsed() {
+		switch(this.get("sceneTagWindow" )) {
+			case "none": return false;
+			default: return true;
+		}
+	}
+
 
 	/**
 	@return {boolean} if the proper CoM setting si on to atuto award improvements for more than 1 weakness tag

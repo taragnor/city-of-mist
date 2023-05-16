@@ -1,8 +1,8 @@
 <div class="token-tooltip-container item-selection-context" data-token-id="{{token.id}}" data-owner-id="{{token.actor.id}}" data-scene-id="{{token.scene.id}}">
 	<div class="flex-row-center">
-		{{#if (isGM)}}
-		<div class>
-			<a class="toggle-combat" title="{{localize 'CityOfMist.tooltip.toggleTokenInStoryTagWindow'}}"> <i class="fas fa-thumbtack {{#if token.inCombat}} green-icon {{/if}}"> </i> </a>
+		{{#if (and (isGM) (isUsingStoryList))}}
+		<div class="combat-list-toggle">
+			<a class="toggle-combat" title="{{localize 'CityOfMist.tooltip.toggleTokenInStoryTagWindow'}}"> <i class="fas fa-rectangle-list {{#if token.inCombat}} green-icon {{/if}}"> </i> </a>
 		</div>
 		{{/if}}
 		<div class="tooltip-token-name">{{token.name}}</div>
