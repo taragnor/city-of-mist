@@ -5,6 +5,7 @@ import {CityHelpers} from "./city-helpers.js";
 import {TagAndStatusCleanupSessionM} from "./city-sessions.mjs";
 import {CitySockets} from "./city-sockets.mjs";
 import { CityLogger } from "./city-logger.mjs";
+import { CitySettings } from "./settings.js";
 
 export class CityItem extends Item {
 
@@ -909,12 +910,19 @@ export class CityItem extends Item {
 	async spendClue() {
 		if (this.getAmount() <= 0)
 			throw new Error("Can't spend clue with no amount")
-		await ClueChatCards.postClue( {
-			actorId: this.actor.id,
-			metaSource: this,
-			method: this.system.method,
-			source: this.system.source,
-		});
+		if (CitySettings.useClueBoxes()) {
+			await ClueChatCards.postClue( {
+				actorId: this.actor.id,
+				metaSource: this,
+				method: this.system.method,
+				source: this.system.source,
+			});
+		} else {
+			const templateData = {actor: this.parent, clue: this};
+			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-use-no-card.hbs", templateData);
+			await CityLogger.sendToChat2(html, {actor: this.parent});
+
+		}
 		await this.spend();
 	}
 

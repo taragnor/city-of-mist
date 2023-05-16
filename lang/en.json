@@ -390,6 +390,8 @@
 
 "CityOfMist.themekit.html.inherit_improvements_checkbox": "Include Improvements  from base themebook",
 
+"CityOfMist.chatmessage.clue.use":"uses a clue.",
+
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 "CityOfMist.dialog.roll.title": "Make Roll",
 "CityOfMist.dialog.roll.rollBonus": "Roll Bonus:",
