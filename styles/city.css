@@ -2023,7 +2023,7 @@ label.scene-tags {
 }
 
 textarea.gmmove-description {
-	height: 6em;
+	height: 15em;
 }
 
 textarea.gmmove-description:disabled {

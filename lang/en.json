@@ -499,6 +499,9 @@
 "CityOfMist.settings.enhancedActorDirectory.hint": "Shows only the alias name to non-owners of an actor in the directory, hiding the true name from the players (requires browser refresh)",
 "CityOfMist.settings.clueBoxes.name": "Enhanced Clue System",
 "CityOfMist.settings.clueBoxes.hint": "Clues are spawned as separate interactive chat objects (clue boxes) that the player and GM can fill out.",
+"CityOfMist.settings.clueBoxes.0": "No clue boxes",
+"CityOfMist.settings.clueBoxes.1": "Whispered Clue Boxes",
+"CityOfMist.settings.clueBoxes.2": "Public Clue Boxes",
 "CityOfMist.settings.tagReview.name": "MC Tag Review",
 "CityOfMist.settings.tagReview.hint": "Before roll is made MC gets to review what tags and statuses are included.",
 

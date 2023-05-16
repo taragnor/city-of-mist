@@ -1,6 +1,6 @@
 import { CityDB } from "./city-db.mjs";
 import {CityLogger} from "./city-logger.mjs";
-
+import {CitySettings} from "./settings.js";
 
 export class ClueChatCards {
 
@@ -38,10 +38,12 @@ export class ClueChatCards {
 		const user = message.user;
 		await message.delete();
 		const actor = CityDB.getActorById(actorId);
-		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:""});
-		// console.log("Creating message");
-		// Debug(msg);
-		await msg.update( {"user" : user.id} );
+		let whisperTarget = "";
+		if (CitySettings.whisperClues()) {
+			console.log("Whispered Clue")
+			whisperTarget = message.user.id;
+		}
+		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : ""}, whisperTarget);
 	}
 
 	static async clueEditButtonHandlers(_app, html, _data) {

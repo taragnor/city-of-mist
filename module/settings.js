@@ -202,8 +202,13 @@ export const registerSystemSettings = function() {
 		hint: localize("CityOfMist.settings.clueBoxes.hint"),
 		scope: "world",
 		config: true,
-		type: Boolean,
-		default: true,
+		type: String,
+		choices: {
+			"none" : localize("CityOfMist.settings.clueBoxes.0"),
+			"whisper": localize("CityOfMist.settings.clueBoxes.1"),
+			"public":localize("CityOfMist.settings.clueBoxes.2"),
+		},
+		default: "public",
 		restrict: true,
 		onChange: _ =>	delayedReload()
 
@@ -420,7 +425,19 @@ export class CitySettings {
 	}
 
 	static useClueBoxes() {
-		return this.get("clueBoxes") ?? true;
+		switch (this.get("clueBoxes")) {
+			case false: return false;
+			case "none": return false;
+			default: return true;
+		}
+		// return this.get("clueBoxes") ?? true;
+	}
+
+	static whisperClues() {
+		switch (this.get("clueBoxes")) {
+			case "whisper": return true;
+			default: return false;
+		}
 	}
 
 	static sceneTagWindowPosition() {
@@ -483,3 +500,5 @@ function delayedReload() {
 
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");
+
+
