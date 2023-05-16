@@ -40,7 +40,6 @@ export class ClueChatCards {
 		const actor = CityDB.getActorById(actorId);
 		let whisperTarget = "";
 		if (CitySettings.whisperClues()) {
-			console.log("Whispered Clue")
 			whisperTarget = message.user.id;
 		}
 		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : ""}, whisperTarget);
