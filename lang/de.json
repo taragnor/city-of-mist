@@ -271,6 +271,17 @@
 "CityOfMist.moves.sessionEnd.1": "Welcher Charakter hatte in dieser Sitzung die bedeutendste Interaktion mit deinem Charakter? Notiere dir für ihn einen Freund- oder Feindpunkt auf deiner Charakterkarte.",
 "CityOfMist.moves.sessionEnd.2": "Welches deiner Themen wurde am meisten strapaziert? Welcher neue Aspekt würde an seine Stelle treten, falls es kollabiert? Notiere dir die Antwort unter KEHRSEITE auf der entsprechenden Themankarte.",
 
+"CityOfMist.moves.escapeFromMemory.name": "Aus dem Gedächtnis verschwinden",
+
+
+"CityOfMist.moves.performanceReview.name": "Leistungsbewertung",
+"CityOfMist.moves.performanceReview.always": "<p>Wenn du für die erfolgreiche Erfüllug einer Aufgabe, die dir mit einer Verordnung zugeteilt wurde, Anerkennung von deinen Vorgesetzten erhälst, markiere Aufmerksamkeit auf diesem Thema. Du kannst auch Bruch auf einem deiner Logos Themen markieren um eine anstehende Beförderung zu darzustellen. </p><br><p> Wenn du von deinen Vorgesetzten vorgeworfen bekommst bei einer dir als Verordnung zugeteilten Aufgabe versagt zu haben oder eine Linie überschritten zu haben, die von einer Verordung vorgegegben wird, markiere einen 1 Treffer auf dem Thema der Verordnung. (2 Treffer wenn dein Fehlverhalten besonders schwer gewesen ist, nach Einschätzung deiner Vorgesetzten). </p><br><p> Wenn die Verordnung aufgelöst ist, oder deine Vorgesetzten dich einer anderen zuordnen, dann wähle zusammne mit einem MC eine neue Verordung für dieses Thema aus.</p>",
+
+"CityOfMist.moves.hardchoiceGK.name": "Eine schwierige Entscheidung treffen (Gatekeeper)",
+"CityOfMist.moves.hardchoiceGK.always": "<p>Wenn bei der Verfolgung deiner Verordung es geboten ist, dass du auf eine bestimmte Weise handelst oder sprichst und du tust es nicht und es bemerkt wird, dann wird dies Teil deiner Leistungsbewertung werden. </p><br><p> Wenn deine Identität verlangt, dass du auf eine bestimmte Weise handelst oder sprichst, du es aber nicht tust, markierst du Bruch auf dem Thema der Identität.</p><br><p> Wenn du etwas opferst, was du aufrichtig begehrst, um deiner Identität gerecht zu werden, markeirst du Aufmerksamkeit auf dem Thema der Identität.</p>",
+
+"CityOfMist.moves.LBTM.name": "Hinter den Nebel blicken",
+  
 "CityOfMist.reloaded.moves.stunt.name": "Stunt",
 "CityOfMist.reloaded.moves.stunt.partial": "Du bist erfolgreich, aber die Spielelitung wählt eine Komplikation:",
 "CityOfMist.reloaded.moves.stunt.success": "Du bis erfolgreich",
