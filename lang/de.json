@@ -322,9 +322,11 @@
 
 "CityOfMist.command.submit": "Absenden",
 "CityOfMist.command.toggleLock": "Blattschloss umschalten",
+"CityOfMist.command.addTheme": "Thema hinzufügen",
 "CityOfMist.command.narrationBox": "Erzähler Box",
 "CityOfMist.command.executeMove": "Spielzug ausführen",
 "CityOfMist.command.destroyTheme": "Thema zerstören",
+"CityOfMist.command.deleteImprovement": "Verbesserug entfernen",
 "CityOfMist.command.buildUpGained": "Gewonnene Aufbaupunkte",
 "CityOfMist.command.editClue": "Hinweis bearbeiten",
 "CityOfMist.command.addToJounral": "Dem Journal hinzufügen",
@@ -334,9 +336,12 @@
 "CityOfMist.command.strikeout" : "Modifikator umschalten",
 "CityOfMist.command.use" : "Benutzen",
 "CityOfMist.command.cancel" : "Abbrechen",
+"CityOfMist.command.confirmText" : "Bestätigen",
 "CityOfMist.command.send_to_chat" : "In den Chat senden",
 "CityOfMist.command.reveal_alias" : "Alias aufdecken",
+"CityOfMist.command.listElements": "Elemente auflisten",
 
+  
 "CityOfMist.message.rejectedQuestion" : "Frage passt nicht zur Methode (Hinweis gutgeschrieben)",
 "CityOfMist.message.waitingPlayer" : "Auf Reaktion des Spielers warten",
 "CityOfMist.message.waitingMC" : "Auf Reaktion des Spielleiters warten",
