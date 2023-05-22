@@ -348,6 +348,7 @@
 "CityOfMist.message.clueBanked" : "Aufgespart",
 "CityOfMist.message.attentionAwarded": "+1 Aufmerksamkeit",
 "CityOfMist.message.attentionManual": "Aufmerksamkeit muss manuell hinzugefügt werden.",
+"CityOfMist.message.burns-on-use": "Wird bei Benutzung ausgebrannt",
 "CityOfMist.message.noExtraSelected": "Eine Bonus Thema ausgewählt",
 
 "CityOfMist.misc.newMoE": "Neue Entwicklungsmomente",
@@ -386,8 +387,41 @@
 "CityOfMist.themebook.turf.name": "Gebiet",
 "CityOfMist.themebook.unit.name": "Einheit",
 "CityOfMist.themebook.shrouding.name": "Verschleiern",
+  
+"CityOfMist.themekit.html.inherit_improvements_checkbox": "Beinhaltet die Verbesserungen des zugrundeliegenden Themenbuchs",
 
+"CityOfMist.chatmessage.clue.use":"benutzt einen Hinweis.",
+  
 "CityOfMist.dialog.roll.waitForMC": "Auf Zustimmung des MC warten",
+"CityOfMist.dialog.roll.title": "Würfeln",
+"CityOfMist.dialog.roll.rollBonus": "Würfle Bonus:",
+"CityOfMist.dialog.roll.effect": "Effekt:",
+"CityOfMist.dialog.roll.customModifier": "Benutzerdefinierter Modifikator",
+"CityOfMist.dialog.roll.allowDynamite": "Ermögliche Dynamite",
+"CityOfMist.dialog.roll.takePenalty": "Abzug hinnehmen für erhöhten Effekt",
+"CityOfMist.dialog.roll.burnTag": "Merkmal ausbrennen",
+"CityOfMist.dialog.roll.dontBurn": "nicht ausbrennen",
+  
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Verbesserung gewähren?",
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Gewähre eine freie Verbesserung dafür, dass man 2 Schwächemerkmale für ein Thema wählt?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Verbesserung entfernen?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body": "Entferne die freie Verbesserung dafür, dass man 2 Schwächemerkmale für ein Thema gewählt hat?",
+
+"CityOfMist.dialog.actorSheet.deleteTheme.title": "Lösche Thema",
+"CityOfMist.dialog.actorSheet.deleteTheme.body": "Thema löschen ohne Aufbaupunkte zu gewähren? Diese Aktion kann nicht rückgängig gemacht werden.",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.0": "Nur Löschen",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.1": "Ersetzen (Aufbaupunkte gutschreiben)",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.2": "Abbrechen",
+
+"CityOfMist.dialog.actorSheet.addFade.title": "Bestätige das hinzufügen von Schwund/Bruch",
+"CityOfMist.dialog.actorSheet.addFade.body": "Diese Aktion wird das Thema endgültig löschen (und Aufbaupunkte gutschreiben). Sind sie sicher?",
+
+"CityOfMist.dialog.themebook_select.themekit": "Themenkit benutzen",
+
+"CityOfMist.dialog.tag.usageExamples": "Beispiele bei denen das Merkmal anwendbar ist",
+"CityOfMist.dialog.tag.counterExamples": "Beispiele bei denen das Merkmal nicht anwendbar ist",
+"CityOfMist.dialog.tag.restrictions": "Generelle Beschränkungen der Nutzung des Merkmals",
+
   
 "CityOfMist.dialog.SHB.warning0":"Bist du sicher, dass du 'Lass. Es. Raus.' willst?",
 "CityOfMist.dialog.SHB.warning1":"Die Folgen können SCHWERWIEGEND sein!",
