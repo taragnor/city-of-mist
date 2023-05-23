@@ -106,6 +106,7 @@
 "CityOfMist.terms.customModifier": "Zusätzlicher Modifikator",
 "CityOfMist.terms.mythosThemes": "Mythos Themen",
 "CityOfMist.terms.logosThemes": "Logos Themen",
+"CityOfMist.terms.mistThemes": "Nebel Themen",
 "CityOfMist.terms.biography": "Biographie",
 "CityOfMist.terms.mc_notes": "Spielleitungsnotizen",
 "CityOfMist.terms.bu_points": "Aufbaupunkte",
@@ -121,6 +122,7 @@
 "CityOfMist.terms.noRoll": "Kein Würfelwurf",
 "CityOfMist.terms.logosRoll": "Logos Wurf",
 "CityOfMist.terms.mythosRoll": "Mythos Wurf",
+"CityOfMist.terms.mistRoll": "Nebel Wurf",
 "CityOfMist.terms.category": "Kategorie",
 "CityOfMist.terms.advanced": "Fortgeschritten",
 "CityOfMist.terms.SHB": "Lass.Es.Raus",
@@ -269,6 +271,17 @@
 "CityOfMist.moves.sessionEnd.1": "Welcher Charakter hatte in dieser Sitzung die bedeutendste Interaktion mit deinem Charakter? Notiere dir für ihn einen Freund- oder Feindpunkt auf deiner Charakterkarte.",
 "CityOfMist.moves.sessionEnd.2": "Welches deiner Themen wurde am meisten strapaziert? Welcher neue Aspekt würde an seine Stelle treten, falls es kollabiert? Notiere dir die Antwort unter KEHRSEITE auf der entsprechenden Themankarte.",
 
+"CityOfMist.moves.escapeFromMemory.name": "Aus dem Gedächtnis verschwinden",
+
+
+"CityOfMist.moves.performanceReview.name": "Leistungsbewertung",
+"CityOfMist.moves.performanceReview.always": "<p>Wenn du für die erfolgreiche Erfüllug einer Aufgabe, die dir mit einer Verordnung zugeteilt wurde, Anerkennung von deinen Vorgesetzten erhälst, markiere Aufmerksamkeit auf diesem Thema. Du kannst auch Bruch auf einem deiner Logos Themen markieren um eine anstehende Beförderung zu darzustellen. </p><br><p> Wenn du von deinen Vorgesetzten vorgeworfen bekommst bei einer dir als Verordnung zugeteilten Aufgabe versagt zu haben oder eine Linie überschritten zu haben, die von einer Verordung vorgegegben wird, markiere einen 1 Treffer auf dem Thema der Verordnung. (2 Treffer wenn dein Fehlverhalten besonders schwer gewesen ist, nach Einschätzung deiner Vorgesetzten). </p><br><p> Wenn die Verordnung aufgelöst ist, oder deine Vorgesetzten dich einer anderen zuordnen, dann wähle zusammne mit einem MC eine neue Verordung für dieses Thema aus.</p>",
+
+"CityOfMist.moves.hardchoiceGK.name": "Eine schwierige Entscheidung treffen (Gatekeeper)",
+"CityOfMist.moves.hardchoiceGK.always": "<p>Wenn bei der Verfolgung deiner Verordung es geboten ist, dass du auf eine bestimmte Weise handelst oder sprichst und du tust es nicht und es bemerkt wird, dann wird dies Teil deiner Leistungsbewertung werden. </p><br><p> Wenn deine Identität verlangt, dass du auf eine bestimmte Weise handelst oder sprichst, du es aber nicht tust, markierst du Bruch auf dem Thema der Identität.</p><br><p> Wenn du etwas opferst, was du aufrichtig begehrst, um deiner Identität gerecht zu werden, markeirst du Aufmerksamkeit auf dem Thema der Identität.</p>",
+
+"CityOfMist.moves.LBTM.name": "Hinter den Nebel blicken",
+  
 "CityOfMist.reloaded.moves.stunt.name": "Stunt",
 "CityOfMist.reloaded.moves.stunt.partial": "Du bist erfolgreich, aber die Spielelitung wählt eine Komplikation:",
 "CityOfMist.reloaded.moves.stunt.success": "Du bis erfolgreich",
@@ -309,9 +322,11 @@
 
 "CityOfMist.command.submit": "Absenden",
 "CityOfMist.command.toggleLock": "Blattschloss umschalten",
+"CityOfMist.command.addTheme": "Thema hinzufügen",
 "CityOfMist.command.narrationBox": "Erzähler Box",
 "CityOfMist.command.executeMove": "Spielzug ausführen",
 "CityOfMist.command.destroyTheme": "Thema zerstören",
+"CityOfMist.command.deleteImprovement": "Verbesserug entfernen",
 "CityOfMist.command.buildUpGained": "Gewonnene Aufbaupunkte",
 "CityOfMist.command.editClue": "Hinweis bearbeiten",
 "CityOfMist.command.addToJounral": "Dem Journal hinzufügen",
@@ -321,15 +336,19 @@
 "CityOfMist.command.strikeout" : "Modifikator umschalten",
 "CityOfMist.command.use" : "Benutzen",
 "CityOfMist.command.cancel" : "Abbrechen",
+"CityOfMist.command.confirmText" : "Bestätigen",
 "CityOfMist.command.send_to_chat" : "In den Chat senden",
 "CityOfMist.command.reveal_alias" : "Alias aufdecken",
+"CityOfMist.command.listElements": "Elemente auflisten",
 
+  
 "CityOfMist.message.rejectedQuestion" : "Frage passt nicht zur Methode (Hinweis gutgeschrieben)",
 "CityOfMist.message.waitingPlayer" : "Auf Reaktion des Spielers warten",
 "CityOfMist.message.waitingMC" : "Auf Reaktion des Spielleiters warten",
 "CityOfMist.message.clueBanked" : "Aufgespart",
 "CityOfMist.message.attentionAwarded": "+1 Aufmerksamkeit",
 "CityOfMist.message.attentionManual": "Aufmerksamkeit muss manuell hinzugefügt werden.",
+"CityOfMist.message.burns-on-use": "Wird bei Benutzung ausgebrannt",
 "CityOfMist.message.noExtraSelected": "Eine Bonus Thema ausgewählt",
 
 "CityOfMist.misc.newMoE": "Neue Entwicklungsmomente",
@@ -368,14 +387,48 @@
 "CityOfMist.themebook.turf.name": "Gebiet",
 "CityOfMist.themebook.unit.name": "Einheit",
 "CityOfMist.themebook.shrouding.name": "Verschleiern",
+  
+"CityOfMist.themekit.html.inherit_improvements_checkbox": "Beinhaltet die Verbesserungen des zugrundeliegenden Themenbuchs",
 
+"CityOfMist.chatmessage.clue.use":"benutzt einen Hinweis.",
+  
 "CityOfMist.dialog.roll.waitForMC": "Auf Zustimmung des MC warten",
+"CityOfMist.dialog.roll.title": "Würfeln",
+"CityOfMist.dialog.roll.rollBonus": "Würfle Bonus:",
+"CityOfMist.dialog.roll.effect": "Effekt:",
+"CityOfMist.dialog.roll.customModifier": "Benutzerdefinierter Modifikator",
+"CityOfMist.dialog.roll.allowDynamite": "Ermögliche Dynamite",
+"CityOfMist.dialog.roll.takePenalty": "Abzug hinnehmen für erhöhten Effekt",
+"CityOfMist.dialog.roll.burnTag": "Merkmal ausbrennen",
+"CityOfMist.dialog.roll.dontBurn": "nicht ausbrennen",
+  
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Verbesserung gewähren?",
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Gewähre eine freie Verbesserung dafür, dass man 2 Schwächemerkmale für ein Thema wählt?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Verbesserung entfernen?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body": "Entferne die freie Verbesserung dafür, dass man 2 Schwächemerkmale für ein Thema gewählt hat?",
+
+"CityOfMist.dialog.actorSheet.deleteTheme.title": "Lösche Thema",
+"CityOfMist.dialog.actorSheet.deleteTheme.body": "Thema löschen ohne Aufbaupunkte zu gewähren? Diese Aktion kann nicht rückgängig gemacht werden.",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.0": "Nur Löschen",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.1": "Ersetzen (Aufbaupunkte gutschreiben)",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.2": "Abbrechen",
+
+"CityOfMist.dialog.actorSheet.addFade.title": "Bestätige das hinzufügen von Schwund/Bruch",
+"CityOfMist.dialog.actorSheet.addFade.body": "Diese Aktion wird das Thema endgültig löschen (und Aufbaupunkte gutschreiben). Sind sie sicher?",
+
+"CityOfMist.dialog.themebook_select.themekit": "Themenkit benutzen",
+
+"CityOfMist.dialog.tag.usageExamples": "Beispiele bei denen das Merkmal anwendbar ist",
+"CityOfMist.dialog.tag.counterExamples": "Beispiele bei denen das Merkmal nicht anwendbar ist",
+"CityOfMist.dialog.tag.restrictions": "Generelle Beschränkungen der Nutzung des Merkmals",
+
   
 "CityOfMist.dialog.SHB.warning0":"Bist du sicher, dass du 'Lass. Es. Raus.' willst?",
 "CityOfMist.dialog.SHB.warning1":"Die Folgen können SCHWERWIEGEND sein!",
 "CityOfMist.dialog.SHB.source":"Quelle deiner Kraft",
 "CityOfMist.dialog.SHB.mythicpower":"Ziehe Kraft aus deinem Mythos (Standard)",
 "CityOfMist.dialog.SHB.logosPower":"Ziehe Kraft aus deinem Logos (Optionale Regel)",
+"CityOfMist.dialog.SHB.mistPower":"Sich des Nebels bedienen (Gatekeeper)",
 "CityOfMist.dialog.SHB.yes":"Lass. Es. Raus.!",
 "CityOfMist.dialog.SHB.no":"Warte, ich habe meine Meinung geändert.",
 "CityOfMist.dialog.statusAdd.CoMClassic": "Wähle Status Stufe zum Hinzuzufügen oder Abziehen.",
@@ -388,6 +441,20 @@
 "CityOfMist.dialog.spendHelpHurt.Initial": "Freund/Feind ausgeben",
 "CityOfMist.dialog.spendHelpHurt.spendHelp": "Freund",
 "CityOfMist.dialog.spendHelpHurt.spendHurt": "Feind",
+  
+"CityOfMist.dialog.tagReview.title": "Merkmale überprüfen",
+"CityOfMist.dialog.tagReview.purpose": "MC kann die Merkmale überprüfen und sie annehmen/ablehnen",
+"CityOfMist.dialog.tagReview.SelectedItems" : "Ausgewählte Punkte",
+"CityOfMist.dialog.tagReview.Suggestions" : "Vorschläge",
+"CityOfMist.dialog.tagReview.ApproveAll" : "Alle annehmen",
+"CityOfMist.dialog.tagReview.Okay": "Bestätigen",
+"CityOfMist.dialog.tagReview.approve": "Dieses Merkmal oder Status annehmen",
+"CityOfMist.dialog.tagReview.requestClarification": "Erläuterungen zu diesem Merkmal/Status anfordern",
+"CityOfMist.dialog.tagReview.reject": "Dieses Merkamal oder Status ablehnen",
+"CityOfMist.dialog.tagReview.approved": "Annehmen",
+"CityOfMist.dialog.tagReview.rejected": "Ablehnen",
+"CityOfMist.dialog.tagReview.clarification_requested": "Erläuterungen angefordert",
+"CityOfMist.dialog.tagReview.pending": "Austehend",
   
 "CityOfMist.settings.gritMode.name": "Schneidmodus",
 "CityOfMist.settings.gritMode.hint": "Aktivieren den Schneidmodus (Wie in den Regeln beschrieben)",
@@ -412,6 +479,10 @@
 "CityOfMist.settings.autoWeakness.name": "Automatische Aufmerksamkeit bei Schwächemerkmalen",
 "CityOfMist.settings.autoWeakness.hint": "Automatisches hizufügen der Aufmerksamkeit beim Einsatz von Schwächemerkmalen",
 
+"CityOfMist.settings.autoAwardWeaknessImp.name": "Automatische Verbesserung bei Schwächemerkmalen",
+"CityOfMist.settings.autoAwardWeaknessImp.hint": "Wenn man 2 oder mehr Schwächemerkmale einem Thema hinzufügt, bekommt man automatisch eine Bonus Verbesserung auf diesem Thema. Wenn deaktiviert wird stattdessen ein Fragedialog erscheinen.",
+
+
 "CityOfMist.settings.execEntranceMoves.name": "Gefahr betritt Szene Zug",
 "CityOfMist.settings.execEntranceMoves.hint": "Stelle die Automatisierung für 'Betritt die Szene' Spielzuüge von Gefahren. Wird ausgelöst, wenn die Spielfigur aufgedeckt oder erstellt wird. Wird entfernt, wenn sie unsichtbar gestellt oder entfernt wird.",
 "CityOfMist.settings.execEntranceMoves.0": "Keine Automatisierung",
@@ -428,9 +499,28 @@
 "CityOfMist.settings.enhancedActorDirectory.hint": "Zeigt Nicht-Besitzern nur den Alias Namen eines Aktuers im Verzeichnis an und versteckt so den richtigen Namen vor den Spielenden (benötigt ein Refresh [F5] des Browser).",
 "CityOfMist.settings.clueBoxes.name": "Verbessertes Hinweis System",
 "CityOfMist.settings.clueBoxes.hint": "Hinweise werden als eigene interactive Chat Objekte (Hinweis Boxen) angezeigt, die der Spielende und der Spielleitende ausfüllen können.",
+"CityOfMist.settings.clueBoxes.0": "Keine Hinweis Boxen",
+"CityOfMist.settings.clueBoxes.1": "Geflüsterte Hinweis Boxen",
+"CityOfMist.settings.clueBoxes.2": "Öffentliche Hinweis Boxen",
+"CityOfMist.settings.tagReview.name": "MC Merkmals Überprüfung",
+"CityOfMist.settings.tagReview.hint": "Bevor ein Würfelwurf ausgeführt wird muss der MC die ausgewählten Merkmale und Status prüfen.",
+
+"CityOfMist.settings.sceneTagWindow.name": "Szenen Merkmale",
+"CityOfMist.settings.sceneTagWindow.hint": "Zeigt Szenenmerkmale und Status auf auf dem BIldschirm an. (kann zu einem überfüllten Bildschirm führen)",
+"CityOfMist.settings.sceneTagWindow.choice0": "Kein Szenenmerkmalsfenster",
+"CityOfMist.settings.sceneTagWindow.choice1": "Zeige Konfliktteilnehmer mit mindestens einem Merkmal oder Status an",
+"CityOfMist.settings.sceneTagWindow.choice2": "Zeige alle Konflicktteilnehmer in Begegnung an",
+
+"CityOfMist.settings.sceneTagWindowPosition.name": "Szenen Merkmale",
+"CityOfMist.settings.sceneTagWindowPosition.hint": "Position auf dem Bildschirm an dem das Szenenmerkmalsfenster angezeigt wird",
+"CityOfMist.settings.sceneTagWindowPosition.choice0": "Links",
+"CityOfMist.settings.sceneTagWindowPosition.choice1": "Rechts",
+"CityOfMist.settings.sceneTagWindowPosition.choice2": "Ausblenden",
+  
 "CityOfMist.settings.devMode.name": "Entwickler Modus",
 "CityOfMist.settings.devMode.hint": "Legt etliche, interne Variablen des Spielsystems offen (nur für erfahrene Benutzer)",
 
+  
 "CityOfMist.settings.statusAdditionSystem.name": "Hinzufügen eines Status",
 "CityOfMist.settings.statusAdditionSystem.hint": "Wähle das System, wie ein Status hinzugefügt wird",
 "CityOfMist.settings.statusAdditionSystem.0": "Hinzufügen wie bei CoM Klassik",
@@ -438,15 +528,32 @@
 "CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Boxen)",
 "CityOfMist.settings.statuSubtractionSystem.name": "Abziehen eines Status",
 "CityOfMist.settings.statuSubtractionSystem.hint": "Wähle das System, wie ein Status abgezogen wird",
+
+"CityOfMist.settings.altPower.name": "Alternative Kraft Hausregel",
+"CityOfMist.settings.altPower.hint": "Kraft wirkt sich nur auf den Würfelwurf aus. Der Effekt des Spielzugs startet mit 2 und kann mit Abzügen modifiziert werden.",
+
 "CityOfMist.settings.statuSubtractionSystem.0": "Abziehen wie bei CoM Klassik",
 "CityOfMist.settings.statuSubtractionSystem.1": "CoM Reloaded (Boxen)",
-
 "CityOfMist.settings.system.name": "Spielsystem",
 "CityOfMist.settings.system.hint": "Wähle die Version des CoM system",
 "CityOfMist.settings.system.0": "CoM Klassik",
 "CityOfMist.settings.system.1": "CoM Reloaded",
 "CityOfMist.settings.system.2": "Angepasst",
 
+"CityOfMist.settings.debugMode.name": "Fehlersuchmodus",
+"CityOfMist.settings.debugMode.hint": "Schaltet den internen Javascript Debug Code an",
+
+"CityOfMist.settings.handleTempItems.name": "Temprärer Status oder Merkmale",
+"CityOfMist.settings.handleTempItems.hint": "Wie soll damit umgegangenwerden, wenn ein temporärer Status oder temporäre/spröde Markmale bei einem Würfelwurf genutzt wird?",
+"CityOfMist.settings.handleTempItems.choice0": "Tue nichts",
+"CityOfMist.settings.handleTempItems.choice1": "Verbrenne temporäre/spröde Merkmale",
+"CityOfMist.settings.handleTempItems.choice2": "Verbrenne temporäre/spröde Merkmale und lösche Status",
+
+"CityOfMist.tooltip.createStory": "Handlungsmerkmal erstellen",
+"CityOfMist.tooltip.createStatus": "Neuen Status erstellen",
+"CityOfMist.tooltip.toggleTokenInStoryTagWindow": "Spielfigur zum Szenenmerkmalsfenster hinzufügen oder von diesem entfernen.",
+"CityOfMist.tooltip.removeFromStoryTagWindow": "Von Szenenmerkmalsfenster entfernen",
+  
 "CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird.",
 "CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein.",
 
