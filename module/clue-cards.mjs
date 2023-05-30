@@ -22,7 +22,11 @@ export class ClueChatCards {
 		await CityLogger.sendToChat2(html, {actor});
 	}
 
+	static CLUE_LOCK = false;
+
 	static async updateClue (html, newdata ={}) {
+		if (ClueChatCards.CLUE_LOCK) return;
+		ClueChatCards.CLUE_LOCK = true;
 		const messageId = html.data("messageId");
 		const message = game.messages.get(messageId);
 		const question = $(html).find(".clue-reveal").data("question");
@@ -36,13 +40,19 @@ export class ClueChatCards {
 			console.warn("No metasource for clue");
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		const user = message.user;
-		await message.delete();
-		const actor = CityDB.getActorById(actorId);
-		let whisperTarget = "";
-		if (CitySettings.whisperClues()) {
-			whisperTarget = message.user.id;
+		try {
+			await message.delete();
+			const actor = CityDB.getActorById(actorId);
+			let whisperTarget = "";
+			if (CitySettings.whisperClues()) {
+				whisperTarget = message.user.id;
+			}
+			const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : "clue", altUser: user}, whisperTarget);
+			// msg.user = user;
+		} catch (err) {
+			console.error(err);
 		}
-		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : "clue"}, whisperTarget);
+		ClueChatCards.CLUE_LOCK = false;
 	}
 
 	static async clueEditButtonHandlers(_app, html, _data) {

@@ -37,6 +37,7 @@ export class Logger {
 	@param {string=} sender.actor ID of actor
 	@param {string=} sender.token ID of token
 	@param {string=} sender.alias enforced name for target
+	@param {string=] sender.altUser set an alternate user for the message sender
 	@param {string=} whisperTarget contains target of whisper
 	*/
 	static async sendToChat2(text, sender={}, whisperTarget) {
@@ -49,6 +50,9 @@ export class Logger {
 			content: text,
 			type,
 		};
+		if (sender.altUser) {
+			messageData.user = sender.altUser;
+		}
 		if (whisperTarget) {
 			// messageData.whisperTo = [whisperTarget];
 			const recipients = game.users.contents.filter(x=> x.isGM).map(x=> x.id);
