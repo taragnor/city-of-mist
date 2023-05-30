@@ -42,7 +42,7 @@ export class ClueChatCards {
 		if (CitySettings.whisperClues()) {
 			whisperTarget = message.user.id;
 		}
-		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : ""}, whisperTarget);
+		const msg = await CityLogger.sendToChat2(new_html, {actor, token: "", alias:actor ? actor.getDisplayedName() : "clue"}, whisperTarget);
 	}
 
 	static async clueEditButtonHandlers(_app, html, _data) {
