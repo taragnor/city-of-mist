@@ -402,6 +402,8 @@
 "CityOfMist.dialog.roll.burnTag": "Burn Tag",
 "CityOfMist.dialog.roll.dontBurn": "Don't Burn",
 
+"CityOfMist.dialog.downtime.title": "Possible Downtime Moves",
+
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Grant Improvement?",
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Grant a free improvement for taking 2+ weakness tags on same theme?",
 "CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Remove Imrovement?",

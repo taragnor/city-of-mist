@@ -591,7 +591,7 @@ export class CityHelpers {
 		return await new Promise( (conf, rej) => {
 			const options = {};
 			const dialog = new Dialog( {
-				title: `GM Narration`,
+				title: localize("CityOfMist.dialog.downtime.title"),
 				content: html,
 				render: (html) => {
 					$(html).find('.gmmove-select').click( async (event) => {
