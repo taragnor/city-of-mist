@@ -1104,9 +1104,10 @@ export class CityActor extends Actor {
 		}
 	}
 
-	async executeGMMove (move) {
+	async executeGMMove (move, actor = undefined) {
 		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove(this);
-		if (await CityHelpers.sendToChat(html, options)) {
+		const speaker = actor ? { alias: actor.getDisplayedName() } : {};
+		if (await CityHelpers.sendToChat(html, speaker)) {
 			await CityHelpers.processTextTagsStatuses(taglist, statuslist, this);
 		}
 	}

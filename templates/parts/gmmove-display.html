@@ -1,5 +1,5 @@
 <div class="card-style gm-move {{#if locked}}gmmove-select {{else}} gmmove-edit{{/if}} flex-row flex-align-center draggable
-	  {{#if (noteq sheetowner move.actor)}} inherited-move {{/if}}	" data-move-id="{{move.id}}" data-owner-id="{{owner.id}}" data-draggable-type="gmmove" draggable="true">
+	  {{#if (noteq sheetowner move.actor)}} inherited-move {{/if}}	" data-move-id="{{move.id}}" data-owner-id="{{sheetowner.id}}" data-draggable-type="gmmove" draggable="true">
 	<div class= "trash-can-flex">
 		{{#if (and (eq locked false) (eq sheetowner move.actor))}}
 		<a class="item-control gmmove-delete" title="Delete GMMove"><i class="fas fa-trash"></i></a>
@@ -12,7 +12,6 @@
 		<div class="inherit-msg">
 			Inherited from {{move.actor.displayedName}}
 		</div>
-		{{/if}}
+	{{/if}}
 	</div>
-
 </div>

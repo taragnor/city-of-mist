@@ -1009,7 +1009,7 @@ export class CityItem extends Item {
 			throw new Error("Type is not GM move");
 		const {taglist, statuslist, html, options} = await this.prepareToRenderGMMove(actor);
 		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options)) {
-			actor.executeGMMove(this);
+			actor.executeGMMove(this, actor);
 		}
 	}
 

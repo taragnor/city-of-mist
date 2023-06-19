@@ -571,20 +571,52 @@ export class CityHelpers {
 	}
 
 	static async triggerDowntimeMoves() {
+		if (!game.user.isGM) return;
 		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
-		const dangermoves = tokens
+		const actorWithMovesList = tokens
 			.filter(actor => actor.is_danger_or_extra())
-			.map(actor=> actor.getGMMoves())
-			.filter(gmmovearr => gmmovearr.length > 0)
-			.flat(1)
-			.filter(gmmove => gmmove.isDowntimeTriggeredMove());
-		for (const move of dangermoves) {
-			if (game.user.isGM)
-				await move.GMMovePopUp();
-		}
-
-
+			.map(actor=> ({
+				movelist: actor.getGMMoves()
+				.filter(gmmove => gmmove.isDowntimeTriggeredMove()),
+				actor: actor,
+			})
+			)
+			.filter(({movelist}) => movelist.length > 0)
+			.flat(1);
+		const movesToRun = await this.downtimeGMMoveDialog(actorWithMovesList);
 	}
+
+	static async downtimeGMMoveDialog(actorWithMovesList) {
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/downtime-GM-moves.hbs", {list : actorWithMovesList});
+		return await new Promise( (conf, rej) => {
+			const options = {};
+			const dialog = new Dialog( {
+				title: `GM Narration`,
+				content: html,
+				render: (html) => {
+					$(html).find('.gmmove-select').click( async (event) => {
+						const move_id = getClosestData(event, "moveId");
+						const ownerId = getClosestData(event, "ownerId");
+						const owner = await CityHelpers.getOwner(ownerId);
+						const move = await owner.getGMMove(move_id);
+						await move.GMMovePopUp(owner);
+					});
+				},
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						label: "Close",
+						callback: async (html) => {
+							const checkedMoves = [];
+							conf(checkedMoves);
+						}
+					},
+				},
+			}, options);
+			dialog.render(true);
+		});
+	}
+
 
 	static applyColorization() {
 		// const colorsetting = game.settings.get("city-of-mist", "color-theme") ;
