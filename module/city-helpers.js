@@ -583,40 +583,8 @@ export class CityHelpers {
 			)
 			.filter(({movelist}) => movelist.length > 0)
 			.flat(1);
-		const movesToRun = await this.downtimeGMMoveDialog(actorWithMovesList);
+		await CityDialogs.downtimeGMMoveDialog(actorWithMovesList);
 	}
-
-	static async downtimeGMMoveDialog(actorWithMovesList) {
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/downtime-GM-moves.hbs", {list : actorWithMovesList});
-		return await new Promise( (conf, rej) => {
-			const options = {};
-			const dialog = new Dialog( {
-				title: localize("CityOfMist.dialog.downtime.title"),
-				content: html,
-				render: (html) => {
-					$(html).find('.gmmove-select').click( async (event) => {
-						const move_id = getClosestData(event, "moveId");
-						const ownerId = getClosestData(event, "ownerId");
-						const owner = await CityHelpers.getOwner(ownerId);
-						const move = await owner.getGMMove(move_id);
-						await move.GMMovePopUp(owner);
-					});
-				},
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: "Close",
-						callback: async (html) => {
-							const checkedMoves = [];
-							conf(checkedMoves);
-						}
-					},
-				},
-			}, options);
-			dialog.render(true);
-		});
-	}
-
 
 	static applyColorization() {
 		// const colorsetting = game.settings.get("city-of-mist", "color-theme") ;
