@@ -7,6 +7,9 @@ import { Sounds } from "./tools/sounds.mjs";
 import { TokenTools } from "./tools/token-tools.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import {SceneTags} from "./scene-tags.mjs";
+import { DowntimeSessionM } from "./city-sessions.mjs";
+import { CitySockets } from "./city-sockets.mjs";
+
 
 export class CityHelpers {
 
@@ -556,13 +559,20 @@ export class CityHelpers {
 			localize("CityOfMist.dialog.downtimeconfirm.body"), "no")
 		)
 			return;
-		this.promptDowntimeMovesList();
-		// const PCList = await this.downtimePCSelector();
-		// if (PCList === null) return;
-		// for (const pc of PCList) {
-		// 	await pc.onDowntime();
-		// }
+		await this.PCDowntime();
+		await this.promptDowntimeMovesList();
 	}
+
+	static async PCDowntime() {
+		const PCList = await this.downtimePCSelector();
+		if (PCList === null) return;
+		console.log(PCList);
+		const s = new DowntimeSessionM(PCList);
+		CitySockets.execSession(s);
+	}
+
+
+
 
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
 	*/

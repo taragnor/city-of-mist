@@ -3196,3 +3196,12 @@ button.clue-use-button:hover {
 .fas.green-icon {
 	color:green;
 }
+
+.pc-downtime-selector .header {
+	font-family: 'Rift Bold';
+	font-size: 1.8em;
+	line-height: 1em;
+	font-weight: bold;
+	color: var(--logos-orange);
+	text-align: center;
+}

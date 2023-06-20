@@ -6,6 +6,8 @@ import {SceneTags} from "./scene-tags.mjs";
 import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {TagReviewDialog} from "./dialogs/tag-review.mjs";
 
+const PATH = "systems/city-of-mist";
+
 export class CityDialogs {
 
 	/** brings up a confirmation window
@@ -259,7 +261,7 @@ export class CityDialogs {
 		const templateData = {
 			owners: ownerList
 		}
-		const html =  await renderTemplate(`${game.system.path}/templates/dialogs/gm-move-chooser.hbs`, templateData);
+		const html =  await renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
 		return new Promise( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -285,6 +287,35 @@ export class CityDialogs {
 
 		}, options);
 
+		});
+	}
+
+	static async DowntimePCSelector(actor) {
+		if (!actor) throw new Error("Actor is undefined");
+		const templateData = {actor};
+		const html = await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser.hbs`, templateData);
+		return new Promise( (conf, rej)  =>  {
+			const options = {};
+			const dialog = new Dialog(  {
+				title: localize("CityOfMist.dialog.pcdowntime.title") + actor.displayedName,
+				content: html,
+				buttons: {
+					one: {
+						icon: '<i class="fas fa-check"></i>',
+						callback: async() => {
+							const choice = null ;//TODO
+							conf(choice);
+						}
+					},
+					two: {
+						icon: '<i class="fas fa-times"></i>',
+						label: localize("CityOfMist.command.cancel"),
+						callback: async () => conf(null)
+					}
+				},
+			}, options);
+
+			dialog.render(true);
 		});
 	}
 

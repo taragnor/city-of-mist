@@ -403,9 +403,14 @@
 "CityOfMist.dialog.roll.dontBurn": "Don't Burn",
 
 "CityOfMist.dialog.downtime.title": "Possible Downtime Moves",
+"CityOfMist.dialog.downtime.unburn": "Prepare for your next activity. Tell everyone at the table how you prepare. Unburn all burned tags",
+"CityOfMist.dialog.downtime.juice": "Prepare for your next activity. Tell everyone at the table how you prepare. Gain 3 Juice with a method based on your description. You can choose from the effect improvements under Change the Game.",
 
 "CityOfMist.dialog.downtimeconfirm.title": "Downtime Confirmation",
 "CityOfMist.dialog.downtimeconfirm.body": "Would you like to begin Downtime for all players?",
+
+
+"CityOfMist.dialog.pcdowntime.title": "Downtime For ",
 
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Grant Improvement?",
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Grant a free improvement for taking 2+ weakness tags on same theme?",

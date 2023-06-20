@@ -354,7 +354,8 @@ export class MasterSession extends Session {
 	}
 
 	async recieveErrorReply(error,  meta) {
-		console.log(`Error recieved ${error}`);
+		console.log(`Error recieved (see below)`);
+		console.log(error);
 		const senderId = meta.from;
 		const sub = this.subscribers.find( x=> x.id == senderId);
 		if (sub.awaitingReply) {
@@ -449,7 +450,8 @@ export class SlaveSession extends Session {
 		if (!error) {
 			await this.send(Session.codes.reply,  dataObj, meta);
 		} else {
-			console.log(`replying Error: ${error}`);
+			console.log(`replying Error (error below)`);
+			console.log(error);
 			await this.send(Session.codes.replyError,  error, meta);
 		}
 		// this.replyCode = null;

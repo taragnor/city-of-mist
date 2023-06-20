@@ -3,6 +3,7 @@ import {CityDialogs} from "./city-dialogs.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import { CityActor } from "./city-actor.js";
 
 
 export class JuiceMasterSession extends MasterSession {
@@ -216,7 +217,6 @@ export class TagReviewSlaveSession extends SlaveSession {
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
 		const actor = CityHelpers.getOwner(actorId, tokenId);
-		Debug(actor);
 		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this, actor);
 		const sendableTagList = reviewList.toSendableForm();
 		return {
@@ -357,6 +357,69 @@ export class TagAndStatusCleanupSessionS extends SlaveSession {
 		} else {
 			throw new Error("Item Id ${itemId} not found on actorId ${ownerId}");
 		}
+	}
+}
+
+export class DowntimeSessionM extends MasterSession {
+
+	/**
+	@param {Array.<CityActor>} PCCharacterList
+	*/
+	constructor(PCCharacterList) {
+		super();
+		this.data = PCCharacterList.map( actor => {
+			const owner = game.users
+				.filter (x=> !x.isGM)
+				.find ( user=> actor.testUserPermission(user, "OWNER") && user.active);
+			return {
+				actor,
+				owner,
+				reply: null
+			};
+		});
+		this.data
+			.filter(x => !x.owner)
+			.forEach (x => { ui.notifications.warn(` ${x.actor.name} doesn't have an active owner`)});
+		this.data = this.data.filter(x=> x.owner);
+		this.users = [...new Set(this.data.map( x=> x.owner))];
+	}
+
+	setHandlers() {
+		super.setHandlers();
+		this.setRequestHandler("downtime", () => {});
+	}
+
+	async start() {
+		if (this.users.length == 0) return [];
+		this.registerSubscribers(this.users);
+		const actors = this.users
+			.flatMap( user=> this.data.filter( x=> x.owner == user))
+		.map(x=>x.actor.id);
+		return await this.request("downtime", actors);
+	}
+
+}
+
+export class DowntimeSessionS extends SlaveSession {
+	setHandlers() {
+		super.setHandlers();
+		this.setRequestHandler("downtime", this.onDowntimeRequest.bind(this));
+	}
+
+	async onDowntimeRequest(actorIdList, _meta) {
+		let replyObj = actorIdList.map( id => ({
+			actorId:id,
+			downtimeAction: null
+		}));
+		console.log(actorIdList);
+		const actorList = actorIdList.map ( id =>
+			game.actors.get(id)
+		);
+		for (const actor of actorList) {
+			const choice = await CityDialogs.DowntimePCSelector(actor);
+			replyObj.find( x=> x.actorId == actor.id).downtimeAction = choice;
+		}
+		return replyObj;
 	}
 
 }
