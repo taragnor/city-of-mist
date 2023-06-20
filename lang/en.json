@@ -404,6 +404,9 @@
 
 "CityOfMist.dialog.downtime.title": "Possible Downtime Moves",
 
+"CityOfMist.dialog.downtimeconfirm.title": "Downtime Confirmation",
+"CityOfMist.dialog.downtimeconfirm.body": "Would you like to begin Downtime for all players?",
+
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Grant Improvement?",
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Grant a free improvement for taking 2+ weakness tags on same theme?",
 "CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Remove Imrovement?",
@@ -555,6 +558,9 @@
 "CityOfMist.keybinds.narration.help" :"Used for Narrating scenes (has special tag and status synatx similar to GM moves)",
 "CityOfMist.keybinds.sessionEnd.name" : "Session End",
 "CityOfMist.keybinds.sessionEnd.help" :"Initiates the End of Session Move for all players, refreshing Flashbacks and other session-based resources.",
+
+"CityOfMist.keybinds.startDowntime.name" : "Start Downtime",
+"CityOfMist.keybinds.startDowntime.help" :"Triggers downtime choices for all players and allows the MC to select from downtime moves of visible token actors on current scene",
 
 "CityOfMist.tooltip.createStory": "Create Story Tag",
 "CityOfMist.tooltip.createStatus": "Create New Status",

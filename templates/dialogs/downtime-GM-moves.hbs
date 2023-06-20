@@ -1,5 +1,8 @@
 <div class="downtime-dialog">
 	{{#each list as |actorMoveListPair|}}
+	<div class="gmmove-type-label">
+		{{actorMoveListPair.actor.displayedName}}
+	</div>
 	<div class="actor-group" data-owner-id="{{actorMoveListPair.actor.id}}"	data-token-id="{{actorMoveListPair.actor.tokenId}}" data-scene-id="{{actorMoveListPair.actor.sceneId}}" >
 		{{#each actorMoveListPair.movelist as |move|}}
 		{{> "systems/city-of-mist/templates/parts/gmmove-display.html" move=move locked=true sheetowner=actorMoveListPair.actor }}

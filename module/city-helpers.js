@@ -551,13 +551,17 @@ export class CityHelpers {
 
 	static async startDowntime() {
 		if (!game.user.isGM) return;
-		const PCList = await this.downtimePCSelector();
-		if (PCList === null) return;
-		for (const pc of PCList) {
-			await pc.onDowntime();
-		}
-		//TODO: Do downtime action selector (break up tag restore to own thing)
-		await this.triggerDowntimeMoves();
+		if (!await HTMLTools.confirmBox(
+			localize("CityOfMist.dialog.downtimeconfirm.title"),
+			localize("CityOfMist.dialog.downtimeconfirm.body"), "no")
+		)
+			return;
+		this.promptDowntimeMovesList();
+		// const PCList = await this.downtimePCSelector();
+		// if (PCList === null) return;
+		// for (const pc of PCList) {
+		// 	await pc.onDowntime();
+		// }
 	}
 
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
@@ -570,7 +574,7 @@ export class CityHelpers {
 		return idList.map( id => PCList.find( actor => actor.id == id))
 	}
 
-	static async triggerDowntimeMoves() {
+	static async promptDowntimeMovesList() {
 		if (!game.user.isGM) return;
 		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
 		const actorWithMovesList = tokens

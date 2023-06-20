@@ -30,6 +30,19 @@ export class CityKeyBinds {
 	}
 
 	static init_downtime() {
+		game.keybindings.register("city-of-mist", "startDowntime", {
+			name: localize("CityOfMist.keybinds.startDowntime.name"),
+			hint: localize("CityOfMist.keybinds.startDowntime.hint" ),
+			uneditable: [ ],
+			editable: [
+				{ key: "KeyD", modifiers: ["Alt"]}
+			],
+			onDown: () => {CityHelpers.startDowntime()},
+			onUp: () => {},
+			restricted: true,// GM only?
+			reservedModifiers: [],
+			precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
+		});
 
 	}
 
