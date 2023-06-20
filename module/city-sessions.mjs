@@ -386,7 +386,7 @@ export class DowntimeSessionM extends MasterSession {
 
 	setHandlers() {
 		super.setHandlers();
-		this.setRequestHandler("downtime", () => {});
+		this.setReplyHandler("downtime", () => {});
 	}
 
 	async start() {
@@ -417,6 +417,7 @@ export class DowntimeSessionS extends SlaveSession {
 		);
 		for (const actor of actorList) {
 			const choice = await CityDialogs.DowntimePCSelector(actor);
+			await CityHelpers.downtimeActionChoice(choice, actor);
 			replyObj.find( x=> x.actorId == actor.id).downtimeAction = choice;
 		}
 		return replyObj;

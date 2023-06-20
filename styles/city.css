@@ -2089,14 +2089,18 @@ button.execute-move-button:hover {
 	0 0 10px rgba(0, 0, 0, 0.3) inset;
 }
 
-.city-roll div.actor-name {
+.city-roll div.actor-name,
+.city-move div.actor-name
+{
 	font-size: larger;
 	text-align: center;
 	color: var(--logos-text);
 	font-weight: bold;
 }
 
-.city-roll div.move-name {
+.city-roll div.move-name,
+.city-move div.move-name
+{
 	font-family: 'Rift Bold';
 	font-size: 1.8em;
 	line-height: 1em;

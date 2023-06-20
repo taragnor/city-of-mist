@@ -302,9 +302,9 @@ export class CityDialogs {
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
-						callback: async() => {
-							const choice = null ;//TODO
-							conf(choice);
+						callback: async(html) => {
+							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() ;//TODO
+							conf(choice, actor);
 						}
 					},
 					two: {

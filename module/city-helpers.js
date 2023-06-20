@@ -566,7 +566,6 @@ export class CityHelpers {
 	static async PCDowntime() {
 		const PCList = await this.downtimePCSelector();
 		if (PCList === null) return;
-		console.log(PCList);
 		const s = new DowntimeSessionM(PCList);
 		CitySockets.execSession(s);
 	}
@@ -598,6 +597,44 @@ export class CityHelpers {
 			.filter(({movelist}) => movelist.length > 0)
 			.flat(1);
 		await CityDialogs.downtimeGMMoveDialog(actorWithMovesList);
+	}
+
+	static async downtimeActionChoice(choice, actor) {
+		let moveText = "";
+		switch (choice) {
+			case "logos":
+				moveText = localize( "CityOfMist.moves.downtime.0");
+				break;
+			case "workcase":
+				moveText = localize( "CityOfMist.moves.downtime.1");
+				break;
+			case "mythos":
+				moveText = localize( "CityOfMist.moves.downtime.2");
+				break;
+			case "recover":
+				moveText = localize( "CityOfMist.moves.downtime.4");
+				break;
+			case "juice":
+				moveText = localize( "CityOfMist.dialog.downtime.juice");
+				break;
+
+			case "unburn":
+				moveText = localize( "CityOfMist.dialog.downtime.unburn");
+				break;
+			default:
+				ui.notifications.warn(`Unknown Downtime Action ${choice}`)
+				return;
+		}
+		const html = await renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
+		const messageOptions = {};
+		const messageData = {
+			// speaker: ChatMessage.getSpeaker(),
+			speaker: {alias: actor.displayedName},
+			content: html,
+			user: game.user,
+		};
+ await ChatMessage.create(messageData, messageOptions);
+
 	}
 
 	static applyColorization() {
