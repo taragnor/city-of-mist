@@ -197,7 +197,8 @@ export class HTMLTools {
 				description: "",
 			};
 		});
-		return await this.multiChoiceBox(list, title);
+		const ret =  await this.multiChoiceBox(list, title);
+		if (ret) return ret; else return [];
 	}
 
 	static div(cssClass) {

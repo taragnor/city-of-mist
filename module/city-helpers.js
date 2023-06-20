@@ -565,9 +565,10 @@ export class CityHelpers {
 
 	static async PCDowntime() {
 		const PCList = await this.downtimePCSelector();
-		if (PCList === null) return;
-		const s = new DowntimeSessionM(PCList);
-		CitySockets.execSession(s);
+		if (PCList.length > 0 ) {
+			const s = new DowntimeSessionM(PCList);
+			CitySockets.execSession(s);
+		}
 	}
 
 
