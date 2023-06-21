@@ -572,8 +572,6 @@ export class CityHelpers {
 	}
 
 
-
-
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
 	*/
 	static async downtimePCSelector() {
@@ -586,7 +584,7 @@ export class CityHelpers {
 
 	static async promptDowntimeMovesList() {
 		if (!game.user.isGM) return;
-		const tokens = CityHelpers.getVisibleActiveSceneTokenActors();
+		const tokens = TokenTools.getActiveSceneTokenActors();
 		const actorWithMovesList = tokens
 			.filter(actor => actor.is_danger_or_extra())
 			.map(actor=> ({

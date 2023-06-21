@@ -272,7 +272,6 @@ export const registerSystemSettings = function() {
 		restrict: true,
 	});
 
-
 	game.settings.register("city-of-mist", "devMode", {
 		name: localize("CityOfMist.settings.devMode.name"),
 		hint: localize("CityOfMist.settings.devMode.hint"),

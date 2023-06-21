@@ -637,7 +637,8 @@ export class CityDialogs {
 					$(html).find('.gmmove-select').click( async (event) => {
 						const move_id = getClosestData(event, "moveId");
 						const ownerId = getClosestData(event, "ownerId");
-						const owner = await CityHelpers.getOwner(ownerId);
+						const tokenId = getClosestData(event, "tokenId");
+						const owner = await CityHelpers.getOwner(ownerId, tokenId);
 						const move = await owner.getGMMove(move_id);
 						await move.GMMovePopUp(owner);
 					});
@@ -647,8 +648,7 @@ export class CityDialogs {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Close",
 						callback: async (html) => {
-							const checkedMoves = [];
-							conf(checkedMoves);
+							conf(true);
 						}
 					},
 				},

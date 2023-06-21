@@ -565,7 +565,7 @@
 "CityOfMist.keybinds.sessionEnd.help" :"Initiates the End of Session Move for all players, refreshing Flashbacks and other session-based resources.",
 
 "CityOfMist.keybinds.startDowntime.name" : "Start Downtime",
-"CityOfMist.keybinds.startDowntime.help" :"Triggers downtime choices for all players and allows the MC to select from downtime moves of visible token actors on current scene",
+"CityOfMist.keybinds.startDowntime.help" :"Triggers downtime choices for all players and allows the MC to select from downtime moves of visible and invisible tokens actors on current scene",
 
 "CityOfMist.tooltip.createStory": "Create Story Tag",
 "CityOfMist.tooltip.createStatus": "Create New Status",
