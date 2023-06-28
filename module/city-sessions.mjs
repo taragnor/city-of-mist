@@ -411,10 +411,9 @@ export class DowntimeSessionS extends SlaveSession {
 			actorId:id,
 			downtimeAction: null
 		}));
-		console.log(actorIdList);
-		const actorList = actorIdList.map ( id =>
-			game.actors.get(id)
-		);
+		const actorList = actorIdList
+			.map ( id => game.actors.get(id))
+			.filter(actor => actor.isOwner);
 		for (const actor of actorList) {
 			const choice = await CityDialogs.DowntimePCSelector(actor);
 			await CityHelpers.downtimeActionChoice(choice, actor);

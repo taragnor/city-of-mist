@@ -554,11 +554,11 @@ export class CityHelpers {
 
 	static async startDowntime() {
 		if (!game.user.isGM) return;
-		if (!await HTMLTools.confirmBox(
-			localize("CityOfMist.dialog.downtimeconfirm.title"),
-			localize("CityOfMist.dialog.downtimeconfirm.body"), "no")
-		)
-			return;
+		// if (!await HTMLTools.confirmBox(
+		// 	localize("CityOfMist.dialog.downtimeconfirm.title"),
+		// 	localize("CityOfMist.dialog.downtimeconfirm.body"), "no")
+		// )
+		// 	return;
 		await this.PCDowntime();
 		await this.promptDowntimeMovesList();
 	}
