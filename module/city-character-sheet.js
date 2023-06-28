@@ -261,7 +261,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		const actor = this.actor;
 		const themeName = theme.name;
 		await actor.addAttention(theme.id);
-		await CityHelpers.modificationLog(actor, `Attention Added`, theme, `Opening Monologue - Current ${await theme.getAttention()}`);
+		// await CityHelpers.modificationLog(actor, `Attention Added`, theme, `Opening Monologue - Current ${await theme.getAttention()}`);
 	}
 
 	async monologueDialog () {
