@@ -1141,7 +1141,6 @@ export class CityItem extends Item {
 			default: console.error(`Unknown subtype: ${this.system.subtype}`);
 		}
 		return text;
-
 	}
 
 }
