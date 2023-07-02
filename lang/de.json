@@ -166,7 +166,7 @@
 
 "CityOfMist.moves.FD.name": "Der Gefahr stellen",
 "CityOfMist.moves.FD.fail": "Du erhältst den vollen Status.",
-"CityOfMist.moves.FD.partial": "Du erhältst du den Status, aber mit einer um eins reduzierten Stufe.",
+"CityOfMist.moves.FD.partial": "Du erhältst den Status, aber mit einer um eins reduzierten Stufe.",
 "CityOfMist.moves.FD.success": "Du wehrst du den Effekt ab und erhältst keinen Status.",
 "CityOfMist.moves.FD.dynamite": "Du vermeidest den Status komplett und wähle eins:",
 "CityOfMist.moves.FD.0": "Du reflektierst den Status auf deinen Angreifer oder verwendest ihn sonstwie gegen ihn. Gib deinem Angreifer einen passenden Status deiner Wahl mit einer Stufe gleich der des ursprünglichen Status.",
