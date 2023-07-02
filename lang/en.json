@@ -515,6 +515,17 @@
 "CityOfMist.settings.tagReview.name": "MC Tag Review",
 "CityOfMist.settings.tagReview.hint": "Before roll is made MC gets to review what tags and statuses are included.",
 
+"CityOfMist.settings.gmmoveheaders.name": "GM Move starting text",
+"CityOfMist.settings.gmmoveheaders.hint": "automatically Applies an identifier to the start of each move based on its type (soft, hard, etc)",
+"CityOfMist.settings.gmmoveheaders.choice0": "disabled",
+"CityOfMist.settings.gmmoveheaders.choice1": "Symbols",
+"CityOfMist.settings.gmmoveheaders.choice2": "Text",
+"CityOfMist.settings.gmmoveheaders.soft": "As a soft move, $name",
+"CityOfMist.settings.gmmoveheaders.hard": "As a hard move, $name",
+"CityOfMist.settings.gmmoveheaders.intrusion": "As an intrusion, $name",
+"CityOfMist.settings.gmmoveheaders.downtime": "During downtime, $name",
+"CityOfMist.settings.gmmoveheaders.entrance": "When $name enters the scene,",
+
 "CityOfMist.settings.sceneTagWindow.name": "Scene Tags",
 "CityOfMist.settings.sceneTagWindow.hint": "Displays scene tags and statuses on the main screen (may cause screen clutter)",
 "CityOfMist.settings.sceneTagWindow.choice0": "No Scene Tag Window",

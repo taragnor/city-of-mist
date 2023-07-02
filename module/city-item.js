@@ -1037,7 +1037,7 @@ export class CityItem extends Item {
 		if (Number.isNaN(collective_size)) {
 			collective_size = 0;
 		}
-		let displayedText = text;
+		let displayedText = this.applyHeader(text);
 		if (!options?.showPrivate) {
 			displayedText = CityHelpers.removeWithinBraces(text);
 		} else {
@@ -1057,6 +1057,53 @@ export class CityItem extends Item {
 		}
 		let statuslist = neostatuslist.concat(extrastatuslist);
 		return {html, taglist, statuslist};
+	}
+
+	applyHeader(text) {
+		if (CitySettings.noGMMoveHeaders()) return text;
+		if (CitySettings.textGMMoveHeaders()) return this.applyHeader_text(text);
+		if (CitySettings.symbolGMMoveHeaders()) return this.applyHeader_symbol(text);
+
+	}
+
+	applyHeader_symbol(text) {
+		let symbol = "";
+		switch (this.system.subtype) {
+			case "soft":
+			case "hard":
+			case "intrusion":
+			case "custom":
+			case "downtime":
+			case "entrance":
+			default: console.error(`Unknown subtype: ${this.system.subtype}`);
+
+		}
+		return symbol + " " + text;
+
+	}
+
+	applyHeader_text(text) {
+		let local;
+		switch (this.system.subtype) {
+			case "soft":
+				local = localize("CityOfMist.settings.gmmoveheaders.soft");
+				return local + " " + text;
+			case "hard":
+				local = localize("CityOfMist.settings.gmmoveheaders.hard");
+				return local + " " + text;
+			case "intrusion":
+				local = localize("CityOfMist.settings.gmmoveheaders.instrusion");
+				return local + " " + text;
+			case "custom":
+				return `${text}`;
+			case "downtime":
+				local = localize("CityOfMist.settings.gmmoveheaders.downtime");
+				return local + " " + text;
+			case "entrance":
+				local = localize("CityOfMist.settings.gmmoveheaders.entrance");
+				return local + " " + text;
+			default: console.error(`Unknown subtype: ${this.system.subtype}`);
+		}
 	}
 
 }

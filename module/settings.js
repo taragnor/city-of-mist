@@ -214,6 +214,21 @@ export const registerSystemSettings = function() {
 
 	});
 
+	game.settings.register("city-of-mist", "gmmoveheaders", {
+		name: localize("CityOfMist.settings.gmmoveheaders.name"),
+		hint: localize("CityOfMist.settings.gmmoveheaders.hint"),
+		scope: "world",
+		config: true,
+		type: String,
+		default: "none",
+		choices: {
+			"none" : localize("CityOfMist.settings.gmmoveheaders.choice0"),
+			"symbols": localize("CityOfMist.settings.gmmoveheaders.choice1"),
+			"text": localize("CityOfMist.settings.gmmoveheaders.choice2")
+		},
+		restrict: true,
+	});
+
 	game.settings.register("city-of-mist", "tagReview", {
 		name: localize("CityOfMist.settings.tagReview.name"),
 		hint: localize("CityOfMist.settings.tagReview.hint"),
@@ -450,6 +465,17 @@ export class CitySettings {
 		}
 	}
 
+	static symbolGMMoveHeaders() {
+		return this.get("gmmoveheaders") == "symbols";
+	}
+
+	static textGMMoveHeaders() {
+		return this.get("gmmoveheaders") == "text";
+	}
+
+	static noGMMoveHeaders() {
+		return this.get("gmmoveheaders") == "none";
+	}
 
 	/**
 	@return {boolean} if the proper CoM setting si on to atuto award improvements for more than 1 weakness tag
