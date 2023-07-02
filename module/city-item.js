@@ -1060,10 +1060,21 @@ export class CityItem extends Item {
 	}
 
 	applyHeader(text) {
-		if (CitySettings.noGMMoveHeaders()) return text;
-		if (CitySettings.textGMMoveHeaders()) return this.applyHeader_text(text);
-		if (CitySettings.symbolGMMoveHeaders()) return this.applyHeader_symbol(text);
+		switch (this.moveHeader) {
+			case "symbols": return this.applyHeader_symbol(text);
+			case "text" : return this.applyHeader_text(text);
+			default: return text;
+		}
+	}
 
+	get moveHeader() {
+		switch (this.system.header) {
+			case "text": return "text";
+			case "symbols": return "symbols";
+			case "none" : return "none";
+			default: break;
+		}
+		return  CitySettings.GMMoveHeaderSetting();
 	}
 
 	applyHeader_symbol(text) {

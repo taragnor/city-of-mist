@@ -465,16 +465,9 @@ export class CitySettings {
 		}
 	}
 
-	static symbolGMMoveHeaders() {
-		return this.get("gmmoveheaders") == "symbols";
-	}
-
-	static textGMMoveHeaders() {
-		return this.get("gmmoveheaders") == "text";
-	}
-
-	static noGMMoveHeaders() {
-		return this.get("gmmoveheaders") == "none";
+	/** returns "text", "symbols" or "none" */
+	static GMMoveHeaderSetting() {
+		return this.get("gmmoveheaders");
 	}
 
 	/**

@@ -199,7 +199,8 @@
 			"subtype": "",
 			"taglist": [],
 			"statuslist": [],
-			"hideName": false
+			"hideName": false,
+			"header": "default"
 		},
 		"journal": {
 			"answer": "",

@@ -85,6 +85,15 @@
       "flags": {}
     },
     {
+      "name": "sampleDangers",
+      "label": "Sample Dangers",
+      "system": "city-of-mist",
+      "path": "packs/sampledangers.db",
+      "type": "Actor",
+      "private": false,
+      "flags": {}
+    },
+    {
       "name": "macro",
       "label": "Macros",
       "system": "city-of-mist",

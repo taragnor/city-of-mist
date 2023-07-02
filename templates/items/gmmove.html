@@ -8,6 +8,25 @@
 			{{localize "CityOfMist.gmmove.hideName"}}
 		</label>
 		<input type="checkbox" name="system.hideName" {{#if item.system.hideName}} checked {{/if}}>
+		<label class="dialog-label" for="name">
+			{{localize "CityOfMist.gmmove.header"}}
+		</label>
+		<select name="system.header">
+			{{#select item.system.header }}
+			<option value="default">
+			{{localize "CityOfMist.terms.default" }}
+			</option>
+			<option value="none">
+			{{localize "CityOfMist.settings.gmmoveheaders.choice0" }}
+			</option>
+			<option value="symbol">
+			{{localize "CityOfMist.settings.gmmoveheaders.choice1" }}
+			</option>
+			<option value="text">
+			{{localize "CityOfMist.settings.gmmoveheaders.choice2"}}
+			</option>
+			{{/select}}
+		</select>
 	</div>
 	<select name="system.subtype">
 		{{#select item.system.subtype }}

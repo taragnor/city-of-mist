@@ -61,6 +61,7 @@
 "CityOfMist.terms.weaknessTags": "Weakness Tags",
 "CityOfMist.terms.storyTags": "Story Tags",
 "CityOfMist.terms.permanentStoryTag": "Permanent Story Tag",
+"CityOfMist.terms.default": "Default",
 "CityOfMist.terms.broadTag": "Broad Tag",
 "CityOfMist.terms.crispyTag": "Crispy Tag",
 "CityOfMist.terms.temporaryTag": "Temporary Tag",
@@ -283,6 +284,7 @@
 "CityOfMist.moves.LBTM.name": "Look Behind the Mist",
 
 "CityOfMist.gmmove.hideName" : "Hide Move Name",
+"CityOfMist.gmmove.header" : "Move Header",
 
 "CityOfMist.reloaded.moves.stunt.name": "Stunt",
 "CityOfMist.reloaded.moves.stunt.partial": "You succeed, but the MC chooses a complication:",
@@ -517,9 +519,9 @@
 "CityOfMist.settings.tagReview.name": "MC Tag Review",
 "CityOfMist.settings.tagReview.hint": "Before roll is made MC gets to review what tags and statuses are included.",
 
-"CityOfMist.settings.gmmoveheaders.name": "GM Move starting text",
-"CityOfMist.settings.gmmoveheaders.hint": "Automatically Apply an identifier to the start of each move based on its type (soft, hard, etc)",
-"CityOfMist.settings.gmmoveheaders.choice0": "Disabled",
+"CityOfMist.settings.gmmoveheaders.name": "Danger Move starting text",
+"CityOfMist.settings.gmmoveheaders.hint": "Automatically Apply an identifier to the start of each danger's move based on its type (soft, hard, etc)",
+"CityOfMist.settings.gmmoveheaders.choice0": "None",
 "CityOfMist.settings.gmmoveheaders.choice1": "Symbols",
 "CityOfMist.settings.gmmoveheaders.choice2": "Text",
 "CityOfMist.settings.gmmoveheaders.soft": "As a soft move, $name",
