@@ -572,7 +572,7 @@
 "CityOfMist.tooltip.toggleTokenInStoryTagWindow": "Spielfigur zum Szenenmerkmalsfenster hinzufügen oder von diesem entfernen.",
 "CityOfMist.tooltip.removeFromStoryTagWindow": "Von Szenenmerkmalsfenster entfernen",
   
-"CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird.",
+"CityOfMist.tooltip.gmmove": "Benutze [] um Worte um sie als Status oder Merkmal zu kennzeichnen. Benutze [a:Name] um diesen automatisch hinzuzufügen, wenn er ausgeöst wird. [i:Name] ignoriert den Größenfactor. [a,i:Name] macht beides. [s:Name] fügt den Status oder Tag der Szene hinzu. Benutzt man {} um einen Textblock, so ist dieser nur für den MC sichtbar. Der Test wird nicht in den Chat geschrieben. Andere Befehle: t: macht einen Status temporär, p: macht ein Merkmal permanent.",
 "CityOfMist.tooltip.error.missingParent": "FEHLER: Dieses Merkmal muss ein Untermerkmal eins anderen Merkmal sein.",
 
 "CityOfMist.log.theme.addImp" : "+1 Themenverbesserung",
