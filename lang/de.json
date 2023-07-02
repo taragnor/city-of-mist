@@ -401,7 +401,17 @@
 "CityOfMist.dialog.roll.takePenalty": "Abzug hinnehmen für erhöhten Effekt",
 "CityOfMist.dialog.roll.burnTag": "Merkmal ausbrennen",
 "CityOfMist.dialog.roll.dontBurn": "nicht ausbrennen",
-  
+
+"CityOfMist.dialog.downtime.title": "Mögliche Auszeit Spielzüge",
+"CityOfMist.dialog.downtime.unburn": "Deine nächste Tätigkeit vorbereiten. Beschreibe den anderen Spielenden, wie du dich vorbereitest. Stelle alle deine ausgebrannten Merkmale wieder her.",
+"CityOfMist.dialog.downtime.juice": "Deine nächste Tätigkeit vorbereiten. Beschreibe den anderen Spielenden, wie du dich vorbereitest. Erhalte 3 Punkte Saft mit einer Methode die zu deiner Beschreibung passt. Diese kannst du für die unter Das Blatt wenden beschriebenen Effektverbesserungen einsetzen.",
+
+"CityOfMist.dialog.downtimeconfirm.title": "Auszeit bestätigen",
+"CityOfMist.dialog.downtimeconfirm.body": "möchtest du den Beginn der Auszeit für alle Spielednen beginnen lassen?",
+
+
+"CityOfMist.dialog.pcdowntime.title": "Auszeit von ",
+
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Verbesserung gewähren?",
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Gewähre eine freie Verbesserung dafür, dass man 2 Schwächemerkmale für ein Thema wählt?",
 "CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Verbesserung entfernen?",
@@ -549,6 +559,14 @@
 "CityOfMist.settings.handleTempItems.choice1": "Verbrenne temporäre/spröde Merkmale",
 "CityOfMist.settings.handleTempItems.choice2": "Verbrenne temporäre/spröde Merkmale und lösche Status",
 
+"CityOfMist.keybinds.narration.name" : "Erzähler Box",
+"CityOfMist.keybinds.narration.help" : "Benutze sie um scenen zu beschreiben (benutzt die spezielle Merkaml- und Status-Schreibweise der MC Spielzüge)",
+"CityOfMist.keybinds.sessionEnd.name" : "Sitzungsende",
+"CityOfMist.keybinds.sessionEnd.help" : "Löst den Sitzungsende Spielzug für alle Spielenden aus und setzt Rückblende und andere sitzungsabhängigen Ressurcen zurück.",
+
+"CityOfMist.keybinds.startDowntime.name" : "Auszeit beginnen",
+"CityOfMist.keybinds.startDowntime.help" : "Löst die Auszeitauswahlmöglichkeiten für alle Spielenden aus und ermöglicht dem MC aus den Auszeitspielzügen der in der aktuellen Scene befindlichen sichtbaren und unsichtbaren Spielfiguren zu wählen.",
+
 "CityOfMist.tooltip.createStory": "Handlungsmerkmal erstellen",
 "CityOfMist.tooltip.createStatus": "Neuen Status erstellen",
 "CityOfMist.tooltip.toggleTokenInStoryTagWindow": "Spielfigur zum Szenenmerkmalsfenster hinzufügen oder von diesem entfernen.",
@@ -566,4 +584,5 @@
 
 "CityOfMist.notification.reloadRequired" : "Das Browserfenster wird sich in Kürze für alle SPpielnden aktualiseiren weil sich Einstellungen geändert haben."
 
+  
 }
