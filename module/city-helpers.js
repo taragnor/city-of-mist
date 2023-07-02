@@ -219,7 +219,6 @@ export class CityHelpers {
 		}
 
 		for (const {name, tier, options} of statuslist) {
-			console.log(name);
 			if (options.scene) {
 				await SceneTags.createSceneStatus(name.trim(), tier,0, options);
 				continue;

@@ -1128,7 +1128,7 @@ export class CityItem extends Item {
 				local = localize("CityOfMist.settings.gmmoveheaders.hard");
 				return local + " " + text;
 			case "intrusion":
-				local = localize("CityOfMist.settings.gmmoveheaders.instrusion");
+				local = localize("CityOfMist.settings.gmmoveheaders.intrusion");
 				return local + " " + text;
 			case "custom":
 				return `${text}`;
