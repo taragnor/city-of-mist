@@ -1,5 +1,5 @@
 <div class="gmmove-section">
-	{{#if (neq move.name "Unnamed Move")}}
+	{{#if (and (neq move.name "Unnamed Move") (not move.system.hideName)) }}
 	<div class="gmmove-name">{{move.name}} </div>
 	<hr>
 	{{/if}}

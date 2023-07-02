@@ -1039,9 +1039,9 @@ export class CityItem extends Item {
 		}
 		let displayedText = this.applyHeader(text);
 		if (!options?.showPrivate) {
-			displayedText = CityHelpers.removeWithinBraces(text);
+			displayedText = CityHelpers.removeWithinBraces(displayedText);
 		} else {
-			displayedText = CityHelpers.formatWithinBraces(text);
+			displayedText = CityHelpers.formatWithinBraces(displayedText);
 		}
 		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
@@ -1067,19 +1067,44 @@ export class CityItem extends Item {
 	}
 
 	applyHeader_symbol(text) {
-		let symbol = "";
+		let local;
+		let icon;
 		switch (this.system.subtype) {
-			case "soft":
-			case "hard":
-			case "intrusion":
-			case "custom":
-			case "downtime":
-			case "entrance":
+			case "soft": {
+				local = localize("CityOfMist.terms.softMove");
+				icon = `<i class="fa-solid fa-chevron-right"></i>`;
+				break;
+			}
+			case "hard": {
+				local = localize("CityOfMist.terms.hardMove");
+				icon = `<i class="fa-solid fa-angles-right"></i>`;
+				break;
+			}
+			case "intrusion": {
+				local = localize("CityOfMist.terms.intrusion");
+				icon = `<i class="fa-solid fa-circle-exclamation"></i>`;
+				break;
+			}
+			case "custom": {
+				local = localize("CityOfMist.terms.customMove");
+				icon = `<i class="fa-solid fa-circle-dot"></i>`;
+				break;
+			}
+			case "downtime": {
+				local = localize("CityOfMist.terms.downtimeMoves");
+				icon = `<i class="fa-solid fa-bed"></i>`;
+				break;
+			}
+			case "entrance": {
+				local = localize("CityOfMist.terms.enterScene");
+				icon = `<i class="fa-solid fa-door-open"></i>`;
+				break;
+			}
 			default: console.error(`Unknown subtype: ${this.system.subtype}`);
 
 		}
+		const symbol = `<span title="${local}"> ${icon}</span>`
 		return symbol + " " + text;
-
 	}
 
 	applyHeader_text(text) {
@@ -1104,7 +1129,8 @@ export class CityItem extends Item {
 				return local + " " + text;
 			default: console.error(`Unknown subtype: ${this.system.subtype}`);
 		}
+		return text;
+
 	}
 
 }
-

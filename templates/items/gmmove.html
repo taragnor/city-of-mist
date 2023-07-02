@@ -3,6 +3,12 @@
 		{{localize "CityOfMist.terms.name"}}
 	</label>
 	<input type="text" name="name" value="{{item.name}}">
+	<div class="flex-row-left align-center">
+		<label class="dialog-label" for="name">
+			{{localize "CityOfMist.gmmove.hideName"}}
+		</label>
+		<input type="checkbox" name="system.hideName" {{#if item.system.hideName}} checked {{/if}}>
+	</div>
 	<select name="system.subtype">
 		{{#select item.system.subtype }}
 		<option value="soft">

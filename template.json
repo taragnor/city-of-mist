@@ -198,7 +198,8 @@
 			"templates": ["default"],
 			"subtype": "",
 			"taglist": [],
-			"statuslist": []
+			"statuslist": [],
+			"hideName": false
 		},
 		"journal": {
 			"answer": "",
