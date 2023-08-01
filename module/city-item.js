@@ -30,7 +30,7 @@ export class CityItem extends Item {
 	}
 
 	/*
-	Options for effect_class on improvmeents
+	Options for effect_class on improvmeents;
 		THEME_DYN_SELECT: select a type of core move that is now dynamite when using tags from this theme.
 		THEME_DYN_FACE: WHen using tag from this theme, face danger is dyanmtie
 		THEME_DYN_HIT: WHen using tag from this theme, HWAYG is dyanmtie

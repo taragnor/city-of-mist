@@ -34,7 +34,7 @@ export class EnhancedActorDirectory {
 			return true;
 		});
 
-		ActorDirectory.prototype._getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
+		const _getEntryContextOptionsOldCity = ActorDirectory.prototype._getEntryContextOptions;
 
 		//Sets window title to directory Name on character sheets
 		Object.defineProperty(ActorSheet.prototype, 'title', {
@@ -48,23 +48,27 @@ export class EnhancedActorDirectory {
 
 
 		ActorDirectory.prototype._getEntryContextOptions = function() {
-			const options = this._getEntryContextOptionsOldCity();
+			const options = _getEntryContextOptionsOldCity.call(this);
+			console.log("Getting entry context options");
 			for (let option of options) {
 				switch (option.name) {
 					case "SIDEBAR.CharArt":
+						console.log("Applying Callback CharArt")
 						option.callback = li => {
 							const actor = game.actors.get(li.data("documentId"));
-							new ImagePopout(actor.data.img, {
+							console.log("Calling callback on ${actor.name}");
+							new ImagePopout(actor.img, {
 								title: actor.directoryName,
-								shareable: true,
+								// shareable: true,
 								uuid: actor.uuid
 							}).render(true);
 						}
 						break;
 					case "SIDEBAR.TokenArt":
+						console.log("Applying Callback TokenArt")
 						option.callback = li => {
 							const actor = game.actors.get(li.data("documentId"));
-							new ImagePopout(actor.data.token.img, {
+							new ImagePopout(actor.token.img, {
 								title: actor.directoryName,
 								shareable: true,
 								uuid: actor.uuid
@@ -75,15 +79,11 @@ export class EnhancedActorDirectory {
 						break;
 				}
 			}
+			Debug(options);
 			return options;
 		}
 
-		ActorDirectory.prototype._renderInnerOld =ActorDirectory.prototype._renderInner;
-
-		ActorDirectory.prototype._renderInner = async function(data){
-			data.documentPartial = "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
-			return this._renderInnerOld (data);
-		}
+		ActorDirectory.entryPartial =  "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
 
   ActorDirectory.prototype._onSearchFilter = function (_event, query, rgx, html) {
     const isSearch = !!query;
