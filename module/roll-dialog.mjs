@@ -82,7 +82,7 @@ export class RollDialog extends Dialog {
 	}
 
 	_onKeyDown(event) {
-		console.log("Calling variant handler");
+		// console.log("Calling variant handler");
 		if ( event.key === "Enter"  && !this.allowSubmit()) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -153,6 +153,7 @@ export class RollDialog extends Dialog {
 	}
 
 	setListeners(html) {
+		console.log("Setting listeners");
 		$(html).find("#effect-slider").change( (ev) => {
 			this.updateModifierPopup(html, ev);
 		});
@@ -227,6 +228,7 @@ export class RollDialog extends Dialog {
 		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
+		this.setListeners(this.html);
 		this.refreshConfirmButton();
 		this.updateModifierPopup();
 	}
@@ -314,7 +316,8 @@ export class RollDialog extends Dialog {
 		this.#options.powerModifier = Number(
 			$(html).find('#effect-slider').val() ?? 0
 		);
-		const {bonus} = CityRoll.getRollBonus(this.#options, this.#modifierList );
+		const slider_penalty = CityRoll.calculatePenalty(this.#options.powerModifier ?? 0);
+		const {bonus} = CityRoll.getRollBonus(this.#options, this.#modifierList, slider_penalty);
 		const {power} = CityRoll.getPower(this.#options, this.#modifierList);
 		$(html).find(".roll-bonus").text(String(bonus));
 		$(html).find(".move-effect").text(String(power));
