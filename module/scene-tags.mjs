@@ -11,6 +11,13 @@ export class SceneTags {
 			this.sceneContainers.set( scene.id, container);
 		});
 		await Promise.all(promises);
+		const validcontainers = Array.from(this.sceneContainers.values());
+		const invContainers = game.actors.filter( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && !validcontainers.includes(x));
+		if (invContainers.length) {
+			invContainers.forEach( x=> x.delete());
+			console.log("Deleting invalid containers");
+		}
+
 		// this.sceneContainer = await this.#getSceneContainer();
 	}
 
@@ -18,6 +25,12 @@ export class SceneTags {
 		if (!scene)
 			throw new Error("No scene Provided");
 		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
+		if (cont.system.mythos && (!cont.system.alias || cont.system.alias == "?????")) {
+			const alias = cont.system.mythos
+			await cont.update({"system.alias": alias,
+			"system.mythos": ""
+			});
+		}
 		if (cont)
 			return cont;
 		if (!game.user.isGM) {

@@ -49,11 +49,9 @@ export class EnhancedActorDirectory {
 
 		ActorDirectory.prototype._getEntryContextOptions = function() {
 			const options = _getEntryContextOptionsOldCity.call(this);
-			console.log("Getting entry context options");
 			for (let option of options) {
 				switch (option.name) {
 					case "SIDEBAR.CharArt":
-						console.log("Applying Callback CharArt")
 						option.callback = li => {
 							const actor = game.actors.get(li.data("documentId"));
 							console.log("Calling callback on ${actor.name}");
@@ -65,7 +63,6 @@ export class EnhancedActorDirectory {
 						}
 						break;
 					case "SIDEBAR.TokenArt":
-						console.log("Applying Callback TokenArt")
 						option.callback = li => {
 							const actor = game.actors.get(li.data("documentId"));
 							new ImagePopout(actor.token.img, {
@@ -79,7 +76,7 @@ export class EnhancedActorDirectory {
 						break;
 				}
 			}
-			Debug(options);
+			// Debug(options);
 			return options;
 		}
 
