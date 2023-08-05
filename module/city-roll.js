@@ -334,7 +334,13 @@ export class CityRoll {
 		}
 	}
 
-		static calculatePenalty(effectBonus) {
+	/** Calculates penalty for alt-power rule attack to penalty slider*/
+	static calculatePenalty(effectBonus) {
+		//test code for now to do somet balance testing on this eventually will require a switch to choose
+		return this.calculatePenalty_linear(effectBonus);
+	}
+
+	static calculatePenalty_sloped(effectBonus) {
 			switch (effectBonus) {
 				case 0: return 0;
 				case 1: return -1;
@@ -344,7 +350,19 @@ export class CityRoll {
 				case 5: return -9;
 				default: return 0;
 			}
-		}
+	}
+
+	static calculatePenalty_linear(effectBonus) {
+			switch (effectBonus) {
+				case 0: return 0;
+				case 1: return -1;
+				case 2: return -2;
+				case 3: return -3;
+				case 4: return -4;
+				case 5: return -5;
+				default: return 0;
+			}
+	}
 
 	static calculateGritPenalty(standardPower) {
 		if (CitySettings.isGritMode()) {
