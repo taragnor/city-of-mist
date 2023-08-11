@@ -26,7 +26,7 @@ export class SceneTags {
 			throw new Error("No scene Provided");
 		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
 		if (cont) {
-			if (cont.system.mythos && (!cont.system.alias || cont.system.alias == "?????")) {
+			if (cont?.system?.mythos && (!cont.system.alias || cont.system.alias == "?????")) {
 				const alias = cont.system.mythos
 				await cont.update({"system.alias": alias,
 					"system.mythos": ""
