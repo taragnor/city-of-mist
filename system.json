@@ -10,7 +10,7 @@
     }
   ],
   "url": "https://github.com/taragnor/city-of-mist/",
-  "version": "2.6.8",
+  "version": "2.6.9",
   "compatibility": {
     "minimum": "10",
     "verified": "11.306",
@@ -105,5 +105,5 @@
   ],
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
-  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.2.6.8.zip"
+  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.2.6.9.zip"
 }
