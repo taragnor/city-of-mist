@@ -153,15 +153,22 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			} catch (e) {
 				console.log(`Trouble finding tag owner ${tagOwnerId}, tokenID = ${tokenId}`);
 				console.log(e);
+				return;
 			}
-			if (tagowner == undefined) {
+			if (!tagowner) {
 				console.warn( "null tag owner passed into defualtTagDirection Handlebars helper");
 			}
-			if (tagowner.documentName == "Scene") {
+			if (tagowner?.documentName == "Scene") {
 				return -1;
 			}
+			try {
 			const tag = tagowner.items.find(x=> x.id == tagId);
 			return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
+			} catch (e){
+				Debug(tagowner);
+				throw e;
+
+			}
 		},
 
 		'hasActivatedItem': function (tag) {

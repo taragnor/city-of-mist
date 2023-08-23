@@ -479,7 +479,8 @@ export class CityHelpers {
 	}
 
 	static refreshSheet(actor) {
-		setTimeout( () => actor.sheet.render(true, {}), 1);
+		setTimeout( () => actor.sheet.render(false, {}), 1);
+		// setTimeout( () => actor.sheet.render(true, {}), 1);
 	}
 
 	static async ensureTokenLinked(_scene, token) {

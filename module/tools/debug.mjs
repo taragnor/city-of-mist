@@ -5,6 +5,7 @@ export class Debug {
 		if (self._DList == null)
 			self._DList= [];
 		self._DList.unshift(str);
+		// console.warn("Added to Debug");
 	}
 
 	static DLog (num = null) {

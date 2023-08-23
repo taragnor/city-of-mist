@@ -63,7 +63,6 @@ export class EnhancedDialog extends Dialog {
 		this.element
 			.find(`.${this._cssClass()}`)
 			.html(html);
-		Debug(this.element);
 	}
 
 

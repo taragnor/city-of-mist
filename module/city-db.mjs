@@ -214,8 +214,10 @@ export class CityDB extends DBAccessor {
 		const actor = item.actor;
 		if (actor)
 			for (const dep of actor.getDependencies()) {
-				const state = dep.sheet._state
-				if (state > 0) {
+				const sheet = dep.sheet;
+				const state = dep.sheet._state;
+				if (sheet._state > 0) {
+					// console.log(`Sheet refresh, state  ${sheet._state}, minimized  ${sheet._minimized} `);
 					CityHelpers.refreshSheet(dep);
 				}
 			}
@@ -224,8 +226,9 @@ export class CityDB extends DBAccessor {
 
 	static async onActorUpdate(actor, _updatedItem, _data, _diff) {
 		for (const dep of actor.getDependencies()) {
+			const sheet = dep.sheet;
 			const state = dep.sheet._state
-			if (state > 0) {
+			if (sheet._state  > 0) {
 				CityHelpers.refreshSheet(dep);
 			}
 		}

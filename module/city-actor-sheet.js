@@ -163,7 +163,6 @@ export class CityActorSheet extends CitySheet {
 		const owner = await this.getOwner(ownerId);
 		const themeId = getClosestData(event, "themeId");
 		const itemtype = getClosestData(event, "itemType");
-		Debug(owner);
 		const theme = owner.getTheme(themeId);
 		const subtype = getClosestData(event, "subType", null);
 		let idChoice;

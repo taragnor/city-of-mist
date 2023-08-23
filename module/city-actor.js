@@ -445,8 +445,6 @@ export class CityActor extends Actor {
 	}
 
 	async createNewStatus (name, tier=1, pips=0, options= {}) {
-		// Debug(name);
-		// Debug(options);
 		const temporary  = options.temporary ?? false;
 		const permanent  = options.permanent ?? false;
 		const obj = {
