@@ -898,6 +898,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		if ( !combat ) {
 			if ( game.user.isGM ) {
 				const cls = getDocumentClass("Combat");
+				const state = false;
 				combat = await cls.create({scene: canvas.scene.id, active: true}, {render: !state || !tokens.length});
 			} else {
 				ui.notifications.warn("COMBAT.NoneActive", {localize: true});
@@ -912,7 +913,14 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		if (!tokenId)
 			throw new Error("No token ID given");
 		const sceneId = getClosestData(event, "sceneId");
-		const token = game.scenes.active.tokens.get(tokenId);
+		// const token = game.scenes.active.tokens.get(tokenId);
+		const token = game.scenes.contents
+			.flatMap(sc=> sc.tokens)
+			.find(tokens => tokens.get(tokenId))
+			.get(tokenId);
+		if (!token)
+			throw new Error( `Can't find token id ${tokenId}`);
+		Debug(token);
 		await CityHelpers.toggleTokensCombatState([token.object]);
 		if (token.inCombat)
 			await CityHelpers.playTagOn();
