@@ -13,7 +13,7 @@
   "version": "2.7.0",
   "compatibility": {
     "minimum": "10",
-    "verified": "11.307",
+    "verified": "11.308",
     "maximum": "11"
   },
   "esmodules": [
