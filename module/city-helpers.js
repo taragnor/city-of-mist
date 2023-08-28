@@ -554,11 +554,6 @@ export class CityHelpers {
 
 	static async startDowntime() {
 		if (!game.user.isGM) return;
-		// if (!await HTMLTools.confirmBox(
-		// 	localize("CityOfMist.dialog.downtimeconfirm.title"),
-		// 	localize("CityOfMist.dialog.downtimeconfirm.body"), "no")
-		// )
-		// 	return;
 		await this.PCDowntime();
 		await this.promptDowntimeMovesList();
 	}
@@ -920,7 +915,6 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 			.get(tokenId);
 		if (!token)
 			throw new Error( `Can't find token id ${tokenId}`);
-		Debug(token);
 		await CityHelpers.toggleTokensCombatState([token.object]);
 		if (token.inCombat)
 			await CityHelpers.playTagOn();
