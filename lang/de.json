@@ -326,7 +326,7 @@
 "CityOfMist.command.narrationBox": "Erzähler Box",
 "CityOfMist.command.executeMove": "Spielzug ausführen",
 "CityOfMist.command.destroyTheme": "Thema zerstören",
-"CityOfMist.command.deleteImprovement": "Verbesserug entfernen",
+"CityOfMist.command.deleteImprovement": "Verbesserung entfernen",
 "CityOfMist.command.buildUpGained": "Gewonnene Aufbaupunkte",
 "CityOfMist.command.editClue": "Hinweis bearbeiten",
 "CityOfMist.command.addToJounral": "Dem Journal hinzufügen",
@@ -554,7 +554,7 @@
 "CityOfMist.settings.debugMode.hint": "Schaltet den internen Javascript Debug Code an",
 
 "CityOfMist.settings.handleTempItems.name": "Temprärer Status oder Merkmale",
-"CityOfMist.settings.handleTempItems.hint": "Wie soll damit umgegangenwerden, wenn ein temporärer Status oder temporäre/spröde Markmale bei einem Würfelwurf genutzt wird?",
+"CityOfMist.settings.handleTempItems.hint": "Wie soll damit umgegangenwerden, wenn ein temporärer Status oder temporäre/spröde Merkmale bei einem Würfelwurf genutzt wird?",
 "CityOfMist.settings.handleTempItems.choice0": "Tue nichts",
 "CityOfMist.settings.handleTempItems.choice1": "Verbrenne temporäre/spröde Merkmale",
 "CityOfMist.settings.handleTempItems.choice2": "Verbrenne temporäre/spröde Merkmale und lösche Status",
