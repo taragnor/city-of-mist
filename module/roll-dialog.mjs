@@ -3,6 +3,7 @@ import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from 
 import {CityRoll} from "./city-roll.js";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
+import { CitySettings } from "./settings.js";
 
 export class RollDialog extends Dialog {
 	#juiceSession;
@@ -305,7 +306,11 @@ export class RollDialog extends Dialog {
 		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() ?? "";
-		this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+		if (!CitySettings.isOtherscapeBurn()) {
+			this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
+		} else {
+			this.#options.setRoll = 0;
+		}
 		const usedWeaknessTag = this.#modifierList.some( ({item}) =>item?.isWeaknessTag && item.isWeaknessTag());
 		if (this.#options.burnTag || usedWeaknessTag) {
 			$(html).find('#effect-slider').val(0);

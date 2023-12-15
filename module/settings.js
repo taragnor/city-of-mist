@@ -466,6 +466,11 @@ export class CitySettings {
 		return this.get("statusAdditionSystem") == "otherscape";
 	}
 
+	static isOtherscapeBurn() {
+		return this.get("tagBurn") == "otherscape";
+
+	}
+
 	static useClueBoxes() {
 		switch (this.get("clueBoxes")) {
 			case false: return false;

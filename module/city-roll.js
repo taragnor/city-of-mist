@@ -114,8 +114,12 @@ export class CityRoll {
 				&& CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
-				tags = tags.filter(x => x.tagId == options.burnTag);
-				tags[0].amount = 3;
+				if (!CitySettings.isOtherscapeBurn()) {
+					tags = tags.filter(x => x.tagId == options.burnTag);
+					tags[0].amount = 3;
+				} else {
+					tags.find(x=> x.tagId == options.burnTag).amount = 3;
+				}
 			}
 		}
 		let usedStatus = [];
@@ -458,7 +462,7 @@ export class CityRoll {
 		const tags = this.#tags;
 		const options = this.#options;
 		if (options.burnTag && options.burnTag.length)
-			for (const {ownerId, tagId, tokenId} of tags)
+			for (const {ownerId, tagId, tokenId} of tags.filter( x=> x.tagId == options.burnTag))
 				await CityHelpers.getOwner(ownerId, tokenId)?.burnTag(tagId);
 		if (!CitySettings.burnTemporaryTags())
 			return;
