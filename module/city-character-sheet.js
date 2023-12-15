@@ -223,6 +223,11 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	activateListeners(html) {
 		super.activateListeners(html);
+		html.find(".theme-name-input").each( function () {
+			const text = $(this).val();
+			if (text.length > 26)
+				$(this).css("font-size", "12pt");
+		});
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
 		html.find(".non-char-theme-name"	).click( this.openOwnerSheet.bind(this));

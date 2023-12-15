@@ -281,7 +281,7 @@ export class CityItem extends Item {
 		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
 		await this.update( {"system.weakness_tagstk": 0});
 		const weakTagsObj = Object.assign({}, weakTags);
-		console.log(weakTagsObj);
+		// console.log(weakTagsObj);
 		await this.update( {"system.weakness_tagstk": weakTagsObj});
 	}
 
@@ -613,13 +613,11 @@ export class CityItem extends Item {
 
 	async addStatus_otherscape(tier, newname = null) {
 		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
-		console.log(`Add pips ${pips}`);
  		while (pips & (1 << tier - 1)) {
 			tier++;
 			if (tier > 10) throw new Error("Overflow");
 		}
 		const newpips = pips + (1 << tier - 1);
-		console.log(`adding ${tier}, ${pips}, newpips ${newpips}`);
 		return await this.refreshStatus_otherscape(newpips, newname);
 	}
 
@@ -631,7 +629,6 @@ export class CityItem extends Item {
 			tier++;
 		}
 		pips = newpips   - (tier > 0 ? (1 << tier - 1) : 0);
-		console.log(` ${tier}, ${pips}`);
 		return await this.update({ name: newname, system: {pips, tier}});
 	}
 
