@@ -513,10 +513,30 @@ export class CityItem extends Item {
 				return this.addStatus_classic(tierOrBoxes, newname);
 			case "reloaded":
 				return this.addStatus_reloaded(tierOrBoxes, newname);
+			case "otherscape":
+				return this.addStatus_otherscape(tierOrBoxes, newname);
 			default:
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
 				throw new Error(`Unknown System: ${system}`);
 		}
+	}
+
+	/**shows status tier and pips potentially as a string*/
+	get tierString() {
+		if (CitySettings.isOtherscapeStatuses()) {
+			let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
+			let arr = [];
+			while (pips > 0) {
+				arr.push( pips & 1? 1: 0)
+				pips = pips >> 1;
+			}
+			return arr.map(
+				x=> x
+				? '<span class="filled-circle tracker-circle"></span>'
+				:'<span class="empty-circle-status tracker-circle"></span>'
+			).join("");
+		}
+	return String(this.system.tier);
 	}
 
 	async addStatus_classic (ntier, newname) {
@@ -560,6 +580,8 @@ export class CityItem extends Item {
 				return this.subtractStatus_classic(tierOrBoxes, newname);
 			case "reloaded" :
 				return this.subtractStatus_reloaded(tierOrBoxes, newname);
+			case "otherscape" :
+				return this.subtractStatus_otherscape(tierOrBoxes, newname);
 			default:
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
 				throw new Error(`Unknown System: ${system}`);
@@ -580,7 +602,37 @@ export class CityItem extends Item {
 		let pips = this.system.pips;
 		pips = 0;
 		tier = Math.max(tier - ntier, 0);
-		return await this.update( {name:newname, data: {tier, pips}});
+		return await this.update( {name:newname, system: {tier, pips}});
+	}
+
+	async subtractStatus_otherscape(tier, newname = null) {
+		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
+		const newpips = pips >> tier;
+		return await this.refreshStatus_otherscape(newpips, newname)
+	}
+
+	async addStatus_otherscape(tier, newname = null) {
+		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
+		console.log(`Add pips ${pips}`);
+ 		while (pips & (1 << tier - 1)) {
+			tier++;
+			if (tier > 10) throw new Error("Overflow");
+		}
+		const newpips = pips + (1 << tier - 1);
+		console.log(`adding ${tier}, ${pips}, newpips ${newpips}`);
+		return await this.refreshStatus_otherscape(newpips, newname);
+	}
+
+	async refreshStatus_otherscape(newpips, newname = this.name) {
+		let pips = newpips;
+		let tier = 0;
+		while (pips) {
+			pips = pips >> 1;
+			tier++;
+		}
+		pips = newpips   - (tier > 0 ? (1 << tier - 1) : 0);
+		console.log(` ${tier}, ${pips}`);
+		return await this.update({ name: newname, system: {pips, tier}});
 	}
 
 	async decUnspentUpgrades() {

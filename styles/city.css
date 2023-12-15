@@ -1534,6 +1534,19 @@ span.filled-circle {
 	display: inline-block;
 }
 
+span.empty-circle-status {
+	margin: auto;
+	height: 1em !important;
+	width: 1em !important;
+	min-width: 1em;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgba(0, 0, 0, 255);
+	background-color: rgba(237, 231, 225,255 );
+	border-radius: 50%;
+	display: inline-block;
+}
+
 span.empty-circle {
 	margin: auto;
 	height: 1em !important;

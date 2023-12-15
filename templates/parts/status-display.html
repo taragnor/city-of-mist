@@ -3,7 +3,7 @@
 	<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
 	{{/if}}
 	<span id="status-name-{{status._id}}" class="card-name status-name {{#if locked}} status-select-button {{else}} status-edit-button {{/if}} {{#if (eq (getDirection status) 1)}} positive-selected {{/if}} {{#if (eq (getDirection status) -1)}} negative-selected {{/if}}">
-		{{status.displayedName}}-{{status.system.tier}}
+		{{status.displayedName}}-{{status.tierString}}
 	</span>
 	{{#if (eq owner sheetowner)}}
 	<a class="item-control status-add" title="Add Status"><i class="fas fa-plus"></i></a>

@@ -351,11 +351,16 @@ export const registerSystemSettings = function() {
 		choices: {
 			"classic" : localize("CityOfMist.settings.statusAdditionSystem.0"),
 			"classic-commutative": localize("CityOfMist.settings.statusAdditionSystem.1"),
-			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2")
+			"reloaded": localize("CityOfMist.settings.statusAdditionSystem.2"),
+			"otherscape": localize("CityOfMist.settings.statusAdditionSystem.3"),
+
 		},
 		restrict: true,
 		onChange: _ => {
 			game.settings.set('city-of-mist', "system", "custom");
+			if (CitySettings.get("statusSubtractionSystem") != "othercape") {
+				game.settings.set('city-of-mist', "statusSubtractionSystem", "otherscape");
+			}
 		}
 	});
 
@@ -368,9 +373,29 @@ export const registerSystemSettings = function() {
 		default: "classic",
 		choices: {
 			"classic" : localize("CityOfMist.settings.statusSubtractionSystem.0"),
-			"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1")
+			"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1"),
+			"otherscape": localize("CityOfMist.settings.statusSubtractionSystem.2"),
 		},
 		restrict: true,
+		onChange: _ => {
+			game.settings.set('city-of-mist', "system", "custom");
+			if (CitySettings.get("statusAdditionSystem") != "othercape") {
+				game.settings.set('city-of-mist', "statusAdditionSystem", "otherscape");
+			}
+		}
+	});
+
+	game.settings.register("city-of-mist", "tagBurn", {
+		name: localize("CityOfMist.settings.tagBurn.name"),
+		hint: localize("CityOfMist.settings.tagBurn.hint"),
+		scope: "world",
+		config: (game.settings.get('city-of-mist', "system") == "custom"),
+		type: String,
+		default: "classic",
+		choices: {
+			"classic" : localize("CityOfMist.settings.tagBurn.0"),
+			"otherscape": localize("CityOfMist.settings.tagBurn.1"),
+		},
 		onChange: _ => {
 			game.settings.set('city-of-mist', "system", "custom");
 		}
@@ -437,6 +462,9 @@ export class CitySettings {
 	static getWeaknessCap() {
 		return this.get("weaknessCap") ?? 999;
 	}
+	static isOtherscapeStatuses() {
+		return this.get("statusAdditionSystem") == "otherscape";
+	}
 
 	static useClueBoxes() {
 		switch (this.get("clueBoxes")) {
@@ -491,6 +519,7 @@ export class CitySettings {
 				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
 				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
+				game.settings.set("city-of-mist", "tagBurn", "classic");
 				game.settings.set("city-of-mist", "altPower", false);
 				game.settings.set("city-of-mist", "system", "classic");
 				return;
@@ -498,10 +527,15 @@ export class CitySettings {
 				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
+				game.settings.set("city-of-mist", "tagBurn", "classic");
 				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
 				game.settings.set("city-of-mist", "altPower", false);
 				game.settings.set("city-of-mist", "system", "reloaded");
 				return;
+			case "otherscape" :
+				//TODO: Add this as a formal option
+
+				break;
 			case "custom":
 				return;
 			default:
