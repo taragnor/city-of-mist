@@ -539,6 +539,24 @@ export class CityItem extends Item {
 	return String(this.system.tier);
 	}
 
+	get pipString() {
+		if (CitySettings.isOtherscapeStatuses()) {
+			let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
+			let arr = [];
+			while (pips > 0) {
+				arr.push( pips & 1? 1: 0)
+				pips = pips >> 1;
+			}
+			return arr.map(
+				x=> x
+				? '<span class="filled-circle tracker-circle"></span>'
+				: '<span class="empty-circle-status tracker-circle"></span>'
+			).join("");
+		} else {
+			return `${this.system.pips} pips`;
+		}
+	}
+
 	async addStatus_classic (ntier, newname) {
 		const standardSystem = !CityHelpers.isCommutativeStatusAddition();
 		// const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
