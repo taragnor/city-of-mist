@@ -162,8 +162,8 @@
 
 "CityOfMist.moves.convince.name":"Convincere",
 "CityOfMist.moves.convince.partial":"Puoi assegnare a un bersaglio uno Stato di livello PWR . Il bersaglio può accettare lo Stato, oppure può evitare lo Stato e cedere all'azione persuasiva, ma senza perdere i propri obiettivi. ",
-"CityOfMist.moves.convince.success": "Puoi assegnare a un bersaglio uno Stato di livello PWR . Il bersaglio può accettare lo Stato, può evitare lo Stato e cambiare i propri obiettivi, includendo quelli con cui vuoi persuaderlo, almeno temporaneamente.",
-"CityOfMist.moves.convince.dynamite": "Puoi assegnare a un bersaglio uno Stato di livello PWR+2.  Il bersaglio può accettare lo Stato, può evitare lo Stato e cambiare i propri obiettivi, includendo quelli con cui vuoi persuaderlo, almeno temporaneamente. Anche nel caso di successo, egli riceverà comunque uno Stato temporaneo di livello 2 a tua scelta, diverso da quello che gli avresti assegnato in caso di rifiuto",
+"CityOfMist.moves.convince.success": "Puoi assegnare a un bersaglio uno Stato di livello PWR . Il bersaglio può accettare lo Stato,oppure può evitare lo Stato e cambiare i propri obiettivi, includendo quelli con cui vuoi persuaderlo, almeno temporaneamente.",
+"CityOfMist.moves.convince.dynamite": "Puoi assegnare a un bersaglio uno Stato di livello PWR+2.  Il bersaglio può accettare lo Stato,oppure può evitare lo Stato e cambiare i propri obiettivi, includendo quelli con cui vuoi persuaderlo, almeno temporaneamente. Anche nel caso di successo, egli riceverà comunque uno Stato temporaneo di livello 2 a tua scelta, diverso da quello che gli avresti assegnato in caso di rifiuto",
 
 "CityOfMist.moves.FD.name": "Resistere",
 "CityOfMist.moves.FD.fail": "Ricevi lo stato senza modifiche.",
@@ -189,7 +189,7 @@
 "CityOfMist.moves.HWAYG.1": "Colpito in pieno: Imponi uno Stato a un avversario e aumentalo di un livello",
 "CityOfMist.moves.HWAYG.2": "Controlli i danni collaterali.",
 "CityOfMist.moves.HWAYG.3": "Mantieni su di te l'attenzione del bersaglio, se possibile.",
-"CityOfMist.moves.HWAYG.4": "Y Hai la meglio sull'avversario, ricevi un Punto Carica",
+"CityOfMist.moves.HWAYG.4": "Hai la meglio sull'avversario, ricevi un Punto Carica",
 "CityOfMist.moves.HWAYG.5": "(Clamoroso)  Colpo portentoso: scegli tre opzioni dalla lista base invece di due.",
 "CityOfMist.moves.HWAYG.6": "(Clamoroso) Difendi un altro: proteggi te stesso e un alleato dai contrattacchi. Il tuo bersaglio non può attaccare il tuo alleato quando farà la sua prossima Mossa.",
 "CityOfMist.moves.HWAYG.7": "(Clamoroso) Danno aumentato: scegli se aumentare di due livelli lo Stato inflitto al bersaglio o se infliggere lo stesso Stato ad altri due bersagli",
@@ -434,7 +434,7 @@
 
 "CityOfMist.dialog.tag.usageExamples": "Esempi di dove l'attributo è applicabile",
 "CityOfMist.dialog.tag.counterExamples": "Esempi di dove l'attributo non è applicabile",
-"CityOfMist.dialog.tag.restrictions": "restrizioni generali sull'utilizzo del tag",
+"CityOfMist.dialog.tag.restrictions": "Restrizioni generali sull'utilizzo del tag",
 
 
 "CityOfMist.dialog.SHB.warning0":"Sei sicuro di voler smettere di trattenerti?",
@@ -444,7 +444,7 @@
 "CityOfMist.dialog.SHB.logosPower":"Attingi al tuo potere logos (regola opzionale)",
 "CityOfMist.dialog.SHB.mistPower":"Attingi alla nebbia (Gatekeeper)",
 "CityOfMist.dialog.SHB.yes":"Facciamolo!",
-"CityOfMist.dialog.SHB.no":"Aspetta, ho cambaito idea",
+"CityOfMist.dialog.SHB.no":"Aspetta, ho cambiato idea",
 "CityOfMist.dialog.statusAdd.CoMClassic": "Scegli un livello di stato da aggiungere/sottrarre",
 "CityOfMist.dialog.statusAdd.CoMReloaded": "Choose number of boxes to add/subtract",
 "CityOfMist.dialog.statusDrop.CoMReloaded": "Choose number of boxes to subtract",
