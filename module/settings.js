@@ -356,11 +356,8 @@ export const registerSystemSettings = function() {
 
 		},
 		restrict: true,
-		onChange: _ => {
+		onChange: newval => {
 			game.settings.set('city-of-mist', "system", "custom");
-			if (CitySettings.get("statusSubtractionSystem") != "othercape") {
-				game.settings.set('city-of-mist', "statusSubtractionSystem", "otherscape");
-			}
 		}
 	});
 
@@ -379,9 +376,6 @@ export const registerSystemSettings = function() {
 		restrict: true,
 		onChange: _ => {
 			game.settings.set('city-of-mist', "system", "custom");
-			if (CitySettings.get("statusAdditionSystem") != "othercape") {
-				game.settings.set('city-of-mist', "statusAdditionSystem", "otherscape");
-			}
 		}
 	});
 

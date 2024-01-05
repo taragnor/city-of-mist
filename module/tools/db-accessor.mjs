@@ -1,7 +1,14 @@
 export class DBAccessor {
 
 	static async init() {
-		Hooks.once("ready", () => {
+		Hooks.once("ready", async () => {
+			if (typeof Babele !== "undefined") {
+				Hooks.once("babele.ready", async () => {
+					await this._loadPacks();
+				});
+			} else {
+				await this._loadPacks();
+			}
 			this._loadPacks();
 			this._initHooks();
 			console.log("Database initialized");
