@@ -3,7 +3,21 @@
  * Author: Taragnor
  */
 
+declare global {
+	interface Game {
+		city:  {
+			CityActor: typeof CityActor;
+			CityItem: typeof CityItem;
+		}
+	}
+	interface CONFIG {
+		CITYCFG: unknown
+	}
+}
+
 // Import Modules
+import { ACTORMODELS } from "./datamodel/actor-types.js";
+import { ITEMMODELS } from "./datamodel/item-types.js";
 import {} from "./token-tooltip/token-tooltip.js";
 import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
@@ -18,7 +32,6 @@ import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
 import {} from "./tools/electron-fix.mjs";
-import {HTMLTools} from "./tools/HTMLTools.mjs";
 import {} from "./tools/debug.mjs";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
 import { VersionUpdater } from "./version-update.mjs";
@@ -30,10 +43,6 @@ import { CityKeyBinds } from "./keybindings.mjs";
 
 import {ClueChatCards } from "./clue-cards.mjs";
 
-window.CityHelpers = CityHelpers;
-
-window.getClosestData = HTMLTools.getClosestData;
-
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
@@ -42,9 +51,9 @@ Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
 Hooks.on('renderChatMessage', (_app, html, _data) => DragAndDrop.addDragFunctionality(html));
 Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
-Hooks.on('ready', () => {
+Hooks.on('ready', async () => {
 	CitySockets.init();
-	window.CitySockets = CitySockets;
+	// window.CitySockets = CitySockets;
 });
 
 
@@ -60,14 +69,26 @@ Hooks.once("cityDBLoaded", async function() {
 });
 
 
+function registerDataModels() {
+	CONFIG.Actor.dataModels= ACTORMODELS;
+	CONFIG.Item.dataModels= ITEMMODELS;
+}
 
-Hooks.once("ready", _=> CityHelpers.cacheSounds());
+export function localize(str: string) {
+	return game.i18n.localize(str);
+}
+
+
+
+Hooks.once("ready", async ()=> CityHelpers.cacheSounds());
 
 Hooks.once("init", async function() {
 	console.log(`***********************************`);
 	console.log(`Initializing City of Mist System`);
 	console.log(`***********************************`);
-	window.localize = game.i18n.localize.bind(game.i18n);
+	registerDataModels();
+
+	// window.localize = game.i18n.localize.bind(game.i18n);
 
 
 	registerSystemSettings();
@@ -97,7 +118,8 @@ Hooks.once("init", async function() {
 });
 
 //Support for TaragnorSecurity module if installed
-Hooks.on("encryptionPreEnable", (taragnorSec) => {
+//@ts-ignore
+Hooks.on("encryptionPreEnable", (taragnorSec: any) => {
 	taragnorSec.setEncryptable(CityActor,
 		[CityCharacterSheet, CityThreatSheet, CityCrewSheet],
 		["system.gmnotes", "system.mythos"]);

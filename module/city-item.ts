@@ -1,3 +1,5 @@
+import { ITEMMODELS } from "./datamodel/item-types.js";
+import { CityActor } from "./city-actor.js";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
@@ -7,24 +9,22 @@ import {CitySockets} from "./city-sockets.mjs";
 import { CityLogger } from "./city-logger.mjs";
 import { CitySettings } from "./settings.js";
 
-export class CityItem extends Item {
+export class CityItem extends Item<typeof ITEMMODELS> {
 
-
-	async getCrack() {
+	async getCrack(this: Theme) {
 		return this.system.crack.reduce( (acc, i) => acc+i, 0);
 	}
 
-	async getAttention() {
+	async getAttention(this: Theme) {
 		return this.system.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
 	prepareDerivedData() {
 		super.prepareDerivedData();
-		switch (this.type) {
+		switch (this.system.type) {
 			case "improvement":
 				this.system.choice_type = this.getChoiceType();
 				break;
-
 			default: break;
 		}
 	}
@@ -40,7 +40,7 @@ export class CityItem extends Item {
 
 */
 
-	hasEffectClass(cl) {
+	hasEffectClass(cl: EffectClass) {
 		return this.effect_classes.includes(cl);
 	}
 
@@ -69,13 +69,17 @@ export class CityItem extends Item {
 		return this.system.descriptinon
 	}
 
-	get effect_classes() {
-		return this?.system?.effect_class?.split(" ") ?? [];
+	get effect_classes() : string[] {
+		if ("effect_class" in this.system) {
+			return this?.system?.effect_class?.split(" ") ?? [];
+		}
+		return [];
 	}
 
 	get subtags() {
 		if (!this.parent) return [];
-		return this.parent.getTags().
+		if (this.system.type != "tag") return [];
+		return (this.parent as CityActor).getTags().
 			filter( tag => tag.system.parentId == this.id);
 	}
 
@@ -1211,3 +1215,17 @@ export class CityItem extends Item {
 	}
 
 }
+
+export type Theme = Subtype<CityItem, "theme">;
+export type Themebook = Subtype<CityItem, "themebook">;
+export type Improvement = Subtype<CityItem, "improvement">;
+export type Tag = Subtype<CityItem, "tag">;
+export type ThemeKit = Subtype<CityItem, "themekit">;
+export type Juice = Subtype<CityItem, "juice">;
+export type Clue = Subtype<CityItem, "clue">;
+export type GMMove = Subtype<CityItem, "gmmove">;
+export type Move = Subtype<CityItem, "move">;
+export type Status = Subtype<CityItem, "status">;
+export type ClueJournal = Subtype<CityItem, "journal">;
+
+
