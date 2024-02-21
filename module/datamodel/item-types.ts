@@ -4,13 +4,40 @@ import { TAGTYPES } from "./tag-types";
 
 const DataModel = window.foundry.abstract.DataModel;
 
-const VERSION =1 ; //TODO: import real version number
+const VERSION ="1" ; //TODO: import real version number
+
+type ThemebookTagData = Record<string, ("_DELETED_" | {
+	question: string,
+	subtag: boolean
+})>;
+
+type ThemebookImprovementData = Record<string, ("_DELETED_" | {
+	name: string,
+	description: string,
+	effect_class: string,
+	uses: null | number,
+})>;
+
+type ThemekitTagData = Record<number, {
+	tagname: string,
+	letter: string,
+	description: string,
+}>;
+
+type ThemekitImprovementData = Record<number, {
+	name: string,
+	uses: number,
+	description: string,
+	effect_class:string,
+}>;
+
+
 
 function defaultItem() {
 	return {
 		description: new html(),
 		locked: new bool({initial: false}),
-		version: new num({min:1, initial:VERSION}),
+		version: new txt({initial:VERSION}),
 		free_content: new bool({initial: false}),
 		locale_name: new txt(),
 	}
@@ -41,9 +68,9 @@ class Themebook extends DataModel {
 		return {
 			...defaultItem(),
 			type: new txt( {initial: "Logos"}),
-			power_questions: new arr(new obj<{}>()),
-			weakness_questions: new arr(new obj<{}>()),
-			improvements: new arr(new obj<{}>()),
+			power_questions: new obj<ThemebookTagData>(),
+			weakness_questions: new obj<ThemebookTagData>(),
+			improvements: new obj<ThemebookImprovementData>(),
 		}
 	}
 
@@ -56,9 +83,9 @@ class Themekit extends DataModel {
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			use_tb_improvements: new bool({initial: false}),
-			power_tagstk: new obj<{}>(),
-			weakness_tagstk: new obj<{}>(),
-			improvements: new obj<{}>(),
+			power_tagstk: new obj<ThemekitTagData>(),
+			weakness_tagstk: new obj<ThemekitTagData>(),
+			improvements: new obj<ThemekitImprovementData>(),
 		}
 	}
 }
@@ -181,10 +208,10 @@ class Move extends DataModel {
 			onPartial: new txt(),
 			always: new txt(),
 			listConditionals: new arr( new txt()),
-			subtype: new txt({choices: ["standard", "advanced", "shb"], initial: "standard"}),// this used to be type and needs to be replaced
+			subtype: new txt({choices: ["Core", "Advanced", "SHB"], initial: "Core"}),// this used to be type and needs to be replaced
 			effect_class: new txt(),
 			abbreviation: new txt(),
-			system: new txt({initial: "custom"}),
+			system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
 		};
 	}
 }

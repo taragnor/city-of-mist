@@ -1,5 +1,5 @@
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj} = foundry.data.fields;
-const VERSION =1 ; //TODO: import real version number
+const VERSION ="1" ; //TODO: import real version number
 
 
 function default_template() {
@@ -10,7 +10,7 @@ function default_template() {
 		short_description: new txt(),
 		gmnotes: new html(),
 		crewThemes: new arr(new id()),
-		version: new num({min:1, initial:VERSION})
+		version: new txt({initial:VERSION})
 	}
 }
 

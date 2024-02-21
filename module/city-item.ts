@@ -1,3 +1,5 @@
+import { CityDB } from "./city-db.js";
+import { TagType } from "./datamodel/tag-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import { CityActor } from "./city-actor.js";
 import { ClueChatCards } from "./clue-cards.mjs";
@@ -19,7 +21,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.system.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
-	prepareDerivedData() {
+	override prepareDerivedData() {
 		super.prepareDerivedData();
 		switch (this.system.type) {
 			case "improvement":
@@ -40,7 +42,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 */
 
-	hasEffectClass(cl: EffectClass) {
+	hasEffectClass(cl: string) {
 		return this.effect_classes.includes(cl);
 	}
 
@@ -49,7 +51,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	get description() {
-		switch (this.type) {
+		switch (this.system.type) {
 			case "tag":
 				try {
 					if (this.themebook && this.themebook.isThemeKit()) {
@@ -63,10 +65,12 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					break;
 				}
 				break;
-
 			default: break;
 		}
-		return this.system.descriptinon
+		if ("description" in this.system)  {
+			return this.system.description;
+		}
+		return ""
 	}
 
 	get effect_classes() : string[] {
@@ -180,15 +184,16 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	/** gets themebook or themekit from a theme or themekit
 	*/
-	getThemebook() {
+	getThemebook(this: Theme | ThemeKit) : Themebook  | null{
 		if (this.type != "theme" && !this.isThemeKit())
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
+		if (!actor) return null;
 		const id = this.system.themebook_id;
 		const name = this.system.themebook_name;
 		if (!name && !id) return null;
 		const tb = actor.items.find( x=> x.id == id) ??
-			CityHelpers.getThemebook(name, id);
+			CityDB.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb;
 	}
@@ -306,7 +311,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	/** delete a tag or improvement from a themekit
 	type : "power" || "weakness" || "improvement"
 	*/
-	async deleteTagOrImprovement(index, type = "power") {
+	async deleteTagOrImprovement(index: number, type = "power") {
 		let listname;
 		switch (type) {
 			case "power":
@@ -907,7 +912,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return null;
 	}
 
-	get themebook() {
+	get themebook(): Themebook | null {
 		if (this.isTag() || this.isImprovement()) {
 			if (!this.theme)
 				return null;
@@ -931,12 +936,13 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	}
 
-	async reloadImprovementFromCompendium() {
+	async reloadImprovementFromCompendium(this:Improvement) {
 		const themeId = this.system.theme_id;
-		const owner =this.actor;
+		const owner = this.parent as CityActor;
+		if (!owner) return;
 		let max_uses, description, effect_class;
 		if (themeId) {
-			const theme = await owner.getTheme(themeId);
+			const theme =  owner.getTheme(themeId);
 			if (!theme) {
 				console.log(`Deleting Dead Improvement ${this.name} (${owner.name})`);
 				await this.delete();
@@ -978,12 +984,12 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return await this.update(updateObj);
 	}
 
-	async spendClue() {
+	async spendClue(this:Clue) {
 		if (this.getAmount() <= 0)
 			throw new Error("Can't spend clue with no amount")
 		if (CitySettings.useClueBoxes()) {
 			await ClueChatCards.postClue( {
-				actorId: this.actor.id,
+				actorId: this.parent?.id ?? "",
 				metaSource: this,
 				method: this.system.method,
 				source: this.system.source,
@@ -1000,7 +1006,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	/** gets the tags from a themekit
 	type: "power" || "weakness"
 	*/
-	themekit_getTags(type = "power") {
+	themekit_getTags(this: ThemeKit, type : Extract<TagType, "power" | "weakness"> = "power") {
 		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
 			return [];
@@ -1015,20 +1021,20 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	/** gets improvements as an array from a themebook*/
-	themekit_getImprovements() {
+	themekit_getImprovements(this: ThemeKit) {
 		const imps = this.system.improvements;
 		if (!imps)
 			return [];
-		let baseImps = [];
+		const arr= Array.from(Object.values(imps));
+		let baseImps: typeof arr= [];
 		if (this.system.use_tb_improvements) {
 			console.log("Using TB imnprovements");
 			if (!this.themebook) {
 				console.warn(`No themebook found for themekit ${this.name}`);
-				return retImps;
+				return [];
 			}
 			baseImps = this.themebook.themebook_getImprovements();
 		}
-		const arr= Array.from(Object.values(imps));
 		const retImps = baseImps
 			.concat(arr)
 			.map( (x,i) => {
@@ -1042,7 +1048,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	/**convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
 	*/
-	themebook_getTagQuestions (type = "power") {
+	themebook_getTagQuestions (this: Themebook, type : "power" | "weakness"= "power") {
 		const questionObj = this.system[`${type}_questions`];
 		if (!questionObj) return [];
 		return Object.entries(questionObj)
@@ -1059,20 +1065,32 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			}).filter( item => !item.question.includes("_DELETED_"));
 	}
 
-	themebook_getImprovements () {
+	themebook_getImprovements (this: Themebook) {
 		const improvementsObj = this.system.improvements;
 
 		return Object.entries(improvementsObj)
-			.filter( ([_number, data]) => data !== "_DELETED_")
-			.map( ([number, data]) => {
-				return {
+		.flatMap( ([number, data]) => {
+			if (data == "_DELETED_") return [];
+			else return [
+				{
 					number,
 					name: data.name,
 					description: data.description,
 					uses: data.uses,
 					effect_class: data.effect_class,
-				};
-			})
+				}
+			]
+		});
+			// .filter( ([_number, data]) => data !== "_DELETED_")
+			// .map( ([number, data]) => {
+			// 	return {
+			// 		number,
+			// 		name: data.name,
+			// 		description: data.description,
+			// 		uses: data.uses,
+			// 		effect_class: data.effect_class,
+			// 	};
+			// })
 	}
 
 	async GMMovePopUp(actor = this.parent) {
@@ -1227,5 +1245,6 @@ export type GMMove = Subtype<CityItem, "gmmove">;
 export type Move = Subtype<CityItem, "move">;
 export type Status = Subtype<CityItem, "status">;
 export type ClueJournal = Subtype<CityItem, "journal">;
+export type Spectrum = Subtype<CityItem, "spectrum">;
 
 

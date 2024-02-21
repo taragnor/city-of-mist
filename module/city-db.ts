@@ -1,9 +1,25 @@
-import {DBAccessor} from "./tools/db-accessor.mjs"
+import { CityHelpers } from "./city-helpers.js";
+import { Danger } from "./city-actor.js";
+import { Move } from "./city-item.js";
+import { CityItem } from "./city-item.js";
+import { CityActor } from "./city-actor.js";
+import { Themebook } from "./city-item.js";
+import {DBAccessor} from "./tools/db-accessor.js"
 
+declare global {
+	interface HOOKS {
+		"cityDBLoaded":()=>void;
+		"themebooksLoaded": ()=> void;
+		"movesLoaded": () => void;
+	}
+}
 
 export class CityDB extends DBAccessor {
+	static themebooks: Themebook[] = [];
+	static movesList: Move[] = [];
+	static _dangerTemplates: Danger[] = [];
 
-	static async loadPacks() {
+	static override async loadPacks() {
 		await super.loadPacks();
 		try {
 			await this.loadThemebooks();
@@ -17,7 +33,7 @@ export class CityDB extends DBAccessor {
 		}
 	}
 
-	static initHooks() {
+	static override initHooks() {
 		Hooks.on('updateActor', this.onActorUpdate.bind(this));
 		Hooks.on('updateItem', this.onItemUpdate.bind(this));
 		Hooks.on('createItem', this.onItemUpdate.bind(this));
@@ -32,16 +48,16 @@ export class CityDB extends DBAccessor {
 	get themebooks() {
 		if (this.themebooks == undefined)
 			throw new Error("ERROR: No Valid themebooks found")
-		return this.themebooks;
+		return CityDB.themebooks;
 	}
 
 	static async loadThemebooks() {
-		this.themebooks = this.filterItemsByType("themebook");
+		this.themebooks = this.filterItemsByType("themebook") as Themebook[];
 		Hooks.callAll("themebooksLoaded");
 		return true;
 	}
 
-	static filterOverridedContent(list) {
+	static filterOverridedContent(list : Move[]) {
 		return list.filter( x=> !x.system.free_content || !list.some(y=>
 			x != y
 			&& y.name == x.name
@@ -49,10 +65,10 @@ export class CityDB extends DBAccessor {
 		));
 	}
 
-	static async loadMovesOfType(type) {
-		let movesList = this.filterItemsByType("move");
+	static async loadMovesOfType(type : "Core" | "Advanced" | "SHB") {
+		let movesList = this.filterItemsByType("move") as Move[];
 		movesList = this.filterOverridedContent(movesList);
-		movesList = movesList.filter( x=> x.system.category == type);
+		movesList = movesList.filter( x=> x.system.subtype == type);
 		let setting;
 		switch (type) {
 			case "Core" :
@@ -72,17 +88,14 @@ export class CityDB extends DBAccessor {
 			case "classic":
 				return movesList.filter( x=> x.system.system == "classic")
 					.concat(custom_moves);
-				break;
 			case "reloaded":
 				return movesList.filter( x=> x.system.system == "reloaded")
 					.concat(custom_moves);
-				break;
 			case "none":
-				return []
-					.concat(custom_moves);
-				break;
+				return custom_moves;
 			default:
 				console.warn(`Unknown movesInclude setting ${include}`);
+				return [];
 		}
 	}
 
@@ -96,21 +109,6 @@ export class CityDB extends DBAccessor {
 			.concat(advanced)
 			.concat(SHB)
 			.sort( (a,b) => a.name.localeCompare(b.name));
-		// const include = game.settings.get('city-of-mist', "movesInclude_core");
-		// switch (include) {
-		// 	case "classic":
-		// 		this.movesList = this.movesList.filter( x=> x.system.system != "classic" || x.system.category == "Core");
-		// 		break;
-		// 	case "reloaded":
-		// 		this.movesList = this.movesList.filter( x=> x.system.system != "classic" || x.system.category == "Advanced" || x.system.category == "SHB");
-		// 		break;
-		// 	case "none":
-		// 		this.movesList = this.movesList.filter( x=> x.system.system == "Custom");
-		// 		break;
-		// 	default:
-		// 		console.warn(`Unknown movesInclude setting ${include}`);
-		// }
-		// this.movesList.sort( (a,b) => a.name.localeCompare(b.name));
 		Hooks.callAll("movesLoaded");
 		return true;
 	}
@@ -120,21 +118,21 @@ export class CityDB extends DBAccessor {
 	}
 
 	static async refreshDangerTemplates() {
-		this._dangerTemplates = this.filterActorsByType("threat")
-			.filter( x=> x.system.is_template);
+		this._dangerTemplates = (this.filterActorsByType("threat") as CityActor[])
+			.filter( x=> x.system.type == "threat" && x.system.is_template) as Danger[];
 	}
 
-	static getDangerTemplate(id) {
+	static getDangerTemplate(id : string) {
 		return this._dangerTemplates.find( x=> x.id  == id);
 	}
 
-	static getTagOwnerById(tagOwnerId) {
+	static getTagOwnerById(tagOwnerId: string) {
 		const val = game.actors.find(x=> x.id == tagOwnerId)
 			|| game.scenes.find( x=> x.id == tagOwnerId);
 		if (val)
 			return val;
 		else
-			throw new Error(`Couldn't find tag owner for Id ${tagId}`);
+			throw new Error(`Couldn't find tag owner for Id ${tagOwnerId}`);
 	}
 
 	static async getBuildUpImprovements() {
@@ -148,7 +146,7 @@ export class CityDB extends DBAccessor {
 		});
 	}
 
-	static getThemebook(tname, id) {
+	static getThemebook(tname: string, id?:string) : Themebook {
 		const themebooks = this.themebooks;
 		let book;
 		if (tname && tname != "") {
@@ -163,7 +161,7 @@ export class CityDB extends DBAccessor {
 			//last resort search using old id system
 			// console.log("Using Old Style Search");
 			try {
-				return this.getThemebook (this.oldTBIdToName(id), null);
+				return this.getThemebook (this.oldTBIdToName(id));
 			} catch (e) {
 				ui.notifications.warn(`Couldn't get themebook for ${tname}, try refreshing your browser window (F5)`);
 				throw new Error(`Couldn't get themebook for ${tname}`);
@@ -176,7 +174,7 @@ export class CityDB extends DBAccessor {
 		return book;
 	}
 
-	static oldTBIdToName(id) {
+	static oldTBIdToName(id: string) {
 		// converts Beta version ids into names
 		// ugly code for backwards compatiblity
 		switch (id) {
@@ -210,24 +208,23 @@ export class CityDB extends DBAccessor {
 	// ******************   Hooks  ******************* *
 	// **************************************************
 
-	static async onItemUpdate(item, _updatedItem, _data, _diff) {
-		const actor = item.actor;
+	static async onItemUpdate(item:CityItem, _updatedItem:unknown, _data:unknown, _diff:unknown) {
+		const actor = item.parent as CityActor;
 		if (actor)
 			for (const dep of actor.getDependencies()) {
 				const sheet = dep.sheet;
-				const state = dep.sheet._state;
+				// const state = dep.sheet._state;
 				if (sheet._state > 0) {
-					// console.log(`Sheet refresh, state  ${sheet._state}, minimized  ${sheet._minimized} `);
 					CityHelpers.refreshSheet(dep);
 				}
 			}
 		return true;
 	}
 
-	static async onActorUpdate(actor, _updatedItem, _data, _diff) {
+	static async onActorUpdate(actor:CityActor, _updatedItem:unknown, _data:unknown, _diff:unknown) {
 		for (const dep of actor.getDependencies()) {
 			const sheet = dep.sheet;
-			const state = dep.sheet._state
+			// const state = dep.sheet._state
 			if (sheet._state  > 0) {
 				CityHelpers.refreshSheet(dep);
 			}
@@ -237,14 +234,17 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static async onTokenDelete(token) {
+	static async onTokenDelete(token: TokenDocument<CityActor>) {
 		await this.onTokenUpdate(token, {}, {});
-		if (token.actor.hasEntranceMoves() && !token.data.hidden)
-			token.actor.undoEntranceMoves(token);
+		if (token.actor) {
+			if (token.actor.hasEntranceMoves() && !token.hidden)
+				token.actor.undoEntranceMoves(token);
+		}
 		return true;
 	}
 
-	static async onTokenUpdate(token, changes, _otherStuff) {
+	static async onTokenUpdate(token : TokenDocument<CityActor>, changes?: Record<string, any>, _otherStuff?: unknown) {
+		if (!token.actor) return;
 		if (changes?.hidden === false && token.actor.hasEntranceMoves())
 			await token.actor.executeEntranceMoves(token);
 		if (changes?.hidden === true && token.actor.hasEntranceMoves())
@@ -255,20 +255,22 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static async onTokenCreate(token) {
-		const type = game.actors.get(token.actor.id).type;
+	static async onTokenCreate(token: TokenDocument<CityActor>) {
+		if (!token.actor) return;
+		const type = token.actor.type;
+		// const type = game.actors.get(token.actor.id).type;
 		if (type == "character" || type == "crew" )
-			await CityHelpers.ensureTokenLinked(token.scene, token);
+			await CityHelpers.ensureTokenLinked(token.parent, token);
 		if (type == "threat") {
 			await this.onTokenUpdate(token);
-			if (token.actor.hasEntranceMoves()  && !token.data.hidden) {
+			if (token.actor.hasEntranceMoves()  && !token.hidden) {
 				await token.actor.executeEntranceMoves(token);
 			}
 		}
 		return true;
 	}
 
-	static async onSceneUpdate(scene, changes) {
+	static async onSceneUpdate(scene: Scene, changes: {active?:boolean}) {
 		if (!changes.active) return;
 		await CityHelpers.refreshTokenActorsInScene(scene);
 		return true;

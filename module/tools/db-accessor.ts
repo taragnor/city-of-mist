@@ -1,7 +1,16 @@
+declare global {
+	interface HOOKS{
+		"babele.ready":()=>void;
+		"DB Ready": ()=>void;
+	}
+}
+
+
 export class DBAccessor {
 
 	static async init() {
 		Hooks.once("ready", async () => {
+			//@ts-ignore
 			if (typeof Babele !== "undefined") {
 				Hooks.once("babele.ready", async () => {
 					await this._loadPacks();
@@ -25,19 +34,19 @@ export class DBAccessor {
 		//virtual
 	}
 
-	static filterItems(fn) {
+	static filterItems<T extends Item<any>>(fn : (item: T) => boolean){
 		return DBAccessor.allItems().filter(fn);
 	}
 
-	static filterActors(fn) {
+	static filterActors<T extends Actor<any>>(fn: (actor:T) => boolean) {
 		return DBAccessor.allActors().filter(fn);
 	}
 
-	static filterItemsByType(type) {
+	static filterItemsByType<T extends Item<any>>(type: T["type"]) {
 		return DBAccessor.filterItems( x=> x.type == type);
 	}
 
-	static filterActorsByType(type) {
+	static filterActorsByType<T extends Actor<any>>(type : T["type"]) {
 		return DBAccessor.filterActors( x=> x.type == type);
 	}
 
