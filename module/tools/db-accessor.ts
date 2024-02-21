@@ -7,6 +7,8 @@ declare global {
 
 
 export class DBAccessor {
+	 static comp_actors : Actor<any>[] = [];
+	static comp_items : Item<any>[] = [];
 
 	static async init() {
 		Hooks.once("ready", async () => {
@@ -58,19 +60,19 @@ export class DBAccessor {
 		return DBAccessor.getAllByType ("Actor");
 	}
 
-	static getActor(id) {
+	static getActor(id:string) {
 		return this.getActorById(id);
 	}
 
-	static getActorById (id) {
-		return this.findById(id, "Actor");
-	}
+	// static getActorById (id:string) {
+	// 	return this.findById(id, "Actor");
+	// }
 
-	static getItemById (id) {
-		return this.findById(id, "Item");
-	}
+	// static getItemById (id:string) {
+	// 	return this.findById(id, "Item");
+	// }
 
-	static findById(id, type = "Actor") {
+	static findById(id:string, type = "Actor") {
 		let retarr;
 		switch (type) {
 			case "Actor":
@@ -87,13 +89,13 @@ export class DBAccessor {
 		return retarr[0];
 	}
 
-	static getAllByType(type) {
+	static getAllByType(type: "Actor" | "Item") {
 		const base_items = DBAccessor.getBaseItemsByType(type);
 		const compendium_items = DBAccessor.getCompendiumItemsByType(type);
 		return base_items.concat(compendium_items);
 	}
 
-	static getBaseItemsByType (type) {
+	static getBaseItemsByType (type: "Actor" | "Item") {
 		switch (type) {
 			case "Actor": return Array.from(game.actors);
 			case "Item": return Array.from(game.items);
@@ -101,7 +103,7 @@ export class DBAccessor {
 		}
 	}
 
-	static getCompendiumItemsByType(type) {
+	static getCompendiumItemsByType(type: "Actor" | "Item") {
 		switch (type) {
 			case "Actor": return DBAccessor.comp_actors;
 			case "Item": return DBAccessor.comp_items;
@@ -110,8 +112,8 @@ export class DBAccessor {
 	}
 
 	static async _loadPacks() {
-		DBAccessor.comp_items = await this.getCompendiumDataByType("Item");
-		DBAccessor.comp_actors = await this.getCompendiumDataByType("Actor");
+		DBAccessor.comp_items = await this.getCompendiumDataByType("Item") as Item<any>[];
+		DBAccessor.comp_actors = await this.getCompendiumDataByType("Actor") as Actor<any>[];
 		this.loadPacks();
 	}
 
@@ -119,31 +121,31 @@ export class DBAccessor {
 		//virtual, designed to be extended
 	}
 
-	static getElementById(id, supertype = "Item") {
+	static getElementById(id:string, supertype : "Item" | "Actor" = "Item") {
 		return this.getAllByType(supertype)
 			.find(x => x.id == id);
 	}
 
-	static getItemById(id) {
+	static getItemById(id:string) {
 		return this.getElementById(id, "Item");
 	}
 
-	static getActorById(id) {
+	static getActorById(id:string) {
 		return this.getElementById(id, "Actor");
 	}
 
-	static async getCompendiumDataByType(type) {
-		const pack_finder = (e => e.documentName == type);
+	static async getCompendiumDataByType(type : "Item" | "Actor"): Promise<(Actor<any> | Item<any>)[]> {
+		const pack_finder = ((e: FoundryCompendium<any>) => e.documentName == type);
 		const packs = game.packs.filter(pack_finder);
-		let compendium_content = [];
+		let compendium_content : FoundryDocument[]= [];
 		for (const pack of packs) {
-			const packContent = await pack.getDocuments();
+			const packContent = (await pack.getDocuments()) as FoundryDocument[];
 			compendium_content = compendium_content.concat(packContent);
 		}
-		return compendium_content;
+		return compendium_content as unknown as (Actor<any> | Item<any>)[];
 	}
 
-	static async onUpdateCompendium(compendium) {
+	static async onUpdateCompendium(compendium: FoundryCompendium<any>) {
 		console.debug("Updating Compendium");
 		switch (compendium.documentName) {
 			case "Actor": case "Item":
@@ -152,7 +154,7 @@ export class DBAccessor {
 		}
 	}
 
-	static namesort(a,b) {
+	static namesort(a:FoundryDocument<any>,b:FoundryDocument<any>) {
 		return a.name.localeCompare(b.name);
 	}
 
