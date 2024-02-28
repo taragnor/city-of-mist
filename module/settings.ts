@@ -1,41 +1,33 @@
 import {Debug} from "./tools/debug.mjs";
 import {CityHelpers} from "./city-helpers.js";
+import { localize } from "./city.js";
 
+type System = "classic" | "reloaded" | "otherscape" | "custom";
 
 export const registerSystemSettings = function() {
 
-	Hooks.once("ready", _=> CitySettings.refreshSystem());
+	Hooks.once("ready", ()=> CitySettings.refreshSystem());
 
-	// game.settings.register("city-of-mist", "color-theme", {
-	// 	name: "Color Scheme",
-	// 	hint: "Changes color scheme for all elements (still expiremental)",
-	// 	scope: "client",
-	// 	config: true,
-	// 	type: String,
-	// 	default: "red",
-	// 	choices: {
-	// 		"red" : "Red",
-	// 		"blue": "Blue",
-	// 		"green": "Green",
-	// 		"pink": "Pink",
-	// 		"white": "White"
-	// 	},
-	// 	default: false,
-	// 	restrict: false,
-	// 	onChange: () => CityHelpers.applyColorization(),
-	// });
+	for (const [name, data] of Object.entries(SETTINGS)) {
+		//@ts-ignore
+		CitySettings.set(name, data);
+	}
 
-	game.settings.register("city-of-mist", "gritMode", {
+}
+
+const SETTINGS = {
+
+	"gritMode": {
 		name: localize("CityOfMist.settings.gritMode.name"),
 		hint: localize("CityOfMist.settings.gritMode.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: false,
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "system", {
+	 "system": {
 		name: localize("CityOfMist.settings.system.name"),
 		hint: localize("CityOfMist.settings.system.hint"),
 		scope: "world",
@@ -47,15 +39,13 @@ export const registerSystemSettings = function() {
 			"reloaded": localize("CityOfMist.settings.system.1"),
 			"custom": localize("CityOfMist.settings.system.2"),
 		},
-		restrict: true,
-		onChange: newSystem => {
+		restricted: true,
+		onChange: (newSystem: System) => {
 			CitySettings.refreshSystem(newSystem);
 			delayedReload();
 		}
-
-	});
-
-	game.settings.register("city-of-mist", "weaknessCap", {
+	},
+	"weaknessCap": {
 		name: localize("CityOfMist.settings.weaknessCap.name"),
 		hint: localize("CityOfMist.settings.weaknessCap.hint"),
 		scope: "world",
@@ -69,10 +59,9 @@ export const registerSystemSettings = function() {
 			1: "+1",
 			0: "+0"
 		},
-		restrict: true
-	});
-
-	game.settings.register("city-of-mist", "maxWeaknessTags", {
+		restricted: true
+	},
+	 "maxWeaknessTags": {
 		name: localize("CityOfMist.settings.maxWeaknessTags.name"),
 		hint: localize("CityOfMist.settings.maxWeaknessTags.hint"),
 		scope: "world",
@@ -85,10 +74,10 @@ export const registerSystemSettings = function() {
 			2: "2",
 			1: "1",
 		},
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "maxRollCap", {
+	"maxRollCap": {
 		name: localize("CityOfMist.settings.maxRollCap.name"),
 		hint: localize("CityOfMist.settings.maxRollCap.hint"),
 		scope: "world",
@@ -101,50 +90,50 @@ export const registerSystemSettings = function() {
 			3: "+3",
 			2: "+2",
 		},
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "monologueAttention", {
+	"monologueAttention": {
 		name: localize("CityOfMist.settings.monologueAttention.name"),
 		hint: localize("CityOfMist.settings.monologueAttention.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: false,
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "loggedActions", {
+	 "loggedActions": {
 		name: localize("CityOfMist.settings.loggedActions.name"),
 		hint: localize("CityOfMist.settings.loggedActions.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: false,
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "autoWeakness", {
+	"autoWeakness": {
 		name: localize("CityOfMist.settings.autoWeakness.name"),
 		hint: localize("CityOfMist.settings.autoWeakness.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "autoAwardImpForWeakness", {
+	"autoAwardImpForWeakness": {
 		name: localize("CityOfMist.settings.autoAwardWeaknessImp.name"),
 		hint: localize("CityOfMist.settings.autoAwardWeaknessImp.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "execEntranceMoves", {
+	"execEntranceMoves": {
 		name: localize("CityOfMist.settings.execEntranceMoves.name"),
 		hint: localize("CityOfMist.settings.execEntranceMoves.hint"),
 		scope: "world",
@@ -156,20 +145,20 @@ export const registerSystemSettings = function() {
 			"ask": localize("CityOfMist.settings.execEntranceMoves.1"),
 			"auto": localize("CityOfMist.settings.execEntranceMoves.2")
 		},
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "tokenToolTip", {
+	 "tokenToolTip": {
 		name: localize("CityOfMist.settings.tokenToolTip.name"),
 		hint: localize("CityOfMist.settings.tokenToolTip.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
-		restrict: false
-	});
+		restricted: false
+	},
 
-	game.settings.register("city-of-mist", "trackerSort", {
+	 "trackerSort": {
 		name: localize("CityOfMist.settings.trackerSort.name"),
 		hint: localize("CityOfMist.settings.trackerSort.hint"),
 		scope: "world",
@@ -181,23 +170,23 @@ export const registerSystemSettings = function() {
 			"pc_alpha": localize("CityOfMist.settings.trackerSort.1"),
 			"tag_sort":localize("CityOfMist.settings.trackerSort.2"),
 		},
-		restrict: true
-	});
+		restricted: true
+	},
 
-	game.settings.register("city-of-mist", "enhancedActorDirectory", {
+	 "enhancedActorDirectory": {
 		name: localize("CityOfMist.settings.enhancedActorDirectory.name"),
 		hint: localize("CityOfMist.settings.enhancedActorDirectory.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
-		restrict: true,
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			delayedReload();
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "clueBoxes", {
+	 "clueBoxes": {
 		name: localize("CityOfMist.settings.clueBoxes.name"),
 		hint: localize("CityOfMist.settings.clueBoxes.hint"),
 		scope: "world",
@@ -209,12 +198,11 @@ export const registerSystemSettings = function() {
 			"public":localize("CityOfMist.settings.clueBoxes.2"),
 		},
 		default: "public",
-		restrict: true,
-		onChange: _ =>	delayedReload()
+		restricted: true,
+		onChange: () =>	delayedReload()
+	},
 
-	});
-
-	game.settings.register("city-of-mist", "gmmoveheaders", {
+	 "gmmoveheaders": {
 		name: localize("CityOfMist.settings.gmmoveheaders.name"),
 		hint: localize("CityOfMist.settings.gmmoveheaders.hint"),
 		scope: "world",
@@ -226,20 +214,20 @@ export const registerSystemSettings = function() {
 			"symbols": localize("CityOfMist.settings.gmmoveheaders.choice1"),
 			"text": localize("CityOfMist.settings.gmmoveheaders.choice2")
 		},
-		restrict: true,
-	});
+		restricted: true,
+	},
 
-	game.settings.register("city-of-mist", "tagReview", {
+	 "tagReview": {
 		name: localize("CityOfMist.settings.tagReview.name"),
 		hint: localize("CityOfMist.settings.tagReview.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: true,
-		restrict: true,
-	});
+		restricted: true,
+	},
 
-	game.settings.register("city-of-mist", "sceneTagWindow", {
+	 "sceneTagWindow": {
 		name: localize("CityOfMist.settings.sceneTagWindow.name"),
 		hint: localize("CityOfMist.settings.sceneTagWindow.hint"),
 		scope: "world",
@@ -251,11 +239,11 @@ export const registerSystemSettings = function() {
 			"omitEmpty": localize("CityOfMist.settings.sceneTagWindow.choice1"),
 			"full": localize("CityOfMist.settings.sceneTagWindow.choice2")
 		},
-		restrict: true,
-		onChange: _ => delayedReload()
-	});
+		restricted: true,
+		onChange: () => delayedReload()
+	},
 
-	game.settings.register("city-of-mist", "sceneTagWindowPos", {
+	 "sceneTagWindowPos": {
 		name: localize("CityOfMist.settings.sceneTagWindowPosition.name"),
 		hint: localize("CityOfMist.settings.sceneTagWindowPosition.hint"),
 		//NOTE: FOR SOME REASON scop wil not shift to client
@@ -270,9 +258,9 @@ export const registerSystemSettings = function() {
 			"right": localize("CityOfMist.settings.sceneTagWindowPosition.choice1"),
 			"hide": localize("CityOfMist.settings.sceneTagWindowPosition.choice2")
 		},
-	});
+	},
 
-	game.settings.register("city-of-mist", "handleTempItems", {
+	 "handleTempItems": {
 		name: localize("CityOfMist.settings.handleTempItems.name"),
 		hint: localize("CityOfMist.settings.handleTempItems.hint"),
 		scope: "world",
@@ -284,27 +272,27 @@ export const registerSystemSettings = function() {
 			"tagOnly": localize("CityOfMist.settings.handleTempItems.choice1"),
 			"all": localize("CityOfMist.settings.handleTempItems.choice2")
 		},
-		restrict: true,
-	});
+		restricted: true,
+	},
 
-	game.settings.register("city-of-mist", "devMode", {
+	 "devMode": {
 		name: localize("CityOfMist.settings.devMode.name"),
 		hint: localize("CityOfMist.settings.devMode.hint"),
 		scope: "world",
 		config: true,
 		type: Boolean,
 		default: false,
-		restrict: true,
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			delayedReload();
 		}
-	});
+	},
 
 	// **************************************************
 	// ************   Developer Settings  ************* *
 	// **************************************************
 
-	game.settings.register("city-of-mist", "movesInclude_core", {
+	 "movesInclude_core": {
 		name: "Include Core Moves",
 		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 		scope: "world",
@@ -316,14 +304,14 @@ export const registerSystemSettings = function() {
 			"reloaded": "CoM: Reloaded core moves",
 			"none": "No core moves",
 		},
-		restrict: true,
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			game.settings.set('city-of-mist', "system", "custom");
 			delayedReload();
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "movesInclude_advanced", {
+	 "movesInclude_advanced": {
 		name: "Include Advanced Moves",
 		hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
 		scope: "world",
@@ -334,14 +322,14 @@ export const registerSystemSettings = function() {
 			"classic" : "Classic City of Mist advanced moves",
 			"none": "No advanced moves",
 		},
-		restrict: true,
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			game.settings.set('city-of-mist', "system", "custom");
 			delayedReload();
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "statusAdditionSystem", {
+	 "statusAdditionSystem": {
 		name: localize("CityOfMist.settings.statusAdditionSystem.name"),
 		hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
 		scope: "world",
@@ -355,13 +343,13 @@ export const registerSystemSettings = function() {
 			"otherscape": localize("CityOfMist.settings.statusAdditionSystem.3"),
 
 		},
-		restrict: true,
-		onChange: newval => {
+		restricted: true,
+		onChange: (newval:string) => {
 			game.settings.set('city-of-mist', "system", "custom");
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "statusSubtractionSystem", {
+	 "statusSubtractionSystem": {
 		name: localize("CityOfMist.settings.statusSubtractionSystem.name"),
 		hint: localize("CityOfMist.settings.statusSubtractionSystem.hint"),
 		scope: "world",
@@ -373,13 +361,13 @@ export const registerSystemSettings = function() {
 			"reloaded": localize("CityOfMist.settings.statusSubtractionSystem.1"),
 			"otherscape": localize("CityOfMist.settings.statusSubtractionSystem.2"),
 		},
-		restrict: true,
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			game.settings.set('city-of-mist', "system", "custom");
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "tagBurn", {
+	 "tagBurn": {
 		name: localize("CityOfMist.settings.tagBurn.name"),
 		hint: localize("CityOfMist.settings.tagBurn.hint"),
 		scope: "world",
@@ -390,42 +378,47 @@ export const registerSystemSettings = function() {
 			"classic" : localize("CityOfMist.settings.tagBurn.0"),
 			"otherscape": localize("CityOfMist.settings.tagBurn.1"),
 		},
-		onChange: _ => {
+		restricted: true,
+		onChange: () => {
 			game.settings.set('city-of-mist', "system", "custom");
 		}
-	});
+	},
 
-	game.settings.register("city-of-mist", "altPower", {
+	 "altPower": {
 		name: localize("CityOfMist.settings.altPower.name"),
 		hint: localize("CityOfMist.settings.altPower.hint"),
 		scope: "world",
 		config: (game.settings.get('city-of-mist', "system") == "custom"),
 		type: Boolean,
 		default: false,
-		restrict: true,
-	});
+		restricted: true,
+	},
 
-	game.settings.register("city-of-mist", "debugMode", {
+	 "debugMode": {
 		name: localize("CityOfMist.settings.debugMode.name"),
 		hint: localize("CityOfMist.settings.debugMode.hint"),
 		scope: "world",
 		config: (game.settings.get('city-of-mist', "devMode") == true),
 		type: Boolean,
 		default: false,
-		restrict: true,
-		onChange: val => {
+		restricted: true,
+		onChange: (val:boolean) => {
 			Debug.setDebugMode(val);
 		},
-	});
+	},
+} as const;
 
-	const devMode = game.settings.get("city-of-mist", "devMode")
-	const debug = game.settings.get("city-of-mist", "debugMode");
-	Debug.setDebugMode(devMode && debug);
 
-} // end of custom settings
+
+type SETTINGSKEY = keyof typeof SETTINGS;
+
 
 export class CitySettings {
-	static get(settingName) {
+	static async set<K extends keyof typeof SETTINGS>(settingField:K ,newvalue: InstanceType<typeof SETTINGS[K]["type"]>) {
+		await game.settings.set("city-of-mist", settingField, newvalue);
+	}
+
+	static get<K extends keyof typeof SETTINGS>(settingName : K ) : InstanceType<typeof SETTINGS[K]["type"]> {
 		return game.settings.get('city-of-mist', settingName);
 
 	}
@@ -446,7 +439,7 @@ export class CitySettings {
 	}
 
 	static awardAttentionForWeakness() {
-		return this.get("autoWeakness") ?? false == true;
+		return (this.get("autoWeakness") ?? false ) == true;
 	}
 
 	static isAutoWeakness() {
@@ -504,7 +497,7 @@ export class CitySettings {
 		return (this.get("autoAwardImpForWeakness") ?? false);
 	}
 
-	static refreshSystem(system) {
+	async static refreshSystem(system?: System) {
 		try{
 			if (!system)
 				system = game.settings.get("city-of-mist", "system");
@@ -559,4 +552,7 @@ function delayedReload() {
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");
 
+const devMode = CitySettings.get("devMode")
+const debug = CitySettings.get("debugMode");
+Debug.setDebugMode(devMode && debug);
 
