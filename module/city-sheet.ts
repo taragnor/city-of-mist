@@ -1,25 +1,27 @@
-import { HTMLTools } from "./tools/HTMLTools.mjs";
+import { localizeS } from "./tools/handlebars-helpers.js";
+import { localize } from "./city.js";
+import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityDB } from "./city-db.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
 import { DragAndDrop } from "./dragAndDrop.mjs";
+import { CityActor } from "./city-actor.js";
+import { CityHelpers } from "./city-helpers.js";
 
-export class CitySheet extends ActorSheet {
+export class CitySheet extends ActorSheet<CityActor> {
+	override actor: CityActor
+	scrollTop: number = 0;
 
 	/* -------------------------------------------- */
 
-	getData(options) {
-		let data = super.getData();
+	override async getData(): Promise<SheetData> {
+		let data = await super.getData();
 
-		//Fix for compatibility with .0.8.6
-		// data.actor = this.actor;
-		// data.data = this.actor.system;
-
-		data.items = this.actor.items.map(x=>x);
+		data.items = this.actor.items.contents.map(x=>x);
 		return data;
 	}
 
 	/** @override */
-	activateListeners(html) {
+	override activateListeners(html : JQuery<HTMLElement>) {
 		super.activateListeners(html);
 		if (!this.options.editable) return;
 
@@ -38,14 +40,15 @@ export class CitySheet extends ActorSheet {
 
 	/* -------------------------------------------- */
 
-	async _toggleLockState(event) {
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
+	async _toggleLockState(event: Event) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		// const actor = await this.getOwner(actorId);
+		const actor = this.actor;
 		await actor.toggleLockState();
 	}
 
-	async _editThemeKit(event) {
-		const TKId = getClosestData(event, "tkId");
+	async _editThemeKit(event: Event) {
+		const TKId = HTMLTools.getClosestData(event, "tkId");
 		const tk = this.actor.getThemeKit(TKId);
 		if (this.actor.type != "character" && !game.user.isGM) {
 			const msg = localize("CityOfMist.error.MCEditOnly");
@@ -55,32 +58,32 @@ export class CitySheet extends ActorSheet {
 		await CityDialogs.itemEditDialog(tk);
 	}
 
-	async _aliasToggle(event) {
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
+	async _aliasToggle(event: Event) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor = this.getOwner(actorId);
 		if (actor.system.useAlias )
 			if (! await this.confirmBox("reveal Alias", "Reveal True Name?"))
 				return;
 		await actor.toggleAliasState();
 	}
 
-	async _addThemeBook(event) {
+	async _addThemeBook(event: Event) {
 		// const themebook = await this.themeBookSelector();
 		const themebook = await CityDialogs.themeBookSelector(this.actor);
 		if (themebook)
 			await this.actor.createNewTheme("Unnamed Theme", themebook.id);
 	}
 
-	async _scrollSheet (event) {
-		this.scrollTop = $(".actor-sheet").scrollTop();
+	async _scrollSheet (event: Event) {
+		this.scrollTop = $(".actor-sheet").scrollTop() ?? 0;
 	}
 
-	async confirmBox(title, text, options) {
+	async confirmBox(title: string, text: string, options: string) {
 		const loc_title = localizeS(title);
 		return await CityHelpers.confirmBox(loc_title, text, options);
 	}
 
-	themeDeleteChoicePrompt(themename) {
+	themeDeleteChoicePrompt(themename: string) {
 		return new Promise( (conf, rej) => {
 			const options = {};
 			let dialog = new Dialog({
@@ -106,15 +109,15 @@ export class CitySheet extends ActorSheet {
 		});
 	}
 
-	async sendToChatBox(title, text, options = {}) {
+	async sendToChatBox(title: string, text: string, options = {}) {
 		return CityHelpers.sendToChatBox(title, text, options);
 	}
 
-	static async singleChoiceBox( list, headerText) {
-		return await HTMLTools.singleChoiceBox(list, headerText);
+	static async singleChoiceBox(...args: Parameters<typeof HTMLTools["singleChoiceBox"]>) {
+		return await HTMLTools.singleChoiceBox(...args);
 	}
 
-	async _dragDropEvent (_event) {
+	async _dragDropEvent (_event : Event) {
 		const dragging = $(document).find(".dragging");
 		if (dragging.length != 1) {
 			console.warn ("Something went wrong with dragging");
@@ -122,6 +125,15 @@ export class CitySheet extends ActorSheet {
 		}
 		const actor= this.actor;
 		DragAndDrop.dropDraggableOnActor(dragging, actor);
+	}
+
+	/** returns the owner of the given id, tokenId and sceneId
+	@return {CityActor}
+	*/
+	getOwner(id: string, tokenId?: string, sceneId?: string): CityActor {
+		if (!id || id == this.actor.id)
+			return this.actor;
+		else return CityHelpers.getOwner(id, tokenId, sceneId);
 	}
 
 

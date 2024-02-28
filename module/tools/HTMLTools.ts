@@ -1,9 +1,11 @@
+import { CityActor } from "../city-actor";
+import { CityItem } from "../city-item";
 
 export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
-	static getClosestData ( eventOrJQObj, prop, default_value = undefined) {
-		const target = (eventOrJQObj.currentTarget) ? eventOrJQObj.currentTarget : eventOrJQObj;
-		const convert = function (string) {
+	static getClosestData ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value?: string | number) {
+		const target = ("currentTarget" in eventOrJQObj) ? eventOrJQObj.currentTarget : eventOrJQObj;
+		const convert = function (string :string) {
 			return Array.from(string).map(x => {
 				if (x === x.toLowerCase()) return x;
 				else return "-" + x.toLowerCase();
@@ -12,6 +14,7 @@ export class HTMLTools {
 		if (prop === undefined)
 			throw new Error("Property name is undefined");
 		const cssprop = convert(prop);
+		//@ts-ignore
 		const data = $(target).closest(`[data-${cssprop}]`).data(prop);
 		if (data != null) return data;
 		else {
@@ -23,7 +26,7 @@ export class HTMLTools {
 		}
 	}
 
-	static getClosestDataNT ( eventOrJQObj, prop, default_value = undefined) {
+	static getClosestDataNT ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value ?: string | number) {
 		try {
 			const x = HTMLTools.getClosestData( eventOrJQObj, prop, default_value);
 			return x;
@@ -33,14 +36,14 @@ export class HTMLTools {
 
 	}
 
-	static convertForm(str) {
+	static convertForm(str: string) {
 		return Array.from(str).map(x => {
 			if (x === x.toLowerCase()) return x;
 			else return "-" + x.toLowerCase();
 		}).join("");
 	}
 
-	static async editItemWindow(item) {
+	static async editItemWindow(item: Item<any>) {
 		item.sheet.render(true);
 		return await new Promise ( (keep, _brk) => {
 			const checker = () =>  {
@@ -63,7 +66,7 @@ export class HTMLTools {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title, text, options = {}) {
+	static async confirmBox(title: string, text: string, options : Record<string, unknown> = {}) {
 		const templateData = {text};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
 		return await new Promise( (conf, reject) => {
@@ -72,7 +75,7 @@ export class HTMLTools {
 				content: html,
 				yes: conf.bind(null, true),
 				no: conf.bind(null, false),
-				defaultYes: options?.defaultYes ?? false,
+				defaultYes: !!options?.defaultYes ?? false,
 				close: () => {
 					switch (options?.onClose ?? "false") {
 						case "false":
@@ -91,12 +94,12 @@ export class HTMLTools {
 		});
 	}
 
-	static async ItemSelectionDialog ( itemlist, title= "Select One", list_of_properties = [])  {
+	static async ItemSelectionDialog ( itemlist: (CityItem)[], data: unknown, title= "Select One", list_of_properties = [])  {
 	   const revlist = itemlist.map ( x=> {
 			return {
 				id: x.id,
 				data: [x.name].concat(list_of_properties.map (y => x.system[y])),
-				description: x?.description ?? x.system?.description ?? "",
+				description: x?.description  ?? "",
 		};
 		} );
 		return await this.singleChoiceBox( revlist, title);
@@ -104,7 +107,7 @@ export class HTMLTools {
 
 	/** List is in the form of {id, data:[rows], description} returns null if abort or the id of the selection.
 		*/
-	static async singleChoiceBox( list, headerText) {
+	static async singleChoiceBox( list:{id: string, data:string[], description:string}[], headerText: string) {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};
@@ -117,8 +120,8 @@ export class HTMLTools {
 					one: {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
-						callback: (htm) => {
-							let selection = [];
+						callback: (htm : string) => {
+							let selection :unknown[] = [];
 							$(htm).find(".single-choice-box").find("input:checked").each(function() {
 								selection.push($(this).val());
 							});
@@ -149,7 +152,7 @@ export class HTMLTools {
 	/** List is in the form of {id, data:[rows], description}
 	returns null if abort or the id of the selection.
 		*/
-	static async multiChoiceBox(list, headerText) {
+	static async multiChoiceBox(list: {id: string, data: string[], description: string}[], headerText: string) {
 		const options = {};
 		const templateData = {list};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/multiChoiceBox.hbs`, templateData);
@@ -161,8 +164,8 @@ export class HTMLTools {
 					one: {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
-						callback: (htm) => {
-							let selection = [];
+						callback: (htm : string) => {
+							let selection: unknown[] = [];
 							$(htm).find(".multi-choice-box").find("input:checked").each(function() {
 								selection.push($(this).val());
 							});
@@ -189,7 +192,7 @@ export class HTMLTools {
 	}
 
 	/** returns an array of actors */
-	static async PCSelector(pclist, title = "Select PCs") {
+	static async PCSelector(pclist: CityActor[], title = "Select PCs") {
 		const list = pclist.map ( actor => {
 			return {
 				id: actor.id,
@@ -201,7 +204,7 @@ export class HTMLTools {
 		if (ret) return ret; else return [];
 	}
 
-	static div(cssClass) {
+	static div(cssClass : string | string[]) {
 		if (typeof cssClass == "string")
 			cssClass = [cssClass];
 		const div = document.createElement('div');
@@ -215,8 +218,8 @@ export class HTMLTools {
 // **************   EventHandlers  *************** *
 // **************************************************
 
-	static middleClick (handler) {
-		return function (event) {
+	static middleClick (handler: Function) {
+		return function (event: MouseEvent) {
 			if (event.which == 2) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -225,8 +228,8 @@ export class HTMLTools {
 		}
 	}
 
-	static rightClick (handler) {
-		return function (event) {
+	static rightClick (handler: Function) {
+		return function (event: MouseEvent) {
 			if (event.which == 3) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -236,12 +239,16 @@ export class HTMLTools {
 	}
 
 	static initCustomJqueryFunctions() {
+		//@ts-ignore
 		if (!jQuery.fn.middleclick) {
+		//@ts-ignore
 			jQuery.fn.middleclick = function (handler) {
 				this.mousedown(HTMLTools.middleClick(handler));
 			}
 		}
+		//@ts-ignore
 		if (!jQuery.fn.rightclick) {
+		//@ts-ignore
 			jQuery.fn.rightclick = function (handler) {
 				this.mousedown(HTMLTools.rightClick(handler));
 			}

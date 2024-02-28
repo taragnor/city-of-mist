@@ -1,3 +1,5 @@
+import { CityActor } from "../city-actor";
+
 export class TokenTools {
 
 	static getActiveScene() {
@@ -10,10 +12,10 @@ export class TokenTools {
 			.filter(x=>x.actor);
 	}
 
-	static getSceneTokens( scene) {
+	static getSceneTokens( scene : Scene) {
 		if (!scene)
 			return [];
-		return scene.tokens.filter(x=>x.actor);
+		return scene.tokens.filter( (x:TokenDocument<CityActor>) =>!!x.actor);
 	}
 
 	static getActiveSceneTokenActors() {
@@ -26,7 +28,7 @@ export class TokenTools {
 			.map(x=> x.actor);
 	}
 
-	static getSceneTokenActors(scene) {
+	static getSceneTokenActors(scene: Scene) {
 		const tokens = this.getSceneTokens(scene);
 		return tokens.map ( x=> x.actor);
 	}

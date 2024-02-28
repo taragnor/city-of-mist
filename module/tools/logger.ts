@@ -1,10 +1,12 @@
+import { CityActor } from "../city-actor";
+
 export class Logger {
 
-	static async log(txt) {
+	static async log(txt : string) {
 		console.log(txt);
 	}
 
-	static async gmMessage(text, actor = null) {
+	static async gmMessage(text:string, actor: CityActor) {
 		const gmIds = game.users.filter( x=> x.role == CONST.USER_ROLES.GAMEMASTER);
 		// const speaker = ChatMessage.getSpeaker({actor});
 		const speaker = ChatMessage.getSpeaker({alias: actor.getDisplayedName()});
@@ -17,7 +19,7 @@ export class Logger {
 		return await ChatMessage.create(messageData, {});
 	}
 
-	static async sendToChat(text, sender={}) {
+	static async sendToChat(text:string, sender:ChatSpeakerObject= {}) {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
@@ -40,16 +42,20 @@ export class Logger {
 	@param {string=] sender.altUser set an alternate user for the message sender
 	@param {string=} whisperTarget contains target of whisper
 	*/
-	static async sendToChat2(text, sender={}, whisperTarget) {
+	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget: string | undefined) {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
 		let type = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_TYPES.OOC :  CONST.CHAT_MESSAGE_TYPES.WHISPER;
-		let messageData = {
+		let messageData : Record<string, unknown>= {
 			speaker: speaker,
 			content: text,
 			type,
-		};
+			user: sender.altUser,
+			//@ts-ignore
+			isWhisper: false,
+			whisper: undefined
+		} satisfies MessageData<Roll>;
 		if (sender.altUser) {
 			messageData.user = sender.altUser;
 		}
@@ -58,9 +64,10 @@ export class Logger {
 			const recipients = game.users.contents.filter(x=> x.isGM).map(x=> x.id);
 			messageData.isWhisper = true;
 			recipients.push(whisperTarget);
+			//@ts-ignore
 			messageData.whisper = recipients;
 		}
-		const msg = await ChatMessage.create(messageData, {});
+		const msg = await ChatMessage.create(messageData as MessageData<Roll>, {});
 		return msg;
 	}
 

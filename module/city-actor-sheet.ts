@@ -10,12 +10,9 @@ import {HTMLHandlers} from "./universal-html-handlers.mjs";
 import {CitySettings} from "./settings.js";
 
 export class CityActorSheet extends CitySheet {
-	constructor(...args) {
-		super(...args);
-	}
 
 	/** @override */
-	static get defaultOptions() {
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/actor-sheet.html",
@@ -25,17 +22,8 @@ export class CityActorSheet extends CitySheet {
 		});
 	}
 
-	/* -------------------------------------------- */
-
-	//override
-	_onEditImage (event) {
-		super._onEditImage(event); //plan for future dual image support
-	}
-
-	/* -------------------------------------------- */
-
 	/** @override */
-	activateListeners(html) {
+	override activateListeners(html: JQuery<HTMLElement>) {
 		super.activateListeners(html);
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
@@ -82,7 +70,7 @@ export class CityActorSheet extends CitySheet {
 		// this.testHandlers(html);
 	}
 
-	async getData() {
+	override async getData() {
 		let data = await super.getData();
 		data.storyTags = this.getStoryTags();
 		const object =  {
@@ -118,14 +106,6 @@ export class CityActorSheet extends CitySheet {
 		return this.options.template;
 	}
 
-	/** returns the owner of the given id, tokenId and sceneId
-	@return {CityActor}
-	*/
-	getOwner(id, tokenId, sceneId) {
-		if (!id || id == this.actor.id)
-			return this.actor;
-		else return CityHelpers.getOwner(id, tokenId, sceneId);
-	}
 
 	async _themeChangeInput(event) {
 		const id = getClosestData(event, "themeId");

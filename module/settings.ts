@@ -1,4 +1,4 @@
-import {Debug} from "./tools/debug.mjs";
+import {Debug} from "./tools/debug.js";
 import {CityHelpers} from "./city-helpers.js";
 import { localize } from "./city.js";
 
@@ -344,7 +344,7 @@ const SETTINGS = {
 
 		},
 		restricted: true,
-		onChange: (newval:string) => {
+		onChange: (_newval:string) => {
 			game.settings.set('city-of-mist', "system", "custom");
 		}
 	},
@@ -410,9 +410,6 @@ const SETTINGS = {
 
 
 
-type SETTINGSKEY = keyof typeof SETTINGS;
-
-
 export class CitySettings {
 	static async set<K extends keyof typeof SETTINGS>(settingField:K ,newvalue: InstanceType<typeof SETTINGS[K]["type"]>) {
 		await game.settings.set("city-of-mist", settingField, newvalue);
@@ -459,12 +456,13 @@ export class CitySettings {
 	}
 
 	static useClueBoxes() {
-		switch (this.get("clueBoxes")) {
-			case false: return false;
+		const clueBox = this.get("clueBoxes");
+		switch (clueBox) {
 			case "none": return false;
-			default: return true;
+			case "whisper": return true;
+			case "public": return true;
+			default: return false;
 		}
-		// return this.get("clueBoxes") ?? true;
 	}
 
 	static whisperClues() {
@@ -493,11 +491,11 @@ export class CitySettings {
 	/**
 	@return {boolean} if the proper CoM setting si on to atuto award improvements for more than 1 weakness tag
 	*/
-	static autoAwardImpForWeakness() {
-		return (this.get("autoAwardImpForWeakness") ?? false);
+	static autoAwardImpForWeakness(): boolean {
+		return (!!this.get("autoAwardImpForWeakness") ?? false);
 	}
 
-	async static refreshSystem(system?: System) {
+	static async refreshSystem(system?: System) {
 		try{
 			if (!system)
 				system = game.settings.get("city-of-mist", "system");
