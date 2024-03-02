@@ -56,7 +56,7 @@ export class DBAccessor {
 		return DBAccessor.getAllByType ("Item");
 	}
 
-	static allActors() {
+	static allActors() : Actor<any>[] {
 		return DBAccessor.getAllByType ("Actor");
 	}
 
@@ -72,7 +72,7 @@ export class DBAccessor {
 	// 	return this.findById(id, "Item");
 	// }
 
-	static findById(id:string, type = "Actor") {
+	static findById<T extends "Actor" | "Item" = "Actor">(id:string, type: T): (T extends "Actor" ? Actor<any> : Item<any>) | null  {
 		let retarr;
 		switch (type) {
 			case "Actor":
@@ -86,13 +86,13 @@ export class DBAccessor {
 		}
 		if (retarr.length == 0)
 			return null;
-		return retarr[0];
+		return retarr[0] as (T extends "Actor" ? Actor<any> : Item<any>);
 	}
 
-	static getAllByType(type: "Actor" | "Item") {
+	static getAllByType<Type extends "Actor" | "Item">(type: Type):  (Type extends "Actor"? Actor<any> : Item<any>)[] {
 		const base_items = DBAccessor.getBaseItemsByType(type);
 		const compendium_items = DBAccessor.getCompendiumItemsByType(type);
-		return base_items.concat(compendium_items);
+		return base_items.concat(compendium_items) as (Type extends "Actor"? Actor<any> : Item<any>)[] ;
 	}
 
 	static getBaseItemsByType (type: "Actor" | "Item") {

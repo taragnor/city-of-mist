@@ -903,7 +903,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.system.amount;
 	}
 
-	get theme() {
+	get theme(): Theme | null {
 		if (this.isTag() || this.isImprovement()) {
 			const theme = this.parent.getTheme(this.system.theme_id);
 			if (!theme) return null;

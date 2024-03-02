@@ -1,8 +1,9 @@
-// import { CityActor } from "./city-actor.js";
+import { CityActor } from "./city-actor.js";
+import { CityItem } from "./city-item.js";
 import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
 import { HTMLTools } from "./tools/HTMLTools.mjs";
-import { CityLogger } from "./city-logger.mjs";
+import { CityLogger } from "./city-logger.js";
 import { Sounds } from "./tools/sounds.mjs";
 import { TokenTools } from "./tools/token-tools.mjs";
 import {CityDialogs} from "./city-dialogs.mjs";
@@ -16,33 +17,33 @@ export class CityHelpers {
 	static get dangerTemplates() { return CityDB.dangerTemplates; }
 	static getAllActorsByType (item_type ="") { return CityDB.filterActorsByType(item_type); }
 	static getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
-	static findAllById(id, type = "Actor") { return CityDB.findById(id, type); }
+	static findAllById(id: string, type = "Actor"): typeof type extends "Actor" ? CityActor: CityItem { return CityDB.findById(id, type); }
 	static getThemebooks() { return CityDB.themebooks; }
 	static getMoves() { return CityDB.movesList; }
-	static getDangerTemplate(id) { return CityDB.getDangerTemplate(id); }
-	static getThemebook(tname, id) { return CityDB.getThemebook(tname, id); }
-	static async modificationLog(...args) { return await CityLogger.modificationLog(...args); }
-	static async logToChat(actor, action, object = null, aftermsg = "") { return await CityLogger.logToChat(actor, action, object, aftermsg); }
-	static async sendToChat(text, sender={}) { return await CityLogger.sendToChat(text, sender);
+	static getDangerTemplate(id: string) { return CityDB.getDangerTemplate(id); }
+	static getThemebook(tname: string, id: string) { return CityDB.getThemebook(tname, id); }
+	static async modificationLog(...args: Parameters<typeof CityLogger["modificationLog"]>) { return await CityLogger.modificationLog(...args); }
+	static async logToChat(actor: CityActor, action: string, object = null, aftermsg = "") { return await CityLogger.logToChat(actor, action, object, aftermsg); }
+	static async sendToChat(text : string, sender={}) { return await CityLogger.sendToChat(text, sender);
 	}
 
-	static getMoveById(moveId) {
+	static getMoveById(moveId : string) {
 		return this.getMoves().find(x => x.id == moveId);
 	}
 
-	static async asyncwait(sec) {
+	static async asyncwait(sec: number) {
 		return await new Promise ( (succ, _fail) => {
 			setTimeout(() => succ(true), sec * 1000);
 		});
 	}
 
-	static async sleep(sec) {
+	static async sleep(sec: number) {
 		return await this.asyncwait(sec);
 	}
 
 	static async getUserId() {
-		if (game.userId != null)
-			return game.userId;
+		if (game.user.id != null)
+			return game.user.id;
 		else
 			throw new Error("Unknown User");
 	}
@@ -91,11 +92,11 @@ export class CityHelpers {
 		return await this.playSound("button-on.mp3");
 	}
 
-	static async playSound(filename, volume = 1.0) {
+	static async playSound(filename: string, volume = 1.0) {
 		return await Sounds.playSound(filename, volume);
 	}
 
-	static getTagOwnerById(tagOwnerId) {
+	static getTagOwnerById(tagOwnerId : string) {
 		return CityDB.getTagOwnerById(tagOwnerId);
 	}
 
@@ -105,13 +106,13 @@ export class CityHelpers {
 	@param  {string | undefined } sceneId
 	@return {CityActor}
 	*/
-	static getOwner(ownerId, tokenId, sceneId) {
+	static getOwner(ownerId : string, tokenId: string, sceneId: string) : CityActor | CityItem {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
 	 if (!tokenId) {
-			const id = CityHelpers.findAllById(ownerId) ;
-			if (!id) throw new Error (`Can't find owner for ownerId ${ownerId}`);
-			return id;
+			const actorOrItem = CityHelpers.findAllById(ownerId) ;
+			if (!actorOrItem) throw new Error (`Can't find owner for ownerId ${ownerId}`);
+			return actorOrItem  as CityActor | CityItem;
 		} else {
 			const scene = game.scenes.find (x=> x.id == sceneId) ??
 				game.scenes.find( scene => scene.tokens.some(
@@ -459,16 +460,18 @@ export class CityHelpers {
 		CONFIG.ChatMessage.documentClass.create(messageData, {})
 	}
 
-	static async itemDialog(item) {
+	static async itemDialog(item : CityItem) {
 		return await CityDialogs.itemEditDialog(item);
 	}
 
-	static async refreshTokenActorsInScene(scene) {
+	static async refreshTokenActorsInScene(scene :Scene) {
 		const scenetokens = scene.tokens;
 		const characterActors = scenetokens
 			.filter( x => x.isLinked &&
-				x.actor.type == "character")
-			.map (x => x.actor);
+				x.actor != undefined &&
+				x.actor.type == "character"
+			)
+			.map (x => x.actor!);
 		for (const dep of characterActors) {
 			const state = dep.sheet._state
 			if (state > 0) {
@@ -478,7 +481,7 @@ export class CityHelpers {
 		return true;
 	}
 
-	static refreshSheet(actor) {
+	static refreshSheet(actor: CityActor) {
 		setTimeout( () => actor.sheet.render(false, {}), 1);
 		// setTimeout( () => actor.sheet.render(true, {}), 1);
 	}

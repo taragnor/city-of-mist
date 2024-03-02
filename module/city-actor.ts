@@ -1,3 +1,4 @@
+import { Tag } from "./city-item.js";
 import { localize } from "./city.js";
 import { CityItem } from "./city-item.js";
 import {CityDB} from "./city-db.mjs";
@@ -209,21 +210,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	/** returns the theme for a given id
 	@return {CityItem}
 	*/
-	getTheme(id: string): CityItem {
+	getTheme(id: string): Theme {
 		return this.items.find(x => x.type == "theme" && x.id == id);
 	}
 
 	/** returns the tag for a given id
 	@return {CityItem}
 	*/
-	getTag(id: string): CityItem {
+	getTag(id: string): Tag {
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
 
 	/** returns the item for a given id
 	@return {CityItem}
 	*/
-	getItem(id): CityItem {
+	getItem(id: string): CityItem {
 		return this.items.find(x =>  x.id == id);
 	}
 
@@ -282,7 +283,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	/** @deprecated use theme.weaknessTags.length instead*/
 	numOfWeaknessTags(theme_id: string) {
 		console.warn("Function is deprecated, use theme.weaknessTags.length instead");
-		return this.getTheme(theme_id).weaknessTags().length;
+		return this.getTheme(theme_id).weaknessTags.length;
 		// return this.items.reduce ((acc, x) => {
 		// 	if (x.type =="tag" && x.system.subtype == "weakness" && x.system.theme_id == theme_id )
 		// 		return acc + 1;
@@ -302,13 +303,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			throw new Error("non array returned");
 		return tags;
 	}
-
-	/**@deprecated
-	probably crashes if used
-	async activatedTags() {
-		return this.items.filter(x => x.type == "tag" && this.hasActivatedTag(x.id));
-	}
-*/
 
 	/** Deletes a tag from the actor
 @param {string} tagId
@@ -404,12 +398,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await CityHelpers.modificationLog(this, `Theme Deleted`, theme);
 		}
 		if (theme.usesThemeKit())
-			await this.deleteThemeKit(theme.themebook.id);
+			await this.deleteThemeKit(theme.themebook?.id ?? "");
 		await this.deleteEmbeddedById(themeId);
 		await this.update({data: {num_themes: this.system.num_themes-1}});
 	}
 
 	async deleteThemeKit(themeKitId: string) {
+		if (!themeKitId) return;
 		console.log("Deleting Theme Kit");
 		await this.deleteEmbeddedById(themeKitId);
 	}
@@ -448,7 +443,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async createNewTheme(name: string, themebook_id: string) {
-		const themebooks  = CityHelpers.getAllItemsByType("themebook", game);
+		const themebooks  = CityHelpers.getAllItemsByType("themebook");
 		const themebook = themebooks.find( x=> x.id == themebook_id)
 			?? this.items.find(item => item.id == themebook_id);
 		if (!themebook )
@@ -490,7 +485,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return await this.createNewItem(obj);
 	}
 
-	async createClue(metaSource= "", clueData= {}) {
+	async createClue(metaSource= "", clueData: Partial<Clue["system"]> = {}) {
 		const existing =  this.items.find( x=> x.system.type == "clue" && x.system.metaSource == metaSource)
 		if (metaSource && existing) {
 			existing.update({"data.amount": existing.system.amount+1});
@@ -509,7 +504,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async createNewClue (dataobj: Partial<Clue["system"]> & {name: string} ) {
+	async createNewClue (dataobj: Partial<Clue["system"]> & {name?: string} ) {
 		const name = dataobj.name ?? "Unnamed Clue";
 		const obj = {
 			name, type: "clue", system : {amount:1, ...dataobj}};
@@ -571,28 +566,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return count;
 	}
 
-	//redunant deprecate this crap
-
-	// async updateStatus (originalObj: Status, updateObject: Partial<Status> ) {
-	// 	await originalObj.update(updateObject);
-	// }
-
-	// async updateGMMove (originalObj, updateObject) {
-	// 	await originalObj.update(updateObject);
-	// }
-
-	// async updateClue(originalObj, updateObject) {
-	// 	await originalObj.update(updateObject);
-	// }
-
-	// async updateJuice(originalObj, updateObject) {
-	// 	await originalObj.update(updateObject);
-	// }
-
-	// async updateTag(originalObj, updateObject) {
-	// 	await originalObj.update(updateObject);
-	// }
-
 	async incBuildUp(this: PC, amount = 1) {
 		const oldBU = this.system.buildup.slice();
 		const [newBU, improvements] = CityHelpers.modArray(oldBU, amount, 5);
@@ -636,7 +609,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			} else {
 				options.crispy = false;
 			}
-		let tag, upgrades;
+		let tag: Tag, upgrades;
+		if (!themebook) {
+			throw new Error("Couldn't find Themebook!");
+		}
 		switch (themebook.type) {
 			case "themebook":
 				[tag, upgrades]= await this._addTagFromThemeBook(theme, temp_subtype, question_letter, options);
@@ -658,31 +634,36 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	}
 
-	async _addTagFromThemeBook(theme, temp_subtype, question_letter, options) {
-		const themebook = theme.themebook;
-		const tagdata = themebook
-			.themebook_getTagQuestions(temp_subtype)
-			.find( x=> x.letter == question_letter);
+	async _addTagFromThemeBook(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string, options : {awardImprovement?: boolean, crispy?: boolean}) : Promise<[Tag,number]> {
+		const themebook = theme.themebook!;
 		let custom_tag = false;
 		let question, subtag, subtype;
 		let upgrades = 0;
 		switch (temp_subtype) {
-			case "power":
+			case "power":{
 				subtype = "power";
+				const tagdata = themebook
+				.themebook_getTagQuestions(temp_subtype)
+				.find( x=> x.letter == question_letter)!;
 				question = tagdata.question;
 				subtag = tagdata.subtag;
 				await theme.decUnspentUpgrades();
 				upgrades--;
 				break;
-			case "weakness":
+			}
+			case "weakness":{
+				const tagdata = themebook
+				.themebook_getTagQuestions(temp_subtype)
+				.find( x=> x.letter == question_letter)!;
 				subtype = "weakness";
 				question = tagdata.question;
 				subtag = tagdata.subtag;
-				if (options.awardImprovement){ 
+				if (options.awardImprovement){
 					await theme.incUnspentUpgrades();
 					upgrades++;
 				}
 				break;
+			}
 			case "bonus" :
 				subtype = "power";
 				custom_tag = true;
@@ -706,11 +687,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				subtagRequired : subtag,
 			}
 		};
-		return [await this.createNewItem(obj), upgrades];
+		return [await this.createNewItem(obj) as Tag, upgrades];
 	}
 
-	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string, options: {awardImprovement ?: boolean, crispy:boolean},) {
-		const themebook = theme.themebook;
+	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
+		const themebook = theme.themebook!;
 		const tagdata = themebook
 			.themekit_getTags(temp_subtype)
 			.find( x=> x.letter == question_letter);
@@ -760,7 +741,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				description,
 			},
 		};
-		return [await this.createNewItem(obj), upgrades];
+		return [await this.createNewItem(obj) as Tag, upgrades];
 	}
 
 	async addImprovement(theme_id, number) {
@@ -1058,32 +1039,32 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			?? "My Name is Error";
 	}
 
-	getDependencies() {
+	getDependencies(): CityActor[] {
 		//return characters that include this actor
 		switch (this.type) {
 			case "crew":
 				if (this.isOwner) {
 					return game.actors.filter ( (act) => {
 						return act.type == "character" && act.isOwner;
-					});
+					}) as CityActor[];
 				}
 				break;
 			case "threat":
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
-					return game.actors.filter( actor=> actor.type == "character");
+					return game.actors.filter( actor=> actor.type == "character") as CityActor[];
 				if (this.isOwner && this.getThemes().length > 0) {
 					return game.actors.filter ( (act) => {
 						return act.type == "character" && act.isOwner;
-					});
+					}) as CityActor[];
 				}
 				//check for update to tokens
 				if (this.getActiveTokens().length)
 					return game.actors.filter ( (act) => {
 						return act.type == "character";
-					});
+					}) as CityActor[];
 				break;
 			case "character":
-				return game.actors.filter( act=> act.type == "character");
+				return game.actors.filter( act=> act.type == "character") as CityActor[];
 			default:
 				console.error(`Unknown type ${this.type}`);
 				return [];
@@ -1239,3 +1220,4 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 export type PC = Subtype<CityActor, "character">;
 export type Danger = Subtype<CityActor, "threat">;
 export type Crew = Subtype<CityActor, "crew">;
+

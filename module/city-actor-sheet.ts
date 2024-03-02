@@ -1,3 +1,5 @@
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { localize } from "./city.js";
 
 import { CityDialogs } from "./city-dialogs.mjs";
 import {CityHelpers} from "./city-helpers.js";
@@ -92,12 +94,6 @@ export class CityActorSheet extends CitySheet {
 		return this.getPersonalStoryTags();
 	}
 
-	linkThemebook(theme) {
-		throw new Error("Deprecated");
-		// const themedata = theme.system;
-		// themedata.themebook = CityHelpers.getThemebook(themedata.themebook_name, themedata.themebook_id);
-	}
-
 	/* -------------------------------------------- */
 
 	/** override */
@@ -107,44 +103,44 @@ export class CityActorSheet extends CitySheet {
 	}
 
 
-	async _themeChangeInput(event) {
-		const id = getClosestData(event, "themeId");
-		const field = getClosestData(event, "property");
-		const val =  $(event.currentTarget).val();
-		const actorId = getClosestData(event, "ownerId");
+	async _themeChangeInput(event: Event) {
+		const id = HTMLTools.getClosestData(event, "themeId");
+		const field = HTMLTools.getClosestData(event, "property");
+		const val =  $(event.currentTarget!).val();
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
+		const theme = actor.getTheme(id);
 		await theme.setField(field, val);
 	}
 
-	async _themebookNameInput (event) {
-		const id = getClosestData(event, "themeId");
-		const name =  $(event.currentTarget).val();
-		const actorId = getClosestData(event, "ownerId");
+	async _themebookNameInput (event: Event) {
+		const id = HTMLTools.getClosestData(event, "themeId");
+		const name =  $(event.currentTarget!).val();
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
+		const theme = actor.getTheme(id);
 		await theme.update ({name});
 	}
 
-	async _modifyThemeField(event) {
-		const theme_id = getClosestData(event, "themeId");
-		const field = getClosestData(event, "dataField");
-		const actorId = getClosestData(event, "ownerId");
+	async _modifyThemeField(event: Event) {
+		const theme_id = HTMLTools.getClosestData(event, "themeId");
+		const field = HTMLTools.getClosestData(event, "dataField");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
-		const theme = await actor.getTheme(theme_id);
+		const theme = actor.getTheme(theme_id);
 		var obj = {};
-		obj.field = $(event.currentTarget).val();
+		obj.field = $(event.currentTarget!).val();
 		await theme.update({obj});
 	}
 
-	async _createTagOrImprovement (event, bonus = false) {
+	async _createTagOrImprovement (event: Event, bonus = false) {
 		//TODO: allow for text string attachment to improvements
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const themeId = getClosestData(event, "themeId");
-		const itemtype = getClosestData(event, "itemType");
+			const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
+		const owner = this.getOwner(ownerId);
+		const themeId = HTMLTools.getClosestData(event, "themeId") as string;
+		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
 		const theme = owner.getTheme(themeId);
-		const subtype = getClosestData(event, "subType", null);
+		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
 		let idChoice;
 		if (!bonus) {
 			idChoice  = await CityDialogs.improvementOrTagChoiceList(owner, theme, itemtype, subtype );
@@ -154,7 +150,7 @@ export class CityActorSheet extends CitySheet {
 		let retobj = null;
 		let tag, improvement;
 		if (itemtype == "tag")  {
-			const subtype = bonus ? "bonus" : getClosestData(event, "subType");
+			const subtype = bonus ? "bonus" : HTMLTools.getClosestData(event, "subType");
 			const awardImprovement =
 				subtype == "weakness"
 				&& theme.weaknessTags.length >= 1
@@ -184,18 +180,18 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _createBonusTag(event) {
+	async _createBonusTag(event : Event) {
 		await this._createTagOrImprovement(event, true);
 	}
 
-	async _deleteTag (event) {
+	async _deleteTag (event : Event) {
 		await HTMLHandlers.deleteTag(event);
 	}
 
-	async _deleteImprovement (event) {
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const tagId = getClosestData(event, "impId");
+	async _deleteImprovement (event : Event) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId") as string;
+		const actor = this.getOwner(actorId);
+		const tagId = HTMLTools.getClosestData(event, "impId");
 		const tag = await actor.getImprovement(tagId);
 		const tagName = tag.name;
 		if (await this.confirmBox("Confirm Delete", `Delete ${tagName}`)) {

@@ -3,7 +3,7 @@ import { CityItem } from "../city-item";
 
 export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
-	static getClosestData ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value?: string | number) {
+	static getClosestData<T extends string | number | null = string> ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value?: T): T {
 		const target = ("currentTarget" in eventOrJQObj) ? eventOrJQObj.currentTarget : eventOrJQObj;
 		const convert = function (string :string) {
 			return Array.from(string).map(x => {
