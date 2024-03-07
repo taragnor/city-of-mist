@@ -1,10 +1,12 @@
+import { localize } from "./city.js";
+import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityDB } from "./city-db.js";
 import { TagType } from "./datamodel/tag-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import { CityActor } from "./city-actor.js";
 import { ClueChatCards } from "./clue-cards.mjs";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
-import {CityDialogs} from "./city-dialogs.mjs";
+import {CityDialogs} from "./city-dialogs.js";
 import {CityHelpers} from "./city-helpers.js";
 import {TagAndStatusCleanupSessionM} from "./city-sessions.mjs";
 import {CitySockets} from "./city-sockets.mjs";
@@ -1211,7 +1213,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return {html, taglist, statuslist};
 	}
 
-	applyHeader(text) {
+	applyHeader(this: GMMove, text: string) {
 		switch (this.moveHeader) {
 			case "symbols": return this.applyHeader_symbol(text);
 			case "text" : return this.applyHeader_text(text);
@@ -1220,6 +1222,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	get moveHeader() {
+		if (this.system.type != "gmmove") return "";
 		switch (this.system.header) {
 			case "text": return "text";
 			case "symbols": return "symbols";
@@ -1229,7 +1232,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return  CitySettings.GMMoveHeaderSetting();
 	}
 
-	applyHeader_symbol(text) {
+	applyHeader_symbol(this: GMMove, text: string) {
 		let local;
 		let icon;
 		switch (this.system.subtype) {
@@ -1270,7 +1273,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return symbol + " " + text;
 	}
 
-	applyHeader_text(text) {
+	applyHeader_text(this: GMMove , text: string) {
 		let local;
 		switch (this.system.subtype) {
 			case "soft":

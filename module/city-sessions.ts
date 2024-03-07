@@ -1,7 +1,7 @@
-import {MasterSession, SlaveSession} from "./sockets.mjs";
-import {CityDialogs} from "./city-dialogs.mjs";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
-import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
+	import {MasterSession, SlaveSession} from "./sockets.js";
+import {CityDialogs} from "./city-dialogs.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
+import {ReviewableModifierList} from "./ReviewableModifierList.js";
 import {CityHelpers} from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
 
@@ -187,13 +187,15 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 }
 
 export class TagReviewSlaveSession extends SlaveSession {
-	setHandlers() {
+	dialog: Dialog;
+
+	override setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
 		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
 	}
 
-	setDialog(dialog) {
+	setDialog(dialog: Dialog) {
 		this.dialog  = dialog;
 	}
 
@@ -225,7 +227,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		};
 	}
 
-	async requestClarification	(itemId, ownerId) {
+	async requestClarification	(itemId: string, ownerId: string) {
 		const dataObj  = {
 			itemId,
 			ownerId,
@@ -234,7 +236,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	async approveTag	(itemId, ownerId) {
+	async approveTag	(itemId: string, ownerId: string) {
 		const dataObj  = {
 			itemId,
 			ownerId,
@@ -243,7 +245,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	async rejectTag	(itemId, ownerId) {
+	async rejectTag	(itemId: string, ownerId: string) {
 		const dataObj  = {
 			itemId,
 			ownerId,
@@ -252,7 +254,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		await this.notify("tagUpdate", dataObj);
 	}
 
-	onDestroy() {
+	override onDestroy() {
 		super.onDestroy();
 		try {
 			if (this.dialog)
@@ -266,19 +268,25 @@ export class TagReviewSlaveSession extends SlaveSession {
 }
 
 export class JuiceSpendingSessionM extends MasterSession {
-	constructor (juiceId, ownerId, amount) {
+	dataObj : {
+		juiceId: string,
+			ownerId: string,
+			amount: number,
+	};
+
+	constructor (juiceId: string, ownerId: string, amount: number) {
 		super();
 		this.dataObj = { juiceId, ownerId, amount};
 	}
 
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("spendJuice", this.onJuiceReply.bind(this));
 	}
 
 	onJuiceReply() {}
 
-	async start() {
+	override async start() {
 		const gm = game.users.find(x=> x.isGM && x.active);
 		if (!gm) {
 			ui.notifications.error("No GM found, can't spend juice");
@@ -291,7 +299,7 @@ export class JuiceSpendingSessionM extends MasterSession {
 }
 
 export class JuiceSpendingSessionS extends SlaveSession {
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
 	}

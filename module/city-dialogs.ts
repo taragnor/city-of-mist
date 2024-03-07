@@ -1,4 +1,12 @@
-import {CitySockets} from "./city-sockets.mjs";
+import { JuiceSpendingSessionS } from "./city-sessions.js";
+import { CityItem } from "./city-item.js"
+import { SlaveSession } from "./sockets.js";
+import { PC } from "./city-actor.js";
+import {CityRollOptions} from "./city-roll.js";
+import { localize } from "./city.js";
+import { Themebook } from "./city-item.js";
+import { CityActor } from "./city-actor.js";
+import {CitySockets} from "./city-sockets.js";
 import {CityDB} from "./city-db.mjs";
 import {CityHelpers} from "./city-helpers.js";
 import {SelectedTagsAndStatus} from "./selected-tags.mjs";
@@ -15,12 +23,12 @@ export class CityDialogs {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title, text, options) {
+	static async confirmBox(title: string, text: string, options: unknown) {
 		return await HTMLTools.confirmBox(title, text, options);
 	}
 
-	static async themeBookSelector(actor) {
-		const all_themebooks = CityHelpers.getAllItemsByType("themebook", game);
+	static async themeBookSelector(actor: CityActor) {
+		const all_themebooks : Themebook[] = CityHelpers.getAllItemsByType("themebook") as Themebook[];
 		const actorThemes = actor.getThemes();
 		const actorThemebooks = actorThemes.map( theme => theme.themebook);
 		const sorted = all_themebooks.sort( (a, b) => {
@@ -38,12 +46,12 @@ export class CityDialogs {
 			if (!acc.find( item => item.name == x.name))
 				acc.push(x);
 			return acc;
-		}, []);
-		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb.name == x.name && !tb.name.includes("Crew")));
+		}, [] as Themebook[]);
+		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb && tb.name == x.name && !tb.name.includes("Crew")));
 		const templateData = {actor: actor, data: actor.system, themebooks};
 		const title = "Select Themebook";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
-		return new Promise ( (conf, reject) => {
+		return new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
@@ -51,7 +59,7 @@ export class CityDialogs {
 				buttons: {
 					one: {
 						label: "Select",
-						callback: async (html) => {
+						callback: async (html : string) => {
 							const selected = $(html).find("#themebook-choices input[type='radio']:checked");
 							if (selected.length == 0) {
 								console.log("Nothing selected");
@@ -84,7 +92,7 @@ export class CityDialogs {
 
 	/** opens an edit dialog to make a new theme kit, allowing choice of a base themebook
 	*/
-	static async createThemeKitDialog(actor) {
+	static async createThemeKitDialog(actor: CityActor) {
 		const tk = await actor.createNewThemeKit();
 		const ret = await this.itemEditDialog(tk);
 		if (ret) return ret;
@@ -94,7 +102,7 @@ export class CityDialogs {
 		}
 	}
 
-	static async statusDropDialog(actor, name, tier, facedanger = false) {
+	static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const statusList = actor.my_statuses;
@@ -106,7 +114,7 @@ export class CityDialogs {
 					buttons: {
 						one: {
 							label: "Cancel",
-							callback: (html) => conf(null)
+							callback: (_html: string) => conf(null)
 						},
 						two: {
 							label: "Add",
@@ -143,7 +151,7 @@ export class CityDialogs {
 							}
 						},
 					},
-				});
+				}, {});
 				dialog.render(true);
 			});
 
@@ -151,12 +159,12 @@ export class CityDialogs {
 	}
 
 	static async narratorDialog() {
-		if (game.users.current.role != 4)
+		if (game.user.role != 4)
 			return;
 		if (!game.user.isGM)
 			return;
 		// support function
-		const getCaret = function getCaret(el) {
+		const getCaret = function getCaret(el : any) {
 			if (el.selectionStart) {
 				return el.selectionStart;
 			} else if (document.selection) {
@@ -172,9 +180,9 @@ export class CityDialogs {
 			}
 			return 0;
 		};
-		let html = new String();
+		let html : string = "";
 		html += `<textarea class="narrator-text"></textarea>`;
-		const submit = async function (html) {
+		const submit = async function (html: string) {
 			const text= $(html).find(".narrator-text").val();
 			return text;
 		}
@@ -211,7 +219,7 @@ export class CityDialogs {
 				one: {
 					icon: '<i class="fas fa-check"></i>',
 					label: "Add",
-					callback: async (html) => {
+					callback: async (html : string) => {
 						const x = await submit(html);
 						conf(x);
 					}
@@ -231,26 +239,27 @@ export class CityDialogs {
 
 	/** List takes a [ { moveId:string , moveOwnerId: string} ]
 	*/
-	static async downtimeGMMoveSelector(moveAndOwnerList) {
+	static async downtimeGMMoveSelector(moveAndOwnerList: {moveId: string, moveOwnerId: string}[]) {
 		if (moveAndOwnerList.length == 0)
 			return;
 		let ownerList = new Array();
 		const ownerMap = moveAndOwnerList.reduce ( ( map, {moveId, moveOwnerId}) => {
 			if (map.has(moveOwnerId)) {
-				map.get(moveOwnerId).push(moveId);
+				map.get(moveOwnerId)!.push(moveId);
 			} else {
 				map.set(moveOwnerId, [moveId]);
 			}
 			return map;
-		}, new Map());
+		}, new Map() as Map<string, string[]>);
 		for (const [ownerId, moveIdList] of ownerMap.entries()) {
-			const owner = await CityHelpers.getOwner(ownerId);
+			const owner = CityHelpers.getOwner(ownerId) as CityActor;
 			const moves = moveIdList.map( moveId=>
 				owner.gmmoves.find( x=> x.id == moveId)
 			);
 			let movehtmls = [];
 			for (const move of moves) {
-				const {html} = await move.prepareToRenderGMMOve();
+				if (!move) continue;
+				const {html} = await move.prepareToRenderGMMove();
 				movehtmls.push(html);
 			}
 			ownerList.push( {
@@ -262,35 +271,36 @@ export class CityDialogs {
 			owners: ownerList
 		}
 		const html =  await renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
-		return new Promise( (conf, _rej) => {
-			const options = {};
-			const dialog = new Dialog({
-				title: `${title}`,
-				content: text,
-				buttons: {
-					one: {
-						icon: '<i class="fas fa-check"></i>',
-						label: label,
-						callback: async() => {
-							//TODO: let choice = getCheckedMoveIdsChoice();
-							conf(choice);
-						}
-					},
-					two: {
-						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
-						callback: async () => conf(null)
-					}
-				},
-				default: "two",
-				render
+		//SEEMINGLY INCOMPLETE
+		//return new Promise( (conf, _rej) => {
+		//	const options = {};
+		//	const dialog = new Dialog({
+		//		title: `${title}`,
+		//		content: text,
+		//		buttons: {
+		//			one: {
+		//				icon: '<i class="fas fa-check"></i>',
+		//				label: label,
+		//				callback: async() => {
+		//					//TODO: let choice = getCheckedMoveIdsChoice();
+		//					conf(choice);
+		//				}
+		//			},
+		//			two: {
+		//				icon: '<i class="fas fa-times"></i>',
+		//				label: localize("CityOfMist.command.cancel"),
+		//				callback: async () => conf(null)
+		//			}
+		//		},
+		//		default: "two",
+		//		render
 
-		}, options);
+		//}, options);
 
-		});
+		//});
 	}
 
-	static async DowntimePCSelector(actor) {
+	static async DowntimePCSelector(actor: CityActor) {
 		if (!actor) throw new Error("Actor is undefined");
 		const templateData = {actor};
 		const html = await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser.hbs`, templateData);
@@ -302,7 +312,7 @@ export class CityDialogs {
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
-						callback: async(html) => {
+						callback: async(html : string) => {
 							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() ;//TODO
 							conf(choice, actor);
 						}
@@ -319,16 +329,16 @@ export class CityDialogs {
 		});
 	}
 
-	static async GMMoveTextBox(title, text, options = {}) {
+	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
-		const render = options?.disable ? (args) => {
+		const render = options?.disable ? (args: string[]) => {
 			console.log("Trying to disable");
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		} : () => 0;
 
 		let sender = options?.speaker ?? {};
 		if (!sender?.alias && sender.actor) {
-			alias = actor.getDisplayedName();
+			sender.alias = sender.actor.getDisplayedName();
 		}
 		return new Promise( (conf, _rej) => {
 			const options = {};
@@ -348,13 +358,12 @@ export class CityDialogs {
 					}
 				},
 				default: "two",
-				render
 			}, options);
 			dialog.render(true);
 		});
 	}
 
-	static async getRollModifierBox (rollOptions) {
+	static async getRollModifierBox (rollOptions : CityRollOptions) {
 		const moves = CityHelpers.getMoves();
 		const templateData = {moves,
 			...rollOptions};
@@ -409,26 +418,28 @@ export class CityDialogs {
 	actorName: actor doing move,
 	moveId: move being used,
 	*/
-	static async getHelpHurt(dataObj, session) {
+	static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: string}, session : unknown) {
 		const {actorId, moveId} = dataObj;
-		const myCharacter = game.user.character;
+		const myCharacter = game.user.character as CityActor | undefined;
 		if (myCharacter == null) {
 			const warning =  `No Character selected for ${game.user.name}, can't spend Help/Hurt`;
 			ui.notifications.warn(warning);
 			return Promise.reject(warning);
 		}
+		if (myCharacter.system.type != "character")
+			return;
 		if (!myCharacter.hasHelpFor(actorId) && !myCharacter.hasHurtFor(actorId)) {
 			return Promise.reject( "No Juice for you");
 		}
 		await CityHelpers.playPing();
 		const templateData = {
-			move: await CityHelpers.getMoveById(moveId),
+			move:  CityHelpers.getMoveById(moveId),
 			actor: await CityDB.getActorById(actorId),
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
 		return await new Promise( (conf, reject) => {
 			const options ={};
-			let buttons = {
+			let buttons : Record<string, unknown> = {
 				none: {
 					icon: '<i class="fas fa-times"></i>',
 					label: localize("CityOfMist.command.cancel"),
@@ -458,9 +469,12 @@ export class CityDialogs {
 		});
 	}
 
-	static async chooseHelpHurt(whichOne, dataObj, session) {
+	static async chooseHelpHurt(whichOne: "help" | "hurt", dataObj: CityItem, session: JuiceSpendingSessionS) {
 		await session.getTimeExtension(10 * 60);
-		const myCharacter = game.user.character;
+		const myCharacter = game.user.character as CityActor | undefined;
+		if (!myCharacter) {
+			throw new Error(`No character for: ${game.user}`);
+		}
 		console.log("Sending notify");
 		await session.notify("pending", {
 			type: whichOne,
@@ -485,8 +499,8 @@ export class CityDialogs {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: localize("CityOfMist.dialog.spendHelpHurt.Initial"),
-						callback: (html) => {
-							const amount = $(html).find("#HH-slider").val();
+						callback: (html : string) => {
+							const amount = Number($(html).find("#HH-slider").val());
 							if (amount > 0) {
 								conf ( {
 									direction: whichOne == "hurt" ? -1 : 1,

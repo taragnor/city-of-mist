@@ -1,6 +1,6 @@
-import {SocketInterface, MasterSession, SlaveSession} from "./sockets.mjs";
+import {SocketInterface, MasterSession, SlaveSession} from "./sockets.js";
 import {CityDialogs} from "./city-dialogs.mjs";
-import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession, JuiceSpendingSessionM, JuiceSpendingSessionS, TagAndStatusCleanupSessionS, TagAndStatusCleanupSessionM, DowntimeSessionM, DowntimeSessionS} from "./city-sessions.mjs"
+import {JuiceMasterSession, JuiceSlaveSession, TagReviewMasterSession, TagReviewSlaveSession, JuiceSpendingSessionM, JuiceSpendingSessionS, TagAndStatusCleanupSessionS, TagAndStatusCleanupSessionM, DowntimeSessionM, DowntimeSessionS} from "./city-sessions.js"
 
 export class CitySockets {
 

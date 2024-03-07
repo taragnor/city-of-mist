@@ -75,12 +75,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get helpPoints(): Juice[]  {
 		return this.items.
-			filter( x=> x.isHelp()) as Juice[];
+			filter( x=>x.isJuice() &&  x.isHelp()) as Juice[];
 
 	}
 	get hurtPoints (): Juice[] {
 		return this.items.
-			filter( x=> x.isHurt()) as Juice[];
+			filter( x=>x.isJuice() &&  x.isHurt()) as Juice[];
 	}
 
 	get juice() {
@@ -100,7 +100,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.my_statuses.concat(this.my_story_tags);
 	}
 
-	hasHelpFor(this: PC, actorId: string) :boolean {
+	hasHelpFor(actorId: string) :boolean {
 		return this.helpPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
 
 	}

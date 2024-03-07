@@ -93,7 +93,8 @@ export class SocketInterface {
 
 }
 
-class Session {
+
+export class Session {
 	#handlers;
 	#notificationHandlers;
 
@@ -107,7 +108,21 @@ class Session {
 		notify: "__NOTIFY__",
 	}
 
-	constructor( name = "Unnamed Session", id = undefined, userIdList = undefined) {
+	sender: null | SocketInterface;
+	id: string;
+	sessionType: string;
+	name: string;
+	timestamp: number;
+	unresolvedEvents: unknown[];
+	active: boolean;
+	promise: null | Promise<unknown>;
+	reject: null  | ((reason: unknown) => void);
+	conf: null | ((data: unknown) => void);
+	value: unknown;
+	error: unknown;
+
+
+	constructor( name = "Unnamed Session", id ?: string, userIdList ?: string[]) {
 		if (userIdList) {
 			this.registerSubscribers(userIdList);
 		}
@@ -152,7 +167,7 @@ class Session {
 	async start () {
 	}
 
-	setSocketInterface( socketInterface) {
+	setSocketInterface( socketInterface : SocketInterface) {
 		this.sender = socketInterface;
 	}
 

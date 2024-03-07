@@ -106,7 +106,7 @@ export class CityHelpers {
 	@param  {string | undefined } sceneId
 	@return {CityActor}
 	*/
-	static getOwner(ownerId : string, tokenId: string, sceneId: string) : CityActor | CityItem {
+	static getOwner(ownerId : string, tokenId?: string, sceneId?: string) : CityActor | CityItem {
 		if (!ownerId)
 			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
 	 if (!tokenId) {
