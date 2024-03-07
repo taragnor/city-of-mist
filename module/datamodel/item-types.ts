@@ -80,6 +80,7 @@ class Themekit extends DataModel {
 	get type() {return "themekit" as const}
 	static override defineSchema() {
 		return {
+			...defaultItem(),
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			use_tb_improvements: new bool({initial: false}),

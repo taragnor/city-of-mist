@@ -295,13 +295,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return !this.system.finalized;
 	}
 
-	getTags(id ?: string, subtype ?:null) {
+	getTags(id ?: string, subtype ?:null) : Tag[] {
 		const tags=  this.items.filter(x => {
 			return x.system.type == "tag" && (id == null || x.system.theme_id == id) && (subtype == null || x.system.subtype == subtype);
 		});
 		if (! tags.filter)
 			throw new Error("non array returned");
-		return tags;
+		return tags as Tag[];
 	}
 
 	/** Deletes a tag from the actor
