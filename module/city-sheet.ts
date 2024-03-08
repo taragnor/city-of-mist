@@ -78,7 +78,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		this.scrollTop = $(".actor-sheet").scrollTop() ?? 0;
 	}
 
-	async confirmBox(title: string, text: string, options: string) {
+	async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
 		const loc_title = localizeS(title);
 		return await CityHelpers.confirmBox(loc_title, text, options);
 	}

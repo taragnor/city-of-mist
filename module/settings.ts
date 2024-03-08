@@ -550,7 +550,7 @@ function delayedReload() {
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");
 
-const devMode = CitySettings.get("devMode")
-const debug = CitySettings.get("debugMode");
+const devMode = CitySettings.get("devMode").valueOf();
+const debug = CitySettings.get("debugMode").valueOf();
 Debug.setDebugMode(devMode && debug);
 

@@ -2,7 +2,7 @@ import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
 import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
-import { HTMLTools } from "./tools/HTMLTools.mjs";
+import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityLogger } from "./city-logger.js";
 import { Sounds } from "./tools/sounds.mjs";
 import { TokenTools } from "./tools/token-tools.mjs";
@@ -534,7 +534,7 @@ export class CityHelpers {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title, text, options) {
+	static async confirmBox(title: string, text: string, options: Record<string, unknown>) {
 		return await HTMLTools.confirmBox(title, text, options);
 	}
 
