@@ -4,13 +4,13 @@ import { CityDB } from "./city-db.js";
 import { TagType } from "./datamodel/tag-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import { CityActor } from "./city-actor.js";
-import { ClueChatCards } from "./clue-cards.mjs";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import { ClueChatCards } from "./clue-cards.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {CityDialogs} from "./city-dialogs.js";
 import {CityHelpers} from "./city-helpers.js";
-import {TagAndStatusCleanupSessionM} from "./city-sessions.mjs";
-import {CitySockets} from "./city-sockets.mjs";
-import { CityLogger } from "./city-logger.mjs";
+import {TagAndStatusCleanupSessionM} from "./city-sessions.js";
+import {CitySockets} from "./city-sockets.js";
+import { CityLogger } from "./city-logger.js";
 import { CitySettings } from "./settings.js";
 
 export class CityItem extends Item<typeof ITEMMODELS> {

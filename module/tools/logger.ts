@@ -42,7 +42,7 @@ export class Logger {
 	@param {string=] sender.altUser set an alternate user for the message sender
 	@param {string=} whisperTarget contains target of whisper
 	*/
-	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget: string | undefined) {
+	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget?: string) {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
