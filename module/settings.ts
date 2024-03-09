@@ -417,8 +417,8 @@ export class CitySettings {
 
 	static get<K extends keyof typeof SETTINGS>(settingName : K ) : InstanceType<typeof SETTINGS[K]["type"]> {
 		return game.settings.get('city-of-mist', settingName);
-
 	}
+
 	static deleteTemporaryStatuses() {
 		return this.get("handleTempItems") =="all";
 	}

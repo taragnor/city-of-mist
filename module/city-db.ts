@@ -122,7 +122,7 @@ export class CityDB extends DBAccessor {
 			.filter( x=> x.system.type == "threat" && x.system.is_template) as Danger[];
 	}
 
-	static getDangerTemplate(id : string) {
+	static getDangerTemplate(id : string): Danger | undefined {
 		return this._dangerTemplates.find( x=> x.id  == id);
 	}
 

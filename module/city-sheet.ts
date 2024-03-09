@@ -1,14 +1,14 @@
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { localize } from "./city.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
-import { CityDB } from "./city-db.mjs";
-import {CityDialogs} from "./city-dialogs.mjs";
-import { DragAndDrop } from "./dragAndDrop.mjs";
+import { CityDB } from "./city-db.js";
+import {CityDialogs} from "./city-dialogs.js";
+import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 
 export class CitySheet extends ActorSheet<CityActor> {
-	override actor: CityActor
+	override actor: CityActor;
 	scrollTop: number = 0;
 
 	/* -------------------------------------------- */

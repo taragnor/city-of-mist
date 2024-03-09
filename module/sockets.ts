@@ -69,7 +69,7 @@ export class SocketInterface {
 				newSession.handleMessage(msg);
 				return;
 			} else {
-				console.warn(`Unhandled Data Object Type in socekt  ${msg.type} in session ${msg.sessionType}, ID: ${sId}`);
+				console.warn(`Unhandled Data Object Type in socket  ${msg.type} in session ${msg.sessionType}, ID: ${sId}`);
 			}
 		}
 	}

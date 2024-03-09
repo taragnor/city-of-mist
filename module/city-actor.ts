@@ -1,12 +1,12 @@
 import { Tag } from "./city-item.js";
 import { localize } from "./city.js";
 import { CityItem } from "./city-item.js";
-import {CityDB} from "./city-db.mjs";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {CityDB} from "./city-db.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {CityHelpers} from "./city-helpers.js";
-import {SceneTags} from "./scene-tags.mjs";
-import {CityDialogs} from "./city-dialogs.mjs";
-import {CityLogger} from "./city-logger.mjs";
+import {SceneTags} from "./scene-tags.js";
+import {CityDialogs} from "./city-dialogs.js";
+import {CityLogger} from "./city-logger.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { Juice } from "./city-item.js";
 import { Improvement } from "./city-item.js";
@@ -16,6 +16,7 @@ import { GMMove } from "./city-item.js";
 import { ClueJournal } from "./city-item.js";
 import { Theme } from "./city-item.js";
 import { Spectrum } from "./city-item.js";
+import { CityActorSheet } from "./city-actor-sheet.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
@@ -184,7 +185,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (this.system.type != "threat") return [];
 		return (this.system.template_ids ?? [])
 			.map( id =>  CityHelpers.getDangerTemplate(id)
-				?? CityDB.getActorById(id))
+				?? CityDB.getActorById(id) as Danger)
 			.filter (x => x != null);
 	}
 
@@ -235,7 +236,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter( x => {
 			return x.system.type == "tag" && x.system.subtype == "story";
 		})
-			.sort(CityDB.namesort);
+			.sort(CityDB.namesort<CityItem>);
 	}
 
 	getSelectable(id: string) {
@@ -393,7 +394,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (awardBU && this.system.type == "character") {
 			const BUV = theme.getBuildUpValue();
 			const BUImpGained = await (this as PC).incBuildUp(BUV);
-			await theme.destroyThemeMessage(BUImpGained);
+			await theme.destroyThemeMessage();
 		} else {
 			await CityHelpers.modificationLog(this, `Theme Deleted`, theme);
 		}
@@ -431,7 +432,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			.concat(activeExtraImprovements);
 	}
 
-	getActiveExtras() : CityActor[] {
+	getActiveExtras(this: PC) : CityActor[] {
 		const id = this.system.activeExtraId ;
 		if (!id) return [];
 		else return game.actors
@@ -548,15 +549,16 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter( x=> x.type == "theme");
 	}
 
-	updateThemebook () {
-		const themes = this.items.filter(x => x.type == "theme");
-		for (let theme of themes) {
-			theme.updateThemebook();
-		}
-	}
+	//Removed because it called seemingly nonexistent function
+	// updateThemebook () {
+	// 	const themes = this.items.filter(x => x.type == "theme") as Theme[];
+	// 	for (let theme of themes) {
+	// 		theme.updateThemebook();
+	// 	}
+	// }
 
 	getNumberOfThemes(target_type: string) {
-		const themes = this.items.filter(x => x.type == "theme");
+		const themes = this.items.filter(x => x.type == "theme") as Theme[];
 		let count = 0;
 		for (let theme of themes) {
 			let type = theme.getThemeType();
@@ -938,7 +940,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		await this.incUnspentUpgrades();
 	}
 
-	async addCrewMember(actorId) {
+	async addCrewMember(actorId: string) {
 		let memberIds  = this.system.memberIds.slice();
 		memberIds.push(actorId);
 		await this.update({data: {memberIds}});
@@ -951,11 +953,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		await this.update({data: {memberIds}});
 	}
 
-	async setExtraThemeId (id) {
+	async setExtraThemeId (id: string) {
 		await this.update({data: {activeExtraId:id}});
 	}
 
-	async grantAttentionForWeaknessTag(id) {
+	async grantAttentionForWeaknessTag(id: string) {
 		const tag = await this.getSelectable(id);
 		const theme = await this.getTheme(tag.system.theme_id);
 		await theme.addAttention();
@@ -1123,7 +1125,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async executeGMMove (move, actor = undefined) {
+	async executeGMMove (move: GMMove, actor ?: CityActor) {
 		const {taglist, statuslist, html, options} = await move.prepareToRenderGMMove(this);
 		const speaker = actor ? { alias: actor.getDisplayedName() } : {};
 		if (await CityHelpers.sendToChat(html, speaker)) {

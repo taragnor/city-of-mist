@@ -1,3 +1,4 @@
+import { ThemeKit } from "./city-item.js";
 import { JuiceSpendingSessionS } from "./city-sessions.js";
 import { CityItem } from "./city-item.js"
 import { SlaveSession } from "./sockets.js";
@@ -27,7 +28,7 @@ export class CityDialogs {
 		return await HTMLTools.confirmBox(title, text, options);
 	}
 
-	static async themeBookSelector(actor: CityActor) {
+	static async themeBookSelector(actor: CityActor): Promise<null | Themebook | ThemeKit> {
 		const all_themebooks : Themebook[] = CityHelpers.getAllItemsByType("themebook") as Themebook[];
 		const actorThemes = actor.getThemes();
 		const actorThemebooks = actorThemes.map( theme => theme.themebook);
@@ -67,7 +68,7 @@ export class CityDialogs {
 							}
 							const themebookName = selected.val();
 							if (themebookName != "theme-kit") {
-								const themebook = themebooks.find( x=> x.name == themebookName);
+								const themebook = themebooks.find( x=> x.name == themebookName) as Themebook;
 								conf(themebook);
 							}
 							else {
@@ -92,8 +93,8 @@ export class CityDialogs {
 
 	/** opens an edit dialog to make a new theme kit, allowing choice of a base themebook
 	*/
-	static async createThemeKitDialog(actor: CityActor) {
-		const tk = await actor.createNewThemeKit();
+	static async createThemeKitDialog(actor: CityActor): Promise<ThemeKit | null> {
+		const tk = await actor.createNewThemeKit() as ThemeKit;
 		const ret = await this.itemEditDialog(tk);
 		if (ret) return ret;
 		else {
@@ -106,54 +107,53 @@ export class CityDialogs {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const statusList = actor.my_statuses;
-			const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger, classic, reloaded});
-			return new Promise ( (conf, _reject) => {
-				const dialog = new Dialog({
-					title:`Add Dropped Status: ${name}`,
-					content: html,
-					buttons: {
-						one: {
-							label: "Cancel",
-							callback: (_html: string) => conf(null)
-						},
-						two: {
-							label: "Add",
-							callback: (html) => {
-								const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
-								const newName = $(html).find(".status-name").val();
-								let facedanger;
-								let pips = 0;
-								let boxes;
-								if (classic) {
-								facedanger = $(html).find(".face-danger").is(":checked");
-									tier -= facedanger ? 1 : 0;
-								} else {
-									facedanger = $(html).find(".face-danger").val();
-									let boxes = CityHelpers.statusTierToBoxes(tier);
-									boxes -= facedanger ?? 0;
-									({tier, pips} = CityHelpers.statusBoxesToTiers(boxes));
-									console.log( `${tier}, ${pips}`);
-								}
-								if (!statusChoiceId )
-									return conf({
-										action: "create",
-										name,
-										tier,
-										pips
-									});
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger, classic, reloaded});
+		return new Promise ( (conf, _reject) => {
+			const dialog = new Dialog({
+				title:`Add Dropped Status: ${name}`,
+				content: html,
+				buttons: {
+					one: {
+						label: "Cancel",
+						callback: (_html: string) => conf(null)
+					},
+					two: {
+						label: "Add",
+						callback: (html: string) => {
+							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
+							const newName = $(html).find(".status-name").val();
+							let pips = 0;
+							let boxes;
+							if (classic) {
+								const facedanger = $(html).find(".face-danger").is(":checked");
+								tier -= facedanger ? 1 : 0;
+							} else {
+								const facedanger = Number($(html).find(".face-danger").val());
+								let boxes = CityHelpers.statusTierToBoxes(tier);
+								boxes -= facedanger ?? 0;
+								({tier, pips} = CityHelpers.statusBoxesToTiers(boxes));
+								console.log( `${tier}, ${pips}`);
+							}
+							if (!statusChoiceId )
 								return conf({
-									action:"merge",
-									name: newName,
-									statusId: statusChoiceId,
-									tier : boxes ?? tier,
+									action: "create",
+									name,
+									tier,
 									pips
 								});
-							}
-						},
+							return conf({
+								action:"merge",
+								name: newName,
+								statusId: statusChoiceId,
+								tier : boxes ?? tier,
+								pips
+							});
+						}
 					},
-				}, {});
-				dialog.render(true);
-			});
+				},
+			}, {});
+			dialog.render(true);
+		});
 
 
 	}
@@ -528,7 +528,7 @@ export class CityDialogs {
 		return await TagReviewDialog.create(reviewList, moveId, session, actor);
 	}
 
-	static async itemEditDialog(item) {
+	static async itemEditDialog<T extends CityItem>(item : T) : Promise<T> {
 		item.sheet.render(true);
 		return await new Promise ( (conf, _rej) => {
 			const checker = () =>  {

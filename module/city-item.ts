@@ -1,3 +1,4 @@
+import { Danger } from "./city-actor.js";
 import { localize } from "./city.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityDB } from "./city-db.js";
@@ -193,7 +194,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	/** gets themebook or themekit from a theme or themekit
-	*/
+	 */
 	getThemebook(this: Theme | ThemeKit) : Themebook  | null{
 		if (this.type != "theme" && !this.isThemeKit())
 			throw new Error("Can only be called from a theme or themekit");
@@ -205,7 +206,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const tb = actor.items.find( x=> x.id == id) ??
 			CityDB.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
-		return tb;
+		return tb as Themebook;
 	}
 
 	tags(this: Theme) : Tag[] {
@@ -373,9 +374,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	expendsOnUse() {
-		switch (this.type) {
-			case "tag": return this.isTemporary();
-			case "status": return this.isTemporary();
+		switch (this.system.type) {
+			case "tag": return (this as Tag).isTemporary();
+			case "status": return (this as Status).isTemporary();
 			case "juice": return true;
 			case "clue": return true;
 			default: return false;
@@ -383,9 +384,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	upgradeCost() {
-		switch (this.type) {
+		switch (this.system.type) {
 			case "tag" :
-				return this.isBonusTag() ? 0 : 1;
+				return (this as Tag).isBonusTag() ? 0 : 1;
 			case "improvement":
 				return 1;
 			default:
@@ -398,12 +399,12 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	async destroyThemeMessage(this: Theme) {
-		await CityLogger.rawHTMLLog(this.parent, await this.printDestructionManifest(0), false);
+		await CityLogger.rawHTMLLog(this.parent!, await this.printDestructionManifest(0), false);
 
 	}
 
 	async destructionTest(this: Theme) {
-		return CityLogger.rawHTMLLog(this.parent, await this.printDestructionManifest(0), false);
+		return CityLogger.rawHTMLLog(this.parent!, await this.printDestructionManifest(0), false);
 	}
 
 	async printDestructionManifest(this: Theme, BUImpGained = 0) {
@@ -468,7 +469,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		else if (extra_upgrades > 0)
 			nascent = false;
 		await this.update( {data: {attention: newArr, unspent_upgrades, nascent}});
-		await CityHelpers.modificationLog(this.parent, `Attention Gained `, this, `Current ${await this.getAttention()}`);
+		await CityHelpers.modificationLog(this.parent!, `Attention Gained `, this, `Current ${await this.getAttention()}`);
 		return extra_upgrades;
 	}
 
@@ -554,7 +555,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return true;
 	}
 
-	async addStatus (tierOrBoxes: number, newname :null | string = null) {
+	async addStatus (this:Status, tierOrBoxes: number, newname :null | string = null) {
 		newname = newname ?? this.name;
 		const system = CityHelpers.getStatusAdditionSystem();
 		switch (system) {
@@ -1062,7 +1063,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		} else {
 			const templateData = {actor: this.parent, clue: this};
 			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-use-no-card.hbs", templateData);
-			await CityLogger.sendToChat2(html, {actor: this.parent});
+			await CityLogger.sendToChat2(html, {actor: this.parent?.id});
 
 		}
 		await this.spend();
@@ -1091,14 +1092,14 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (!imps)
 			return [];
 		const arr= Array.from(Object.values(imps));
-		let baseImps: typeof arr= [];
+		let baseImps: typeof arr=  [];
 		if (this.system.use_tb_improvements) {
 			console.log("Using TB imnprovements");
 			if (!this.themebook) {
 				console.warn(`No themebook found for themekit ${this.name}`);
 				return [];
 			}
-			baseImps = this.themebook.themebook_getImprovements();
+			baseImps = this.themebook.themebook_getImprovements() as typeof arr;
 		}
 		const retImps = baseImps
 			.concat(arr)
@@ -1169,7 +1170,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	/** returns Promise<{taglist, statuslist, html and options}>
 	 **/
-	async prepareToRenderGMMove(actor = this.parent) {
+	async prepareToRenderGMMove(this: GMMove, actor = this.parent) {
 		//TODO: X substitution
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
 		const {taglist, statuslist} = this.formatGMMoveText(actor);
@@ -1182,7 +1183,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return {html, options, taglist, statuslist};
 	}
 
-	formatGMMoveText(actor, options = {showPrivate: false}) {
+	formatGMMoveText(this: GMMove, actor: Danger, options = {showPrivate: false}) {
 		const text = CityHelpers.newlineSubstitution(this.system.description);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);

@@ -152,7 +152,7 @@ export class HTMLTools {
 	/** List is in the form of {id, data:[rows], description}
 	returns null if abort or the id of the selection.
 		*/
-	static async multiChoiceBox(list: {id: string, data: string[], description: string}[], headerText: string) {
+	static async multiChoiceBox(list: {id: string, data: string[], description: string}[], headerText: string): Promise<null | string[]> {
 		const options = {};
 		const templateData = {list};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/multiChoiceBox.hbs`, templateData);
@@ -165,9 +165,9 @@ export class HTMLTools {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
 						callback: (htm : string) => {
-							let selection: unknown[] = [];
+							let selection: string[] = [];
 							$(htm).find(".multi-choice-box").find("input:checked").each(function() {
-								selection.push($(this).val());
+								selection.push($(this).val() as string);
 							});
 							if (selection.length > 0) {
 								conf(selection);

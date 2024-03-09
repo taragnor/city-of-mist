@@ -1,3 +1,7 @@
+import { Status } from "./city-item.js";
+import { Tag } from "./city-item.js";
+import { CitySettings } from "./settings.js";
+import { localize } from "./city.js";
 import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
 import { CityRoll } from "./city-roll.js";
@@ -201,11 +205,8 @@ export class CityHelpers {
 
 	/**applies tags and statuses in lists where actor is the active actor
 
-@param {CityItem[]} taglist
-@param {CityItem[]}statuslist
-@param {CityActor} actor
 */
-	static async processTextTagsStatuses(taglist, statuslist, actor = null) {
+	static async processTextTagsStatuses(taglist: {name: string, options: Record<string, unknown>}[], statuslist: {name: string, tier: number, options: Record<string, unknown>}[], actor : CityActor | null = null) {
 		for (const {name: tagname, options} of taglist) {
 			if (options.scene) {
 				await SceneTags.createSceneTag(tagname.trim(), true, options);
@@ -235,7 +236,7 @@ export class CityHelpers {
 
 
 
-	static parseTags(text) {
+	static parseTags(text: string) {
 		let retarr = [];
 		const regex = /\[([^\]]*)\]/gm;
 		let match = regex.exec(text);
@@ -252,7 +253,7 @@ export class CityHelpers {
 	/**Replaces text following a $ with the appropriate term in key,value in replaceObj
 	example: nameSubstitution("#name", {name: "Tom"})
 	*/
-	static nameSubstitution(text, replaceObj = {} ) {
+	static nameSubstitution(text:string, replaceObj : Record<string, string> = {} ) {
 		const regex = /\$([\w]+[\d]*)\b/gm;
 		let match = regex.exec(text);
 		//TODO: FIX THIS
@@ -272,7 +273,7 @@ export class CityHelpers {
 	}
 
 	/** swap out text newlines for <br> **/
-	static newlineSubstitution(inputText) {
+	static newlineSubstitution(inputText: string) {
 		return inputText.split("\n").join("<br>").trim();
 	}
 
@@ -285,7 +286,7 @@ export class CityHelpers {
 			const rest = parts.join("{");
 			if (!rest.includes("}") ) {
 				ui.notifications.error("No closing brace on GMMove");
-				return before;
+				return before ?? "";
 			}
 			const parts2 = rest.split("}");
 			parts2.shift();
@@ -304,7 +305,7 @@ export class CityHelpers {
 			const rest = parts.join("{");
 			if (!rest.includes("}") ) {
 				ui.notifications.error("No closing brace on GMMove");
-				return before;
+				return before ?? "";
 			}
 			const parts2 = rest.split("}");
 			const inner = parts2.shift();
@@ -314,7 +315,7 @@ export class CityHelpers {
 		return text.trim();
 	}
 
-	static unifiedSubstitution(text, status_mod = 0) {
+	static unifiedSubstitution(text :string, status_mod = 0) {
 		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;
 		let match = regex.exec(text);
 		let taglist = [];
@@ -355,11 +356,11 @@ export class CityHelpers {
 		};
 	}
 
-	static parseOptions(optionString) {
+	static parseOptions(optionString: string) : Record<string,boolean> {
 		if (! optionString?.length)
-			return [];
+			return {};
 		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
-		optionString = optionString.split(",")
+		const splitString = optionString.split(",")
 			.map( option => {
 			switch (option.trim()) {
 				case "a":
@@ -377,13 +378,13 @@ export class CityHelpers {
 					return "";
 			}
 		});
-		return optionString.reduce( (acc, item) => {
+		return splitString.reduce( (acc : Record<string, boolean>, item) => {
 			acc[item] = true;
 			return acc;
-		}, {});
+		}, {} );
 	}
 
-	static isStatusParseable(name) {
+	static isStatusParseable(name : string) {
 		const secondToLast = name.at(-2);
 		if ( secondToLast != " " && secondToLast != "-")
 			return false;
@@ -392,7 +393,7 @@ export class CityHelpers {
 		return number_test || lastval == "X";
 	}
 
-	static autoAddstatusClassSubstitution (text) {
+	static autoAddstatusClassSubstitution (text: string) {
 		const regex = /\|\|([^|]+)\|\|/gm;
 		let statuslist = [];
 		let match = regex.exec(text);
@@ -420,7 +421,7 @@ export class CityHelpers {
 		return {html: text, statuslist: statuslistMod};
 	}
 
-	static statusClassSubstitution(text) {
+	static statusClassSubstitution(text: string) {
 		//Change {TAG} into <span class="status-name"> TAG </span>
 		const regex = /\|([^|]+)\|/gm;
 		let match = regex.exec(text);
@@ -434,12 +435,12 @@ export class CityHelpers {
 		return text;
 	}
 
-	static replaceSpaces( text) {
+	static replaceSpaces( text : string) {
 		//for formatting statuses
 		return text.replaceAll(" ", "-");
 	}
 
-	static async parseStatusString (str)  {
+	static async parseStatusString (str : string)  {
 		const last = str.substring(str.length-1);
 		const tier = Number(last);
 		if (Number.isNaN(tier))
@@ -448,7 +449,7 @@ export class CityHelpers {
 		return {name, tier};
 	}
 
-	static async sendNarratedMessage(text) {
+	static async sendNarratedMessage(text : string) {
 		const templateData = {text};
 		const html = await renderTemplate("systems/city-of-mist/templates/narration-box.html", templateData);
 		const speaker = { alias:"Narration" };
@@ -457,7 +458,8 @@ export class CityHelpers {
 			content: html,
 			type: CONST.CHAT_MESSAGE_TYPES.OOC,
 		}
-		CONFIG.ChatMessage.documentClass.create(messageData, {})
+		ChatMessage.create(messageData, {})
+		// CONFIG.ChatMessage.documentClass.create(messageData, {})
 	}
 
 	static async itemDialog(item : CityItem) {
@@ -475,28 +477,27 @@ export class CityHelpers {
 		for (const dep of characterActors) {
 			const state = dep.sheet._state
 			if (state > 0) {
-				CityHelpers.refreshSheet(dep);
+				CityHelpers.refreshSheet(dep as CityActor);
 			}
 		}
 		return true;
 	}
 
 	static refreshSheet(actor: CityActor) {
-		setTimeout( () => actor.sheet.render(false, {}), 1);
-		// setTimeout( () => actor.sheet.render(true, {}), 1);
+		setTimeout( () => actor.sheet.render(false), 1);
 	}
 
-	static async ensureTokenLinked(_scene, token) {
+	static async ensureTokenLinked(_scene: Scene, token: TokenDocument<CityActor>) {
 		if (token.actorLink) return;
 		await token.update ({ actorLink: true });
 		return true;
 	}
 
-	static getTokenDisplayedName(token) {
+	static getTokenDisplayedName(token : TokenDocument<CityActor>) {
 		return token.name;
 	}
 
-	static modArray (array, amount = 1, arrlen = 3) {
+	static modArray (array: number[], amount = 1, arrlen = 3) : [number[], number] {
 		let improvements = 0;
 		let breaker = 0;
 		while (amount > 0) {
@@ -534,12 +535,12 @@ export class CityHelpers {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title: string, text: string, options: Record<string, unknown>) {
+	static async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
 		return await HTMLTools.confirmBox(title, text, options);
 	}
 
-	static middleClick (handler) { return HTMLTools.middleClick(handler); }
-	static rightClick (handler) { return HTMLTools.rightClick(handler); }
+	static middleClick (handler : Function) { return HTMLTools.middleClick(handler); }
+	static rightClick (handler: Function) { return HTMLTools.rightClick(handler); }
 
 
 	static async sessionEnd() {
@@ -549,9 +550,12 @@ export class CityHelpers {
 		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
 			const move = CityHelpers.getMoves()
 				.find (x=> x.system.effect_class.includes("SESSION_END") );
+			if (!move) {
+				throw new Error("Can't find Session end move");
+			}
 			await CityRoll.execMove(move.id, null);
 			for (let actor of game.actors)
-				await actor.sessionEnd();
+				await (actor as CityActor).sessionEnd();
 		}
 	}
 
@@ -575,8 +579,8 @@ export class CityHelpers {
 	static async downtimePCSelector() {
 		const downtime = localize("CityOfMist.moves.downtime.name");
 		const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
-		const PCList = game.actors.filter(x=> x.is_character());
-		const idList =  await HTMLTools.PCSelector(PCList, downtime, downtimeQuery);
+		const PCList: CityActor[] = game.actors.filter((x:CityActor)=>x.system.type == "character") as CityActor[];
+		const idList =  await HTMLTools.PCSelector(PCList, downtime);
 		return idList.map( id => PCList.find( actor => actor.id == id))
 	}
 
@@ -650,9 +654,10 @@ export class CityHelpers {
 		// }
 	}
 
-	static async centerOnActorToken( actor) {
+	static async centerOnActorToken( actor: CityActor) {
 		let position = null;
 		if (actor.isToken) {
+			//@ts-ignore
 			position = actor.parent._object.center;
 		} else {
 			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
@@ -676,18 +681,18 @@ export class CityHelpers {
 	}
 
 	static getStatusAdditionSystem() {
-return game.settings.get("city-of-mist", "statusAdditionSystem");
+		return CitySettings.get("statusAdditionSystem");
 	}
 
 	static getStatusSubtractionSystem() {
-return game.settings.get("city-of-mist", "statusSubtractionSystem");
+		return CitySettings.get("statusSubtractionSystem");
 	}
 
 	static isCommutativeStatusAddition() {
 		return this.getStatusAdditionSystem() == "classic-commutative";
 	}
 
-	static isClassicCoM(elem) {
+	static isClassicCoM(elem: "addition" | "subtraction") {
 		switch (elem) {
 			case "addition":
 				return this.getStatusAdditionSystem().includes("classic");
@@ -701,7 +706,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		}
 	}
 
-	static isCoMReloaded(elem) {
+	static isCoMReloaded(elem : "addition" | "subtraction") {
 		switch (elem) {
 			case "addition":
 		return this.getStatusAdditionSystem().includes("reloaded");
@@ -715,14 +720,14 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		}
 	}
 
-	static statusTierToBoxes(tier, pips=0) {
+	static statusTierToBoxes(tier : number, pips=0) {
 		while (tier > 0) {
 			pips += Math.max(--tier, 1);
 		}
 		return pips;
 	}
 
-	static statusBoxesToTiers(boxes) {
+	static statusBoxesToTiers(boxes : number) {
 		let pips = boxes;
 		let tier = 0;
 		while (pips >= tier && pips > 0)  {
@@ -734,15 +739,15 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 
 	}
 
-	static getMaxWeaknessTags() {
-		return game.settings.get('city-of-mist', "maxWeaknessTags") ?? 999;
+	static getMaxWeaknessTags(): number {
+		return CitySettings.get("maxWeaknessTags").valueOf() ?? 999;
 	}
 
-	static getRollCap() {
-		return game.settings.get("city-of-mist", "maxRollCap");
+	static getRollCap() : number {
+		return CitySettings.get("maxRollCap").valueOf();
 	}
 
-	static delay(time) {
+	static delay(time: number) {
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
 
@@ -754,7 +759,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, _reject) => {
 			const options ={};
-			const returnfn = function (html, tier) {
+			const returnfn = function (html: string, tier: number) {
 				conf( {
 					name: $(html).find(".status-name-input").val(),
 					tier
@@ -770,27 +775,27 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 					},
 					one: {
 						label: "1",
-						callback: (html) => returnfn(html, 1)
+						callback: (html: string) => returnfn(html, 1)
 					},
 					two: {
 						label: "2",
-						callback: (html) => returnfn(html, 2)
+						callback: (html: string) => returnfn(html, 2)
 					},
 					three: {
 						label: "3",
-						callback: (html) => returnfn(html, 3)
+						callback: (html: string) => returnfn(html, 3)
 					},
 					four: {
 						label: "4",
-						callback: (html) => returnfn(html, 4)
+						callback: (html: string) => returnfn(html, 4)
 					},
 					five: {
 						label: "5",
-						callback: (html) => returnfn(html, 5)
+						callback: (html: string) => returnfn(html, 5)
 					},
 					six: {
 						label: "6",
-						callback: (html) => returnfn(html, 6)
+						callback: (html: string) => returnfn(html, 6)
 					},
 				},
 				default: "cancel"
@@ -800,18 +805,18 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 	}
 
 
-	static async sendToChatBox(title, text, options = {}) {
+	static async sendToChatBox(title: string, text: string, options: {label?: string, disable?: boolean, speaker?: ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
-		const render = options?.disable ? (args) => {
+		const render = options?.disable ? (...args: any) => {
 			console.log("Trying to disable");
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		} : () => 0;
 
 		let sender = options?.speaker ?? {};
 		if (!sender?.alias && sender.actor) {
-			alias = actor.getDisplayedName();
+			sender.alias = sender.actor.getDisplayedName();
 		}
-		return new Promise( (conf, rej) => {
+		return new Promise( (conf, _rej) => {
 			const options = {};
 			let dialog = new Dialog({
 				title: `${title}`,
@@ -835,12 +840,12 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		});
 	}
 
-	static async GMMoveTextBox(title, text, options = {}) {
-		CityDialogs.GMMoveTextBox.apply(this, arguments);
+	static async GMMoveTextBox(title: string, text: string, options = {}) {
+		CityDialogs.GMMoveTextBox(title, text, options);
 	}
 
 	static gmReviewEnabled() {
-		if (!game.users.some( x=> x.isGM && x.active))
+		if (!game.users.contents.some( x=> x.isGM && x.active))
 			return false;
 		return game.settings.get('city-of-mist', "tagReview") ?? false;
 	}
@@ -859,7 +864,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return game.settings.get('city-of-mist', "altPower") ?? false;
 	}
 
-	static async toggleTokensCombatState(tokens) {
+	static async toggleTokensCombatState(tokens : Token<CityActor>[]) {
 		for (const token of tokens) {
 			if (token.inCombat)
 				await this.removeTokensFromCombat([token]);
@@ -868,7 +873,7 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		}
 	}
 
-	static async addTokensToCombat(tokens) {
+	static async addTokensToCombat(tokens: Token<CityActor>[]) {
 		const combat = await this.getOrCreateCombat();
       const createData = tokens.map(t => {
         return {
@@ -881,24 +886,27 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
       return combat.createEmbeddedDocuments("Combatant", createData);
 	}
 
-	static async removeTokensFromCombat(tokens) {
+	static async removeTokensFromCombat(tokens: Token<CityActor>[]) {
 		const combat = await this.getOrCreateCombat();
 		const tokenIds = new Set(tokens.map(t => t.id));
-		const combatantIds = combat.combatants.reduce((ids, c) => {
+		const combatantIds = combat.combatants.contents.reduce((ids, c) => {
 			if (tokenIds.has(c.tokenId)) ids.push(c.id);
 			return ids;
-		}, []);
+		}, [] as string[]);
 		return combat.deleteEmbeddedDocuments("Combatant", combatantIds);
 	}
 
 	static async getOrCreateCombat() {
-		let combat = game.combats.viewed;
+		//@ts-ignore
+		let combat: Combat<CityActor> = game.combats.viewed;
 		if ( !combat ) {
 			if ( game.user.isGM ) {
+				//@ts-ignore
 				const cls = getDocumentClass("Combat");
 				const state = false;
-				combat = await cls.create({scene: canvas.scene.id, active: true}, {render: !state || !tokens.length});
+				combat = await cls.create({scene: canvas.scene.id, active: true}, {render: !state});
 			} else {
+				//@ts-ignore
 				ui.notifications.warn("COMBAT.NoneActive", {localize: true});
 				throw new Error("No combat active");
 			}
@@ -906,19 +914,19 @@ return game.settings.get("city-of-mist", "statusSubtractionSystem");
 		return combat;
 	}
 
-	static async toggleCombat(event) {
-		const tokenId = getClosestData(event, "tokenId");
+	static async toggleCombat(event: Event) {
+		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		if (!tokenId)
 			throw new Error("No token ID given");
-		const sceneId = getClosestData(event, "sceneId");
+		const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		// const token = game.scenes.active.tokens.get(tokenId);
 		const token = game.scenes.contents
 			.flatMap(sc=> sc.tokens)
-			.find(tokens => tokens.get(tokenId))
+			.find(tokens => tokens.get(tokenId))!
 			.get(tokenId);
 		if (!token)
 			throw new Error( `Can't find token id ${tokenId}`);
-		await CityHelpers.toggleTokensCombatState([token.object]);
+		await CityHelpers.toggleTokensCombatState([token._object as Token<CityActor>]);
 		if (token.inCombat)
 			await CityHelpers.playTagOn();
 		else

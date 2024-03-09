@@ -13,6 +13,7 @@ import {CitySettings} from "./settings.js";
 
 export class CityActorSheet extends CitySheet {
 
+
 	/** @override */
 	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
