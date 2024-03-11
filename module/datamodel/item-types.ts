@@ -32,6 +32,32 @@ type ThemekitImprovementData = Record<number, {
 }>;
 
 
+export type ListConditionalItem = {
+	condition : ConditionalString,
+	text: string,
+	cost ?: number,
+};
+
+export type GMMoveOptions = {
+	autoApply?: boolean,
+	ignoreCollective?: boolean,
+	scene?: boolean,
+	permanent?: boolean,
+	temporary?: boolean,
+}
+
+
+const CONDITIONALS = [
+	"gtPartial",
+	"gtSuccess",
+	"eqDynamite",
+	"eqPartial",
+	"eqSuccess",
+	"Always",
+	"Miss",
+] as const;
+
+type ConditionalString = typeof CONDITIONALS[number];
 
 function defaultItem() {
 	return {
@@ -192,7 +218,7 @@ class Juice extends DataModel {
 			source: new txt(),
 			method: new txt(),
 			tagsUsed: new arr(new id(), {initial: []}),
-			subtype: new txt(),
+			subtype: new txt( {initial: undefined, choices:["help", "hurt", ""]} ),
 			targetCharacterId: new id(),
 		}
 	}
@@ -208,7 +234,7 @@ class Move extends DataModel {
 			onMiss: new txt(),
 			onPartial: new txt(),
 			always: new txt(),
-			listConditionals: new arr( new txt()),
+			listConditionals: new arr( new obj<ListConditionalItem>()),
 			subtype: new txt({choices: ["Core", "Advanced", "SHB"], initial: "Core"}),// this used to be type and needs to be replaced
 			effect_class: new txt(),
 			abbreviation: new txt(),

@@ -1,3 +1,5 @@
+import { ListConditionalItem } from "./datamodel/item-types.js";
+import { RollResultType } from "./city-roll.js";
 import { Danger } from "./city-actor.js";
 import { localize } from "./city.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
@@ -15,7 +17,8 @@ import { CityLogger } from "./city-logger.js";
 import { CitySettings } from "./settings.js";
 
 export class CityItem extends Item<typeof ITEMMODELS> {
-	override parent: CityActor | undefined;
+
+	declare parent: CityActor | undefined;
 
 	async getCrack(this: Theme) {
 		return this.system.crack.reduce( (acc, i) => acc+i, 0);
@@ -29,7 +32,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		super.prepareDerivedData();
 		switch (this.system.type) {
 			case "improvement":
-				this.system.choice_type = this.getChoiceType();
+				this.system.choice_type = (this as Improvement).getChoiceType();
 				break;
 			default: break;
 		}
@@ -59,8 +62,15 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "tag":
 				try {
 					if (this.themebook && this.themebook.isThemeKit()) {
-						const tags = this.themebook.themekit_getTags(this.subtype);
-						return tags.find(x=> x.tagname == this.name)?.description ?? "";
+						const x = this.subtype;
+						switch (x) {
+							case "power":
+							case "weakness":
+								const tags = this.themebook.themekit_getTags(x);
+								return tags.find(x=> x.tagname == this.name)?.description ?? "";
+							default:
+									return this.system.description;
+						}
 					} else {
 						return this.system.description;
 					}
@@ -68,7 +78,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					console.error(e);
 					break;
 				}
-				break;
 			default: break;
 		}
 		if ("description" in this.system)  {
@@ -87,7 +96,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	get subtags() {
 		if (!this.parent) return [];
 		if (this.system.type != "tag") return [];
-		return (this.parent).getTags().
+		return (this.parent as CityActor).getTags().
 			filter( tag => tag.system.parentId == this.id);
 	}
 
@@ -110,6 +119,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "themebook": return this.system.type;
 			case "themekit": return this.themebook?.subtype ?? this.system.type;
 			case "status" :return "";
+			case "tag": return this.system.subtype;
 			default: if ("subtype" in this.system) return this.system.subtype;
 		}
 		return "";
@@ -150,7 +160,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			return false;
 		if ( this.hasEffectClass(`ALWAYS_DYN_${moveAbbr}`) )
 			return true;
-		const theme = this.parent.getTheme(this.system.theme_id);
+		const theme = (this.parent as CityActor)?.getTheme(this.system.theme_id);
 		if (theme) {
 			const hasThemeTagActivated = SelectedTagsAndStatus
 				.getPlayerActivatedTagsAndStatusItems()
@@ -509,7 +519,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			if (state == 3)
 				CityHelpers.playBurn();
 		} else  {
-			const session = new TagAndStatusCleanupSessionM("burn", this.id, this.parent.id, this.parent.tokenId, state);
+			const session = new TagAndStatusCleanupSessionM("burn", this.id, this.parent.id, this.parent.tokenId, state != 0);
 			await CitySockets.execSession(session);
 			if (state == 3)
 				CityHelpers.playBurn();
@@ -713,20 +723,13 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return await this.update( {"data.unspent_upgrades" : newval});
 	}
 
-	async unselectForAll() {
-		(game.actors.contents as CityActor[]).forEach( actor => {
-			if (actor.hasActivatedTag(this.id))
-				actor.toggleTagActivation(this.id);
-		});
-	}
-
 	async setField (field: string, val: unknown) {
 		let data : Record<string, unknown> = {};
 		data[field] = val;
 		return await this.update({data});
 	}
 
-	static generateMoveText(movedata, result, power = 1) {
+	static generateMoveText(movedata: Move, result: RollResultType, power = 1) {
 		const numRes = CityItem.convertTextResultToNumeric(result);
 		const data = movedata.system;
 		let html = "";
@@ -742,14 +745,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return CityItem.substitutePower(html, power);
 	}
 
-	getFormattedText (actor_id: string) {
-		const actor = game.actors.get(actor_id) as CityActor;
-		if (!actor) return "NULL ACTOR";
-		const name = actor?.getDisplayedName() ?? this.parent?.getDisplayedName() ?? "NULL ACTOR";
-		//What does this do? seems to point to error since html isn't a field
-		return CityHelpers.nameSubstitution(this.system.html, {name});
-	}
-
 	static substitutePower(txt: string, power: number) {
 		txt = txt.replace("PWR+3", String(Math.max(1, power+3)));
 		txt = txt.replace("PWR+2", String(Math.max(1, power+2)));
@@ -762,7 +757,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return txt;
 	}
 
-	static generateMoveList(movedata: Move, result: string, power = 1) {
+	static generateMoveList(movedata: Move, result: RollResultType, power = 1) {
 		const lists =  movedata.system.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
@@ -774,7 +769,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		});
 	}
 
-	static getMaxChoices (movedata: Move, result: string, power = 1) {
+	static getMaxChoices (movedata: Move, result: RollResultType, power = 1) {
 		const effectClass = movedata.system.effect_class ?? "";
 		let resstr = null;
 		switch (result) {
@@ -782,7 +777,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "Success": resstr = "HIT"; break;
 			case "Partial": resstr = "PAR"; break;
 			case "Failure": resstr = "MIS"; break;
-			default: throw new Error(`Unknown Result ${result}`);
+			default:
+				result satisfies never;
+				throw new Error(`Unknown Result ${result}`);
 		}
 		//TODO: replace wtih regex
 		let str = "CHOICE"+resstr;
@@ -799,7 +796,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return Infinity;
 	}
 
-	static convertTextResultToNumeric(result: string) : number {
+	static convertTextResultToNumeric(result: RollResultType) : number {
 		switch (result) {
 			case "Dynamite":return 3;
 			case "Success": return 2;
@@ -809,7 +806,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 	}
 
-	static meetsCondition(cond: string, result: string) : boolean {
+	static meetsCondition(cond: ListConditionalItem["condition"], result: RollResultType) : boolean {
 		const numRes = CityItem.convertTextResultToNumeric(result);
 		switch (cond) {
 			case "gtPartial": return numRes >= 1;
@@ -820,6 +817,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "Always": return true;
 			case "Miss": return numRes == 0;
 			default:
+				cond satisfies never;
 				throw new Error(`Unkonwn Condition ${cond}`);
 		}
 	}
@@ -879,9 +877,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		else return "";
 	}
 
-	isHurt(this: Juice) { return this.type == "juice" && this.getSubtype() == "hurt"; }
-	isHelp(this: Juice) { return this.type == "juice" && this.getSubtype() == "help"; }
-	isJuice() : this is Juice{ return this.system.type == "juice" && this.getSubtype() == ""; }
+	isHurt() : boolean{ return this.isJuice() && this.getSubtype() == "hurt"; }
+	isHelp():  boolean{ return this.isJuice() && this.getSubtype() == "help"; }
+	isUntypedJuice() : boolean{ return this.isJuice() && !this.getSubtype();}
+	isJuice() : this is Juice{ return this.system.type == "juice";}
 	isStatus() : this is Status { return this.type == "status"; }
 
 	isTemporary(this: Status | Tag) {
@@ -909,8 +908,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				const juice= this as Juice;
 				if (!juice.isHelpHurt())
 					return juice.name;
-				if (juice.isHelp())
+				if (juice.isHelp()) {
 					return `Help ${juice.getTargetName()} (${juice.parent!.name})`;
+				}
 				if (juice.isHurt())
 					return `Hurt ${juice.getTargetName()} (${juice.parent!.name})`;
 				throw new Error("Something odd happened?");
@@ -923,7 +923,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				else return x;
 
 			default:
-				if (this.system?.locale_name)
+				if ("locale_name" in this.system)
 					return localizeS(this.system.locale_name).toString();
 				else
 					return this.name.toString();
@@ -1162,9 +1162,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	async GMMovePopUp(actor = this.parent) {
 		if (this.type != "gmmove" )
 			throw new Error("Type is not GM move");
-		const {taglist, statuslist, html, options} = await this.prepareToRenderGMMove(actor);
-		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options)) {
-			actor.executeGMMove(this, actor);
+		const {taglist, statuslist, html, options} = await (this as GMMove).prepareToRenderGMMove(actor);
+		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options) && actor) {
+			actor.executeGMMove(this as GMMove, actor);
 		}
 	}
 
@@ -1172,8 +1172,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	 **/
 	async prepareToRenderGMMove(this: GMMove, actor = this.parent) {
 		//TODO: X substitution
+		if (! actor) throw new Error(`No parent for GMMove ${this.name}`);
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
-		const {taglist, statuslist} = this.formatGMMoveText(actor);
+		const {taglist, statuslist} = this.formatGMMoveText(actor as Danger);
 		const options = { token: null ,
 			speaker: {
 				actor:actor,

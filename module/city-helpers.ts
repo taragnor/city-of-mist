@@ -1,3 +1,4 @@
+import { GMMoveOptions } from "./datamodel/item-types.js";
 import { Status } from "./city-item.js";
 import { Tag } from "./city-item.js";
 import { CitySettings } from "./settings.js";
@@ -356,7 +357,7 @@ export class CityHelpers {
 		};
 	}
 
-	static parseOptions(optionString: string) : Record<string,boolean> {
+	static parseOptions(optionString: string) : GMMoveOptions{
 		if (! optionString?.length)
 			return {};
 		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
@@ -411,13 +412,14 @@ export class CityHelpers {
 			while (match != null) {
 				const name = match[1];
 				const tier = match[2];
-				return { name,
+				return {
+					name,
 					tier,
-					options:{autoApply: true}
+					options:{autoApply: true} as GMMoveOptions
 				};
 			}
 			return null;
-		}).filter( x=> x!= null);
+		}).filter( x=> x!= null) as {name: string, tier: string, options:GMMoveOptions}[];
 		return {html: text, statuslist: statuslistMod};
 	}
 

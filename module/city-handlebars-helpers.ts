@@ -75,10 +75,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		'hasGMMoveOfType': function (actor, subtype, _options) {
 			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
 		},
-		'applyNameSubstitution': function (move, dangerId, _options) {
-			const formatted = move.getFormattedText(dangerId);
-			return new Handlebars.SafeString(formatted);
-		},
 		"displayAlias": (actor, _options) => {
 			return game.actors.get(actor.id).getDisplayedName();
 		},

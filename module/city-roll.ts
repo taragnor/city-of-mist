@@ -749,3 +749,5 @@ Hooks.on("ready", () => {
 	Object.seal(CityRoll);
 });
 
+
+export type RollResultType = "Success" | "Failure" | "Dynamite" | "Partial";

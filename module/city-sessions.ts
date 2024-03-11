@@ -318,7 +318,16 @@ export class JuiceSpendingSessionS extends SlaveSession {
 }
 
 export class TagAndStatusCleanupSessionM extends MasterSession {
-	constructor (commandString, itemId, ownerId, tokenId, burnState) {
+	dataObj  : {
+		commandString: string,
+		itemId: string,
+		ownerId: string,
+		tokenId: string,
+		burnState: boolean
+	};
+
+
+	constructor (commandString: string, itemId: string, ownerId: string, tokenId: string, burnState: boolean = false) {
 		super();
 		this.dataObj = {commandString, itemId, ownerId, tokenId, burnState};
 	}
@@ -341,7 +350,8 @@ export class TagAndStatusCleanupSessionM extends MasterSession {
 }
 
 export class TagAndStatusCleanupSessionS extends SlaveSession {
-	setHandlers() {
+
+	override setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("cleanupTagStatus", this.onCleanupRequest.bind(this));
 	}
