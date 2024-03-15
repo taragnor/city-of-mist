@@ -920,8 +920,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					x = localizeS(this.system.locale_name);
 				if (this.system.choice_item)
 					return `${x} (${this.system.choice_item})`;
-				else return x;
-
+				else return x as string; //tehcincally a SafeString conversion but it should stil lwork fine
 			default:
 				if ("locale_name" in this.system)
 					return localizeS(this.system.locale_name).toString();

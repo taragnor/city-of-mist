@@ -139,11 +139,8 @@ export class SelectedTagsAndStatus {
 			.map( tagShortHand => this.resolveTagAndStatusShorthand(tagShortHand));
 	}
 
-	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ActivatedTagFormat) {
-		//TODO: this check can be removed if no errors happen
-		if (Array.isArray(arguments[0]))
-			throw new Error(" Trying to call with array is deprecated");
-		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id);
+	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ActivatedTagFormat): Tag | Status {
+		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id) as Tag | Status;
 	}
 
 	static fullTagOrStatusToShorthand(tag: Tag): ShorthandNotation {

@@ -211,21 +211,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	/** returns the theme for a given id
 	@return {CityItem}
 	*/
-	getTheme(id: string): Theme {
-		return this.items.find(x => x.type == "theme" && x.id == id);
+	getTheme(id: string): Theme | undefined {
+		return this.items.find(x => x.type == "theme" && x.id == id) as Theme;
 	}
 
 	/** returns the tag for a given id
 	@return {CityItem}
 	*/
-	getTag(id: string): Tag {
+	getTag(id: string): Tag  | undefined{
 		return this.items.find(x => x.type == "tag" && x.id == id);
 	}
 
 	/** returns the item for a given id
 	@return {CityItem}
 	*/
-	getItem(id: string): CityItem {
+	getItem(id: string): CityItem  | undefined{
 		return this.items.find(x =>  x.id == id);
 	}
 
@@ -239,11 +239,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			.sort(CityDB.namesort<CityItem>);
 	}
 
-	getSelectable(id: string) {
+	getSelectable(id: string) :Tag | Status | undefined{
 		return this.items.find(x => (x.type == "tag" || x.type == "status") && x.id == id);
 	}
 
-	async getStatus(id: string): Status {
+	 getStatus(id: string): Status | undefined {
 		return this.items.find(x => x.type == "status" && x.id == id) as Status;
 	}
 
