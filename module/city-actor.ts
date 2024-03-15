@@ -243,14 +243,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find(x => (x.type == "tag" || x.type == "status") && x.id == id);
 	}
 
-	async getStatus(id: string) {
-		return this.items.find(x => x.type == "status" && x.id == id);
+	async getStatus(id: string): Status {
+		return this.items.find(x => x.type == "status" && x.id == id) as Status;
 	}
 
-	getStatuses() {
+	getStatuses() : Status[] {
 		return this.items
 			.filter(x => x.type == "status")
-			.sort(CityDB.namesort);
+			.sort(CityDB.namesort) as Status[];
 	}
 
 	async getClue(id: string) {

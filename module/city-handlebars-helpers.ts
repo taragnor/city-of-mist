@@ -1,5 +1,11 @@
-import {HandlebarsHelpers} from "./tools/handlebars-helpers.mjs";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import { Debug } from "./tools/debug.js";
+import { Tag } from "./city-item.js";
+import { Danger } from "./city-actor.js";
+import { GMMove } from "./city-item.js";
+import { CityActor } from "./city-actor.js";
+import { Juice } from "./city-item.js";
+import {HandlebarsHelpers} from "./tools/handlebars-helpers.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {CityHelpers} from "./city-helpers.js";
 import {CitySettings} from "./settings.js";
 
@@ -58,7 +64,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				};
 			});
 		},
-		'getMoveGroup': function (actor) {
+		'getMoveGroup': function (actor: CityActor) {
 			const data = actor.system;
 			if (!data)
 				throw new Error(`No Data for ${actor.name}`)
@@ -72,38 +78,39 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					return moveList.filter(x=> x.system.category == "Core");
 			}
 		},
-		'hasGMMoveOfType': function (actor, subtype, _options) {
+		'hasGMMoveOfType': function (actor: CityActor, subtype: GMMove["system"]["subtype"]) {
 			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
 		},
-		"displayAlias": (actor, _options) => {
-			return game.actors.get(actor.id).getDisplayedName();
+		"displayAlias": (actor: CityActor) => {
+			return actor.getDisplayedName(); //might be easier
+			// return game.actors.get(actor.id).getDisplayedName();
 		},
 
-		"isHelpHurt": (juice, _options) => {
+		"isHelpHurt": (juice: Juice) => {
 			return juice.isHelpHurt();
 		},
 
-		"helpHurtTarget": (juice, _options) => {
+		"helpHurtTarget": (juice: Juice) => {
 			return juice.getTargetName();
 		},
 
-		"getHurtList": (actor, _options) => {
+		"getHurtList": (actor: CityActor) => {
 			return actor.items.filter( i => i.isHurt());
 		},
 
-		"getHelpList": (actor, _options) => {
+		"getHelpList": (actor : CityActor) => {
 			return actor.items.filter( i => i.isHelp());
 		},
 
-		"getJuiceList": (actor, _options) => {
+		"getJuiceList": (actor : CityActor) => {
 			return actor.items.filter( i => i.isJuice());
 		},
 
-		"PCList": (_actor, _options) => {
+		"PCList": (_actor: CityActor) => {
 			return game.actors.filter( x => x.type == "character" && x.permission > 0);
 		},
 
-		"getHelpFor": (targetactor, _options) => {
+		"getHelpFor": (targetactor: CityActor) => {
 			return game.actors.filter( x => x.type == "character" &&
 				x.items.find(i => i.isHelp() && i.getTarget() == targetactor)
 			).map( x => x.items
@@ -118,34 +125,25 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			).flat();
 		},
 
-		"formatGMMoveText": (move, actor, showPrivate = false) => {
+		"formatGMMoveText": (move: GMMove, actor: Danger, showPrivate = false) => {
 			const {html} = move.formatGMMoveText(actor, {showPrivate});
 			return new Handlebars.SafeString(html);
 		},
 
-		'getDirection': function (tag) {
+		'getDirection': function (tag : Tag) {
 			const tagId = tag.id;
 			const tokenId = tag?.parent?.tokenId;
 			return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
 		},
 
-	'activatedDirection': function (_sheetownerId, _actorId, tagId, tokenId = "") {
-			console.warn("activatedDirection is a deprecated helper, use getDirection instead");
-		if (typeof tokenId == "object") {
-			tokenId = "";
-			//Fix for handlebars overcall with arguments
-		}
-		return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
-	},
-
-		'defaultTagDirection': function (tagName, tagOwnerId, tagId, tokenId=null) {
+		'defaultTagDirection': function (tagName: string, tagOwnerId: string, tagId: string, tokenId: string | null =null) {
 			if (typeof tokenId == "object") {
 				tokenId = null;
 				//Fix for handlebars overcall with arguments
 			}
 			let tagowner;
 			try{
-				tagowner = CityHelpers.getOwner(tagOwnerId, tokenId);
+				tagowner = CityHelpers.getOwner(tagOwnerId, tokenId? tokenId: undefined);
 			} catch (e) {
 				console.log(`Trouble finding tag owner ${tagOwnerId}, tokenID = ${tokenId}`);
 				console.log(e);
@@ -158,23 +156,25 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return -1;
 			}
 			try {
-			const tag = tagowner.items.find(x=> x.id == tagId);
+				if (! (tagowner instanceof CityActor)) {
+					throw new Error("Tag owner is not an actor");
+				}
+			const tag = tagowner.items.find(x=> x.id == tagId) as Tag;
 			return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
 			} catch (e){
-				Debug(tagowner);
 				throw e;
 
 			}
 		},
 
-		'hasActivatedItem': function (tag) {
+		'hasActivatedItem': function (tag: Tag) {
 			const tagId = tag.id;
 			const tokenId = tag?.parent?.tokenId;
 			return SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );
 		},
 
 
-		'hasActivatedTag': function (_sheetownerId, _actorId, tagId, tokenId = null) {
+		'hasActivatedTag': function (_sheetownerId: string, _actorId: string, tagId: string, tokenId: string | null = null) {
 			console.warn("hasActivatedTag is a deprecated helper, use hasActivatedItem instead");
 			//TODO: actorId isn't used but is there for compatibility with older version
 			return SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find( x=> x.id == tagId && x.tokenId == tokenId );

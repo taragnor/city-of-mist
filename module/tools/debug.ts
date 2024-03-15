@@ -1,4 +1,4 @@
-export class Debug {
+class Debug {
 	static DEBUG = true;
 	static _DList: string[] = [];
 
@@ -23,8 +23,9 @@ export class Debug {
 	}
 }
 
+
 //@ts-ignore
-	window.Debug = Debug.Debug;
+	Debug = Debug.Debug;
 //@ts-ignore
 	window.DLog = Debug.DLog;
 

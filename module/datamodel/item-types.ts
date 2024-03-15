@@ -249,7 +249,7 @@ class Status extends DataModel {
 		return {
 			...defaultItem(),
 			...tiered(),
-			subtype: new num({initial: 0, integer: true}), //what does this field do?
+			subtype: new txt(), //what does this field do?
 			hidden: new bool({initial: false}),
 			spectrum_status: new txt(),
 			temporary: new bool({initial: false}),

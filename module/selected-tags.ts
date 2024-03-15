@@ -1,6 +1,42 @@
+import { HTMLTools } from "./tools/HTMLTools";
+import { CityItem } from "./city-item";
+import { CityHelpers } from "./city-helpers";
+import { Status } from "./city-item";
+import { CityActor } from "./city-actor";
+import { Tag } from "./city-item";
+
+declare global {
+	interface HOOKS{
+		TagOrStatusSelectChange: () => void;
+		preTagOrStatusSelected: (tagOrStatus: Tag | Status, direction: number, amountUsed:number) => boolean;
+		"TagOrStatusSelected": (tagOrStatus: Tag | Status, direction: number, amountUsed: number) => boolean;
+	}
+}
+
+type ShorthandNotation = {
+			id: string,
+			ownerId: string | null,
+			tokenId: string | null,
+			type: CityItem["type"]
+};
+
+type ActivatedTagFormat = {
+			name: string,
+			id: string,
+			amount: number,
+			ownerId: string,
+			tagId: string,
+			type: string,
+			description: string,
+			subtype: string,
+			strikeout: boolean,
+			review: "pending" ,
+			tokenId: string,
+			crispy: boolean
+};
 export class SelectedTagsAndStatus {
 
-	static _playerActivatedStuff = [];
+	static _playerActivatedStuff: ActivatedTagFormat[] = [];
 
 	static clearAllActivatedItems() {
 		this._playerActivatedStuff = [];
@@ -9,11 +45,11 @@ export class SelectedTagsAndStatus {
 
 	/** returns -1, 0, 1 for which direction activateabley is set in
 	*/
-	static toggleSelectedItem(tagOrStatus, direction= 1) {
-		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent.tokenId);
+	static toggleSelectedItem(tagOrStatus: Tag | Status, direction= 1) {
+		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent!.tokenId);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
-				this.removeSelectedItem(tagOrStatus.id, tagOrStatus.parent.tokenId);
+				this.removeSelectedItem(tagOrStatus.id, tagOrStatus.parent!.tokenId);
 				return 0;
 			} else {
 				item.amount *=  -1;
@@ -26,22 +62,22 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static removeSelectedItem(tagOrStatusId, tokenId) {
+	static removeSelectedItem(tagOrStatusId: string, tokenId: string) {
 		this._playerActivatedStuff = this._playerActivatedStuff.filter( x=> !(x.id == tagOrStatusId && x.tokenId == tokenId ));
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-	static toActivatedTagFormat(tagOrStatus, direction =1, amountUsed = 1) {
+	static toActivatedTagFormat(tagOrStatus: Tag | Status, direction =1, amountUsed = 1): ActivatedTagFormat {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
-		let subtype = tag ? tag.system.subtype : "";
+		let subtype : string = tag ? tag.system.subtype : "";
 		subtype = tagOrStatus.type == "juice" && direction>0 ? "help": subtype;
 		subtype = tagOrStatus.type == "juice" && direction>0 ? "hurt": subtype;
-		const base_amount = tagOrStatus.type == "status" ? tagOrStatus.system.tier : 1;
+		const base_amount = tagOrStatus.isStatus() ? tagOrStatus.system.tier : 1;
 		const amount = direction * base_amount * Math.abs(amountUsed);
-		const crispy = (tagOrStatus.system?.crispy || tagOrStatus.system?.temporary) ?? false;
+		const crispy = ((tagOrStatus as Tag).system?.crispy || tagOrStatus.system?.temporary) ?? false;
 		return {
 			name: x.displayedName,
 			id: x.id,
@@ -58,7 +94,7 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static activateSelectedItem(tagOrStatus, direction = 1, amountUsed = 1) {
+	static activateSelectedItem(tagOrStatus: Tag | Status, direction = 1, amountUsed = 1) {
 		const newItem = SelectedTagsAndStatus.toActivatedTagFormat(tagOrStatus, direction);
 		const noInterruptions = Hooks.call("preTagOrStatusSelected", tagOrStatus, direction, amountUsed);
 		if (noInterruptions) {
@@ -71,25 +107,26 @@ export class SelectedTagsAndStatus {
 
 	/** returns shorthand version of tags and statuses
 	*/
-	static getPlayerActivatedTagsAndStatus() {
+	static getPlayerActivatedTagsAndStatus() : ActivatedTagFormat[] {
 		//TODO: return only valid tags and status (not on deleted tokens)
 		return this._playerActivatedStuff
-			.filter( ({id, ownerId, tokenId, type, subtype}) => {
+			.filter( ({id, ownerId, tokenId, type}) => {
 				try {
-					const owner = CityHelpers.getOwner(ownerId, tokenId) ;
+					const owner: CityActor = CityHelpers.getOwner(ownerId, tokenId) as CityActor ;
 					if (!owner) return false;
 					if (tokenId) {
 						const found = game.scenes
-							.find( scene => scene.tokens
+							.find( scene => scene.tokens.contents
 								.some( token => token.id == tokenId)
 							);
 						if (!found)
 							return false;
 					}
-					return owner.getTags().concat(owner.getStatuses()).some( x=> x.id == id && !x.isBurned());
+					const tagsAndStatuses : (Tag | Status)[] = (owner.getTags() as (Tag | Status)[]).concat(owner.getStatuses());
+					return tagsAndStatuses.some( x=> x.id == id && !x.isBurned());
 				} catch (e) {
 					console.warn(`Couldn't verify ${type} tag on ${id}`);
-					Debug({id, ownerId, tokenId, type, subtype});
+					// Debug({id, ownerId, tokenId, type, subtype});
 					return false;
 				}
 			});
@@ -102,14 +139,14 @@ export class SelectedTagsAndStatus {
 			.map( tagShortHand => this.resolveTagAndStatusShorthand(tagShortHand));
 	}
 
-	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}) {
+	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ActivatedTagFormat) {
 		//TODO: this check can be removed if no errors happen
 		if (Array.isArray(arguments[0]))
 			throw new Error(" Trying to call with array is deprecated");
-		return CityHelpers.getOwner(ownerId, tokenId).getItem(id);
+		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id);
 	}
 
-	static fullTagOrStatusToShorthand(tag) {
+	static fullTagOrStatusToShorthand(tag: Tag): ShorthandNotation {
 		return {
 			id: tag.id,
 			ownerId: tag?.parent?.id ?? null ,
@@ -118,7 +155,7 @@ export class SelectedTagsAndStatus {
 		};
 	}
 
-	static getDefaultTagDirection(tag, tagowner, _actor) {
+	static getDefaultTagDirection(tag: Tag, tagowner: CityActor, _actor ?: CityActor) {
 		const subtype = tag?.system?.subtype;
 		try {
 			switch (subtype) {
@@ -132,46 +169,46 @@ export class SelectedTagsAndStatus {
 					return -1;
 			}
 		} catch(e) {
-			Debug(tag);
-			Debug(tagowner);
+			// Debug(tag);
+			// Debug(tagowner);
 			console.warn(e);
 		}
 		return -1;
 	}
 
-	static activateTag( tag, direction= 1) { return this.activateSelectedItem(tag, direction); }
+	static activateTag( tag: Tag, direction= 1) { return this.activateSelectedItem(tag, direction); }
 
-	static activateStatus(status, direction= 1) { return this.activateSelectedItem(status, direction); }
+	static activateStatus(status: Status, direction= 1) { return this.activateSelectedItem(status, direction); }
 
 
-	static async selectTagHandler_invert(event) {
+	static async selectTagHandler_invert(event: Event) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, true);
 	}
 
-	static async selectTagHandler(event) {
+	static async selectTagHandler(event: Event) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, false);
 	}
 
-	static async _selectTagHandler(event , invert = false ) {
-		const id = getClosestData(event, "tagId");
-		const tagownerId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const sceneId = getClosestData(event, "sceneId");
-		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
+	static async _selectTagHandler(event: Event , invert = false ) {
+		const id = HTMLTools.getClosestData(event, "tagId");
+		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		const owner = CityHelpers.getOwner(tagownerId, tokenId, sceneId ) as CityActor;
 		if (!owner)
 			throw new Error(`Owner not found for tagId ${id}, token: ${tokenId}`);
-		const tag = await owner.getTag(id);
+		const tag =  owner.getTag(id);
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		const subtype = tag.system.subtype;
+		// const subtype = tag.system.subtype;
 		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
 			direction *= -1;
 		const activated = this.toggleSelectedItem(tag, direction);
 
 		if (activated === null) return;
-		const html = $(event.currentTarget);
+		const html = $(event.currentTarget!);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
 		if (activated != 0) {
@@ -186,33 +223,33 @@ export class SelectedTagsAndStatus {
 
 	}
 
-	static async selectStatusHandler_invert(event) {
+	static async selectStatusHandler_invert(event: Event) {
 		return await SelectedTagsAndStatus._statusSelect(event, true);
 	}
 
-	static async selectStatusHandler(event) {
+	static async selectStatusHandler(event: Event) {
 		return await SelectedTagsAndStatus._statusSelect(event, false);
 	}
 
-	static async _statusSelect (event, invert = false) {
-		const id = getClosestData(event, "statusId");
-		const tagownerId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const sceneId = getClosestData(event, "sceneId");
+	static async _statusSelect (event: Event, invert = false) {
+		const id = HTMLTools.getClosestData(event, "statusId");
+		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		if (!tagownerId || tagownerId.length <0)
 			console.warn(`No ID for status owner : ${tagownerId}`);
 		let direction = -1;
 		if (invert)
 			direction *= -1;
-		const owner = await CityHelpers.getOwner(tagownerId, tokenId, sceneId );
-		const status = await owner.getStatus(id);
+		const owner =  CityHelpers.getOwner(tagownerId, tokenId, sceneId ) as CityActor;
+		const status = owner.getStatus(id);
 		if (!status) {
 			console.error(`Couldn't find status ${id}`);
 			return;
 		}
 		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
 		if (activated === null) return;
-		const html = $(event.currentTarget);
+		const html = $(event.currentTarget!);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
 		if (activated != 0) {
@@ -227,7 +264,7 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static getActivatedDirection(tagId, tokenId) {
+	static getActivatedDirection(tagId: string, tokenId: string) {
 		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
 		if (amount > 0) return 1;
 		if (amount < 0) return -1;
@@ -236,4 +273,4 @@ export class SelectedTagsAndStatus {
 
 }
 
-window.SelectedTagsAndStatus = SelectedTagsAndStatus;
+// window.SelectedTagsAndStatus = SelectedTagsAndStatus;

@@ -120,7 +120,7 @@ export class CityHelpers {
 			return actorOrItem  as CityActor | CityItem;
 		} else {
 			const scene = game.scenes.find (x=> x.id == sceneId) ??
-				game.scenes.find( scene => scene.tokens.some(
+				game.scenes.find( scene => scene.tokens.contents.some(
 					token=> token.id == tokenId && !token.isLinked)
 				);
 			if (!scene)
@@ -128,7 +128,8 @@ export class CityHelpers {
 			if (!tokenId)
 				throw new Error(` No Token Id provided`);
 			const token = scene.tokens.get(tokenId);
-			return token.actor;
+			if (!token) throw new Error("Can't find token");
+			return token.actor as CityActor;
 			// const sceneTokenActors = this.getSceneTokenActors(scene);
 			// return sceneTokenActors.find( x=> x?.token?.id == tokenId);
 		}
