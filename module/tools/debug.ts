@@ -1,8 +1,8 @@
-class Debug {
+ export class DebugTools {
 	static DEBUG = true;
-	static _DList: string[] = [];
+	static _DList: unknown[] = [];
 
-	static Debug(str :string ) {
+	static Debug(str :unknown ) {
 		if (this._DList == null)
 			this._DList= [];
 		this._DList.unshift(str);
@@ -24,8 +24,14 @@ class Debug {
 }
 
 
-//@ts-ignore
-	Debug = Debug.Debug;
-//@ts-ignore
-	window.DLog = Debug.DLog;
+	window.Debug = DebugTools.Debug;
+	window.DLog = DebugTools.DLog;
 
+
+declare global {
+	const Debug  : (item: any) => void;
+	interface Window {
+		Debug(str: any) : void;
+		DLog(num ?: unknown) : void;
+	}
+}

@@ -239,16 +239,12 @@ export class HTMLTools {
 	}
 
 	static initCustomJqueryFunctions() {
-		//@ts-ignore
 		if (!jQuery.fn.middleclick) {
-		//@ts-ignore
 			jQuery.fn.middleclick = function (handler) {
 				this.mousedown(HTMLTools.middleClick(handler));
 			}
 		}
-		//@ts-ignore
 		if (!jQuery.fn.rightclick) {
-		//@ts-ignore
 			jQuery.fn.rightclick = function (handler) {
 				this.mousedown(HTMLTools.rightClick(handler));
 			}
@@ -260,4 +256,10 @@ export class HTMLTools {
 
 HTMLTools.initCustomJqueryFunctions();
 
+declare global {
+	interface JQuery{
+		middleclick(handler: (e: Event) => any) :void;
+		rightclick(handler: (e: Event) => any) :void;
+	}
+}
 

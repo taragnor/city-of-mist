@@ -1,17 +1,19 @@
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
 
-import { CityDialogs } from "./city-dialogs.mjs";
+import { CityDialogs } from "./city-dialogs.js";
 import {CityHelpers} from "./city-helpers.js";
 import {CityActor} from "./city-actor.js";
 import { CitySheet } from "./city-sheet.js";
 import { CityRoll } from "./city-roll.js";
 import { CityLogger } from "./city-logger.mjs";
-import { SelectedTagsAndStatus } from "./selected-tags.mjs";
-import {HTMLHandlers} from "./universal-html-handlers.mjs";
+import { SelectedTagsAndStatus } from "./selected-tags.js";
+import {HTMLHandlers} from "./universal-html-handlers.js";
 import {CitySettings} from "./settings.js";
 
+
 export class CityActorSheet extends CitySheet {
+
 
 
 	/** @override */
@@ -31,45 +33,45 @@ export class CityActorSheet extends CitySheet {
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
 		HTMLHandlers.applyBasicHandlers(html);
-		html.find('.theme-item-edit').change( this._modifyThemeField.bind(this));
-		html.find('.theme-item-edit').focusout( this._modifyThemeField.bind(this));
-		html.find('.theme-name-input').change( this._themebookNameInput.bind(this));
-		html.find('.theme-name-input').focusout( this._themebookNameInput.bind(this));
-		html.find('.theme-create-power-tag').click(this._createTagOrImprovement.bind(this) );
-		html.find('.theme-create-weakness-tag').click(this._createTagOrImprovement.bind(this) );
-		html.find('.theme-create-bonus-tag').click(this._createBonusTag.bind(this) );
-		html.find('.theme-create-improvement').click(this._createTagOrImprovement.bind(this) );
-		html.find('.imp-delete').click(this._deleteImprovement.bind(this) );
-		html.find('.theme-delete').click(this._deleteTheme.bind(this) );
-		html.find('.theme-add-attention').click(this._addAttentionOrFade.bind(this));
-		html.find('.theme-remove-attention').click( this._removeAttentionOrFade.bind(this) );
-		html.find('.theme-add-fade').click(this._addAttentionOrFade.bind(this));
-		html.find('.theme-remove-fade').click( this._removeAttentionOrFade.bind(this) );
-		html.find('.improvement-name').click(this._sendImprovementToChat.bind(this));
-		html.find('.improvement-edit').click(this._improvementEdit.bind(this));
-		html.find('.theme-reset-fade').click( this._resetFade.bind(this) );
+		// html.find('.theme-item-edit').on("change", this._modifyThemeField.bind(this));
+		// html.find('.theme-item-edit').on("focusout", this._modifyThemeField.bind(this));
+		html.find('.theme-name-input').on("change", this._themebookNameInput.bind(this));
+		html.find('.theme-name-input').on("focusout", this._themebookNameInput.bind(this));
+		html.find('.theme-create-power-tag').on("click", this._createTagOrImprovement.bind(this) );
+		html.find('.theme-create-weakness-tag').on("click" , this._createTagOrImprovement.bind(this) );
+		html.find('.theme-create-bonus-tag').on("click", this._createBonusTag.bind(this) );
+		html.find('.theme-create-improvement').on("click", this._createTagOrImprovement.bind(this) );
+		html.find('.imp-delete').on("click", this._deleteImprovement.bind(this) );
+		html.find('.theme-delete').on("click", this._deleteTheme.bind(this) );
+		html.find('.theme-add-attention').on("click", this._addAttentionOrFade.bind(this));
+		html.find('.theme-remove-attention').on("click", this._removeAttentionOrFade.bind(this) );
+		html.find('.theme-add-fade').on("click", this._addAttentionOrFade.bind(this));
+		html.find('.theme-remove-fade').on("click",  this._removeAttentionOrFade.bind(this) );
+		html.find('.improvement-name').on("click", this._sendImprovementToChat.bind(this));
+		html.find('.improvement-edit').on("click", this._improvementEdit.bind(this));
+		html.find('.theme-reset-fade').on("click", this._resetFade.bind(this) );
 
-		html.find('.identity-input').change(this._themeChangeInput.bind(this));
-		html.find('.active-extra-drop-down').change(this._activeExtraChange.bind(this));
+		html.find('.identity-input').on("change", this._themeChangeInput.bind(this));
+		html.find('.active-extra-drop-down').on("change", this._activeExtraChange.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
 
-		html.find('.create-clue').click(this._createClue.bind(this));
-		html.find('.clue-delete').click(this._deleteClue.bind(this));
-		html.find('.clue-journal-delete').click(this._deleteJournalClue.bind(this));
-		html.find('.create-juice').click(this._createJuice.bind(this));
-		html.find('.juice-delete').click(this._deleteJuice.bind(this));
-		html.find('.create-help').click(this._createHelp.bind(this));
-		html.find('.create-hurt').click(this._createHurt.bind(this));
-		html.find('.clue-name').click( this._clueEdit.bind(this) );
+		html.find('.create-clue').on("click", this._createClue.bind(this));
+		html.find('.clue-delete').on("click", this._deleteClue.bind(this));
+		html.find('.clue-journal-delete').on("click", this._deleteJournalClue.bind(this));
+		html.find('.create-juice').on("click", this._createJuice.bind(this));
+		html.find('.juice-delete').on("click", this._deleteJuice.bind(this));
+		html.find('.create-help').on("click", this._createHelp.bind(this));
+		html.find('.create-hurt').on("click", this._createHurt.bind(this));
+		html.find('.clue-name').on("click",  this._clueEdit.bind(this) );
 		html.find('.clue-name').middleclick( this._clueEdit.bind(this));
-		html.find('.juice-name').click( this._juiceEdit.bind(this) );
+		html.find('.juice-name').on("click",  this._juiceEdit.bind(this) );
 		html.find('.juice-name').middleclick(this._juiceEdit.bind(this) );
-		html.find('.increment-buildup').click( this._buildUpIncrement.bind(this) );
-		html.find('.decrement-buildup').click( this._buildUpDecrement.bind(this) );
-		html.find('.add-buildup-improvement').click( this._addBUImprovement.bind(this) );
-		html.find('.execute-move-button').click( this._executeMove.bind(this) );
+		html.find('.increment-buildup').on("click",  this._buildUpIncrement.bind(this) );
+		html.find('.decrement-buildup').on("click",  this._buildUpDecrement.bind(this) );
+		html.find('.add-buildup-improvement').on("click",  this._addBUImprovement.bind(this) );
+		html.find('.execute-move-button').on("click",  this._executeMove.bind(this) );
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
-		html.find('.clue-use-button').click(this._useClue.bind(this));
+		html.find('.clue-use-button').on("click", this._useClue.bind(this));
 		// this.testHandlers(html);
 	}
 
@@ -111,6 +113,9 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
+		if (!theme) {
+			throw new Error(`Can't find Theme: ${id}`);
+		}
 		await theme.setField(field, val);
 	}
 
@@ -120,31 +125,38 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
+		if (!theme) {
+			throw new Error(`Can't find Theme: ${id}`);
+		}
 		await theme.update ({name});
 	}
 
-	async _modifyThemeField(event: Event) {
-		const theme_id = HTMLTools.getClosestData(event, "themeId");
-		const field = HTMLTools.getClosestData(event, "dataField");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const actor = this.getOwner(actorId);
-		const theme = actor.getTheme(theme_id);
-		var obj = {};
-		obj.field = $(event.currentTarget!).val();
-		await theme.update({obj});
-	}
+	//Removed because I don't think it does anything
+	//async _modifyThemeField(event: Event) {
+	//	const theme_id = HTMLTools.getClosestData(event, "themeId");
+	//	const field = HTMLTools.getClosestData(event, "dataField");
+	//	const actorId = HTMLTools.getClosestData(event, "ownerId");
+	//	const actor = this.getOwner(actorId);
+	//	const theme = actor.getTheme(theme_id);
+	//	var obj = {};
+	//	obj.field = $(event.currentTarget!).val();
+	//	await theme.update({obj});
+	//}
 
 	async _createTagOrImprovement (event: Event, bonus = false) {
 		//TODO: allow for text string attachment to improvements
-			const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
+		const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
 		const owner = this.getOwner(ownerId);
 		const themeId = HTMLTools.getClosestData(event, "themeId") as string;
 		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
 		const theme = owner.getTheme(themeId);
 		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
 		let idChoice;
+		if (!theme) {
+			throw new Error(`Can't find Theme: ${themeId}`);
+		}
 		if (!bonus) {
-			idChoice  = await CityDialogs.improvementOrTagChoiceList(owner, theme, itemtype, subtype );
+			idChoice  = await CityDialogs.improvementOrTagChoiceList(owner, theme, itemtype, subtype ? subtype : undefined );
 			if (idChoice == null)
 				return;
 		}
@@ -166,11 +178,14 @@ export class CityActorSheet extends CitySheet {
 			const options = {
 				awardImprovement
 			};
-			retobj = await owner.addTag(themeId, subtype, idChoice, options);
-			// tag = await owner.getTag(retobj.id);
-			// if (!tag.isPartOfThemeKit())
-			// 	await this.tagDialog(tag);
-			// await CityHelpers.modificationLog(owner, "Created",  tag);
+			switch (subtype) {
+				case "power":
+				case "weakness":
+				case "bonus":
+					retobj = await owner.addTag(themeId, subtype, idChoice, options);
+				default:
+					throw new Error(`Subtype ${subtype} not recognized`);
+			}
 		} else {
 			retobj = await owner.addImprovement(themeId, idChoice);
 			improvement = await owner.getImprovement(retobj.id);
