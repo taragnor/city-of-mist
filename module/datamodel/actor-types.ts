@@ -46,7 +46,7 @@ function person() {
 	}
 }
 
-export class CharacterSchema extends window.foundry.abstract.DataModel {
+export class CharacterSchema extends foundry.abstract.DataModel {
 	get type() {return "character" as const;}
 	static override defineSchema() {
 		const ret = {
@@ -69,7 +69,7 @@ export class CharacterSchema extends window.foundry.abstract.DataModel {
 
 }
 
-export class ThreatSchema extends window.foundry.abstract.DataModel {
+export class ThreatSchema extends foundry.abstract.DataModel {
 	get type() {return "threat" as const;}
 	static override defineSchema() {
 		return {
@@ -88,7 +88,7 @@ export class ThreatSchema extends window.foundry.abstract.DataModel {
 
 
 
-export class CrewSchema extends window.foundry.abstract.DataModel {
+export class CrewSchema extends foundry.abstract.DataModel {
 	get type() {return "crew" as const;}
 	static override defineSchema() {
 		return {

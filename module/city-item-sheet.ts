@@ -286,7 +286,6 @@ export class CityItemSheetLarge extends CityItemSheet {
 	}
 }
 
-
 export class CityItemSheetSmall extends CityItemSheet {
 		/** @override */
 		static override get defaultOptions() {

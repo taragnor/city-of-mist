@@ -2,7 +2,7 @@ const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, 
 import { MOVETYPES } from "./move-types";
 import { TAGTYPES } from "./tag-types";
 
-const DataModel = window.foundry.abstract.DataModel;
+const DataModel = foundry.abstract.DataModel;
 
 const VERSION ="1" ; //TODO: import real version number
 

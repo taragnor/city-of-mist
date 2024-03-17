@@ -1,4 +1,6 @@
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import { ShorthandNotation } from "./selected-tags.js"
+import { CityItem } from "./city-item.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
 
 export class ReviewableModifierList extends Array {
 
@@ -9,13 +11,13 @@ export class ReviewableModifierList extends Array {
 		);
 	}
 
-	toAllItems() {
+	toAllItems() : CityItem[] {
 		return Array.from(
 			this.map( x=> x.item)
 		);
 	}
 
-	toValidShortHand() {
+	toValidShortHand(){
 		return Array.from(
 			this.approved
 			.map ( x=> SelectedTagsAndStatus.fullTagOrStatusToShorthand(x.item))
@@ -56,7 +58,7 @@ export class ReviewableModifierList extends Array {
 	}
 
 	/** flips the direction of the item with amatching id, throws an error if it can't find the id */
-	flipAmount (id) {
+	flipAmount (id: string) {
 		const item = this.find( x=> x.item.id == id);
 		if (!item) {
 			Debug(this);
@@ -67,7 +69,7 @@ export class ReviewableModifierList extends Array {
 			item.review = "pending";
 	}
 
-	static fromSendableForm(sendableArray) {
+	static fromSendableForm(sendableArray: SendableItem[]) {
 		const items = sendableArray.map ( ({sendableItem, review, amount}) => {
 			return {
 				item: ReviewableModifierList.#convertFromSendableItem(sendableItem),
@@ -78,7 +80,7 @@ export class ReviewableModifierList extends Array {
 		return new ReviewableModifierList(...items);
 	}
 
-	static #convertToSendableItem(item) {
+	static #convertToSendableItem(item: CityItem): ShorthandNotation {
 		switch (item.type) {
 			case "tag":
 			case "status":
@@ -89,7 +91,7 @@ export class ReviewableModifierList extends Array {
 		}
 	}
 
-	static #convertFromSendableItem(sendableItem) {
+	static #convertFromSendableItem(sendableItem: SendableItem) {
 		switch (sendableItem.type) {
 			case "tag": case "status": case "juice":
 				return SelectedTagsAndStatus.resolveTagAndStatusShorthand(sendableItem);
@@ -110,7 +112,7 @@ export class ReviewableModifierList extends Array {
 		return new ReviewableModifierList(...list);
 	}
 
-	static shortHandToReviewable( shortHandItem) {
+	static shortHandToReviewable( shortHandItem: ShorthandNotation) {
 		const item = SelectedTagsAndStatus.resolveTagAndStatusShorthand(shortHandItem);
 		return {
 			item,
@@ -123,7 +125,7 @@ export class ReviewableModifierList extends Array {
 		this.forEach( item => item.review = "approved");
 	}
 
-	addReviewable( item, amount, reviewStatus = "pending") {
+	addReviewable( item: CityItem, amount: number, reviewStatus = "pending") {
 		if (this.some(i => item.id == i.item.id))
 			return false;
 		const obj = {
@@ -137,4 +139,14 @@ export class ReviewableModifierList extends Array {
 
 }
 
+type SendableItem = {
+	sendableItem: ShorthandNotation,
+	review: ReviewString,
+	amount:number
+}
+
+
+export type ReviewString = "approved" | "pending" | "rejected";
+
+//@ts-ignore
 window.reviewList = ReviewableModifierList;

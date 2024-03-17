@@ -1,21 +1,22 @@
 
 export class EnhancedDialog extends Dialog {
-	#resolve;
-	#reject;
+	#resolve: (value: unknown) => void;
+	#reject: (reason?: any) => void;
 	#cssClass
 
-	constructor(title, cssClass, buttons, optionsObject = {}, defaultButton = null) {
+	constructor(title: string, cssClass: string, buttons:Record<string,ButtonOptions> , optionsObject = {}, defaultButton ?: string) {
 		const consObject = {
 			title,
 			content: `<div class="${cssClass}"> </div>`,
-			close: (html) => this.onClose(html),
-			render: (html) => this._onRender(html),
+			close: (_html: string) => this.onClose(),
+			render: (html: string) => this._onRender(html),
 			buttons,
 			default: defaultButton,
 		};
 		const options = optionsObject;
 		for (const [key, value] of Object.entries(buttons)) {
 			if (!defaultButton) defaultButton = key;
+			//@ts-ignore
 			value.callback = (html) => this[`onButton${key}`](html);
 		}
 		super(consObject, options);
@@ -23,7 +24,7 @@ export class EnhancedDialog extends Dialog {
 		this.element.addClass("auto-height");
 	}
 
-	_setPromise( res, rej) {
+	_setPromise( res: (value: unknown) => void, rej: (reason?:any) => void) {
 		this.#resolve = res;
 		this.#reject = rej;
 	}
@@ -35,11 +36,11 @@ export class EnhancedDialog extends Dialog {
 		});
 	}
 
-	resolve(result) {
+	resolve(result: unknown) {
 		this.#resolve(result);
 	}
 
-	reject(result) {
+	reject(result: unknown) {
 		this.#reject(result);
 	}
 
@@ -47,7 +48,7 @@ export class EnhancedDialog extends Dialog {
 		return this.#cssClass;
 	}
 
-	_onRender(html) {
+	_onRender(html: string) {
 		this.element.addClass("auto-height");
 		this.onRender(html);
 	}
@@ -58,7 +59,7 @@ export class EnhancedDialog extends Dialog {
 			.empty();
 	}
 
-	setHTML(html) {
+	setHTML(html: string) {
 		this.clearHTML();
 		this.element
 			.find(`.${this._cssClass()}`)
@@ -79,7 +80,7 @@ export class EnhancedDialog extends Dialog {
 		this.#resolve(null);
 	}
 
-	onRender(_html) {
+	onRender(_html: string) {
 
 	}
 

@@ -1,17 +1,27 @@
-import {EnhancedDialog} from "./enhanced-dialog.mjs";
-import {HTMLHandlers} from "../universal-html-handlers.mjs";
+import { Tag } from "../city-item.js";
+import { Theme } from "../city-item.js";
+import { CityItem } from "../city-item.js";
+import { localize } from "../city.js";
+import { Move } from "../city-item.js";
+import { CityActor } from "../city-actor.js";
+import {EnhancedDialog} from "./enhanced-dialog.js";
+import {HTMLHandlers} from "../universal-html-handlers.js";
 import {CityHelpers} from "../city-helpers.js";
+import { TagReviewMasterSession } from "../city-sessions.js";
+import { ReviewableModifierList } from "../ReviewableModifierList.js";
 
 
 export class TagReviewDialog extends EnhancedDialog {
 
-	#session;
-	#reviewList;
-	#moveId;
-	#move;
-	#actor;
+	#session: TagReviewMasterSession;
+	#reviewList: ReviewableModifierList;
+	#moveId: string;
+	#move: Move;
+	#actor: CityActor;
+	static _instance: Dialog;
 
-	constructor(reviewList, moveId, session, actor) {
+
+	constructor(reviewList: ReviewableModifierList, moveId: string, session: TagReviewMasterSession, actor) {
 		const title = TagReviewDialog.title();
 		const buttons = TagReviewDialog.buttons();
 		const cssClass = TagReviewDialog.cssClass();
@@ -19,7 +29,10 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.#moveId = moveId;
 		this.#reviewList = reviewList;
 		this.#session = session;
-		this.#move = CityHelpers.getMoveById(moveId);
+
+		const move= CityHelpers.getMoveById(moveId);
+		if (!move) throw new Error(`Can't make session move Id ${moveId} doesn't exist`);
+		this.#move= move;
 		this.#actor = actor;
 		session.setDialog(this);
 	}
@@ -49,14 +62,14 @@ export class TagReviewDialog extends EnhancedDialog {
 		};
 	}
 
-	onButtonOkay(html) {
+	onButtonOkay(_html: string) {
 		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
 		// console.log(`Sending state ${state}`);
 		this.resolve({state, tagList: this.#reviewList});
 	}
 
-	onButtonApproveAll(html) {
+	onButtonApproveAll(_html: string) {
 		this.#reviewList.forEach( tag => tag.review = "approved");
 		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
@@ -67,13 +80,13 @@ export class TagReviewDialog extends EnhancedDialog {
 		return "confirm";
 	}
 
-	onClose(_html) {
+	override onClose() {
 		const state = this.#reviewList.every(x=> x.review == "approved" || x.review == "rejected") ?
 			"approved" : "pending";
 		this.resolve({state, tagList: this.#reviewList});
 	}
 
-	async refreshHTML() {
+	override async refreshHTML() {
 		const templateData = {
 			tagAndStatusList: this.#reviewList,
 			move: this.#move,
@@ -82,7 +95,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
 		this.setHTML(html);
-		this.setListeners();
+		this.setListeners(html);
 	}
 
 	getSuggestedList() {
@@ -92,12 +105,12 @@ export class TagReviewDialog extends EnhancedDialog {
 			.filter( x => x.isTag()
 				&& x.parent == actor
 				&& x.isPowerTag())
-			.map( ptag=> ptag.theme)
+			.map( (ptag: Tag)=> ptag.theme! )
 			.reduce( (arr, theme) => {
 				if (!arr.includes(theme))
 					arr.push(theme);
 				return arr;
-			}, [])
+			}, [] as Theme[])
 			.map ( theme=> actor.items.filter(x=> x.isWeaknessTag() && x.theme == theme))
 			.flat(1)
 			.filter( tag => !items.includes(tag))
@@ -107,19 +120,19 @@ export class TagReviewDialog extends EnhancedDialog {
 		return weaknessTags.concat(statuses);
 	}
 
-	setReviewList(reviewList) {
+	setReviewList(reviewList: ReviewableModifierList) {
 		this.#reviewList = reviewList;
 		this.refreshHTML();
 	}
 
-	addReviewableItem(item, amount) {
+	addReviewableItem(item: CityItem, amount: number) {
 		this.#reviewList.addReviewable( item, amount, "approved");
 		this.#session.updateList(this.#reviewList);
 		this.refreshHTML();
 	}
 
 
-	setListeners(_html) {
+	setListeners(_html: string) {
 		const html = this.element;
 		$(html).mouseover( () => {
 			TagReviewDialog._instance = this;
@@ -172,7 +185,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
-	static async create(reviewList, moveId, session, actor) {
+	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewMasterSession, actor: CityActor) {
 		if (reviewList.length == 0) {
 			return {state: "approved", tagList: reviewList};
 		}

@@ -8,12 +8,12 @@ import { localize } from "./city.js";
 import { Themebook } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
 import {CitySockets} from "./city-sockets.js";
-import {CityDB} from "./city-db.mjs";
+import {CityDB} from "./city-db.js";
 import {CityHelpers} from "./city-helpers.js";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {SceneTags} from "./scene-tags.mjs";
-import {HTMLTools} from "./tools/HTMLTools.mjs";
-import {TagReviewDialog} from "./dialogs/tag-review.mjs";
+import {HTMLTools} from "./tools/HTMLTools.js";
+import {TagReviewDialog} from "./dialogs/tag-review.js";
 
 const PATH = "systems/city-of-mist";
 

@@ -13,10 +13,10 @@ declare global {
 	}
 }
 
-type ShorthandNotation = {
+export type ShorthandNotation = {
 			id: string,
-			ownerId: string | null,
-			tokenId: string | null,
+			ownerId: string ,
+			tokenId?: string ,
 			type: CityItem["type"]
 };
 
@@ -116,7 +116,7 @@ export class SelectedTagsAndStatus {
 					if (!owner) return false;
 					if (tokenId) {
 						const found = game.scenes
-							.find( scene => scene.tokens.contents
+							.find( (scene: Scene) => scene.tokens.contents
 								.some( token => token.id == tokenId)
 							);
 						if (!found)
@@ -139,15 +139,15 @@ export class SelectedTagsAndStatus {
 			.map( tagShortHand => this.resolveTagAndStatusShorthand(tagShortHand));
 	}
 
-	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ActivatedTagFormat): Tag | Status {
+	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ShorthandNotation | ActivatedTagFormat): Tag | Status {
 		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id) as Tag | Status;
 	}
 
 	static fullTagOrStatusToShorthand(tag: Tag): ShorthandNotation {
 		return {
 			id: tag.id,
-			ownerId: tag?.parent?.id ?? null ,
-			tokenId: tag?.parent?.token?.id  ?? null,
+			ownerId: tag.parent?.id ?? "",
+			tokenId: tag?.parent?.token?.id  ?? "",
 			type: tag.type
 		};
 	}
