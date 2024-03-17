@@ -1,3 +1,4 @@
+import { ThemeKit } from "./city-item.js";
 import { Move } from "./city-item.js";
 import { Tag } from "./city-item.js";
 import { localize } from "./city.js";
@@ -611,7 +612,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (!themebook) {
 			throw new Error("Couldn't find Themebook!");
 		}
-		switch (themebook.type) {
+		switch (themebook.system.type) {
 			case "themebook":
 				[tag, upgrades]= await this._addTagFromThemeBook(theme, temp_subtype, question_letter, options);
 				break;
@@ -688,43 +689,49 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return [await this.createNewItem(obj) as Tag, upgrades];
 	}
 
-	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
+	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness", question_letter: string, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
 		const themebook = theme.themebook!;
-		const tagdata = themebook
+		if (themebook.system.type != "themekit") {
+			throw new Error("Not a themekit!");
+		}
+		const tagdata = ((themebook as ThemeKit)
 			.themekit_getTags(temp_subtype)
 			.find( x=> x.letter == question_letter);
-		let custom_tag = false;
-		let subtag = false;
-		let question = "-";
-		let tagname, subtype;
-		let upgrades = 0;
-		const description = tagdata?.description ?? "";
-		switch(temp_subtype) {
-			case "power":
-				subtype = "power";
-				tagname = tagdata.name;
-				subtag = false;
-				await theme.decUnspentUpgrades();
-				upgrades --;
-				break;
-			case "weakness":
-				subtype = "weakness";
-				tagname = tagdata.name;
-				subtag = false;
-				if (options.awardImprovement) {
-					await theme.incUnspentUpgrades();
-					upgrades ++;
-				}
-				break;
-			case "bonus":
-				subtype = "power";
-				custom_tag = true;
-				question_letter = "_";
-				question = "???";
-				break;
-			default:
-				throw new Error(`Unknwon tag subtype ${temp_subtype}`);
-		}
+			if (!tagdata) {
+				throw new Error(`Can't find TagData for ${theme.name} ${temp_subtype}, ${question_letter}`);
+			}
+			let custom_tag = false;
+			let subtag = false;
+			let question = "-";
+			let tagname, subtype;
+			let upgrades = 0;
+			const description = tagdata?.description ?? "";
+			switch(temp_subtype) {
+				case "power":
+					subtype = "power";
+					tagname = tagdata.name;
+					subtag = false;
+					await theme.decUnspentUpgrades();
+					upgrades --;
+					break;
+				case "weakness":
+					subtype = "weakness";
+					tagname = tagdata.name;
+					subtag = false;
+					if (options.awardImprovement) {
+						await theme.incUnspentUpgrades();
+						upgrades ++;
+					}
+					break;
+				case "bonus":
+					subtype = "power";
+					custom_tag = true;
+					question_letter = "_";
+					question = "???";
+					break;
+				default:
+					throw new Error(`Unknwon tag subtype ${temp_subtype}`);
+			}
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
 			type: "tag",

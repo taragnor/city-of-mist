@@ -205,7 +205,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	/** gets themebook or themekit from a theme or themekit
 	 */
-	getThemebook(this: Theme | ThemeKit) : Themebook  | null{
+	getThemebook(this: Theme | ThemeKit) : Themebook  | ThemeKit |  null{
 		if (this.type != "theme" && !this.isThemeKit())
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
@@ -216,7 +216,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const tb = actor.items.find( x=> x.id == id) ??
 			CityDB.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
-		return tb as Themebook;
+		return tb as Themebook | ThemeKit;
 	}
 
 	tags(this: Theme) : Tag[] {
@@ -973,7 +973,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return null;
 	}
 
-	get themebook(): Themebook | null {
+	get themebook(): Themebook | ThemeKit | null {
 		if (this.isTag() || this.isImprovement()) {
 			if (!this.theme)
 				return null;
@@ -1010,7 +1010,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				return null;
 			}
 			const themebook =  theme.getThemebook();
-			if (!themebook) throw new Error("Couldn't find Themebook");
+			if (!themebook ) throw new Error("Couldn't find Themebook");
+			if ( themebook.system.type =="themekit" ) {
+				throw new Error(`Expecting Themebook for improvement ${this.name} but found Themekit instead`);
+			}
 			const impobj = themebook.system.improvements;
 			for (const ind in impobj) {
 				const item = impobj[ind];
@@ -1098,7 +1101,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				console.warn(`No themebook found for themekit ${this.name}`);
 				return [];
 			}
-			baseImps = this.themebook.themebook_getImprovements() as typeof arr;
+			baseImps = (this.themebook as Themebook).themebook_getImprovements() as typeof arr;
 		}
 		const retImps = baseImps
 			.concat(arr)
