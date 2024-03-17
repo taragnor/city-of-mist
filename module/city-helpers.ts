@@ -1,3 +1,4 @@
+import { Move } from "./city-item.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
 import { Status } from "./city-item.js";
 import { Tag } from "./city-item.js";
@@ -24,7 +25,7 @@ export class CityHelpers {
 	static getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
 	static findAllById(id: string, type = "Actor"): typeof type extends "Actor" ? CityActor: CityItem { return CityDB.findById(id, type); }
 	static getThemebooks() { return CityDB.themebooks; }
-	static getMoves() { return CityDB.movesList; }
+	static getMoves() : Move[] { return CityDB.movesList; }
 	static getDangerTemplate(id: string) { return CityDB.getDangerTemplate(id); }
 	static getThemebook(tname: string, id: string) { return CityDB.getThemebook(tname, id); }
 	static async modificationLog(...args: Parameters<typeof CityLogger["modificationLog"]>) { return await CityLogger.modificationLog(...args); }

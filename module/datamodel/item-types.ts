@@ -238,6 +238,7 @@ class Move extends DataModel {
 			subtype: new txt({choices: ["standard", "noroll", "mistroll", "logosroll", "mythosroll"], initial: "standard"}),// this used to be type and needs to be replaced
 			effect_class: new txt(),
 			abbreviation: new txt(),
+			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
 			system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
 		};
 	}
