@@ -1,7 +1,9 @@
-export class CityItemSheet extends ItemSheet {
+import { CityItem } from "./city-item";
+
+export class CityItemSheet extends ItemSheet<CityItem> {
 
 	/** @override */
-	static get defaultOptions() {
+		static override get defaultOptions() {
 		const [width, height] = [600,500];
 		return mergeObject(super.defaultOptions, {
 			classes: ["city-of-mist", "sheet", "item"],
@@ -81,7 +83,6 @@ export class CityItemSheet extends ItemSheet {
 		html.find('.move-add-list-item').click (this._addMoveListItem.bind(this));
 		html.find('.move-condition-input, .move-list-input, .move-choiceAmt-input').change (this._moveListUpdater.bind(this));
 		html.find('.delete-move-list-element').click (this._deleteMoveListElement.bind(this));
-		html.find('.custom-tag-check').click(this._makeTagCustom.bind(this));
 		html.keydown(this.quickClose.bind(this));
 	}
 
@@ -197,12 +198,7 @@ export class CityItemSheet extends ItemSheet {
 		await move.update({"data.listConditionals": lists});
 	}
 
-	async _makeTagCustom (event) {
-		const actor = this.item.options.actor;
-		await actor.onTagMadeBonus();
-	}
-
-	quickClose(event) {
+	quickClose(event: KeyboardEvent) {
 		//closes on Ctrl+S
 		if (!(event.which == 83 && event.ctrlKey)) return true;
 		this.close();

@@ -164,7 +164,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (theme) {
 			const hasThemeTagActivated = SelectedTagsAndStatus
 				.getPlayerActivatedTagsAndStatusItems()
-				.filter(x => x.system.theme_id == theme.id)
+				.filter(x => x.system.type == "tag"  && x.system.theme_id == theme.id)
 				.length > 0;
 			if ( this.hasEffectClass(`THEME_DYN_${moveAbbr}`) ) {
 				return hasThemeTagActivated;
@@ -180,7 +180,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.type == "tag" && this.subtype == "weakness";
 	}
 
-	getActivatedEffect(this: Move) {
+	getActivatedEffect(this: Move | Improvement) {
 		// console.log(`Getting Activated Efect for ${this.name}`);
 		if (this.system.effect_class.includes("DYN"))
 			return {dynamite: true};
@@ -1161,7 +1161,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	async GMMovePopUp(actor = this.parent) {
 		if (this.type != "gmmove" )
 			throw new Error("Type is not GM move");
-		const {taglist, statuslist, html, options} = await (this as GMMove).prepareToRenderGMMove(actor);
+		const {html, options} = await (this as GMMove).prepareToRenderGMMove(actor);
 		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options) && actor) {
 			actor.executeGMMove(this as GMMove, actor);
 		}
@@ -1210,7 +1210,13 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			}
 			html = CityHelpers.nameSubstitution(html, nameSubstitutions);
 		}
-		let statuslist = neostatuslist.concat(extrastatuslist);
+		let statuslist = neostatuslist.concat(extrastatuslist)
+		.map( x=> {
+			const numTier :number = Number.isNaN(Number(x.tier))  ? -999 : Number(x.tier);
+			return {
+			...x, tier: numTier
+			};
+		});
 		return {html, taglist, statuslist};
 	}
 

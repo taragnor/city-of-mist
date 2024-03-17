@@ -24,7 +24,7 @@ export class CityDialogs {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title: string, text: string, options: unknown) {
+	static async confirmBox(title: string, text: string, options: unknown = {}) {
 		return await HTMLTools.confirmBox(title, text, options);
 	}
 

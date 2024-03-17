@@ -62,7 +62,7 @@ export class CharacterSchema extends window.foundry.abstract.DataModel {
 			),
 			unspentBU: new num({initial: 0, min:0, integer:true}),
 			flashback_used: new bool({initial: false}),
-			crewThemeSelected: new id(),
+			crewThemeSelected: new num({initial: 0, integer: true}),
 		} as const;
 		return ret;
 	}

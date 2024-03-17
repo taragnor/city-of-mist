@@ -329,7 +329,7 @@ export class CityHelpers {
 			const name = match[2].trim();
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
-				let tier = name.at(-1);
+				let tier = name.at(-1)!;
 				if (tier != "X" && !options.ignoreCollective) {
 					tier = String(Number(tier) + status_mod);
 				}
