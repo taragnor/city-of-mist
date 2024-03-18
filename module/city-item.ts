@@ -757,7 +757,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return txt;
 	}
 
-	static generateMoveList(movedata: Move, result: RollResultType, power = 1) {
+	static generateMoveList(movedata: Move, result: RollResultType, power = 1) : {origText: string, text: string, cost: number | undefined, checked?:boolean}[] {
 		const lists =  movedata.system.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {

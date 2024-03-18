@@ -20,12 +20,12 @@ export class RollDialog extends Dialog {
 	#power : number;
 	#pendingJuice : CityActor[];
 	#oldButtonHTML : string;
-	roll: Roll;
+	roll: CityRoll;
 	move_id: string;
 	actor: CityActor;
 	static _instance : RollDialog | null = null;
 
-	constructor(roll: Roll, moveId: string, actor: CityActor) {
+	constructor(roll: CityRoll, moveId: string, actor: CityActor) {
 		const title = localize("CityOfMist.dialog.roll.title");
 		const html  = `<div class="roll-dialog"></div>`;
 		const consObject = {
@@ -104,7 +104,7 @@ export class RollDialog extends Dialog {
 	}
 
 
-	static async create (roll: Roll, moveId: string, actor: CityActor) {
+	static async create (roll: CityRoll, moveId: string, actor: CityActor) {
 		if (this._instance)
 			this._instance.close();
 		const dialog = new RollDialog(roll, moveId, actor);
@@ -119,7 +119,8 @@ export class RollDialog extends Dialog {
 		this.#reject = rej;
 	}
 
-	async getResult() {
+
+	async getResult() : Promise<null | {modList: ActivatedTagFormat[], options: CRollOptions}> {
 		return await new Promise ( (res, rej) => {
 			this.setPromise(res, rej);
 			this.render(true);

@@ -444,7 +444,7 @@ export class CitySettings {
 	}
 
 	static getWeaknessCap() {
-		return this.get("weaknessCap") ?? 999;
+		return this.get("weaknessCap").valueOf() ?? 999;
 	}
 	static isOtherscapeStatuses() {
 		return this.get("statusAdditionSystem") == "otherscape";
