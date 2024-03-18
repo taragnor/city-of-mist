@@ -107,7 +107,7 @@ export class HTMLTools {
 
 	/** List is in the form of {id, data:[rows], description} returns null if abort or the id of the selection.
 		*/
-	static async singleChoiceBox( list:{id: string, data:string[], description:string}[], headerText: string) {
+	static async singleChoiceBox( list:{id: string, data:string[], description:string}[], headerText: string) : Promise<string | null> {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};
@@ -121,9 +121,9 @@ export class HTMLTools {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
 						callback: (htm : string) => {
-							let selection :unknown[] = [];
+							let selection :string[] = [];
 							$(htm).find(".single-choice-box").find("input:checked").each(function() {
-								selection.push($(this).val());
+								selection.push($(this).val() as string);
 							});
 							if (selection.length  > 1) {
 								throw new Error(`Problem with selection, Length is ${selection.length}`);

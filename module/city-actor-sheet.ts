@@ -1,3 +1,4 @@
+import { PC } from "./city-actor.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
 
@@ -646,51 +647,6 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _executeMove (event) {
-		const move_id = $(this.form).find(".select-move").val();
-		if (!move_id)
-			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
-		const move_group = $(this.form).find(".select-move-group").val();
-		const SHB = move_group == "SHB";
-		let newtype = null;
-		if (SHB) {
-			const SHBType = await this.SHBDialog(this.actor);
-			if (!SHBType)
-				return;
-			newtype = SHBType;
-		}
-		const options = {
-			newtype
-		};
-		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
-		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
-		if (roll == null)
-			return;
-		SelectedTagsAndStatus.clearAllActivatedItems();
-		this.render(true);
-		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
-		for (const effect of move.effect_classes) {
-			switch (effect) {
-				case "DOWNTIME":
-					if (this.downtime)
-						await this.downtime();
-					break;
-
-				case "MONOLOGUE":
-					if (this.monologue)
-						await this.monologue();
-					break;
-				case "SESSION_END":
-					if (this.sessionEnd)
-						await this.sessionEnd();
-					break;
-				case "FLASHBACK":
-					if (this.flashback)
-						await this.flashback();
-					break;
-			}
-		}
-	}
 
 	async statusDialog(obj) {
 		return await CityHelpers.itemDialog(obj);
@@ -700,7 +656,7 @@ export class CityActorSheet extends CitySheet {
 		return await CityHelpers.itemDialog(obj);
 	}
 
-	async SHBDialog (actor) {
+	async SHBDialog (actor: PC) {
 		const title = "You sure about this?";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
 		return new Promise ( (conf, rej) => {
@@ -711,7 +667,7 @@ export class CityActorSheet extends CitySheet {
 				buttons: {
 					one: {
 						label: localize("CityOfMist.dialog.SHB.yes"),
-						callback: (html) => {
+						callback: (html: string) => {
 							const result = $(html).find(".SHB-selector:checked").val();
 							conf(result);
 						}

@@ -20,7 +20,7 @@ export type ShorthandNotation = {
 			type: CityItem["type"]
 };
 
-type ActivatedTagFormat = {
+export type ActivatedTagFormat = {
 			name: string,
 			id: string,
 			amount: number,
@@ -217,7 +217,6 @@ export class SelectedTagsAndStatus {
 		} else {
 			CityHelpers.playTagOff();
 		}
-
 	}
 
 	static async selectStatusHandler_invert(event: Event) {

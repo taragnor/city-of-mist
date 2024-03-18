@@ -542,8 +542,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find( x=> x.id == id && x.type =="themekit");
 	}
 
-	getThemes() {
-		return this.items.filter( x=> x.type == "theme");
+	getThemes() : Theme[]{
+		return this.items.filter( x=> x.type == "theme") as Theme[];
 	}
 
 	//Removed because it called seemingly nonexistent function

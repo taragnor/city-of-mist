@@ -1,35 +1,44 @@
+import { CityItem } from "./city-item.js";
+import { CitySockets } from "./city-sockets.js";
+import { localize } from "./city.js";
+import { CRollOptions } from "./city-roll.js";
+import { CityActor } from "./city-actor.js";
 import {CityHelpers} from "./city-helpers.js";
-import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
+import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.js";
 import {CityRoll} from "./city-roll.js";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
-import {ReviewableModifierList} from "./ReviewableModifierList.mjs";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
+import {ReviewableModifierList} from "./ReviewableModifierList.js";
 import { CitySettings } from "./settings.js";
 
 export class RollDialog extends Dialog {
-	#juiceSession;
-	#tagReviewSession;
-	#resolve;
-	#reject;
-	#modifierList;
-	#options;
-	#power;
-	#pendingJuice;
-	#oldButtonHTML
+	#juiceSession: JuiceMasterSession | null = null;
+	#tagReviewSession: TagReviewMasterSession | null = null;
+	#resolve: (value: unknown) => void;
+	#reject: (reason: unknown) => void;
+	#modifierList :ReviewableModifierList;
+	#options :CRollOptions;
+	#power : number;
+	#pendingJuice : CityActor[];
+	#oldButtonHTML : string;
+	roll: Roll;
+	move_id: string;
+	actor: CityActor;
+	static _instance : RollDialog | null = null;
 
-	constructor(roll, moveId, actor) {
+	constructor(roll: Roll, moveId: string, actor: CityActor) {
 		const title = localize("CityOfMist.dialog.roll.title");
 		const html  = `<div class="roll-dialog"></div>`;
 		const consObject = {
 			title,
 			content: html,
-			close: (html) => this.onClose(html),
-			render: (html) => this.onRender(html),
+			close: (_html :string) => this.onClose(),
+			render: (html: string) => this.onRender(html),
 			buttons: {
 				one: {
 					icon: '<i class="fas fa-check"></i>',
 					label: "Confirm",
-					callback: (html) => {
-						this.updateModifierPopup(html);
+					callback: (html : string) => {
+						this.updateModifierPopup($(html));
 						this.terminateSessions();
 						const modifierList = this.#modifierList.toValidActivatedTagForm();
 						this.#resolve( {
@@ -82,19 +91,20 @@ export class RollDialog extends Dialog {
 		return !this.#modifierList.isPending();
 	}
 
-	_onKeyDown(event) {
+	_onKeyDown(event: KeyboardEvent) {
 		// console.log("Calling variant handler");
 		if ( event.key === "Enter"  && !this.allowSubmit()) {
 			event.preventDefault();
 			event.stopPropagation();
 			return;
 		} else {
+			//@ts-ignore
 			return super._onKeyDown(event);
 		}
 	}
 
 
-	static async create (roll, moveId, actor) {
+	static async create (roll: Roll, moveId: string, actor: CityActor) {
 		if (this._instance)
 			this._instance.close();
 		const dialog = new RollDialog(roll, moveId, actor);
@@ -104,7 +114,7 @@ export class RollDialog extends Dialog {
 		return ret;
 	}
 
-	setPromise( res, rej) {
+	setPromise( res: (value: unknown) => void, rej: (reason?:unknown) => any) {
 		this.#resolve = res;
 		this.#reject = rej;
 	}
@@ -122,59 +132,60 @@ export class RollDialog extends Dialog {
 
 	/**handler function when it recieves juice
 	*/
-	juiceSessionHandlerFn(ownerId, direction, amount) {
+	juiceSessionHandlerFn(ownerId: string, direction: number, amount: number) {
 		{
 			const html = this.html
 			const owner = CityHelpers.getOwner(ownerId);
-			const type = (direction > 0)
-				? localize("CityOfMist.terms.help")
-				: localize("CityOfMist.terms.hurt");
+			// const type = (direction > 0)
+			// 	? localize("CityOfMist.terms.help")
+			// 	: localize("CityOfMist.terms.hurt");
 			this.#pendingJuice = this.#pendingJuice.filter( x=> x!= owner);
-			this.activateHelpHurt(owner, amount, direction, this.actor.id);
+			this.activateHelpHurt(owner as CityActor, amount, direction, this.actor.id);
 			this.updateModifierPopup(html);
-			this.refreshHTML(this.element);
+			this.refreshHTML();
 		}
 
 	}
 
 	spawnJuiceSession() {
 		this.#juiceSession = new JuiceMasterSession( this.juiceSessionHandlerFn.bind(this), this.actor.id, this.move_id);
-		this.#juiceSession.addNotifyHandler("pending", (dataObj) => {
+		this.#juiceSession.addNotifyHandler("pending", (dataObj : {type: string, ownerId: string}) => {
 			const {type, ownerId} = dataObj;
-			const owner = CityHelpers.getOwner(ownerId);
+			const owner = CityHelpers.getOwner(ownerId) as CityActor;
 			CityHelpers.playPing();
 			this.#pendingJuice.push(owner);
 			if (type == "hurt") {
 				//TODO: program lock on button
 			};
 			this.updateModifierPopup(this.element);
-			this.refreshHTML(this.element);
+			this.refreshHTML();
 		});
 		CitySockets.execSession(this.#juiceSession);
 	}
 
-	setListeners(html) {
+	setListeners(html: string | JQuery) {
 		console.log("Setting listeners");
-		$(html).find("#effect-slider").change( (ev) => {
-			this.updateModifierPopup(html, ev);
+		$(html as string).find("#effect-slider")
+			.on( "change", () => {
+			this.updateModifierPopup(html as JQuery);
 		});
-		$(html).find("#roll-modifier-amt").change( ()=> this.updateModifierPopup(html));
-		$(html).find("#roll-burn-tag").change( ()=> this.updateModifierPopup(html));
+		$(html as string).find("#roll-modifier-amt").on( "change",  ()=> this.updateModifierPopup(html as JQuery));
+		$(html as string).find("#roll-burn-tag").on("change", ()=> this.updateModifierPopup(html as JQuery));
 	}
 
 	async spawnGMReview() {
 		const html = this.html;
-		const confirmButton = html.find("button.one");
+		// const confirmButton = html.find("button.one");
 		const tagList = this.#modifierList;
-		await this.refreshHTML(html);
+		await this.refreshHTML();
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id, this.actor);
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
-		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType} ) => {
+		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:string} ) => {
 			const targetTag = this.#modifierList.find(x => x.item.id == itemId);
 			targetTag.review = changeType;
 			this.updateModifierPopup(html);
-			this.refreshHTML(html);
+			this.refreshHTML();
 		});
 		const finalModifiers = CitySockets.execSession(reviewSession);
 		const newList = await finalModifiers;
@@ -182,33 +193,33 @@ export class RollDialog extends Dialog {
 		this.#tagReviewSession = null;
 	}
 
-	async onRender(html) {
+	async onRender(html :string) {
 		this.element.addClass("auto-height");
 		this.spawnJuiceSession();
-		this.updateModifierPopup(html);
+		this.updateModifierPopup($(html));
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
-			this.spawnGMReview(html);
+			this.spawnGMReview();
 		} else {
 			this.#modifierList.approveAll();
 		}
-		await this.refreshHTML(html);
+		await this.refreshHTML();
 	}
 
-	async onClose(_html) {
+	async onClose() {
 		this.terminateSessions();
 		this.#resolve(null);
 	}
 
 	/** takes a new ReviewableModifierList and replaces the old one
 	*/
-	async setReviewList(newList) {
+	async setReviewList(newList : ReviewableModifierList) {
 		this.#modifierList = newList;
 		this.updateModifierPopup();
 		await this.refreshHTML();
 	}
 
-	async refreshHTML(_html) {
-		let activated = this.#modifierList.toValidActivatedTagForm();
+	async refreshHTML() {
+		let activated = this.#modifierList.toValidActivatedTagForm()!;
 		const tagListReviewForm = this.#modifierList.slice();
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
@@ -251,7 +262,7 @@ export class RollDialog extends Dialog {
 		}
 	}
 
-	addReviewableItem(item, amount) {
+	addReviewableItem(item: CityItem, amount: number) {
 		if (this.#tagReviewSession) {
 			this.#modifierList.addReviewable(item, amount, "pending");
 			this.#tagReviewSession.updateList(this.#modifierList);
@@ -267,7 +278,7 @@ export class RollDialog extends Dialog {
 		this.refreshHTML();
 	}
 
-	activateHelpHurt( owner, amount, direction, targetCharacterId) {
+	activateHelpHurt( owner: CityActor, amount: number, direction: number, targetCharacterId: string) {
 		let subtype, arr;
 		if ( direction > 0) {
 			subtype = "help";
@@ -305,7 +316,7 @@ export class RollDialog extends Dialog {
 		this.updateSliderValMax(html);
 		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
 		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
-		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() ?? "";
+		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() as string ?? "";
 		if (!CitySettings.isOtherscapeBurn()) {
 			this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
 		} else {
@@ -328,7 +339,7 @@ export class RollDialog extends Dialog {
 		$(html).find(".move-effect").text(String(power));
 	}
 
-	updateSliderValMax(html) {
+	updateSliderValMax(html: JQuery) {
 		const itemId = $(html).find("#help-dropdown").val();
 		if (!itemId) {
 			$(html).find("#help-slider-container").hide();
@@ -337,17 +348,17 @@ export class RollDialog extends Dialog {
 		const clue = game.actors.find( x =>
 			x.type == "character"
 			&& x.items.find( i => i.id == itemId)
-		).items
+		)!.items
 			.find(i => i.id == itemId);
 		const amount = clue.system.amount;
 		$(html).find("#help-slider").prop("max", amount);
-		$(html).find(".slidervalue").html(1);
+		$(html).find(".slidervalue").html("1");
 		if (amount)
 			$(html).find("#help-slider-container").show().prop("max", amount);
 		else
 			$(html).find("#help-slider-container").hide();
 		const value = $(html).find("#help-slider").val();
-		$(html).find(".slidervalue").html(value);
+		$(html).find(".slidervalue").html(String(value));
 	}
 
 }
@@ -357,9 +368,7 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 	if (dialog) {
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
-		const itWorked = dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
-		if (itWorked)
-			CityHelpers.playTagOnSpecial();
+		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
 		return false;
 	}
 	else

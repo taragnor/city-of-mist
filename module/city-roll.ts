@@ -1,25 +1,60 @@
+import { Status } from "./city-item.js";
+import { Juice } from "./city-item.js";
+import { localize } from "./city.js";
+import { Move } from "./city-item.js";
+import { CityHelpers } from "./city-helpers.js";
+import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
-import { CityDB } from "./city-db.mjs";
-import { ClueChatCards } from "./clue-cards.mjs";
-import {CityDialogs } from "./city-dialogs.mjs";
-import {CitySockets} from "./city-sockets.mjs";
-import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.mjs";
-import {SelectedTagsAndStatus} from "./selected-tags.mjs";
-import {RollDialog} from "./roll-dialog.mjs";
+import { CityDB } from "./city-db.js";
+import { ClueChatCards } from "./clue-cards.js";
+import {CityDialogs } from "./city-dialogs.js";
+import {CitySockets} from "./city-sockets.js";
+import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.js";
+import {SelectedTagsAndStatus} from "./selected-tags.js";
+import {RollDialog} from "./roll-dialog.js";
 import {CitySettings} from "./settings.js";
+import { ActivatedTagFormat } from "./selected-tags.js";
 
+
+type RollModifier = {
+				id:string,
+				name: string,
+				amount: number,
+				ownerId: string | null,
+				tagId: string | null,
+				type: string,
+				strikeout: boolean,
+}
+
+export type CRollOptions = {
+	newtype ?: Move["system"]["subtype"];
+	mythosRoll?: boolean;
+	logosRoll ?: boolean;
+	mistRoll ?: boolean;
+	dynamiteAllowed ?: boolean;
+	noStatus ?: boolean;
+	noTags ?: boolean;
+	noHelpHurt ?: boolean;
+	powerModifier?: number;
+	setRoll ?: number;
+	modifier ?: number;
+	burnTag ?: string;
+	noRoll ?: boolean;
+	modifiers: RollModifier;
+
+}
 export class CityRoll {
-	#roll;
-	#moveId;
-	#actor;
-	#options;
-	#modifiers;
-	#tags;
-	#html;
-	#msgId;
-	#selectedList;
+	#roll: Roll | null;
+	#moveId: string;
+	#actor: CityActor;
+	#options: CRollOptions;
+	#modifiers: unknown[];
+	#tags : unknown[];
+	#html: string ;
+	#msgId : string;
+	#selectedList : ActivatedTagFormat[];
 
-	constructor (moveId, actor, selectedList = [],  options) {
+	constructor (moveId: string, actor: CityActor, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
 		this.#roll = null;
 		this.#moveId = moveId;
 		this.#actor = actor;
@@ -41,7 +76,7 @@ export class CityRoll {
 		return this;
 	}
 
-	static async execMove(moveId, actor, selectedList =[], options = {}) {
+	static async execMove(moveId: string, actor: CityActor, selectedList: ActivatedTagFormat[] =[], options :CRollOptions= {}) {
 		const CR = new CityRoll(moveId, actor, selectedList, options);
 		return await CR.execMove();
 	}
@@ -51,19 +86,19 @@ export class CityRoll {
 		const moveId = this.#moveId;
 		const actor = this.#actor;
 		const options = this.#options;
-		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
-		const type = options?.newtype ?? move.system.type;
+		const move = CityHelpers.getMoves().find(x=> x.id == moveId)!;
+		const type = options?.newtype ?? move.system.subtype;
 		switch (type) {
 			case "standard":
 				break;
 			case "logosroll":
-				await this.logosRoll(moveId, actor);
+				await this.logosRoll();
 				break;
 			case "mythosroll":
-				await this.mythosRoll(moveId, actor);
+				await this.mythosRoll();
 				break;
 			case "mistroll":
-				await this.mistRoll(moveId, actor);
+				await this.mistRoll();
 				break;
 			case "noroll":
 				await this.noRoll(moveId, actor);
@@ -100,29 +135,29 @@ export class CityRoll {
 		}
 		const allModifiers = this.#selectedList
 			.filter (x => {
-				const tag = CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId);
+				const tag = (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId);
 				if (tag != null) {
 					if (tag.isBurned())
-						console.log(`Excluding ${x.tag.name}, value: ${x.tag.system.burned}`);
+						console.log(`Excluding ${tag.name}, value: ${tag.system.burned}`);
 					return !tag.isBurned();
 				}
 				else return true;
 			});
-		let tags = [];
+		let tags : RollModifier[]= [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
-				&& CityHelpers.getOwner(x.ownerId, x.tokenId).getTag(x.tagId) //filter out deleted tags
+				&& (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
 				if (!CitySettings.isOtherscapeBurn()) {
 					tags = tags.filter(x => x.tagId == options.burnTag);
 					tags[0].amount = 3;
 				} else {
-					tags.find(x=> x.tagId == options.burnTag).amount = 3;
+					tags.find(x=> x.tagId == options.burnTag)!.amount = 3;
 				}
 			}
 		}
-		let usedStatus = [];
+		let usedStatus : RollModifier[] = [];
 		if (!options.noStatus) {
 			const status = allModifiers.filter (x=> x.type == "status");
 			const pstatus = status.filter(x => x.amount > 0);
@@ -133,7 +168,7 @@ export class CityRoll {
 			const statusMin = nstatus.find( x=> x.amount == min);
 			usedStatus = status.filter (x => x == statusMax || x == statusMin);
 		}
-		let helpHurt = [];
+		let helpHurt : ActivatedTagFormat[] = [];
 		if (!options.noHelpHurt) {
 			helpHurt = allModifiers.filter (x=> x.type == "juice");
 		}
@@ -514,7 +549,7 @@ export class CityRoll {
 		return true;
 	}
 
-	async logosRoll (_move_id, _actor) {
+	async logosRoll () {
 		mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,

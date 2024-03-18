@@ -10,12 +10,12 @@ import { CityRoll } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityLogger } from "./city-logger.js";
-import { Sounds } from "./tools/sounds.mjs";
-import { TokenTools } from "./tools/token-tools.mjs";
-import {CityDialogs} from "./city-dialogs.mjs";
-import {SceneTags} from "./scene-tags.mjs";
-import { DowntimeSessionM } from "./city-sessions.mjs";
-import { CitySockets } from "./city-sockets.mjs";
+import { Sounds } from "./tools/sounds.js";
+import { TokenTools } from "./tools/token-tools.js";
+import {CityDialogs} from "./city-dialogs.js";
+import {SceneTags} from "./scene-tags.js";
+import { DowntimeSessionM } from "./city-sessions.js";
+import { CitySockets } from "./city-sockets.js";
 
 
 export class CityHelpers {

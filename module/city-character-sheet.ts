@@ -1,15 +1,23 @@
+import { CityRoll } from "./city-roll.js";
+import { SelectedTagsAndStatus } from "./selected-tags.js";
+import { Theme } from "./city-item.js";
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { Status } from "./city-item.js";
+import { Tag } from "./city-item.js";
+import { CityActor } from "./city-actor.js";
+import { CityHelpers } from "./city-helpers.js";
+import { CityItem } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 // import { CityRoll } from "./city-roll.js";
 import { CitySheet } from "./city-sheet.js";
-import {SceneTags } from "./scene-tags.mjs";
+import {SceneTags } from "./scene-tags.js";
+import { PC } from "./city-actor.js";
 
 export class CityCharacterSheet extends CityActorSheet {
-	constructor(...args) {
-		super(...args);
-	}
+	declare actor: PC;
 
 	/** @override */
-	static get defaultOptions() {
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/actor-sheet.html",
@@ -19,11 +27,10 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 	}
 
-	async getData() {
+	override async getData() {
 		let data = await super.getData();
-
 		//Sort Mythos themes always come first
-		data.items.sort( (a, b) => {
+		(data.items as CityItem[]).sort( (a, b) => {
 			if (a.type != "theme" && b.type != "theme")
 				return 0;
 			if (a.type != "theme")
@@ -32,7 +39,7 @@ export class CityCharacterSheet extends CityActorSheet {
 				return 1;
 			const tba  = a.themebook;
 			const tbb  = b.themebook;
-			const value_convert = function (type) {
+			const value_convert = function (type: string) {
 				switch (type) {
 					case "Mythos": return 1;
 					case "Mist": return 2;
@@ -67,7 +74,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.sceneStoryTags = await this.getSceneStoryTags();
 		data.dangerStoryTags = this.getDangerStoryTags();
 
-		const moveList = CityHelpers.getMoves();
+		const moveList = CityDB.movesList;
 		data.coremoves = moveList.filter( x=> x.system.category == "Core");
 		data.specialmoves = moveList.filter( x=> x.system.category == "Advanced" && this.actor.canUseMove(x));
 		data.shbmoves = moveList.filter( x=> x.system.category == "SHB");
@@ -93,11 +100,11 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getExtras() {
 		return game.actors
-			.filter( actor => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && actor.items.find(x=> x.type == "theme"));
+			.filter( (actor: CityActor) => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && !!actor.items.find(x=> x.type == "theme"));
 	}
 
 	getActiveExtra() {
-		const filterList = game.actors.filter( actor =>
+		const filterList = game.actors.filter( (actor: CityActor) =>
 			actor.isExtra() && actor.isOwner
 			&& this.actor.system.activeExtraId == actor.id
 		);
@@ -111,24 +118,24 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	getCrewStoryTags() {
 		return this.getTokenStoryTags()
-			.filter(x => x.parent.type == "character");
+			.filter(x => x.parent?.type == "character");
 	}
 
 	getDangerStoryTags() {
 		return this.getTokenStoryTags()
-			.filter(x => x.parent.type == "threat");
+			.filter(x => x.parent?.type == "threat");
 	}
 
 	getTokenStoryTags() {
 		const tokens = CityHelpers.getActiveSceneTokens()
 			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
-				&& tok.actor.items.find(y =>
-					y.type == "tag" && y.system.subtype == "story"
+				&& tok.actor?.items.find(y =>
+					y.isTag() && y.system.subtype == "story"
 				)
 			);
 		const tokenTagData = tokens.map( token => {
-			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
+			const storyTags = token.actor?.items.filter(x => x.isTag() && x.system.subtype == "story") ?? [];
 			return storyTags;
 		});
 		return tokenTagData.flat(1);
@@ -143,22 +150,23 @@ export class CityCharacterSheet extends CityActorSheet {
 		return tagData.flat(1);
 	}
 
-	getStoryTags() {
-		let retTags = [];
+	override getStoryTags() {
+		let retTags : Tag[] = [];
 		const tokens = CityHelpers.getActiveSceneTokens()
 			.filter(tok => !tok.hidden
 				&& tok.actor?.id != this.actor.id
-				&& tok.actor.items.find(y =>
-					y.type == "tag" && y.system.subtype == "story"
+				&& tok.actor?.items.find(y =>
+					y.isTag() && y.system.subtype == "story"
 				)
 			);
 		const tokenTagData = tokens.map( token => {
-			const storyTags = token.actor.items.filter(x => x.type == "tag" && x.system.subtype == "story");
+			const storyTags : Tag[] = token.actor?.items.filter(x => x.isTag() && x.system.subtype == "story") as Tag[] ?? [];
 			return storyTags;
 		});
 		retTags = retTags.concat(tokenTagData.flat(1));
-		const storyContainers =  game.actors.filter( actor => {
-			if (retTags.find( x=> x.ownerId == actor.id ))
+		const storyContainers =  (game.actors.contents as CityActor[])
+		.filter( actor => {
+			if (retTags.find( x=> x.parent?.id == actor.id ))
 				return false;
 			return true;
 		});
@@ -169,18 +177,18 @@ export class CityCharacterSheet extends CityActorSheet {
 		const mytags= super.getStoryTags();
 		retTags = retTags.concat(mytags.flat(1));
 		retTags = retTags.sort( (a, b) => {
-			if (a.parent.id == this.actor.id) return -1;
-			if (b.parent.id == this.actor.id) return 1;
-			if (a.parent.type == "character" && b.parent.type != "character")
+			if (a.parent?.id == this.actor.id) return -1;
+			if (b.parent?.id == this.actor.id) return 1;
+			if (a.parent?.type == "character" && b.parent?.type != "character")
 				return -1;
-			if (b.parent.type == "character" && a.parent.type != "character")
+			if (b.parent?.type == "character" && a.parent?.type != "character")
 				return 1;
 			return 0;
 		});
 		return retTags;
 	}
 
-	getLocationName(cont, token) {
+	getLocationName(cont: CityActor, token: Token<any>) :string {
 		switch (cont.type)	 {
 			case "character":
 				if (cont.id == this.actor.id)
@@ -193,11 +201,13 @@ export class CityCharacterSheet extends CityActorSheet {
 					return token.name;
 				else return cont.name;
 		}
-		return "";
 	}
 
-	async getOtherStatuses() {
-		let applicableTargets = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || (x.type == "character" && x.id != this.actor.id));
+	/** oddly gives out actors and not statuses
+	probably a bad named function
+	*/
+	async getOtherStatuses() : Promise<CityActor[]> {
+		let applicableTargets = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || (x.type == "character" && x.id != this.actor.id));
 		if ((await SceneTags.getSceneTagsAndStatuses()).length > 0) {
 			applicableTargets = applicableTargets
 				.concat(
@@ -221,18 +231,18 @@ export class CityCharacterSheet extends CityActorSheet {
 		return sorted;
 	}
 
-	activateListeners(html) {
+	override activateListeners(html: JQuery) {
 		super.activateListeners(html);
 		html.find(".theme-name-input").each( function () {
 			const text = $(this).val();
-			if (text.length > 26)
+			if (typeof text == "string" && text.length > 26)
 				$(this).css("font-size", "12pt");
 		});
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
-		html.find(".non-char-theme-name"	).click( this.openOwnerSheet.bind(this));
-		html.find(".crew-prev").click(this.crewPrevious.bind(this));
-		html.find(".crew-next").click(this.crewNext.bind(this));
+		html.find(".non-char-theme-name"	).on("click", this.openOwnerSheet.bind(this));
+		html.find(".crew-prev").on("click" ,this.crewPrevious.bind(this));
+		html.find(".crew-next").on("click", this.crewNext.bind(this));
 	}
 
 	async monologue () {
@@ -254,19 +264,17 @@ export class CityCharacterSheet extends CityActorSheet {
 					description: ""
 				};
 			});
-			const choice = await CitySheet.singleChoiceBox(listData, "Award Monologue Bonus to Which Theme?");
+			const choice = await HTMLTools.singleChoiceBox(listData, "Award Monologue Bonus to Which Theme?");
 			if (choice)
-				this.awardMonologueBonus(await actor.getTheme(choice));
+				this.awardMonologueBonus( actor.getTheme(choice));
 		}
 	}
 
-	async awardMonologueBonus (theme) {
+	async awardMonologueBonus (theme: Theme) {
 		if (!theme)
 			throw new Error("No Theme presented for Monologue bonus");
 		const actor = this.actor;
-		const themeName = theme.name;
 		await actor.addAttention(theme.id);
-		// await CityHelpers.modificationLog(actor, `Attention Added`, theme, `Opening Monologue - Current ${await theme.getAttention()}`);
 	}
 
 	async monologueDialog () {
@@ -309,6 +317,53 @@ export class CityCharacterSheet extends CityActorSheet {
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		return false;
+	}
+
+	async _executeMove (_event: Event) {
+		const move_id = $(this.form).find(".select-move").val();
+		if (!move_id)
+			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
+		const move_group = $(this.form).find(".select-move-group").val();
+		const SHB = move_group == "SHB";
+		let newtype = null;
+		if (SHB) {
+			const SHBType = await this.SHBDialog(this.actor);
+			if (!SHBType)
+				return;
+			newtype = SHBType;
+		}
+		const options = {
+			newtype
+		};
+		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
+		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
+		if (roll == null)
+			return;
+		SelectedTagsAndStatus.clearAllActivatedItems();
+		this.render(true);
+		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
+		if (!move) {throw new Error(`Cant' find move id ${move_id}`);}
+		for (const effect of move.effect_classes) {
+			switch (effect) {
+				case "DOWNTIME":
+					if (this.downtime)
+						await this.downtime();
+					break;
+
+				case "MONOLOGUE":
+					if (this.monologue)
+						await this.monologue();
+					break;
+				case "SESSION_END":
+					if (this.sessionEnd)
+						await this.sessionEnd();
+					break;
+				case "FLASHBACK":
+					if (this.flashback)
+						await this.flashback();
+					break;
+			}
+		}
 	}
 
 }

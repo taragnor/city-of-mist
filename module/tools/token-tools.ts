@@ -7,9 +7,9 @@ export class TokenTools {
 		return window.game.scenes.current;
 	}
 
-	static getActiveSceneTokens() {
+	static getActiveSceneTokens() : TokenDocument<CityActor>[] {
 		return this.getSceneTokens(this.getActiveScene())
-			.filter(x=>x.actor);
+			.filter(x=>x.actor) as TokenDocument<CityActor>[];
 	}
 
 	static getSceneTokens( scene : Scene) {
@@ -25,7 +25,7 @@ export class TokenTools {
 	static getVisibleActiveSceneTokenActors() {
 		return this.getSceneTokens(this.getActiveScene())
 			.filter (x=> !x.hidden)
-			.map(x=> x.actor);
+			.flatMap(x=> x.actor ? [x.actor as CityActor] : []);
 	}
 
 	static getSceneTokenActors(scene: Scene) {
