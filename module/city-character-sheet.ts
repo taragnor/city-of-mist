@@ -1,3 +1,4 @@
+import { MOVEGROUPS } from "./datamodel/move-types.js";
 import { CityRoll } from "./city-roll.js";
 import { SelectedTagsAndStatus } from "./selected-tags.js";
 import { Theme } from "./city-item.js";
@@ -59,6 +60,12 @@ export class CityCharacterSheet extends CityActorSheet {
 			else return 0;
 		});
 
+		data.moveGroups =MOVEGROUPS;
+		const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup);
+
+		data.MOVEGROUP =Object.fromEntries( 
+			moves.map( mv => ([mv.name, mv.displayedName]))
+		);
 		//Crew Themes
 		data.crewThemes = this.getCrewThemes();
 

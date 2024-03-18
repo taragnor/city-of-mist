@@ -42,7 +42,7 @@ export class DragAndDrop {
 				if (owner_id == actor.id)
 					return; // can't add a move on actor that already has it
 				const owner = CityDB.getActorById(owner_id) as CityActor;
-				const move = await owner.getGMMove(move_id);
+				const move = owner.getGMMove(move_id);
 				if (!move)
 					throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);
 				await actor.createNewGMMove(move.name, move.system);

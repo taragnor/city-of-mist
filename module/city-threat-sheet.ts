@@ -1,11 +1,17 @@
+import { CityItem } from "./city-item.js";
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { CityDialogs } from "./city-dialogs.js";
+import { CityHelpers } from "./city-helpers.js";
 import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
-import {CityDB} from "./city-db.mjs";
+import {CityDB} from "./city-db.js";
+import { Danger } from "./city-actor.js";
 
 export class CityThreatSheet extends CityActorSheet {
+	declare actor: Danger;
 
 	/** @override */
-	static get defaultOptions() {
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/threat-sheet.html",
@@ -15,7 +21,7 @@ export class CityThreatSheet extends CityActorSheet {
 		});
 	}
 
-	activateListeners(html) {
+	override activateListeners(html:JQuery) {
 		super.activateListeners(html);
 
 		//Everything below here is only needed if the sheet is editable
@@ -39,18 +45,19 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.template-name').click(this._jumpToTemplate.bind(this));
 	}
 
-	async getData() {
+	override async getData() {
 		const data = await super.getData();
 		for (let gmmove of this.actor.gmmoves) {
-			if (gmmove.decryptData)
+			if ("decryptData" in gmmove)
+				//@ts-ignore
 				await gmmove.decryptData();
 		}
 		return data;
 
 	}
 
-	async _changelinkedtokenName (event) {
-		const val =  $(event.currentTarget).val();
+	async _changelinkedtokenName (event: Event) {
+		const val =  $(event.currentTarget!).val();
 		if (val)
 			for (let tok of this.actor.getLinkedTokens()) {
 				// console.log(`Re-aliasing: ${val}`);
@@ -60,104 +67,111 @@ export class CityThreatSheet extends CityActorSheet {
 		return true;
 	}
 
-	async _changeunlikedtokenName (event) {
-		const val =  $(event.currentTarget).val();
-		if (val)
-			await this.actor.token.update({name: val});
+	async _changeunlikedtokenName (event: Event) {
+		const val =  $(event.currentTarget!).val();
+		if (val) {
+			const token = this.actor.token
+			if (token) {
+				await token.update({name: val});
+			}
+		}
 		return true;
 	}
 
-	async _createSpectrum (_event) {
+	async _createSpectrum (_event: Event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewSpectrum("Unnamed Spectrum")
 		const spec = await owner.getSpectrum(obj.id);
-		const updateObj = await CityHelpers.itemDialog(spec);
+		const updateObj = await CityDialogs.itemEditDialog(spec!);
 		if (updateObj) {
 		} else {
-			await owner.deleteSpectrum(obj._id);
+			await owner.deleteSpectrum(obj.id);
 		}
 	}
 
-	async _editSpectrum(event) {
+	async _editSpectrum(event :Event) {
 		const owner = this.actor;
-		const id = getClosestData(event, "spectrumId");
+		const id = HTMLTools.getClosestData(event, "spectrumId");
 		const spec = await owner.getSpectrum(id);
-		await CityHelpers.itemDialog(spec);
+		await CityHelpers.itemDialog(spec!);
 	}
 
-	async _deleteSpectrum(event) {
+	async _deleteSpectrum(event :Event) {
 		event.preventDefault();
 		event.stopPropagation();
 		const owner = this.actor;
-		const id = getClosestData(event, "spectrumId");
+		const id = HTMLTools.getClosestData(event, "spectrumId");
 		const spec = await owner.getSpectrum(id);
-		if (await this.confirmBox("Delete Status", `Delete ${spec.name}`)) {
+		if (await this.confirmBox("Delete Status", `Delete ${spec?.name}`)) {
 			await owner.deleteSpectrum(id);
 		}
 	}
 
-	async _aliasInput (event) {
-		const val =  $(event.currentTarget).val();
+	async _aliasInput (event: Event) {
+		const val =  $(event.currentTarget!).val() as string;
 		await this.actor.setTokenName(val);
 	}
 
-	async _createGMMove(_event) {
+	async _createGMMove(_event: Event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewGMMove("Unnamed Move")
-		const move = await owner.getGMMove(obj.id);
-		await this.moveDialog(move);
+		const move =  owner.getGMMove(obj.id);
+		await this.moveDialog(move!);
 		// await move.updateGMMoveHTML();
 	}
 
-	async _deleteGMMove(event) {
+	async _deleteGMMove(event: Event) {
 		event.stopImmediatePropagation();
-		const move_id = getClosestData(event, "moveId");
+		const move_id = HTMLTools.getClosestData(event, "moveId");
 		if (!this.actor.ownsMove(move_id)) return;
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const move = await owner.getGMMove(move_id);
-		if (await this.confirmBox("Delete Move", `Delete ${move.name}`)) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(actorId);
+		const move = owner.getGMMove(move_id);
+		if (await this.confirmBox("Delete Move", `Delete ${move?.name}`)) {
 			await owner.deleteClue(move_id);
 		}
 	}
 
-	async _editGMMove(event) {
-		const move_id = getClosestData(event, "moveId");
+	async _editGMMove(event : Event) {
+		const move_id = HTMLTools.getClosestData(event, "moveId");
 		if (!this.actor.ownsMove(move_id)) return;
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const move = await owner.getGMMove(move_id);
-		await this.moveDialog(move);
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(ownerId);
+		const move =  owner.getGMMove(move_id);
+		await this.moveDialog(move!);
 		// await move.updateGMMoveHTML();
 	}
 
-	async _selectGMMove(event) {
-		const move_id = getClosestData(event, "moveId");
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const move = await owner.getGMMove(move_id);
-		await move.GMMovePopUp(this.actor);
+	async _selectGMMove(event: Event) {
+		const move_id = HTMLTools.getClosestData(event, "moveId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(ownerId);
+		const move =  owner.getGMMove(move_id);
+		if (!move) {
+			throw new Error(`Can't find move ${move_id} on ${owner.name}`);
+		}
+			await move.GMMovePopUp(this.actor);
 	}
 
-	async moveDialog(item) {
+	async moveDialog(item: CityItem) {
 		return await CityHelpers.itemDialog(item);
 	}
 
-	async _gmmoveRightMouseDown (event) {
+	async _gmmoveRightMouseDown (event: MouseEvent) {
 		if (event.which == 3) {
-			this._editGMMove(event, true);
+			this._editGMMove(event);
 			event.preventDefault();
 		}
 	}
 
-	async _addTemplate (_event) {
+	async _addTemplate (_event: Event) {
 		const inputList = CityHelpers.dangerTemplates
 			.filter( x=> x != this.actor && !this.actor.hasTemplate(x.id))
 			.map( x => {
 				const name = x.name;
 				const data = [name];
 				return {
-					id: x.id ?? x._id, data, description: x.description
+					id: x.id , data, description: x.system.description
 				};
 			});
 		const choice =  await CitySheet.singleChoiceBox(inputList, "Choose Item");
@@ -165,24 +179,24 @@ export class CityThreatSheet extends CityActorSheet {
 		await this.actor.addTemplate(choice);
 	}
 
-	async _deleteTemplate (event) {
+	async _deleteTemplate (event: Event) {
 		event.stopImmediatePropagation();
-		const id = getClosestData(event, "templateId");
+		const id = HTMLTools.getClosestData(event, "templateId");
 		await this.actor.removeTemplate(id);
 	}
 
-	async _jumpToTemplate(event) {
+	async _jumpToTemplate(event :Event) {
 		event.stopImmediatePropagation();
-		const id = getClosestData(event, "templateId");
-		const actors = await CityHelpers.getAllActorsByType("threat");
+		const id = HTMLTools.getClosestData(event, "templateId");
+		const actors =  CityHelpers.getAllActorsByType("threat");
 		actors.find(x => x.id == id)?.sheet?.render(true);
 	}
 
 	//Override
-	async _onDropActor(_event, o) {
+	override async _onDropActor(_event: Event, o: any) {
 		switch (o.type) {
 			case "Actor":
-				const actor = CityDB.getActorById(o.id);
+				const actor = CityDB.getActorById(o.id)!;
 				switch (actor.type) {
 					case "threat":
 						if (this.actor.hasTemplate(o.id))

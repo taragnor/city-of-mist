@@ -3,12 +3,8 @@ import {CitySheet} from "./city-sheet.js"
 
 export class CityCrewSheet extends CityActorSheet {
 
-	constructor(...args) {
-		super(...args);
-	}
-
 	/** @override */
-	static get defaultOptions() {
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			// classes: ["city-of-mist", "sheet", "actor"],
@@ -18,7 +14,7 @@ export class CityCrewSheet extends CityActorSheet {
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "themes" }]
 		});
 	}
-	activateListeners(html) {
+	override activateListeners(html :JQuery) {
 		super.activateListeners(html);
 		html.find('.crew-prev').hide();
 		html.find('.crew-next').hide();

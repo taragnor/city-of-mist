@@ -755,7 +755,7 @@ export class CityHelpers {
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
 
-	static async _statusAddSubDialog(status, title,type = "addition") {
+	static async _statusAddSubDialog(status: Status, title: string,type : "addition" | "subtraction"  = "addition") : Promise<null | {name: string, tier: number}> {
 		const classic = CityHelpers.isClassicCoM(type);
 		const reloaded = CityHelpers.isCoMReloaded(type);
 		const templateData = {status, data: status.system, classic, reloaded};
@@ -765,7 +765,7 @@ export class CityHelpers {
 			const options ={};
 			const returnfn = function (html: string, tier: number) {
 				conf( {
-					name: $(html).find(".status-name-input").val(),
+					name: $(html).find(".status-name-input").val() as string,
 					tier
 				});
 			}

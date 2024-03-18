@@ -1,14 +1,12 @@
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { localize } from "./city.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
-import { CityDB } from "./city-db.js";
 import {CityDialogs} from "./city-dialogs.js";
 import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 
 export class CitySheet extends ActorSheet<CityActor> {
-	override actor: CityActor;
 	scrollTop: number = 0;
 
 	/* -------------------------------------------- */
@@ -25,10 +23,9 @@ export class CitySheet extends ActorSheet<CityActor> {
 		super.activateListeners(html);
 		if (!this.options.editable) return;
 
-		html.find(".item-create-theme").click(this._addThemeBook.bind(this));
-		html.find(".edit-themekit").click(this._editThemeKit.bind(this));
-		html.find('.sheet-lock-button').click(this._toggleLockState.bind(this));
-		html.find('.alias-toggle').click(this._aliasToggle.bind(this));
+		html.find(".item-create-theme").on("click", this._addThemeBook.bind(this));
+		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));
+		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
 		DragAndDrop.addDragFunctionality( html);
 		html.on("drop", this._dragDropEvent.bind(this));
@@ -40,8 +37,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	/* -------------------------------------------- */
 
-	async _toggleLockState(event: Event) {
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+	async _toggleLockState(_event: Event) {
+		// const actorId = HTMLTools.getClosestData(event, "ownerId");
 		// const actor = await this.getOwner(actorId);
 		const actor = this.actor;
 		await actor.toggleLockState();
@@ -50,6 +47,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	async _editThemeKit(event: Event) {
 		const TKId = HTMLTools.getClosestData(event, "tkId");
 		const tk = this.actor.getThemeKit(TKId);
+		if (!tk) throw new Error(`Can't find Themekit ${TKId}`);
 		if (this.actor.type != "character" && !game.user.isGM) {
 			const msg = localize("CityOfMist.error.MCEditOnly");
 			ui.notifications.warn(msg);
@@ -58,33 +56,24 @@ export class CitySheet extends ActorSheet<CityActor> {
 		await CityDialogs.itemEditDialog(tk);
 	}
 
-	async _aliasToggle(event: Event) {
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const actor = this.getOwner(actorId);
-		if (actor.system.useAlias )
-			if (! await this.confirmBox("reveal Alias", "Reveal True Name?"))
-				return;
-		await actor.toggleAliasState();
-	}
-
-	async _addThemeBook(event: Event) {
+	async _addThemeBook(_event: Event) {
 		// const themebook = await this.themeBookSelector();
 		const themebook = await CityDialogs.themeBookSelector(this.actor);
 		if (themebook)
 			await this.actor.createNewTheme("Unnamed Theme", themebook.id);
 	}
 
-	async _scrollSheet (event: Event) {
+	async _scrollSheet (_event: Event) {
 		this.scrollTop = $(".actor-sheet").scrollTop() ?? 0;
 	}
 
 	async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
 		const loc_title = localizeS(title);
-		return await CityHelpers.confirmBox(loc_title, text, options);
+		return await CityHelpers.confirmBox(loc_title as string, text, options);
 	}
 
 	themeDeleteChoicePrompt(themename: string) {
-		return new Promise( (conf, rej) => {
+		return new Promise( (conf, _rej) => {
 			const options = {};
 			let dialog = new Dialog({
 				title: `Destroy ${themename}`,
@@ -133,7 +122,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	getOwner(id: string, tokenId?: string, sceneId?: string): CityActor {
 		if (!id || id == this.actor.id)
 			return this.actor;
-		else return CityHelpers.getOwner(id, tokenId, sceneId);
+		else return CityHelpers.getOwner(id, tokenId, sceneId) as CityActor;
 	}
 
 

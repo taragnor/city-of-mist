@@ -260,7 +260,7 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static getActivatedDirection(tagId: string, tokenId: string) {
+	static getActivatedDirection(tagId: string, tokenId?: string) {
 		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
 		if (amount > 0) return 1;
 		if (amount < 0) return -1;

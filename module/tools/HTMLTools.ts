@@ -66,7 +66,7 @@ export class HTMLTools {
 	@param {string} text
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title: string, text: string, options : Record<string, unknown> = {}) {
+	static async confirmBox(title: string, text: string, options : Record<string, unknown> = {}) : Promise<boolean> {
 		const templateData = {text};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
 		return await new Promise( (conf, reject) => {

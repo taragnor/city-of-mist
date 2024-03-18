@@ -1,5 +1,5 @@
-import {SelectedTagsAndStatus} from "../selected-tags.mjs";
-import {HTMLHandlers} from "../universal-html-handlers.mjs";
+import {SelectedTagsAndStatus} from "../selected-tags.js";
+import {HTMLHandlers} from "../universal-html-handlers.js";
 
 import {HTMLTools} from "../tools/HTMLTools.mjs";
 

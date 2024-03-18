@@ -1,14 +1,14 @@
 <form class="{{cssClass}} actor-sheet flex-col {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} " autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor" data-token-id="{{actor.tokenId}}" data-scene-id="{{actor.sceneId}}">
 	<header id="basic-info" class="sheet-header">
-			<div class="image-block">
-				<img class="profile-img" src="{{actor.img}}" {{#if (eq actor.system.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" />
-			</div>
-			<div class="character-basic-info">
-				{{> "systems/city-of-mist/templates/parts/character-sheet-header.html" locked=actor.system.locked sheetowner=actor data=data actor=actor}}
-			</div>
-			<div class="lock-button">
-				{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
-			</div>
+		<div class="image-block">
+			<img class="profile-img" src="{{actor.img}}" {{#if (eq actor.system.locked false)}} data-edit="img" {{/if}} title="{{actor.name}}" />
+		</div>
+		<div class="character-basic-info">
+			{{> "systems/city-of-mist/templates/parts/character-sheet-header.html" locked=actor.system.locked sheetowner=actor data=data actor=actor}}
+		</div>
+		<div class="lock-button">
+			{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
+		</div>
 	</header>
 	<nav class="sheet-tabs tabs" data-group="primary">
 		<a class="item" data-tab="themes">
@@ -18,16 +18,16 @@
 			{{localize 'CityOfMist.terms.juice' }} /
 			{{localize 'CityOfMist.terms.help' }} /
 			{{localize 'CityOfMist.terms.hurt' }}
-			</a>
+		</a>
 		<a class="item" data-tab="clues">
 			{{localize 'CityOfMist.terms.clues' }}
-			</a>
+		</a>
 		<a class="item" data-tab="build-up">
 			{{localize 'CityOfMist.terms.MoEs' }}
-			</a>
+		</a>
 		<a class="item" data-tab="bio">
 			{{localize 'CityOfMist.terms.bio' }}
-			</a>
+		</a>
 	</nav>
 	<section class="sheet-body {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} ">
 		<div class="tab tab-content theme-section" data-group="primary" data-tab="themes">
@@ -53,8 +53,12 @@
 					</h1>
 					<section class="move-section">
 						<span class="move-section-header"></span>
-						{{createSelect (getMoveGroups) "system.selectedMoveGroup" actor.system.selectedMoveGroup "select-move-group"}}
-						{{createSelect (getMoveGroup actor) "system.selectedMove" actor.system.selectedMove  "select-move" }}
+						<select name="system.selectedMoveGroup">
+							{{selectOptions MOVEGROUPS localize=true selected=actor.system.selectedMoveGroup}}
+						</select>
+						<select name="system.selectedMove">
+							{{selectOptions MOVEGROUP localize=true selected=actor.system.selectedMove}}
+						</select>
 						<button class="execute-move-button" type="button"> {{localize 'CityOfMist.command.executeMove' }}
 						</button>
 					</section>

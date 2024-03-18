@@ -267,8 +267,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find(x => x.type == "juice" && x.id == id);
 	}
 
-	async getGMMove(id: string) {
-		return this.gmmoves.find(x => x.type == "gmmove" && x.id == id);
+	getGMMove(id: string): GMMove | undefined {
+		return this.gmmoves.find(x => x.type == "gmmove" && x.id == id) as GMMove | undefined;
 	}
 
 	getImprovement(id: string) : Improvement | undefined {
@@ -817,10 +817,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter(x => x.system.type == "improvement" && x.system.theme_id.length == 0) as Improvement[];
 	}
 
-	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : {
-		temporary?: boolean,
-		permanent?: boolean
-	} = {}) {
+	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : { temporary?: boolean, permanent?: boolean } = {}) : Promise<Tag> {
 		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getTags().find( x=> x.name == name))

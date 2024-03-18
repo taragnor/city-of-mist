@@ -1,4 +1,7 @@
-import { Debug } from "./tools/debug.js";
+import { Themebook } from "./city-item.js";
+import { RollModifier } from "./city-roll.js";
+import { Status } from "./city-item.js";
+import { localize } from "./city.js";
 import { Tag } from "./city-item.js";
 import { Danger } from "./city-actor.js";
 import { GMMove } from "./city-item.js";
@@ -11,7 +14,7 @@ import {CitySettings} from "./settings.js";
 
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
-	static getObject = function () {
+	static override getObject = function () {
 		return {
 			...this._cityhelpers,
 			...HandlebarsHelpers.getObject()
@@ -34,49 +37,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					name: x
 				};
 			});
-		},
-		"createSelect": function (dataList, locationOfNew, currentValue = "", cssclass = "") {
-			let html = new String();
-			html += `<select class="${cssclass}" name="${locationOfNew}">`;
-			try {
-				for (const o of dataList) {
-					const {id} = o;
-					const name = (o.getDisplayedName) ? o.getDisplayedName() : o.name;
-					const selected = (currentValue == id) ? "selected" : "";
-					html += `<option value="${id}" ${selected}> ${name} </option>`;
-				}
-			} catch (e) {
-				throw e;
-			}
-			html += "</select>";
-			return new Handlebars.SafeString(html);
-		},
-		'getMoveGroups': function () {
-			const data = [
-				["core" , localize("CityOfMist.terms.coreMoves")],
-				["special" , localize("CityOfMist.terms.specialMoves")],
-				["SHB", localize("CityOfMist.terms.shb") ]
-			];
-			return data.map( x=> {
-				return {
-					id: x[0],
-					name: x[1]
-				};
-			});
-		},
-		'getMoveGroup': function (actor: CityActor) {
-			const data = actor.system;
-			if (!data)
-				throw new Error(`No Data for ${actor.name}`)
-			const moveList = CityHelpers.getMoves();
-			switch (data.selectedMoveGroup) {
-				case "core": return moveList.filter(x=> x.system.category=="Core" && actor.canUseMove(x));
-				case "special": return moveList.filter(x=> x.system.category=="Advanced" && actor.canUseMove(x));
-				case "SHB": return moveList.filter(x=> x.system.category=="SHB" && actor.canUseMove(x));
-				default:
-					console.warn(`No default move group for actor group: ${data?.selectedMoveGroup}`);
-					return moveList.filter(x=> x.system.category == "Core");
-			}
 		},
 		'hasGMMoveOfType': function (actor: CityActor, subtype: GMMove["system"]["subtype"]) {
 			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
@@ -136,7 +96,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
 		},
 
-		'defaultTagDirection': function (tagName: string, tagOwnerId: string, tagId: string, tokenId: string | null =null) {
+		'defaultTagDirection': function (_tagName: string, tagOwnerId: string, tagId: string, tokenId: string | null =null) {
 			if (typeof tokenId == "object") {
 				tokenId = null;
 				//Fix for handlebars overcall with arguments
@@ -184,36 +144,36 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return CitySettings.isDevMode();
 		},
 
-		'isOldFormQuestion': function (question) {
+		'isOldFormQuestion': function (question: unknown) {
 			return typeof question == "string";
 		},
 
-		'showcasePossible': function (tagOrStatus) {
+		'showcasePossible': function (tagOrStatus: Tag | Status) {
 			if (!CityHelpers.sceneTagWindowEnabled()) return false;
 			const isTokenActor = !!tagOrStatus?.parent?.token;
-			switch (tagOrStatus.type) {
+			switch (tagOrStatus.system.type) {
 				case "status":
 					return !isTokenActor;
 				case "tag":
-					return !isTokenActor && tagOrStatus.isStoryTag();
+					return !isTokenActor && (tagOrStatus as Tag).isStoryTag();
 				default:
 					return false;
 			}
 		},
-		'shouldBurn': function (rollModifierType) {
+		'shouldBurn': function (rollModifierType: RollModifier) {
 			const modifier = rollModifierType;
 			if (!modifier?.ownerId) return false;
 			try {
-			const {ownerId, id, tokenId} = modifier;
-			const item =CityHelpers.getOwner(ownerId, tokenId).getItem(id);
-			return item.expendsOnUse();
+				const {ownerId, id, tokenId} = modifier;
+				const item = (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id);
+				return item?.expendsOnUse() ?? false;
 			} catch (e) {
 				console.error(e);
 				return false;
 			}
 		},
 
-		'grantsAttention': function (rollModifierType) {
+		'grantsAttention': function (rollModifierType: RollModifier) {
 			const modifier = rollModifierType;
 			if (modifier?.strikeout)
 				return false;
@@ -228,11 +188,16 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return false;
 		},
 
-		'getTBQuestion': function(tb, letter, type) {
+		'getTBQuestion': function(tb: Themebook, letter: string, type: "power" | "weakness") {
 			if (!type || typeof type != "string") {
 				console.error(`Must provide type, type provided ${type}`);
 				return "ERROR";
 			}
+			if (type != "power" && type != "weakness") {
+				console.error(`type provided must be power or weakness, given: ${type}`);
+				return "ERROR";
+			}
+
 			try {
 				return tb.getQuestion(type, letter);
 			}  catch (e) {
@@ -240,10 +205,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return "ERROR";
 			}
 		},
-		'hasMist': function (actor) {
+		'hasMist': function (actor: CityActor) {
 			return actor.getNumberOfThemes("Mist") >= 1;
 		},
-		'hasMythos': function (actor) {
+		'hasMythos': function (actor: CityActor) {
 			return actor.getNumberOfThemes("Mythos") >= 1;
 		},
 

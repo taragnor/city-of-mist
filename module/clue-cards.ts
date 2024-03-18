@@ -63,31 +63,31 @@ export class ClueChatCards {
 	static async clueEditButtonHandlers(_app: unknown, html: JQuery<HTMLElement>, _data: unknown) {
 		if ($(html).find(".clue-reveal").length == 0)
 			return true;
-		$(html).find(".question-part .submit-button").click (
+		$(html).find(".question-part .submit-button").on ( "click",
 			() => {
 				this.clue_submitQuestion(html);
 			});
-		$(html).find(".partial-clue").change (
+		$(html).find(".partial-clue").on ("change",
 			() => {
 				this.clue_partialClueCheckbox(html);
 			});
-		$(html).find(".question-part .bank-button").click (
+		$(html).find(".question-part .bank-button").on ("click",
 			() => {
 				this.clue_bankClue(html);
 			});
-		$(html).find(".answer-part .submit-button").click (
+		$(html).find(".answer-part .submit-button").on ("click",
 			() => {
 				this.clue_submitAnswer(html);
 			});
-		$(html).find(".answer-part .edit-button").click (
+		$(html).find(".answer-part .edit-button").on ("click",
 			() => {
 				this.clue_editAnswer(html);
 			});
-		$(html).find(".answer-part .refund-button").click (
+		$(html).find(".answer-part .refund-button").on ("click",
 			() => {
 				this.clue_refundClue(html);
 			});
-		$(html).find(".answer-part .add-to-journal-button").click (
+		$(html).find(".answer-part .add-to-journal-button").on ("click",
 			() => {
 				this.clue_addToJournal(html);
 			});

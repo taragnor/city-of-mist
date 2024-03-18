@@ -14,7 +14,7 @@ import {CitySettings} from "./settings.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
 
 
-type RollModifier = {
+export type RollModifier = {
 	id:string,
 	name: string,
 	amount: number,
