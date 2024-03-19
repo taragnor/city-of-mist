@@ -1,21 +1,30 @@
 /* global jQuery, Handlebars, Sortable */
 /* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
+import { CityHelpers } from "../city-helpers.js";
+import { HTMLTools } from "../tools/HTMLTools.js";
 
 import {HTMLHandlers} from "../universal-html-handlers.js";
 import { StatusTracker } from "./status-tracker.js";
 
-Hooks.on('updateActor', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('updateItem', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('createItem', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('deleteItem', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('deleteActor', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('createToken', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('updateToken', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('deleteToken', function() {window.statusTrackerWindow.render(false)});
-Hooks.on('updateScene', function() {window.statusTrackerWindow.render(false)});
+Hooks.on('updateActor', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('updateItem', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('createItem', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('deleteItem', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('deleteActor', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('createToken', async() => {StatusTrackerWindow._instance.render(false)});
+Hooks.on('updateToken', async()=> {StatusTrackerWindow._instance.render(false)});
+Hooks.on('deleteToken', async()=> {StatusTrackerWindow._instance.render(false)});
+Hooks.on('updateScene', async()=> {StatusTrackerWindow._instance.render(false)});
 
 export class StatusTrackerWindow extends Application {
-	static get defaultOptions() {
+	static _instance: StatusTrackerWindow;
+
+	static init() {
+		this._instance = new StatusTrackerWindow();
+
+	}
+
+	static override get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "city-of-mist-tracker-app",
 			template: "systems/city-of-mist/module/city-status-tracker/tracker.hbs",
@@ -33,36 +42,36 @@ export class StatusTrackerWindow extends Application {
 	 *
 	 * @param {JQuery} html is the rendered HTML provided by jQuery
 	 **/
-	async activateListeners(html) {
+	override async activateListeners(html: JQuery): Promise<void> {
 		super.activateListeners(html);
 		HTMLHandlers.applyBasicHandlers(html);
 		html.find(".actor-name").on( "click", this._openTokenSheet);
-		html.find(".actor-name").on("mousedown", CityHelpers.rightClick( this._centerOnToken));
+		html.find(".actor-name").rightclick(this._centerOnToken);
 	}
 
-	async _openTokenSheet(event) {
-		const indexActor = getClosestData(event, "actor");
+	async _openTokenSheet(event: JQuery.Event) {
+		const indexActor = HTMLTools.getClosestData(event, "actor");
 		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
 		await tracker._openTokenSheet(indexActor);
 	}
 
-	async _centerOnToken(event) {
-		const indexActor = getClosestData(event, "actor");
-		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
+	async _centerOnToken(event: JQuery.Event) {
+		const indexActor = HTMLTools.getClosestData(event, "actor");
+		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
 		await tracker._centerOnToken(indexActor);
 	}
 
-	async _burnTag(event) {
-		const indexActor = getClosestData(event, "actor");
-		const tag = getClosestData(event, "tag");
-		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
+	async _burnTag(event: JQuery.Event) {
+		const indexActor = HTMLTools.getClosestData(event, "actor");
+		const tag = HTMLTools.getClosestData(event, "tag");
+		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
 		await tracker.burnTag(indexActor, tag);
 	}
 
-	async _unburnTag(event) {
-		const indexActor = getClosestData(event, "actor");
-		const tag = getClosestData(event, "tag");
-		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
+	async _unburnTag(event: JQuery.Event) {
+		const indexActor = HTMLTools.getClosestData(event, "actor");
+		const tag = HTMLTools.getClosestData(event, "tag");
+		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
 		await tracker.unburnTag(indexActor, tag);
 	}
 

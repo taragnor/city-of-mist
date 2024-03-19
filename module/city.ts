@@ -31,17 +31,16 @@ import { CityThreatSheet } from "./city-threat-sheet.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { registerSystemSettings } from "./settings.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
-import {} from "./tools/electron-fix.mjs";
-import {} from "./tools/debug.mjs";
-import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.mjs";
-import { VersionUpdater } from "./version-update.mjs";
-import {} from "./city-handlebars-helpers.mjs";
-import {} from "./story-tag-window.mjs";
-import {CitySockets} from "./city-sockets.mjs";
-import {DragAndDrop} from "./dragAndDrop.mjs";
-import { CityKeyBinds } from "./keybindings.mjs";
+import {} from "./tools/electron-fix.js";
+import {} from "./tools/debug.js";
+import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.js";
+import {} from "./city-handlebars-helpers.js";
+import {} from "./story-tag-window.js";
+import {CitySockets} from "./city-sockets.js";
+import {DragAndDrop} from "./dragAndDrop.js";
+import { CityKeyBinds } from "./keybindings.js";
 
-import {ClueChatCards } from "./clue-cards.mjs";
+import {ClueChatCards } from "./clue-cards.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -59,7 +58,7 @@ Hooks.on('ready', async () => {
 
 Hooks.once("cityDBLoaded", async function() {
 	if (game.user.isGM) {
-		await VersionUpdater.update();
+		// await VersionUpdater.update();
 		// await CityHelpers.convertExtras()
 		// await CityHelpers.updateDangers();
 		// await CityHelpers.updateImprovements();
@@ -130,26 +129,27 @@ Hooks.on("encryptionPreEnable", (taragnorSec: any) => {
 });
 
 /* City of Mist Status Tracker */
-Hooks.on("renderJournalDirectory", async (_app, html, _data) => {
-	window.statusTrackerWindow = new StatusTrackerWindow();
+Hooks.on("renderJournalDirectory", async () => {
+	StatusTrackerWindow.init();
+	// window.statusTrackerWindow = new StatusTrackerWindow();
 });
 
-Hooks.on("getSceneControlButtons", function(controls) {
-	let tileControls = controls.find(x => x.name === "token");
+Hooks.on("getSceneControlButtons", function(controls:any) {
+	let tileControls = controls.find((x:any) => x.name === "token");
 	if (game.user.isGM){
 		tileControls.tools.push({
 			icon: "fas fa-medkit",
 			name: "city-of-mist-status-tracker",
 			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
 			button: true,
-			onClick: () => window.statusTrackerWindow.render(true)
+			onClick: () => StatusTrackerWindow._instance.render(true)
 		});
 	}
 });
 
-Hooks.on("renderApplication", function(control) {
-	if (window.statusTrackerWindow) {
-		window.statusTrackerWindow.render(false);
+Hooks.on("renderApplication", function() {
+	if (StatusTrackerWindow._instance) {
+		StatusTrackerWindow._instance.render(false);
 	}
 });
 
