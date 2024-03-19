@@ -1,14 +1,18 @@
+import { CRollOptions } from "./city-roll.js";
+import { Clue } from "./city-item.js";
+
+import { Juice } from "./city-item.js";
+import { Status } from "./city-item.js"
+import { localizeS } from "./tools/handlebars-helpers.js";
+import { Improvement } from "./city-item.js";
+import { Tag } from "./city-item.js";
 import { PC } from "./city-actor.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
 
 import { CityDialogs } from "./city-dialogs.js";
 import {CityHelpers} from "./city-helpers.js";
-import {CityActor} from "./city-actor.js";
 import { CitySheet } from "./city-sheet.js";
-import { CityRoll } from "./city-roll.js";
-import { CityLogger } from "./city-logger.mjs";
-import { SelectedTagsAndStatus } from "./selected-tags.js";
 import {HTMLHandlers} from "./universal-html-handlers.js";
 import {CitySettings} from "./settings.js";
 
@@ -67,10 +71,6 @@ export class CityActorSheet extends CitySheet {
 		html.find('.clue-name').middleclick( this._clueEdit.bind(this));
 		html.find('.juice-name').on("click",  this._juiceEdit.bind(this) );
 		html.find('.juice-name').middleclick(this._juiceEdit.bind(this) );
-		html.find('.increment-buildup').on("click",  this._buildUpIncrement.bind(this) );
-		html.find('.decrement-buildup').on("click",  this._buildUpDecrement.bind(this) );
-		html.find('.add-buildup-improvement').on("click",  this._addBUImprovement.bind(this) );
-		html.find('.execute-move-button').on("click",  this._executeMove.bind(this) );
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
 		html.find('.clue-use-button').on("click", this._useClue.bind(this));
 		// this.testHandlers(html);
@@ -152,7 +152,7 @@ export class CityActorSheet extends CitySheet {
 		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
 		const theme = owner.getTheme(themeId);
 		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
-		let idChoice;
+		let idChoice : null | string = null;
 		if (!theme) {
 			throw new Error(`Can't find Theme: ${themeId}`);
 		}
@@ -162,7 +162,7 @@ export class CityActorSheet extends CitySheet {
 				return;
 		}
 		let retobj = null;
-		let tag, improvement;
+		let improvement;
 		if (itemtype == "tag")  {
 			const subtype = bonus ? "bonus" : HTMLTools.getClosestData(event, "subType");
 			const awardImprovement =
@@ -188,8 +188,8 @@ export class CityActorSheet extends CitySheet {
 					throw new Error(`Subtype ${subtype} not recognized`);
 			}
 		} else {
-			retobj = await owner.addImprovement(themeId, idChoice);
-			improvement = await owner.getImprovement(retobj.id);
+			retobj = await owner.addImprovement(themeId,Number( idChoice!));
+			improvement =  owner.getImprovement(retobj.id)!;
 
 			await this.improvementDialog(improvement);
 			await CityHelpers.modificationLog(owner,  "Created", improvement);
@@ -201,49 +201,45 @@ export class CityActorSheet extends CitySheet {
 		await this._createTagOrImprovement(event, true);
 	}
 
-	async _deleteTag (event : Event) {
+	async _deleteTag (event : JQuery.Event) {
 		await HTMLHandlers.deleteTag(event);
 	}
 
-	async _deleteImprovement (event : Event) {
+	async _deleteImprovement (event : JQuery.Event) {
 		const actorId = HTMLTools.getClosestData(event, "ownerId") as string;
 		const actor = this.getOwner(actorId);
-		const tagId = HTMLTools.getClosestData(event, "impId");
-		const tag = await actor.getImprovement(tagId);
-		const tagName = tag.name;
-		if (await this.confirmBox("Confirm Delete", `Delete ${tagName}`)) {
-			await actor.deleteImprovement(tagId);
-			await CityHelpers.modificationLog(actor, `Deleted`, tag);
+		const impId = HTMLTools.getClosestData(event, "impId");
+		const imp =  actor.getImprovement(impId)!;
+		const impName = imp.name;
+		if (await this.confirmBox("Confirm Delete", `Delete ${impName}`)) {
+			await actor.deleteImprovement(impId);
+			await CityHelpers.modificationLog(actor, `Deleted`, imp);
 		}
 	}
 
-	async _tagSelect(event, invert = false) {
-		return HTMLHandlers._tagSelect(event, invert);
-	}
-
-	async tagDialog(obj) {
+	async tagDialog(obj: Tag) {
 		return await CityHelpers.itemDialog(obj);
 	}
 
-	async improvementDialog(obj) {
+	async improvementDialog(obj: Improvement) {
 		return await CityHelpers.itemDialog(obj);
 	}
 
-	async _improvementEdit(event) {
-		const id = getClosestData(event, "impId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const imp = await owner.getImprovement(id);
+	async _improvementEdit(event: JQuery.Event) {
+		const id = HTMLTools.getClosestData(event, "impId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const owner = this.getOwner(actorId);
+		const imp = owner.getImprovement(id)!;
 		if (!imp.system.chosen)
 			await imp.reloadImprovementFromCompendium();
 		await this.improvementDialog(imp);
 	}
 
-	async _deleteTheme(event) {
-		const themeId = getClosestData( event, "themeId");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(themeId);
+	async _deleteTheme(event: JQuery.Event) {
+		const themeId = HTMLTools.getClosestData( event, "themeId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor =  this.getOwner(actorId);
+		const theme =  actor.getTheme(themeId)!;
 		const themeName = theme.name;
 		if (actor.isNewCharacter()) {
 			if (await this.confirmBox("Confirm Delete", `Delete Theme ${themeName}`)) {
@@ -270,21 +266,21 @@ export class CityActorSheet extends CitySheet {
 			}
 		}
 
-	async _burnTag (event) {
+	async _burnTag (event: JQuery.Event) {
 		await HTMLHandlers.burnTag(event);
 	}
 
-	async _unburnTag (event) {
+	async _unburnTag (event: JQuery.Event) {
 		await HTMLHandlers.unburnTag(event);
 	}
 
-	async _addAttentionOrFade (event) {
-		const id = getClosestData( event, "themeId");
-		const type = getClosestData( event, "type");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
-		const themeName = theme.name;
+	async _addAttentionOrFade (event: JQuery.Event) {
+		const id = HTMLTools.getClosestData( event, "themeId");
+		const type = HTMLTools.getClosestData( event, "type");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor =  this.getOwner(actorId);
+		// const theme =  actor.getTheme(id)!;
+		// const themeName = theme.name;
 		switch (type) {
 			case "attention":
 				await actor.addAttention(id);
@@ -297,13 +293,12 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _removeAttentionOrFade (event) {
-		const id = getClosestData( event, "themeId");
-		const type = getClosestData( event, "type");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
-		const themeName = theme.name;
+	async _removeAttentionOrFade (event: JQuery.Event) {
+		const id = HTMLTools.getClosestData( event, "themeId");
+		const type = HTMLTools.getClosestData( event, "type");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor =  this.getOwner(actorId);
+		// const theme =  actor.getTheme(id)!;
 		switch (type) {
 			case "attention":
 				await actor.removeAttention(id);
@@ -316,11 +311,11 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _resetFade (event) {
-		const id = getClosestData( event, "themeId");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const theme = await actor.getTheme(id);
+	async _resetFade (event: JQuery.Event) {
+		const id = HTMLTools.getClosestData( event, "themeId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor =  this.getOwner(actorId);
+		const theme =  actor.getTheme(id)!;
 		const themename = theme.name;
 		if (await this.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
 			actor.resetFade(id);
@@ -328,13 +323,12 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _sendImprovementToChat(event) {
-		const impId = getClosestData( event, "impId");
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		const imp = await actor.getImprovement(impId);
+	async _sendImprovementToChat(event: JQuery.Event) {
+		const impId = HTMLTools.getClosestData( event, "impId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor = this.getOwner(actorId);
+		const imp =  actor.getImprovement(impId)!;
 		const impName = imp.name
-		const impDescript = imp.system.description;
 		const templateData = {improvement: imp, data: imp.system};
 		const html = await renderTemplate("systems/city-of-mist/templates/improvement-chat-description.html", templateData);
 		const uses = imp.getImprovementUses();
@@ -345,25 +339,23 @@ export class CityActorSheet extends CitySheet {
 			disable,
 			speaker: {actor: this.actor, alias: this.actor.getDisplayedName() }
 		};
-		if (await this.sendToChatBox(localizeS(impName), html, options)) {
+		if (await this.sendToChatBox(localizeS(impName) as string, html, options)) {
 			if (uses < 9999)
 				await imp.decrementImprovementUses();
 		}
 	}
 
-	async _activeExtraInit(elem) {}
-
-	async _activeExtraChange(event) {
-		if (this.actor.type != "character")
+	async _activeExtraChange(_event: JQuery.Event) {
+		if (this.actor.system.type != "character")
 			return;
 		const elem = $(this.form).find('.active-extra-drop-down');
 		const val = elem.val();
 		if (val == undefined)
 			throw new Error("value is undefined!");
 		if (this.actor.system.activeExtraId != val) {
-			await this.actor.setExtraThemeId(val);
+			await this.actor.setExtraThemeId(String(val));
 			const extra = game.actors.find(x => x.id == val);
-			const name  = extra ? extra.name : "None";
+			// const name  = extra ? extra.name : "None";
 			if (extra)
 				await CityHelpers.modificationLog(this.actor, `Activated Extra ${extra.name}`);
 			else
@@ -371,11 +363,11 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _createStatus (event) {
+	async _createStatus (_event: JQuery.Event) {
 		const owner = this.actor;
 		const obj = await this.actor.createNewStatus("Unnamed Status")
-		const status = await owner.getStatus(obj.id);
-		const updateObj = await this.statusDialog(status);
+		const status =  owner.getStatus(obj.id)!;
+		const updateObj = await this.statusDialog(status) as Status;
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
@@ -383,16 +375,16 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _deleteStatus (event, autodelete = false) {
+	async _deleteStatus (event: JQuery.Event, autodelete = false) {
 		await HTMLHandlers.deleteStatus(event, autodelete);
 	}
 
 
-	async _createClue (_event) {
+	async _createClue (_event: JQuery.Event) {
 		const owner = this.actor;
-		const obj = await this.actor.createNewClue("Unnamed Clue");
-		const clue = await owner.getClue(obj.id);
-		const updateObj = await this.CJDialog("clue", clue);
+		const obj = await this.actor.createNewClue({name: "Unnamed Clue"});
+		const clue =  owner.getClue(obj.id)!;
+		const updateObj = await this.CJDialog(clue);
 		if (updateObj) {
 			const partialstr = clue.system.partial ? ", partial": "";
 			CityHelpers.modificationLog(owner, "Created", clue, `${clue.system.amount}${partialstr}` );
@@ -401,45 +393,45 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _deleteClue (event) {
+	async _deleteClue (event: JQuery.Event) {
 		event.stopPropagation();
-		const clue_id = getClosestData(event, "clueId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const clue = await owner.getClue(clue_id);
+		const clue_id = HTMLTools.getClosestData(event, "clueId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(actorId);
+		const clue =  owner.getClue(clue_id)!;
 		// if (await this.confirmBox("Delete Clue", `Delete ${clue.name}`)) {
 		await owner.deleteClue(clue_id);
 		CityHelpers.modificationLog(owner, "Removed", clue );
 		// }
 	}
 
-	async _deleteJournalClue (event) {
-		const clue_id = getClosestData(event, "clueId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const clue = await owner.getJournalClue(clue_id);
+	async _deleteJournalClue (event: JQuery.Event) {
+		const clue_id = HTMLTools.getClosestData(event, "clueId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(actorId)!;
+		// const clue =  owner.getJournalClue(clue_id);
 		await owner.deleteClue(clue_id);
 		// CityHelpers.modificationLog(owner, "Removed", clue );
 
 	}
 
-	async _createJuice (event) {
+	async _createJuice (_event: JQuery.Event) {
 		return await this._createJuiceOfType("Unnamed Juice");
 	}
 
-	async _createHelp (event) {
+	async _createHelp (_event: JQuery.Event) {
 		return await this._createJuiceOfType("Help", "help");
 	}
 
-	async _createHurt (event) {
+	async _createHurt (_event: JQuery.Event) {
 		return await this._createJuiceOfType("hurt", "hurt");
 	}
 
-	async _createJuiceOfType (basename, subtype = "") {
+	async _createJuiceOfType (basename: string, subtype = "") {
 		const owner = this.actor;
 		const obj = await owner.createNewJuice(basename, subtype);
-		const juice = await owner.getJuice(obj.id);
-		const updateObj = await this.CJDialog("juice", juice);
+		const juice =  owner.getJuice(obj.id)!;
+		const updateObj = await this.CJDialog( juice);
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Created", juice, `${juice.system.amount}` );
 		} else  {
@@ -447,23 +439,23 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _deleteJuice (event) {
-		const juice_id = getClosestData(event, "juiceId");
-		const actorId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(actorId);
-		const juice = await owner.getJuice(juice_id);
+	async _deleteJuice (event: JQuery.Event) {
+		const juice_id = HTMLTools.getClosestData(event, "juiceId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const owner = this.getOwner(actorId);
+		const juice = owner.getJuice(juice_id);
 		// if (await this.confirmBox("Delete Juice", `Delete ${juice.name}`)) {
 		await owner.deleteJuice(juice_id);
 		CityHelpers.modificationLog(owner, "Removed", juice);
 		// }
 	}
 
-	async _statusAdd (event) {
+	async _statusAdd (event: JQuery.Event) {
 		//adds a second status to existing
 		await HTMLHandlers.statusAdd(event);
 	}
 
-	async statusDrop({name, tier}) {
+	async statusDrop({name, tier}: {name: string, tier:number}) {
 		if (!tier)
 			throw new Error(`Tier is not valid ${tier}`);
 		const retval = await CityDialogs.statusDropDialog(this.actor, name, tier);
@@ -474,33 +466,25 @@ export class CityActorSheet extends CitySheet {
 				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
 			case 'merge':
-				const origStatus =  await this.actor.getStatus(retval.statusId);
-				const {data: {name, data: {tier, pips}}} = origStatus;
+				const origStatus =   this.actor.getStatus(retval.statusId!)!;
 				await origStatus.addStatus(retval.tier, retval.name);
-				await this.reportStatusAdd(this.actor, retval.tier,  {name, tier, pips}, origStatus);
+				await HTMLHandlers.reportStatusAdd(this.actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
 			default:
+				retval.action satisfies never;
 				throw new Error(`Unknown action : ${retval.action}`);
 		}
 	}
 
-	async _statusSubtract (event) {
+	async _statusSubtract (event: JQuery.Event) {
 		return HTMLHandlers.statusSubtract(event);
 	}
 
-	async reportStatusAdd(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
-		await HTMLHandlers.reportStatusAdd.apply(HTMLHandlers, arguments);
-	}
-
-	async reportStatsuSubtract(owner,  amt, {name: oldname, tier: oldtier, pips:oldpips}, status) {
-		await HTMLHandlers.reportStatusSubtract.apply(HTMLHandlers, arguments);
-	}
-
-	async _statusEdit (event) {
-		const status_id = getClosestData(event, "statusId");
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const status = await owner.getStatus(status_id);
+	async _statusEdit (event: JQuery.Event) {
+		const status_id = HTMLTools.getClosestData(event, "statusId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(ownerId);
+		const status =  owner.getStatus(status_id)!;
 		const oldtier = status.system.tier;
 		const oldpips = status.system.pips;
 		const oldname = status.name;
@@ -512,118 +496,58 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _juiceEdit (event) {
-		const juice_id = getClosestData(event, "juiceId");
-		const ownerId = getClosestData(event, "ownerId");
+	async _juiceEdit (event: JQuery.Event) {
+		const juice_id = HTMLTools.getClosestData(event, "juiceId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const owner = this.getOwner(ownerId);
-		const juice = await owner.getJuice(juice_id);
+		const juice =  owner.getJuice(juice_id)!;
 		const oldname = juice.name;
 		const oldamount = juice.system.amount;
-		const updateObj = await this.CJDialog("juice", juice);
+		const updateObj = await this.CJDialog(juice);
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 
-	async _createStoryTag(_event) {
+	async _createStoryTag(_event: JQuery.Event) {
 		const owner = this.actor;
 		const retobj = await owner.createStoryTag();
-		const tag = await owner.getTag(retobj.id);
+		if (!retobj) return;
+		const tag =  owner.getTag(retobj.id)!;
 		await this.tagDialog(tag);
 		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
 
-	async _useClue(event) {
+	async _useClue(event: JQuery.Event) {
 		if (game.user.isGM) {
 			ui.notifications.warn("only players can use clues");
 			return;
 		}
-		const clue_id = getClosestData(event, "clueId");
-		const actorId = getClosestData(event, "ownerId");
+		const clue_id = HTMLTools.getClosestData(event, "clueId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const owner =  this.getOwner(actorId);
-		const clue = await owner.getClue(clue_id);
+		const clue = owner.getClue(clue_id)!;
 		if (await this.confirmBox("Use Clue", "Use Clue?"))
 			await clue.spendClue();
 	}
 
-	async _buildUpDecrement(event) {
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		if (await this.confirmBox("Remove Build Up Point", `Remove Build Up Point to ${actor.name}`)) {
-			await actor.decBuildUp();
-			await CityHelpers.modificationLog(actor, `Build Up Point Removed (Current ${await actor.getBuildUp()})`);
-		}
-	}
 
-	async _addBUImprovement (_event) {
-		const list = await CityHelpers.getBuildUpImprovements();
-		const choiceList = list
-			.map ( x => {
-				return {
-					id: x.id,
-					data: [x.name],
-					description: x.data.description
-					//TODO: wierd format probably need to change some stuff since its not x.system
-				}
-			});
-		const choice = await CitySheet.singleChoiceBox(choiceList, "Choose Build-up Improvement");
-		if (!choice)
-			return;
-		const imp = await this.actor.addBuildUpImprovement(choice);
-		await CityHelpers.modificationLog(this.actor, "Added", imp);
-	}
-
-	async _buildUpIncrement (event) {
-		const actorId = getClosestData(event, "ownerId");
-		const actor = await this.getOwner(actorId);
-		if (await this.confirmBox("Add Build Up Point", `Add Build Up Point to ${actor.name}`)) {
-			await actor.incBuildUp();
-			CityHelpers.modificationLog(actor, `Build Up Point Added`, null, `Current ${await actor.getBuildUp()}`);
-		}
-		let unspentBU = actor.system.unspentBU;
-		while (unspentBU > 0) {
-			const impId = await this.chooseBuildUpImprovement(actor);
-			if (impId == null)
-				break;
-			await actor.addBuildUpImprovement(impId);
-			unspentBU = actor.system.unspentBU;
-			refresh = true;
-		}
-	}
-
-	async chooseBuildUpImprovement (owner) {
-		const improvementsChoices = await CityHelpers.getBuildUpImprovements();
-		const actorImprovements = await owner.getBuildUpImprovements();
-		const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.name));
-		const inputList = filteredChoices.map( x => {
-			const data = [x.name];
-			return {
-				id : x.id,
-				data,
-				description: x.data.description
-				//TODO: wierd format probably need to change some stuff since its not x.system
-			};
-		});
-		const choice = await CitySheet.singleChoiceBox(inputList, "Choose Build-up Improvement");
-		return choice;
-	}
-
-	async _clueEdit (event) {
-		const clue_id = getClosestData(event, "clueId");
-		const ownerId = getClosestData(event, "ownerId");
-		const owner = await this.getOwner(ownerId);
-		const clue = await owner.getClue(clue_id);
+	async _clueEdit (event: JQuery.Event) {
+		const clue_id = HTMLTools.getClosestData(event, "clueId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const owner =  this.getOwner(ownerId);
+		const clue =  owner.getClue(clue_id)!;
 		const oldname = clue.name;
 		const oldamount = clue.system.amount;
-		const updateObj = await this.CJDialog("clue", clue);
+		const updateObj = await this.CJDialog(clue);
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 
-	async chooseImprovement(themeId) {
-		const themename = await this.actor.getTheme(themeId);
-		const prompt = `Choose Improvement for ${themename}`;
+	async chooseImprovement() {
+		// const themename =  this.actor.getTheme(themeId);
+		// const prompt = `Choose Improvement for ${themename}`;
 		const choiceList = ["Reset Fade", "Add New Tag", "Add Improvement"];
 		const inputList = choiceList.map( x => {
 			const data = [x]
@@ -631,35 +555,32 @@ export class CityActorSheet extends CitySheet {
 				id: x, data
 			};
 		});
-		const choice = await CitySheet.singleChoiceBox(inputList, "Choose Item");
+		const choice = await HTMLTools.singleChoiceBox(inputList, "Choose Item");
 		switch (choice) {
 			case "Reset Fate":
 				throw new Error("Not Yet implemented");
-				break;
 			case "Add New Tag":
 				throw new Error("Not Yet implemented");
-				break;
 			case "Add Improvement":
 				throw new Error("Not Yet implemented");
-				break;
 			default:
 				throw new Error(`Unrecognized choice ${choice}`);
 		}
 	}
 
 
-	async statusDialog(obj) {
-		return await CityHelpers.itemDialog(obj);
+	async statusDialog(obj: Status) : Promise<Status> {
+		return await CityHelpers.itemDialog(obj) as Status;
 	}
 
-	async CJDialog(objtype, obj) {
-		return await CityHelpers.itemDialog(obj);
+	async CJDialog(obj: Clue| Juice) : Promise<Clue | Juice> {
+		return await CityHelpers.itemDialog(obj) as Juice;
 	}
 
-	async SHBDialog (actor: PC) {
+	async SHBDialog (actor: PC): Promise<CRollOptions["newtype"] | null> {
 		const title = "You sure about this?";
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
-		return new Promise ( (conf, rej) => {
+		return new Promise ( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
@@ -668,7 +589,7 @@ export class CityActorSheet extends CitySheet {
 					one: {
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
-							const result = $(html).find(".SHB-selector:checked").val();
+							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
 							conf(result);
 						}
 					},

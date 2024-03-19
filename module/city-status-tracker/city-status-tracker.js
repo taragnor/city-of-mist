@@ -1,7 +1,7 @@
 /* global jQuery, Handlebars, Sortable */
 /* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
 
-import {HTMLHandlers} from "../universal-html-handlers.mjs";
+import {HTMLHandlers} from "../universal-html-handlers.js";
 import { StatusTracker } from "./status-tracker.js";
 
 Hooks.on('updateActor', function() {window.statusTrackerWindow.render(false)});
@@ -36,8 +36,8 @@ export class StatusTrackerWindow extends Application {
 	async activateListeners(html) {
 		super.activateListeners(html);
 		HTMLHandlers.applyBasicHandlers(html);
-		html.find(".actor-name").click( this._openTokenSheet);
-		html.find(".actor-name").mousedown( CityHelpers.rightClick( this._centerOnToken));
+		html.find(".actor-name").on( "click", this._openTokenSheet);
+		html.find(".actor-name").on("mousedown", CityHelpers.rightClick( this._centerOnToken));
 	}
 
 	async _openTokenSheet(event) {

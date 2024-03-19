@@ -103,7 +103,7 @@ export class CityDialogs {
 		}
 	}
 
-	static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) {
+	static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
 		const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		const statusList = actor.my_statuses;
@@ -123,7 +123,7 @@ export class CityDialogs {
 							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
 							const newName = $(html).find(".status-name").val();
 							let pips = 0;
-							let boxes;
+							let boxes : number | undefined;
 							if (classic) {
 								const facedanger = $(html).find(".face-danger").is(":checked");
 								tier -= facedanger ? 1 : 0;
@@ -143,8 +143,8 @@ export class CityDialogs {
 								});
 							return conf({
 								action:"merge",
-								name: newName,
-								statusId: statusChoiceId,
+								name: String(newName),
+								statusId: String(statusChoiceId),
 								tier : boxes ?? tier,
 								pips
 							});

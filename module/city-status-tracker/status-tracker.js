@@ -1,5 +1,5 @@
 import { CityHelpers } from "../city-helpers.js";
-import { SceneTags } from "../scene-tags.mjs";
+import { SceneTags } from "../scene-tags.js";
 
 export class StatusTracker {
 	/**

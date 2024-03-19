@@ -1074,7 +1074,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	/** gets the tags from a themekit
 	type: "power" || "weakness"
 	*/
-	themekit_getTags(this: ThemeKit, type : Extract<TagType, "power" | "weakness"> = "power") {
+	themekit_getTags(this: ThemeKit, type : "power" | "weakness" | "bonus" = "power") {
+		if (type == "bonus") return [];
 		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
 			return [];

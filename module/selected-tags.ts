@@ -14,10 +14,11 @@ declare global {
 }
 
 export type ShorthandNotation = {
-			id: string,
-			ownerId: string ,
-			tokenId?: string ,
-			type: CityItem["type"]
+	id: string,
+	ownerId: string ,
+	tokenId?: string ,
+	type: CityItem["type"]
+	amount: number;
 };
 
 export type ActivatedTagFormat = {
@@ -143,7 +144,7 @@ export class SelectedTagsAndStatus {
 		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id) as Tag | Status;
 	}
 
-	static fullTagOrStatusToShorthand(tag: Tag): ShorthandNotation {
+	static fullTagOrStatusToShorthand(tag: Tag | Status): ShorthandNotation {
 		return {
 			id: tag.id,
 			ownerId: tag.parent?.id ?? "",
@@ -178,15 +179,15 @@ export class SelectedTagsAndStatus {
 	static activateStatus(status: Status, direction= 1) { return this.activateSelectedItem(status, direction); }
 
 
-	static async selectTagHandler_invert(event: Event) {
+	static async selectTagHandler_invert(event: JQuery.Event) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, true);
 	}
 
-	static async selectTagHandler(event: Event) {
+	static async selectTagHandler(event: JQuery.Event) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, false);
 	}
 
-	static async _selectTagHandler(event: Event , invert = false ) {
+	static async _selectTagHandler(event: JQuery.Event , invert = false ) {
 		const id = HTMLTools.getClosestData(event, "tagId");
 		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
@@ -219,15 +220,15 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static async selectStatusHandler_invert(event: Event) {
+	static async selectStatusHandler_invert(event: JQuery.Event) {
 		return await SelectedTagsAndStatus._statusSelect(event, true);
 	}
 
-	static async selectStatusHandler(event: Event) {
+	static async selectStatusHandler(event: JQuery.Event) {
 		return await SelectedTagsAndStatus._statusSelect(event, false);
 	}
 
-	static async _statusSelect (event: Event, invert = false) {
+	static async _statusSelect (event: JQuery.Event, invert = false) {
 		const id = HTMLTools.getClosestData(event, "statusId");
 		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");

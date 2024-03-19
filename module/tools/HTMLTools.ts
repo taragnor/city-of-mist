@@ -3,7 +3,7 @@ import { CityItem } from "../city-item";
 
 export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
-	static getClosestData<T extends string | number | null = string> ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value?: T): T {
+	static getClosestData<T extends string | number | null = string> ( eventOrJQObj: JQuery<HTMLElement> | Event | JQuery.Event, prop: string, default_value?: T): T {
 		const target = ("currentTarget" in eventOrJQObj) ? eventOrJQObj.currentTarget : eventOrJQObj;
 		const convert = function (string :string) {
 			return Array.from(string).map(x => {
@@ -107,7 +107,7 @@ export class HTMLTools {
 
 	/** List is in the form of {id, data:[rows], description} returns null if abort or the id of the selection.
 		*/
-	static async singleChoiceBox( list:{id: string, data:string[], description:string}[], headerText: string) : Promise<string | null> {
+	static async singleChoiceBox( list:{id: string, data:string[], description?:string}[], headerText: string) : Promise<string | null> {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};
@@ -258,8 +258,8 @@ HTMLTools.initCustomJqueryFunctions();
 
 declare global {
 	interface JQuery{
-		middleclick(handler: (e: Event) => any) :void;
-		rightclick(handler: (e: Event) => any) :void;
+		middleclick(handler: (e: Event | JQuery.Event) => any) :void;
+		rightclick(handler: (e: Event | JQuery.Event) => any) :void;
 	}
 }
 

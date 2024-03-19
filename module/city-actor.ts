@@ -1,3 +1,5 @@
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { Themebook } from "./city-item.js";
 import { ThemeKit } from "./city-item.js";
 import { Move } from "./city-item.js";
 import { Tag } from "./city-item.js";
@@ -259,12 +261,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find(x => x.type == "clue" && x.id == id) as Clue | undefined;
 	}
 
-	async getJournalClue(id: string) {
-		return this.items.find(x => x.type == "journal" && x.id == id);
+	 getJournalClue(id: string) : ClueJournal | undefined{
+		return this.items.find(x => x.type == "journal" && x.id == id) as ClueJournal | undefined;
 	}
 
-	async getJuice(id: string) {
-		return this.items.find(x => x.type == "juice" && x.id == id);
+	 getJuice(id: string) : Juice | undefined {
+		return this.items.find(x => x.type == "juice" && x.id == id) as Juice | undefined;
 	}
 
 	getGMMove(id: string): GMMove | undefined {
@@ -475,12 +477,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return (await this.createEmbeddedDocuments("Item", [obj]))[0];
 	}
 
-	async createNewStatus (name: string, tier=1, pips=0, options: Partial<Status["system"]>={} ) {
+	async createNewStatus (name: string, tier=1, pips=0, options: Partial<Status["system"]>={} ): Promise<Status> {
 		const temporary  = options.temporary ?? false;
 		const permanent  = options.permanent ?? false;
 		const obj = {
 			name, type: "status", system : {pips, tier, temporary, permanent}};
-		return await this.createNewItem(obj);
+		return await this.createNewItem(obj) as Status;
 	}
 
 	async createClue(metaSource= "", clueData: Partial<Clue["system"]> = {}) {
@@ -502,7 +504,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async createNewClue (dataobj: Partial<Clue["system"]> & {name?: string} ) {
+	async createNewClue (dataobj: Partial<Clue["system"]> & {name?: string} ) : Promise<Clue>{
 		const name = dataobj.name ?? "Unnamed Clue";
 		const obj = {
 			name, type: "clue", system : {amount:1, ...dataobj}};
@@ -596,7 +598,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	@param question_letter{string} letter of the answered question or "_" for bonus,
 	@param {{crispy ?: boolean, awardImprovement ?: boolean, noEdit ?: boolean}} options
 	*/
-	async addTag(theme_id: string, temp_subtype: "power" | "weakness" | "bonus",  question_letter: string, options: {crispy?: boolean; awardImprovement?: boolean; noEdit?: boolean;} = {}) {
+	async addTag(theme_id: string, temp_subtype: "power" | "weakness" | "bonus",  question_letter: string | null, options: {crispy?: boolean; awardImprovement?: boolean; noEdit?: boolean;} = {}) {
 		const theme = this.getTheme(theme_id);
 		if (!theme) {
 			throw new Error(`Couldn't get Theme for id ${theme_id} on ${this.name}`);
@@ -633,15 +635,17 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	}
 
-	async _addTagFromThemeBook(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string, options : {awardImprovement?: boolean, crispy?: boolean}) : Promise<[Tag,number]> {
+	async _addTagFromThemeBook(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string | null, options : {awardImprovement?: boolean, crispy?: boolean}) : Promise<[Tag,number]> {
 		const themebook = theme.themebook!;
+		if (themebook.system.type == "themekit") {throw new Error("Themekit detected?");
+		}
 		let custom_tag = false;
 		let question, subtag, subtype;
 		let upgrades = 0;
 		switch (temp_subtype) {
 			case "power":{
 				subtype = "power";
-				const tagdata = themebook
+				const tagdata = (themebook as Themebook)
 				.themebook_getTagQuestions(temp_subtype)
 				.find( x=> x.letter == question_letter)!;
 				question = tagdata.question;
@@ -651,7 +655,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				break;
 			}
 			case "weakness":{
-				const tagdata = themebook
+				const tagdata = (themebook as Themebook)
 				.themebook_getTagQuestions(temp_subtype)
 				.find( x=> x.letter == question_letter)!;
 				subtype = "weakness";
@@ -689,12 +693,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return [await this.createNewItem(obj) as Tag, upgrades];
 	}
 
-	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness", question_letter: string, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
+	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string | null, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
 		const themebook = theme.themebook!;
 		if (themebook.system.type != "themekit") {
 			throw new Error("Not a themekit!");
 		}
-		const tagdata = ((themebook as ThemeKit)
+		const tagdata = (themebook as ThemeKit)
 			.themekit_getTags(temp_subtype)
 			.find( x=> x.letter == question_letter);
 			if (!tagdata) {
@@ -787,7 +791,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async addBuildUpImprovement(this: PC, impId: string) {
+	async addBuildUpImprovement(this: PC, impId: string): Promise<Improvement> {
 		const improvements = await CityHelpers.getBuildUpImprovements();
 		const imp = improvements.find(x=> x.id == impId);
 		if (imp == undefined) {
@@ -810,14 +814,15 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		};
 		const unspentBU = this.system.unspentBU;
 		await this.update({"system.unspentBU": unspentBU-1});
-		return await this.createNewItem(obj);
+		return await this.createNewItem(obj) as Improvement;
 	}
+
 
 	 getBuildUpImprovements(this:PC ) : Improvement[] {
 		return this.items.filter(x => x.system.type == "improvement" && x.system.theme_id.length == 0) as Improvement[];
 	}
 
-	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : { temporary?: boolean, permanent?: boolean } = {}) : Promise<Tag> {
+	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : { temporary?: boolean, permanent?: boolean } = {}) : Promise<Tag | null> {
 		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getTags().find( x=> x.name == name))
@@ -845,7 +850,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				permanent
 			}
 		};
-		return await this.createNewItem(obj);
+		return await this.createNewItem(obj) as Tag;
 	}
 
 	async deleteStoryTagByName(tagname: string) {
@@ -1140,7 +1145,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2: string, tier2: number, pips=0, options= {}) {
+	async addOrCreateStatus (name2: string, tier2: number, pips=0, options= {}) : Promise<Status> {
 		// const classic = CityHelpers.isClassicCoM("addition");
 		const reloaded = CityHelpers.isCoMReloaded("addition");
 		let status = this.hasStatus(name2);

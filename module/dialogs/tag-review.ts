@@ -1,3 +1,6 @@
+import { Status } from "../city-item.js";
+import { HTMLTools } from "../tools/HTMLTools.js";
+import { SelectedTagsAndStatus } from "../selected-tags.js"
 import { Tag } from "../city-item.js";
 import { Theme } from "../city-item.js";
 import { CityItem } from "../city-item.js";
@@ -7,26 +10,24 @@ import { CityActor } from "../city-actor.js";
 import {EnhancedDialog} from "./enhanced-dialog.js";
 import {HTMLHandlers} from "../universal-html-handlers.js";
 import {CityHelpers} from "../city-helpers.js";
-import { TagReviewMasterSession } from "../city-sessions.js";
 import { ReviewableModifierList } from "../ReviewableModifierList.js";
+import { TagReviewSlaveSession } from "../city-sessions.js";
 
 
 export class TagReviewDialog extends EnhancedDialog {
 
-	#session: TagReviewMasterSession;
+	#session: TagReviewSlaveSession;
 	#reviewList: ReviewableModifierList;
-	#moveId: string;
 	#move: Move;
 	#actor: CityActor;
-	static _instance: Dialog;
+	static _instance: TagReviewDialog | null;
 
 
-	constructor(reviewList: ReviewableModifierList, moveId: string, session: TagReviewMasterSession, actor) {
+	constructor(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) {
 		const title = TagReviewDialog.title();
 		const buttons = TagReviewDialog.buttons();
 		const cssClass = TagReviewDialog.cssClass();
 		super(title, cssClass, buttons);
-		this.#moveId = moveId;
 		this.#reviewList = reviewList;
 		this.#session = session;
 
@@ -46,11 +47,11 @@ export class TagReviewDialog extends EnhancedDialog {
 	}
 
 
-	static title() {
+	static title() : string {
 		return localize("CityOfMist.dialog.tagReview.title");
 	}
 
-	static buttons() {
+	static buttons(): Record<string,ButtonOptions> {
 		return {
 			Okay: {
 				icon: '<i class="fas fa-check"></i>',
@@ -134,40 +135,40 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	setListeners(_html: string) {
 		const html = this.element;
-		$(html).mouseover( () => {
+		$(html).on( "mouseover",  () => {
 			TagReviewDialog._instance = this;
 		});
 		$(html).find(".tag .name").middleclick( HTMLHandlers.tagEdit);
-		$(html).find(".selected-list .tag .name").click( this.flipTag.bind(this) );
+		$(html).find(".selected-list .tag .name").on("click",this.flipTag.bind(this) );
 		$(html).find(".status .name").middleclick( HTMLHandlers.statusEdit);
-		$(html).find(".selected-list .status .name").click( this.flipStatus.bind(this));
-		$(html).find(".suggestion-list .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
-		$(html).find(".suggestion-list .tag .name").click(SelectedTagsAndStatus.selectTagHandler);
+		$(html).find(".selected-list .status .name").on("click", this.flipStatus.bind(this));
+		$(html).find(".suggestion-list .status .name").on("click", (ev:JQuery.Event)=>SelectedTagsAndStatus.selectStatusHandler(ev));
+		$(html).find(".suggestion-list .tag .name").on("click", (ev: JQuery.Event)=>SelectedTagsAndStatus.selectTagHandler(ev));
 		$(html).find(".suggestion-list .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		$(html).find(".suggestion-list .tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 
-		$(html).find(".item-control.approved").click(
-			(event) => {
-				const tagId = getClosestData(event, "itemId");
-				const ownerId = getClosestData(event, "ownerId");
+		$(html).find(".item-control.approved").on("click",
+			(event: JQuery.Event) => {
+				const tagId = HTMLTools.getClosestData(event, "itemId");
+				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
-				this.#session.approveTag(tagId, ownerId);
+					this.#session.approveTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "approved";
 				this.refreshHTML();
 			});
-		$(html).find(".item-control.request-clarification").click(
-			(event) => {
-				const tagId = getClosestData(event, "itemId");
-				const ownerId = getClosestData(event, "ownerId");
+		$(html).find(".item-control.request-clarification").on("click",
+			(event: JQuery.Event) => {
+				const tagId = HTMLTools.getClosestData(event, "itemId");
+				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.requestClarification(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "challenged";
 				this.refreshHTML();
 			});
-		$(html).find(".item-control.rejected").click(
-			(event) => {
-				const tagId = getClosestData(event, "itemId");
-				const ownerId = getClosestData(event, "ownerId");
+		$(html).find(".item-control.rejected").on("click",
+			(event:JQuery.Event) => {
+				const tagId = HTMLTools.getClosestData(event, "itemId");
+				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.rejectTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId).review = "rejected";
@@ -175,17 +176,17 @@ export class TagReviewDialog extends EnhancedDialog {
 			});
 	}
 
-	close() {
+	override close() {
 		super.close();
 		if (this == TagReviewDialog._instance)
 			TagReviewDialog._instance = null;
 	}
 
-	onRender(html) {
+	override onRender(_html: string) {
 		this.refreshHTML();
 	}
 
-	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewMasterSession, actor: CityActor) {
+	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) {
 		if (reviewList.length == 0) {
 			return {state: "approved", tagList: reviewList};
 		}
@@ -196,28 +197,28 @@ export class TagReviewDialog extends EnhancedDialog {
 		return ret;
 	}
 
-	async flipTag(event) {
-		const tagId = getClosestData(event, "tagId");
-		const actorId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const owner = await CityHelpers.getOwner(actorId, tokenId);
-		const tag = await owner.getTag(tagId);
+	async flipTag(event: Event) {
+		const tagId = HTMLTools.getClosestData(event, "tagId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
+		const tag =  owner.getTag(tagId);
 		if (!tag)
 			throw new Error(`Can't find tag ${tagId} in ${owner.name}`);
 		CityHelpers.playTagOff();
 		await this.flipItem(tag);
 	}
 
-	async flipStatus(event) {
-		const status_id = getClosestData(event, "statusId");
-		const actorId = getClosestData(event, "ownerId");
-		const tokenId = getClosestData(event, "tokenId");
-		const owner = await CityHelpers.getOwner(actorId, tokenId);
-		const status = await owner.getStatus(status_id);
+	async flipStatus(event : Event) {
+		const status_id = HTMLTools.getClosestData(event, "statusId");
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
+		const status =  owner.getStatus(status_id)!;
 		await this.flipItem(status);
 	}
 
-	async flipItem(item) {
+	async flipItem(item: Tag | Status) {
 		this.#reviewList.flipAmount(item.id);
 		this.#session.updateList(this.#reviewList);
 		this.refreshHTML();
@@ -230,9 +231,7 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 	if (dialog) {
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
-		const itWorked = dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
-		if (itWorked)
-			CityHelpers.playTagOnSpecial();
+		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
 		return false;
 	}
 	else

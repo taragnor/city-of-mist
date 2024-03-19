@@ -19,8 +19,8 @@ export class EnhancedActorDirectory {
 		const oldRender = ActorDirectory.prototype._render;
 		ActorDirectory.prototype._render = async function (...args) {
 			// console.log("Decrypting All");
-			const promises = game.actors.map( async (actor: CityActor) => {
-				if (actor.decryptData)
+			const promises = game.actors.contents.map( async (actor: CityActor) => {
+				if ("decryptData" in actor && typeof actor.decryptData == "function")
 					await actor.decryptData();
 			});
 			await Promise.all(promises);
@@ -91,7 +91,7 @@ export class EnhancedActorDirectory {
 
 		ActorDirectory.entryPartial =  "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
 
-  ActorDirectory.prototype._onSearchFilter = function (_event, query, rgx, html) {
+  ActorDirectory.prototype._onSearchFilter = function (this: ActorDirectory, _event: Event, query: unknown, rgx: RegExp, html: HTMLElement) {
     const isSearch = !!query;
     const documentIds = new Set();
     const folderIds = new Set();
@@ -101,7 +101,7 @@ export class EnhancedActorDirectory {
     if ( isSearch ) {
 
       // Include folders and their parents
-      function includeFolder(folder, autoExpand=true) {
+      function includeFolder(folder: Folder, autoExpand=true) {
         if ( !folder ) return;
         if ( folderIds.has(folder.id) ) return;
         folderIds.add(folder.id);
@@ -117,39 +117,41 @@ export class EnhancedActorDirectory {
         }
       }
 
-      // Match folders by name
-      for ( let f of this.folders ) {
-        if ( rgx.test(SearchFilter.cleanQuery(f?.directoryName ?? f.name)) ) {
-          includeFolder(f, false);
-          for ( let d of this.documents.filter(x => x.folder === f) ) {
-            documentIds.add(d.id);
-          }
-        }
-      }
-    }
+		 // Match folders by name
+		 for ( let f of this.folders ) {
+			 //@ts-ignore
+			 if ( rgx.test(SearchFilter.cleanQuery(f?.directoryName ?? f.name)) ) {
+				 includeFolder(f, false);
+				 for ( let d of this.documents.filter(x => x.folder === f) ) {
+					 documentIds.add(d.id);
+				 }
+			 }
+		 }
+	 }
 
     // Toggle each directory item
-    for ( let el of html.querySelectorAll(".directory-item") ) {
+    for ( let el of html.querySelectorAll<HTMLElement>(".directory-item") ) {
 
-      // Documents
-      if (el.classList.contains("document")) {
-        el.style.display = (!isSearch || documentIds.has(el.dataset.documentId)) ? "flex" : "none";
-      }
+		 // Documents
+		 if (el.classList.contains("document")) {
+			 el.style.display = (!isSearch || documentIds.has(el.dataset.documentId)) ? "flex" : "none";
+		 }
 
-      // Folders
-      if (el.classList.contains("folder")) {
-        let match = isSearch && folderIds.has(el.dataset.folderId);
-        el.style.display = (!isSearch || match) ? "flex" : "none";
-
-        if ( autoExpandFolderIds.has(el.dataset.folderId) ) {
-          if ( isSearch && match ) el.classList.remove("collapsed");
-          else el.classList.toggle("collapsed", !game.folders._expanded[el.dataset.folderId]);
-        }
-      }
-    }
+		 // Folders
+		 if (el.classList.contains("folder")) {
+			 let match = isSearch && folderIds.has(el.dataset.folderId);
+			 el.style.display = (!isSearch || match) ? "flex" : "none";
+			 if ( autoExpandFolderIds.has(el.dataset.folderId) ) {
+				 if ( isSearch && match ) el.classList.remove("collapsed");
+			 //@ts-ignore
+				 else el.classList.toggle("collapsed", !game.folders._expanded[el.dataset.folderId]);
+			 }
+		 }
+	 }
   }
 
-		ActorDirectory._sortAlphabetical = function (a, b) {
+
+		ActorDirectory._sortAlphabetical = function (a: CityActor, b: CityActor) {
 			if (a?.directoryName)
 				return a.directoryName.localeCompare(b.directoryName);
 			else return a.name.localeCompare(b.name);

@@ -1,3 +1,4 @@
+import { Improvement } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
 import { Danger } from "./city-actor.js";
 import { Move } from "./city-item.js";
@@ -135,8 +136,8 @@ export class CityDB extends DBAccessor {
 			throw new Error(`Couldn't find tag owner for Id ${tagOwnerId}`);
 	}
 
-	static async getBuildUpImprovements() {
-		const list = this.filterItemsByType("improvement");
+	static async getBuildUpImprovements() : Promise<Improvement[]> {
+		const list = this.filterItemsByType("improvement") as Improvement[];
 		return list.filter( item => {
 			const nameFilter = list.filter( x=> x.name == item.name);
 			if (nameFilter.length == 1)

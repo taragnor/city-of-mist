@@ -1,16 +1,16 @@
+import { CRollOptions } from "./city-roll.js";
+import { CityDB } from "./city-db.js";
 import { MOVEGROUPS } from "./datamodel/move-types.js";
 import { CityRoll } from "./city-roll.js";
 import { SelectedTagsAndStatus } from "./selected-tags.js";
 import { Theme } from "./city-item.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
-import { Status } from "./city-item.js";
 import { Tag } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityItem } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 // import { CityRoll } from "./city-roll.js";
-import { CitySheet } from "./city-sheet.js";
 import {SceneTags } from "./scene-tags.js";
 import { PC } from "./city-actor.js";
 
@@ -250,6 +250,73 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find(".non-char-theme-name"	).on("click", this.openOwnerSheet.bind(this));
 		html.find(".crew-prev").on("click" ,this.crewPrevious.bind(this));
 		html.find(".crew-next").on("click", this.crewNext.bind(this));
+		html.find('.execute-move-button').on("click",  this._executeMove.bind(this) );
+		html.find('.increment-buildup').on("click",  this._buildUpIncrement.bind(this) );
+		html.find('.decrement-buildup').on("click",  this._buildUpDecrement.bind(this) );
+		html.find('.add-buildup-improvement').on("click",  this._addBUImprovement.bind(this) );
+	}
+
+	async _addBUImprovement (_event: JQuery.Event) {
+		const list = await CityHelpers.getBuildUpImprovements();
+		const choiceList = list
+			.map ( x => {
+				return {
+					id: x.id,
+					data: [x.name],
+					description: x.system.description
+					//TODO: wierd format probably need to change some stuff since its not x.system
+				}
+			});
+		const choice = await HTMLTools.singleChoiceBox(choiceList, "Choose Build-up Improvement");
+		if (!choice)
+			return;
+		const imp = await this.actor.addBuildUpImprovement(choice);
+		await CityHelpers.modificationLog(this.actor, "Added", imp);
+	}
+
+	async _buildUpIncrement (event: JQuery.Event) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor =  this.getOwner(actorId) as CityActor;
+		if (actor.system.type != "character") return;
+		if (await this.confirmBox("Add Build Up Point", `Add Build Up Point to ${actor.name}`)) {
+			await (actor as PC).incBuildUp();
+			CityHelpers.modificationLog(actor, `Build Up Point Added`, null, `Current ${(actor as PC).getBuildUp()}`);
+		}
+		let unspentBU = actor.system.unspentBU;
+		while (unspentBU > 0) {
+			const impId = await this.chooseBuildUpImprovement(actor as PC);
+			if (impId == null)
+				break;
+			await (actor as PC).addBuildUpImprovement(impId);
+			unspentBU = actor.system.unspentBU;
+		}
+	}
+
+	async _buildUpDecrement(event: JQuery.Event) {
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actor = this.getOwner(actorId) ;
+		if (actor.system.type != "character") return;
+		if (await this.confirmBox("Remove Build Up Point", `Remove Build Up Point to ${actor.name}`)) {
+			await (actor as PC).decBuildUp();
+			await CityHelpers.modificationLog(actor, `Build Up Point Removed (Current ${ (actor as PC).getBuildUp()}`);
+		}
+	}
+
+	async chooseBuildUpImprovement (owner: PC) {
+		const improvementsChoices = await CityHelpers.getBuildUpImprovements();
+		const actorImprovements =  owner.getBuildUpImprovements();
+		const filteredChoices = improvementsChoices.filter (x=> !actorImprovements.find(y => x.name == y.name));
+		const inputList = filteredChoices.map( x => {
+			const data = [x.name];
+			return {
+				id : x.id,
+				data,
+				description: x.system.description
+				//TODO: wierd format probably need to change some stuff since its not x.system
+			};
+		});
+		const choice = await HTMLTools.singleChoiceBox(inputList, "Choose Build-up Improvement");
+		return choice;
 	}
 
 	async monologue () {
@@ -273,7 +340,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			});
 			const choice = await HTMLTools.singleChoiceBox(listData, "Award Monologue Bonus to Which Theme?");
 			if (choice)
-				this.awardMonologueBonus( actor.getTheme(choice));
+				this.awardMonologueBonus( actor.getTheme(choice)!);
 		}
 	}
 
@@ -303,45 +370,45 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	async downtime() {
-		return await CityHelpers.triggerDowntimeMoves();
+		//TODO: not yet implemented
+		// return await CityHelpers.triggerDowntimeMoves();
 	}
 
-	async openOwnerSheet(event) {
-		const ownerId = getClosestData(event, "ownerId");
+	async openOwnerSheet(event : JQuery.Event) {
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const owner = game.actors.get(ownerId);
+		if (!owner)  return;
 		owner.sheet.render(true);
 	}
 
-	async crewNext(event) {
+	async crewNext(event: JQuery.Event) {
 		await this.actor.moveCrewSelector(1);
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		return false;
 	}
 
-	async crewPrevious(event) {
+	async crewPrevious(event: JQuery.Event) {
 		await this.actor.moveCrewSelector(-1);
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		return false;
 	}
 
-	async _executeMove (_event: Event) {
-		const move_id = $(this.form).find(".select-move").val();
+	async _executeMove (_event: JQuery.Event) {
+		const move_id = $(this.form).find(".select-move").val() as string;
 		if (!move_id)
 			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
 		const move_group = $(this.form).find(".select-move-group").val();
 		const SHB = move_group == "SHB";
-		let newtype = null;
+		let newtype : CRollOptions["newtype"] | null= null;
 		if (SHB) {
 			const SHBType = await this.SHBDialog(this.actor);
 			if (!SHBType)
 				return;
 			newtype = SHBType;
 		}
-		const options = {
-			newtype
-		};
+		const options = newtype ? { newtype} : {};
 		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
 		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		if (roll == null)

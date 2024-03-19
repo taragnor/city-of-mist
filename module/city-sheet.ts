@@ -102,10 +102,6 @@ export class CitySheet extends ActorSheet<CityActor> {
 		return CityHelpers.sendToChatBox(title, text, options);
 	}
 
-	static async singleChoiceBox(...args: Parameters<typeof HTMLTools["singleChoiceBox"]>) {
-		return await HTMLTools.singleChoiceBox(...args);
-	}
-
 	async _dragDropEvent (_event : Event) {
 		const dragging = $(document).find(".dragging");
 		if (dragging.length != 1) {
