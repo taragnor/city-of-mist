@@ -164,15 +164,18 @@ export class CityDialogs {
 		if (!game.user.isGM)
 			return;
 		// support function
-		const getCaret = function getCaret(el : any) {
+		const getCaret = function getCaret(el : HTMLInputElement) {
 			if (el.selectionStart) {
 				return el.selectionStart;
+				//@ts-ignore
 			} else if (document.selection) {
 				el.focus();
+				//@ts-ignore
 				let r = document.selection.createRange();
 				if (r == null) {
 					return 0;
 				}
+				//@ts-ignore
 				let re = el.createTextRange(), rc = re.duplicate();
 				re.moveToBookmark(r.getBookmark());
 				rc.setEndPoint('EndToStart', re);
@@ -187,24 +190,27 @@ export class CityDialogs {
 			return text;
 		}
 		const options = {width: 900, height: 800};
-		return await new Promise( (conf, reject) => {
+		return await new Promise( (conf, _reject) => {
 		const dialog = new Dialog({
 			title: `GM Narration`,
 			content: html,
 			render: (html) => {
 				setTimeout ( () => $(html).find(".narrator-text").focus(), 10); //delay focus to avoid keypress showing up in window
-				$(html).find(".narrator-text").keydown(function (event) {
+				$(html).find(".narrator-text").on("keydown", function (event) {
 					if (event.keyCode == 13) { //enter key
 						event.stopPropagation();
 					}
 				});
 
-				$(html).find(".narrator-text").keypress(function (event) {
+				$(html).find(".narrator-text").on("keypress", function (event) {
 					if (event.keyCode == 13) { //enter key
+						//@ts-ignore
 						const content = this.value;
+						//@ts-ignore
 						const caret = getCaret(this); //bug here that splits string poorly
 						event.preventDefault();
 						if (event.shiftKey)  {
+							//@ts-ignore
 							this.value = content.substring(0, caret ) + "\n" + content.substring(caret, content.length);
 							event.stopPropagation();
 						} else {
@@ -270,7 +276,7 @@ export class CityDialogs {
 		const templateData = {
 			owners: ownerList
 		}
-		const html =  await renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
+		await renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
 		//SEEMINGLY INCOMPLETE
 		//return new Promise( (conf, _rej) => {
 		//	const options = {};
@@ -304,7 +310,7 @@ export class CityDialogs {
 		if (!actor) throw new Error("Actor is undefined");
 		const templateData = {actor};
 		const html = await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser.hbs`, templateData);
-		return new Promise( (conf, rej)  =>  {
+		return new Promise( (conf, _rej)  =>  {
 			const options = {};
 			const dialog = new Dialog(  {
 				title: localize("CityOfMist.dialog.pcdowntime.title") + actor.displayedName,
@@ -314,7 +320,7 @@ export class CityDialogs {
 						icon: '<i class="fas fa-check"></i>',
 						callback: async(html : string) => {
 							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() ;//TODO
-							conf(choice, actor);
+							conf(choice);
 						}
 					},
 					two: {
@@ -331,10 +337,10 @@ export class CityDialogs {
 
 	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
-		const render = options?.disable ? (args: string[]) => {
-			console.log("Trying to disable");
-			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
-		} : () => 0;
+		// const render = options?.disable ? (args: string[]) => {
+		// 	console.log("Trying to disable");
+		// 	$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
+		// } : () => 0;
 
 		let sender = options?.speaker ?? {};
 		if (!sender?.alias && sender.actor) {

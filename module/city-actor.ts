@@ -508,7 +508,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const name = dataobj.name ?? "Unnamed Clue";
 		const obj = {
 			name, type: "clue", system : {amount:1, ...dataobj}};
-		return await this.createNewItem(obj);
+		return await this.createNewItem(obj) as Clue;
 	}
 
 	async createNewJuice (name: string, subtype = "") {
@@ -876,6 +876,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
+	async unburnTag(tagId: string) {
+		await this.unburnTag(tagId);
+	}
+
 	async addAttention(themeId: string, amount=1) {
 		const theme =  this.getTheme(themeId);
 		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
@@ -1115,7 +1119,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			.some ( x=> x.system.subtype == "entrance");
 	}
 
-	async executeEntranceMoves(token : Token<Danger>) {
+	async executeEntranceMoves(token : TokenDocument<Danger>) {
 		if (!game.user.isGM) return;
 		if (!CityHelpers.entranceMovesEnabled())
 			return;
@@ -1159,7 +1163,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async undoEntranceMoves (this: Danger, token: Token<Danger>) {
+	async undoEntranceMoves (this: Danger, token: TokenDocument<Danger>) {
 		if (!game.user.isGM) return;
 		if (!CityHelpers.entranceMovesEnabled())
 			return;

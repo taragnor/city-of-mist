@@ -66,10 +66,10 @@ export class CityDB extends DBAccessor {
 		));
 	}
 
-	static async loadMovesOfType(type : "Core" | "Advanced" | "SHB") {
+	static async loadMovesOfType(type : Move["system"]["category"]) {
 		let movesList = this.filterItemsByType("move") as Move[];
 		movesList = this.filterOverridedContent(movesList);
-		movesList = movesList.filter( x=> x.system.subtype == type);
+		movesList = movesList.filter( x=> x.system.category == type);
 		let setting;
 		switch (type) {
 			case "Core" :
@@ -235,7 +235,7 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static async onTokenDelete(token: TokenDocument<CityActor>) {
+	static async onTokenDelete(token: TokenDocument<Danger>) {
 		await this.onTokenUpdate(token, {}, {});
 		if (token.actor) {
 			if (token.actor.hasEntranceMoves() && !token.hidden)
@@ -244,7 +244,7 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static async onTokenUpdate(token : TokenDocument<CityActor>, changes?: Record<string, any>, _otherStuff?: unknown) {
+	static async onTokenUpdate(token : TokenDocument<Danger>, changes?: Record<string, any>, _otherStuff?: unknown) {
 		if (!token.actor) return;
 		if (changes?.hidden === false && token.actor.hasEntranceMoves())
 			await token.actor.executeEntranceMoves(token);
@@ -263,9 +263,10 @@ export class CityDB extends DBAccessor {
 		if (type == "character" || type == "crew" )
 			await CityHelpers.ensureTokenLinked(token.parent, token);
 		if (type == "threat") {
-			await this.onTokenUpdate(token);
-			if (token.actor.hasEntranceMoves()  && !token.hidden) {
-				await token.actor.executeEntranceMoves(token);
+			const danger = token as TokenDocument<Danger>;
+			await this.onTokenUpdate(danger);
+			if (danger.actor!.hasEntranceMoves()  && !danger.hidden) {
+				await token.actor.executeEntranceMoves(danger);
 			}
 		}
 		return true;

@@ -1,16 +1,29 @@
+type TrackerItem = {
+	name: "Scene",
+	actor: CityActor,
+	id: string,
+	type: CityActor["type"],
+	statuses: Status[],
+	tags: Tag[]
+}
+
 import { CityHelpers } from "../city-helpers.js";
 import { SceneTags } from "../scene-tags.js";
+import { CityActor } from "../city-actor.js";
+import { Status } from "../city-item.js";
+import { Tag } from "../city-item.js";
+
+
 
 export class StatusTracker {
-	/**
-	 * @param {Array<Actor>} actors
-	 */
-	constructor(actors = []) {
-		this.actors = actors;
+	actors: TrackerItem[];
+
+	constructor(actorData : TrackerItem[] = []) {
+		this.actors = actorData;
 	}
 
 	static async load() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "extra" || x.type == "character");
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "character");
 		const actors = tokenActors.map( x=> {
 			return {
 				name: x.getDisplayedName(),
@@ -57,7 +70,7 @@ export class StatusTracker {
 		return new StatusTracker(sorted);
 	}
 
-	static pc_type_sort(a,b) {
+	static pc_type_sort(a:TrackerItem,b:TrackerItem) {
 		const sceneName = SceneTags.SCENE_CONTAINER_ACTOR_NAME;
 		if (a.name == sceneName && b.name != sceneName)
 			return -1;
@@ -71,12 +84,12 @@ export class StatusTracker {
 	}
 
 
-	static pc_alpha_sort(a, b) {
+	static pc_alpha_sort(a: TrackerItem, b: TrackerItem) {
 		return StatusTracker.pc_type_sort(a,b)
 			|| StatusTracker.alpha_sort(a, b);
 	}
 
-	static alpha_sort(a, b) {
+	static alpha_sort(a: TrackerItem, b: TrackerItem) {
 		if (a.name < b.name)
 			return -1;
 		if (a.name > b.name)
@@ -84,7 +97,7 @@ export class StatusTracker {
 		return 0;
 	}
 
-	static tag_sort(a, b) {
+	static tag_sort(a: TrackerItem, b: TrackerItem) {
 		const typesort = StatusTracker.pc_type_sort(a,b);
 		if (typesort)
 			return typesort;
@@ -95,18 +108,28 @@ export class StatusTracker {
 		return StatusTracker.alpha_sort(a,b);
 	}
 
-	async _statusAddSubDialog(status, title, type = "addition") {
+	async _statusAddSubDialog(status: Status, title: string, type: "addition" | "subtraction" = "addition") {
 		return await CityHelpers._statusAddSubDialog(status, title, type);
 	}
 
-	async _openTokenSheet(indexActor) {
+	async _openTokenSheet(indexActor: number) {
 		const actor = this.actors[indexActor].actor;
 		await actor.sheet.render(true);
 	}
 
-	async _centerOnToken(indexActor) {
+	async _centerOnToken(indexActor: number) {
 		const actor = this.actors[indexActor].actor;
 		await CityHelpers.centerOnActorToken(actor);
+	}
+
+	async burnTag(indexActor: number, tagId: string) {
+		const actor = this.actors[indexActor].actor;
+		await actor.burnTag(tagId);
+	}
+
+	async unburnTag(indexActor: number, tagId: string) {
+		const actor = this.actors[indexActor].actor;
+		await actor.unburnTag(tagId);
 	}
 
 }

@@ -604,7 +604,7 @@ export class CityHelpers {
 		await CityDialogs.downtimeGMMoveDialog(actorWithMovesList);
 	}
 
-	static async downtimeActionChoice(choice, actor) {
+	static async downtimeActionChoice(choice: string, actor: CityActor) {
 		let moveText = "";
 		switch (choice) {
 			case "logos":

@@ -2,7 +2,7 @@
 /* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
 import { CityHelpers } from "../city-helpers.js";
 import { HTMLTools } from "../tools/HTMLTools.js";
-
+import { CitySettings } from "../settings.js";
 import {HTMLHandlers} from "../universal-html-handlers.js";
 import { StatusTracker } from "./status-tracker.js";
 
@@ -51,34 +51,30 @@ export class StatusTrackerWindow extends Application {
 
 	async _openTokenSheet(event: JQuery.Event) {
 		const indexActor = HTMLTools.getClosestData(event, "actor");
-		const tracker = (await window.statusTrackerWindow.getData()).statusTracker;
-		await tracker._openTokenSheet(indexActor);
+		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
+		await tracker._openTokenSheet(Number(indexActor));
 	}
 
 	async _centerOnToken(event: JQuery.Event) {
 		const indexActor = HTMLTools.getClosestData(event, "actor");
 		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
-		await tracker._centerOnToken(indexActor);
+		await tracker._centerOnToken(Number(indexActor));
 	}
 
 	async _burnTag(event: JQuery.Event) {
 		const indexActor = HTMLTools.getClosestData(event, "actor");
 		const tag = HTMLTools.getClosestData(event, "tag");
 		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
-		await tracker.burnTag(indexActor, tag);
+		await tracker.burnTag(Number(indexActor), tag);
 	}
 
 	async _unburnTag(event: JQuery.Event) {
 		const indexActor = HTMLTools.getClosestData(event, "actor");
 		const tag = HTMLTools.getClosestData(event, "tag");
 		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
-		await tracker.unburnTag(indexActor, tag);
+		await tracker.unburnTag(Number(indexActor), tag);
 	}
 
-	/**
-	 * @returns {StatusTracker}
-	 * @returns {boolean}
-	 */
 	async getData() {
 		const actors = await this.loadActorData();
 		const scene = await this.loadSceneData();
@@ -123,7 +119,7 @@ export class StatusTrackerWindow extends Application {
 	}
 
 	 sortFunction() {
-		switch ( game.settings.get("city-of-mist", "trackerSort")) {
+		 switch (CitySettings.get("trackerSort")) {
 			case "alpha":
 				return StatusTracker.alpha_sort;
 			case "pc_alpha":
