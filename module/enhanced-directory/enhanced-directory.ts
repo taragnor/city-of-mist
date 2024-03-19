@@ -1,6 +1,13 @@
 //Start of fix for actors directory and private names
 
 //NOTE: To implement class for an actor the actor must have a getter for property directoryName
+declare global {
+	interface HOOKS {
+		"encryptionEnable": () => void;
+	}
+}
+
+import { CityActor } from "../city-actor";
 
 export class EnhancedActorDirectory {
 
@@ -12,7 +19,7 @@ export class EnhancedActorDirectory {
 		const oldRender = ActorDirectory.prototype._render;
 		ActorDirectory.prototype._render = async function (...args) {
 			// console.log("Decrypting All");
-			const promises = game.actors.map( async (actor) => {
+			const promises = game.actors.map( async (actor: CityActor) => {
 				if (actor.decryptData)
 					await actor.decryptData();
 			});
@@ -22,13 +29,15 @@ export class EnhancedActorDirectory {
 
 		Hooks.on("updateActor", async (actor, diff) => {
 			//NOTE: There's probably a better way to just re-render the actor instead of drawing the whole sidebar, but I don't know what that is right now
-			if (actor.decryptData)
+			if ("decryptData" in actor && typeof actor.decryptData == "function")
 				await actor.decryptData();
+			//@ts-ignore
 			if (diff?.system?.mythos) {
 				//compabitlity with TaragnorSecurity Module
 				ui.actors.render(true);
 				return true;
 			}
+			//@ts-ignore
 			if (!actor.isToken && diff?.prototypeToken?.name)
 				ui.actors.render(true);
 			return true;
@@ -52,20 +61,20 @@ export class EnhancedActorDirectory {
 			for (let option of options) {
 				switch (option.name) {
 					case "SIDEBAR.CharArt":
-						option.callback = li => {
-							const actor = game.actors.get(li.data("documentId"));
+						option.callback = (li: any) => {
+							const actor = game.actors.get(li.data("documentId"))! as CityActor;
 							console.log("Calling callback on ${actor.name}");
 							new ImagePopout(actor.img, {
-								title: actor.directoryName,
+								title: (actor as CityActor).directoryName,
 								// shareable: true,
 								uuid: actor.uuid
 							}).render(true);
 						}
 						break;
 					case "SIDEBAR.TokenArt":
-						option.callback = li => {
-							const actor = game.actors.get(li.data("documentId"));
-							new ImagePopout(actor.token.img, {
+						option.callback = (li : any) => {
+							const actor = game.actors.get(li.data("documentId"))! as CityActor;
+							new ImagePopout(actor.token!.img, {
 								title: actor.directoryName,
 								shareable: true,
 								uuid: actor.uuid

@@ -13,24 +13,24 @@ export class HTMLHandlers {
 	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
 	static applyBasicHandlers(htmlorJQueryElement: JQuery, allowCreation = true) {
 		const html = $( htmlorJQueryElement );
-		html.find(".item-selection-context .tag .name:not(.burned-tag)").click(SelectedTagsAndStatus.selectTagHandler);
+		html.find(".item-selection-context .tag .name:not(.burned-tag)").on("click", ()=>SelectedTagsAndStatus.selectTagHandler);
 		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
 		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers.statusEdit);
-		html.find(".item-selection-context .status .name").click(SelectedTagsAndStatus.selectStatusHandler);
+		html.find(".item-selection-context .status .name").on("click", () => SelectedTagsAndStatus.selectStatusHandler);
 		html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
-		html.find('.status-delete').click(HTMLHandlers.deleteStatus);
-		html.find('.tag-delete').on("click", HTMLHandlers.deleteTag);
-		html.find('.status-add').on("click", HTMLHandlers.statusAdd);
-		html.find('.status-subtract').click(HTMLHandlers.statusSubtract);
-		html.find('.tag-burn').click(HTMLHandlers.burnTag);
-		html.find('.tag-unburn').click(HTMLHandlers.unburnTag);
-		html.find('.item-edit-context .tag .name').click(HTMLHandlers.tagEdit);
+		html.find('.status-delete').on("click",()=>HTMLHandlers.deleteStatus);
+		html.find('.tag-delete').on("click", ()=>HTMLHandlers.deleteTag);
+		html.find('.status-add').on("click", ()=>HTMLHandlers.statusAdd);
+		html.find('.status-subtract').on("click", ()=>HTMLHandlers.statusSubtract);
+		html.find('.tag-burn').on("click", ()=>HTMLHandlers.burnTag);
+		html.find('.tag-unburn').on("click", ()=>HTMLHandlers.unburnTag);
+		html.find('.item-edit-context .tag .name').on("click", ()=>HTMLHandlers.tagEdit);
 		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers.tagEdit);
-		html.find('.item-edit-context .status .name').click(HTMLHandlers.statusEdit);
+		html.find('.item-edit-context .status .name').on("click", ()=>HTMLHandlers.statusEdit);
 		if (allowCreation) {
-			html.find('.create-status').click(HTMLHandlers.createStatus);
-			html.find('.create-story-tag').click(HTMLHandlers.createStoryTag);
+			html.find('.create-status').on("click", ()=>HTMLHandlers.createStatus);
+			html.find('.create-story-tag').on("click",()=> HTMLHandlers.createStoryTag);
 		}
 	}
 
@@ -189,13 +189,12 @@ export class HTMLHandlers {
 			throw new Error("couldn't find status");
 		}
 		const {name, system: {tier, pips}} = status;
-		let ret = null;
-		if (ret = await HTMLHandlers.statusAddDialog(status)) {
-			const {name: newname, tier: amt} = ret;
-			// console.log(`${name} : ${tier}`);
-			await status.addStatus(amt, newname);
-			await HTMLHandlers.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
-		}
+		const ret = await HTMLHandlers.statusAddDialog(status) 
+		if (!ret) return;
+		const {name: newname, tier: amt} = ret;
+		// console.log(`${name} : ${tier}`);
+		await status.addStatus(amt, newname);
+		await HTMLHandlers.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
 	}
 	static async statusSubtract (event: Event) {
 		const status_id = HTMLTools.getClosestData(event, "statusId");
@@ -204,14 +203,13 @@ export class HTMLHandlers {
 		const owner = CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		const {name, system: {tier, pips}} = status;
-		let ret = null;
-		if (ret = await HTMLHandlers.statusSubtractDialog(status)) {
-			const {name: newname, tier: amt} = ret;
-			const revised_status = await status.subtractStatus(amt, newname);
-			await HTMLHandlers.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
-			if (revised_status.system.tier <= 0)
-				owner.deleteStatus(revised_status.id);
-		}
+		const ret  = await HTMLHandlers.statusSubtractDialog(status);
+		if (!ret) return;
+		const {name: newname, tier: amt} = ret;
+		const revised_status = await status.subtractStatus(amt, newname);
+		await HTMLHandlers.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
+		if (revised_status.system.tier <= 0)
+			owner.deleteStatus(revised_status.id);
 	}
 
 	static async statusSubtractDialog(status: Status) {
