@@ -1,210 +1,25 @@
 {
 	"Actor": {
 		"types": ["threat", "character","crew"],
-		"templates": {
-			"default": {
-				"locked": true,
-				"biography": "",
-				"description": "",
-				"short_description": "",
-				"gmnotes": "",
-				"crewThemes": [],
-				"version": "1"
-			},
-			"themeholder": {
-				"num_themes": 0,
-				"finalized": false,
-				"mythos": ""
-			},
-			"TagSelector": {
-				"selectedTags": [],
-				"selectedMove": "",
-				"selectedMoveGroup": "core"
-			},
-			"aliasable": {
-				"alias": "?????",
-				"useAlias": true
-			},
-			"person": {
-				"mythos": "",
-				"logos": "",
-				"age": 0,
-				"residence": "",
-				"pronouns": ""
-			}
-
-		},
-		"character": {
-			"templates": ["default", "themeholder", "TagSelector", "person"],
-			"short_description": "",
-			"alias": "",
-			"activeExtraId": "",
-			"activeExtra": null,
-			"buildup": [0, 0, 0, 0, 0],
-			"unspentBU": 0,
-			"flashback_used": false,
-			"crewThemeSelected": 0
-		},
-		"crew": {
-			"templates": ["default", "themeholder"]
-		},
-		"threat": {
-			"templates": ["default", "aliasable", "themeholder", "person"],
-			"is_template": false,
-			"template_ids": [],
-			"collective_size": 0
-		}
+		"htmlFields": ["description"],
+		"threat": {},
+		"character": {},
+		"crew" :{}
 	},
 	"Item": {
 		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal", "themekit"],
-		"templates": {
-			"default": {
-				"description": "",
-				"locked": false,
-				"version": "1",
-				"free_content": false,
-				"locale_name": ""
-			},
-			"ability": {
-				"description": "",
-				"class": "",
-				"price": 1
-			},
-			"tiered": {
-				"tier": 0,
-				"pips": 0
-			},
-			"expendable" : {
-				"uses": {
-					"current" : 0,
-					"max": 0,
-					"expended": false
-				}
-			}
-		},
-		"themebook": {
-			"templates": ["default"],
-			"type": "Logos",
-			"power_questions": [],
-			"weakness_questions": [],
-			"improvements": []
-		},
-		"themekit": {
-			"themebook_id": "",
-			"themebook_name":"",
-			"use_tb_improvements": false,
-			"power_tagstk": {},
-			"weakness_tagstk":{},
-			"improvements":{}
-		},
-		"tag": {
-			"templates": ["default", "actorSelectable"],
-			"question": "",
-			"question_letter": "",
-			"subtype" : "",
-			"burned": 0,
-			"crispy": 0,
-			"theme_id": 0,
-			"custom_tag": false,
-			"broad": false,
-			"temporary": false,
-			"permanent": false,
-			"parentId": "",
-			"subtagRequired": false,
-			"example0": "",
-			"example1": "",
-			"example2":"",
-			"counterexample0": "",
-			"counterexample1": "",
-			"counterexample2": "",
-			"restricton0": "",
-			"restricton1": "",
-			"restricton2": "",
-			"sceneId":"",
-			"showcased": false
-		},
-		"theme": {
-			"templates": ["default"],
-			"tags": [],
-			"improvements": {},
-			"attention": [0, 0, 0],
-			"crack": [0, 0, 0],
-			"mystery": "",
-			"themebook_id":"",
-			"themebook_name":"",
-			"unspent_upgrades":0,
-			"img": "",
-			"nascent" : false
-		},
-		"improvement": {
-			"templates": ["default", "expendable"],
-			"theme_id": "",
-			"free_content": false,
-			"choice_item": "",
-			"chosen": false,
-			"choice_type": "",
-			"effect_class": ""
-		},
-		"tag_question": {
-			"templates": [],
-			"letter": "",
-			"question": ""
-		},
-		"status": {
-			"templates": ["default", "tiered", "actorSelectable"],
-			"type": 0,
-			"hidden": false,
-			"spectrum_status": "",
-			"temporary": false,
-			"permanent": false,
-			"sceneId":"",
-			"showcased": false
-		},
-		"spectrum" : {
-			"max_tier" : 0
-		},
-		"clue" :{
-			"templates": ["default"],
-			"amount": 0,
-			"source": "",
-			"method": "",
-			"partial": false,
-			"metaSource": ""
-		},
-		"juice": {
-			"templates": ["default", "actorSelectable"],
-			"amount": 0,
-			"source": "",
-			"method": "",
-			"tagsUsed": [],
-			"subtype": "",
-			"targetCharacterId": ""
-		},
-		"move": {
-			"templates": ["default"],
-			"onSuccess": "",
-			"onDynamite": "",
-			"onMiss": "MC Move.",
-			"onPartial": "",
-			"always": "",
-			"listConditionals": [],
-			"type": "standard",
-			"category": "Core",
-			"effect_class": "",
-			"abbreviation": "",
-			"system": "custom"
-		},
-		"gmmove": {
-			"templates": ["default"],
-			"subtype": "",
-			"taglist": [],
-			"statuslist": [],
-			"hideName": false,
-			"header": "default"
-		},
-		"journal": {
-			"answer": "",
-			"question": ""
-		}
+		"htmlFields": ["description"],
+		"themebook":{},
+		"tag":{},
+		"improvement":{},
+		"theme":{},
+		"juice":{},
+		"status":{},
+		"clue":{},
+		"move": {},
+		"gmmove": {},
+		"spectrum":{},
+		"journal":{},
+		"themekit":{}
 	}
 }

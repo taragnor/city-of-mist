@@ -1,4 +1,4 @@
-import { ReviewableModifierList } from "../ReviewableModifierList";
+import { ReviewableModifierList } from "../ReviewableModifierList.js";
 
 export class EnhancedDialog extends Dialog {
 	#resolve: (value: unknown) => void;

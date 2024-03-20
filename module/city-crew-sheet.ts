@@ -1,5 +1,4 @@
 import {CityActorSheet} from "./city-actor-sheet.js"
-import {CitySheet} from "./city-sheet.js"
 
 export class CityCrewSheet extends CityActorSheet {
 

@@ -1,5 +1,5 @@
-import { CityActor } from "../city-actor";
-import { CityItem } from "../city-item";
+import { CityActor } from "../city-actor.js";
+import { CityItem } from "../city-item.js";
 
 export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/

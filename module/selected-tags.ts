@@ -1,10 +1,10 @@
-import { ReviewableItem } from "./ReviewableModifierList";
-import { HTMLTools } from "./tools/HTMLTools";
-import { CityItem } from "./city-item";
-import { CityHelpers } from "./city-helpers";
-import { Status } from "./city-item";
-import { CityActor } from "./city-actor";
-import { Tag } from "./city-item";
+import { ReviewableItem } from "./ReviewableModifierList.js";
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { CityItem } from "./city-item.js";
+import { CityHelpers } from "./city-helpers.js";
+import { Status } from "./city-item.js";
+import { CityActor } from "./city-actor.js";
+import { Tag } from "./city-item.js";
 
 declare global {
 	interface HOOKS{

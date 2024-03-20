@@ -6,8 +6,8 @@ declare global {
 		"encryptionEnable": () => void;
 	}
 }
+import { CityActor } from "../city-actor.js";
 
-import { CityActor } from "../city-actor";
 
 export class EnhancedActorDirectory {
 

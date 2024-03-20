@@ -1,6 +1,7 @@
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, FilePathField:file} = foundry.data.fields;
-import { MOVETYPES } from "./move-types";
-import { TAGTYPES } from "./tag-types";
+
+import { MOVETYPES } from "./move-types.js";
+import { TAGTYPES } from "./tag-types.js";
 
 const DataModel = foundry.abstract.DataModel;
 

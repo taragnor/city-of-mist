@@ -1,10 +1,9 @@
-import { Tag } from "./city-item";
-import { localizeS } from "./tools/handlebars-helpers";
-import { CityHelpers } from "./city-helpers";
-import { HTMLTools } from "./tools/HTMLTools"
-
-import { ThemeKit } from "./city-item";
-import { CityItem } from "./city-item";
+import { Tag } from "./city-item.js";
+import { localizeS } from "./tools/handlebars-helpers.js";
+import { CityHelpers } from "./city-helpers.js";
+import { HTMLTools } from "./tools/HTMLTools.js"
+import { ThemeKit } from "./city-item.js";
+import { CityItem } from "./city-item.js";
 
 export class CityItemSheet extends ItemSheet<CityItem> {
 

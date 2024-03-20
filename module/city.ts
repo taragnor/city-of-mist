@@ -23,7 +23,6 @@ import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
-// import { CityScene } from "./city-scene.js";
 import { CityItem } from "./city-item.js";
 import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
 import { CityCrewSheet } from "./city-crew-sheet.js";
@@ -38,13 +37,13 @@ import {} from "./city-handlebars-helpers.js";
 import {} from "./story-tag-window.js";
 import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
-import { CityKeyBinds } from "./keybindings.js";
-
+import {} from "./keybindings.js";
 import {ClueChatCards } from "./clue-cards.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
+console.log("COM preinit");
 
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));

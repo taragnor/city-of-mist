@@ -1,4 +1,4 @@
-import { CityActor } from "../city-actor";
+import { CityActor } from "../city-actor.js";
 
 export class TokenTools {
 

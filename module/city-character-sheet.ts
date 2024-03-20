@@ -10,7 +10,6 @@ import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityItem } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
-// import { CityRoll } from "./city-roll.js";
 import {SceneTags } from "./scene-tags.js";
 import { PC } from "./city-actor.js";
 

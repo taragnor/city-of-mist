@@ -2,7 +2,6 @@ import { CityItem } from "./city-item.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { CityHelpers } from "./city-helpers.js";
-import { CitySheet } from "./city-sheet.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import {CityDB} from "./city-db.js";
 import { Danger } from "./city-actor.js";

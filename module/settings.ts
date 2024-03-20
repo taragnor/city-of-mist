@@ -1,4 +1,4 @@
-import { DebugTools } from "./tools/debug";
+import { DebugTools } from "./tools/debug.js";
 import { localize } from "./city.js";
 
 type System = "classic" | "reloaded" | "otherscape" | "custom";

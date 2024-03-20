@@ -1,6 +1,6 @@
-import { CitySettings } from "./settings";
-import { CityActor } from "./city-actor";
-import { CityItem } from "./city-item";
+import { CitySettings } from "./settings.js";
+import { CityActor } from "./city-actor.js";
+import { CityItem } from "./city-item.js";
 import { Logger } from "./tools/logger.js";
 
 export class CityLogger extends Logger {
