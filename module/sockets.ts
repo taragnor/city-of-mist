@@ -1,7 +1,7 @@
 
 export type SocketTransmitData = {
 	type: string;
-	data: Record<string, unknown>;
+	data: unknown;
 	to: string[];
 	sessionId: string;
 	sessionType: string;
@@ -34,7 +34,7 @@ export class SocketInterface {
 		this.#sessions = new Map();
 	}
 
-	async send(typeStr : string, userIdArr :string[], sessionId: string, sessionType: string, dataObj : Record<string, unknown> = {}, metaObj: Record<string, unknown> = {}) {
+	async send(typeStr : string, userIdArr :string[], sessionId: string, sessionType: string, dataObj : unknown = {}, metaObj: Record<string, unknown> = {}) {
 		const meta = {
 			SendTime: Date.now(),
 			senderId: game.user.id,
@@ -76,7 +76,7 @@ export class SocketInterface {
 
 	/** arguments to factory (data, sender, metadata)
 	*/
-	addSlaveSessionConstructor(SessionClass: {name: string}, SessionConstructor: typeof Session) {
+	addSlaveSessionConstructor<T extends Session>(SessionClass: {name: string}, SessionConstructor: {new(...args:any[]): T}) {
 		const mainSessionName = SessionClass.name;
 		if (!mainSessionName){
 			throw new Error(`Couldn't resolve name for ${SessionClass}. Are you passing a class?`);
@@ -185,7 +185,8 @@ export class Session {
 		this.#handlers.set(Session.codes.notify, this.onNotify.bind(this));
 	}
 
-	async start () {
+	async start (): Promise<unknown> {
+		return true;
 	}
 
 	setSocketInterface( socketInterface : SocketInterface) {
@@ -245,7 +246,7 @@ export class Session {
 		return this.subscribers.map( x=> x.id);
 	}
 
-	async send(typeStr: string, dataObj = {}, metaObj  = {}) {
+	async send(typeStr: string, dataObj : unknown, metaObj  = {}) {
 		if (this.active && this.sender)
 			return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
 		else {
@@ -334,7 +335,7 @@ export class MasterSession extends Session {
 	dataObj is sent to subscribers
 	subscribers can return the request using reply
 	*/
-	async request(requestCode:string, dataObj = {}, timeoutFn = (userId: string) => this.defaultTimeOut(userId) ) {
+	async request(requestCode:string, dataObj : unknown, timeoutFn = (userId: string) => this.defaultTimeOut(userId) ) {
 		this.subscribers.forEach( sub => {
 			const timeout = timeoutFn(sub.id);
 			sub.awaitReply(timeout);

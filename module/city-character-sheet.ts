@@ -152,7 +152,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		const storyContainers = [ await SceneTags.getSceneContainer() ]
 		.filter (x=> x);
 		const tagData = storyContainers.map ( cont => {
-			return cont.getStoryTags();
+			return cont!.getStoryTags();
 		});
 		return tagData.flat(1);
 	}
@@ -218,7 +218,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		if ((await SceneTags.getSceneTagsAndStatuses()).length > 0) {
 			applicableTargets = applicableTargets
 				.concat(
-					[await SceneTags.getSceneContainer()]
+					[await SceneTags.getSceneContainer()].filter(x=>!!x) as CityActor[]
 				);
 		}
 		const filteredTargets = applicableTargets.filter(

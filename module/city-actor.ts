@@ -289,7 +289,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return !this.system.finalized;
 	}
 
-	getTags(id ?: string, subtype ?:null) : Tag[] {
+	getTags(id ?: string, subtype :null | Tag["system"]["subtype"]  = null) : Tag[] {
 		const tags=  this.items.filter(x => {
 			return x.system.type == "tag" && (id == null || x.system.theme_id == id) && (subtype == null || x.system.subtype == subtype);
 		});
@@ -409,8 +409,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		await this.deleteEmbeddedById(themeKitId);
 	}
 
-	getImprovements(id = null) : Improvement[] {
-		return this.items.filter(x => x.system.type == "improvement" && (id == null || x.system.theme_id == id)) as Improvement[];
+	getImprovements(themeId : string | null = null) : Improvement[] {
+		return this.items.filter(x => x.system.type == "improvement" && (themeId == null || x.system.theme_id == themeId)) as Improvement[];
 	}
 
 	/** get improvements from self and from other activeExtra and crew theme
@@ -902,7 +902,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const theme= this.getTheme(themeId);
 		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
 		if (theme.crack == 2) {
-			if (! await CityHelpers.confirmBox(
+			if (! await HTMLTools.confirmBox(
 				localize("CityOfMist.dialog.actorSheet.addFade.title"),
 				localize("CityOfMist.dialog.actorSheet.addFade.body")
 			)) return false;
@@ -1126,7 +1126,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
 		if (CityHelpers.autoExecEntranceMoves()
-			|| await CityDialogs.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
+			|| await HTMLTools.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				await this.executeGMMove(move);
 			}
@@ -1170,7 +1170,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
 		if (CityHelpers.autoExecEntranceMoves()
-			|| await CityHelpers.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
+			|| await HTMLTools.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				this.undoGMMove(move);
 			}

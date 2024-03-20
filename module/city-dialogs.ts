@@ -1,32 +1,25 @@
+import { localizeS } from "./tools/handlebars-helpers.js";
+import { RollModifier } from "./city-roll.js";
+import { GMMove } from "./city-item.js";
+import { Improvement } from "./city-item.js";
+import { Theme } from "./city-item.js";
+import { Tag } from "./city-item.js";
+import { TagReviewSlaveSession } from "./city-sessions.js";
+import { ReviewableModifierList } from "./ReviewableModifierList.js";
+import { JuiceSlaveSession } from "./city-sessions.js";
 import { ThemeKit } from "./city-item.js";
-import { JuiceSpendingSessionS } from "./city-sessions.js";
 import { CityItem } from "./city-item.js"
-import { SlaveSession } from "./sockets.js";
-import { PC } from "./city-actor.js";
-import {CityRollOptions} from "./city-roll.js";
 import { localize } from "./city.js";
 import { Themebook } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
-import {CitySockets} from "./city-sockets.js";
 import {CityDB} from "./city-db.js";
 import {CityHelpers} from "./city-helpers.js";
-import {SelectedTagsAndStatus} from "./selected-tags.js";
-import {SceneTags} from "./scene-tags.mjs";
 import {HTMLTools} from "./tools/HTMLTools.js";
 import {TagReviewDialog} from "./dialogs/tag-review.js";
 
 const PATH = "systems/city-of-mist";
 
 export class CityDialogs {
-
-	/** brings up a confirmation window
-	@param {string} title
-	@param {string} text
-	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
-	*/
-	static async confirmBox(title: string, text: string, options: unknown = {}) {
-		return await HTMLTools.confirmBox(title, text, options);
-	}
 
 	static async themeBookSelector(actor: CityActor): Promise<null | Themebook | ThemeKit> {
 		const all_themebooks : Themebook[] = CityHelpers.getAllItemsByType("themebook") as Themebook[];
@@ -158,11 +151,11 @@ export class CityDialogs {
 
 	}
 
-	static async narratorDialog() {
+	static async narratorDialog() : Promise<string> {
 		if (game.user.role != 4)
-			return;
+			return "";
 		if (!game.user.isGM)
-			return;
+			return "";
 		// support function
 		const getCaret = function getCaret(el : HTMLInputElement) {
 			if (el.selectionStart) {
@@ -187,7 +180,7 @@ export class CityDialogs {
 		html += `<textarea class="narrator-text"></textarea>`;
 		const submit = async function (html: string) {
 			const text= $(html).find(".narrator-text").val();
-			return text;
+			return text as string;
 		}
 		const options = {width: 900, height: 800};
 		return await new Promise( (conf, _reject) => {
@@ -215,6 +208,7 @@ export class CityDialogs {
 							event.stopPropagation();
 						} else {
 							event.stopPropagation();
+							//@ts-ignore
 							const defaultChoice = dialog.data.buttons.one;
 							return dialog.submit(defaultChoice);
 						}
@@ -233,7 +227,7 @@ export class CityDialogs {
 				two: {
 					icon: '<i class="fas fa-times"></i>',
 					label: "Cancel",
-					callback: () => conf(false)
+					callback: () => conf("")
 				}
 			}
 		}, options);
@@ -306,7 +300,7 @@ export class CityDialogs {
 		//});
 	}
 
-	static async DowntimePCSelector(actor: CityActor) {
+	static async DowntimePCSelector(actor: CityActor): Promise<null | string> {
 		if (!actor) throw new Error("Actor is undefined");
 		const templateData = {actor};
 		const html = await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser.hbs`, templateData);
@@ -319,7 +313,7 @@ export class CityDialogs {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						callback: async(html : string) => {
-							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() ;//TODO
+							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() as string ;//TODO
 							conf(choice);
 						}
 					},
@@ -369,14 +363,14 @@ export class CityDialogs {
 		});
 	}
 
-	static async getRollModifierBox (rollOptions : CityRollOptions) {
+	static async getRollModifierBox (rollOptions : Roll["options"]) : Promise<typeof rollOptions | null> {
 		const moves = CityHelpers.getMoves();
 		const templateData = {moves,
 			...rollOptions};
 		let dynamiteAllowed = rollOptions.dynamiteAllowed;
 		const title = `Make Roll`;
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", templateData);
-		return await  new Promise ( (conf, reject) => {
+		return await  new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
 				title:`${title}`,
@@ -385,10 +379,10 @@ export class CityDialogs {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Confirm",
-						callback: (html) => {
+						callback: (html: string) => {
 							const modifier = Number($(html).find("#roll-modifier-amt").val());
 							if (modifier != 0)
-								rollOptions.modifiers.push ( {
+								(rollOptions.modifiers as RollModifier[]).push ( {
 									id: "MC Edit" + Math.random(),
 									name: localize("CityOfMist.terms.MCEdit"),
 									amount: modifier,
@@ -424,8 +418,8 @@ export class CityDialogs {
 	actorName: actor doing move,
 	moveId: move being used,
 	*/
-	static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: string}, session : unknown) {
-		const {actorId, moveId} = dataObj;
+static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: string}, session : JuiceSlaveSession) : Promise<{direction: number, amount: number, actorId:string}> {
+	const {actorId, moveId} = dataObj;
 		const myCharacter = game.user.character as CityActor | undefined;
 		if (myCharacter == null) {
 			const warning =  `No Character selected for ${game.user.name}, can't spend Help/Hurt`;
@@ -433,14 +427,14 @@ export class CityDialogs {
 			return Promise.reject(warning);
 		}
 		if (myCharacter.system.type != "character")
-			return;
+			return Promise.reject("Given a non-chracter");
 		if (!myCharacter.hasHelpFor(actorId) && !myCharacter.hasHurtFor(actorId)) {
 			return Promise.reject( "No Juice for you");
 		}
 		await CityHelpers.playPing();
 		const templateData = {
 			move:  CityHelpers.getMoveById(moveId),
-			actor: await CityDB.getActorById(actorId),
+			actor: CityDB.getActorById(actorId),
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
 		return await new Promise( (conf, reject) => {
@@ -475,7 +469,7 @@ export class CityDialogs {
 		});
 	}
 
-	static async chooseHelpHurt(whichOne: "help" | "hurt", dataObj: CityItem, session: JuiceSpendingSessionS) {
+	static async chooseHelpHurt(whichOne: "help" | "hurt", dataObj: {actorId: string, actorName: string, moveId: string}, session: JuiceSlaveSession): Promise<{direction: number, amount: number, actorId:string}> {
 		await session.getTimeExtension(10 * 60);
 		const myCharacter = game.user.character as CityActor | undefined;
 		if (!myCharacter) {
@@ -530,7 +524,7 @@ export class CityDialogs {
 		});
 	}
 
-	static async tagReview(reviewList, moveId, session, actor) {
+	static async tagReview(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) {
 		return await TagReviewDialog.create(reviewList, moveId, session, actor);
 	}
 
@@ -552,23 +546,23 @@ export class CityDialogs {
 	itemType: "tag" || "improvement"
 	subtype: "power" || "weakness"
 	*/
-	static async improvementOrTagChoiceList(actor, theme, itemtype = "tag", subtype = "power") {
+	static async improvementOrTagChoiceList(actor: CityActor, theme: Theme, itemtype : "improvement" | "tag" = "tag", subtype: "power" | "weakness" = "power") {
 		if (!theme) throw new Error("No theme provided");
 		const list = await this._listGenFunction(actor, theme, itemtype, subtype);
 		const themeId = theme.id;
-		let currList;
+		let currList : (Tag | Improvement)[];
 		if (itemtype == "tag") {
-			currList = await actor.getTags(themeId, subtype);
+			currList =  actor.getTags(themeId, subtype);
 		} else if (itemtype == "improvement") {
-			currList = await actor.getImprovements(themeId);
+			currList =  actor.getImprovements(themeId);
 		} else {
 			throw new Error(`Unknown itemType: ${itemtype}`);
 		}
 		let filterlist = [];
 		//TODO: filter bug not filtering power tags correctly for theme kit
 		if (itemtype == "tag") {
-			filterlist = list.filter( x => {
-				return !currList.find(a => {
+			filterlist = list.filter( (x) => {
+				return !currList.find((a:Tag) => {
 					return a.system.question_letter == x._id
 						&& a.system.theme_id == themeId
 						&& a.system.subtype == subtype;
@@ -581,15 +575,15 @@ export class CityDialogs {
 						&& a.system.theme_id == themeId;
 				});
 			});
-			filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
-		} else throw new Error(`Unknown Type ${type}`);
+			// filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
+		} else throw new Error(`Unknown Type ${itemtype}`);
 		const inputList = filterlist
 			.map( x => {
-				const letterPart = x?.subtype && x?._id ? `${x._id}. ` :"";
+				const letterPart = "subtype" in x && x?._id ? `${x._id}. ` :"";
 				const name = letterPart + localizeS(x.name.trim());
 				const data = [name];
 				return {
-					id: x._id, data, description: x.description
+					id: String(x._id), data, description: x.description
 				};
 			});
 		return await HTMLTools.singleChoiceBox(inputList, "Choose Item");
@@ -600,8 +594,8 @@ export class CityDialogs {
 	type : "tag" || "improvement"
 	subtype: "power" || "weakness" || null
 	*/
-	static async _listGenFunction(actor, theme, type, subtype) {
-		const themebook = theme.themebook;
+	static async _listGenFunction(_actor: CityActor, theme: Theme, type: "tag" | "improvement", subtype?: "power" | "weakness") {
+		const themebook = theme.themebook!;
 		let list = [];
 		switch (type) 	 {
 			case "tag": {
@@ -613,11 +607,11 @@ export class CityDialogs {
 				.map( x=> {
 					return  {
 						_id: x.letter,
-						name: x.question ?? x.name,
+						name: "question" in x ? x.question : x.name,
 						theme_id: theme.id,
 						subtype,
-						subtag: x.subtag ?? false,
-						description: x.description ?? ""
+						subtag: "subtag" in x ? x.subtag : false,
+						description: "description" in x ? x.description : ""
 					};
 				});
 				break;
@@ -646,20 +640,21 @@ export class CityDialogs {
 	}
 
 
-	static async downtimeGMMoveDialog(actorWithMovesList) {
+	static async downtimeGMMoveDialog(actorWithMovesList: {movelist: GMMove[], actor: CityActor}[]) : Promise<boolean> {
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/downtime-GM-moves.hbs", {list : actorWithMovesList});
-		return await new Promise( (conf, rej) => {
+		return await new Promise( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog( {
 				title: localize("CityOfMist.dialog.downtime.title"),
 				content: html,
 				render: (html) => {
-					$(html).find('.gmmove-select').click( async (event) => {
-						const move_id = getClosestData(event, "moveId");
-						const ownerId = getClosestData(event, "ownerId");
-						const tokenId = getClosestData(event, "tokenId");
-						const owner = await CityHelpers.getOwner(ownerId, tokenId);
-						const move = await owner.getGMMove(move_id);
+					$(html).find('.gmmove-select').on("click", async (event) => {
+						const move_id = HTMLTools.getClosestData(event, "moveId");
+						const ownerId = HTMLTools.getClosestData(event, "ownerId");
+						const tokenId = HTMLTools.getClosestData(event, "tokenId");
+						const owner =  CityHelpers.getOwner(ownerId, tokenId) as CityActor;
+						const move =  owner.getGMMove(move_id);
+						if (!move) return;
 						await move.GMMovePopUp(owner);
 					});
 				},
@@ -667,7 +662,7 @@ export class CityDialogs {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Close",
-						callback: async (html) => {
+						callback: async (_html: string) => {
 							conf(true);
 						}
 					},

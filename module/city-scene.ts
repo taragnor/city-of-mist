@@ -3,7 +3,7 @@ import {CityItem} from "./city-item.js";
 //NOTE: this could all be dead code
 
 export class CityScene extends Scene {
-	async addTag(tagName) {
+	async addTag(tagName: string) {
 		let tagList = this.getTagList();
 		if (!tagList.find(x => x.name == tagName))  {
 			let item = await CityItem.create ({

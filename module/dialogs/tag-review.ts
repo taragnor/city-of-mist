@@ -3,7 +3,6 @@ import { HTMLTools } from "../tools/HTMLTools.js";
 import { SelectedTagsAndStatus } from "../selected-tags.js"
 import { Tag } from "../city-item.js";
 import { Theme } from "../city-item.js";
-import { CityItem } from "../city-item.js";
 import { localize } from "../city.js";
 import { Move } from "../city-item.js";
 import { CityActor } from "../city-actor.js";
@@ -126,7 +125,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
-	addReviewableItem(item: CityItem, amount: number) {
+	addReviewableItem(item: Status | Tag, amount: number) {
 		this.#reviewList.addReviewable( item, amount, "approved");
 		this.#session.updateList(this.#reviewList);
 		this.refreshHTML();
@@ -153,7 +152,7 @@ export class TagReviewDialog extends EnhancedDialog {
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 					this.#session.approveTag(tagId, ownerId);
-				this.#reviewList.find(x => x.item.id == tagId).review = "approved";
+				this.#reviewList.find(x => x.item.id == tagId)!.review = "approved";
 				this.refreshHTML();
 			});
 		$(html).find(".item-control.request-clarification").on("click",
@@ -162,7 +161,7 @@ export class TagReviewDialog extends EnhancedDialog {
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.requestClarification(tagId, ownerId);
-				this.#reviewList.find(x => x.item.id == tagId).review = "challenged";
+				this.#reviewList.find(x => x.item.id == tagId)!.review = "challenged";
 				this.refreshHTML();
 			});
 		$(html).find(".item-control.rejected").on("click",
@@ -171,7 +170,7 @@ export class TagReviewDialog extends EnhancedDialog {
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
 				if (!tagId || !ownerId) throw new Error("Can't find ID");
 				this.#session.rejectTag(tagId, ownerId);
-				this.#reviewList.find(x => x.item.id == tagId).review = "rejected";
+				this.#reviewList.find(x => x.item.id == tagId)!.review = "rejected";
 				this.refreshHTML();
 			});
 	}
@@ -186,7 +185,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.refreshHTML();
 	}
 
-	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) {
+	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) :Promise< {tagList: ReviewableModifierList, state: string}> {
 		if (reviewList.length == 0) {
 			return {state: "approved", tagList: reviewList};
 		}

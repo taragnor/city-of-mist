@@ -23,7 +23,7 @@ import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
-import { CityScene } from "./city-scene.js";
+// import { CityScene } from "./city-scene.js";
 import { CityItem } from "./city-item.js";
 import { CityItemSheet , CityItemSheetSmall, CityItemSheetLarge} from "./city-item-sheet.js";
 import { CityCrewSheet } from "./city-crew-sheet.js";
@@ -99,7 +99,7 @@ Hooks.once("init", async function() {
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
-	CONFIG.Scene.documentClass = CityScene;
+	// CONFIG.Scene.documentClass = CityScene;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
@@ -109,7 +109,7 @@ Hooks.once("init", async function() {
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
 	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
-	Items.registerSheet("city", CityItemSheet, {makeDefault: true});
+	Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	preloadHandlebarsTemplates();
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory"))
 		EnhancedActorDirectory.init();

@@ -1,42 +1,49 @@
+import { TagReviewDialog } from "./dialogs/tag-review.js";
+import { Tag } from "./city-item.js";
+import { CityItem } from "./city-item.js";
+import { RollDialog } from "./roll-dialog.js";
+import { SendableItem } from "./ReviewableModifierList.js";
 	import {MasterSession, SlaveSession} from "./sockets.js";
 import {CityDialogs} from "./city-dialogs.js";
-import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {ReviewableModifierList} from "./ReviewableModifierList.js";
 import {CityHelpers} from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
 
 
 export class JuiceMasterSession extends MasterSession {
-	/** getHTMLFn is a function that gets the JQuery object for the message and refreshFn is the function to call to refresh the power and such of the roll after adding the juice
-	*/
+
+	sendObj: {actorId: string, moveId: string};
+	onUpdateFn: (ownerId: string, direction: number, amount: number) => void;
 
 	/** on update Fn is a handler Fn that takes ({ownerId, juiceId, direction, amount})
 	*/
-	constructor (onUpdateFn, actorId, moveId) {
+	constructor (onUpdateFn: (ownerId: string, direction: number, amount: number) => void, actorId: string, moveId: string) {
 		super();
 		this.onUpdateFn = onUpdateFn;
 		this.sendObj = {actorId, moveId};
 	}
 
-	get html() {
-		return this.getHTMLFn();
-	}
+	/** getHTMLFn is a function that gets the JQuery object for the message and refreshFn is the function to call to refresh the power and such of the roll after adding the juice
+	*/
+	// get html() {
+	// 	return this.getHTMLFn();
+	// }
 
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
 
 	}
 
 
-	async start() {
+	override async start() {
 		this.registerSubscribers( game.users.filter( x=> !x.isGM));
 		const result = await this.request("juice", this.sendObj);
 		return result;
 
 	}
 
-	onJuiceReply({juiceOwnerId, direction, amount}, _meta, senderId) {
+	onJuiceReply({juiceOwnerId, direction, amount}: {juiceOwnerId: string, direction: number, amount: number}, _meta: unknown, _senderId: string) {
 		this.onUpdateFn(juiceOwnerId, direction, amount);
 	}
 
@@ -44,12 +51,14 @@ export class JuiceMasterSession extends MasterSession {
 
 export class JuiceSlaveSession extends SlaveSession {
 
-	setHandlers() {
+	dialog: Dialog | null;
+
+	override setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
-	async onJuiceRequest( dataObj) {
+	async onJuiceRequest( dataObj : {actorId: string, actorName:string, moveId:string}) {
 		const character = game.user.character;
 		if (!character) {
 			throw new Error("Error: No Character");
@@ -69,9 +78,9 @@ export class JuiceSlaveSession extends SlaveSession {
 		}
 	}
 
-	setDialog(dialog) { this.dialog = dialog;}
+	setDialog(dialog: Dialog) { this.dialog = dialog;}
 
-	onDestroy() {
+	override onDestroy() {
 		super.onDestroy();
 		try {
 			if (this.dialog)
@@ -93,7 +102,12 @@ tag: fullFormatTag,
 state: string (status of tag (REjected, Accepted, pending, etc),
 }
 */
-	constructor( reviewableTagList, moveId, actor) {
+	tagList: ReviewableModifierList;
+	moveId:string;
+	dialog: RollDialog | null;
+	actor: CityActor;
+
+	constructor( reviewableTagList: ReviewableModifierList, moveId: string, actor: CityActor) {
 		super();
 		this.tagList = reviewableTagList;
 		if (moveId == undefined)
@@ -103,30 +117,29 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		this.actor =actor;
 	}
 
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("tagReview", this.onReply.bind(this));
 		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
 	}
 
-	setDialog(dialog) {
+	setDialog(dialog: RollDialog) {
 		this.dialog  = dialog;
 	}
 
-	async start() {
+	override async start() {
 		const gms = game.users.filter( x=> x.isGM && x.active);
 		this.registerSubscribers(gms);
 		// console.log(`GMs detected :${gms.length}`);
 		if (gms.length == 0)
 			return this.tagList;
 		let state = "pending";
-		let returnTagList;
 
 		while (state != "approved") {
 			try {
 				const sendObj = this.sendObject;
 				const results = await this.request("tagReview", sendObj);
-				const result = results[0]?.value;
+				const result = results[0]?.value as {state: string, tagList: SendableItem[]};
 				if (!result) throw new Error("Empty result");
 				// console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
@@ -150,7 +163,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		}
 	}
 
-	async updateList(reviewableList) {
+	async updateList(reviewableList: ReviewableModifierList) {
 		const obj  = {
 			tagList: reviewableList.toSendableForm()
 			};
@@ -158,7 +171,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 
 	}
 
-	async onUpdateTagList(sendObj) {
+	async onUpdateTagList(sendObj: {tagList: SendableItem[]}) {
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
@@ -166,28 +179,28 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 	}
 
 
-	/**refreshs the list with a new list on the other end useful when something new gets added*/
-	async updateTagList( list) {
-		try {
-			this.tagList = list;
-			await this.notify("updateTagList", {
-				tagList: this.simplifiedTagList,
-			});
-			return true;
-		} catch (e) {
-			console.log(`Add Item failed on ${tagOrStatus?.name}`);
-			console.error(e);
-		}
-		return false;
-	}
+	// /**refreshs the list with a new list on the other end useful when something new gets added*/
+	// async updateTagList( list: ReviewableModifierList) {
+	// 	try {
+	// 		this.tagList = list;
+	// 		await this.notify("updateTagList", {
+	// 			tagList: this.simplifiedTagList,
+	// 		});
+	// 		return true;
+	// 	} catch (e) {
+	// 		console.log(`Add Item failed on ${tagOrStatus?.name}`);
+	// 		console.error(e);
+	// 	}
+	// 	return false;
+	// }
 
-	onReply( dataObj, meta) {
+	onReply( _dataObj: unknown, _meta: unknown) {
 		// console.log(`reply Recieved : ${dataObj?.state} `)
 	}
 }
 
 export class TagReviewSlaveSession extends SlaveSession {
-	dialog: Dialog;
+	dialog: TagReviewDialog | null;
 
 	override setHandlers() {
 		super.setHandlers();
@@ -195,11 +208,11 @@ export class TagReviewSlaveSession extends SlaveSession {
 		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
 	}
 
-	setDialog(dialog: Dialog) {
+	setDialog(dialog: TagReviewDialog) {
 		this.dialog  = dialog;
 	}
 
-	async updateList(reviewableList) {
+	async updateList(reviewableList: ReviewableModifierList) {
 		const obj  = {
 			tagList: reviewableList.toSendableForm()
 			};
@@ -207,18 +220,18 @@ export class TagReviewSlaveSession extends SlaveSession {
 
 	}
 
-	async onUpdateTagList(sendObj) {
+	async onUpdateTagList(sendObj: {tagList: SendableItem[]}) {
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
 			this.dialog.setReviewList(reviewableList);
 	}
 
-	async onReviewRequest( dataObj) {
+	async onReviewRequest( dataObj:  {actorId: string, tokenId:string, moveId: string, tagList: SendableItem[]}) {
 		const {actorId, tokenId} = dataObj;
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
-		const actor = CityHelpers.getOwner(actorId, tokenId);
+		const actor = CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const {tagList: reviewList, state} = await CityDialogs.tagReview(tagList, moveId, this, actor);
 		const sendableTagList = reviewList.toSendableForm();
 		return {
@@ -304,11 +317,11 @@ export class JuiceSpendingSessionS extends SlaveSession {
 		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
 	}
 
-	async onSpendRequest(data,_meta) {
+	async onSpendRequest(data: {juiceId: string, ownerId: string, amount: number},_meta: unknown) {
 		const{juiceId, ownerId, amount} = data
-		const actor = game.actors.get(ownerId);
+		const actor = game.actors.get(ownerId) as CityActor;
 		if (actor) {
-			const juice = await actor.getJuice(juiceId);
+			const juice =  actor.getJuice(juiceId)!;
 			await juice.spend(amount);
 			return {confirm:true};
 		} else {
@@ -332,12 +345,12 @@ export class TagAndStatusCleanupSessionM extends MasterSession {
 		this.dataObj = {commandString, itemId, ownerId, tokenId, burnState};
 	}
 
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("cleanupTagStatus", () => {});
 	}
 
-	async start() {
+	override async start() {
 		const gm = game.users.find(x=> x.isGM && x.active);
 		if (!gm) {
 			ui.notifications.error("No GM found, can't spend juice");
@@ -356,17 +369,17 @@ export class TagAndStatusCleanupSessionS extends SlaveSession {
 		this.setRequestHandler("cleanupTagStatus", this.onCleanupRequest.bind(this));
 	}
 
-	async onCleanupRequest(data, _meta) {
+	async onCleanupRequest(data: {itemId: string, ownerId: string, tokenId: string, commandString:string, burnState:number}, _meta: unknown) {
 		const {itemId, ownerId, tokenId, commandString, burnState} = data;
-		const actor = CityHelpers.getOwner(ownerId, tokenId);
-		const item = actor.items.find( x => x.id == itemId);
+		const actor = CityHelpers.getOwner(ownerId, tokenId) as CityActor;
+		const item = actor.items.find( x => x.id == itemId) as CityItem;
 		if (item) {
 			switch (commandString) {
 				case "burn":
-					await item.burnTag(burnState);
+					await (item as Tag).burnTag(burnState);
 					break;
 				case "delete":
-					await item.deleteTemporary();
+					await (item as Tag).deleteTemporary();
 					break;
 				default:
 					throw new Error(`Unknown command ${commandString}`);
@@ -380,10 +393,13 @@ export class TagAndStatusCleanupSessionS extends SlaveSession {
 
 export class DowntimeSessionM extends MasterSession {
 
+	data: {actor: CityActor, owner?: FoundryUser, reply: null | unknown}[];
+	users: FoundryUser[];
+
 	/**
 	@param {Array.<CityActor>} PCCharacterList
 	*/
-	constructor(PCCharacterList) {
+	constructor(PCCharacterList: CityActor[]) {
 		super();
 		this.data = PCCharacterList.map( actor => {
 			const owner = game.users
@@ -399,15 +415,15 @@ export class DowntimeSessionM extends MasterSession {
 			.filter(x => !x.owner)
 			.forEach (x => { ui.notifications.warn(` ${x.actor.name} doesn't have an active owner`)});
 		this.data = this.data.filter(x=> x.owner);
-		this.users = [...new Set(this.data.map( x=> x.owner))];
+		this.users = [...new Set(this.data.map( x=> x.owner!))];
 	}
 
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setReplyHandler("downtime", () => {});
 	}
 
-	async start() {
+	override async start() {
 		if (this.users.length == 0) return [];
 		this.registerSubscribers(this.users);
 		const actors = this.users
@@ -419,23 +435,24 @@ export class DowntimeSessionM extends MasterSession {
 }
 
 export class DowntimeSessionS extends SlaveSession {
-	setHandlers() {
+	override setHandlers() {
 		super.setHandlers();
 		this.setRequestHandler("downtime", this.onDowntimeRequest.bind(this));
 	}
 
-	async onDowntimeRequest(actorIdList, _meta) {
-		let replyObj = actorIdList.map( id => ({
+	async onDowntimeRequest(actorIdList: string[], _meta: unknown) {
+		let replyObj : {actorId: string, downtimeAction: string | null}[] = actorIdList.map( id => ({
 			actorId:id,
 			downtimeAction: null
 		}));
 		const actorList = actorIdList
-			.map ( id => game.actors.get(id))
+			.map ( id => game.actors.get(id) as CityActor)
 			.filter(actor => actor.isOwner);
 		for (const actor of actorList) {
 			const choice = await CityDialogs.DowntimePCSelector(actor);
+			if (!choice) continue;
 			await CityHelpers.downtimeActionChoice(choice, actor);
-			replyObj.find( x=> x.actorId == actor.id).downtimeAction = choice;
+			replyObj.find( x=> x.actorId == actor.id)!.downtimeAction = choice;
 		}
 		return replyObj;
 	}

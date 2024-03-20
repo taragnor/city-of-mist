@@ -1,7 +1,7 @@
 
 import { CityHelpers } from "./city-helpers.js";
 
-function localize( str)  {
+function localize( str: string)  {
 	return game.i18n.localize(str);
 }
 
@@ -65,4 +65,4 @@ export class CityKeyBinds {
 
 }
 
-Hooks.on('init', () => {CityKeyBinds.init()});
+Hooks.on('init', async () => {CityKeyBinds.init()});

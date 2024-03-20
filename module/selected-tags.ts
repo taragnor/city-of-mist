@@ -1,3 +1,4 @@
+import { ReviewableItem } from "./ReviewableModifierList";
 import { HTMLTools } from "./tools/HTMLTools";
 import { CityItem } from "./city-item";
 import { CityHelpers } from "./city-helpers";
@@ -27,7 +28,7 @@ export type ActivatedTagFormat = {
 			amount: number,
 			ownerId: string,
 			tagId: string,
-			type: string,
+			type: CityItem["type"],
 			description: string,
 			subtype: string,
 			strikeout: boolean,
@@ -68,7 +69,7 @@ export class SelectedTagsAndStatus {
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-	static toActivatedTagFormat(tagOrStatus: Tag | Status, direction =1, amountUsed = 1): ActivatedTagFormat {
+	static toActivatedTagFormat(tagOrStatus: ReviewableItem["item"], direction =1, amountUsed = 1): ActivatedTagFormat {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
@@ -144,12 +145,13 @@ export class SelectedTagsAndStatus {
 		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id) as Tag | Status;
 	}
 
-	static fullTagOrStatusToShorthand(tag: Tag | Status): ShorthandNotation {
+	static fullTagOrStatusToShorthand(tag: ReviewableItem["item"]): ShorthandNotation {
 		return {
 			id: tag.id,
 			ownerId: tag.parent?.id ?? "",
 			tokenId: tag?.parent?.token?.id  ?? "",
-			type: tag.type
+			type: tag.type,
+			amount: 1,
 		};
 	}
 
@@ -206,6 +208,7 @@ export class SelectedTagsAndStatus {
 		const activated = this.toggleSelectedItem(tag, direction);
 
 		if (activated === null) return;
+		//@ts-ignore
 		const html = $(event.currentTarget!);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");

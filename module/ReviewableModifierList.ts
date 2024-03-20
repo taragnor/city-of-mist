@@ -1,3 +1,4 @@
+import { Juice } from "./city-item.js";
 import { ShorthandNotation } from "./selected-tags.js"
 import { CityItem } from "./city-item.js";
 import {SelectedTagsAndStatus} from "./selected-tags.js";
@@ -6,13 +7,13 @@ import { Status } from "./city-item.js";
 
 export type ReviewStatus = "pending" | "approved" | "rejected" | "challenged" | "request-clarification";
 
-type ReviewableItem = {
-	item: Tag | Status,
+export type ReviewableItem = {
+	item: Tag | Status | Juice,
 	review: ReviewStatus,
 	amount: number,
 }
 
-type SendableItem = {
+export type SendableItem = {
 	sendableItem: ShorthandNotation,
 	review: ReviewStatus,
 	amount:number
@@ -97,7 +98,7 @@ export class ReviewableModifierList extends Array<ReviewableItem> {
 		return new ReviewableModifierList(...items);
 	}
 
-	static #convertToSendableItem(item: Tag | Status): ShorthandNotation {
+	static #convertToSendableItem(item: ReviewableItem["item"]): ShorthandNotation {
 		switch (item.type) {
 			case "tag":
 			case "status":
@@ -142,7 +143,7 @@ export class ReviewableModifierList extends Array<ReviewableItem> {
 		this.forEach( item => item.review = "approved");
 	}
 
-	addReviewable( item: Tag | Status, amount: number, reviewStatus : ReviewStatus = "pending") {
+	addReviewable( item: Tag | Status | Juice, amount: number, reviewStatus : ReviewStatus = "pending") {
 		if (this.some(i => item.id == i.item.id))
 			return false;
 		const obj = {

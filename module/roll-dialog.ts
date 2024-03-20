@@ -1,10 +1,13 @@
-import { CityItem } from "./city-item.js";
+import { Tag } from "./city-item.js";
+import { Status } from "./city-item.js";
+import { ActivatedTagFormat } from "./selected-tags.js";
+import { ReviewStatus } from "./ReviewableModifierList.js";
 import { CitySockets } from "./city-sockets.js";
 import { localize } from "./city.js";
 import { CRollOptions } from "./city-roll.js";
 import { CityActor } from "./city-actor.js";
 import {CityHelpers} from "./city-helpers.js";
-import {JuiceSpendingSessionM, JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.js";
+import { JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.js";
 import {CityRoll} from "./city-roll.js";
 import {SelectedTagsAndStatus} from "./selected-tags.js";
 import {ReviewableModifierList} from "./ReviewableModifierList.js";
@@ -182,14 +185,14 @@ export class RollDialog extends Dialog {
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id, this.actor);
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
-		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:string} ) => {
-			const targetTag = this.#modifierList.find(x => x.item.id == itemId);
+		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:ReviewStatus} ) => {
+			const targetTag = this.#modifierList.find(x => x.item.id == itemId)!;
 			targetTag.review = changeType;
 			this.updateModifierPopup(html);
 			this.refreshHTML();
 		});
 		const finalModifiers = CitySockets.execSession(reviewSession);
-		const newList = await finalModifiers;
+		const newList = await finalModifiers as ReviewableModifierList;
 		await this.setReviewList(newList);
 		this.#tagReviewSession = null;
 	}
@@ -263,7 +266,7 @@ export class RollDialog extends Dialog {
 		}
 	}
 
-	addReviewableItem(item: CityItem, amount: number) {
+	addReviewableItem(item: Tag | Status, amount: number) {
 		if (this.#tagReviewSession) {
 			this.#modifierList.addReviewable(item, amount, "pending");
 			this.#tagReviewSession.updateList(this.#modifierList);
@@ -280,12 +283,12 @@ export class RollDialog extends Dialog {
 	}
 
 	activateHelpHurt( owner: CityActor, amount: number, direction: number, targetCharacterId: string) {
-		let subtype, arr;
+		let  arr;
 		if ( direction > 0) {
-			subtype = "help";
+			// subtype = "help";
 			arr = owner.helpPoints;
 		} else {
-			subtype = "hurt";
+			// subtype = "hurt";
 			arr = owner.hurtPoints;
 		}
 		const targetedJuice = arr.filter( x=> x.targets(targetCharacterId));

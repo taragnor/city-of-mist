@@ -1,3 +1,4 @@
+import { ReviewableModifierList } from "../ReviewableModifierList";
 
 export class EnhancedDialog extends Dialog {
 	#resolve: (value: unknown) => void;
@@ -29,7 +30,7 @@ export class EnhancedDialog extends Dialog {
 		this.#reject = rej;
 	}
 
-	async getResult() {
+	async getResult(): Promise< {tagList: ReviewableModifierList, state: string}> {
 		return await new Promise ( (res, rej) => {
 			this._setPromise(res, rej);
 			this.render(true);

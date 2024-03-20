@@ -21,7 +21,7 @@ export type RollModifier = {
 	ownerId: string | null,
 	tagId: string | null,
 	type: string,
-	strikeout: boolean,
+	strikeout?: boolean,
 	subtype ?: string;
 	description ?: string;
 	tokenId ?: string;
@@ -55,7 +55,7 @@ export type CRollOptions = {
 export class CityRoll {
 	#roll: Roll | null;
 	#moveId: string;
-	#actor: CityActor;
+	#actor: CityActor  | null;
 	#options: CRollOptions;
 	#modifiers: RollModifier[];
 	#tags : RollModifier[];
@@ -63,7 +63,7 @@ export class CityRoll {
 	#msgId : string;
 	#selectedList : ActivatedTagFormat[];
 
-	constructor (moveId: string, actor: CityActor, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
+	constructor (moveId: string, actor: CityActor | null, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
 		this.#roll = null;
 		this.#moveId = moveId;
 		this.#actor = actor;
@@ -85,7 +85,7 @@ export class CityRoll {
 		return this;
 	}
 
-	static async execMove(moveId: string, actor: CityActor, selectedList: ActivatedTagFormat[] =[], options :CRollOptions= {}) {
+	static async execMove(moveId: string, actor: CityActor | null, selectedList: ActivatedTagFormat[] =[], options :CRollOptions= {}) {
 		const CR = new CityRoll(moveId, actor, selectedList, options);
 		return await CR.execMove();
 	}
@@ -120,8 +120,8 @@ export class CityRoll {
 		if (move.hasEffectClass("ALLOW_STATUS"))
 			options.noStatus = false;
 		if (!(options.noTags && options.noStatus)) {
-			if (await CityRoll.verifyRequiredInfo(moveId, actor)) {
-				const dialogReturn = await RollDialog.create(this, moveId, actor);
+			if (await CityRoll.verifyRequiredInfo(moveId, actor!)) {
+				const dialogReturn = await RollDialog.create(this, moveId, actor!);
 				if (!dialogReturn)
 					return;
 				let {modList, options} = dialogReturn;
@@ -141,6 +141,9 @@ export class CityRoll {
 			this.#modifiers = [];
 			this.#tags = [];
 			return this;
+		}
+		if (!actor) {
+			throw new Error("Can't make an actorless move except with a no-roll move");
 		}
 		const allModifiers = this.#selectedList
 			.filter (x => {
@@ -336,7 +339,7 @@ export class CityRoll {
 		return { total: bonus + roll.total, roll_adjustment};
 	}
 
-	static getRollBonus(rollOptions: CRollOptions, modifiers= rollOptions.modifiers, misc_mod = 0 ) {
+	static getRollBonus(rollOptions: CRollOptions, modifiers: {strikeout ?: boolean, amount: number}[] = rollOptions.modifiers!, misc_mod = 0 ) {
 		const {power} = CityRoll.getRollPower(rollOptions, modifiers);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power + misc_mod);
@@ -344,7 +347,7 @@ export class CityRoll {
 		return { bonus: capped, roll_adjustment };
 	}
 
-	static getRollPower (rollOptions: CRollOptions, modifiers= rollOptions.modifiers) {
+	static getRollPower (rollOptions: CRollOptions, modifiers : {strikeout ?: boolean, subtype?: string, amount: number}[]= rollOptions.modifiers!) {
 		const validModifiers = modifiers!.filter(x => !x.strikeout);
 		const weaknessCap = CitySettings.getWeaknessCap();
 		const base_power = validModifiers
@@ -357,7 +360,7 @@ export class CityRoll {
 		return { power: final_power, adjustment } ;
 	}
 
-	static getPower(rollOptions: CRollOptions, modifiers= rollOptions.modifiers) {
+	static getPower(rollOptions: CRollOptions, modifiers : {strikeout ?: boolean, amount: number}[]= rollOptions.modifiers!) {
 		if (CityHelpers.altPowerEnabled())
 			return this.getAltPower(rollOptions);
 		const { power, adjustment} = this.getRollPower(rollOptions, modifiers);
@@ -632,9 +635,9 @@ export class CityRoll {
 		return true;
 	}
 
-	static async showEditButton (_app: unknown, html: string, _data: unknown) {
+	static async showEditButton (_app: unknown, html: string | JQuery, _data: unknown) {
 		if (game.user.isGM) {
-			$(html).find('.edit-roll').css("display", "inline-block");
+			$(html as JQuery).find('.edit-roll').css("display", "inline-block");
 		}
 		return true;
 	}

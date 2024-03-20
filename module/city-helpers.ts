@@ -1,7 +1,6 @@
 import { Move } from "./city-item.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
 import { Status } from "./city-item.js";
-import { Tag } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { localize } from "./city.js";
 import { CityActor } from "./city-actor.js";
@@ -23,7 +22,13 @@ export class CityHelpers {
 	static get dangerTemplates() { return CityDB.dangerTemplates; }
 	static getAllActorsByType (item_type ="") { return CityDB.filterActorsByType(item_type); }
 	static getAllItemsByType(item_type ="") { return CityDB.filterItemsByType(item_type); }
-	static findAllById(id: string, type = "Actor"): typeof type extends "Actor" ? CityActor: CityItem { return CityDB.findById(id, type); }
+
+	static findAllById(id: string, type: "Actor" | "Item" = "Actor"): typeof type extends "Actor" ? CityActor: CityItem {
+		const x = CityDB.findById(id, type) as CityActor | CityItem;
+		if (x) {return x as (typeof type extends "Actor" ? CityActor : CityItem);}
+		throw new Error(`Can't find Actor Id ${id}`);
+	}
+
 	static getThemebooks() { return CityDB.themebooks; }
 	static getMoves() : Move[] { return CityDB.movesList; }
 	static getDangerTemplate(id: string) { return CityDB.getDangerTemplate(id); }
@@ -144,7 +149,7 @@ export class CityHelpers {
 		return TokenTools.getActiveSceneTokens();
 	}
 
-	static getSceneTokens( scene) {
+	static getSceneTokens( scene: Scene) {
 		return TokenTools.getSceneTokens(scene);
 	}
 
@@ -156,18 +161,8 @@ export class CityHelpers {
 		return TokenTools.getVisibleActiveSceneTokenActors();
 	}
 
-	static getSceneTokenActors(scene) {
+	static getSceneTokenActors(scene: Scene) {
 		return TokenTools.getSceneTokenActors(scene);
-	}
-
-	static createTokenActorData(tokendata) {
-		//creates specialized dummy data, probably isn't needed
-		const token = new Token(tokendata);
-		const created = token.actor;
-		created._tokenname = token.name;
-		created._tokenid = token.name;
-		created._hidden = token.hidden;
-		return created;
 	}
 
 	static getActiveUnlinkedSceneTokens() {
@@ -178,27 +173,8 @@ export class CityHelpers {
 		return CityDB.getBuildUpImprovements();
 	}
 
-	static generateSelectHTML(listobj, currval, cssclass ="", id = "") {
-		let html = new String();
-		html += `<select `;
-		if (id.length > 0)
-			html += `id=${id} `;
-		if (cssclass.length > 0)
-			html += `class=${cssclass} `;
-		html += `>`;
-		for (let k of Object.keys(listobj)) {
-			let selected = k == currval;
-			html += `<option value=${k} `;
-			if (selected)
-				html += `selected`;
-			html += `>${listobj[k]}</option>`;
-		}
-		html+=`</select>`;
-		return html;
-	}
-
-	static async narratorDialog(container= null) {
-		const text = await CityDialogs.narratorDialog(container);
+	static async narratorDialog() {
+		const text = await CityDialogs.narratorDialog();
 		if (!text) return;
 		const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
 		await this.processTextTagsStatuses(taglist, statuslist, null);
@@ -330,9 +306,11 @@ export class CityHelpers {
 			const name = match[2].trim();
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
-				let tier = name.at(-1)!;
-				if (tier != "X" && !options.ignoreCollective) {
-					tier = String(Number(tier) + status_mod);
+				let tierstr = name.at(-1)!;
+				let tier : number = Number(tierstr);
+				if (Number.isNaN(tier)) tier = 0;
+				if (!options.ignoreCollective) {
+					tier = Number(tier) + status_mod;
 				}
 				const autoStatus = options.autoApply ? "auto-status" : "";
 				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
@@ -413,15 +391,15 @@ export class CityHelpers {
 			let match = regex.exec(x);
 			while (match != null) {
 				const name = match[1];
-				const tier = match[2];
+				const tier = Number(match[2]);
 				return {
 					name,
-					tier,
+					tier: Number.isNaN(tier) ? 0 : tier,
 					options:{autoApply: true} as GMMoveOptions
 				};
 			}
 			return null;
-		}).filter( x=> x!= null) as {name: string, tier: string, options:GMMoveOptions}[];
+		}).filter( x=> x!= null) as {name: string, tier: number, options:GMMoveOptions}[];
 		return {html: text, statuslist: statuslistMod};
 	}
 
@@ -534,14 +512,6 @@ export class CityHelpers {
 		return [array, improvements];
 	}
 
-	/** brings up a confirmation window
-	@param {string} title
-	@param {string} text
-	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
-	*/
-	static async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
-		return await HTMLTools.confirmBox(title, text, options);
-	}
 
 	static middleClick (handler : Function) { return HTMLTools.middleClick(handler); }
 	static rightClick (handler: Function) { return HTMLTools.rightClick(handler); }
@@ -551,7 +521,7 @@ export class CityHelpers {
 		if (!game.user.isGM) return;
 		const eos = localize("CityOfMist.dialog.endOfSession.name");
 		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
-		if	(await CityHelpers.confirmBox(eos, eosQuery)) {
+		if	(await HTMLTools.confirmBox(eos, eosQuery)) {
 			const move = CityHelpers.getMoves()
 				.find (x=> x.system.effect_class.includes("SESSION_END") );
 			if (!move) {
@@ -579,13 +549,15 @@ export class CityHelpers {
 
 
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
-	*/
-	static async downtimePCSelector() {
+	 */
+	static async downtimePCSelector(): Promise<CityActor[]> {
 		const downtime = localize("CityOfMist.moves.downtime.name");
-		const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
+		// const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
 		const PCList: CityActor[] = game.actors.filter((x:CityActor)=>x.system.type == "character") as CityActor[];
 		const idList =  await HTMLTools.PCSelector(PCList, downtime);
-		return idList.map( id => PCList.find( actor => actor.id == id))
+		return idList
+			.map( id => PCList.find( actor => actor.id == id))
+			.filter( x=> x) as CityActor[];
 	}
 
 	static async promptDowntimeMovesList() {
@@ -632,12 +604,13 @@ export class CityHelpers {
 		}
 		const html = await renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
 		const messageOptions = {};
-		const messageData = {
+		const messageData : MessageData = {
 			// speaker: ChatMessage.getSpeaker(),
 			speaker: {alias: actor.displayedName},
 			content: html,
 			user: game.user,
-		};
+			type: CONST.CHAT_MESSAGE_TYPES.OOC,
+		} ;
  await ChatMessage.create(messageData, messageOptions);
 
 	}
@@ -922,7 +895,7 @@ export class CityHelpers {
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		if (!tokenId)
 			throw new Error("No token ID given");
-		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		// const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		// const token = game.scenes.active.tokens.get(tokenId);
 		const token = game.scenes.contents
 			.flatMap(sc=> sc.tokens)

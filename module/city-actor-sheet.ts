@@ -150,8 +150,14 @@ export class CityActorSheet extends CitySheet {
 		const owner = this.getOwner(ownerId);
 		const themeId = HTMLTools.getClosestData(event, "themeId") as string;
 		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
+		if (itemtype != "tag" && itemtype != "improvement") {
+			throw new Error(`Bad Item type: ${itemtype}`);
+		}
 		const theme = owner.getTheme(themeId);
 		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
+		if (subtype != null && subtype != "power" && subtype != "weakness") {
+			throw new Error(`Bad subtype: ${subtype}`);
+		}
 		let idChoice : null | string = null;
 		if (!theme) {
 			throw new Error(`Can't find Theme: ${themeId}`);
@@ -170,7 +176,7 @@ export class CityActorSheet extends CitySheet {
 				&& theme.weaknessTags.length >= 1
 				? (
 					CitySettings.autoAwardImpForWeakness()
-					|| await CityDialogs.confirmBox(
+					|| await HTMLTools.confirmBox(
 						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title"),
 						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body"),
 						{onClose : "reject"}
@@ -317,7 +323,7 @@ export class CityActorSheet extends CitySheet {
 		const actor =  this.getOwner(actorId);
 		const theme =  actor.getTheme(id)!;
 		const themename = theme.name;
-		if (await this.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
+		if (await HTMLTools.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
 			actor.resetFade(id);
 			await CityHelpers.modificationLog(actor, `Spent Theme Upgrade to Reset Fade`, theme);
 		}
@@ -399,7 +405,6 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const owner =  this.getOwner(actorId);
 		const clue =  owner.getClue(clue_id)!;
-		// if (await this.confirmBox("Delete Clue", `Delete ${clue.name}`)) {
 		await owner.deleteClue(clue_id);
 		CityHelpers.modificationLog(owner, "Removed", clue );
 		// }
@@ -444,7 +449,6 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const owner = this.getOwner(actorId);
 		const juice = owner.getJuice(juice_id);
-		// if (await this.confirmBox("Delete Juice", `Delete ${juice.name}`)) {
 		await owner.deleteJuice(juice_id);
 		CityHelpers.modificationLog(owner, "Removed", juice);
 		// }

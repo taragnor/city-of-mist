@@ -1,18 +1,31 @@
-import {CityDialogs} from "./city-dialogs.mjs";
+import { Status } from "./city-item.js";
+import { CityHelpers } from "./city-helpers.js";
+import { Tag } from "./city-item.js";
+import { CityItem } from "./city-item.js";
+import {CityDialogs} from "./city-dialogs.js";
 import {CityActor} from "./city-actor.js";
+
+declare global {
+	interface HOOKS {
+		"createSceneItem": (tag: Tag | Status, scene: Scene) => boolean;
+		"updateSceneTags": (items: CityItem[]) => boolean;
+	}
+}
 
 export class SceneTags {
 	static SCENE_CONTAINER_ACTOR_NAME ="__SCENE_CONTAINER__";
 
+	static sceneContainers: Map<string, CityActor>;
+
 	static async init() {
 		this.sceneContainers = new Map();
-		const promises = game.scenes.map( async (scene) => {
+		const promises = game.scenes.contents.map( async (scene: Scene) => {
 			const container =  await this.#getSceneContainer(scene)
 			this.sceneContainers.set( scene.id, container);
 		});
 		await Promise.all(promises);
 		const validcontainers = Array.from(this.sceneContainers.values());
-		const invContainers = game.actors.filter( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && !validcontainers.includes(x));
+		const invContainers = game.actors.filter( (x:CityActor)=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && !validcontainers.includes(x));
 		if (invContainers.length) {
 			invContainers.forEach( x=> x.delete());
 			console.log("Deleting invalid containers");
@@ -21,7 +34,7 @@ export class SceneTags {
 		// this.sceneContainer = await this.#getSceneContainer();
 	}
 
-	static async #getSceneContainer(scene) {
+	static async #getSceneContainer(scene: Scene): Promise<CityActor> {
 		if (!scene)
 			throw new Error("No scene Provided");
 		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
@@ -32,7 +45,7 @@ export class SceneTags {
 					"system.mythos": ""
 				});
 			}
-			return cont;
+			return cont as CityActor;
 		}
 		if (!game.user.isGM) {
 			await CityHelpers.sleep(50);
@@ -47,7 +60,7 @@ export class SceneTags {
 		return newContainer;
 	}
 
-	static async createSceneContainer(scene) {
+	static async createSceneContainer(scene: Scene) {
 		this.sceneContainers.set(scene.id, await this.#getSceneContainer(scene));
 	}
 
@@ -76,8 +89,8 @@ export class SceneTags {
 		}
 		const container = await this.#getSceneContainer(scene);
 		return container.items
-			.filter( x=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id)
-			.sort( (a, b) => {
+			.filter( (x: Tag)=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id)
+			.sort( (a: CityItem, b: CityItem) => {
 				if (a.type != b.type) {
 					if (a.type == "tag")
 						return -1;
@@ -89,25 +102,27 @@ export class SceneTags {
 
 	static async getSceneStoryTags(scene = game.scenes.current) {
 		return (await this.getSceneTagsAndStatuses(scene))
-			.filter (x=> x.type == "tag");
+			.filter ((x: CityItem)=> x.type == "tag");
 	}
 
 	static async getSceneStatuses(scene = game.scenes.current) {
 		return (await this.getSceneTagsAndStatuses(scene))
-			.filter (x=> x.type == "status");
+			.filter ((x: CityItem)=> x.type == "status");
 	}
 
-	static async createSceneTag(name = "", restrictDuplicates= true, options) {
-		if (!name)
+	static async createSceneTag(...options: Parameters<CityActor["createStoryTag"]>) {
+		if (!options[0])
 			return await this.#createSceneTagInteractive();
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const tag = await container.createStoryTag(name, restrictDuplicates, options);
-		if (tag)
-			await tag.update( {"data.sceneId": game.scenes.current.id});
+		const tag = await container.createStoryTag(...options);
+		if (tag) {
+			await tag.update( {"system.sceneId": game.scenes.current.id});
+			Hooks.callAll("createSceneItem", tag, game.scenes.current);
+			return tag;
+		}
 		else
 			console.warn("No Tag to stamp wtih scene Id");
-		Hooks.callAll("createSceneItem", tag, game.scenes.current);
-		return tag;
+		return null;
 	}
 
 	static async createSceneStatus(name = "", tier = 1, pips=0, options= {}) {
@@ -123,33 +138,35 @@ export class SceneTags {
 	static async #createSceneTagInteractive() {
 		const container = await this.#getSceneContainer(game.scenes.current);
 		const item = await this.createSceneTag("Unnamed Tag", false);
+		if (!item) return;
 		const updateObj = await CityDialogs.itemEditDialog(item);
 		if (updateObj) {
-			CityHelpers.modificationLog(container, "Created", updateObj, `tier  ${updateObj.system.tier}`);
+			CityHelpers.modificationLog(container, "Created", updateObj);
 		} else {
-			await container.deleteTag(obj.id);
+			await container.deleteTag(item.id);
 		}
 	}
 
 	static async #createSceneStatusInteractive() {
 		const container = await this.#getSceneContainer(game.scenes.current);
 		const item = await this.createSceneStatus("Unnamed Status", 1, 0);
+		if (!item) return;
 		const updateObj = await CityDialogs.itemEditDialog(item);
 		if (updateObj) {
 			CityHelpers.modificationLog(container, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
-			await container.deleteStatus(obj.id);
+			await container.deleteStatus(item.id);
 		}
 	}
 
-	static async deleteContainer(sceneId) {
+	static async deleteContainer(sceneId: string) {
 		if (this.sceneContainers.has(sceneId)) {
 			const cont = this.sceneContainers.get(sceneId);
 			try {
-			if (game.user.isGM)
+			if (game.user.isGM && cont)
 				await cont.delete();
 			} catch (e) {
-				console.warn(`Problem trying to delete container ${cont.id}`);
+				console.warn(`Problem trying to delete container ${cont?.id}`);
 			}
 		} else {
 			console.warn(`Tried to delete non existent container for scene Id ${sceneId}`);
@@ -160,28 +177,27 @@ export class SceneTags {
 
 Hooks.on("ready", () => SceneTags.init());
 
-Hooks.on("canvasReady", () => {
-		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+Hooks.on("canvasReady",async () => {
+		Hooks.callAll("updateSceneTags", await SceneTags.getSceneTagsAndStatuses());
 });
-Hooks.on("updateScene", (scene) => {
-		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses(scene));
+Hooks.on("updateScene", async (scene: Scene) => {
+		Hooks.callAll("updateSceneTags", await SceneTags.getSceneTagsAndStatuses(scene));
 });
 
-Hooks.on("createScene", (scene) => {
+Hooks.on("createScene", (scene: Scene) => {
 	console.log(`TRying to create container for ${scene.name}`);
 	SceneTags.createSceneContainer(scene);
 	console.log(`Created scene container for ${scene.name}`);
 });
 
 Hooks.on("deleteScene",async (scene) => {
-	const container= await SceneTags.getSceneContainer(scene)
 	console.log(`deleting scene container for ${scene.name}`);
-	SceneTags.deleteContainer(scene.id, container);
+	SceneTags.deleteContainer(scene.id);
 });
 
 Hooks.on("deleteCombat", async () => {
-		Hooks.callAll("updateSceneTags", SceneTags.getSceneTagsAndStatuses());
+		Hooks.callAll("updateSceneTags", await SceneTags.getSceneTagsAndStatuses());
 });
 
-window.SceneTags = SceneTags;
-window.getSceneTagsAndStatuses = SceneTags.getSceneTagsAndStatuses.bind(SceneTags);
+// window.SceneTags = SceneTags;
+// window.getSceneTagsAndStatuses = SceneTags.getSceneTagsAndStatuses.bind(SceneTags);

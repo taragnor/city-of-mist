@@ -80,7 +80,7 @@ export class HTMLHandlers {
 		}
 		const tagName = tag.name;
 		if (tag.isPermanent())
-			if (!await CityHelpers.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
+			if (!await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 				return;
 		const removeImprovement =
 			tag.isWeaknessTag()
@@ -146,7 +146,7 @@ export class HTMLHandlers {
 			ui.notifications.error("You don't own this status and can't edit it");
 			return;
 		}
-		if ( autodelete || (await CityHelpers.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
+		if ( autodelete || (await HTMLTools.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
 			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
 			await owner.deleteStatus(status_id);
 		}
@@ -159,7 +159,7 @@ export class HTMLHandlers {
 		const id = HTMLTools.getClosestData( event, "tagId");
 		const tag =  actor.getTag(id)!;
 		const tagname = tag.name;
-		if (!await CityHelpers.confirmBox(`Burn ${tagname}`, `Confirm Burn ${tagname}`))
+		if (!await HTMLTools.confirmBox(`Burn ${tagname}`, `Confirm Burn ${tagname}`))
 			return;
 		await actor.burnTag(id);
 		CityHelpers.modificationLog(actor, "Burned", tag);
@@ -171,7 +171,7 @@ export class HTMLHandlers {
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		const actor = CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const tag = actor.getTag(id);
-		if (await CityHelpers.confirmBox("Unburn Tag", `unburning ${tag?.name}`)) {
+		if (await HTMLTools.confirmBox("Unburn Tag", `unburning ${tag?.name}`)) {
 			await actor.burnTag(id, 0);
 		}
 		CityHelpers.modificationLog(actor, `Unburned`, tag);

@@ -26,8 +26,8 @@ export class CityThreatSheet extends CityActorSheet {
 
 		//Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
-		html.find('.alias-input').focusout(this._aliasInput.bind(this));
-		html.find('.alias-input').change(this._aliasInput.bind(this));
+		html.find('.alias-input').on("focusout", this._aliasInput.bind(this));
+		html.find('.alias-input').on("change", this._aliasInput.bind(this));
 		html.find('.create-gm-move').click(this._createGMMove.bind(this));
 		html.find('.gm-moves-header').middleclick(this._createGMMove.bind(this));
 		html.find('.gmmove-delete').click(this._deleteGMMove.bind(this));
@@ -174,7 +174,7 @@ export class CityThreatSheet extends CityActorSheet {
 					id: x.id , data, description: x.system.description
 				};
 			});
-		const choice =  await CitySheet.singleChoiceBox(inputList, "Choose Item");
+		const choice =  await HTMLTools.singleChoiceBox(inputList, "Choose Item");
 		if (!choice) return;
 		await this.actor.addTemplate(choice);
 	}

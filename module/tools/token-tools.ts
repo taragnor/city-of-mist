@@ -28,9 +28,9 @@ export class TokenTools {
 			.flatMap(x=> x.actor ? [x.actor as CityActor] : []);
 	}
 
-	static getSceneTokenActors(scene: Scene) {
+	static getSceneTokenActors(scene: Scene) : CityActor[] {
 		const tokens = this.getSceneTokens(scene);
-		return tokens.map ( x=> x.actor);
+		return tokens.flatMap ( (x: TokenDocument<CityActor>)=> x.actor ? [x.actor] : []);
 	}
 
 	static getActiveUnlinkedSceneTokens() {

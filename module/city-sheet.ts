@@ -69,7 +69,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
 		const loc_title = localizeS(title);
-		return await CityHelpers.confirmBox(loc_title as string, text, options);
+		return await HTMLTools.confirmBox(loc_title as string, text, options);
 	}
 
 	themeDeleteChoicePrompt(themename: string) {

@@ -4,7 +4,6 @@ import { Danger } from "./city-actor.js";
 import { localize } from "./city.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityDB } from "./city-db.js";
-import { TagType } from "./datamodel/tag-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import { CityActor } from "./city-actor.js";
 import { ClueChatCards } from "./clue-cards.js";
@@ -1001,7 +1000,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const themeId = this.system.theme_id;
 		const owner = this.parent as CityActor;
 		if (!owner) return;
-		let max_uses, description, effect_class;
+		let max_uses: number = 0, description, effect_class;
 		if (themeId) {
 			const theme =  owner.getTheme(themeId);
 			if (!theme) {
@@ -1020,7 +1019,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				if (item == "_DELETED_") continue;
 				if (item.name == this.name) {
 					let imp = item;
-					max_uses = imp.uses;
+					max_uses = imp.uses ?? 0;
 					description = imp.description;
 					effect_class = imp.effect_class;
 					break;
@@ -1042,7 +1041,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				uses: {
 					current: curruses ??  max_uses,
 					max: max_uses,
-					expended: (curruses ?? max_uses.max) < 1 && max_uses > 0
+					expended: (curruses ?? max_uses) < 1 && max_uses > 0
 				},
 				description: description,
 				chosen: true,
