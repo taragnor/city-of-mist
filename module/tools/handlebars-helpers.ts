@@ -1,6 +1,7 @@
 export class HandlebarsHelpers {
 
 	static init() {
+		console.log("Initializing Handlebars Helpers");
 		this.addHelpers(this.getObject());
 	}
 

@@ -33,7 +33,7 @@ import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.j
 import {} from "./tools/electron-fix.js";
 import {} from "./tools/debug.js";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.js";
-import {} from "./city-handlebars-helpers.js";
+import {CityHandlebarsHelpers} from "./city-handlebars-helpers.js";
 import {} from "./story-tag-window.js";
 import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
@@ -44,6 +44,15 @@ import {ClueChatCards } from "./clue-cards.js";
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 console.log("COM preinit");
+
+export function localize(str: string) {
+	if (!game?.i18n?.localize) {
+			console.log("Can't localize too early");
+		return "";
+	}
+
+	return game.i18n.localize(str);
+}
 
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
 Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
@@ -56,12 +65,6 @@ Hooks.on('ready', async () => {
 
 
 Hooks.once("cityDBLoaded", async function() {
-	if (game.user.isGM) {
-		// await VersionUpdater.update();
-		// await CityHelpers.convertExtras()
-		// await CityHelpers.updateDangers();
-		// await CityHelpers.updateImprovements();
-	}
 	CityHelpers.applyColorization();
 	return true;
 });
@@ -72,11 +75,6 @@ function registerDataModels() {
 	CONFIG.Item.dataModels= ITEMMODELS;
 }
 
-export function localize(str: string) {
-	return game.i18n.localize(str);
-}
-
-
 
 Hooks.once("ready", async ()=> CityHelpers.cacheSounds());
 
@@ -85,9 +83,6 @@ Hooks.once("init", async function() {
 	console.log(`Initializing City of Mist System`);
 	console.log(`***********************************`);
 	registerDataModels();
-
-	// window.localize = game.i18n.localize.bind(game.i18n);
-
 
 	registerSystemSettings();
 
@@ -98,7 +93,6 @@ Hooks.once("init", async function() {
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
-	// CONFIG.Scene.documentClass = CityScene;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
@@ -110,8 +104,11 @@ Hooks.once("init", async function() {
 	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
 	Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	preloadHandlebarsTemplates();
-	if (game.settings.get("city-of-mist", "enhancedActorDirectory"))
+
+	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
 		EnhancedActorDirectory.init();
+	}
+	CityHandlebarsHelpers.init();
 
 });
 
