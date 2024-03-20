@@ -18,7 +18,7 @@ declare global {
 // Import Modules
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
-import {} from "./token-tooltip/token-tooltip.js";
+import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
 import { preloadHandlebarsTemplates } from "./city-templates.js";
 import { CityRoll } from "./city-roll.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -111,7 +111,7 @@ Hooks.once("init", async function() {
 	CityHandlebarsHelpers.init();
 	StoryTagDisplayContainer.init();
 	CityKeyBinds.init();
-
+	TokenTooltip.init();
 });
 
 //Support for TaragnorSecurity module if installed

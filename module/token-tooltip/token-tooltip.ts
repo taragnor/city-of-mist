@@ -15,6 +15,13 @@ export class TokenTooltip {
 	element: HTMLDivElement;
 	nameElement: HTMLElement;
 	currentToken: null | Token<CityActor>;
+
+	static init() {
+		Hooks.once('ready', async () => {
+			new TokenTooltip();
+		});
+	}
+
 	constructor() {
 		Hooks.on("canvasReady", () => {
 			this._tokenHover = false;
@@ -143,8 +150,4 @@ export class TokenTooltip {
 	// }
 
 } // end of class
-
-Hooks.once('ready', async () => {
-	new TokenTooltip();
-});
 

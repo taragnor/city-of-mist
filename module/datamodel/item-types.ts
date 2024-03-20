@@ -164,7 +164,7 @@ class Theme extends DataModel {
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			unspent_upgrades: new num({initial: 0, integer: true, min:0}),
-			img: new file(),
+			img: new txt(),
 			nascent: new bool({initial: false})
 		}
 	}

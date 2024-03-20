@@ -79,7 +79,7 @@ export class ThreatSchema extends foundry.abstract.DataModel {
 			...person(),
 			is_template: new bool({initial: false}),
 			template_ids: new arr(new id(), {initial: []}),
-			collective_size: new num({initial: 0, min:0, max:6})
+			collective_size: new num({initial: 0})
 		}
 
 	}
