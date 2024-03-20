@@ -34,10 +34,10 @@ import {} from "./tools/electron-fix.js";
 import {} from "./tools/debug.js";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.js";
 import {CityHandlebarsHelpers} from "./city-handlebars-helpers.js";
-import {} from "./story-tag-window.js";
+import {StoryTagDisplayContainer} from "./story-tag-window.js";
 import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
-import {} from "./keybindings.js";
+import {CityKeyBinds} from "./keybindings.js";
 import {ClueChatCards } from "./clue-cards.js";
 
 /* -------------------------------------------- */
@@ -109,6 +109,8 @@ Hooks.once("init", async function() {
 		EnhancedActorDirectory.init();
 	}
 	CityHandlebarsHelpers.init();
+	StoryTagDisplayContainer.init();
+	CityKeyBinds.init();
 
 });
 

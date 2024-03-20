@@ -7,6 +7,7 @@ function localize( str: string)  {
 
 export class CityKeyBinds {
 	static init() {
+		//done during the init step on foundry
 		console.log("Initializing Keybinds");
 		this.init_narration();
 		this.init_downtime();
@@ -65,4 +66,3 @@ export class CityKeyBinds {
 
 }
 
-Hooks.on('init', async () => {CityKeyBinds.init()});

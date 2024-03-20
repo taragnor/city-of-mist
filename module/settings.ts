@@ -6,13 +6,9 @@ export async function registerSystemSettings() {
 	console.log("Registering Settings");
 
 	for (const [name, data] of Object.entries(CITY_SETTINGS())) {
-		//@ts-ignore
-		console.log(`Registering : ${name}`);
 		game.settings.register<any>("city-of-mist", name, data);
 	}
 	for (const [name, data] of Object.entries(DEV_SETTINGS())) {
-		//@ts-ignore
-		console.log(`Registering : ${name}`);
 		game.settings.register<any>("city-of-mist", name, data);
 	}
 }

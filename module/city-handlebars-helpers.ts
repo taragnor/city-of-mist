@@ -15,7 +15,6 @@ import {CitySettings} from "./settings.js";
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 	static override getObject = function () {
-		console.log("Calling Derived Get Object");
 		return {
 			...this._cityhelpers,
 			...HandlebarsHelpers.getObject()

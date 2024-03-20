@@ -9,6 +9,14 @@ export class StoryTagDisplayContainer {
 	element: HTMLElement;
 	dataElement: HTMLElement;
 
+	static init() {
+		Hooks.once('cityDBLoaded', () => {
+			if (CityHelpers.sceneTagWindowEnabled())  {
+				new StoryTagDisplayContainer();
+			}
+		});
+	}
+
 	constructor() {
 		this.element = HTMLTools.div(["scene-tag-window"]);
 		let width, height;
@@ -159,10 +167,5 @@ export class StoryTagDisplayContainer {
 
 }
 
-Hooks.once('cityDBLoaded', () => {
-	if (CityHelpers.sceneTagWindowEnabled())  {
-		new StoryTagDisplayContainer();
-	}
-});
 
 
