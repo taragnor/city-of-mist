@@ -26,7 +26,7 @@ export class HTMLTools {
 		}
 	}
 
-	static getClosestDataNT ( eventOrJQObj: JQuery<HTMLElement> | Event, prop: string, default_value ?: string | number) {
+	static getClosestDataNT ( eventOrJQObj: JQuery<HTMLElement> | Event | JQuery.Event, prop: string, default_value ?: string | number) {
 		try {
 			const x = HTMLTools.getClosestData( eventOrJQObj, prop, default_value);
 			return x;
@@ -204,7 +204,7 @@ export class HTMLTools {
 		if (ret) return ret; else return [];
 	}
 
-	static div(cssClass : string | string[]) {
+	static div(cssClass : string | string[]) : HTMLDivElement {
 		if (typeof cssClass == "string")
 			cssClass = [cssClass];
 		const div = document.createElement('div');

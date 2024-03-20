@@ -891,7 +891,7 @@ export class CityHelpers {
 		return combat;
 	}
 
-	static async toggleCombat(event: Event) {
+	static async toggleCombat(event: JQuery.Event) {
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		if (!tokenId)
 			throw new Error("No token ID given");

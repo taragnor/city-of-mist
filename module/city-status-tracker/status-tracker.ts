@@ -36,7 +36,7 @@ export class StatusTracker {
 		});
 		const scene = [ await SceneTags.getSceneContainer() ]
 			.filter( x=> x)
-			.map( x=> {
+			.map( (x:CityActor)=> {
 				return  {
 					name: "Scene",
 					actor: x,

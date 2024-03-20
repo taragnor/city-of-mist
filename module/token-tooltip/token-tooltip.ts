@@ -1,7 +1,7 @@
-import {SelectedTagsAndStatus} from "../selected-tags.js";
+import { CityHelpers } from "../city-helpers.js";
+import { CityActor } from "../city-actor.js";
 import {HTMLHandlers} from "../universal-html-handlers.js";
-
-import {HTMLTools} from "../tools/HTMLTools.mjs";
+import {HTMLTools} from "../tools/HTMLTools.js";
 
 const KEY = 'city-of-mist';
 const CSS_PREFIX = `${KEY}--`;
@@ -10,6 +10,11 @@ const CSS_SHOW = `${CSS_PREFIX}show`;
 const CSS_NAME = `${CSS_PREFIX}name`;
 
 export class TokenTooltip {
+	_tokenHover: boolean;
+	_boxHover: boolean;
+	element: HTMLDivElement;
+	nameElement: HTMLElement;
+	currentToken: null | Token<CityActor>;
 	constructor() {
 		Hooks.on("canvasReady", () => {
 			this._tokenHover = false;
@@ -23,25 +28,25 @@ export class TokenTooltip {
 		this.element.appendChild(this.nameElement);
 		$(this.nameElement).addClass("item-selection-context");
 		this.currentToken = null;
-		$(this.element).hover( this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
+		$(this.element).on( "hover", this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
 		document.body.appendChild(this.element);
-		Hooks.on('hoverToken', (token, hovered) => {
+		Hooks.on('hoverToken', (token: Token<CityActor>, hovered: boolean) => {
 			this.onHover(token, hovered);
 			return true;
 		});
-		Hooks.on('deleteToken',(token) => {
+		Hooks.on('deleteToken',(token: TokenDocument<CityActor>) => {
 			if (token.id == this.currentToken?.id)
 				this.hide();
 			return true;
 		});
-		Hooks.on('',(token) => {
-			if (token.id == this.currentToken?.id)
-				this.hide();
-			return true;
-		});
+		// Hooks.on('',(token) => {
+		// 	if (token.id == this.currentToken?.id)
+		// 		this.hide();
+		// 	return true;
+		// });
 	}
 
-	async onHover(token, hovered) {
+	async onHover(token: Token<CityActor>, hovered: boolean) {
 		if (hovered) {
 			try {
 				if (!game.settings.get("city-of-mist", "tokenToolTip"))
@@ -97,7 +102,7 @@ export class TokenTooltip {
 		}
 	}
 
-	updatePosition(token) {
+	updatePosition(token: Token<CityActor>) {
 		const top = Math.floor(token.worldTransform.ty - 8);
 		const tokenWidth = token.w * canvas.stage.scale.x;
 		const left = Math.ceil(token.worldTransform.tx + tokenWidth - 2);
@@ -113,11 +118,11 @@ export class TokenTooltip {
 		this.element.classList.remove(CSS_SHOW);
 	}
 
-	async updateData(token) {
+	async updateData(token: Token<CityActor>) {
 		this.nameElement.style.display = '';
 		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
-		HTMLHandlers.applyBasicHandlers(this.element);
+		HTMLHandlers.applyBasicHandlers($(this.element));
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
 
 		//TODO: refersh window on delete tag or status
@@ -139,7 +144,7 @@ export class TokenTooltip {
 
 } // end of class
 
-Hooks.once('ready', () => {
+Hooks.once('ready', async () => {
 	new TokenTooltip();
 });
 

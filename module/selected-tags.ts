@@ -79,7 +79,7 @@ export class SelectedTagsAndStatus {
 		subtype = tagOrStatus.type == "juice" && direction>0 ? "hurt": subtype;
 		const base_amount = tagOrStatus.isStatus() ? tagOrStatus.system.tier : 1;
 		const amount = direction * base_amount * Math.abs(amountUsed);
-		const crispy = ((tagOrStatus as Tag).system?.crispy || tagOrStatus.system?.temporary) ?? false;
+		const crispy = ((tagOrStatus as Tag).system?.crispy || (tagOrStatus as Status).system?.temporary) ?? false;
 		return {
 			name: x.displayedName,
 			id: x.id,
@@ -249,6 +249,7 @@ export class SelectedTagsAndStatus {
 		}
 		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
 		if (activated === null) return;
+		//@ts-ignore
 		const html = $(event.currentTarget!);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");

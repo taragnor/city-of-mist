@@ -1,5 +1,4 @@
-import {Debug} from "./tools/debug.js";
-import {CityHelpers} from "./city-helpers.js";
+import { DebugTools } from "./tools/debug";
 import { localize } from "./city.js";
 
 type System = "classic" | "reloaded" | "otherscape" | "custom";
@@ -403,7 +402,7 @@ const SETTINGS = {
 		default: false,
 		restricted: true,
 		onChange: (val:boolean) => {
-			Debug.setDebugMode(val);
+			DebugTools.setDebugMode(val);
 		},
 	},
 } as const;
@@ -552,5 +551,5 @@ function delayedReload() {
 
 const devMode = CitySettings.get("devMode").valueOf();
 const debug = CitySettings.get("debugMode").valueOf();
-Debug.setDebugMode(devMode && debug);
+DebugTools.setDebugMode(devMode && debug);
 

@@ -7,8 +7,8 @@ import {CityActor} from "./city-actor.js";
 
 declare global {
 	interface HOOKS {
-		"createSceneItem": (tag: Tag | Status, scene: Scene) => boolean;
-		"updateSceneTags": (items: CityItem[]) => boolean;
+		"createSceneItem": (tag: Tag | Status, scene: Scene) => any;
+		"updateSceneTags": (items: CityItem[]) => any;
 	}
 }
 

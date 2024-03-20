@@ -59,6 +59,7 @@ export class HTMLHandlers {
 		const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		const owner =  CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
 		const retobj = await owner.createStoryTag();
+		if (!retobj) return false;
 		const tag =  owner.getTag(retobj.id)!;
 		const updateObj =	await CityDialogs.itemEditDialog(tag);
 		if (updateObj)
@@ -207,7 +208,7 @@ export class HTMLHandlers {
 		if (!ret) return;
 		const {name: newname, tier: amt} = ret;
 		const revised_status = await status.subtractStatus(amt, newname);
-		await HTMLHandlers.reportStatsuSubtract(owner, amt,  {name, tier, pips}, status);
+		await HTMLHandlers.reportStatusSubtract(owner, amt,  {name, tier, pips}, status);
 		if (revised_status.system.tier <= 0)
 			owner.deleteStatus(revised_status.id);
 	}

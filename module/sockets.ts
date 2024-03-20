@@ -15,6 +15,7 @@ type MetaDataObject = {
 	from: string,
 	replyCode?: string;
 	requestCode?: string;
+	notifyType?: string;
 };
 
 // type Class = new (...args: any[]) => Class;
@@ -24,7 +25,7 @@ export class SocketInterface {
 	/** Example MOduel name "module.gm-paranoia-taragnor"
 	*/
 	#socketpath;
-	#sessionConstructors: Map<string, typeof Session> ;
+	#sessionConstructors: Map<string, {new(...args:any[]): Session}> ;
 	#sessions;
 
 	constructor( moduleOrSystemName : string)  {
@@ -194,8 +195,8 @@ export class Session {
 	}
 
 	/** sends a notification handled by addNotifyHandler which is a sort of oneway message **/
-	async notify(notifyType: string, dataObj :Record<string, unknown> = {}, metaObj = {}) {
-		dataObj.notifyType = notifyType;
+	async notify(notifyType: string, dataObj :Record<string, unknown> = {}, metaObj : Partial<MetaDataObject> = {}) {
+		metaObj.notifyType = notifyType;
 		await this.send(Session.codes.notify, dataObj, metaObj);
 	}
 
@@ -207,7 +208,7 @@ export class Session {
 
 	defaultTimeOut(userId :string) {
 		const user = game.users.find(x => x.id == userId);
-		if (user.isGM)
+		if (user && user.isGM)
 			return Infinity;
 		else
 			return 60;
@@ -246,7 +247,7 @@ export class Session {
 		return this.subscribers.map( x=> x.id);
 	}
 
-	async send(typeStr: string, dataObj : unknown, metaObj  = {}) {
+	async send(typeStr: string, dataObj : unknown, metaObj : Partial<MetaDataObject> = {}  ) {
 		if (this.active && this.sender)
 			return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
 		else {
@@ -273,7 +274,7 @@ export class Session {
 	}
 
 	onNotify(data: SocketTransmitData['data'], meta: SocketTransmitData['meta']) {
-		const notifyType = data.notifyType;
+		const notifyType = meta.notifyType;
 		const handler =this.#notificationHandlers.get(notifyType);
 		if (!handler) {
 			console.warn (`No notification for type: ${notifyType}`);
@@ -396,7 +397,7 @@ export class MasterSession extends Session {
 
 	extendTime(data: SocketTransmitData['data'], meta: SocketTransmitData['meta'] ) {
 		const from = meta.from;
-		const amount = data.amount as number ;
+		const amount = (data as any).amount as number ;
 		if (!from || !amount)
 			throw new Error("Malformed time request");
 		const sub = this.subscribers.find(x=> x.id == from)
@@ -407,7 +408,7 @@ export class MasterSession extends Session {
 
 	override destroy() {
 		// console.debug("Sending destroy code");
-		this.send(Session.codes.destroySession);
+		this.send(Session.codes.destroySession, {} );
 		super.destroy();
 		this.onDestroy();
 	}
@@ -423,7 +424,7 @@ export class SlaveSession extends Session {
 	constructor( id: string, sender: string | FoundryUser) {
 		const name = "Slave Session";
 		if (typeof sender == "string")
-			sender = game.users.find( x=> x.id == sender);
+			sender = game.users.find( x=> x.id == sender)!;
 		if (!sender)
 			throw new Error("No sender Id Given?!");
 		const userIdList = [sender as FoundryUser];
@@ -471,13 +472,13 @@ export class SlaveSession extends Session {
 				return await this.reply({}, {error:e.toString()});
 			}
 		} else {
-			throw new Error(`No handler for ${data.requestCode}`);
+			throw new Error(`No handler for ${(data as any)?.requestCode}`);
 		}
 	}
 
 	async reply(dataObj = {}, error : null | {error: string} = null) {
 		const meta = {
-			replyCode: this.replyCode
+			replyCode: this.replyCode ? this.replyCode: undefined
 		}
 		if (!error) {
 			await this.send(Session.codes.reply,  dataObj, meta);

@@ -36,10 +36,10 @@ export class HandlebarsHelpers {
 			},
 
 			"isGM": () => {
-				return game.users.current.isGM;
+				return game.user.isGM;
 			},
 			"localizeS": (string: string) => {
-				return window.localizeS(string);
+				return localizeS(string);
 			},
 
 		};
