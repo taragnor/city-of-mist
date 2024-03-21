@@ -31,8 +31,10 @@ export class JuiceMasterSession extends MasterSession {
 
 	override setHandlers() {
 		super.setHandlers();
-		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
+	}
 
+	override setReplyHandlers() {
+		this.setReplyHandler("juice", this.onJuiceReply.bind(this));
 	}
 
 
@@ -43,8 +45,8 @@ export class JuiceMasterSession extends MasterSession {
 
 	}
 
-	onJuiceReply({juiceOwnerId, direction, amount}: {juiceOwnerId: string, direction: number, amount: number}, _meta: unknown, _senderId: string) {
-		this.onUpdateFn(juiceOwnerId, direction, amount);
+	onJuiceReply(juiceReply : {juiceOwnerId: string, direction: number, amount: number}, _meta: unknown, _senderId: string) {
+		this.onUpdateFn(juiceReply.juiceOwnerId, juiceReply.direction, juiceReply.amount);
 	}
 
 }
@@ -122,8 +124,11 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 
 	override setHandlers() {
 		super.setHandlers();
-		this.setReplyHandler("tagReview", this.onReply.bind(this));
 		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
+	}
+
+	override setReplyHandlers(){
+		this.setReplyHandler("tagReview", this.onReply.bind(this));
 	}
 
 	setDialog(dialog: RollDialog) {
@@ -298,8 +303,7 @@ export class JuiceSpendingSessionM extends MasterSession {
 		this.dataObj = { juiceId, ownerId, amount};
 	}
 
-	override setHandlers() {
-		super.setHandlers();
+	override setReplyHandlers() {
 		this.setReplyHandler("spendJuice", this.onJuiceReply.bind(this));
 	}
 
@@ -354,8 +358,7 @@ export class TagAndStatusCleanupSessionM extends MasterSession {
 		this.dataObj = {commandString, itemId, ownerId, tokenId, burnState};
 	}
 
-	override setHandlers() {
-		super.setHandlers();
+	override setReplyHandlers() {
 		this.setReplyHandler("cleanupTagStatus", () => {});
 	}
 
@@ -432,6 +435,9 @@ export class DowntimeSessionM extends MasterSession {
 
 	override setHandlers() {
 		super.setHandlers();
+	}
+
+	override setReplyHandlers(){
 		this.setReplyHandler("downtime", () => {});
 	}
 

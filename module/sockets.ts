@@ -295,9 +295,9 @@ export class Session {
 
 }
 
-export class MasterSession extends Session {
+export abstract class MasterSession extends Session {
 	#started : boolean;
-	replyHandlers: Map<string, Function>;
+	replyHandlers: Map<string, Function> = new Map();
 
 	constructor( name = "Unnamed Master Session", id = undefined, userIdList = undefined) {
 		super(name, id, userIdList);
@@ -305,7 +305,10 @@ export class MasterSession extends Session {
 			name = `${this.constructor.name} Session`;
 		this.name = name;
 		this.#started =false;
+		this.setReplyHandlers();
 	}
+
+	abstract setReplyHandlers(): void;
 
 	isRunning() {
 		return this.#started;
@@ -326,7 +329,6 @@ export class MasterSession extends Session {
 
 	override setHandlers() {
 		super.setHandlers();
-		this.replyHandlers = new Map();
 		this.addHandler(Session.codes.reply, this.recieveReply.bind(this));
 		this.addHandler(Session.codes.replyError, this.recieveErrorReply.bind(this));
 		this.addHandler(Session.codes.timeExtension, this.extendTime.bind(this));

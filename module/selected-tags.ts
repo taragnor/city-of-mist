@@ -76,7 +76,7 @@ export class SelectedTagsAndStatus {
 		const tag = x.type == "tag" ? tagOrStatus : null;
 		let subtype : string = tag ? tag.system.subtype : "";
 		subtype = tagOrStatus.type == "juice" && direction>0 ? "help": subtype;
-		subtype = tagOrStatus.type == "juice" && direction>0 ? "hurt": subtype;
+		subtype = tagOrStatus.type == "juice" && direction<0 ? "hurt": subtype;
 		const base_amount = tagOrStatus.isStatus() ? tagOrStatus.system.tier : 1;
 		const amount = direction * base_amount * Math.abs(amountUsed);
 		const crispy = ((tagOrStatus as Tag).system?.crispy || (tagOrStatus as Status).system?.temporary) ?? false;

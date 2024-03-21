@@ -491,10 +491,12 @@ export class CityRoll {
 
 	async #spendHelpHurt() {
 
-		try { const helpHurt = this.#modifiers
+		try {
+			const helpHurt = this.#modifiers
 				.filter(x => x.subtype == "help" || x.subtype =="hurt");
 			for (let hh of helpHurt) {
 				try {
+					// console.log(`Trying to spend remote Juice ${hh.name}`);
 					CitySockets.execSession(new JuiceSpendingSessionM(hh.id, hh.ownerId!, Math.abs(hh.amount)));
 				} catch (e) {
 					console.warn("Error in remote Juice spending");
