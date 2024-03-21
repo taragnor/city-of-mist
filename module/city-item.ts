@@ -535,7 +535,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			throw new Error("Can't burn a parentless tag");
 		}
 		if (this.isOwner) {
-			await this.update({data: {burned: state}});
+			await this.update({"system.burn_state": state});
+			await this.update({"system.burned": state >0});
 			if (state == 3)
 				CityHelpers.playBurn();
 		} else  {
@@ -551,9 +552,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return !this.isBurned() && !this.isWeaknessTag();
 	}
 
-	isBurned() {
+	isBurned() : boolean {
 		if (this.system.type == "tag")
-			return this.system.burned != false;
+			return this.system.burned;
 		else
 			return false;
 	}

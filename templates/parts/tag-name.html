@@ -43,7 +43,7 @@
 		{{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
 		default-positive {{else}} default-negative
 		{{/if}}
-		{{#if (gt tag.system.burned 0)}} burned-tag burn-level-{{tag.system.burned}}  {{/if}}
+		{{#if (gt tag.system.burn_state 0)}} burned-tag burn-level-{{tag.system.burn_state}}  {{/if}}
 		" title= "
 		{{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
 		{{/if}}

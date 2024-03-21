@@ -125,6 +125,7 @@ class Tag extends DataModel {
 			question: new txt(),
 			question_letter: new txt(),
 			subtype: new txt({choices: TAGTYPES, initial:"story"}),
+			burn_state: new num({initial: 0}),
 			burned: new bool({initial: false}),
 			crispy: new bool({initial: false}),
 			is_bonus: new bool({initial: false}),

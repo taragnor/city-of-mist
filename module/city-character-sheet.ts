@@ -61,7 +61,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		});
 
 		data.MOVEGROUPS =MOVEGROUPS;
-			const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup);
+			const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup && this.actor.canUseMove(mv));
 
 		data.MOVEGROUP =Object.fromEntries(
 			moves.map( mv => ([mv.id, mv.displayedName]))
