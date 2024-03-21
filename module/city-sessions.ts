@@ -55,6 +55,9 @@ export class JuiceSlaveSession extends SlaveSession {
 
 	override setHandlers() {
 		super.setHandlers();
+	}
+
+	override setRequestHandlers() {
 		this.setRequestHandler("juice", this.onJuiceRequest.bind(this));
 	}
 
@@ -204,8 +207,11 @@ export class TagReviewSlaveSession extends SlaveSession {
 
 	override setHandlers() {
 		super.setHandlers();
-		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
 		this.addNotifyHandler("updateTagList", this.onUpdateTagList.bind(this));
+	}
+
+	override setRequestHandlers() {
+		this.setRequestHandler("tagReview", this.onReviewRequest.bind(this));
 	}
 
 	setDialog(dialog: TagReviewDialog) {
@@ -314,6 +320,9 @@ export class JuiceSpendingSessionM extends MasterSession {
 export class JuiceSpendingSessionS extends SlaveSession {
 	override setHandlers() {
 		super.setHandlers();
+	}
+
+	override setRequestHandlers() {
 		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
 	}
 
@@ -366,6 +375,9 @@ export class TagAndStatusCleanupSessionS extends SlaveSession {
 
 	override setHandlers() {
 		super.setHandlers();
+	}
+
+	override setRequestHandlers(){
 		this.setRequestHandler("cleanupTagStatus", this.onCleanupRequest.bind(this));
 	}
 
@@ -437,6 +449,9 @@ export class DowntimeSessionM extends MasterSession {
 export class DowntimeSessionS extends SlaveSession {
 	override setHandlers() {
 		super.setHandlers();
+	}
+
+	override setRequestHandlers() {
 		this.setRequestHandler("downtime", this.onDowntimeRequest.bind(this));
 	}
 

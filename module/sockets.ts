@@ -415,7 +415,7 @@ export class MasterSession extends Session {
 
 }
 
-export class SlaveSession extends Session {
+export abstract class SlaveSession extends Session {
 
 	replyCode: null | string = null;
 	interactionNum: number = 0;
@@ -429,11 +429,14 @@ export class SlaveSession extends Session {
 			throw new Error("No sender Id Given?!");
 		const userIdList = [sender as FoundryUser];
 		super(name, id, userIdList);
+		console.log("Slave Session constructed");
+		this.setRequestHandlers();
 	}
+
+	abstract setRequestHandlers(): void;
 
 	override setHandlers() {
 		super.setHandlers();
-		this.requestHandlers = new Map();
 		this.addHandler(Session.codes.request, this.recieveRequest.bind(this));
 		this.addHandler(Session.codes.destroySession, this.destroy.bind(this));
 	}
@@ -453,11 +456,13 @@ export class SlaveSession extends Session {
 
 	//TODO: shift this to not use the replyFn and conventional try/catch
 	async recieveRequest(data: SocketTransmitData['data'],  meta: SocketTransmitData['meta']) {
-		const handler = this.requestHandlers.get(meta.requestCode!);
+		const requestCode = meta.requestCode;
+		if (!requestCode) {
+			throw new Error("Request Code can't be null");
+		}
+		const handler = this.requestHandlers.get(requestCode);
 		if (handler) {
-			if (!meta.requestCode)
-				throw new Error("Request Code can't be null");
-			this.replyCode = meta.requestCode;
+			this.replyCode = requestCode;
 			const interactionNum = ++this.interactionNum;
 			try {
 				const dataObj = await handler( data, meta);
@@ -472,7 +477,7 @@ export class SlaveSession extends Session {
 				return await this.reply({}, {error:e.toString()});
 			}
 		} else {
-			throw new Error(`No handler for ${(data as any)?.requestCode}`);
+			throw new Error(`No handler for ${requestCode}`);
 		}
 	}
 
