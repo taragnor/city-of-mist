@@ -5,6 +5,7 @@ import {CityDialogs} from "./city-dialogs.js";
 import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
+import { CityDB } from "./city-db.js";
 
 export class CitySheet extends ActorSheet<CityActor> {
 	scrollTop: number = 0;
@@ -12,6 +13,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	/* -------------------------------------------- */
 
 	override async getData(): Promise<SheetData> {
+		await CityDB.waitUntilLoaded();
 		let data = await super.getData();
 
 		data.items = this.actor.items.contents.map(x=>x);

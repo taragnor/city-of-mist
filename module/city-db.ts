@@ -19,6 +19,7 @@ export class CityDB extends DBAccessor {
 	static themebooks: Themebook[] = [];
 	static movesList: Move[] = [];
 	static _dangerTemplates: Danger[] = [];
+	static _loaded = false;
 
 	static override async loadPacks() {
 		await super.loadPacks();
@@ -27,11 +28,32 @@ export class CityDB extends DBAccessor {
 			await this.loadMoves();
 			await this.refreshDangerTemplates();
 			Hooks.callAll("cityDBLoaded");
+			this._loaded = true;
 		} catch (e) {
 			console.error(`Error Loading Packs - potentially try a browser reload \n ${e}`);
 			setTimeout( () => this.loadPacks(), 5000);
 			throw e;
 		}
+	}
+
+	static async waitUntilLoaded(): Promise<void> {
+		if (this._loaded) return;
+		return new Promise( (conf, rej) => {
+			let count = 0;
+			const x = setInterval( () => {
+				if (this._loaded) {
+					clearInterval(x);
+					conf();
+				}
+				if (count++ > 20) {
+					rej("Database load Timeout");
+				}
+			}, 500);
+		});
+	}
+
+	static isLoaded() : boolean {
+		return this._loaded;
 	}
 
 	static override initHooks() {
