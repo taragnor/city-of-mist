@@ -429,7 +429,6 @@ export abstract class SlaveSession extends Session {
 			throw new Error("No sender Id Given?!");
 		const userIdList = [sender as FoundryUser];
 		super(name, id, userIdList);
-		console.log("Slave Session constructed");
 		this.setRequestHandlers();
 	}
 
