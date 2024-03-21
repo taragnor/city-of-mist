@@ -18,7 +18,8 @@ export class TokenTooltip {
 
 	static init() {
 		Hooks.once('ready', async () => {
-			new TokenTooltip();
+			//@ts-ignore
+			window.tokenTooltip = new TokenTooltip();
 		});
 	}
 
@@ -35,7 +36,7 @@ export class TokenTooltip {
 		this.element.appendChild(this.nameElement);
 		$(this.nameElement).addClass("item-selection-context");
 		this.currentToken = null;
-		$(this.element).on( "hover", this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
+		// $(this.element).on( "hover", this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token: Token<CityActor>, hovered: boolean) => {
 			this.onHover(token, hovered);
@@ -78,7 +79,7 @@ export class TokenTooltip {
 				if (this.currentToken != curr_token) return;
 				this._tokenHover = false;
 				this.updateVisibility();
-			}, 100);
+			}, 500);
 		}
 		return true;
 	}
@@ -94,7 +95,7 @@ export class TokenTooltip {
 	}
 
 	onBoxHover() {
-		// console.log("Box hover");
+		console.log("Box hover");
 		if ($(this.element).hasClass(CSS_SHOW)) {
 			this._boxHover = true;
 			this.updateVisibility();
@@ -102,7 +103,7 @@ export class TokenTooltip {
 	}
 
 	onBoxUnHover() {
-		// console.log("Box Unhover");
+		console.log("Box unhover");
 		if ($(this.element).hasClass(CSS_SHOW)) {
 			this._boxHover = false;
 			this.updateVisibility();
@@ -131,23 +132,14 @@ export class TokenTooltip {
 		this.nameElement.innerHTML = templateHTML;
 		HTMLHandlers.applyBasicHandlers($(this.element));
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
+		$(this.element).on( "mouseenter", this.onBoxHover.bind(this));
+		$(this.element).on( "mouseleave", this.onBoxUnHover.bind(this));
 
 		//TODO: refersh window on delete tag or status
 		return true;
 	}
 
-	// async toggleCombat(event) {
-	// 	// const ownerId = getClosestData(event, "ownerId");
-	// 	const tokenId = getClosestData(event, "tokenId");
-	// 	const sceneId = getClosestData(event, "sceneId");
-	// 	// const owner = await CityHeleprs.getOwner(ownerId, tokenId, sceneId);
-	// 	const token = game.scenes.active.tokens.get(tokenId);
-	// 	await CityHelpers.toggleTokensCombatState([token.object]);
-	// 	if (token.inCombat)
-	// 		await CityHelpers.playTagOn();
-	// 	else
-	// 		await CityHelpers.playTagOff()
-	// }
 
 } // end of class
+
 
