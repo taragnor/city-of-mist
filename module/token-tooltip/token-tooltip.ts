@@ -18,8 +18,7 @@ export class TokenTooltip {
 
 	static init() {
 		Hooks.once('ready', async () => {
-			//@ts-ignore
-			window.tokenTooltip = new TokenTooltip();
+			new TokenTooltip();
 		});
 	}
 
@@ -36,7 +35,6 @@ export class TokenTooltip {
 		this.element.appendChild(this.nameElement);
 		$(this.nameElement).addClass("item-selection-context");
 		this.currentToken = null;
-		// $(this.element).on( "hover", this.onBoxHover.bind(this), this.onBoxUnHover.bind(this));
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token: Token<CityActor>, hovered: boolean) => {
 			this.onHover(token, hovered);
@@ -47,11 +45,6 @@ export class TokenTooltip {
 				this.hide();
 			return true;
 		});
-		// Hooks.on('',(token) => {
-		// 	if (token.id == this.currentToken?.id)
-		// 		this.hide();
-		// 	return true;
-		// });
 	}
 
 	async onHover(token: Token<CityActor>, hovered: boolean) {
@@ -95,7 +88,7 @@ export class TokenTooltip {
 	}
 
 	onBoxHover() {
-		console.log("Box hover");
+		// console.log("Box hover");
 		if ($(this.element).hasClass(CSS_SHOW)) {
 			this._boxHover = true;
 			this.updateVisibility();
@@ -103,7 +96,7 @@ export class TokenTooltip {
 	}
 
 	onBoxUnHover() {
-		console.log("Box unhover");
+		// console.log("Box unhover");
 		if ($(this.element).hasClass(CSS_SHOW)) {
 			this._boxHover = false;
 			this.updateVisibility();
