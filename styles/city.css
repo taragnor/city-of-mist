@@ -3140,7 +3140,9 @@ span.secret {
 
 .story-tag-window {
 	max-height: 800px;
-	overflow: scroll;
+	overflow: overlay;
+	scrollbar-width: thin;
+	scrollbar-color: var(--mythos-pink) var(--logos-text);
 }
 
 
@@ -3227,3 +3229,4 @@ button.clue-use-button:hover {
 	color: var(--logos-orange);
 	text-align: center;
 }
+

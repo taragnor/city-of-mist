@@ -58,10 +58,10 @@ export class StoryTagDisplayContainer {
 			this.dataElement.innerHTML= "";
 			return false;
 		}
-		const combatants = game.combats.contents
-			.flatMap( combat => {
-				return combat.combatants.contents as Combatant<CityActor>[];
-			})
+		const combatants = !game.combat ? [] : (game.combat.combatants.contents as Combatant<CityActor>[])
+			// .flatMap( combat => {
+			// 	return combat.combatants.contents as Combatant<CityActor>[];
+			// })
 			.filter(combatant => {
 				if (!combatant.actor) return false;
 				if (CityHelpers.sceneTagWindowFilterEmpty())

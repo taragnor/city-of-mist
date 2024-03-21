@@ -23,10 +23,12 @@
 	{{#each combatants as |combatant|}}
 	<div class="" data-owner-id="{{combatant.actorId}}" data-token-id="{{combatant.tokenId}}" data-scene-id="{{combatant.sceneId}}">
 		<div class="combatant-name flex-row">
-			<span class="name flex-wide">
+			<span>
 				{{#if (isGM)}}
 				<a class="toggle-combat" title="{{localize 'CityOfMist.tooltip.removeFromStoryTagWindow'}}"> <i class="fas fa-circle-xmark"></i> </i> </a>
 				{{/if}}
+			</span>
+			<span class="name flex-wide">
 				{{combatant.actor.displayedName}}
 			</span>
 			{{#if combatant.actor.isOwner}}
