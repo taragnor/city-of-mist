@@ -288,7 +288,7 @@ export class CityRoll {
 		return html;
 	}
 
-	/** Takes a foundry roll and an options object containing 
+	/** Takes a foundry roll and an options object containing
 	{moveList ?: { see generateMoveList function} }
 	*/
 	static async #_getContent (roll: Roll, otherOptions : Record<string, unknown> = {}) {
