@@ -23,7 +23,7 @@
 		</b>
 		{{#each actor.spectrums as |spectrum id|}}
 		<div class="spectrum-short-label">
-			{{spectrum.name}} {{spectrum.system.max_tier}}
+			{{spectrum.name}} {{spectrum.system.maxTier}}
 		</div>
 		{{/each}}
 	</div>
@@ -32,13 +32,13 @@
 	<label class="dialog-label" for="name">
 		{{localize "CityOfMist.terms.collectiveSize"}}
 	</label>
-	<input type="radio" name="system.collective_size" value="0" {{#if (eq "0" actor.system..collective_size)}} checked {{/if}} > 0 </input>
-	<input type="radio" name="system.collective_size" value="1" {{#if (eq "1" actor.system.collective_size)}} checked {{/if}} > 1 </input>
-	<input type="radio" name="system.collective_size" value="2" {{#if (eq "2" actor.system.collective_size)}} checked {{/if}}  > 2 </input>
-	<input type="radio" name="system.collective_size" value="3" {{#if (eq "3" actor.system.collective_size)}} checked {{/if}}  > 3 </input>
-	<input type="radio" name="system.collective_size" value="4" {{#if (eq "4" actor.system.collective_size)}} checked {{/if}}  >4 </input>
-	<input type="radio" name="system.collective_size" value="5" {{#if (eq "5" actor.system.collective_size)}} checked {{/if}}  >5 </input>
-	<input type="radio" name="system.collective_size" value="6" {{#if (eq "6" actor.system.collective_size)}} checked {{/if}}  >6 </input>
+	<input type="radio" name="system.collectiveSize" value="0" {{#if (eq "0" actor.system..collectiveSize)}} checked {{/if}} > 0 </input>
+	<input type="radio" name="system.collectiveSize" value="1" {{#if (eq "1" actor.system.collectiveSize)}} checked {{/if}} > 1 </input>
+	<input type="radio" name="system.collectiveSize" value="2" {{#if (eq "2" actor.system.collectiveSize)}} checked {{/if}}  > 2 </input>
+	<input type="radio" name="system.collectiveSize" value="3" {{#if (eq "3" actor.system.collectiveSize)}} checked {{/if}}  > 3 </input>
+	<input type="radio" name="system.collectiveSize" value="4" {{#if (eq "4" actor.system.collectiveSize)}} checked {{/if}}  >4 </input>
+	<input type="radio" name="system.collectiveSize" value="5" {{#if (eq "5" actor.system.collectiveSize)}} checked {{/if}}  >5 </input>
+	<input type="radio" name="system.collectiveSize" value="6" {{#if (eq "6" actor.system.collectiveSize)}} checked {{/if}}  >6 </input>
 </div>
 
 

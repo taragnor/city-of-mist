@@ -49,7 +49,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get collective_size() {
 		if (this.system.type == "threat") {
-			const number = Number(this.system.collective_size ?? 0);
+			const number = Number(this.system.collectiveSize ?? 0);
 			if (Number.isNaN(number)) return 0;
 			return number;
 		}
@@ -80,8 +80,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	get helpPoints(): Juice[]  {
 		return this.items.
 			filter( x=>x.isJuice() &&  x.isHelp()) as Juice[];
-
 	}
+
 	get hurtPoints (): Juice[] {
 		return this.items.
 			filter( x=>x.isJuice() &&  x.isHurt()) as Juice[];
@@ -519,7 +519,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async createNewGMMove (name : string, data : Partial<GMMove["system"]> = {}) {
 		const obj = {
-			name, type: "gmmove", data : {subtype: "Soft", ...data}};
+			name, type: "gmmove", data : {subtype: "soft", ...data}};
 		return await this.createNewItem(obj);
 	}
 
@@ -1222,6 +1222,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			if (move.hasEffectClass("MYTHOS") && this.getNumberOfThemes("Mythos") <=0)
 			return false;
 		return true;
+	}
+
+	purgeInvalidItems() {
+		//@ts-ignore
+		const invalid:  string[] = Array.from(this.items.invalidDocumentIds)
+		//@ts-ignore
+		invalid.forEach( id=> this.items.getInvalid(id).delete());
+
 	}
 
 } //end of class

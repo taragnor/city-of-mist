@@ -151,3 +151,6 @@ Hooks.on("renderApplication", function() {
 	}
 });
 
+
+//@ts-ignore
+window.CityHelpers = CityHelpers;

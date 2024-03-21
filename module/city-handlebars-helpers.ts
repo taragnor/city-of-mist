@@ -214,7 +214,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'isUsingStoryList': function () {
 			return CitySettings.sceneTagWindowUsed();
-	}
+	},
+		'eqStr': function (a: unknown, b:unknown) {
+			if (!a) a= "";
+			if (!b) b= "";
+			if (typeof a != "string") a= String(a);
+			if (typeof b != "string") b= String(b);
+			return a== b;
+		}
 
 	}; //end of object holding helpers
 } // end of class

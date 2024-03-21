@@ -1,3 +1,4 @@
+import { Themebook } from "./city-item.js";
 import { CRollOptions } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
 import { MOVEGROUPS } from "./datamodel/move-types.js";
@@ -37,8 +38,8 @@ export class CityCharacterSheet extends CityActorSheet {
 				return -1;
 			if (b.type != "theme")
 				return 1;
-			const tba  = a.themebook;
-			const tbb  = b.themebook;
+			const tba  = a.themebook as Themebook;
+			const tbb  = b.themebook as Themebook;
 			const value_convert = function (type: string) {
 				switch (type) {
 					case "Mythos": return 1;
@@ -52,18 +53,18 @@ export class CityCharacterSheet extends CityActorSheet {
 						return 1000;
 				}
 			}
-			const atype = value_convert(tba?.system?.type ?? "None");
-			const btype = value_convert(tbb?.system?.type ?? "None");
+			const atype = value_convert(tba?.system?.subtype ?? "None");
+			const btype = value_convert(tbb?.system?.subtype ?? "None");
 			if (atype < btype)  return -1;
 			if (atype > btype)  return 1;
 			else return 0;
 		});
 
-		data.moveGroups =MOVEGROUPS;
-		const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup);
+		data.MOVEGROUPS =MOVEGROUPS;
+			const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup);
 
-		data.MOVEGROUP =Object.fromEntries( 
-			moves.map( mv => ([mv.name, mv.displayedName]))
+		data.MOVEGROUP =Object.fromEntries(
+			moves.map( mv => ([mv.id, mv.displayedName]))
 		);
 		//Crew Themes
 		data.crewThemes = this.getCrewThemes();

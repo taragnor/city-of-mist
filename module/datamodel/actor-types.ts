@@ -25,7 +25,7 @@ function TagSelector() { //this entire thing may be defunct
 	return {
 		selectedTags: new arr(new id()),
 		selectedMove: new id(),
-		selectedMoveGroup: new txt({initial: "core"}),
+		selectedMoveGroup: new txt({initial: "Core"}),
 	}
 }
 
@@ -79,7 +79,7 @@ export class ThreatSchema extends foundry.abstract.DataModel {
 			...person(),
 			is_template: new bool({initial: false}),
 			template_ids: new arr(new id(), {initial: []}),
-			collective_size: new num({initial: 0})
+			collectiveSize: new num({initial: 0})
 		}
 
 	}

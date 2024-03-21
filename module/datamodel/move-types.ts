@@ -8,8 +8,8 @@ export const MOVETYPES = [
 ] as const;
 
 export const MOVEGROUPS = {
-	"core": "CityOfMist.terms.coreMoves",
-	"special":"CityOfMist.terms.specialMoves",
+	"Core": "CityOfMist.terms.coreMoves",
+	"Special":"CityOfMist.terms.specialMoves",
 	"SHB":"CityOfMist.terms.shb",
 } as const;
 

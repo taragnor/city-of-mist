@@ -274,4 +274,5 @@ export class SelectedTagsAndStatus {
 
 }
 
-// window.SelectedTagsAndStatus = SelectedTagsAndStatus;
+//@ts-ignore
+window.SelectedTagsAndStatus = SelectedTagsAndStatus;

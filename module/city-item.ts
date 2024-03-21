@@ -48,6 +48,27 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 */
 
+	override migrateSystemData(data?: any) {
+		// let data = super.migrateSystemData();
+		console.log("Migrating Item");
+		if (this.system.type == "spectrum") {
+			if ("max_tier" in this.system && this.system.max_tier) {
+				const x = Number(data.system.max_tier);
+				if (Number.isNaN(x) && x>0) {
+					return data;
+				}
+				data.system.max_tier = 0;
+				data.system.maxTier = x;
+			}
+		}
+		if (this.system.type =="gmmove") {
+			if (this.system.subtype as unknown == "Soft") {
+				data.system.subtype = "soft";
+			}
+		}
+		return data;
+	}
+
 	hasEffectClass(cl: string) {
 		return this.effect_classes.includes(cl);
 	}
@@ -115,7 +136,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	get subtype(): string {
 		switch (this.system.type) {
-			case "themebook": return this.system.type;
+			case "themebook": return this.system.subtype;
 			case "themekit": return this.themebook?.subtype ?? this.system.type;
 			case "status" :return "";
 			case "tag": return this.system.subtype;
@@ -921,7 +942,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					return `${x} (${this.system.choice_item})`;
 				else return x as string; //tehcincally a SafeString conversion but it should stil lwork fine
 			default:
-				if ("locale_name" in this.system)
+				if ("locale_name" in this.system && this.system.locale_name)
 					return localizeS(this.system.locale_name).toString();
 				else
 					return this.name.toString();
@@ -1190,10 +1211,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const text = CityHelpers.newlineSubstitution(this.system.description);
 		if (!actor)
 			throw new Error(`No actor provided on move ${this.name}`);
-		let collective_size = actor?.system?.collective_size ?? 0;
-		collective_size = Number(collective_size);
-		if (Number.isNaN(collective_size)) {
-			collective_size = 0;
+		let collectiveSize = actor?.system?.collectiveSize ?? 0;
+		collectiveSize = Number(collectiveSize);
+		if (Number.isNaN(collectiveSize)) {
+			collectiveSize = 0;
 		}
 		let displayedText = this.applyHeader(text);
 		if (!options?.showPrivate) {
@@ -1201,7 +1222,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		} else {
 			displayedText = CityHelpers.formatWithinBraces(displayedText);
 		}
-		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collective_size);
+		const {html:taghtml , taglist, statuslist: neostatuslist }  = CityHelpers.unifiedSubstitution(displayedText, collectiveSize);
 		const {html: statushtml, statuslist:extrastatuslist } = CityHelpers.autoAddstatusClassSubstitution(taghtml);
 		let html = CityHelpers.statusClassSubstitution(statushtml);
 		if (actor) {

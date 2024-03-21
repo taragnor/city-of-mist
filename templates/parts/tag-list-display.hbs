@@ -3,7 +3,7 @@
 	{{#if (eq tag.type "tag")}}
 	{{#if (eq tag.system.theme_id ../themeId)}}
 	{{#if (eq tag.system.subtype ../subtype)}}
-	{{#if (eq tag.system.parentId ../supertag)}}
+	{{#if (eqStr tag.system.parentId ../supertag)}}
 	<li>
 		{{> "systems/city-of-mist/templates/parts/tag-display.html" tag=tag locked=../locked canBurn=true }}
 	{{#if tag.subtags}}

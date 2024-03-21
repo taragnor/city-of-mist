@@ -56,7 +56,7 @@
 						<select name="system.selectedMoveGroup">
 							{{selectOptions MOVEGROUPS localize=true selected=actor.system.selectedMoveGroup}}
 						</select>
-						<select name="system.selectedMove">
+						<select class="select-move" name="system.selectedMove">
 							{{selectOptions MOVEGROUP localize=true selected=actor.system.selectedMove}}
 						</select>
 						<button class="execute-move-button" type="button"> {{localize 'CityOfMist.command.executeMove' }}

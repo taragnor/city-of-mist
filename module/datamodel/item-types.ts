@@ -47,7 +47,6 @@ export type GMMoveOptions = {
 	temporary?: boolean,
 }
 
-
 const CONDITIONALS = [
 	"gtPartial",
 	"gtSuccess",
@@ -94,7 +93,7 @@ class Themebook extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
-			type: new txt( {initial: "Logos"}),
+			subtype: new txt( {initial: "Logos"}),
 			power_questions: new obj<ThemebookTagData>(),
 			weakness_questions: new obj<ThemebookTagData>(),
 			improvements: new obj<ThemebookImprovementData>(),
@@ -190,7 +189,7 @@ class Spectrum extends DataModel {
 	get type() {return "spectrum" as const;}
 	static override defineSchema() {
 		return {
-			max_tier: new num({initial: 0, min: 0, integer: true, max: 6})
+			maxTier: new num({initial: 1, min: 1, integer: true, max: 6})
 		}
 	}
 }
