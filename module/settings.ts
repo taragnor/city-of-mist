@@ -151,6 +151,7 @@ export class CitySettings {
 		}
 		switch (system) {
 			case "city-of-mist":
+				await this.set("baseSystem", "city-of-mist");
 				await this.set( "movesInclude", "city-of-mist");
 				await this.set( "statusAdditionSystem", "classic");
 				await this.set("tagBurn", "classic");
@@ -159,10 +160,22 @@ export class CitySettings {
 				await this.set("loadoutTheme", false);
 				break;
 			case "otherscape" :
-				//TODO: Add this as a formal option
-
+				await this.set("baseSystem", "otherscape");
+				await this.set("loadoutTheme", true);
+				await this.set("system", "otherscape");
+				await this.set("altPower", false);
+				await this.set("tagBurn", "mist-engine");
+				await this.set( "statusAdditionSystem", "mist-engine");
+				await this.set( "movesInclude", "otherscape");
 				break;
 			case "legend" :
+				await this.set("baseSystem", "legend");
+				await this.set("loadoutTheme", true);
+				await this.set("system", "legend");
+				await this.set("altPower", false);
+				await this.set("tagBurn", "mist-engine");
+				await this.set( "statusAdditionSystem", "mist-engine");
+				await this.set( "movesInclude", "legend");
 				break;
 			case "custom":
 				break;

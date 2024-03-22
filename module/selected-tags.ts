@@ -165,7 +165,12 @@ export class SelectedTagsAndStatus {
 						return 1;
 					break;
 				case null: throw new Error(`Resolution Error subtype ${subtype}, tag name: ${tag?.name}, owner: ${tagowner}`);
+				case "loadout":
+					return 1;
+				case "weakness":
+					return -1;
 				default:
+					subtype satisfies never;
 					return -1;
 			}
 		} catch(e) {

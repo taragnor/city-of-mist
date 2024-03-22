@@ -1,3 +1,5 @@
+import { CityDialogs } from "./city-dialogs.js";
+import { ThemeType } from "./datamodel/theme-types.js";
 import { Themebook } from "./city-item.js";
 import { CRollOptions } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
@@ -40,16 +42,18 @@ export class CityCharacterSheet extends CityActorSheet {
 				return 1;
 			const tba  = a.themebook as Themebook;
 			const tbb  = b.themebook as Themebook;
-			const value_convert = function (type: string) {
-				switch (type) {
-					case "Mythos": return 1;
-					case "Mist": return 2;
-					case "Logos": return 3;
-					case "Extra": return 4;
+			const value_convert = function (themetype: ThemeType) {
+				switch (themetype) {
+					case "Mythos":
+					case "Greatness":
+						return 1;
+					case "Noise": case "Mist": return 2;
+					case "Self": case "Origin": case "Logos": return 3;
+					case "Extra": case "Loadout": return 4;
 					case "Crew" : return 5;
-					case "None": return 6;
 					default:
-						console.warn(` Unknown Type ${type}`);
+						themetype satisfies never;
+						console.warn(` Unknown Type ${themetype}`);
 						return 1000;
 				}
 			}
@@ -262,6 +266,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.increment-buildup').on("click",  this._buildUpIncrement.bind(this) );
 		html.find('.decrement-buildup').on("click",  this._buildUpDecrement.bind(this) );
 		html.find('.add-buildup-improvement').on("click",  this._addBUImprovement.bind(this) );
+		html.find('.loadout-create-power-tag').on("click", this.#createLoadoutTag.bind(this));
+		html.find('.toggle-activation-loadout-tag').on("click", this.#toggleLoadoutTag.bind(this));
+		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
 	}
 
 	async _addBUImprovement (_event: JQuery.Event) {
@@ -446,6 +453,43 @@ export class CityCharacterSheet extends CityActorSheet {
 						await this.flashback();
 					break;
 			}
+		}
+	}
+
+	async #createLoadoutTag(_ev: JQuery.Event) {
+		const tag = await this.actor.createLoadoutTag();
+		const updateObj =	await CityDialogs.itemEditDialog(tag);
+		if (updateObj) {
+			await CityHelpers.modificationLog(this.actor, "Created Loadout Tag", tag);
+		}
+		else  {
+			await this.actor.deleteTag(tag.id);
+		}
+	}
+
+	async #toggleLoadoutTag(ev: JQuery.Event) {
+		const tagId = HTMLTools.getClosestData(ev, "tagId");
+		if (!tagId)
+			throw new Error("No tag id present");
+		const newstate  = await this.actor.toggleLoadoutTagActivation(tagId);
+		if (newstate) {
+			CityHelpers.modificationLog(this.actor, "loaded up with", this.actor.getTag(tagId));
+		} else {
+			CityHelpers.modificationLog(this.actor, "unloaded", this.actor.getTag(tagId));
+		}
+	}
+
+	async #createLoadoutWeakness(ev: JQuery.Event) {
+		const tagId = HTMLTools.getClosestData(ev, "tagId");
+		if (!tagId)
+			throw new Error("No tag id present");
+		const tag = await this.actor.createLoadoutWeakness(tagId);
+		const updateObj =	await CityDialogs.itemEditDialog(tag);
+		if (updateObj) {
+			await CityHelpers.modificationLog(this.actor, "Created Loadout Weakness", tag);
+		}
+		else  {
+			await this.actor.deleteTag(tag.id);
 		}
 	}
 

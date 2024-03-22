@@ -9,10 +9,28 @@
 		{{#if tag.parent.isOwner}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>
 		{{/if}}
+		{{else}}
+		{{#if (eq tag.system.subtype "loadout")}}
+		<a class="toggle-activation-loadout-tag" title="Activate Loadout Tag">
+			{{#if (eq tag.system.activated_loadout true)}}
+			<i class="fa-solid fa-square"></i>
+			{{else}}
+			<i class="fa-regular fa-square"></i>
+			{{/if}}
+		</a>
+		{{/if}}
 		{{/if}}
 	</div>
 	<div class="flex-wide flex-line">
 		{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=owner activated=(hasActivatedItem tag) tagdirection=(getDirection tag) tag=tag data=tag.system}}
+	</div>
+	<div class="flex-narrow flex-line">
+		{{#if (canTakeLoadoutWeakness tag)}}
+		<a class="loadout-create-weakness-tag" title="Add WeaknessTag">
+				<i class="fas fa-anchor" ></i>
+		</a>
+		{{/if}}
+
 	</div>
 	<div class="flex-narrow flex-line flex-burn-flame-cell">
 		{{#if tag.parent.isOwner}}

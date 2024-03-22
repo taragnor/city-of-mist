@@ -103,6 +103,13 @@ export class CityHelpers {
 		return await this.playSound("button-on.mp3");
 	}
 
+	static async playLoadoutToggle(state: boolean) {
+		if (state)
+			await this.playTagOn();
+		else
+			await this.playTagOff();
+	}
+
 	static async playSound(filename: string, volume = 1.0) {
 		return await Sounds.playSound(filename, volume);
 	}

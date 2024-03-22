@@ -1,3 +1,4 @@
+import { Sounds } from "./tools/sounds.js"
 import { System } from "./config/settings-object.js";
 import { ListConditionalItem } from "./datamodel/item-types.js";
 import { RollResultType } from "./city-roll.js";
@@ -114,11 +115,19 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return [];
 	}
 
-	get subtags() {
+	get subtags() : Tag[] {
 		if (!this.parent) return [];
 		if (this.system.type != "tag") return [];
 		return (this.parent as CityActor).getTags().
 			filter( tag => tag.system.parentId == this.id);
+	}
+
+	get baseTags(): Tag[] {
+		if (!this.parent) return [];
+		if (this.system.type != "theme") return [];
+		return this.parent.getTags(this.id)
+			.filter( x=> !x.system.parentId);
+
 	}
 
 	get isMissingParent() {
@@ -238,6 +247,13 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			CityDB.getThemebook(name, id);
 		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
 		return tb as Themebook | ThemeKit;
+	}
+
+	get mainTags() : Tag[] {
+		if (this.system.type != "theme") {
+			throw new Error("Can only get mainTags of a theme");
+		}
+		return (this as Theme).tags().filter( x=> !x.system.parentId);
 	}
 
 	tags(this: Theme) : Tag[] {
@@ -1328,6 +1344,17 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				ui.notifications.warn("Unknown system, assuming City of Mist core");
 				return this.isSystemCompatible("city-of-mist");
 		}
+	}
+
+	async toggleLoadoutActivation(this: Tag) : Promise<boolean> {
+		const active = this.system.activated_loadout;
+		const toggled = !active;
+		await CityHelpers.playLoadoutToggle(toggled);
+		await this.update({"system.activated_loadout": toggled});
+		const subtags = this.parent!.loadout!.tags()
+			.filter(x=> x.system.parentId == this.id)
+			.forEach( tag => tag.update({"system.activated_loadout": toggled}));
+		return toggled;
 	}
 
 }

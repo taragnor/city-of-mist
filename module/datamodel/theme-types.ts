@@ -8,6 +8,7 @@ export const THEME_TYPES = {
 	"Self": "Otherscape.terms.self",
 	"Origin": "Legend.terms.origin",
 	"Greatness" : "Legend.terms.greatness",
+	"Extra": "CityOfMist.terms.extra",
 
 } as const;
 

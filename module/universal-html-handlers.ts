@@ -80,6 +80,10 @@ export class HTMLHandlers {
 			return;
 		}
 		const tagName = tag.name;
+		if(tag.subtags.length > 0) {
+			ui.notifications.warn("Can't delete a tag with subtags, must delete the subtag first");
+			return;
+		}
 		if (tag.isPermanent())
 			if (!await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 				return;

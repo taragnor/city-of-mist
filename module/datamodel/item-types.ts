@@ -138,9 +138,10 @@ class Tag extends DataModel {
 			broad: new bool({initial: false}),
 			temporary: new bool({initial: false}),
 			permanent: new bool({initial: false}),
-			parentId: new id(), //may not be needed
+			parentId: new id(),
 			subtagRequired: new bool({initial: false}),
 			showcased:new bool({initial: false}),
+			activated_loadout: new bool({initial:false}),
 			example0:new txt(),
 			example1:new txt(),
 			example2:new txt(),

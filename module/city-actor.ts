@@ -23,7 +23,7 @@ import { Spectrum } from "./city-item.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
-	get mainThemes() : Theme [] {
+	get mainThemes() : Theme[] {
 		return this.getThemes();
 	}
 
@@ -299,9 +299,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return !this.system.finalized;
 	}
 
-	getTags(id ?: string, subtype :null | Tag["system"]["subtype"]  = null) : Tag[] {
+	getTags(themeId : string | null = null, subtype :null | Tag["system"]["subtype"]  = null) : Tag[] {
 		const tags=  this.items.filter(x => {
-			return x.system.type == "tag" && (id == null || x.system.theme_id == id) && (subtype == null || x.system.subtype == subtype);
+			return x.system.type == "tag" && (themeId == null || x.system.theme_id == themeId) && (subtype == null || x.system.subtype == subtype);
 		});
 		if (! tags.filter)
 			throw new Error("non array returned");
@@ -1252,7 +1252,55 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return await this.createNewItem(obj) as Theme;
 	}
 
+	async createLoadoutTag(this: PC) {
+		const theme = this.loadout;
+		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		const obj = {
+			name: "Unnamed Loadout Tag",
+			type: "tag",
+			system: {
+				subtype: "loadout",
+				crispy: false,
+				question_letter: "_",
+				custom_tag: true,
+				theme_id: theme.id,
+			}
+		};
+		return await this.createNewItem(obj) as Tag;
+
+	}
+
+	async createLoadoutWeakness(this: PC, masterTagId: string) {
+		const theme = this.loadout;
+		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		const masterTag = this.loadout.tags().find(x=> x.id == masterTagId);
+		if (!masterTag)
+			throw new Error(`Can't find Master Tag: ${masterTagId}`);
+		const obj = {
+			name: "Unnamed Weakness Tag",
+			type: "tag",
+			system : {
+				subtype: "weakness",
+				crispy: false,
+				question_letter: "_",
+				custom_tag: true,
+				parentId: masterTagId,
+				theme_id: theme.id,
+			}
+		};
+		return await this.createNewItem(obj) as Tag;
+	}
+
+	async toggleLoadoutTagActivation(this: PC, loadoutTagId: string) : Promise<boolean> {
+		const theme = this.loadout;
+		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		const tag =theme.tags().find( x=> x.id == loadoutTagId);
+		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
+		return await tag.toggleLoadoutActivation();
+	}
+
 } //end of class
+
 
 
 export type PC = Subtype<CityActor, "character">;

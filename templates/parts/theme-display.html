@@ -115,8 +115,12 @@
 			</span>
 			{{/if}}
 			{{#if (eq locked false)}}
-			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" > <i class="fas fa-star"></i></a>
-			<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" > <i class="fas fa-anchor" ></i></a>
+			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
+				<i class="fas fa-star"></i>
+			</a>
+			<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" > 
+				<i class="fas fa-anchor" ></i>
+			</a>
 			{{else}}
 			<span title="Can't add Bonus Tag when sheet is locked">
 				<i class="fas fa-star fa-disabled"></i>

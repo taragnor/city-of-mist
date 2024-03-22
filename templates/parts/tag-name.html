@@ -14,10 +14,15 @@
 			{{#if (eq tag.system.subtype "weakness")}}
 			<a title="Weakness Tag" ><i class="fas fa-angle-double-down"></i> </a>
 			{{/if}}
+			{{#if (eq tag.system.subtype "loadout")}}
+			<a title="Loadout Tag" >
+				<i class="fa-solid fa-briefcase"></i>
+			</a>
+			{{/if}}
 			{{#if tag.system.crispy }}
 			<a title="Crispy Tag" ><i class="fas fa-leaf"></i> </a>
 			{{/if}}
-			{{#if tag.system.custom_tag }}
+			{{#if (and tag.system.custom_tag (neq tag.system.subtype "loadout")) }}
 			<a title="Bonus Tag" ><i class="fas fa-star"></i> </a>
 			{{/if}}
 			{{#if tag.system.broad }}

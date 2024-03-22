@@ -300,9 +300,12 @@ export function DEV_SETTINGS() {
 				"legend": localize("CityOfMist.settings.system.2"),
 			},
 			restricted: true,
-			onChange: () => {
-				CitySettings.set("system", "custom");
-				delayedReload();
+			onChange: (newval: string) => {
+				const curr = CitySettings.get("system");
+				if (curr != newval && curr != "custom") {
+					CitySettings.set("system", "custom");
+					delayedReload();
+				}
 			}
 		},
 
@@ -380,6 +383,9 @@ export function DEV_SETTINGS() {
 			type: Boolean,
 			default: false,
 			restricted: true,
+			onChange: () => {
+				game.settings.set('city-of-mist', "system", "custom");
+			}
 		},
 
 		"debugMode": {

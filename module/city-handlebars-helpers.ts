@@ -229,6 +229,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			if (typeof a != "string") a= String(a);
 			if (typeof b != "string") b= String(b);
 			return a== b;
+		},
+
+		'canTakeLoadoutWeakness': function (tag: Tag) {
+			if (tag.system.subtype != "loadout") return false;
+			if (tag.parent!.loadout!.tags().some( x=> x.system.parentId == tag.id)) {
+				return false;
+			}
+			return true;
 		}
 
 	}; //end of object holding helpers
