@@ -220,7 +220,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const themebook = this.getThemebook();
 		if (themebook == null)
 			throw new Error("ERROR Can't find themebook!");
-		return themebook.system.type;
+		return (themebook as Themebook).system.subtype;
 	}
 
 	/** gets themebook or themekit from a theme or themekit

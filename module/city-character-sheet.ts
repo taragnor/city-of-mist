@@ -400,6 +400,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (!move_id)
 			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
 		const move_group = $(this.form).find(".select-move-group").val();
+		console.log(`Move Group: ${move_group}`);
 		const SHB = move_group == "SHB";
 		let newtype : CRollOptions["newtype"] | null= null;
 		if (SHB) {
