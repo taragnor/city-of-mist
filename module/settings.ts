@@ -108,18 +108,18 @@ export class CitySettings {
 
 	static async refreshSystem(system?: System) {
 		if (!system) {
-			system = game.settings.get("city-of-mist", "system") ?? "city-of-mist";
+			system = this.get("system") ?? "city-of-mist";
 		}
 		switch (system) {
 			case "city-of-mist":
-				game.settings.set("city-of-mist", "movesInclude_core", "classic");
-				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
-				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
-				game.settings.set("city-of-mist", "statusSubtractionSystem", "classic");
-				game.settings.set("city-of-mist", "tagBurn", "classic");
-				game.settings.set("city-of-mist", "altPower", false);
-				game.settings.set("city-of-mist", "system", "classic");
-				return;
+				await this.set( "movesInclude_core", "classic");
+				await this.set("movesInclude_advanced", "classic");
+				await this.set( "statusAdditionSystem", "classic");
+				await this.set("statusSubtractionSystem", "classic");
+				await this.set("tagBurn", "classic");
+				await this.set("altPower", false);
+				await this.set("system", "city-of-mist");
+				break;
 			// case "reloaded":
 			// 	game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
 			// 	game.settings.set("city-of-mist", "movesInclude_advanced", "none");
@@ -134,8 +134,9 @@ export class CitySettings {
 
 				break;
 			case "legend" :
+				break;
 			case "custom":
-				return;
+				break;
 			default:
 				system satisfies never;
 				console.error(`Unknown System ${system}`);
