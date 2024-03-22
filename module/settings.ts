@@ -58,12 +58,45 @@ export class CitySettings {
 		return this.get("weaknessCap").valueOf() ?? 999;
 	}
 	static isOtherscapeStatuses() {
-		return this.get("statusAdditionSystem") == "otherscape";
+		return this.get("statusAdditionSystem") == "mist-engine";
 	}
 
 	static isOtherscapeBurn() {
-		return this.get("tagBurn") == "otherscape";
+		return this.get("tagBurn") == "mist-engine";
 
+	}
+
+	static getStatusAdditionSystem() {
+		const system= this.get("statusAdditionSystem");
+		switch (system) {
+			case "classic":
+			case "classic-commutative":
+			case "mist-engine":
+				return system;
+			default:
+				system satisfies never;
+				console.warn(`Unknown System :${system}`);
+				return "classic;"
+		}
+	}
+
+	static isCommutativeStatusAddition() {
+		return this.getStatusAdditionSystem() == "classic-commutative";
+	}
+
+	static getStatusSubtractionSystem() {
+		const system = this.get("statusAdditionSystem");
+		switch (system) {
+			case "classic":
+			case "classic-commutative":
+				return "classic";
+			case "mist-engine":
+				return "mist-engine";
+			default:
+				system satisfies never;
+				console.warn(`Unknown System :${system}`);
+				return "classic";
+		}
 	}
 
 	static useClueBoxes() {
@@ -112,10 +145,8 @@ export class CitySettings {
 		}
 		switch (system) {
 			case "city-of-mist":
-				await this.set( "movesInclude_core", "classic");
-				await this.set("movesInclude_advanced", "classic");
+				await this.set( "movesInclude", "city-of-mist");
 				await this.set( "statusAdditionSystem", "classic");
-				await this.set("statusSubtractionSystem", "classic");
 				await this.set("tagBurn", "classic");
 				await this.set("altPower", false);
 				await this.set("system", "city-of-mist");

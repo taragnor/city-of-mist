@@ -657,46 +657,6 @@ export class CityHelpers {
 		return setting == "auto";
 	}
 
-	static getStatusAdditionSystem() {
-		return CitySettings.get("statusAdditionSystem");
-	}
-
-	static getStatusSubtractionSystem() {
-		return CitySettings.get("statusSubtractionSystem");
-	}
-
-	static isCommutativeStatusAddition() {
-		return this.getStatusAdditionSystem() == "classic-commutative";
-	}
-
-	static isClassicCoM(elem: "addition" | "subtraction") {
-		switch (elem) {
-			case "addition":
-				return this.getStatusAdditionSystem().includes("classic");
-			case "subtraction":
-				return this.getStatusSubtractionSystem().includes("classic");
-			default:
-				const err =`Unknown setting for : ${elem}`;
-				console.error(err);
-				ui.notifications.warn(err);
-				return false;
-		}
-	}
-
-	static isCoMReloaded(elem : "addition" | "subtraction") {
-		switch (elem) {
-			case "addition":
-		return this.getStatusAdditionSystem().includes("reloaded");
-			case "subtraction":
-		return this.getStatusSubtractionSystem().includes("reloaded");
-			default:
-				const err =`Unknown setting for : ${elem}`;
-				console.error(err);
-				ui.notifications.warn(err);
-				return false;
-		}
-	}
-
 	static statusTierToBoxes(tier : number, pips=0) {
 		while (tier > 0) {
 			pips += Math.max(--tier, 1);
@@ -729,10 +689,7 @@ export class CityHelpers {
 	}
 
 	static async _statusAddSubDialog(status: Status, title: string,type : "addition" | "subtraction"  = "addition") : Promise<null | {name: string, tier: number}> {
-		const classic = CityHelpers.isClassicCoM(type);
-		const reloaded = CityHelpers.isCoMReloaded(type);
-		const templateData = {status, data: status.system, classic, reloaded};
-		// const templateData = {status: status.data, data: status.system, classic, reloaded};
+		const templateData = {status, data: status.system};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, _reject) => {
 			const options ={};

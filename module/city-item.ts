@@ -588,19 +588,17 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	async addStatus (this:Status, tierOrBoxes: number, newname :null | string = null) {
 		newname = newname ?? this.name;
-		const system = CityHelpers.getStatusAdditionSystem();
+		const system = CitySettings.getStatusAdditionSystem();
 		switch (system) {
 			case "classic":
-				return this.addStatus_classic(tierOrBoxes, newname);
+				return this.addStatus_CoM(tierOrBoxes, newname);
 			case"classic-commutative":
-				return this.addStatus_classic(tierOrBoxes, newname);
-			case "reloaded":
-				return this.addStatus_reloaded(tierOrBoxes, newname);
-			case "otherscape":
-				return this.addStatus_otherscape(tierOrBoxes, newname);
+				return this.addStatus_CoM(tierOrBoxes, newname);
+			case "mist-engine":
+				return this.addStatus_ME(tierOrBoxes, newname);
 			default:
-				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
-				throw new Error(`Unknown System: ${system}`);
+				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to CoM`);
+				return this.addStatus_CoM(tierOrBoxes, newname);
 		}
 	}
 
@@ -644,9 +642,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 	}
 
-	async addStatus_classic (this: Status, ntier: number, newname: string) {
-		const standardSystem = !CityHelpers.isCommutativeStatusAddition();
-		// const standardSystem =!game.settings.get("city-of-mist", "commutativeStatusAddition");
+	async addStatus_CoM (this: Status, ntier: number, newname: string) {
+		const standardSystem = !CitySettings.isCommutativeStatusAddition();
 		let tier = this.system.tier;
 		let pips = this.system.pips;
 		if (ntier > tier) {
@@ -664,45 +661,25 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				pips -= tier++;
 			}
 		}
-		return await this.update( {name:newname, data: {tier, pips}});
+		return await this.update( {name:newname, system: {tier, pips}});
 	}
-
-	async addStatus_reloaded (this: Status, boxes_add:number, newname:string)  {
-		// console.debug("Running Reloaded addition");
-		let tier = this.system.tier;
-		let pips = this.system.pips;
-		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
-		({tier,pips} = CityHelpers.statusBoxesToTiers(boxes + boxes_add));
-		return await this.update( {name:newname, data: {tier, pips}});
-	}
-
 
 	async subtractStatus(this: Status, tierOrBoxes: number, replacename : null | string = null) {
 		const newname = replacename ?? this.name;
-		const system = CityHelpers.getStatusSubtractionSystem();
+		const system = CitySettings.getStatusSubtractionSystem();
 		switch (system) {
 			case "classic":
-				return this.subtractStatus_classic(tierOrBoxes, newname);
-			case "reloaded" :
-				return this.subtractStatus_reloaded(tierOrBoxes, newname);
-			case "otherscape" :
-				return this.subtractStatus_otherscape(tierOrBoxes, newname);
+				return this.subtractStatus_CoM(tierOrBoxes, newname);
+			case "mist-engine" :
+				return this.subtractStatus_ME(tierOrBoxes, newname);
 			default:
-				ui.notifications.warn(`Unknown System for adding statuses: ${system}`);
-				throw new Error(`Unknown System: ${system}`);
+				system satisfies never;
+				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to core CoM`);
+				return this.subtractStatus_CoM(tierOrBoxes, newname);
 		}
 	}
 
-	async subtractStatus_reloaded(this: Status, boxes_sub: number, newname: string) {
-		// console.debug("Running Reloaded subtraction");
-		let tier = this.system.tier;
-		let pips = this.system.pips;
-		const boxes = CityHelpers.statusTierToBoxes(tier, pips);
-		({tier,pips} = CityHelpers.statusBoxesToTiers(boxes - boxes_sub));
-		return await this.update( {name:newname, data: {tier, pips}});
-	}
-
-	async subtractStatus_classic (this: Status, ntier:number, newname:string) {
+	async subtractStatus_CoM (this: Status, ntier:number, newname:string) {
 		let tier = this.system.tier;
 		let pips = this.system.pips;
 		pips = 0;
@@ -710,13 +687,13 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return await this.update( {name:newname, system: {tier, pips}});
 	}
 
-	async subtractStatus_otherscape(this: Status, tier:number, newname: string) {
+	async subtractStatus_ME(this: Status, tier:number, newname: string) {
 		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
 		const newpips = pips >> tier;
 		return await this.refreshStatus_otherscape(newpips, newname)
 	}
 
-	async addStatus_otherscape(this: Status,tier: number, newname: string) {
+	async addStatus_ME(this: Status,tier: number, newname: string) {
 		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
  		while (pips & (1 << tier - 1)) {
 			tier++;

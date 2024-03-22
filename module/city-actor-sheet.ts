@@ -535,7 +535,6 @@ export class CityActorSheet extends CitySheet {
 			await clue.spendClue();
 	}
 
-
 	async _clueEdit (event: JQuery.Event) {
 		const clue_id = HTMLTools.getClosestData(event, "clueId");
 		const ownerId = HTMLTools.getClosestData(event, "ownerId");
@@ -550,8 +549,6 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async chooseImprovement() {
-		// const themename =  this.actor.getTheme(themeId);
-		// const prompt = `Choose Improvement for ${themename}`;
 		const choiceList = ["Reset Fade", "Add New Tag", "Add Improvement"];
 		const inputList = choiceList.map( x => {
 			const data = [x]
@@ -571,7 +568,6 @@ export class CityActorSheet extends CitySheet {
 				throw new Error(`Unrecognized choice ${choice}`);
 		}
 	}
-
 
 	async statusDialog(obj: Status) : Promise<Status> {
 		return await CityHelpers.itemDialog(obj) as Status;

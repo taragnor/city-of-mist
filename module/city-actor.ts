@@ -1150,13 +1150,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async addOrCreateStatus (name2: string, tier2: number, pips=0, options= {}) : Promise<Status> {
-		// const classic = CityHelpers.isClassicCoM("addition");
-		const reloaded = CityHelpers.isCoMReloaded("addition");
 		let status = this.hasStatus(name2);
 		if (status) {
-			if (reloaded) {
-				tier2 = CityHelpers.statusTierToBoxes(tier2, pips); //convert to boxes
-			}
 			return await status.addStatus(tier2);
 		} else {
 			return await this.createNewStatus(name2, tier2, pips, options);
