@@ -1,3 +1,4 @@
+import { System } from "./config/settings-object.js";
 import { ListConditionalItem } from "./datamodel/item-types.js";
 import { RollResultType } from "./city-roll.js";
 import { Danger } from "./city-actor.js";
@@ -1305,6 +1306,28 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			default: console.error(`Unknown subtype: ${this.system.subtype}`);
 		}
 		return text;
+	}
+
+	isLoadoutTheme(this: Theme) :boolean {
+		return (this.themebook as Themebook).system.subtype == "Loadout";
+	}
+
+	isSystemCompatible(this: Themebook, system: System) : boolean {
+		//placeholder
+		switch (system) {
+			case "city-of-mist":
+				return true;
+			case "otherscape":
+				return true;
+			case "legend":
+				return true;
+			case "custom":
+				return true;
+			default:
+				system satisfies never;
+				ui.notifications.warn("Unknown system, assuming City of Mist core");
+				return this.isSystemCompatible("city-of-mist");
+		}
 	}
 
 }

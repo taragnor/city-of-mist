@@ -93,7 +93,11 @@
 				</div>
 				{{/if}}
 				<div class="flex-theme-block status-box" >
+					{{#if (loadoutThemeEnabled)}}
+					{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout}}
+					{{else}}
 					{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.system.locked sheetowner=actor otherStatuses=otherStatuses}}
+					{{/if}}
 				</div>
 				<div class="flex-theme-block story-tag-box" >
 					<div class="story-tags" >

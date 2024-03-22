@@ -1,3 +1,5 @@
+import { ThemeType } from "./theme-types.js";
+import { THEME_TYPES } from "./theme-types.js";
 import { CitySettings } from "../settings.js"
 
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, FilePathField:file} = foundry.data.fields;
@@ -95,7 +97,7 @@ class Themebook extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
-			subtype: new txt( {initial: "Logos"}),
+			subtype: new txt<ThemeType>( {initial: "Logos"}),
 			power_questions: new obj<ThemebookTagData>(),
 			weakness_questions: new obj<ThemebookTagData>(),
 			improvements: new obj<ThemebookImprovementData>(),

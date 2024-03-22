@@ -59,6 +59,12 @@ export class CityCharacterSheet extends CityActorSheet {
 			if (atype > btype)  return 1;
 			else return 0;
 		});
+		let loadoutTheme = this.actor.loadout;
+		if (!loadoutTheme) {
+			loadoutTheme= await this.actor.createLoadoutTheme();
+		}
+
+		data.LOADOUT = loadoutTheme;
 
 		data.MOVEGROUPS =MOVEGROUPS;
 			const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup && this.actor.canUseMove(mv));

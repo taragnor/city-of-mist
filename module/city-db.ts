@@ -89,6 +89,19 @@ export class CityDB extends DBAccessor {
 		));
 	}
 
+	static getLoadoutThemebook(): Themebook | undefined {
+		const themebooks = this.themebooks.filter( x=>
+			x.system.subtype == "Loadout"
+			&& x.isSystemCompatible(CitySettings.getBaseSystem())
+		);
+		if (themebooks.some( x=> !x.system.free_content))
+			return themebooks.filter(x=> !x.system.free_content)[0];
+		if (themebooks.length)
+			return themebooks[0];
+		else
+			return undefined;
+	}
+
 	static async loadMovesOfType(movetype : Move["system"]["category"]) {
 		let movesList = this.filterItemsByType("move") as Move[];
 		movesList = this.filterOverridedContent(movesList);

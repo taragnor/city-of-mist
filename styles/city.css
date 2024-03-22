@@ -2550,11 +2550,6 @@ section.danger-templates {
 	/* margin: 5px; */
 }
 
-.story-tags-header {
-	text-align: center;
-	font-size: large;
-}
-
 .status-text-list-header {
 	font-weight: bold;
 	text-align: center;
@@ -2569,10 +2564,11 @@ section.danger-templates {
 
 .story-tags-header {
 	font-weight: bold;
-	text-align: center;
 	font-size: 2em;
 	height: auto;
 	font-family: 'Rubik';
+	text-align: center;
+	font-size: large;
 }
 
 .story-tag-category .section-title {
@@ -3230,3 +3226,11 @@ button.clue-use-button:hover {
 	text-align: center;
 }
 
+.loadout-theme h2 {
+	font-weight: bold;
+	font-size: 2em;
+	height: auto;
+	font-family: 'Rubik';
+	text-align: center;
+	font-size: large;
+}

@@ -40,6 +40,7 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/city-roll-modifier.hbs",
 	  "systems/city-of-mist/templates/parts/themekit-questions.hbs",
 	  "systems/city-of-mist/templates/parts/themekit-improvements.hbs",
+	  "systems/city-of-mist/templates/parts/loadout-theme.hbs",
   ];
 
   // Load the template parts

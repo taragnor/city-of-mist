@@ -288,8 +288,8 @@ export function CITY_SETTINGS() {
 export function DEV_SETTINGS() {
 	return {
 		"baseSystem": {
-			name: localize("CityOfMist.devSettings.baseSystem.name"),
-			hint: localize("CityOfMist.devSettings.baseSystem.hint"),
+			name: localize("CityOfMist.settings.baseSystem.name"),
+			hint: localize("CityOfMist.settings.baseSystem.hint"),
 			scope: "world",
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
@@ -307,8 +307,8 @@ export function DEV_SETTINGS() {
 		},
 
 		"movesInclude": {
-			name: localize("CityOfMist.devSettings.movesInclude.name"),
-			hint: localize("CityOfMist.devSettings.movesInclude.hint"),
+			name: localize("CityOfMist.settings.movesInclude.name"),
+			hint: localize("CityOfMist.settings.movesInclude.hint"),
 			scope: "world",
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
@@ -317,7 +317,7 @@ export function DEV_SETTINGS() {
 				"city-of-mist": localize("CityOfMist.settings.system.0"),
 				"otherscape": localize("CityOfMist.settings.system.1"),
 				"legend": localize("CityOfMist.settings.system.2"),
-				"none": localize("CityOfMist.devSettings.movesInclude.none"),
+				"none": localize("CityOfMist.settings.movesInclude.none"),
 			},
 			restricted: true,
 			onChange: () => {
@@ -343,6 +343,16 @@ export function DEV_SETTINGS() {
 			onChange: (_newval:string) => {
 				game.settings.set('city-of-mist', "system", "custom");
 			}
+		},
+
+		"loadoutTheme": {
+			name: localize("CityOfMist.settings.loadout.name"),
+			hint: localize("CityOfMist.settings.loadout.hint"),
+			scope: "world",
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			type: Boolean,
+			default: false,
+			restricted: true,
 		},
 
 		"tagBurn": {

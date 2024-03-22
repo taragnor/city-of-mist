@@ -150,11 +150,11 @@ export class CityActorSheet extends CitySheet {
 		const owner = this.getOwner(ownerId);
 		const themeId = HTMLTools.getClosestData(event, "themeId") as string;
 		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
+		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
 		if (itemtype != "tag" && itemtype != "improvement") {
 			throw new Error(`Bad Item type: ${itemtype}`);
 		}
 		const theme = owner.getTheme(themeId);
-		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
 		if (subtype != null && subtype != "power" && subtype != "weakness") {
 			throw new Error(`Bad subtype: ${subtype}`);
 		}

@@ -1,6 +1,7 @@
 import { localize } from "./city.js";
 import { SettingsChoices } from "./config/settings-object.js";
 
+export type BaseSystem = ReturnType<typeof CitySettings["getBaseSystem"]>;
 
 export async function registerSystemSettings() {
 	// Hooks.once("ready", ()=> CitySettings.refreshSystem());
@@ -155,16 +156,8 @@ export class CitySettings {
 				await this.set("tagBurn", "classic");
 				await this.set("altPower", false);
 				await this.set("system", "city-of-mist");
+				await this.set("loadoutTheme", false);
 				break;
-			// case "reloaded":
-			// 	game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
-			// 	game.settings.set("city-of-mist", "movesInclude_advanced", "none");
-			// 	game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
-			// 	game.settings.set("city-of-mist", "tagBurn", "classic");
-			// 	game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
-			// 	game.settings.set("city-of-mist", "altPower", false);
-			// 	game.settings.set("city-of-mist", "system", "reloaded");
-			// 	return;
 			case "otherscape" :
 				//TODO: Add this as a formal option
 
@@ -179,6 +172,20 @@ export class CitySettings {
 		}
 	}
 
+	static getLoadoutThemeName() : string {
+		const system = this.get("baseSystem");
+		switch (system) {
+			case "city-of-mist":
+				return localize("CityOfMist.terms.loadoutTheme.name");
+			case "otherscape":
+				return localize("Otherscape.terms.loadoutTheme.name");
+			case "legend":
+				return localize("Legend.terms.loadoutTheme.name");
+			default:
+				system satisfies never;
+				return localize("CityOfMist.terms.loadoutTheme.name");
+		}
+	}
 
 }
 

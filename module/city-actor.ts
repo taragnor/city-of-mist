@@ -23,6 +23,12 @@ import { Spectrum } from "./city-item.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
+	get loadout() : Theme | undefined {
+		return this.items.find(  (item: CityItem) => {
+			return item.isTheme() && item.isLoadoutTheme();
+		}) as Theme | undefined;
+	}
+
 	get gmmoves() {
 		return this.getGMMoves();
 	}
@@ -545,7 +551,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getThemes() : Theme[]{
-		return this.items.filter( x=> x.type == "theme") as Theme[];
+		return this.items.filter( x=> x.type == "theme" && x != this.loadout) as Theme[];
 	}
 
 	//Removed because it called seemingly nonexistent function
@@ -1225,6 +1231,20 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		//@ts-ignore
 		invalid.forEach( id=> this.items.getInvalid(id).delete());
 
+
+	}
+
+	async createLoadoutTheme() : Promise<Theme> {
+		const themebook_id= CityDB.getLoadoutThemebook();
+		if (!themebook_id) {
+			throw new Error("Can't create Loadout theme");
+		}
+		const obj = {
+			name: "__LOADOUT__",
+			type: "theme", system: 
+			{themebook_id, themebook_name: "Loadout", unspent_upgrades:0, nascent:false}
+		};
+		return await this.createNewItem(obj) as Theme;
 	}
 
 } //end of class

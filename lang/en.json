@@ -36,6 +36,7 @@
 "CityOfMist.terms.alias": "Alias / Token Name",
 "CityOfMist.terms.logos": "Logos",
 "CityOfMist.terms.mythos": "Mythos",
+"CityOfMist.terms.mist": "Mist",
 "CityOfMist.terms.short_desc": "Short Description",
 "CityOfMist.terms.attention": "Attention",
 "CityOfMist.terms.crack": "Crack",
@@ -137,6 +138,18 @@
 "CityOfMist.terms.miss": "Miss",
 "CityOfMist.terms.GM": "GM",
 "CityOfMist.terms.maxTier": "Max Tier",
+
+"Otherscape.terms.noise": "Noise",
+"Otherscape.terms.self": "Self",
+
+"Legend.terms.origin": "Origin",
+"Legend.terms.greatness": "Greatness",
+
+"CityOfMist.terms.loadoutTheme.name": "Loadout Theme",
+"Otherscape.terms.loadoutTheme.name": "Loadout",
+"Legend.terms.loadoutTheme.name": "Backpack",
+
+
 
 "CityOfMist.characterSheet.useClue.tooltip": "Post Clue Card to Chat",
 "CityOfMist.characterSheet.useClue.button": "Use",
@@ -560,12 +573,17 @@
 "CityOfMist.settings.system.2": "Legend in the Mist",
 "CityOfMist.settings.system.3": "Custom",
 
-"CityOfMist.devSettings.movesInclude.name": "Core Moves Included",
-"CityOfMist.devSettings.movesInclude.hint": "Choose which core moves to include, useful for developers who want to customize the moves for their games",
-"CityOfMist.devSettings.movesInclude.none": "Load No Moves initially",
+"CityOfMist.settings.movesInclude.name": "Core Moves Included",
+"CityOfMist.settings.movesInclude.hint": "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+"CityOfMist.settings.movesInclude.none": "Load No Moves initially",
 
-"CityOfMist.devSettings.baseSystem.name": "Base System",
-"CityOfMist.devSettings.baseSystem.hint": "The base system upon which most of the rules are drawn.",
+"CityOfMist.settings.baseSystem.name": "Base System",
+"CityOfMist.settings.baseSystem.hint": "The base system upon which most of the rules are drawn.",
+
+"CityOfMist.settings.loadout.name": "Enable Loadout Theme",
+"CityOfMist.settings.loadout.hint": "Show the Loadout theme on the character Sheet",
+
+
 
 
 "CityOfMist.settings.tagBurn.name": "Tag Burning Mechanic",

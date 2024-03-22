@@ -211,6 +211,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		'hasMythos': function (actor: CityActor) {
 			return actor.getNumberOfThemes("Mythos") >= 1;
 		},
+		'loadoutThemeEnabled': function () {
+			return CitySettings.get("loadoutTheme");
+		},
+
+		'getLoadoutThemeName': function () {
+			return CitySettings.getLoadoutThemeName();
+
+		},
 
 		'isUsingStoryList': function () {
 			return CitySettings.sceneTagWindowUsed();
