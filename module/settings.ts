@@ -1,4 +1,5 @@
 import { localize } from "./city.js";
+import { SettingsChoices } from "./config/settings-object.js";
 
 
 export async function registerSystemSettings() {
@@ -21,11 +22,11 @@ import { System } from "./config/settings-object.js";
 
 
 export class CitySettings {
-	static async set<K extends keyof SettingsType>(settingField:K ,newvalue: InstanceType<SettingsType[K]["type"]>) {
+	static async set<K extends keyof SettingsType>(settingField:K ,newvalue: SettingsChoices<K>) {
 		await game.settings.set("city-of-mist", settingField, newvalue);
 	}
 
-	static get<K extends keyof SettingsType>(settingName : K ) : InstanceType<SettingsType[K]["type"]> {
+	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K>{
 		return game.settings.get('city-of-mist', settingName);
 	}
 
@@ -106,15 +107,11 @@ export class CitySettings {
 	}
 
 	static async refreshSystem(system?: System) {
-		try{
-			if (!system)
-				system = game.settings.get("city-of-mist", "system");
-		} catch (e) {
-			console.log("defaulting to classic CoM");
-			system = "classic";
+		if (!system) {
+			system = game.settings.get("city-of-mist", "system") ?? "city-of-mist";
 		}
 		switch (system) {
-			case "classic":
+			case "city-of-mist":
 				game.settings.set("city-of-mist", "movesInclude_core", "classic");
 				game.settings.set("city-of-mist", "movesInclude_advanced", "classic");
 				game.settings.set("city-of-mist", "statusAdditionSystem", "classic");
@@ -123,22 +120,24 @@ export class CitySettings {
 				game.settings.set("city-of-mist", "altPower", false);
 				game.settings.set("city-of-mist", "system", "classic");
 				return;
-			case "reloaded":
-				game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
-				game.settings.set("city-of-mist", "movesInclude_advanced", "none");
-				game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
-				game.settings.set("city-of-mist", "tagBurn", "classic");
-				game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
-				game.settings.set("city-of-mist", "altPower", false);
-				game.settings.set("city-of-mist", "system", "reloaded");
-				return;
+			// case "reloaded":
+			// 	game.settings.set("city-of-mist", "movesInclude_core", "reloaded");
+			// 	game.settings.set("city-of-mist", "movesInclude_advanced", "none");
+			// 	game.settings.set("city-of-mist", "statusAdditionSystem", "reloaded");
+			// 	game.settings.set("city-of-mist", "tagBurn", "classic");
+			// 	game.settings.set("city-of-mist", "statusSubtractionSystem", "reloaded");
+			// 	game.settings.set("city-of-mist", "altPower", false);
+			// 	game.settings.set("city-of-mist", "system", "reloaded");
+			// 	return;
 			case "otherscape" :
 				//TODO: Add this as a formal option
 
 				break;
+			case "legend" :
 			case "custom":
 				return;
 			default:
+				system satisfies never;
 				console.error(`Unknown System ${system}`);
 		}
 	}

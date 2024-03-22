@@ -559,11 +559,18 @@
 "CityOfMist.settings.statusSubtractionSystem.0": "Classic CoM Subtraction",
 "CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Boxes)",
 "CityOfMist.settings.statusSubtractionSystem.2": "Otherscape (no pips)",
+
 "CityOfMist.settings.system.name": "Game System",
 "CityOfMist.settings.system.hint": "Choose version of CoM system",
-"CityOfMist.settings.system.0": "CoM Classic",
-"CityOfMist.settings.system.1": "CoM Reloaded",
-"CityOfMist.settings.system.2": "Custom",
+"CityOfMist.settings.system.0": "City of Mist",
+"CityOfMist.settings.system.1": "Otherscape",
+"CityOfMist.settings.system.2": "Legend in the Mist",
+"CityOfMist.settings.system.3": "Legend in the Mist",
+
+"CityOfMist.devSettings.movesInclude.name": "Core Moves Included",
+"CityOfMist.devSettings.movesInclude.hint": "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+
+
 
 "CityOfMist.settings.tagBurn.name": "Tag Burning Mechanic",
 "CityOfMist.settings.tagBurn.hint": "Handles the effects of burning tags are burned in the system",

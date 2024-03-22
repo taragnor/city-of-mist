@@ -2,7 +2,7 @@ import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
 import { localize } from "../city.js";
 
-export type System = "classic" | "reloaded" | "otherscape" | "custom";
+export type System = keyof ReturnType<typeof CITY_SETTINGS>["system"]["choices"];
 
 export function CITY_SETTINGS() {
 	return {
@@ -22,15 +22,16 @@ export function CITY_SETTINGS() {
 			scope: "world",
 			config: true,
 			type: String,
-			default: "classic",
+			default: "city-of-mist",
 			choices: {
-				"classic": localize("CityOfMist.settings.system.0"),
-				"reloaded": localize("CityOfMist.settings.system.1"),
-				"custom": localize("CityOfMist.settings.system.2"),
+				"city-of-mist": localize("CityOfMist.settings.system.0"),
+				"otherscape": localize("CityOfMist.settings.system.1"),
+				"legend": localize("CityOfMist.settings.system.2"),
+				"custom": localize("CityOfMist.settings.system.3"),
 			},
 			restricted: true,
-			onChange: (newSystem: System) => {
-				CitySettings.refreshSystem(newSystem);
+			onChange: (newSystem: string) => {
+				CitySettings.refreshSystem(newSystem as System);
 				delayedReload();
 			},
 		},
@@ -287,8 +288,8 @@ export function CITY_SETTINGS() {
 export function DEV_SETTINGS() {
 	return {
 		"movesInclude_core": {
-			name: "Include Core Moves",
-			hint: "Choose which core moves to include, useful for developers who want to customize the moves for their games",
+			name: localize("CityOfMist.devSettings.movesInclude.name"),
+			hint: localize("CityOfMist.devSettings.movesInclude.hint"),
 			scope: "world",
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
@@ -300,7 +301,7 @@ export function DEV_SETTINGS() {
 			},
 			restricted: true,
 			onChange: () => {
-				game.settings.set('city-of-mist', "system", "custom");
+				CitySettings.set("system", "custom");
 				delayedReload();
 			}
 		},
@@ -415,4 +416,11 @@ export function delayedReload() {
 let isDelayedReload = false;
 
 export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof DEV_SETTINGS>);
+
+ type SettingsChoicesSub<R extends Record<string, SettingConfig<any>>, K extends keyof R> = R[K]["choices"] extends Record<string, any> ? keyof R[K]["choices"] : InstanceType<R[K]["type"]>;
+
+export type SettingsChoices<K extends keyof SettingsType> = SettingsChoicesSub<SettingsType, K>;
+
+type a = SettingsChoices<"system">;
+
 
