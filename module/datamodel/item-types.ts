@@ -1,3 +1,5 @@
+import { Motivation } from "./motivation-types.js";
+import { FadeType } from "./fade-types.js";
 import { ThemeType } from "./theme-types.js";
 import { THEME_TYPES } from "./theme-types.js";
 import { CitySettings } from "../settings.js"
@@ -101,9 +103,10 @@ class Themebook extends DataModel {
 			power_questions: new obj<ThemebookTagData>(),
 			weakness_questions: new obj<ThemebookTagData>(),
 			improvements: new obj<ThemebookImprovementData>(),
+			motivation: new txt<Motivation>({initial: "mystery"}),
+			fade_type: new txt<FadeType>({initial: "fade"}),
 		}
 	}
-
 }
 
 class Themekit extends DataModel {
@@ -117,6 +120,9 @@ class Themekit extends DataModel {
 			power_tagstk: new obj<ThemekitTagData>(),
 			weakness_tagstk: new obj<ThemekitTagData>(),
 			improvements: new obj<ThemekitImprovementData>(),
+			motivation: new txt<Motivation>({initial: "mystery"}),
+			fade_type: new txt<FadeType>({initial: "fade"}),
+			subtype: new txt<ThemeType>( {initial: "Logos"}),
 		}
 	}
 }

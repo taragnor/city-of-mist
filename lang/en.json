@@ -142,15 +142,16 @@
 
 "Otherscape.terms.noise": "Noise",
 "Otherscape.terms.self": "Self",
+"Otherscape.terms.ritual": "Ritual",
+"Otherscape.terms.itch": "Itch",
 
 "Legend.terms.origin": "Origin",
 "Legend.terms.greatness": "Greatness",
+"Legend.terms.motivation": "Motivation",
 
 "CityOfMist.terms.loadoutTheme.name": "Loadout Theme",
 "Otherscape.terms.loadoutTheme.name": "Loadout",
 "Legend.terms.loadoutTheme.name": "Backpack",
-
-
 
 "CityOfMist.characterSheet.useClue.tooltip": "Post Clue Card to Chat",
 "CityOfMist.characterSheet.useClue.button": "Use",
@@ -591,6 +592,11 @@
 "CityOfMist.settings.tagBurn.hint": "Handles the effects of burning tags are burned in the system",
 "CityOfMist.settings.tagBurn.0": "City of Mist Style",
 "CityOfMist.settings.tagBurn.1": "Mist Engine Style",
+
+"CityOfMist.settings.themeStyle.name": "Theme Card Style",
+"CityOfMist.settings.themeStyle.hint": "Governs Themecard layout",
+"CityOfMist.settings.themeStyle.0": "City of Mist Style",
+"CityOfMist.settings.themeStyle.1": "Mist Engine Style",
 
 "CityOfMist.settings.debugMode.name": "Debug Mode",
 "CityOfMist.settings.debugMode.hint": "Turns on internal Javascript debug code",

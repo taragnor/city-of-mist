@@ -1,3 +1,4 @@
+import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { Sounds } from "./tools/sounds.js"
 import { System } from "./config/settings-object.js";
 import { ListConditionalItem } from "./datamodel/item-types.js";
@@ -1355,6 +1356,55 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			.filter(x=> x.system.parentId == this.id)
 			.forEach( tag => tag.update({"system.activated_loadout": toggled}));
 		return toggled;
+	}
+
+	get motivationName() : string {
+		if (this.system.type != "theme") {
+			console.error(`Can't get motivation from ${this.system.type}`);
+			return "ERROR";
+		}
+		let tb = this.themebook;
+		if (!tb)  {
+			console.error(`Couldn't get theme book for theme ${this.id}`);
+			return "ERROR";
+		}
+		let motivation = tb.system.motivation;
+		if (!motivation) {
+			switch (tb.system.subtype) {
+				case "Logos":
+					motivation= "identity";
+					break;
+				case "Mythos":
+					motivation = "mystery";
+					break;
+				case "Mist":
+					motivation = "directive";
+					break;
+				default:
+					throw new Error(`NO motivaiton for theme ${this.name}`);
+			}
+
+
+		}
+		return localize (MOTIVATIONLIST[motivation]);
+	}
+
+	themeSortValue(this: Theme) : number {
+		const themetype =this.themebook!.system.subtype;
+		switch (themetype) {
+			case "Mythos":
+			case "Greatness":
+				return 1;
+			case "Noise": case "Mist": return 2;
+			case "Self": case "Origin": case "Logos": return 3;
+			case "Extra": case "Loadout": return 4;
+			case "Crew" : return 5;
+			default:
+				themetype satisfies never;
+				console.warn(` Unknown Type ${themetype}`);
+				return 1000;
+		}
+
 	}
 
 }

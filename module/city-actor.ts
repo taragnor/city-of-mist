@@ -24,7 +24,7 @@ import { Spectrum } from "./city-item.js";
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
 	get mainThemes() : Theme[] {
-		return this.getThemes();
+		return this.getThemes().sort ( (a,b) => b.themeSortValue() - a.themeSortValue());
 	}
 
 	get loadout() : Theme | undefined {

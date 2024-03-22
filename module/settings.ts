@@ -158,6 +158,7 @@ export class CitySettings {
 				await this.set("altPower", false);
 				await this.set("system", "city-of-mist");
 				await this.set("loadoutTheme", false);
+				await this.set("themeStyle", "city-of-mist");
 				break;
 			case "otherscape" :
 				await this.set("baseSystem", "otherscape");
@@ -167,6 +168,7 @@ export class CitySettings {
 				await this.set("tagBurn", "mist-engine");
 				await this.set( "statusAdditionSystem", "mist-engine");
 				await this.set( "movesInclude", "otherscape");
+				await this.set("themeStyle", "mist-engine");
 				break;
 			case "legend" :
 				await this.set("baseSystem", "legend");
@@ -176,6 +178,7 @@ export class CitySettings {
 				await this.set("tagBurn", "mist-engine");
 				await this.set( "statusAdditionSystem", "mist-engine");
 				await this.set( "movesInclude", "legend");
+				await this.set("themeStyle", "mist-engine");
 				break;
 			case "custom":
 				break;

@@ -1,3 +1,4 @@
+import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
@@ -25,6 +26,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		let data = await super.getData();
 
 		data.THEMESUBTYPES = THEME_TYPES;
+		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );

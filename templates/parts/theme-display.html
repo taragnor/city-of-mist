@@ -84,23 +84,24 @@
 	</div>
 	{{#if (eq themebook.subtype "Logos")}}
 	<div class="themebook-identity-label"> <b class="themebook-identity">
-			{{localize 'CityOfMist.terms.identity' }}
+			{{theme.motivationName}}
 		</b> </div>
 	{{/if}}
 	{{#if (eq themebook.subtype "Mythos")}}
 	<div class="themebook-mystery-label"> <b class="themebook-mystery">
-			{{localize 'CityOfMist.terms.mystery' }}
+			{{theme.motivationName}}
 		</b> </div>
 	{{/if}}
 	{{#if (eq themebook.subtype "Mist")}}
 	<div class="themebook-mist-label"> <b class="themebook-directive">
-			{{localize 'CityOfMist.terms.directive' }}
+			{{theme.motivationName}}
 		</b> </div>
 	{{/if}}
 	<!-- Crew and Extra -->
 	{{#if (or (eq themebook.subtype "Crew") (eq themebook.subtype "Extra"))}}
 	<div class="themebook-crew-label"> <b class="themebook-mystery">
 			{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
+			{{theme.getMotivationName}}
 		</b> </div>
 	{{/if}}
 	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>

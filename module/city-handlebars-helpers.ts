@@ -119,8 +119,8 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				if (! (tagowner instanceof CityActor)) {
 					throw new Error("Tag owner is not an actor");
 				}
-			const tag = tagowner.items.find(x=> x.id == tagId) as Tag;
-			return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
+				const tag = tagowner.items.find(x=> x.id == tagId) as Tag;
+				return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
 			} catch (e){
 				throw e;
 
@@ -222,7 +222,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'isUsingStoryList': function () {
 			return CitySettings.sceneTagWindowUsed();
-	},
+		},
 		'eqStr': function (a: unknown, b:unknown) {
 			if (!a) a= "";
 			if (!b) b= "";
@@ -237,7 +237,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return false;
 			}
 			return true;
-		}
+		},
 
 	}; //end of object holding helpers
 } // end of class
