@@ -64,12 +64,10 @@
 					</section>
 				</div>
 				<div class="theme-block-group">
-					{{#each items as |item|}}
-					{{#if (eq item.type "theme")}}
+					{{#each actor.mainThemes as |item|}}
 					<div class="flex-theme-block">
 						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.themebook tbdata=item.themebook.system}}
 					</div>
-					{{/if}}
 					{{/each}}
 				</div>
 			</div>

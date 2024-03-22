@@ -62,6 +62,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		let loadoutTheme = this.actor.loadout;
 		if (!loadoutTheme) {
 			loadoutTheme= await this.actor.createLoadoutTheme();
+			if (!loadoutTheme)
+				throw new Error("Can't create loadout theme");
 		}
 
 		data.LOADOUT = loadoutTheme;

@@ -1,3 +1,4 @@
+import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -22,12 +23,8 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	override async getData() {
 		let data = await super.getData();
-		//Fix for compatibility with .0.8
-		//TODO remove need for this since I think it conflicts with v10
-		// const itemData = this.item.toObject(false);
-		// data.item = this.item;
-		// data.data = itemData.system;
 
+		data.THEMESUBTYPES = THEME_TYPES;
 		data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );

@@ -23,6 +23,10 @@ import { Spectrum } from "./city-item.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
+	get mainThemes() : Theme [] {
+		return this.getThemes();
+	}
+
 	get loadout() : Theme | undefined {
 		return this.items.find(  (item: CityItem) => {
 			return item.isTheme() && item.isLoadoutTheme();
@@ -1237,13 +1241,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async createLoadoutTheme() : Promise<Theme> {
 		const themebook_id= CityDB.getLoadoutThemebook();
 		if (!themebook_id) {
-			throw new Error("Can't create Loadout theme");
+			throw new Error("Can't create Loadout theme: No valid Loadout theme exists");
 		}
 		const obj = {
 			name: "__LOADOUT__",
-			type: "theme", system: 
+			type: "theme", system:
 			{themebook_id, themebook_name: "Loadout", unspent_upgrades:0, nascent:false}
 		};
+		console.log("Loadout theme created");
 		return await this.createNewItem(obj) as Theme;
 	}
 
