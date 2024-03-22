@@ -1,3 +1,4 @@
+import { CitySettings } from "./settings.js";
 import { Improvement } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
 import { Danger } from "./city-actor.js";
@@ -88,37 +89,28 @@ export class CityDB extends DBAccessor {
 		));
 	}
 
-	static async loadMovesOfType(type : Move["system"]["category"]) {
+	static async loadMovesOfType(movetype : Move["system"]["category"]) {
 		let movesList = this.filterItemsByType("move") as Move[];
 		movesList = this.filterOverridedContent(movesList);
-		movesList = movesList.filter( x=> x.system.category == type);
-		let setting;
-		switch (type) {
-			case "Core" :
-				setting = "movesInclude_core";
-				break;
-			case "Advanced":
-			case "SHB":
-				setting = "movesInclude_advanced";
-				break;
-			default :
-				ui.notifications.warn(`Unknown category ${type}`);
-				throw new Error(`Unknown Category ${type}`);
-		}
-		const include = game.settings.get('city-of-mist', setting) ?? "classic";
+		movesList = movesList.filter( x=> x.system.category == movetype);
+		const include = CitySettings.get("movesInclude") ?? "city-of-mist";
 		const custom_moves = movesList.filter( x=> x.system.system == "custom");
 		switch (include) {
-			case "classic":
+			case "city-of-mist":
 				return movesList.filter( x=> x.system.system == "classic")
 					.concat(custom_moves);
-			case "reloaded":
-				return movesList.filter( x=> x.system.system == "reloaded")
+			case "otherscape":
+				return movesList.filter( x=> x.system.system == "otherscape")
 					.concat(custom_moves);
+
+			case "legend":
+				return movesList.filter( x=> x.system.system == "legend")
 			case "none":
 				return custom_moves;
 			default:
-				console.warn(`Unknown movesInclude setting ${include}`);
-				return [];
+				include satisfies never;
+				console.warn(`Unknown movesInclude setting ${include}, defaulting to Standard CoM`);
+				return movesList.filter( x=> x.system.system == "classic")
 		}
 	}
 

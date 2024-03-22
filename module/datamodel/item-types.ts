@@ -1,3 +1,5 @@
+import { CitySettings } from "../settings.js"
+
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, FilePathField:file} = foundry.data.fields;
 
 import { MOVETYPES } from "./move-types.js";
@@ -240,7 +242,8 @@ class Move extends DataModel {
 			effect_class: new txt(),
 			abbreviation: new txt(),
 			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
-			system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
+			system: new txt({choices: ["classic", "legend", "otherscape", "custom"], initial: "custom"}),
+			// system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
 		};
 	}
 }

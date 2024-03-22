@@ -554,11 +554,11 @@
 "CityOfMist.settings.statusSubtractionSystem.2": "Otherscape (no pips)",
 
 "CityOfMist.settings.system.name": "Game System",
-"CityOfMist.settings.system.hint": "Choose version of CoM system",
+"CityOfMist.settings.system.hint": "Choose version of CoM system (this will overwrite settings and set the system defaults for the chosen system)",
 "CityOfMist.settings.system.0": "City of Mist",
 "CityOfMist.settings.system.1": "Otherscape",
 "CityOfMist.settings.system.2": "Legend in the Mist",
-"CityOfMist.settings.system.3": "Legend in the Mist",
+"CityOfMist.settings.system.3": "Custom",
 
 "CityOfMist.devSettings.movesInclude.name": "Core Moves Included",
 "CityOfMist.devSettings.movesInclude.hint": "Choose which core moves to include, useful for developers who want to customize the moves for their games",

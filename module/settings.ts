@@ -139,6 +139,11 @@ export class CitySettings {
 		return (!!this.get("autoAwardImpForWeakness") ?? false);
 	}
 
+	static getBaseSystem() {
+		return this.get("baseSystem");
+
+	}
+
 	static async refreshSystem(system?: System) {
 		if (!system) {
 			system = this.get("system") ?? "city-of-mist";
