@@ -269,6 +269,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.loadout-create-power-tag').on("click", this.#createLoadoutTag.bind(this));
 		html.find('.toggle-activation-loadout-tag').on("click", this.#toggleLoadoutTag.bind(this));
 		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
+		html.find('.flip-button').on("click", this.#flipCard.bind(this));
 	}
 
 	async _addBUImprovement (_event: JQuery.Event) {
@@ -490,6 +491,16 @@ export class CityCharacterSheet extends CityActorSheet {
 		}
 		else  {
 			await this.actor.deleteTag(tag.id);
+		}
+	}
+
+	async #flipCard(event: JQuery.ClickEvent) {
+		console.log("Trying to flip Card");
+		const flipElement = $(event.currentTarget).closest(".flip-card-inner");
+		if (flipElement.hasClass("flipped")) {
+			flipElement.removeClass("flipped");
+		} else {
+			flipElement.addClass("flipped");
 		}
 	}
 
