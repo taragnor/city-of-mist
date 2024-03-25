@@ -25,7 +25,9 @@
 		{{/if}}
 		<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
 		{{/if}}
-		{{#if theme.system.nascent}} <div class="nascent-label"> Nascent </div> {{/if}}
+		{{#if theme.system.nascent}} <div class="nascent-label">
+			{{localize "CityOfMist.terms.nascent"}}
+		</div> {{/if}}
 	</div>
 	<div class="att-fade-section">
 		<div class="attention-block">
@@ -45,7 +47,7 @@
 
 			<div class="attention-label">
 				<div class="attention-text flex-std">
-					{{localize 'CityOfMist.terms.attention' }}
+					{{getThemePropertyName "attention" theme}}
 					</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
 				</div>
 
@@ -69,16 +71,7 @@
 				{{/if}}
 			</div>
 			<div class="fade-text flex-std">
-				{{#if (eq themebook.subtype "Logos")}} {{localize 'CityOfMist.terms.crack' }}
-				{{/if}}
-				{{#if (eq themebook.subtype "Mythos")}} {{localize 'CityOfMist.terms.fade' }}
-				{{/if}}
-				{{#if (eq themebook.subtype "Mist")}} {{localize 'CityOfMist.terms.strike' }}
-				{{/if}}
-				{{#if (eq themebook.subtype "Crew")}} {{localize 'CityOfMist.terms.crack' }}
-				{{/if}}
-				{{#if (eq themebook.subtype "Extra")}} {{localize 'CityOfMist.terms.crack' }}
-				{{/if}}
+				{{getThemePropertyName "fade" theme}}
 			</div>
 		</div>
 	</div>
@@ -86,27 +79,27 @@
 	<div class="themebook-identity-label"> <b class="themebook-identity">
 			{{theme.motivationName}}
 		</b> </div>
-	{{/if}}
-	{{#if (eq themebook.subtype "Mythos")}}
-	<div class="themebook-mystery-label"> <b class="themebook-mystery">
-			{{theme.motivationName}}
-		</b> </div>
-	{{/if}}
-	{{#if (eq themebook.subtype "Mist")}}
-	<div class="themebook-mist-label"> <b class="themebook-directive">
-			{{theme.motivationName}}
-		</b> </div>
-	{{/if}}
-	<!-- Crew and Extra -->
-	{{#if (or (eq themebook.subtype "Crew") (eq themebook.subtype "Extra"))}}
-	<div class="themebook-crew-label"> <b class="themebook-mystery">
-			{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
-			{{theme.getMotivationName}}
-		</b> </div>
-	{{/if}}
-	<textarea class="themebook-mystery identity-input" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
-	<div class="tag-add-icons">
-		<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
+		{{/if}}
+		{{#if (eq themebook.subtype "Mythos")}}
+		<div class="themebook-mystery-label"> <b class="themebook-mystery">
+				{{theme.motivationName}}
+			</b> </div>
+			{{/if}}
+			{{#if (eq themebook.subtype "Mist")}}
+			<div class="themebook-mist-label"> <b class="themebook-directive">
+					{{theme.motivationName}}
+				</b> </div>
+				{{/if}}
+				<!-- Crew and Extra -->
+				{{#if (or (eq themebook.subtype "Crew") (eq themebook.subtype "Extra"))}}
+				<div class="themebook-crew-label"> <b class="themebook-mystery">
+						{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
+						{{theme.getMotivationName}}
+					</b> </div>
+					{{/if}}
+					<textarea class="themebook-mystery identity-input" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
+					<div class="tag-add-icons">
+						<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
 
 			{{#if (gt theme.system.unspent_upgrades 0)}}
 			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>

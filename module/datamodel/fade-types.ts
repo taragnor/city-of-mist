@@ -1,7 +1,8 @@
 export const FADETYPELIST = {
-	"fade": "",
-	"crack": "",
-	"decay": "",
+	"fade": "CityOfMist.terms.fade",
+	"crack": "CityOfMist.terms.crack",
+	"strike": "CityOfMist.terms.strike",
+	"decay" : "Otherscape.terms.decay",
 } as const;
 
 

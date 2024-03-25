@@ -1,3 +1,4 @@
+import { Theme } from "./city-item.js";
 import { Themebook } from "./city-item.js";
 import { RollModifier } from "./city-roll.js";
 import { Status } from "./city-item.js";
@@ -238,6 +239,19 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 			return true;
 		},
+
+		'getThemePropertyName': function (term: "attention" | "fade", theme: Theme) {
+			switch (term) {
+				case "attention":
+				case "fade":
+					return new Handlebars.SafeString(theme.getThemePropertyTerm(term));
+				default:
+					throw new Error(`Unknown Theme Term ${term}`);
+			}
+
+
+
+		}
 
 	}; //end of object holding helpers
 } // end of class

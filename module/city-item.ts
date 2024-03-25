@@ -1,3 +1,5 @@
+import { FADETYPELIST } from "./datamodel/fade-types.js"
+
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { Sounds } from "./tools/sounds.js"
 import { System } from "./config/settings-object.js";
@@ -246,7 +248,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (!name && !id) return null;
 		const tb = actor.items.find( x=> x.id == id) ??
 			CityDB.getThemebook(name, id);
-		if (!tb) throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+		if (!tb)  {
+			throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+		}
 		return tb as Themebook | ThemeKit;
 	}
 
@@ -1330,21 +1334,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	isSystemCompatible(this: Themebook, system: System) : boolean {
-		//placeholder
-		switch (system) {
-			case "city-of-mist":
-				return true;
-			case "otherscape":
-				return true;
-			case "legend":
-				return true;
-			case "custom":
-				return true;
-			default:
-				system satisfies never;
-				ui.notifications.warn("Unknown system, assuming City of Mist core");
-				return this.isSystemCompatible("city-of-mist");
-		}
+		if (this.system.system_compatiblity == "any") return true;
+		return this.system.system_compatiblity == system;
 	}
 
 	async toggleLoadoutActivation(this: Tag) : Promise<boolean> {
@@ -1403,6 +1394,30 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				themetype satisfies never;
 				console.warn(` Unknown Type ${themetype}`);
 				return 1000;
+		}
+
+	}
+
+	getThemePropertyTerm(this:Theme, term: "attention" | "fade") {
+		const l = localize;
+		switch (term) {
+			case "attention" :
+				const system = CitySettings.get("baseSystem");
+				switch (system) {
+					case "city-of-mist":
+						return l("CityOfMist.terms.attention");
+					case "otherscape":
+						return l("Otherscape.terms.upgrade");
+					case "legend":
+						return l("Legend.terms.experience");
+
+				}
+			case "fade":
+				const fadeType = this.themebook!.system.fade_type;
+				return l(FADETYPELIST[fadeType]);
+			default:
+				term satisfies never;
+				throw new Error(`trying to get non-existent term ${term}`);
 		}
 
 	}

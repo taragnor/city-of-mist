@@ -1,4 +1,4 @@
-<div class="loadout-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{actor.id}}" data-token-id="{{tokenId}}">
+<section class="loadout-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{actor.id}}" data-token-id="{{tokenId}}">
 	<h2 class="header">
 		{{getLoadoutThemeName}}
 		<a class="loadout-create-power-tag" data-item-type="tag" title="Add Power Tag" data-sub-type="power" >
@@ -7,6 +7,27 @@
 
 	</h2>
 	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.mainTags owner=actor locked=actor.system.locked sheetowner=actor canBurn=true subtype="loadout" themeId=theme.id supertag=""}}
-</div>
+		<div class="attention-block">
+			<div class="dots-section flex-std">
+				{{#each theme.system.attention as |attention rank|}}
+				{{#if (eq attention 1)}}
+				<span class="filled-circle tracker-circle"></span>
+				{{else}}
+				<span class="empty-circle tracker-circle"></span>
+				{{/if}}
+				{{/each}}
+				<a class="theme-add-attention" data-type="attention" > <i class="fas fa-plus-square"></i></a>
+				{{#if (ne locked true)}}
+				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
+				{{/if}}
+			</div>
+			<div class="attention-label">
+				<div class="attention-text flex-std">
+					{{localize 'CityOfMist.terms.attention' }}
+					</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
+				</div>
+			</div>
+		</div>
+</section>
 
 

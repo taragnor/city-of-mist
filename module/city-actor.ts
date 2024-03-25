@@ -558,14 +558,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter( x=> x.type == "theme" && x != this.loadout) as Theme[];
 	}
 
-	//Removed because it called seemingly nonexistent function
-	// updateThemebook () {
-	// 	const themes = this.items.filter(x => x.type == "theme") as Theme[];
-	// 	for (let theme of themes) {
-	// 		theme.updateThemebook();
-	// 	}
-	// }
-
 	getNumberOfThemes(target_type: string) {
 		const themes = this.items.filter(x => x.type == "theme") as Theme[];
 		let count = 0;
@@ -1234,8 +1226,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const invalid:  string[] = Array.from(this.items.invalidDocumentIds)
 		//@ts-ignore
 		invalid.forEach( id=> this.items.getInvalid(id).delete());
-
-
 	}
 
 	async createLoadoutTheme() : Promise<Theme> {

@@ -1,3 +1,4 @@
+import { System } from "../config/settings-object.js";
 import { Motivation } from "./motivation-types.js";
 import { FadeType } from "./fade-types.js";
 import { ThemeType } from "./theme-types.js";
@@ -105,6 +106,7 @@ class Themebook extends DataModel {
 			improvements: new obj<ThemebookImprovementData>(),
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType>({initial: "fade"}),
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
 		}
 	}
 }

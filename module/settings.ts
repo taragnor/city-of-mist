@@ -145,7 +145,7 @@ export class CitySettings {
 
 	}
 
-	static async refreshSystem(system?: System) {
+	static async refreshSystem(system?: keyof ReturnType<typeof CITY_SETTINGS>["system"]["choices"]) {
 		if (!system) {
 			system = this.get("system") ?? "city-of-mist";
 		}

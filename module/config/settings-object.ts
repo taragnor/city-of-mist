@@ -2,7 +2,15 @@ import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
 import { localize } from "../city.js";
 
-export type System = keyof ReturnType<typeof CITY_SETTINGS>["system"]["choices"];
+export type System = keyof ReturnType<typeof SYSTEM_CHOICES>;
+
+export function SYSTEM_CHOICES() {
+	return {
+		"city-of-mist": localize("CityOfMist.settings.system.0"),
+		"otherscape": localize("CityOfMist.settings.system.1"),
+		"legend": localize("CityOfMist.settings.system.2"),
+	} as const;
+}
 
 export function CITY_SETTINGS() {
 	return {
@@ -294,11 +302,7 @@ export function DEV_SETTINGS() {
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "city-of-mist",
-			choices: {
-				"city-of-mist": localize("CityOfMist.settings.system.0"),
-				"otherscape": localize("CityOfMist.settings.system.1"),
-				"legend": localize("CityOfMist.settings.system.2"),
-			},
+			choices: SYSTEM_CHOICES(),
 			restricted: true,
 			onChange: (newval: string) => {
 				const curr = CitySettings.get("system");

@@ -1,3 +1,4 @@
+import { SYSTEM_CHOICES } from "./config/settings-object.js";
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { Tag } from "./city-item.js";
@@ -20,10 +21,15 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		});
 	}
 
+
 	/* -------------------------------------------- */
 
 	override async getData() {
 		let data = await super.getData();
+		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
+			"any":  "CityOfMist.terms.any",
+		};
+		data.TBSYSTEMLIST = SysChoices;
 
 		data.THEMESUBTYPES = THEME_TYPES;
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
