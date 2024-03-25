@@ -7,6 +7,7 @@
 
 	</h2>
 	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.mainTags owner=actor locked=actor.system.locked sheetowner=actor canBurn=true subtype="loadout" themeId=theme.id supertag=""}}
+	<div class="att-fade-section">
 		<div class="attention-block">
 			<div class="dots-section flex-std">
 				{{#each theme.system.attention as |attention rank|}}
@@ -28,6 +29,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </section>
 
 

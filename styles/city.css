@@ -553,6 +553,7 @@ input.question-entry {
 	width: 80%;
 }
 
+.journal-entry-content,
 .actor-sheet .sheet-tabs,
 .threat-sheet .sheet-tabs,
 .crew-sheet .sheet-tabs {
@@ -1171,36 +1172,6 @@ div.other-status-owner-name {
 	margin: 5px;
 }
 
-section.player-card {
-	background: linear-gradient(
-	to right,
-	rgba(255, 198, 153, 0.7),
-	rgba(255, 198, 153, 0.9),
-	rgba(255, 198, 153, 0.7)
-	);
-	color: black;
-}
-
-section.enemy-card {
-	background: linear-gradient(
-	to right,
-	rgba(200, 120, 0, 0.7),
-	rgba(255, 160, 0, 0.9),
-	rgba(255, 120, 0, 0.7)
-	);
-	color: white;
-}
-
-section.ally-card {
-	background-image: linear-gradient(
-	to right,
-	rgba(0, 0, 200, 0.2),
-	rgba(0, 0, 255, 0.4),
-	rgba(0, 0, 200, 0.2)
-	);
-	color: black;
-}
-
 .item-selection-context .active-tag.default-negative:hover:not(.positive-selected){
 	font-weight: bold;
 	margin: 0 -0.4em;
@@ -1420,6 +1391,7 @@ div.att-fade-section {
 
 div.dots-section {
 	padding-top: 2px;
+	max-height:20px;
 }
 
 ul.tag-list {
@@ -3234,3 +3206,17 @@ button.clue-use-button:hover {
 	text-align: center;
 	font-size: large;
 }
+
+.loadout-theme .att-fade-section {
+	margin-top: 0.75em;
+}
+
+.journal-entry-content {
+	background-image: url(../images/paperbg.webp) !important;
+	font-family: "Typewriter", Arial !important;
+}
+
+.journal-header {
+	font-family: "Rift Bold", Arial !important;
+}
+

@@ -16,7 +16,6 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/story-tag-display.html",
 	  "systems/city-of-mist/templates/parts/story-tag-list-display.html",
 	  "systems/city-of-mist/templates/parts/story-tag-header.html",
-	  "systems/city-of-mist/templates/parts/other-status-layout.html",
 	  "systems/city-of-mist/templates/parts/tag-name.html",
 	  "systems/city-of-mist/templates/parts/gmmoves-section.hbs",
 	  "systems/city-of-mist/templates/parts/bio-display.html",
