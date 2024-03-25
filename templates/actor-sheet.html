@@ -90,9 +90,9 @@
 					</div>
 				</div>
 				{{/if}}
-				<div class="flip-card flex-theme-block-flip status-box" >
+				<div class="flip-card" >
 					{{#if (loadoutThemeEnabled)}}
-					<div class="flip-card-inner">
+					<div class="flip-card-inner flex-theme-block-flip loadout-box">
 						<div class="flip-card-front">
 							<a class="flip-button"> Flip</a>
 							{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout}}

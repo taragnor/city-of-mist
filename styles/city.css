@@ -3262,14 +3262,10 @@ Flip Card code
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #bbb;
-  color: black;
 }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: dodgerblue;
-  color: white;
   transform: rotateY(180deg);
 }
 
@@ -3281,7 +3277,25 @@ div.flex-theme-block-flip {
 	/* border: 0.2em solid grey; */
 	border-radius: 1em;
 	padding: 0.1em;
-	overflow: auto;
+	/* overflow: auto;caused problems with flipcard */ 
 	transition: transform .2s;
+}
+
+
+.loadout-box {
+	color: var(--options-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--options-green);
+	border-top: 1em solid var(--options-green);
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	/* box-shadow: 0px -1px 0px 1px #5f624fa6; */
+}
+
+.loadout-box:hover {
+	box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6;
+	transition-duration: 0.2s;
 }
 
