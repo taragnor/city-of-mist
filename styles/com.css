@@ -1,0 +1,635 @@
+:root {
+	--mythos-pink: #502c5d;
+	--mythos-bright: #ae4ace;
+
+	--mythos-text: hsl(284deg 15% 15%);
+	--mythos-white: hsl(265deg 10% 95%);
+
+	--logos-orange: #a85d4b;
+	--logos-text: #48382a;
+
+	--mist-blue:#28475b;
+	--mist-text:#232b35;
+
+}
+
+.style-city-of-mist .theme-header {
+	padding: 0;
+	border: none;
+	margin: 0;
+	font-family: 'Rubik';
+	font-weight: bold;
+	font-size: 2.3em;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.style-city-of-mist h1#Theme-header {
+	flex: auto;
+	text-align: center;
+	font-size: 2em;
+	align-self: center;
+	font-weight: bold;
+	font-family: "Fira Sans Extra Condensed";
+	margin: 0;
+}
+
+.style-city-of-mist div.theme-name {
+	font-weight: bold;
+	text-align: center;
+	font-size: 2.5em;
+	line-height: 1em;
+	min-height: 1em;
+	font-family: Rift Bold;
+	overflow: hidden;
+	text-transform: uppercase;
+	word-break: break-word;
+	height: auto;
+	padding: 0.2em 0.2em 0.15em 0.2em;
+}
+
+
+div.Mythos-theme textarea.motivation-input{
+	color: var(--mythos-text);
+}
+
+div.Logos-theme textarea.motivation-input{
+	color: var(--logos-text);
+}
+
+div.Mist-theme textarea.motivation-input {
+	color: var(--mist-text);
+}
+
+/* div.Mythos-theme textarea.themebook-mystery.identity-input { */
+/* 	color: var(--mythos-text); */
+/* } */
+
+/* div.Logos-theme textarea.themebook-mystery.identity-input { */
+/* 	color: var(--logos-text); */
+/* } */
+
+/* div.Mist-theme textarea.themebook-mystery.identity-input { */
+/* 	color: var(--mist-text); */
+/* } */
+
+.sytle-city-of-mist .dialog .dialog-buttons button {
+	font-size: 15px;
+	color: #3c2145;
+	background-color: #502c5dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.sytle-city-of-mist .dialog .dialog-buttons button.default:not(.disabled) {
+	font-size: 15px;
+	background-color: #502c5dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.sytle-city-of-mist .dialog .dialog-buttons button.disabled {
+	font-size: 15px;
+	background-color: #200c2dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	border: 1px solid var(--mythos-pink);
+}
+
+.sytle-city-of-mist .journal-entry-content,
+.sytle-city-of-mist .actor-sheet .sheet-tabs,
+.sytle-city-of-mist .threat-sheet .sheet-tabs,
+.sytle-city-of-mist .crew-sheet .sheet-tabs {
+	font-family: "Typewriter", Arial;
+}
+
+.Mythos-theme textarea.theme-name-input.borderless:disabled {
+	text-shadow: 0px 2px 2px var(--mythos-bright),
+	0px 1px 4px var(--mythos-pink);
+	color: var(--mythos-white);
+}
+
+.Logos-theme textarea.theme-name-input.borderless:disabled {
+	text-shadow: 0px 2px 3px white,
+	0px 2px 4px var(--logos-orange);
+}
+
+.style-city-of-mist input.character-name {
+	font-family: 'Rift Bold';
+	color: white;
+	text-shadow: 0px 0px 1px black, 0px 0px 3px black, 2px 2px var(--logos-orange),3px 3px var(--logos-orange), 4px 4px var(--mythos-pink), 5px 5px var(--mythos-pink);
+}
+
+.style-city-of-mist input#crew-name {
+	font-family: 'Rift Bold';
+	text-shadow: 0px 2px 3px white,
+	0px 2px 4px var(--logos-orange);
+	color: var(--logos-text);
+	border: none;
+}
+
+input.mythos-name {
+	font-family: 'Rift Bold';
+	text-shadow: 0px 2px 2px var(--mythos-bright),
+	0px 1px 4px var(--mythos-pink);
+	color: var(--mythos-white);
+}
+
+input.logos-name {
+	font-family: 'Rift Bold';
+	text-shadow: 0px 2px 3px white,
+	0px 2px 4px var(--logos-orange);
+	color: var(--logos-text);
+}
+
+.style-city-of-mist input.danger-name {
+	font-family: 'Rift Bold';
+}
+
+
+.style-city-of-mist .select-move-group {
+	width: 20%;
+	height: 2.3em;
+	font-family: "Rubik";
+	font-weight: bold;
+	font-size: 1.2em;
+	border: 1px solid #3c2145;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 2px var(--mythos-pink) inset;
+}
+
+.style-city-of-mist .select-move {
+	width: 30%;
+	height: 2.3em;
+	font-family: "Rubik";
+	font-weight: bold;
+	font-size: 1.2em;
+	border: 1px solid #3c2145;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 2px var(--mythos-pink) inset;
+}
+
+
+.style-city-of-mist .select-move-group option {
+	font-family: "Rubik";
+	font-weight: bold;
+}
+
+.style-city-of-mist .select-group option {
+	font-family: "Rubik";
+	font-weight: bold;
+}
+
+.style-city-of-mist .question-letter {
+	font-weight: bold;
+	font-size: larger;
+}
+
+.style-city-of-mist .status-box,
+.style-city-of-mist .story-tag-box,
+.style-city-of-mist .empty-box {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==);
+}
+
+div.Mythos-theme {
+	/* height: auto; */
+	/* height: 100%; */
+	color: var(--mythos-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--mythos-pink);
+	border-top: 2em solid var(--mythos-pink);
+	background-image: url(../images/mythoscardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: 125%;
+	box-shadow: 0px -5px 0px 10px #502c5da6;
+}
+
+
+.Mythos-theme .theme-name {
+	text-shadow: 0px 0px 10px var(--mythos-bright),
+	0px 1px 12px var(--mythos-pink);
+	color: var(--mythos-white);
+}
+
+div.Logos-theme {
+	color: var(--logos-text);
+	/* height: 100%; */
+	border-radius: 1em;
+	border-bottom: 1em solid var(--logos-orange);
+	border-top: 2em solid var(--logos-orange);
+	background-image: url(../images/themecardbg.webp);
+	box-shadow: 0px -5px 0px 10px #a85d4ba6;
+}
+
+div.Mist-theme {
+	/* height: 100%; */
+	color: var(--mist-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--mist-blue);
+	border-top: 2em solid var(--mist-blue);
+	background-image: url(../images/mistcardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -5px 0px 10px #28475ba6;	
+}
+
+.style-city-of-mist div.Crew-theme,
+.style-city-of-mist div.Extra-theme {
+	height: 100%;
+	color: var(--extra-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--extra-grey);
+	border-top: 2em solid var(--extra-grey);
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -5px 0px 10px #686358a6;
+}
+
+div.themebook-motivation-label,
+div.themebook-identity-label,
+div.themebook-mystery-label,
+div.themebook-crew-label,
+div.themebook-mist-label {
+	font-size: 1.4em;
+	font-family: "Rift Bold";
+	font-weight: bold;
+	margin-left: 0.3em;
+	text-transform: uppercase;
+}
+
+
+
+.style-city-of-mist .loadout-theme-box,
+.style-city-of-mist .status-box,
+.style-city-of-mist .story-tag-box {
+	/* height: 100%; */
+	color: var(--options-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--options-green);
+	border-top: 1em solid var(--options-green);
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -1px 0px 1px #5f624fa6;
+}
+
+.clue-source,
+.clue-method {
+	font-family: 'Averia Serif Libre';
+}
+
+.clue-source b,
+.clue-method b {
+	font-weight: bold;
+	font-family: 'Averia Serif Libre';
+}
+
+.juice-source,
+.juice-method {
+	font-family: 'Averia Serif Libre';
+}
+
+.juice-source b,
+.juice-method b {
+	font-weight: bold;
+	font-family: 'Averia Serif Libre';
+}
+
+span.clue-name:hover {
+	text-shadow: 0 0 10px var(--mythos-bright);
+}
+
+#juice-section .section-header {
+	font-size: 2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+	text-align: center;
+}
+
+span.juice-name {
+	text-transform: capitalize;
+	transition-duration: 0.2s;
+}
+
+span.juice-name:hover {
+	text-shadow: 0 0 10px var(--mythos-bright);
+}
+
+#clue-section .section-header {
+	font-size: 2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+	text-align: center;
+}
+
+button.clue-use-button {
+	flex: none !important;
+	margin: 0.5em;
+	border-radius: 0.5em;
+	color: white;
+	background-color: #502c5dbd;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+	max-width: 64px;
+}
+
+button.clue-use-button:hover {
+	background: #c5044b;
+	transition: all 0.4s ease-in-out;
+}
+
+.style-city-of-mist .story-tag-window {
+	max-height: 800px;
+	overflow: overlay;
+	scrollbar-width: thin;
+	scrollbar-color: var(--mythos-pink) var(--logos-text);
+}
+
+.style-city-of-mist .combatant-name {
+	padding-top: 0.5rem;
+	/* height: 1.2em; */
+	height: 1.2rem;
+	padding-right: 0.1rem;
+	padding-left: 0.2rem;
+	padding-bottom: 1.4rem;
+	font-size: 135%;
+	/* font-size: 1.35rem; */
+	text-align: center;
+	background: none;
+	font-family: 'Rift Bold';
+	text-shadow: 0px 2px 3px white,
+	0px 2px 4px var(--logos-orange);
+	color: var(--logos-text);
+}
+
+.style-city-of-mist .scene-tag-window {
+	position: absolute;
+	margin: 0.3em;
+	padding: 0.6em 1em;
+
+	font-size: 1.1em;
+	line-height: 1.2em;
+	font-family: 'Averia Serif Libre';
+
+	/* font-size: 1em; */
+	/* line-height: 1.3em; */
+	/* font-family: 'PT Serif'; */
+	color: var(--logos-text);
+	background: url(../images/paperbg.webp) repeat;
+	background-size: 500%;
+	border: none;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	text-align: left;
+}
+
+.clue-reveal {
+    color: var(--logos-text);
+    height: 100%;
+    margin-top: 5px;
+    border-radius: 0.5em;
+    border-bottom: 0.5em solid var(--logos-orange);
+    border-top: 2.25em solid var(--logos-orange);
+    background-image: url(../images/themecardbg.webp);
+    box-shadow: 0px 0px 1px 2px #a85d4b;
+    padding: 10px;
+}
+
+.clue-reveal button
+{
+	width: 12em;
+	display: inline-block;
+	font-family: "Rubik";
+	text-align: center;
+	font-weight: bold;
+	font-size: large;
+	color: white;
+	background-color: #502c5dbd;
+	padding: 5px 0px;
+	margin: 10px;
+	justify-content: center;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+.clue-reveal h1 {
+    padding: 10px;
+    border: none;
+    margin: 0;
+    margin-top: -1.4em;
+    text-align: center;
+    font-family: 'Rift Bold';
+    font-weight: bold;
+    font-size: 2.2em;
+    text-transform: uppercase;
+    text-shadow: 0px -1px 2px var(--spectrum-red), 0px 2px 2px var(--spectrum-red);
+}
+
+.clue-reveal h2 {
+	text-align: center;
+	font-family: 'Rift Bold';
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	border: none;
+}
+
+.clue-reveal .partial-clue {
+	text-align:center;
+}
+
+.clue-reveal .player-only.partial-clue {
+	font-style: italic;
+}
+
+.clue-reveal .answer-part {
+    border-top: 2px solid var(--logos-orange);
+    padding-top: 10px;
+}
+
+.clue-reveal .header{
+	font-weight: bold;
+}
+
+.clue-reveal .question-part {
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+}
+
+.clue-reveal .waiting-msg::before {
+	margin-top: 1.5em;
+}
+
+.clue-reveal .waiting-msg {
+	/* margin-top: 1.5em; */
+	font-family: "Rift Bold";
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.clue-reveal .answer-input {
+	height: 8em;
+	font-size: .8em;
+}
+
+.clue-reveal .rejected-question {
+	color:red;
+}
+
+.clue-reveal .banked-clue {
+	text-transform: capitalize;
+}
+
+.answer-part .text {
+	font-family: "Rubik";
+}
+
+.style-city-of-mist .narration-box {
+	text-shadow: 0px 2px 2px var(--mythos-bright),
+	0px 1px 4px var(--mythos-pink);
+	color: var(--mythos-white);
+	height: 100%;
+	font-size: 1.2em;
+	border-style: solid;
+	padding: 5px;
+	border: 1px;
+	transition-duration: 0.2s;
+	height: 100%;
+	color: var(--mythos-text);
+	border-radius: 1em;
+	/* border-bottom: 1em solid var(--mythos-pink); */
+	border-top: 2em solid var(--mythos-pink);
+	background-image: url(../images/mythoscardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: 125%;
+	/* box-shadow: 0px -5px 0px 10px #502c5da6; */
+}
+
+#help-section .section-header {
+	font-size: 2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+	text-align: center;
+}
+
+#hurt-section .section-header {
+	font-size: 2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.style-city-of-mist .story-tags-header {
+	font-weight: bold;
+	font-size: 2em;
+	height: auto;
+	font-family: 'Rubik';
+	text-align: center;
+	font-size: large;
+}
+
+.style-city-of-mist .template-name:hover {
+	cursor: pointer;
+	text-shadow: 2px 4px 10px var(--mythos-pink);
+}
+
+.style-city-of-mist .danger-templates-label {
+	/* font-weight: bold; */
+	text-align: center;
+	font-size: 2em;
+	font-family: 'Rift Bold';
+}
+
+.style-city-of-mist div.narrated-text {
+	border-radius: 10px;
+	border: 4px groove grey;
+	/* border-style: groove; */
+	/* border-width: 4px; */
+	/* border-color: black; */
+	line-height: 1.5rem;
+	box-sizing: border-box;
+	color: white;
+	font-size: larger;
+	font-weight: bold;
+	padding: 10px;
+	background: linear-gradient(
+	to right,
+	rgba(191, 85, 236, 0.3),
+	rgba(191, 85, 236, 0.6),
+	rgba(191, 85, 236, 0.3)
+	);
+	text-shadow: 3px 3px 3px black;
+	user-select: text;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+
+
+.style-city-of-mist .city-roll div.actor-name,
+.style-city-of-mist .city-move div.actor-name
+{
+	font-size: larger;
+	text-align: center;
+	color: var(--logos-text);
+	font-weight: bold;
+}
+
+.style-city-of-mist .city-roll div.move-name,
+.style-city-of-mist .city-move div.move-name
+{
+	font-family: 'Rift Bold';
+	font-size: 1.8em;
+	line-height: 1em;
+	font-weight: bold;
+	color: var(--logos-orange);
+	text-align: center;
+}
+
+.style-city-of-mist div.roll-total {
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.7em;
+	margin-top: 0.5em;
+	font-family: 'Rubik';
+	color: var(--mythos-pink);
+	text-shadow: 0px 3px 6px var(--mythos-bright);
+}
+
+.style-city-of-mist button.execute-move-button {
+	width: 12em;
+	display: inline-block;
+	font-family: "Rubik";
+	font-weight: bold;
+	font-size: large;
+	color: white;
+	background-color: #502c5dbd;
+	padding: 5px 0px;
+	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
+}
+
+.style-city-of-mist .gmmove-text {
+    flex-grow: 10;
+    flex-basis: 10px;
+    margin: 4px;
+    padding: 7px;
+    font-family: 'Averia Serif Libre';
+    font-size: 1em;
+    line-height: 1.3em;
+    background: url(../images/paperbg.webp) repeat;
+    background-size: 300%;
+    border: 2px solid var(--color-border-light-primary);
+    border-top-left-radius: 1em;
+}
+

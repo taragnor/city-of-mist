@@ -22,7 +22,11 @@
   "styles": [
     "styles/city.css",
     "module/token-tooltip/tooltip.css",
-    "module/city-status-tracker/city-status-tracker.css"
+    "module/city-status-tracker/city-status-tracker.css",
+	 "styles/com.css",
+	 "styles/otherscape.css",
+	 "styles/legend.css",
+	 "styles/mist-engine.css"
   ],
   "languages": [
     {

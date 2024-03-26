@@ -1,16 +1,4 @@
 :root {
-	--mythos-pink: #502c5d;
-	--mythos-bright: #ae4ace;
-
-	--mythos-text: hsl(284deg 15% 15%);
-	--mythos-white: hsl(265deg 10% 95%);
-
-	--logos-orange: #a85d4b;
-	--logos-text: #48382a;
-
-	--mist-blue:#28475b;
-	--mist-text:#232b35;
-
 	--extra-grey:#686358;
 	--extra-text:#312e29;
 
@@ -460,10 +448,6 @@ select:focus {
 	font-size: 1.1em;
 	line-height: 1.2em;
 	font-family: 'Averia Serif Libre';
-
-	/* font-size: 1em; */
-	/* line-height: 1.3em; */
-	/* font-family: 'PT Serif'; */
 	color: var(--logos-text);
 	background: url(../images/paperbg.webp) repeat;
 	background-size: 500%;
@@ -500,6 +484,8 @@ textarea:focus {
 	box-shadow: 0 0 6px #f82973;
 	outline: none;
 }
+
+/* left here as default styles but really should be overridden with an appropriate style class */ 
 
 .dialog .dialog-buttons button {
 	font-size: 15px;
@@ -585,6 +571,7 @@ textarea.borderless {
 	outline: none;
 	border: none;
 	background: transparent;
+	overflow:hidden;
 }
 
 textarea.borderless:disabled {
@@ -606,17 +593,6 @@ textarea.theme-name-input.borderless:disabled {
 	height: auto;
 	/* padding: 0.2em 0.2em 0.15em 0.2em; */
 	/* text-shadow: 0px 2px 7px #ffffffd1; */
-}
-
-.Mythos-theme textarea.theme-name-input.borderless:disabled {
-	text-shadow: 0px 2px 2px var(--mythos-bright),
-	0px 1px 4px var(--mythos-pink);
-	color: var(--mythos-white);
-}
-
-.Logos-theme textarea.theme-name-input.borderless:disabled {
-	text-shadow: 0px 2px 3px white,
-	0px 2px 4px var(--logos-orange);
 }
 
 input.character-name {
@@ -645,34 +621,6 @@ input#crew-name {
 	0px 2px 4px var(--logos-orange);
 	color: var(--logos-text);
 	border: none;
-}
-
-input.mythos-name {
-	max-width: 50%;
-	height: 1.2em;
-	padding-right: 0.2em;
-	padding-left: 0.1em;
-	font-size: 2em;
-	text-align: right;
-	background: none;
-	font-family: 'Rift Bold';
-	text-shadow: 0px 2px 2px var(--mythos-bright),
-	0px 1px 4px var(--mythos-pink);
-	color: var(--mythos-white);
-}
-
-input.logos-name {
-	max-width: 50%;
-	height: 1.2em;
-	padding-right: 0.1em;
-	padding-left: 0.2em;
-	font-size: 2em;
-	text-align: left;
-	background: none;
-	font-family: 'Rift Bold';
-	text-shadow: 0px 2px 3px white,
-	0px 2px 4px var(--logos-orange);
-	color: var(--logos-text);
 }
 
 input.short-description {
@@ -821,41 +769,14 @@ div.flex-theme-block:hover {
 }
 
 .theme-block {
-	height: 100%;
+	/* height: 100%; */
+	height: 800px;
 	border-style: solid;
 	padding: 5px;
 	border: 1px;
 	transition-duration: 0.2s;
 }
 
-div.Mythos-theme {
-	height: 100%;
-	color: var(--mythos-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--mythos-pink);
-	border-top: 2em solid var(--mythos-pink);
-	background-image: url(../images/mythoscardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: 125%;
-	box-shadow: 0px -5px 0px 10px #502c5da6;
-}
-
-.Mythos-theme .theme-name {
-	text-shadow: 0px 0px 10px var(--mythos-bright),
-	0px 1px 12px var(--mythos-pink);
-	color: var(--mythos-white);
-}
-
-div.Logos-theme {
-	color: var(--logos-text);
-	height: 100%;
-	border-radius: 1em;
-	border-bottom: 1em solid var(--logos-orange);
-	border-top: 2em solid var(--logos-orange);
-	background-image: url(../images/themecardbg.webp);
-	box-shadow: 0px -5px 0px 10px #a85d4ba6;
-}
 
 div.Crew-theme,
 div.Extra-theme {
@@ -871,18 +792,6 @@ div.Extra-theme {
 	box-shadow: 0px -5px 0px 10px #686358a6;
 }
 
-div.Mist-theme {
-	height: 100%;
-	color: var(--mist-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--mist-blue);
-	border-top: 2em solid var(--mist-blue);
-	background-image: url(../images/mistcardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #28475ba6;	
-}
 
 .loadout-theme-box,
 .status-box,
@@ -897,18 +806,6 @@ div.Mist-theme {
 	background-position: center;
 	background-size: cover;
 	box-shadow: 0px -1px 0px 1px #5f624fa6;
-}
-
-div.Mythos-theme textarea.themebook-mystery.identity-input {
-	color: var(--mythos-text);
-}
-
-div.Logos-theme textarea.themebook-mystery.identity-input {
-	color: var(--logos-text);
-}
-
-div.Mist-theme textarea.themebook-mystery.identity-input {
-	color: var(--mist-text);
 }
 
 img.theme-img {
@@ -952,28 +849,6 @@ section.card-style {
     line-height: 1.3em;
 }
 
-.clue-source,
-.clue-method {
-	font-family: 'Averia Serif Libre';
-}
-
-.clue-source b,
-.clue-method b {
-	font-weight: bold;
-	font-family: 'Averia Serif Libre';
-}
-
-.juice-source,
-.juice-method {
-	font-family: 'Averia Serif Libre';
-}
-
-.juice-source b,
-.juice-method b {
-	font-weight: bold;
-	font-family: 'Averia Serif Libre';
-}
-
 div.non-char-theme-header {
 	font-weight: bold;
 	font-size: larger;
@@ -1001,40 +876,9 @@ section.card-style:hover {
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-span.clue-name:hover {
-	text-shadow: 0 0 10px var(--mythos-bright);
-}
-
-#juice-section .section-header {
-	font-size: 2em;
-	font-weight: bold;
-	font-family: "Rubik";
-	text-transform: uppercase;
-	text-align: center;
-}
-
-span.juice-name {
-	text-transform: capitalize;
-	transition-duration: 0.2s;
-}
-
-span.juice-name:hover {
-	text-shadow: 0 0 10px var(--mythos-bright);
-}
 
 .weakness-tag {
 	font-style: italic;
-}
-
-div.themebook-identity-label,
-div.themebook-mystery-label,
-div.themebook-crew-label,
-div.themebook-mist-label {
-	font-size: 1.4em;
-	font-family: "Rift Bold";
-	font-weight: bold;
-	margin-left: 0.3em;
-	text-transform: uppercase;
 }
 
 div.tag-add-icons {
@@ -1062,10 +906,6 @@ div.tag-add-icons {
 	cursor: text;
 }
 
-textarea.themebook-mystery.identity-input {
-	/* color: var(--mythos-white); */
-}
-
 h1.no-border {
 	border-bottom: 0px;
 }
@@ -1081,8 +921,6 @@ h1#Theme-header {
 }
 
 div.section-header {
-	/* border-bottom: 2px solid green; */
-	/* font-size: larger; */
 	flex-direction: column-reverse;
 }
 
@@ -1235,13 +1073,6 @@ input.tag-name-input {
 	width: 50%;
 }
 
-#clue-section .section-header {
-	font-size: 2em;
-	font-weight: bold;
-	font-family: "Rubik";
-	text-transform: uppercase;
-	text-align: center;
-}
 
 section.clue-data-block {
     background-image: linear-gradient( to right, rgb(0 0 200 / 15%), rgb(0 0 255 / 8%), rgb(0 0 200 / 35%) ),url(../images/paperbg.webp);
@@ -1948,7 +1779,6 @@ section.gm-moves {
     flex-basis: 10px;
     margin: 4px;
     padding: 7px;
-    /* margin: 0.3em; */
     font-family: 'Averia Serif Libre';
     font-size: 1em;
     line-height: 1.3em;
@@ -1956,7 +1786,6 @@ section.gm-moves {
     background-size: 300%;
     border: 2px solid var(--color-border-light-primary);
     border-top-left-radius: 1em;
-    /* border-top-right-radius: 1em; */
 }
 
 .inherited-move .gmmove-text {
@@ -2024,7 +1853,6 @@ textarea.gmmove-description:disabled {
 }
 
 div.gmmove-description {
-	/* font-style: italic; */
 	font-size: initial;
 }
 
@@ -2497,9 +2325,6 @@ section.danger-templates {
 	list-style-type: none;
 }
 
-.evolution-list-item {
-}
-
 .SHB-warning {
 	text-color: red;
 	text-align: center;
@@ -2517,10 +2342,6 @@ section.danger-templates {
 
 .SHB-confirm-dialog {
 	margin: 20px;
-}
-
-.status-text-list {
-	/* margin: 5px; */
 }
 
 .status-text-list-header {
@@ -2637,22 +2458,6 @@ faded {
 }
 
 .slidervalue {
-	text-align: center;
-}
-
-#help-section .section-header {
-	font-size: 2em;
-	font-weight: bold;
-	font-family: "Rubik";
-	text-transform: uppercase;
-	text-align: center;
-}
-
-#hurt-section .section-header {
-	font-size: 2em;
-	font-weight: bold;
-	font-family: "Rubik";
-	text-transform: uppercase;
 	text-align: center;
 }
 
@@ -2871,110 +2676,9 @@ nav.sheet-tabs.tabs {
 	text-align: center;
 }
 
-.clue-reveal {
-    color: var(--logos-text);
-    height: 100%;
-    margin-top: 5px;
-    border-radius: 0.5em;
-    border-bottom: 0.5em solid var(--logos-orange);
-    border-top: 2.25em solid var(--logos-orange);
-    background-image: url(../images/themecardbg.webp);
-    box-shadow: 0px 0px 1px 2px #a85d4b;
-    padding: 10px;
-}
-
-.clue-reveal button
-{
-	width: 12em;
-	display: inline-block;
-	font-family: "Rubik";
-	text-align: center;
-	font-weight: bold;
-	font-size: large;
-	color: white;
-	background-color: #502c5dbd;
-	padding: 5px 0px;
-	margin: 10px;
-	justify-content: center;
-	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
-}
-
-.clue-reveal h1 {
-    padding: 10px;
-    border: none;
-    margin: 0;
-    margin-top: -1.4em;
-    text-align: center;
-    font-family: 'Rift Bold';
-    font-weight: bold;
-    font-size: 2.2em;
-    text-transform: uppercase;
-    text-shadow: 0px -1px 2px var(--spectrum-red), 0px 2px 2px var(--spectrum-red);
-}
-
-.clue-reveal h2 {
-	text-align: center;
-	font-family: 'Rift Bold';
-	font-weight: bold;
-	margin-bottom: 10px;
-	margin-top: 10px;
-	border: none;
-}
-
-.clue-reveal .partial-clue {
-	text-align:center;
-}
-
-.clue-reveal .player-only.partial-clue {
-	font-style: italic;
-}
-
-.clue-reveal .answer-part {
-    border-top: 2px solid var(--logos-orange);
-    padding-top: 10px;
-}
-
-.clue-reveal .header{
-	font-weight: bold;
-}
-
-.clue-reveal .question-part {
-	margin-top: 10px;
-	margin-bottom: 10px;
-
-}
-
-.clue-reveal .waiting-msg::before {
-	margin-top: 1.5em;
-}
-
-.clue-reveal .waiting-msg {
-	/* margin-top: 1.5em; */
-	font-family: "Rift Bold";
-	text-align: center;
-	font-size: 1.2em;
-}
-
 .question-part .text{
 	font-family: "PT Serif";
 	font-style: italic;
-}
-
-.clue-reveal .answer-input {
-	height: 8em;
-	font-size: .8em;
-}
-
-.clue-reveal .rejected-question {
-	color:red;
-}
-
-.clue-reveal .banked-clue {
-	text-transform: capitalize;
-}
-
-.answer-part .text {
-	font-family: "Rubik";
 }
 
 .question {
@@ -3171,21 +2875,6 @@ span.secret {
 	text-shadow: 0 0 8px #f82973;
 }
 
-button.clue-use-button {
-	flex: none !important;
-	margin: 0.5em;
-	border-radius: 0.5em;
-	color: white;
-	background-color: #502c5dbd;
-	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
-	max-width: 64px;
-}
-
-button.clue-use-button:hover {
-	background: #c5044b;
-	transition: all 0.4s ease-in-out;
-}
-
 .fas.green-icon {
 	color:green;
 }
@@ -3233,17 +2922,13 @@ Flip Card code
 /* This container is needed to position the front and back side */
 .flip-card-inner {
   position: relative;
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
+  height: 800px;
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
 }
-
-/* Do an horizontal flip when you move the mouse over the flip box container */
-/* .flip-card:hover .flip-card-inner { */
-/*   transform: rotateY(180deg); */
-/* } */
 
 .flip-card .flipped {
 	transform: rotateY(180deg);
@@ -3255,7 +2940,8 @@ Flip Card code
 .flip-card-front, .flip-card-back {
   position: absolute;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  height: 800px;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
 }
@@ -3277,7 +2963,7 @@ div.flex-theme-block-flip {
 	/* border: 0.2em solid grey; */
 	border-radius: 1em;
 	padding: 0.1em;
-	/* overflow: auto;caused problems with flipcard */ 
+	overflow: hidden; /*caused problesm with flipcard*/
 	transition: transform .2s;
 }
 
@@ -3297,5 +2983,9 @@ div.flex-theme-block-flip {
 .loadout-box:hover {
 	box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6;
 	transition-duration: 0.2s;
+}
+
+.flip-button:hover {
+	cursor: pointer;
 }
 

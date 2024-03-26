@@ -1,3 +1,4 @@
+import { refreshStyleBodyTags } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
 import { localize } from "../city.js";
@@ -305,6 +306,7 @@ export function DEV_SETTINGS() {
 			choices: SYSTEM_CHOICES(),
 			restricted: true,
 			onChange: (newval: string) => {
+				refreshStyleBodyTags(newval as any);
 				const curr = CitySettings.get("system");
 				if (curr != newval && curr != "custom") {
 					CitySettings.set("system", "custom");

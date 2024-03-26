@@ -31,6 +31,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		html.scroll(this._scrollSheet.bind(this));
 		DragAndDrop.addDragFunctionality( html);
 		html.on("drop", this._dragDropEvent.bind(this));
+		html.find('.flip-button').on("click", this.#flipCard.bind(this));
 
 		//Restore Scroll positon
 		if (this.scrollTop)
@@ -123,5 +124,14 @@ export class CitySheet extends ActorSheet<CityActor> {
 		else return CityHelpers.getOwner(id, tokenId, sceneId) as CityActor;
 	}
 
+	async #flipCard(event: JQuery.ClickEvent) {
+		console.log("Trying to flip Card");
+		const flipElement = $(event.currentTarget).closest(".flip-card-inner");
+		if (flipElement.hasClass("flipped")) {
+			flipElement.removeClass("flipped");
+		} else {
+			flipElement.addClass("flipped");
+		}
+	}
 
 }

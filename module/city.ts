@@ -16,6 +16,8 @@ declare global {
 }
 
 // Import Modules
+import { CitySettings } from "./settings.js";
+import { DEV_SETTINGS } from "./config/settings-object.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
@@ -85,6 +87,7 @@ Hooks.once("init", async function() {
 	registerDataModels();
 
 	registerSystemSettings();
+	refreshStyleBodyTags(CitySettings.get("baseSystem"));
 
 	game.city = {
 		CityActor,
@@ -150,6 +153,28 @@ Hooks.on("renderApplication", function() {
 		StatusTrackerWindow._instance.render(false);
 	}
 });
+
+export function refreshStyleBodyTags(system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
+	let target : string;
+	switch (system) {
+		case "city-of-mist":
+			target = "style-city-of-mist";
+			break;
+		case "otherscape":
+			target = "style-otherscape";
+			break;
+		case "legend":
+			target = "style-legend";
+			break;
+		default:
+			system satisfies never;
+			throw new Error(`Invalid choice ${system}`);
+	}
+	$(document).find("body").removeClass("style-city-of-mist");
+	$(document).find("body").removeClass("style-otherscape");
+	$(document).find("body").removeClass("style-legend");
+	$(document).find("body").addClass(target);
+}
 
 
 //@ts-ignore

@@ -150,7 +150,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	get subtype(): string {
 		switch (this.system.type) {
 			case "themebook": return this.system.subtype;
-			case "themekit": return this.themebook?.subtype ?? this.system.type;
+			case "themekit": return this.themebook?.subtype ?? this.system.subtype;
 			case "status" :return "";
 			case "tag": return this.system.subtype;
 			default: if ("subtype" in this.system) return this.system.subtype;

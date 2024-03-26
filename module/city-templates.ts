@@ -40,6 +40,10 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/themekit-questions.hbs",
 	  "systems/city-of-mist/templates/parts/themekit-improvements.hbs",
 	  "systems/city-of-mist/templates/parts/loadout-theme.hbs",
+	  "systems/city-of-mist/templates/parts/theme-display-com-front.hbs",
+	  "systems/city-of-mist/templates/parts/theme-display-com-back.hbs",
+	  "systems/city-of-mist/templates/parts/theme-display-me-front.hbs",
+	  "systems/city-of-mist/templates/parts/theme-display-me-back.hbs",
   ];
 
   // Load the template parts

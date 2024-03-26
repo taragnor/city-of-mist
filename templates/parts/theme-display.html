@@ -1,151 +1,20 @@
-<div class="{{themebook.subtype}}-theme theme-block " id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
-	<div class="themebook-name"> {{themebook.displayedName}}</div>
-	<div class ="theme-title">
-		{{#if (ne themetype "character")}}
-		<div class="non-char-theme-header" title="{{themetype}} theme">
-			{{#if (eq themetype "crew")}}
-			<a class="item-control crew-prev">
-				<i class="fas fa-arrow-left"></i>
-			</a>
-			{{/if}}
-			<span class="non-char-theme-name"> {{owner.name}}</span>
-			{{#if (eq themetype "crew")}}
-			<a class="item-control crew-next">
-				<i class="fas fa-arrow-right"></i>
-			</a>
-			{{/if}}
-		</div>
-		{{/if}}
-		<form>
-			<textarea class="theme-name-input borderless" type="text" wrap="soft" rows="2" maxlength="52" {{#if locked}} disabled {{/if}}>{{theme.name}}</textarea>
-		</form>
-		{{#if (eq locked false)}}
-		{{#if (eq themebook.type "themekit")}}
-		<a class="item-control edit-themekit" title="Edit ThemeKit" data-tk-id="{{themebook.id}}"><i class="fas fa-pencil"></i></a>
-		{{/if}}
-		<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
-		{{/if}}
-		{{#if theme.system.nascent}} <div class="nascent-label">
-			{{localize "CityOfMist.terms.nascent"}}
-		</div> {{/if}}
+<div class="flip-card-inner">
+	{{#if (themeDisplayis "city-of-mist")}}
+	<div class="flip-card-front">
+		{{> "systems/city-of-mist/templates/parts/theme-display-com-front.hbs" owner=owner theme=theme sheetowner=sheetowner themetype="character" }}
 	</div>
-	<div class="att-fade-section">
-		<div class="attention-block">
-			<div class="dots-section flex-std">
-				{{#each theme.system.attention as |attention rank|}}
-				{{#if (eq attention 1)}}
-				<span class="filled-circle tracker-circle"></span>
-				{{else}}
-				<span class="empty-circle tracker-circle"></span>
-				{{/if}}
-				{{/each}}
-				<a class="theme-add-attention" data-type="attention" > <i class="fas fa-plus-square"></i></a>
-				{{#if (ne locked true)}}
-				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
-				{{/if}}
-			</div>
-
-			<div class="attention-label">
-				<div class="attention-text flex-std">
-					{{getThemePropertyName "attention" theme}}
-					</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
-				</div>
-
-			</div>
-		</div>
-		<div class="fade-block">
-			<div class="dots-section flex-std">
-				{{#each theme.system.crack as |crack rank|}}
-				{{#if (eq crack 1)}}
-				<span class="filled-circle tracker-circle"></span>
-				{{else}}
-				<span class="empty-circle tracker-circle"></span>
-				{{/if}}
-				{{/each}}
-				<a class="theme-add-fade"  data-type="crack" > <i class="fas fa-plus-square"></i></a>
-				{{#if (gt theme.system.unspent_upgrades 0)}}
-				<a class="theme-reset-fade"  data-type="crack" title="Reset Fade"> <i class="fas fa-undo"></i></a>
-				{{/if}}
-				{{#if (ne locked true)}}
-				<a class="theme-remove-fade"  data-type="crack" > <i class="fas fa-minus-square"></i></a></p>
-				{{/if}}
-			</div>
-			<div class="fade-text flex-std">
-				{{getThemePropertyName "fade" theme}}
-			</div>
-		</div>
+	<div class="flip-card-back">
+		<a class="flip-button"> Flip</a>
+		{{> "systems/city-of-mist/templates/parts/theme-display-com-back.hbs" owner=owner theme=theme sheetowner=sheetowner themetype="character" }}
 	</div>
-	{{#if (eq themebook.subtype "Logos")}}
-	<div class="themebook-identity-label"> <b class="themebook-identity">
-			{{theme.motivationName}}
-		</b> </div>
-		{{/if}}
-		{{#if (eq themebook.subtype "Mythos")}}
-		<div class="themebook-mystery-label"> <b class="themebook-mystery">
-				{{theme.motivationName}}
-			</b> </div>
-			{{/if}}
-			{{#if (eq themebook.subtype "Mist")}}
-			<div class="themebook-mist-label"> <b class="themebook-directive">
-					{{theme.motivationName}}
-				</b> </div>
-				{{/if}}
-				<!-- Crew and Extra -->
-				{{#if (or (eq themebook.subtype "Crew") (eq themebook.subtype "Extra"))}}
-				<div class="themebook-crew-label"> <b class="themebook-mystery">
-						{{localize 'CityOfMist.terms.mystery' }} / {{localize 'CityOfMist.terms.identity' }}
-						{{theme.getMotivationName}}
-					</b> </div>
-					{{/if}}
-					<textarea class="themebook-mystery identity-input" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
-					<div class="tag-add-icons">
-						<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
-
-			{{#if (gt theme.system.unspent_upgrades 0)}}
-			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
-			{{else}}
-			<span title ="Not enough attention to add power tag">
-				<i class="fas fa-bolt fa-disabled"></i>
-			</span>
-			{{/if}}
-			{{#if (eq locked false)}}
-			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
-				<i class="fas fa-star"></i>
-			</a>
-			<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" > 
-				<i class="fas fa-anchor" ></i>
-			</a>
-			{{else}}
-			<span title="Can't add Bonus Tag when sheet is locked">
-				<i class="fas fa-star fa-disabled"></i>
-			</span>
-			<span title="Can't add Weakness Tag when sheet is locked">
-				<i class="fas fa-anchor fa-disabled" ></i>
-			</span>
-			{{/if}}
-		</div>
+	{{/if}}
+	{{#if (themeDisplayis "mist-engine")}}
+	<div class="flip-card-front">
+		{{> "systems/city-of-mist/templates/parts/theme-display-me-front.hbs" owner=owner theme=theme sheetowner=sheetowner themetype="character" }}
 	</div>
-	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
-	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
-		<div id="improvements-header" class="improvements-header"> {{localize 'CityOfMist.terms.improvements' }}
-			{{#if (gt theme.system.unspent_upgrades 0)}}
-			<a class="theme-create-improvement" data-distinct="true" data-item-type="improvement" data-duplicates="false" data-actor-id="{{owner.id}}" data-theme-id="{{theme.id}}" title= "Add Improvement"> <i class="fas fa-plus-square"></i></a>
-			{{else}}
-			<span title="Not enough attention to add improvement">
-				<i class="fas fa-plus-square fa-disabled"></i>
-			</span>
-			{{/if}}
-		</div>
-		<ul class="improvement-list">
-			{{#each owner.items as |imp |}}
-			{{#if (eq imp.type "improvement")}}
-			{{#if (eq imp.system.theme_id ../theme.id)}}
-			<li>
-				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner }}
-			</li>
-			{{/if}}
-			{{/if}}
-			{{/each}}
-		</ul>
+	<div class="flip-card-back">
+		<a class="flip-button"> Flip</a>
+		{{> "systems/city-of-mist/templates/parts/theme-display-me-back.hbs" owner=owner theme=theme sheetowner=sheetowner themetype="character" }}
+	</div>
+	{{/if}}
 </div>
-

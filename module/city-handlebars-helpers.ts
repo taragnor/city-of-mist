@@ -1,3 +1,4 @@
+import { DEV_SETTINGS } from "./config/settings-object.js";
 import { Theme } from "./city-item.js";
 import { Themebook } from "./city-item.js";
 import { RollModifier } from "./city-roll.js";
@@ -248,13 +249,27 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				default:
 					throw new Error(`Unknown Theme Term ${term}`);
 			}
+		},
+
+			'themeDisplayis' : function (str:keyof ReturnType<typeof DEV_SETTINGS>["themeStyle"]["choices"]) : boolean {
+				const style = CitySettings.get("themeStyle");
+				switch (str) {
+					case "city-of-mist":
+						return str == style;
+					case "mist-engine":
+						return str == style;
+					default: 
+						str satisfies never;
+						ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
+						return false;
+				}
+			}
 
 
 
-		}
-
-	}; //end of object holding helpers
+	} //end of object holding helpers
 } // end of class
+
 
 
 
