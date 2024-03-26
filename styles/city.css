@@ -770,7 +770,7 @@ div.flex-theme-block:hover {
 
 .theme-block {
 	/* height: 100%; */
-	height: 800px;
+	height: 625px;
 	border-style: solid;
 	padding: 5px;
 	border: 1px;
@@ -2924,7 +2924,7 @@ Flip Card code
   position: relative;
   /* width: 100%; */
   /* height: 100%; */
-  height: 800px;
+  height: 625px;
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
@@ -2941,7 +2941,7 @@ Flip Card code
   position: absolute;
   width: 100%;
   /* height: 100%; */
-  height: 800px;
+  /* height: 600px; */
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
 }
