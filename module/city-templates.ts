@@ -44,6 +44,8 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/theme-display-com-back.hbs",
 	  "systems/city-of-mist/templates/parts/theme-display-me-front.hbs",
 	  "systems/city-of-mist/templates/parts/theme-display-me-back.hbs",
+	  "systems/city-of-mist/templates/parts/loadout-theme-back.hbs",
+	  "systems/city-of-mist/templates/parts/loadout-theme-front.hbs",
   ];
 
   // Load the template parts

@@ -92,42 +92,34 @@
 				{{/if}}
 				<div class="flip-card flex-theme-block-flip" >
 					{{#if (loadoutThemeEnabled)}}
-					<div class="flip-card-inner">
-						<div class="flip-card-front">
-							{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout}}
-						</div>
-						<div class="flip-card-back">
-							<a class="flip-button"> Flip</a>
-							<h2> Back</h2>
-						</div>
-						{{else}}
-						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.system.locked sheetowner=actor otherStatuses=otherStatuses}}
-						{{/if}}
+					{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout}}
+				{{else}}
+				{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.system.locked sheetowner=actor otherStatuses=otherStatuses}}
+				{{/if}}
+			</div>
+			<div class="flex-theme-block story-tag-box" >
+				<div class="story-tags" >
+					{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=actor.system.locked sheetowner=actor}}
+					<div class="story-tag-category">
+						<div class="section-title"> My Story Tags </div>
+						{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=actor.my_story_tags}}
 					</div>
-				</div>
-				<div class="flex-theme-block story-tag-box" >
-					<div class="story-tags" >
-						{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=actor.system.locked sheetowner=actor}}
-						<div class="story-tag-category">
-							<div class="section-title"> My Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=actor.my_story_tags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Scene Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=sceneStoryTags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Crew Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=crewStoryTags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Danger Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=dangerStoryTags}}
-						</div>
+					<div class="story-tag-category">
+						<div class="section-title"> Scene Story Tags </div>
+						{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=sceneStoryTags}}
+					</div>
+					<div class="story-tag-category">
+						<div class="section-title"> Crew Story Tags </div>
+						{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=crewStoryTags}}
+					</div>
+					<div class="story-tag-category">
+						<div class="section-title"> Danger Story Tags </div>
+						{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=dangerStoryTags}}
 					</div>
 				</div>
 			</div>
-			{{/if}}
+		</div>
+		{{/if}}
 		</div>
 		<div class="tab tab-content juice-tab" data-group="primary" data-tab="juice">
 			<section id="juice-section">

@@ -251,19 +251,19 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 		},
 
-			'themeDisplayis' : function (str:keyof ReturnType<typeof DEV_SETTINGS>["themeStyle"]["choices"]) : boolean {
-				const style = CitySettings.get("themeStyle");
-				switch (str) {
-					case "city-of-mist":
-						return str == style;
-					case "mist-engine":
-						return str == style;
-					default: 
-						str satisfies never;
-						ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
-						return false;
-				}
+		'themeDisplayis' : function (str:keyof ReturnType<typeof DEV_SETTINGS>["themeStyle"]["choices"]) : boolean {
+			const style = CitySettings.get("themeStyle");
+			switch (str) {
+				case "city-of-mist":
+					return str == style;
+				case "mist-engine":
+					return str == style;
+				default: 
+					str satisfies never;
+					ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
+					return false;
 			}
+		}
 
 
 
