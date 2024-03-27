@@ -456,7 +456,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		}
 	}
 
-	async #createLoadoutTag(_ev: JQuery.Event) {
+	async #createLoadoutTag(event: JQuery.Event) {
+		event.stopImmediatePropagation();
 		const tag = await this.actor.createLoadoutTag();
 		const updateObj =	await CityDialogs.itemEditDialog(tag);
 		if (updateObj) {
