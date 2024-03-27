@@ -234,7 +234,7 @@ div.Mist-theme {
 
 .style-city-of-mist div.Crew-theme,
 .style-city-of-mist div.Extra-theme {
-	height: 100%;
+	/* height: 100%; */
 	color: var(--extra-text);
 	border-radius: 1em;
 	border-bottom: 1em solid var(--extra-grey);
@@ -632,4 +632,14 @@ button.clue-use-button:hover {
     border: 2px solid var(--color-border-light-primary);
     border-top-left-radius: 1em;
 }
+
+.Mythos-theme div.themebook-name {
+	background: var(--mythos-pink);
+	color: var(--mythos-white);
+}
+
+.Logos-theme div.themebook-name {
+	background: var(--logos-orange);
+}
+
 

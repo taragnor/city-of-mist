@@ -24,15 +24,14 @@
 	<div class="flex-wide flex-line">
 		{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=owner activated=(hasActivatedItem tag) tagdirection=(getDirection tag) tag=tag data=tag.system}}
 	</div>
-	<div class="flex-narrow flex-line">
+	<div class="flex-narrow flex-line flex-burn-flame-cell">
+		{{#if (not tag.parent.system.locked)}}
 		{{#if (canTakeLoadoutWeakness tag)}}
 		<a class="loadout-create-weakness-tag" title="Add WeaknessTag">
-				<i class="fas fa-anchor" ></i>
+			<i class="fas fa-anchor" ></i>
 		</a>
 		{{/if}}
-
-	</div>
-	<div class="flex-narrow flex-line flex-burn-flame-cell">
+		{{else}}
 		{{#if tag.parent.isOwner}}
 		{{#if (eq tag.system.burn_state 0)}}
 		{{#if canBurn}}
@@ -46,5 +45,6 @@
 		{{/if}}
 		{{/if}}
 		{{/if}}
+	{{/if}}
 	</div>
 </div>

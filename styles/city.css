@@ -778,9 +778,10 @@ div.flex-theme-block:hover {
 }
 
 
+div.Loadout-theme,
 div.Crew-theme,
 div.Extra-theme {
-	height: 100%;
+	/* height: 100%; */
 	color: var(--extra-text);
 	border-radius: 1em;
 	border-bottom: 1em solid var(--extra-grey);
@@ -793,7 +794,6 @@ div.Extra-theme {
 }
 
 
-.loadout-theme-box,
 .status-box,
 .story-tag-box {
 	/* height: 100%; */
@@ -1146,7 +1146,8 @@ img.img-flame {
 }
 
 span.flex-tag-name {
-	font-size: smaller;
+	font-size: 0.8em;
+	/* font-size: smaller; */
 	transition-duration: 0.2s;
 }
 
@@ -1461,15 +1462,6 @@ div.themebook-name {
 
 .sheet {
 	font-family: Roboto;
-}
-
-.Mythos-theme div.themebook-name {
-	background: var(--mythos-pink);
-	color: var(--mythos-white);
-}
-
-.Logos-theme div.themebook-name {
-	background: var(--logos-orange);
 }
 
 .Crew-theme div.themebook-name {
@@ -2888,15 +2880,6 @@ span.secret {
 	text-align: center;
 }
 
-.loadout-theme h2 {
-	font-weight: bold;
-	font-size: 2em;
-	height: auto;
-	font-family: 'Rubik';
-	text-align: center;
-	font-size: large;
-}
-
 .loadout-theme .att-fade-section {
 	margin-top: 0.75em;
 }
@@ -2967,25 +2950,10 @@ div.flex-theme-block-flip {
 	transition: transform .2s;
 }
 
-
-.loadout-box {
-	color: var(--options-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--options-green);
-	border-top: 1em solid var(--options-green);
-	background-image: url(../images/extracardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	/* box-shadow: 0px -1px 0px 1px #5f624fa6; */
-}
-
-.loadout-box:hover {
-	box-shadow: 0px -1px 4px 1px rgb(248 41 115 / 45%), 0px -1px 0px 1px #5f624fa6;
-	transition-duration: 0.2s;
-}
-
 .flip-button:hover {
 	cursor: pointer;
 }
 
+.tag-list {
+	font-size: 10pt;
+}

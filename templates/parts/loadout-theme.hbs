@@ -1,10 +1,10 @@
-<section class="loadout-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{actor.id}}" data-token-id="{{tokenId}}">
-	<h2 class="header">
+<div class="Loadout-theme theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{actor.id}}" data-token-id="{{tokenId}}">
+	<div class="themebook-name flip-button">
 		{{getLoadoutThemeName}}
 		<a class="loadout-create-power-tag" data-item-type="tag" title="Add Loadout Tag" data-sub-type="power" >
 			<i class="fa-solid fa-tag"></i>
 		</a>
-	</h2>
+	</div>
 	{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.mainTags owner=actor locked=actor.system.locked sheetowner=actor canBurn=true subtype="loadout" themeId=theme.id supertag=""}}
 	<div class="att-fade-section">
 		<div class="attention-block">
@@ -29,5 +29,5 @@
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 
