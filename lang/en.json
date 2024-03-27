@@ -612,6 +612,10 @@
 "CityOfMist.settings.handleTempItems.choice1": "Burn temporary or crispy tags",
 "CityOfMist.settings.handleTempItems.choice2": "Burn Temporary and crispy tags and delete statuses",
 
+"CityOfMist.settings.autofail.name": "Auto success/fail",
+"CityOfMist.settings.autofail.hint": "natural 2 and 12 are automatic failure and success (respectively)",
+
+
 "CityOfMist.keybinds.narration.name" : "Narration Box",
 "CityOfMist.keybinds.narration.help" :"Used for Narrating scenes (has special tag and status synatx similar to GM moves)",
 "CityOfMist.keybinds.sessionEnd.name" : "Session End",

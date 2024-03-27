@@ -311,7 +311,7 @@ export class CityRoll {
 		const moveId = roll.options.moveId;
 		const move =  CityHelpers.getMoves().find(x=> x.id == moveId)!;
 		const {total, roll_adjustment} = this.getTotal(roll);
-		const roll_status = CityRoll.getRollStatus(total, options);
+		const roll_status = CityRoll.getRollStatus(roll, total, options);
 		const moveListRaw = CityItem.generateMoveList(move!, roll_status, power).map ( x=> {x.checked = false; return x;});
 		const actor = CityDB.getActorById(options.actorId);
 		const actorName = actor ?actor.name : "";
@@ -374,7 +374,13 @@ export class CityRoll {
 		return { power: power, adjustment: 0 };
 	}
 
-	static getRollStatus (total: number, options: CRollOptions) {
+	static getRollStatus (roll: Roll, total:number,  options: CRollOptions) {
+		if (CitySettings.get("autoFail_autoSuccess")) {
+			if (roll.total == 12)
+				return options.dynamiteAllowed && total >= 12 ? "Dynamite" : "Success";
+			if (roll.total == 2)
+				return "Failure";
+		}
 		if (total>= 12 && options.dynamiteAllowed) {
 			return "Dynamite";
 		} else if (total >= 10) {
@@ -669,7 +675,7 @@ export class CityRoll {
 		const {power} = CityRoll.getPower(roll.options);
 		const {total} = CityRoll.getTotal(roll);
 		const move = CityHelpers.getMoves().find(x=> x.id == roll.options.moveId)!;
-		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const roll_status = CityRoll.getRollStatus(roll, total, roll.options);
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});
 		let moveList = message.getFlag<typeof moveListRaw>("city-of-mist", "checkedOptions") ??
 			moveListRaw;
@@ -737,7 +743,7 @@ export class CityRoll {
 		if (!move)
 			throw new Error(`Coulodn't find move for some reason ${moveId}`);
 		const {total} = this.getTotal(roll);
-		const roll_status = CityRoll.getRollStatus(total, roll.options);
+		const roll_status = CityRoll.getRollStatus(roll, total, roll.options);
 		const max_choices = CityItem.getMaxChoices(move, roll_status, power);
 		const curr_choices = checkedOptions?.filter( x=> x.checked)?.length ?? 0;
 		const moveListRaw = CityItem.generateMoveList(move, roll_status, power).map ( x=> {x.checked = false; return x;});

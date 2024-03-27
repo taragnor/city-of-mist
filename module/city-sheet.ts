@@ -125,7 +125,6 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async #flipCard(event: JQuery.ClickEvent) {
-		console.log("Trying to flip Card");
 		const flipElement = $(event.currentTarget).closest(".flip-card-inner");
 		if (flipElement.hasClass("flipped")) {
 			flipElement.removeClass("flipped");

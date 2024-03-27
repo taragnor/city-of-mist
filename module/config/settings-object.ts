@@ -274,6 +274,16 @@ export function CITY_SETTINGS() {
 			restricted: true,
 		},
 
+		"autoFail_autoSuccess": {
+			name: localize("CityOfMist.settings.autofail.name"),
+			hint: localize("CityOfMist.settings.autofail.hint"),
+			scope: "world",
+			config: true,
+			type: Boolean,
+			default: true,
+			restricted: true,
+		},
+
 		"devMode": {
 			name: localize("CityOfMist.settings.devMode.name"),
 			hint: localize("CityOfMist.settings.devMode.hint"),
