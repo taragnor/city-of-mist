@@ -38,8 +38,6 @@ export class CityActorSheet extends CitySheet {
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
 		HTMLHandlers.applyBasicHandlers(html);
-		// html.find('.theme-item-edit').on("change", this._modifyThemeField.bind(this));
-		// html.find('.theme-item-edit').on("focusout", this._modifyThemeField.bind(this));
 		html.find('.theme-name-input').on("change", this._themebookNameInput.bind(this));
 		html.find('.theme-name-input').on("focusout", this._themebookNameInput.bind(this));
 		html.find('.theme-create-power-tag').on("click", this._createTagOrImprovement.bind(this) );

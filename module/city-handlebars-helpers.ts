@@ -263,6 +263,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
 					return false;
 			}
+		},
+
+		'isThemeKit': function (theme: Theme) {
+			if (theme.themebook) {
+				return theme.themebook!.isThemeKit();
+			}
+			return false;
+
 		}
 
 

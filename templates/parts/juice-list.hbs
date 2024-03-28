@@ -1,0 +1,33 @@
+<section class="juice-list-section story-tag-box" data-owner-id="{{actor.id}}">
+	<h2 class="section-name">
+		<span class="flip-button">
+			{{localize "CityOfMist.terms.juice"}}
+		</span>
+		<span>
+			<a class="create-juice" data-item-type="juice" data-actor-id={{actor.id}}>
+				<i class="fas fa-plus-square"></i>
+			</a>
+			<a class="create-help" data-item-type="juice" data-actor-id={{actor.id}} title='{{localize "CityOfMist.terms.help"}}'>
+				<i class="fa-solid fa-handshake"></i>
+			</a>
+			<a class="create-hurt" data-item-type="juice" data-actor-id={{actor.id}} title='{{localize "CityOfMist.terms.hurt"}}'>
+				<i class="fa-solid fa-hands-bound"></i>
+			</a>
+
+		</span>
+	</h2>
+	<div class="juice-list">
+		{{#each actor.juice as |juice|}}
+		<div data-juice-id="{{juice.id}}">
+			<span class="juice-name">
+				({{juice.system.amount}})
+				{{#if (isHelpHurt juice)}}
+				{{juice.system.subtype}} {{helpHurtTarget juice}}
+				{{else}}
+				{{juice.displayedName}}
+				{{/if}}
+			</span>
+		</div>
+		{{/each}}
+	</div>
+</section>

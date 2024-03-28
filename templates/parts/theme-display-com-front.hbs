@@ -1,24 +1,19 @@
 <div class="{{themebook.subtype}}-theme theme-block " id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
 	<div class="themebook-name flip-button">
+		{{#if (eq theme.themebook.system.subtype "Crew")}}
+		<a class="item-control crew-prev">
+			<i class="fas fa-arrow-left"></i>
+		</a>
+		{{/if}}
 		{{themebook.displayedName}}
+		{{#if (eq theme.themebook.system.subtype "Crew")}}
+		<a class="item-control crew-next">
+			<i class="fas fa-arrow-right"></i>
+		</a>
+		{{/if}}
 	</div>
 	<div class ="theme-title">
-		{{#if (ne themetype "character")}}
-		<div class="non-char-theme-header" title="{{themetype}} theme">
-			{{#if (eq themetype "crew")}}
-			<a class="item-control crew-prev">
-				<i class="fas fa-arrow-left"></i>
-			</a>
-			{{/if}}
-			<span class="non-char-theme-name"> {{owner.name}}</span>
-			{{#if (eq themetype "crew")}}
-			<a class="item-control crew-next">
-				<i class="fas fa-arrow-right"></i>
-			</a>
-			{{/if}}
-		</div>
-		{{/if}}
-		<form>
+		<form class="theme-name">
 			<textarea class="theme-name-input borderless" type="text" wrap="soft" rows="2" maxlength="52" {{#if locked}} disabled {{/if}}>{{theme.name}}</textarea>
 		</form>
 		{{#if (eq owner.system.locked false)}}

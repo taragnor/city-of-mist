@@ -24,8 +24,8 @@
 }
 
 
-	window.Debug = DebugTools.Debug;
-	window.DLog = DebugTools.DLog;
+	window.Debug = DebugTools.Debug.bind(DebugTools);
+	window.DLog = DebugTools.DLog.bind(DebugTools);
 
 
 declare global {

@@ -48,9 +48,19 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async _editThemeKit(event: Event) {
-		const TKId = HTMLTools.getClosestData(event, "tkId");
-		const tk = this.actor.getThemeKit(TKId);
-		if (!tk) throw new Error(`Can't find Themekit ${TKId}`);
+		event.stopImmediatePropagation();
+		const themeId = HTMLTools.getClosestData(event, "themeId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		// const TKId = HTMLTools.getClosestData(event, "tkId");
+		const owner = this.getOwner(ownerId);
+		const theme = owner.getTheme(themeId)!;
+		const tk = theme.themebook;
+		if (!tk) throw new Error(`Can't find Themekit for ${theme.displayedName}`);
+		if (!tk.isThemeKit()) {
+			ui.notifications.error("THeme kit isn't a theme kit");
+			return;
+		}
+		// const tk = this.actor.getThemeKit(TKId);
 		if (this.actor.type != "character" && !game.user.isGM) {
 			const msg = localize("CityOfMist.error.MCEditOnly");
 			ui.notifications.warn(msg);

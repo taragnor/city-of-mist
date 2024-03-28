@@ -269,6 +269,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.loadout-create-power-tag').on("click", this.#createLoadoutTag.bind(this));
 		html.find('.toggle-activation-loadout-tag').on("click", this.#toggleLoadoutTag.bind(this));
 		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
+		html.find(".clue-list-section .clue-name").on('click', this._clueEdit.bind(this));
+		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
 	}
 
 	async _addBUImprovement (_event: JQuery.Event) {
@@ -397,6 +399,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	async crewNext(event: JQuery.Event) {
+		event.stopImmediatePropagation();
 		await this.actor.moveCrewSelector(1);
 		event.preventDefault();
 		event.stopImmediatePropagation();
@@ -404,6 +407,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	async crewPrevious(event: JQuery.Event) {
+		event.stopImmediatePropagation();
 		await this.actor.moveCrewSelector(-1);
 		event.preventDefault();
 		event.stopImmediatePropagation();
@@ -494,5 +498,14 @@ export class CityCharacterSheet extends CityActorSheet {
 		}
 	}
 
+
+	async openThemeName( ev: JQuery.Event) {
+		// const themeId = HTMLTools.getClosestData(ev, "themeId");
+		const ownerId = HTMLTools.getClosestData(ev, "ownerId");
+		if (ownerId != this.actor.id) {
+			const owner = this.getOwner(ownerId);
+			owner.sheet.render(true);
+		}
+	}
 
 }

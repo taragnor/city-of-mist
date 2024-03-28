@@ -1,0 +1,30 @@
+<section class="clue-list-section story-tag-box" data-owner-id="{{actor.id}}">
+	<h2 class="section-name">
+		<span class="flip-button">
+			{{localize "CityOfMist.terms.clues"}}
+		</span>
+		<span>
+			<a class="create-clue" data-item-type="clue" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+		</span>
+
+	</h2>
+	<div class="clues-list">
+		{{#each actor.clues as |clue|}}
+		<div data-clue-id="{{clue.id}}">
+			<span class="clue-name">
+				{{clue.displayedName}}
+				{{#if (gt clue.system.amount 1)}}
+				({{clue.system.amount}})
+				{{/if}}
+				{{#if clue.system.partial}}
+				(partial)
+				{{/if}}
+			</span>
+			<a class="clue-use-button">
+				<i class="fa-solid fa-magnifying-glass"></i>
+			</a>
+		</div>
+		{{/each}}
+	</div>
+</section>
+

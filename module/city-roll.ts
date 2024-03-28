@@ -741,7 +741,7 @@ export class CityRoll {
 		const moveId = roll.options.moveId;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
 		if (!move)
-			throw new Error(`Coulodn't find move for some reason ${moveId}`);
+			throw new Error(`Couldn't find move for some reason ${moveId}`);
 		const {total} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(roll, total, roll.options);
 		const max_choices = CityItem.getMaxChoices(move, roll_status, power);

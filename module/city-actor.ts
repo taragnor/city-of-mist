@@ -37,6 +37,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.getGMMoves();
 	}
 
+	get clues() : Clue[] {
+		return this.items.filter(x=> x.system.type == "clue") as Clue[];
+	}
+
 	get clueJournal(): ClueJournal[] {
 		return this.items.filter(x => x.system.type == "journal") as ClueJournal[];
 	}
