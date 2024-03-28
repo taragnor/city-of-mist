@@ -18,15 +18,22 @@
 	</h2>
 	<div class="juice-list">
 		{{#each actor.juice as |juice|}}
-		<div data-juice-id="{{juice.id}}">
-			<span class="juice-name">
-				({{juice.system.amount}})
-				{{#if (isHelpHurt juice)}}
-				{{juice.system.subtype}} {{helpHurtTarget juice}}
-				{{else}}
-				{{juice.displayedName}}
+		<div class="flex-row" data-juice-id="{{juice.id}}">
+			<div class="flex-narrow flex-line flex-trash">
+				{{#if (not ../owner.system.locked)}}
+				<a class="item-control juice-delete" title="Delete Juice"><i class="fas fa-trash shrink-icon"></i></a>
 				{{/if}}
-			</span>
+			</div>
+			<div data-juice-id="flex-wide">
+				<span class="juice-name">
+					({{juice.system.amount}})
+					{{#if (isHelpHurt juice)}}
+					{{juice.system.subtype}} {{helpHurtTarget juice}}
+					{{else}}
+					{{juice.displayedName}}
+					{{/if}}
+				</span>
+			</div>
 		</div>
 		{{/each}}
 	</div>
