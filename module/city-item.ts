@@ -239,7 +239,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	/** gets themebook or themekit from a theme or themekit
 	 */
 	getThemebook(this: Theme | ThemeKit) : Themebook  | ThemeKit |  null{
-		console.log(`trying to get themebook for ${this.name}`)
 		if (this.type != "theme" && !this.isThemeKit())
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
