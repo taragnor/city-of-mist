@@ -17,19 +17,19 @@
 		<label>
 			Basis Themebook
 		</label>
-		<select name="system.themebook_name" data-dtype="String">
+		<select name="system.themebook_id" data-dtype="String">
 			<option value="">-</option>
-			{{#select item.system.themebook_name}}
+			{{#select item.system.themebook_id}}
 			{{#each themebooks as |themebook|}}
-			<option value="{{themebook.name}}">
+			<option value="{{themebook.id}}">
 			{{themebook.displayedName}}
 			</option>
 			{{/each}}
 			{{/select}}
 		</select>
 		<textarea name="system.description">{{item.system.description}}</textarea>
-		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="power" tagList=item.system.power_tagstk}}
-		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item data=data tagtype="weakness" tagList=item.system.weakness_tagstk}}
+		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="power" tagList=item.system.power_tagstk}}
+		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="weakness" tagList=item.system.weakness_tagstk}}
 		{{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
 	</section>
 

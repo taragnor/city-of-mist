@@ -1,3 +1,5 @@
+import { ThemeKit } from "./city-item.js";
+import { CityItem } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { localize } from "./city.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
@@ -39,6 +41,19 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	/* -------------------------------------------- */
+
+	override async _onDropItem(_event: Event, o: any) {
+		//@ts-ignore
+		const item : CityItem = await Item.implementation.fromDropData(o);
+		switch (item.system.type) {
+			case "themekit":
+				await this.actor.addThemeKit(item as ThemeKit);
+				break;
+			default:
+				console.log("Unsupported Drop Type: ${item.system.type}");
+				break;
+		}
+	}
 
 	async _toggleLockState(_event: Event) {
 		// const actorId = HTMLTools.getClosestData(event, "ownerId");

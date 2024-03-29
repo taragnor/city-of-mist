@@ -239,14 +239,20 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	/** gets themebook or themekit from a theme or themekit
 	 */
 	getThemebook(this: Theme | ThemeKit) : Themebook  | ThemeKit |  null{
+		console.log(`trying to get themebook for ${this.name}`)
 		if (this.type != "theme" && !this.isThemeKit())
 			throw new Error("Can only be called from a theme or themekit");
 		const actor = this.parent;
-		if (!actor) return null;
+		if (!actor && this.type != "themekit") {
+			Debug(this);
+			return null;
+		}
 		const id = this.system.themebook_id;
 		const name = this.system.themebook_name;
-		if (!name && !id) return null;
-		const tb = actor.items.find( x=> x.id == id) ??
+		if (!name && !id) {
+			return null;
+		}
+		const tb = actor?.items?.find( x=> x.id == id) ??
 			CityDB.getThemebook(name, id);
 		if (!tb)  {
 			throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)

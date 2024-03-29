@@ -130,18 +130,6 @@ export class CityActorSheet extends CitySheet {
 		await theme.update ({name});
 	}
 
-	//Removed because I don't think it does anything
-	//async _modifyThemeField(event: Event) {
-	//	const theme_id = HTMLTools.getClosestData(event, "themeId");
-	//	const field = HTMLTools.getClosestData(event, "dataField");
-	//	const actorId = HTMLTools.getClosestData(event, "ownerId");
-	//	const actor = this.getOwner(actorId);
-	//	const theme = actor.getTheme(theme_id);
-	//	var obj = {};
-	//	obj.field = $(event.currentTarget!).val();
-	//	await theme.update({obj});
-	//}
-
 	async _createTagOrImprovement (event: Event, bonus = false) {
 		//TODO: allow for text string attachment to improvements
 		const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;

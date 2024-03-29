@@ -179,10 +179,13 @@ export class CityDB extends DBAccessor {
 		let book;
 		if (tname && tname != "") {
 			//if there's premium content, get it
-			book = themebooks.find( item => item.name == tname && !item.system.free_content);
+			book = themebooks.find( item =>
+				(item.name == tname || item.id == id)
+				&& !item.system.free_content);
 			if (!book) {
 				//search expands to free content
-				book = themebooks.find( item => item.name == tname);
+				book = themebooks.find( item =>
+					(item.name == tname || item.id == id));
 			}
 		}
 		if (!book && id) {

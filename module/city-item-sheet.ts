@@ -1,3 +1,4 @@
+import { CityDB } from "./city-db.js";
 import { SYSTEM_CHOICES } from "./config/settings-object.js";
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
@@ -25,6 +26,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	/* -------------------------------------------- */
 
 	override async getData() {
+		await CityDB.waitUntilLoaded();
 		let data = await super.getData();
 		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
 			"any":  "CityOfMist.terms.any",

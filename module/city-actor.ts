@@ -472,12 +472,24 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		await this.update({system: {num_themes: this.system.num_themes+1}});
 	}
 
+	async addThemeKit(tk: ThemeKit) {
+		if (this.system.num_themes>3) {
+			ui.notifications.warn("Can't add extra theme kit, already at 4 themes");
+			return;
+		}
+		const tb =  await this.createNewItem(tk);
+		if (!tb.id) {
+			throw new Error("Doesn't have an ID");
+		}
+		await this.createNewTheme(tk.displayedName, tb.id);
+	}
+
 	async createNewThemeKit( name = "Unnamed Theme Kit") {
 		const obj = {
 			name,
 			type: "themekit",
 			is_theme_kit: true,
-		}
+		};
 		return await this.createNewItem(obj);
 	}
 

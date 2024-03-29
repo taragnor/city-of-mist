@@ -200,6 +200,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return "ERROR";
 			}
 
+			if (!tb) throw new Error("No themebook provided");
 			try {
 				return tb.getQuestion(type, letter);
 			}  catch (e) {
