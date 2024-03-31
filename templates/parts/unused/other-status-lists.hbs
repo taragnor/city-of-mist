@@ -1,0 +1,13 @@
+	{{#each otherStatuses as |character| }} <div class="status-owner-block">
+		<span class="status-owner"> {{character.displayedName}}  </span>
+		<div class="{{#if (eq character.type 'character')}}ally-status{{/if}}
+		{{#if (eq character.type 'threat')}}enemy-status{{/if}}" >
+		<div class="other-status-list">
+			{{#each character.my_statuses as |status id|}}
+			{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status sheetowner=../../sheetowner owner=status.parent locked=true}}
+			{{/each}}
+		</div>
+		</div>
+	</div>
+	{{/each}}
+

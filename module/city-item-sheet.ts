@@ -32,7 +32,6 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 			"any":  "CityOfMist.terms.any",
 		};
 		data.TBSYSTEMLIST = SysChoices;
-
 		data.THEMESUBTYPES = THEME_TYPES;
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.movelist = CityHelpers.getMoves()

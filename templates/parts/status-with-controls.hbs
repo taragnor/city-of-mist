@@ -9,7 +9,7 @@
 		<a class="item-control status-delete" title="Delete Status"><i class="fas fa-trash"></i></a>
 		{{/if}}
 	</div>
-	{{> "systems/city-of-mist/templates/parts/status-name.hbs" status=status locked=locked}}
+	{{> "systems/city-of-mist/templates/parts/status-name.hbs" status=status locked=status.parent.system.locked}}
 	{{#if status.parent.isOwner }}
 	<div class="plus-minus flextiny">
 		<a class="item-control status-add" title="Add to Status"><i class="fas fa-plus"></i></a>

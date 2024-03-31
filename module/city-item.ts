@@ -908,6 +908,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	isJuice() : this is Juice{ return this.system.type == "juice";}
 	isStatus() : this is Status { return this.type == "status"; }
 
+	get isBuildUpImprovement() : boolean {
+		return (this.system.type == "improvement" && !this.system.theme_id);
+	}
+
 	isTemporary(this: Status | Tag) {
 		if (this.system.temporary)
 			return true;

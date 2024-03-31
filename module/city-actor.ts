@@ -469,7 +469,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			name, type: "theme", system: {themebook_id, themebook_name, unspent_upgrades, nascent}
 		};
 		await this.createNewItem(obj);
-		await this.update({system: {num_themes: this.system.num_themes+1}});
+		await this.update({ system: { num_themes: this.system.num_themes+1 }});
 	}
 
 	async addThemeKit(tk: ThemeKit) {

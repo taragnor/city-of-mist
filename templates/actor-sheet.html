@@ -97,26 +97,9 @@
 					{{> "systems/city-of-mist/templates/parts/juice-clues-card.hbs" owner=actor sheetowner=actor}}
 					{{/if}}
 				</div>
-				<div class="flex-theme-block story-tag-box" >
-					<div class="story-tags" >
-						{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor locked=actor.system.locked sheetowner=actor}}
-						<div class="story-tag-category">
-							<div class="section-title"> My Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=actor.my_story_tags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Scene Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=sceneStoryTags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Crew Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=crewStoryTags}}
-						</div>
-						<div class="story-tag-category">
-							<div class="section-title"> Danger Story Tags </div>
-							{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=actor.system.locked sheetowner=actor canBurn=true taglist=dangerStoryTags}}
-						</div>
-					</div>
+				<div class="flip-card flex-theme-block-flip ">
+					{{> "systems/city-of-mist/templates/parts/tag-status-card.hbs" actor=actor  }}
+
 				</div>
 			</div>
 			{{/if}}

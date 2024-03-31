@@ -933,6 +933,14 @@ div.section-header {
 	text-align: center;
 }
 
+.flip-card #build-up-section .section-header {
+	font-size: 1.2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+	text-align: center;
+}
+
 *.identity-input:disabled {
 	background: transparent;
 	border: none;
@@ -2304,6 +2312,7 @@ section.danger-templates {
 	margin: 3em 0;
 }
 
+
 #build-up-section .tracker-circle {
 	min-height: 2em;
 	min-width: 2em;
@@ -2324,6 +2333,13 @@ section.danger-templates {
 	text-transform: uppercase;
 }
 
+.flip-card .BUPoints-header{
+	font-size: 1.2em;
+	font-weight: bold;
+	font-family: "Rubik";
+	text-transform: uppercase;
+}
+
 #build-up-section .tracker-circle {
 	border: 4px solid var(--mythos-pink);
 }
@@ -2334,6 +2350,9 @@ section.danger-templates {
 
 .evolutions-list .improvement-block {
 	font-size: 1.5em;
+}
+.flip-card .evolutions-list .improvement-block {
+	font-size: 1em;
 }
 
 .evolutions-list {

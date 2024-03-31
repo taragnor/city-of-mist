@@ -1,26 +1,8 @@
-
-<div class="status-text-list">
-	<div class="status-text-list-header"> {{localize 'CityOfMist.terms.statuses' }}
-
-		<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-	</div>
-	{{#each actor.items as |status id|}}
-	{{#if (eq status.type "status")}}
-	{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status sheetowner=../sheetowner owner=status.parent locked=../locked}}
-	{{/if}}
-	{{/each}}
-	{{#each otherStatuses as |character| }}
-	<div class="status-owner-block">
-		<span class="status-owner"> {{character.displayedName}}  </span>
-		<div class="{{#if (eq character.type 'character')}}ally-status{{/if}}
-		{{#if (eq character.type 'threat')}}enemy-status{{/if}}" >
-		<div class="other-status-list">
-			{{#each character.my_statuses as |status id|}}
-			{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status sheetowner=../../sheetowner owner=status.parent locked=true}}
-			{{/each}}
-		</div>
-		</div>
-	</div>
-	{{/each}}
+<div>
+{{#each actor.items as |status id|}}
+{{#if (eq status.type "status")}}
+{{> "systems/city-of-mist/templates/parts/status-with-controls.hbs" status=status }}
+{{/if}}
+{{/each}}
 </div>
 

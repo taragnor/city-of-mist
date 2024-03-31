@@ -1,5 +1,5 @@
 <div class="improvement-block" data-imp-id="{{improvement.id}}">
-	{{#if (eq locked false)}}
+	{{#if (eq improvement.parent.system.locked false)}}
 	<a class="item-control imp-delete" title="{{localize 'CityOfMist.command.deleteImprovement'}}" ><i class="fas fa-trash"></i></a>
 	{{/if}}
 	<span class="{{#if locked}} improvement-name {{else}} improvement-edit {{/if}}{{#if improvement.system.uses.expended}} improvement-expended {{/if}}" title="{{improvement.system.description}}" > {{improvement.displayedName}} </span>

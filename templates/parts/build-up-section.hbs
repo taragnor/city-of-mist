@@ -1,0 +1,41 @@
+<section id="build-up-section">
+	<div class="section-header flip-button">
+		{{localize "CityOfMist.terms.MoEs"}}
+		{{#if (gt actor.system.unspentBU 0)}}
+		<a class="add-buildup-improvement" data-type="buildup"> <i class="fas fa-plus-square"></i></a>
+		{{/if}}
+	</div>
+	<ul class="evolutions-list">
+		{{#each items as |item id|}}
+		{{#if (eq item.type "improvement")}}
+		{{#if item.isBuildUpImprovement}}
+		<li class="evolution-list-item">
+			{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item }}
+		</li>
+		{{/if}}
+		{{/if}}
+		{{/each}}
+	</ul>
+	<div class="BUPoints">
+		<div class="BUPoints-header">
+			{{localize "CityOfMist.terms.bu_points"}}
+		</div>
+		{{#each actor.system.buildup as |pt rank|}}
+		{{#if (eq pt 1)}}
+		<span class="filled-circle tracker-circle"></span>
+		{{else}}
+		<span class="empty-circle tracker-circle"></span>
+		{{/if}}
+		{{/each}}
+		{{#if (ne actor.system.unspentBU 0)}}
+		({{actor.system.unspentBU}})
+		{{/if}}
+		{{#if (eq actor.system.locked false)}}
+		<a class="increment-buildup"  data-type="buildup" > <i class="fas fa-plus-square"></i></a>
+		<a class="decrement-buildup"  data-type="buildup" > <i class="fas fa-minus-square"></i></a>
+		{{/if}}
+	</div>
+
+</section>
+
+

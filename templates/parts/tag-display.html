@@ -1,11 +1,10 @@
 <!-- arguments -->
 <!-- tag: tag inquestion -->
-<!-- locked: if tag is locked -->
 <!-- canBurn: allow burning of this tag -->
 
 <div class="flex-row tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}">
 	<div class="flex-narrow flex-line flex-trash">
-		{{#if (eq locked false)}}
+		{{#if (eq tag.parent.system.locked false)}}
 		{{#if tag.parent.isOwner}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>
 		{{/if}}
@@ -22,7 +21,7 @@
 		{{/if}}
 	</div>
 	<div class="flex-wide flex-line">
-		{{> "systems/city-of-mist/templates/parts/tag-name.html" locked=locked owner=owner activated=(hasActivatedItem tag) tagdirection=(getDirection tag) tag=tag data=tag.system}}
+		{{> "systems/city-of-mist/templates/parts/tag-name.html" activated=(hasActivatedItem tag) tagdirection=(getDirection tag) tag=tag}}
 	</div>
 	<div class="flex-narrow flex-line flex-burn-flame-cell">
 		{{#if (not tag.parent.system.locked)}}

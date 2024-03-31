@@ -2,7 +2,7 @@
 	tag
 	tagdirection
 	activated
-	locked -->
+	-->
 	<span class="tag-name-block tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" >
 		<span class="tag-symbols">
 			{{#if (eq tag.system.subtype "story")}}
@@ -40,11 +40,11 @@
 		{{tag.system.subtype}}-tag
 		name
 		{{#if tag.isMissingParent}} tag-error {{/if}}
-		{{#if (and locked (eq tag.system.burned 0))}} active-tag {{/if}}
+		{{#if (and tag.parent.system.locked (eq tag.system.burned 0))}} active-tag {{/if}}
 		{{#if (gt tagdirection 0)}} positive-selected{{/if}}
 		{{#if (lt tagdirection 0)}} negative-selected{{/if}}
-		{{#if (not locked)}} tag-edit-button unlocked-tag{{/if}}
-		{{#if (and (not tag.system.burned) locked)}} tag-select-button  {{/if}}
+		{{#if (not tag.parent.system.locked)}} tag-edit-button unlocked-tag{{/if}}
+		{{#if (and (not tag.system.burned) tag.parent.system.locked)}} tag-select-button  {{/if}}
 		{{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
 		default-positive {{else}} default-negative
 		{{/if}}

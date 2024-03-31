@@ -208,24 +208,27 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return "ERROR";
 			}
 		},
+
 		'hasMist': function (actor: CityActor) {
 			return actor.getNumberOfThemes("Mist") >= 1;
 		},
+
 		'hasMythos': function (actor: CityActor) {
 			return actor.getNumberOfThemes("Mythos") >= 1;
 		},
+
 		'loadoutThemeEnabled': function () {
 			return CitySettings.get("loadoutTheme");
 		},
 
 		'getLoadoutThemeName': function () {
 			return CitySettings.getLoadoutThemeName();
-
 		},
 
 		'isUsingStoryList': function () {
 			return CitySettings.sceneTagWindowUsed();
 		},
+
 		'eqStr': function (a: unknown, b:unknown) {
 			if (!a) a= "";
 			if (!b) b= "";
