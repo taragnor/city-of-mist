@@ -11,6 +11,7 @@ import { CityDB } from "./city-db.js";
 
 export class CitySheet extends ActorSheet<CityActor> {
 	scrollTop: number = 0;
+	flipped: boolean[] = [false, false, false, false, false, false, false, false ];
 
 	/* -------------------------------------------- */
 
@@ -150,12 +151,15 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async #flipCard(event: JQuery.ClickEvent) {
+		const cardId = Number(HTMLTools.getClosestData(event, "cardId"));
+		if (Number.isNaN(cardId)) throw new Error("Coudlkn't get card Id to flip!");
 		const flipElement = $(event.currentTarget).closest(".flip-card-inner");
 		if (flipElement.hasClass("flipped")) {
 			flipElement.removeClass("flipped");
 		} else {
 			flipElement.addClass("flipped");
 		}
+		this.flipped[cardId] = !this.flipped[cardId];
 	}
 
 }

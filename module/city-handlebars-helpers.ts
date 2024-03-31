@@ -1,3 +1,5 @@
+import { CityItem } from "./city-item.js";
+import { CityCharacterSheet } from "./city-character-sheet.js";
 import { DEV_SETTINGS } from "./config/settings-object.js";
 import { Theme } from "./city-item.js";
 import { Themebook } from "./city-item.js";
@@ -275,8 +277,20 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 			return false;
 
-		}
+		},
 
+		'setFlipped': function (actor: CityActor, cardNum: number) {
+			if (cardNum == undefined) {
+				ui.notifications.error("Card Number is undefined in Set Flipped");
+				return false;
+			}
+			const sheet = actor.sheet as CityCharacterSheet;
+			const flipState= sheet.flipped[cardNum];
+			if (flipState) {
+				return new Handlebars.SafeString("flipped");
+			}
+			else return "";
+		},
 
 
 	} //end of object holding helpers

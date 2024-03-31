@@ -64,9 +64,9 @@
 					</section>
 				</div>
 				<div class="theme-block-group">
-					{{#each actor.mainThemes as |item|}}
-					<div class="flip-card flex-theme-block-flip">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.themebook tbdata=item.themebook.system}}
+					{{#each actor.mainThemes as |item i|}}
+					<div class="flip-card flex-theme-block-flip" data-card-id="{{i}}">
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.themebook tbdata=item.themebook.system cardNum=i}}
 					</div>
 					{{/each}}
 				</div>
@@ -75,13 +75,13 @@
 			<div class="theme-block-group">
 				{{#each crewThemes as |item |}}
 				<!-- Should be max of 1 -->
-				<div class="flip-card flex-theme-block-flip" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.themebook tbdata=item.themebook.system data=item.system}}
+				<div class="flip-card flex-theme-block-flip" data-card-id="4" >
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.themebook tbdata=item.themebook.system data=item.system cardNum=4}}
 				</div>
 				{{/each}}
 				{{#if activeExtra}}
-				<div class="flip-card flex-theme-block-flip">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.parent theme=activeExtra locked=true sheetowner=actor themetype="extra" items=activeExtra.parent.items themebook=activeExtra.themebook data=activeExtra.system tbdata=activeExtra.themebook.system}}
+				<div class="flip-card flex-theme-block-flip" data-card-id="5" >
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.parent theme=activeExtra locked=true sheetowner=actor themetype="extra" items=activeExtra.parent.items themebook=activeExtra.themebook data=activeExtra.system tbdata=activeExtra.themebook.system cardNum=5}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">
@@ -90,15 +90,15 @@
 					</div>
 				</div>
 				{{/if}}
-				<div class="flip-card flex-theme-block-flip" >
+				<div class="flip-card flex-theme-block-flip" data-card-id="6"  >
 					{{#if (loadoutThemeEnabled)}}
-					{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout}}
+					{{> "systems/city-of-mist/templates/parts/loadout-theme.hbs" actor=actor theme=actor.loadout cardNum=6}}
 					{{else}}
-					{{> "systems/city-of-mist/templates/parts/juice-clues-card.hbs" owner=actor sheetowner=actor}}
+					{{> "systems/city-of-mist/templates/parts/juice-clues-card.hbs" owner=actor sheetowner=actor cardNum=6}}
 					{{/if}}
 				</div>
-				<div class="flip-card flex-theme-block-flip ">
-					{{> "systems/city-of-mist/templates/parts/tag-status-card.hbs" actor=actor  }}
+				<div class="flip-card flex-theme-block-flip " data-card-id="7" >
+					{{> "systems/city-of-mist/templates/parts/tag-status-card.hbs" actor=actor cardNum=7 }}
 
 				</div>
 			</div>
