@@ -24,14 +24,17 @@
 		{{/if}}
 		{{#if theme.system.nascent}} <div class="nascent-label">
 			{{localize "CityOfMist.terms.nascent"}}
-		</div> {{/if}}
+		</div>
+		{{/if}}
 	</div>
 	<div class="themebook-motivation-label"> <b class="themebook-motivation">
 			{{theme.motivationName}}
-		</b> </div>
-		<textarea class="motivation-input borderless" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
-		<div class="tag-add-icons">
-			<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
+		</b>
+	</div>
+	<textarea class="motivation-input borderless" type="text" value="{{theme.system.mystery}}" data-property="mystery" {{#if (eq locked true)}} disabled{{/if}}>{{theme.system.mystery}}</textarea>
+
+	<div class="tag-add-icons">
+		<div id="tags-header" class="tags-header"> {{localize 'CityOfMist.terms.themeTags' }}
 
 				{{#if (gt theme.system.unspent_upgrades 0)}}
 				<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
@@ -40,7 +43,7 @@
 					<i class="fas fa-bolt fa-disabled"></i>
 				</span>
 				{{/if}}
-				{{#if (eq locked false)}}
+				{{#if (eq owner.system.locked false)}}
 				<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
 					<i class="fas fa-star"></i>
 				</a>
@@ -57,7 +60,7 @@
 					{{/if}}
 			</div>
 		</div>
-		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
-		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=owner.items owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
+		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.powerTags owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
+		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.weaknessTags owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
 </div>
 

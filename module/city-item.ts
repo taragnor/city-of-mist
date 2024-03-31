@@ -485,6 +485,40 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.crack;
 	}
 
+	get powerTags() : Tag[] {
+		if (!this.parent) return [];
+		if (this.system.type == "theme" || this.system.type == "themekit") {
+			return this.parent
+				.getTags(this.id, "power")
+				.sort( (a,b) => {
+					if (a.isBonusTag() && !b.isBonusTag()) return 1;
+					if (b.isBonusTag() && !a.isBonusTag())
+						return -1;
+					return a.system.question_letter.localeCompare(b.system.question_letter)
+				});
+		}
+		return [];
+	}
+
+	/** The A tag for otherscape that names a theme */
+	get headerTag() : Tag[] {
+		const header = this.powerTags[0];
+		if (!header) {
+			console.warn(`No headertag for ${this.type} ${this.name}`);
+			return [];
+
+		}
+		return [header];
+
+	}
+
+	/** The secondary tags other than main in Otherscape*/
+	get otherPowerTags(): Tag[] {
+		const tags = this.powerTags;
+		tags.shift();
+		return tags;
+	}
+
 	async addFade(this: Theme, amount = 1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.system.crack;
@@ -581,7 +615,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	isBurned() : boolean {
 		if (this.system.type == "tag")
-			return this.system.burned;
+			return this.system.burned && this.system.burn_state != 0;
 		else
 			return false;
 	}

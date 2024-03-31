@@ -232,11 +232,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		'eqStr': function (a: unknown, b:unknown) {
-			if (!a) a= "";
-			if (!b) b= "";
-			if (typeof a != "string") a= String(a);
-			if (typeof b != "string") b= String(b);
-			return a== b;
+			if (!a) a = "";
+			if (!b) b = "";
+			if (typeof a != "string") a = String(a);
+			if (typeof b != "string") b = String(b);
+			return a == b;
 		},
 
 		'canTakeLoadoutWeakness': function (tag: Tag) {

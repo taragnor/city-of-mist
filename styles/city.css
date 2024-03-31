@@ -1389,6 +1389,13 @@ span.empty-circle {
 	background-color: var(--mythos-bright);
 }
 
+.mist-engine-theme-block .theme-title .main-tag .tag-name-block {
+	font-size: 1.7em;
+	font-family: 'Rift Bold';
+	line-height: 1em;
+
+}
+
 .Mythos-theme span.empty-circle {
 	border: 2px solid var(--mythos-text);
 	background-color: rgba(0, 0, 0, 0);
