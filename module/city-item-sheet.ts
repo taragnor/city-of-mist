@@ -30,7 +30,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		let data = await super.getData();
 		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
 			"any":  "CityOfMist.terms.any",
-		};
+		} as const;
 		data.TBSYSTEMLIST = SysChoices;
 		data.THEMESUBTYPES = THEME_TYPES;
 		data.MOTIVATIONLIST = MOTIVATIONLIST;

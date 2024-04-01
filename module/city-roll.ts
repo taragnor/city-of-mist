@@ -41,6 +41,7 @@ type RollOptions = CRollOptions & {
 export type CRollOptions = {
 	newtype ?: Exclude<ThemeType, "">;
 	themeType ?: Exclude<ThemeType, "">;
+	BlazeThemeId ?: string;
 	dynamiteAllowed ?: boolean;
 	noStatus ?: boolean;
 	noTags ?: boolean;
@@ -185,9 +186,10 @@ export class CityRoll {
 			.concat(helpHurt)
 		;
 		if (options.themeType) {
+			const blazetheme = options.BlazeThemeId ? actor.getTheme(options.BlazeThemeId) : undefined;
 			modifiers.push({
 				id: options.themeType,
-				name: localize(THEME_TYPES[options.themeType]),
+				name: localize(THEME_TYPES[options.themeType]) + (blazetheme ?` (${blazetheme.getDisplayedName()})` : ""),
 				amount: actor.getNumberOfThemes(options.themeType),
 				ownerId: null,
 				tagId: null,

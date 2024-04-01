@@ -1,3 +1,4 @@
+import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
 
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
@@ -228,12 +229,16 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		else return "";
 	}
 
-	getThemeType (this: Theme | ThemeKit) {
+	getThemeType (this: Theme | ThemeKit): Exclude<ThemeType, ""> {
 		// return logos/mythos
 		const themebook = this.getThemebook();
 		if (themebook == null)
 			throw new Error("ERROR Can't find themebook!");
-		return (themebook as Themebook).system.subtype;
+		if ( themebook.system.subtype)
+			return themebook.system.subtype;
+		if (themebook.isThemeKit())
+			return themebook.getThemeType();
+		throw new Error(`Can't get theme type of ${this.name}`);
 	}
 
 	/** gets themebook or themekit from a theme or themekit
@@ -984,12 +989,18 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				if (this.system.choice_item)
 					return `${x} (${this.system.choice_item})`;
 				else return x as string; //tehcincally a SafeString conversion but it should stil lwork fine
+			case "theme":
+				if (CitySettings.get("themeStyle") == "mist-engine") {
+					return this.headerTag[0]?.getDisplayedName() ?? this.name;
+				}
+				break;
 			default:
 				if ("locale_name" in this.system && this.system.locale_name)
 					return localizeS(this.system.locale_name).toString();
 				else
 					return this.name.toString();
 		}
+		return this.name;
 	}
 
 	get displayedName() : string {

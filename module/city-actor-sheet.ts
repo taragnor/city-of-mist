@@ -1,5 +1,3 @@
-import { THEME_TYPES } from "./datamodel/theme-types.js";
-import { CRollOptions } from "./city-roll.js";
 import { Clue } from "./city-item.js";
 
 import { Juice } from "./city-item.js";
@@ -7,7 +5,6 @@ import { Status } from "./city-item.js"
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { Improvement } from "./city-item.js";
 import { Tag } from "./city-item.js";
-import { PC } from "./city-actor.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
 
@@ -566,37 +563,6 @@ export class CityActorSheet extends CitySheet {
 
 	async CJDialog(obj: Clue| Juice) : Promise<Clue | Juice> {
 		return await CityHelpers.itemDialog(obj) as Juice;
-	}
-
-	async SHBDialog (actor: PC): Promise<CRollOptions["newtype"] | null> {
-		const title = "You sure about this?";
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
-		return new Promise ( (conf, _rej) => {
-			const options = {};
-			const dialog = new Dialog({
-				title:`${title}`,
-				content: html,
-				buttons: {
-					one: {
-						label: localize("CityOfMist.dialog.SHB.yes"),
-						callback: (html: string) => {
-							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
-							if (!Object.keys(THEME_TYPES).includes(result!)) {
-								ui.notifications.error(`Bad Theme Type ${result}`)
-								conf(null);
-							}
-							conf(result);
-						}
-					},
-					cancel: {
-						label: localize("CityOfMist.dialog.SHB.no"),
-						callback: () => conf(null)
-					},
-				},
-				default: "cancel"
-			}, options);
-			dialog.render(true);
-		});
 	}
 
 }

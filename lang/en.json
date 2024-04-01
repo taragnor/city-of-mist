@@ -314,7 +314,7 @@
 
 "Otherscape.moves.trackedOutcome.name" : "Tracked Outcome",
 "Otherscape.moves.generic.fail" : "You suffer a consequence.",
-"Otherscape.moves.trackedOutcome.partial" : "Suffer a consequence and choose effects equal to your PWR (Otherscape Page 90).",
+"Otherscape.moves.trackedOutcome.partial" : "Suffer a consequence and choose effects of Power PWR (Otherscape Page 90).",
 "Otherscape.moves.trackedOutcome.success" : "Choose effects equal to your PWR (otherscape Page 90).",
 
 "Otherscape.moves.mitigate.name" : "Mitigate Consequences",

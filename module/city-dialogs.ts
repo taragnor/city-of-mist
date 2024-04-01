@@ -1,3 +1,6 @@
+import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { PC } from "./city-actor.js";
+import { CRollOptions } from "./city-roll.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { RollModifier } from "./city-roll.js";
 import { GMMove } from "./city-item.js";
@@ -662,6 +665,69 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		});
 	}
 
+	static async SHBDialog (actor: PC): Promise<CRollOptions["newtype"] | null> {
+		const title = "You sure about this?";
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
+		return new Promise ( (conf, _rej) => {
+			const options = {};
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: localize("CityOfMist.dialog.SHB.yes"),
+						callback: (html: string) => {
+							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
+							if (!Object.keys(THEME_TYPES).includes(result!)) {
+								ui.notifications.error(`Bad Theme Type ${result}`)
+								conf(null);
+							}
+							conf(result);
+						}
+					},
+					cancel: {
+						label: localize("CityOfMist.dialog.SHB.no"),
+						callback: () => conf(null)
+					},
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+	}
+
+	static async BlazeDialog(actor: PC): Promise<Theme | null | undefined> {
+		const title = "You sure about this?";
+		const ACTOR_THEMES = Object.fromEntries(actor.getThemes()
+		.map( theme => [theme.id, theme.displayedName])
+	);
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/Blaze-Dialog.hbs", {actor, ACTOR_THEMES});
+		return new Promise ( (conf, _rej) => {
+			const options = {};
+			const dialog = new Dialog({
+				title:`${title}`,
+				content: html,
+				buttons: {
+					one: {
+						label: localize("CityOfMist.dialog.SHB.yes"),
+						callback: (html: string) => {
+							const themeId = $(html).find(".blaze-theme-sacrifice :selected").val() as string;
+							console.log(`Theme Id ${themeId}`);
+							conf(actor.getTheme(themeId));
+						}
+					},
+					cancel: {
+						label: localize("CityOfMist.dialog.SHB.no"),
+						callback: () => conf(null)
+					},
+				},
+				default: "cancel"
+			}, options);
+			dialog.render(true);
+		});
+
+
+	}
 
 
 } //end of class

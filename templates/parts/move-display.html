@@ -7,15 +7,15 @@
 		<option value="standard"> {{localize "CityOfMist.terms.standard"}} </option>
 		<option value="noroll"> {{localize "CityOfMist.terms.noRoll"}} </option>
 		<option value="themeclassroll"> {{localize "CityOfMist.terms.themeClassRoll"}} </option>
-		<option value="SHB">  {{localize ""CityOfMist.terms.SHB""}} </option>
+		<option value="SHB">  {{localize "CityOfMist.terms.SHB"}} </option>
 		{{/select}}
 	</select>
 	<select name="system.theme_class">
-		{{selectOptions THEMESUBTYPES localize=true selected=item.system.theme_class}}
+		{{selectOptions THEMESUBTYPES localize=true selected=move.system.theme_class}}
 	</select>
 	<label class="type-header"> {{localize "CityOfMist.terms.category"}} </div>
 	<select name="system.category">
-		{{#select item.system.category}}
+		{{#select move.system.category}}
 		<option value="Core"> {{localize "CityOfMist.terms.core"}} </option>
 		<option value="Advanced"> {{localize "CityOfMist.terms.advanced"}} </option>
 		<option value="SHB"> {{localize "CityOfMist.terms.SHB"}} </option>
@@ -66,9 +66,6 @@
 	</div>
 	{{#if (devMode)}}
 	<hr>
-	<select class="" name="system.system_compatiblity" title="System choice">
-		{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-	</select>
 	<label> Move Special Identifiers </label>
 	<input type="text" value="{{item.system.effect_class}}" name="system.effect_class" title="Advanced Uses (special coded)">
 	<label> Move Abbreviation </label>

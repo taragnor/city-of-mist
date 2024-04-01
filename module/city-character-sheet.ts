@@ -1,3 +1,4 @@
+import { CitySettings } from "./settings.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { Themebook } from "./city-item.js";
@@ -79,6 +80,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.MOVEGROUP =Object.fromEntries(
 			moves.map( mv => ([mv.id, mv.displayedName]))
 		);
+		console.log(data.MOVEGROUP);
 		//Crew Themes
 		data.crewThemes = this.getCrewThemes();
 
@@ -424,13 +426,22 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (!move) {throw new Error(`Cant' find move id ${move_id}`);}
 		const SHB = move.system.subtype == "SHB";
 		let newtype : CRollOptions["newtype"] | null= null;
+		let BlazeThemeId : string | undefined = undefined
 		if (SHB) {
-			const SHBType = await this.SHBDialog(this.actor);
-			if (!SHBType)
-				return;
-			newtype = SHBType;
+			const system = CitySettings.getBaseSystem();
+			if (system == "city-of-mist") {
+				const SHBType = await CityDialogs.SHBDialog(this.actor);
+				if (!SHBType)
+					return;
+				newtype = SHBType;
+			} else {
+				const theme = await CityDialogs.BlazeDialog(this.actor);
+				if (!theme) return;
+				newtype = theme.getThemeType();
+				BlazeThemeId = theme.id;
+			}
 		}
-		const options: CRollOptions = newtype ? { newtype} : {};
+		const options: CRollOptions = newtype ? { newtype, BlazeThemeId} : {};
 		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
 		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		if (roll == null)
