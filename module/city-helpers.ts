@@ -1,3 +1,4 @@
+import { DOWNTIME_CHOICES } from "./datamodel/downtime-choices.js";
 import { Move } from "./city-item.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
 import { Status } from "./city-item.js";
@@ -547,7 +548,7 @@ export class CityHelpers {
 	}
 
 	static async PCDowntime() {
-		const PCList = await this.downtimePCSelector();
+		const PCList = await this.selectPCsForDowntime();
 		if (PCList.length > 0 ) {
 			const s = new DowntimeSessionM(PCList);
 			CitySockets.execSession(s);
@@ -557,7 +558,7 @@ export class CityHelpers {
 
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
 	 */
-	static async downtimePCSelector(): Promise<CityActor[]> {
+	static async selectPCsForDowntime(): Promise<CityActor[]> {
 		const downtime = localize("CityOfMist.moves.downtime.name");
 		// const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
 		const PCList: CityActor[] = game.actors.filter((x:CityActor)=>x.system.type == "character") as CityActor[];
@@ -584,31 +585,12 @@ export class CityHelpers {
 	}
 
 	static async downtimeActionChoice(choice: string, actor: CityActor) {
-		let moveText = "";
-		switch (choice) {
-			case "logos":
-				moveText = localize( "CityOfMist.moves.downtime.0");
-				break;
-			case "workcase":
-				moveText = localize( "CityOfMist.moves.downtime.1");
-				break;
-			case "mythos":
-				moveText = localize( "CityOfMist.moves.downtime.2");
-				break;
-			case "recover":
-				moveText = localize( "CityOfMist.moves.downtime.4");
-				break;
-			case "juice":
-				moveText = localize( "CityOfMist.dialog.downtime.juice");
-				break;
-
-			case "unburn":
-				moveText = localize( "CityOfMist.dialog.downtime.unburn");
-				break;
-			default:
+		let moveText = DOWNTIME_CHOICES[choice];
+		if (!moveText) {
 				ui.notifications.warn(`Unknown Downtime Action ${choice}`)
 				return;
 		}
+		moveText = localize(moveText);
 		const html = await renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
 		const messageOptions = {};
 		const messageData : MessageData = {

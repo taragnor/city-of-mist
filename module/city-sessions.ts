@@ -470,7 +470,7 @@ export class DowntimeSessionS extends SlaveSession {
 			.map ( id => game.actors.get(id) as CityActor)
 			.filter(actor => actor.isOwner);
 		for (const actor of actorList) {
-			const choice = await CityDialogs.DowntimePCSelector(actor);
+			const choice = await CityDialogs.downtimePCSelector(actor);
 			if (!choice) continue;
 			await CityHelpers.downtimeActionChoice(choice, actor);
 			replyObj.find( x=> x.actorId == actor.id)!.downtimeAction = choice;

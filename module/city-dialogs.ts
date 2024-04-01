@@ -1,3 +1,4 @@
+import { CitySettings } from "./settings.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
 import { CRollOptions } from "./city-roll.js";
@@ -293,10 +294,9 @@ export class CityDialogs {
 		//});
 	}
 
-	static async DowntimePCSelector(actor: CityActor): Promise<null | string> {
+	static async downtimePCSelector(actor: CityActor): Promise<null | string> {
 		if (!actor) throw new Error("Actor is undefined");
-		const templateData = {actor};
-		const html = await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser.hbs`, templateData);
+		const html = await this.getDowntimeTemplate(actor);
 		return new Promise( (conf, _rej)  =>  {
 			const options = {};
 			const dialog = new Dialog(  {
@@ -320,6 +320,23 @@ export class CityDialogs {
 
 			dialog.render(true);
 		});
+	}
+
+	static async getDowntimeTemplate(actor: CityActor) : Promise <string> {
+		const templateData = {actor};
+		const system = CitySettings.getBaseSystem();
+		switch (system) {
+			case "city-of-mist":
+				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
+			case "otherscape":
+				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+			case "legend":
+				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+			default:
+				system satisfies never;
+				throw new Error(`Can't find downtime, bad system: ${system}`);
+		}
+
 	}
 
 	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: ChatSpeakerObject} = {}) {
