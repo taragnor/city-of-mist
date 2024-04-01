@@ -779,10 +779,22 @@ div.flex-theme-block:hover {
 }
 
 
-div.Loadout-theme,
-div.Crew-theme,
-div.Extra-theme {
+div.Loadout-theme.theme-block
+div.Crew-theme.theme-block
+div.Extra-theme.theme-block {
 	/* height: 100%; */
+	color: var(--extra-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--extra-grey);
+	border-top: 2em solid var(--extra-grey);
+	background-image: url(../images/extracardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -5px 0px 10px #686358a6;
+}
+
+div.theme-block {
 	color: var(--extra-text);
 	border-radius: 1em;
 	border-bottom: 1em solid var(--extra-grey);
@@ -807,6 +819,15 @@ div.Extra-theme {
 	background-position: center;
 	background-size: cover;
 	box-shadow: 0px -1px 0px 1px #5f624fa6;
+}
+
+.mist-engine-theme-block .top-section {
+	height: 90%;
+	min-height: 90%;
+}
+
+.mist-engine-theme-block .motivation-section {
+	height: 10%;
 }
 
 img.theme-img {
@@ -1396,40 +1417,51 @@ span.empty-circle {
 
 }
 
-.Mythos-theme span.empty-circle {
+.theme-block .Mythos-theme span.empty-circle {
 	border: 2px solid var(--mythos-text);
 	background-color: rgba(0, 0, 0, 0);
 }
 
-.Mist-theme span.filled-circle {
+.theme-block .Mist-theme span.filled-circle {
 	border: 2px solid var(--mist-text);
 	background-color: var(--mist-blue);
 }
 
-.Mist-theme span.empty-circle {
+.theme-block .Mist-theme span.empty-circle {
 	border: 2px solid var(--mist-text);
 	background-color: rgba(0, 0, 0, 0);
 }
 
-.Extra-theme span.filled-circle {
+.theme-block .Extra-theme span.filled-circle {
 	border: 2px solid var(--extra-text);
 	background-color: var(--extra-grey);
 }
 
-.Extra-theme span.empty-circle {
+.theme-block .Extra-theme span.empty-circle {
 	border: 2px solid var(--extra-text);
 	background-color: rgba(0, 0, 0, 0);
 }
 
-.Crew-theme span.filled-circle {
+.theme-block .Crew-theme span.filled-circle {
 	border: 2px solid var(--extra-text);
 	background-color: var(--extra-grey);
 }
 
-.Crew-theme span.empty-circle {
+.theme-block .Crew-theme span.empty-circle {
 	border: 2px solid var(--extra-text);
 	background-color: rgba(0, 0, 0, 0);
 }
+
+.theme-block span.filled-circle {
+	border: 2px solid var(--extra-text);
+	background-color: var(--extra-grey);
+}
+
+.theme-block span.empty-circle {
+	border: 2px solid var(--extra-text);
+	background-color: rgba(0, 0, 0, 0);
+}
+
 
 .dots-section .fa-plus-square,
 .dots-section .fa-minus-square,

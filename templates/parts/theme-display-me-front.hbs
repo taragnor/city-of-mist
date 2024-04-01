@@ -1,49 +1,50 @@
 <div class="{{themebook.subtype}}-theme mist-engine-theme-block theme-block">
-	<div class="themebook-name flip-button">
-		{{#if (eq theme.themebook.system.subtype "Crew")}}
-		<a class="item-control crew-prev">
-			<i class="fas fa-arrow-left"></i>
-		</a>
-		{{/if}}
-		{{themebook.displayedName}}
-		{{#if (eq theme.themebook.system.subtype "Crew")}}
-		<a class="item-control crew-next">
-			<i class="fas fa-arrow-right"></i>
-		</a>
-		{{/if}}
-	</div>
-	<div class ="theme-title">
-		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.headerTag owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
-	</div>
-	<div class="theme-controls">
-		{{#if (eq owner.system.locked false)}}
-		<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
-			<i class="fas fa-star"></i>
-		</a>
-		<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" >
-			<i class="fas fa-anchor" ></i>
-		</a>
-			{{/if}}
-			{{#if (eq owner.system.locked false)}}
-			{{#if (eq theme.themebook.type "themekit")}}
-			<a class="item-control edit-themekit" title="Edit ThemeKit" data-tk-id="{{theme.themebook.id}}"><i class="fas fa-pencil"></i></a>
-			{{/if}}
-			<a class="item-control theme-delete delete-button" title="Delete Theme">
-				<i class="theme-trash fas fa-trash"></i>
+	<div class="top-section">
+		<div class="themebook-name flip-button">
+			{{#if (eq theme.themebook.system.subtype "Crew")}}
+			<a class="item-control crew-prev">
+				<i class="fas fa-arrow-left"></i>
 			</a>
 			{{/if}}
-			{{#if theme.system.nascent}}
-			<div class="nascent-label">
-				{{localize "CityOfMist.terms.nascent"}}
-			</div>
+			{{themebook.displayedName}}
+			{{#if (eq theme.themebook.system.subtype "Crew")}}
+			<a class="item-control crew-next">
+				<i class="fas fa-arrow-right"></i>
+			</a>
 			{{/if}}
+		</div>
+		<div class ="theme-title">
+			{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.headerTag owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
+		</div>
+		<div class="theme-controls">
+			{{#if (eq owner.system.locked false)}}
+			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
+				<i class="fas fa-star"></i>
+			</a>
+			<a class="theme-create-weakness-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" data-sub-type="weakness" title="Add Weakness Tag" >
+				<i class="fas fa-anchor" ></i>
+			</a>
+				{{/if}}
+				{{#if (eq owner.system.locked false)}}
+				{{#if (eq theme.themebook.type "themekit")}}
+				<a class="item-control edit-themekit" title="Edit ThemeKit" data-tk-id="{{theme.themebook.id}}"><i class="fas fa-pencil"></i></a>
+				{{/if}}
+				<a class="item-control theme-delete delete-button" title="Delete Theme">
+					<i class="theme-trash fas fa-trash"></i>
+				</a>
+				{{/if}}
+				{{#if theme.system.nascent}}
+				<div class="nascent-label">
+					{{localize "CityOfMist.terms.nascent"}}
+				</div>
+				{{/if}}
+		</div>
+		<div class="tag-section">
+			{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.otherPowerTags owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
+			{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.weaknessTags owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
+		</div>
 	</div>
-	<div>
-
-		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.otherPowerTags owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
-		{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.weaknessTags owner=owner locked=owner.system.locked sheetowner=sheetowner canBurn=true subtype="weakness" themeId=theme.id supertag=""}}
-	</div>
-	<div>
+	<div class="motivation-section">
 		<div class="themebook-motivation-label"> <b class="themebook-motivation">
 				{{theme.motivationName}}
 			</b>
