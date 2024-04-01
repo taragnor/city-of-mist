@@ -51,10 +51,11 @@ export class CityCharacterSheet extends CityActorSheet {
 					case "Self": case "Origin": case "Logos": return 3;
 					case "Extra": case "Loadout": return 4;
 					case "Crew" : return 5;
+					case "": return 0;
 					default:
 						themetype satisfies never;
 						console.warn(` Unknown Type ${themetype}`);
-						return 1000;
+						return 99;
 				}
 			}
 			const atype = value_convert(tba?.system?.subtype ?? "None");
@@ -419,9 +420,9 @@ export class CityCharacterSheet extends CityActorSheet {
 		const move_id = $(this.form).find(".select-move").val() as string;
 		if (!move_id)
 			throw new Error(`Bad Move Id: Move Id is ${move_id}, can't execute move`);
-		const move_group = $(this.form).find(".select-move-group").val();
-		console.log(`Move Group: ${move_group}`);
-		const SHB = move_group == "SHB";
+		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
+		if (!move) {throw new Error(`Cant' find move id ${move_id}`);}
+		const SHB = move.system.subtype == "SHB";
 		let newtype : CRollOptions["newtype"] | null= null;
 		if (SHB) {
 			const SHBType = await this.SHBDialog(this.actor);
@@ -429,15 +430,13 @@ export class CityCharacterSheet extends CityActorSheet {
 				return;
 			newtype = SHBType;
 		}
-		const options = newtype ? { newtype} : {};
+		const options: CRollOptions = newtype ? { newtype} : {};
 		const selectedTagsAndStatuses = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus();
 		const roll = await CityRoll.execMove(move_id, this.actor, selectedTagsAndStatuses, options);
 		if (roll == null)
 			return;
 		SelectedTagsAndStatus.clearAllActivatedItems();
 		this.render(true);
-		const move = CityHelpers.getMoves().find(x=> x.id == move_id);
-		if (!move) {throw new Error(`Cant' find move id ${move_id}`);}
 		for (const effect of move.effect_classes) {
 			switch (effect) {
 				case "DOWNTIME":

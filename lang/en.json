@@ -142,6 +142,7 @@
 "CityOfMist.terms.extra" : "Extra",
 "CityOfMist.terms.nascent" : "Nascent",
 "CityOfMist.terms.any" : "Any",
+"CityOfMist.terms.themeClassRoll": "Add Number of Themes",
 
 "Otherscape.terms.noise": "Noise",
 "Otherscape.terms.self": "Self",

@@ -1,3 +1,4 @@
+import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { Themebook } from "./city-item.js";
 import { ThemeKit } from "./city-item.js";
@@ -574,7 +575,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter( x=> x.type == "theme" && x != this.loadout) as Theme[];
 	}
 
-	getNumberOfThemes(target_type: string) {
+	getNumberOfThemes(target_type: ThemeType) {
 		const themes = this.items.filter(x => x.type == "theme") as Theme[];
 		let count = 0;
 		for (let theme of themes) {
@@ -1211,22 +1212,19 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	canUseMove(this: PC, move: Move) {
-		const type = move.system.subtype;
-		switch (type) {
-			case "mistroll":
-				if(this.getNumberOfThemes("Mist") <= 0) return false;
-				break;
-			case "mythosroll":
-				if(this.getNumberOfThemes("Mythos") <= 0) return false;
-				break;
-			case "logosroll":
-				if( this.getNumberOfThemes("Logos") <= 0) return false;
+		const rolltype = move.system.subtype;
+		switch (rolltype) {
+			case "themeclassroll":
+				if (this.getNumberOfThemes(move.system.theme_class) == 0) return false;
 				break;
 			case "noroll":
 			case "standard":
 				break;
+			case "SHB":
+				break;
 			default:
-				throw new Error(`Unknown Move Type ${type}`);
+				rolltype satisfies never;
+				throw new Error(`Unknown Move Type ${rolltype}`);
 		}
 		if (move.system.abbreviation == "FLASH" && !this.hasFlashbackAvailable())
 			return false;

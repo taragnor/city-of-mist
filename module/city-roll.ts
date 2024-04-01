@@ -1,3 +1,5 @@
+import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
 import { Move } from "./city-item.js";
@@ -37,10 +39,8 @@ type RollOptions = CRollOptions & {
 }
 
 export type CRollOptions = {
-	newtype ?: Move["system"]["subtype"];
-	mythosRoll?: boolean;
-	logosRoll ?: boolean;
-	mistRoll ?: boolean;
+	newtype ?: Exclude<ThemeType, "">;
+	themeType ?: Exclude<ThemeType, "">;
 	dynamiteAllowed ?: boolean;
 	noStatus ?: boolean;
 	noTags ?: boolean;
@@ -96,24 +96,20 @@ export class CityRoll {
 		const actor = this.#actor;
 		const options = this.#options;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId)!;
-		const type = options?.newtype ?? move.system.subtype;
-		switch (type) {
+		const themeType = options?.newtype ?? move.system.theme_class;
+		switch (move.system.subtype) {
 			case "standard":
 				break;
-			case "logosroll":
-				await this.logosRoll();
-				break;
-			case "mythosroll":
-				await this.mythosRoll();
-				break;
-			case "mistroll":
-				await this.mistRoll();
+			case "SHB":
+			case "themeclassroll":
+				await this.themeClassRoll(themeType);
 				break;
 			case "noroll":
 				await this.noRoll();
 				break;
 			default:
-				throw new Error(`Unknown Move Type ${type}`);
+				move.system.subtype satisfies never;
+				throw new Error(`Unknown Move Type ${move.system.subtype}`);
 		}
 		if (move.isAutoDynamite())
 			options.dynamiteAllowed = true;
@@ -188,33 +184,11 @@ export class CityRoll {
 			.concat(usedStatus)
 			.concat(helpHurt)
 		;
-		if (options.logosRoll) {
+		if (options.themeType) {
 			modifiers.push({
-				id: "Logos",
-				name: localize("CityOfMist.terms.logosThemes"),
-				amount: actor.getNumberOfThemes("Logos"),
-				ownerId: null,
-				tagId: null,
-				type: "modifier",
-				strikeout: false,
-			});
-		}
-		if (options.mythosRoll) {
-			modifiers.push({
-				id: "Mythos",
-				name: localize("CityOfMist.terms.mythosThemes"),
-				amount: actor.getNumberOfThemes("Mythos"),
-				ownerId: null,
-				tagId: null,
-				type: "modifier",
-				strikeout: false,
-			});
-		}
-		if (options.mistRoll) {
-			modifiers.push({
-				id: "Mist",
-				name: localize("CityOfMist.terms.mistThemes"),
-				amount: actor.getNumberOfThemes("Mist"),
+				id: options.themeType,
+				name: localize(THEME_TYPES[options.themeType]),
+				amount: actor.getNumberOfThemes(options.themeType),
 				ownerId: null,
 				tagId: null,
 				type: "modifier",
@@ -569,6 +543,17 @@ export class CityRoll {
 			}
 		}
 		return true;
+	}
+
+	async themeClassRoll( themeType: ThemeType) {
+		if (!themeType) throw new Error("Theme type can't be empty");
+		mergeObject(this.#options, {
+			noTags: true,
+			noStatus: true,
+			themeType,
+			setRoll: 0
+		});
+
 	}
 
 	async logosRoll () {

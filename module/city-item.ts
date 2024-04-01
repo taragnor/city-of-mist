@@ -1433,6 +1433,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "Self": case "Origin": case "Logos": return 3;
 			case "Extra": case "Loadout": return 4;
 			case "Crew" : return 5;
+			case "": return 99;
 			default:
 				themetype satisfies never;
 				console.warn(` Unknown Type ${themetype}`);

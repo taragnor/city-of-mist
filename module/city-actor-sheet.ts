@@ -1,3 +1,4 @@
+import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { CRollOptions } from "./city-roll.js";
 import { Clue } from "./city-item.js";
 
@@ -580,6 +581,10 @@ export class CityActorSheet extends CitySheet {
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
 							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
+							if (!Object.keys(THEME_TYPES).includes(result!)) {
+								ui.notifications.error(`Bad Theme Type ${result}`)
+								conf(null);
+							}
 							conf(result);
 						}
 					},

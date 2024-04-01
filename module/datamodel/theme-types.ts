@@ -9,6 +9,7 @@ export const THEME_TYPES = {
 	"Origin": "Legend.terms.origin",
 	"Greatness" : "Legend.terms.greatness",
 	"Extra": "CityOfMist.terms.extra",
+	"": "-",
 
 } as const;
 
