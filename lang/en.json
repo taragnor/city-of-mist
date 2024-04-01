@@ -318,8 +318,24 @@
 
 "Otherscape.moves.mitigate.name" : "Mitigate Consequences",
 "Otherscape.moves.mitigate.fail" : "You suffer the full consequence",
-"Otherscape.moves.mitigate.partial" : "Spend PWR to mitigate the consequences.",
+"Otherscape.moves.mitigate.partial" : "Spend PWR power to mitigate the consequences.",
 "Otherscape.moves.mitigate.success" : "spend PWR+1 power to mitigate the consequences or use reflexive effects.",
+
+"Otherscape.moves.blazeOfGlory.significant.name": "Go out in a Blaze (significant)",
+"Otherscape.moves.blazeOfGlory.significant.fail": "The moment turns agaisnt you or you fail to achieve what you hoped.Burn all tags in a theme (choose which before rolling).",
+"Otherscape.moves.blazeOfGlory.significant.partial": "You achieve what you wanted. Burn all tags in a theme (choose which before rolling). ",
+"Otherscape.moves.blazeOfGlory.significant.success": "You achieve what you wanted. Burn two tags from a theme.",
+
+"Otherscape.moves.blazeOfGlory.noReturn.name": "Go out in a Blaze (No Return)",
+"Otherscape.moves.blazeOfGlory.noReturn.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Replace a theme (chosen before rolling)",
+"Otherscape.moves.blazeOfGlory.noReturn.partial": "You achieve what you wanted. Replace a theme (chosen before rolling)",
+"Otherscape.moves.blazeOfGlory.noReturn.success": "You achieve what you wanted. Burn all tags in a theme (choose which before rolling). ",
+
+"Otherscape.moves.blazeOfGlory.ultimate.name": "Go out in a Blaze (Ultimate)",
+"Otherscape.moves.blazeOfGlory.ultimate.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Take a tier-6 status, it cannot be mitigated.",
+"Otherscape.moves.blazeOfGlory.ultimate.partial": "You achieve what you wanted. Take a tier-6 status, it cannot be mitigated.",
+"Otherscape.moves.blazeOfGlory.ultimate.success": "You achieve what you wanted. Replace a theme (chosen before rolling)",
+
 
 "CityOfMist.generic.narration": "Narration",
 
