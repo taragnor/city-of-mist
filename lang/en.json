@@ -149,6 +149,7 @@
 "Otherscape.terms.decay": "Decay",
 "Otherscape.terms.upgrade": "Upgrade",
 
+
 "Legend.terms.origin": "Origin",
 "Legend.terms.greatness": "Greatness",
 "Legend.terms.motivation": "Motivation",
@@ -409,6 +410,23 @@
 "CityOfMist.themebook.turf.name": "Turf",
 "CityOfMist.themebook.unit.name": "Unit",
 "CityOfMist.themebook.shrouding.name": "Shrouding",
+
+"Otherscape.themebook.affiliation.name": "Affiliation",
+"Otherscape.themebook.artifact.name": "Artifact",
+"Otherscape.themebook.assets.name": "Assets",
+"Otherscape.themebook.augmentation.name": "Augmentation",
+"Otherscape.themebook.companion.name": "Companion",
+"Otherscape.themebook.cuttingEdge.name": "Cutting Edge",
+"Otherscape.themebook.cyberspace.name": "Cyberspace",
+"Otherscape.themebook.drones.name": "Drones",
+"Otherscape.themebook.esoterica.name": "Esoterica",
+"Otherscape.themebook.expertise.name": "Expertise",
+"Otherscape.themebook.exposure.name": "Exposure",
+"Otherscape.themebook.horizon.name": "Horizon",
+"Otherscape.themebook.loadout.name": "Loadout",
+"Otherscape.themebook.personality.name": "Personality",
+"Otherscape.themebook.troubledPast.name": "Troubled Past",
+
 
 "CityOfMist.themekit.html.inherit_improvements_checkbox": "Include Improvements  from base themebook",
 
