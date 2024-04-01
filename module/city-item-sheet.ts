@@ -55,7 +55,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	/** @override */
 	get template() {
-		const path = "systems/city-of-mist/templates/items";
+		const path = "systems/city-of-mist/templates/items" as const;
 		const simple_item_types: string[] = [];
 		let template_name = `${this.item.type}`;
 		if (simple_item_types.indexOf(this.item.type) >= 0) {

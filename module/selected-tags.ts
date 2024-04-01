@@ -1,3 +1,4 @@
+import { localize } from "./city.js";
 import { ReviewableItem } from "./ReviewableModifierList.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityItem } from "./city-item.js";
@@ -206,7 +207,11 @@ export class SelectedTagsAndStatus {
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		// const subtype = tag.system.subtype;
+		if (tag.system.subtype == "loadout" && !tag.system.activated_loadout) {
+			const msg = localize ("General.error.LOTagNotLoaded")
+			ui.notifications.notify(msg);
+			return;
+		}
 		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
 			direction *= -1;

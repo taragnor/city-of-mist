@@ -662,6 +662,8 @@
 "CityOfMist.error.dontOwnTag": "You don't own this tag and can't edit it",
 "CityOfMist.error.MCEditOnly" : "Only MC may edit this.",
 
+"General.error.LOTagNotLoaded": "Loadout tags must be loaded before they can be used",
+
 "CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change"
 
 
