@@ -306,41 +306,20 @@
 "CityOfMist.gmmove.hideName" : "Hide Move Name",
 "CityOfMist.gmmove.header" : "Move Header",
 
-"CityOfMist.reloaded.moves.stunt.name": "Stunt",
-"CityOfMist.reloaded.moves.stunt.partial": "You succeed, but the MC chooses a complication:",
-"CityOfMist.reloaded.moves.stunt.success": "You succeed",
-"CityOfMist.reloaded.moves.stunt.0": "Partial succes or imperfect exectuion",
-"CityOfMist.reloaded.moves.stunt.1": "Side effect, cost or sacrifice",
-"CityOfMist.reloaded.moves.stunt.2": "Exposure to a new threat",
-"CityOfMist.reloaded.moves.stunt.3": "Hard choice between the above",
+"Otherscape.moves.quickOutcome.name" : "Quick Outcome",
+"Otherscape.moves.quickOutcome.fail" : "Something doesn't work as intended and there are adverse consequences.",
+"Otherscape.moves.quickOutcome.partial" : "The action succeeds or benefits the PC but there are still some consequences",
+"Otherscape.moves.quickOutcome.success" : "The action succeeds as intended, or better. There are no consequences, the player may choose to take consequences for an even greater degree of success",
 
-"CityOfMist.reloaded.moves.discover.name": "Discover",
-"CityOfMist.reloaded.moves.discover.partial":"Gain PWR clues. The MC presents a complication:",
-"CityOfMist.reloaded.moves.discover.success": "Gain PWR clues",
-"CityOfMist.reloaded.moves.discover.0": "Your target reveals info on you",
-"CityOfMist.reloaded.moves.discover.1": "Partial or vague information",
-"CityOfMist.reloaded.moves.discover.2": "Side effect, cost or sacrifice",
-"CityOfMist.reloaded.moves.discover.3": "Exposure to a new threat",
-"CityOfMist.reloaded.moves.discover.4": "Hard choice between the above",
+"Otherscape.moves.trackedOutcome.name" : "Tracked Outcome",
+"Otherscape.moves.generic.fail" : "You suffer a consequence.",
+"Otherscape.moves.trackedOutcome.partial" : "Suffer a consequence and choose effects equal to your PWR (Otherscape Page 90).",
+"Otherscape.moves.trackedOutcome.success" : "Choose effects equal to your PWR (otherscape Page 90).",
 
-"CityOfMist.reloaded.moves.resist.name": "Resist",
-"CityOfMist.reloaded.moves.resist.fail":"You take the full status.",
-"CityOfMist.reloaded.moves.resist.partial":"Remove PWR/2 boxes from the status",
-"CityOfMist.reloaded.moves.resist.success": "Remove PWR boxes from the status",
-
-"CityOfMist.reloaded.moves.buff.name": "Buff/Debuff",
-"CityOfMist.reloaded.moves.buff.partial":"Add or remove one tag or status box for each point of power (PWR). Tags created are obvious, single use and affect one person (or a similar area).",
-"CityOfMist.reloaded.moves.buff.success": "Add or remove one tag or status box for each point of power (PWRM2). Tags created are obvious, single use and affect one person (or a similar area). You may use one power to purchase one of the following upgrades:",
-
-"CityOfMist.reloaded.moves.conflict.name": "Conflict",
-"CityOfMist.reloaded.moves.conflict.partial":"Deal a status of PWR boxes and choose one upgrade:",
-"CityOfMist.reloaded.moves.conflict.success": "Deal a status of PWR boxes and choose two upgrades:",
-"CityOfMist.reloaded.moves.conflict.0": "Avoid a counterattack",
-"CityOfMist.reloaded.moves.conflict.1": "Mark another PWR boxes on the status",
-"CityOfMist.reloaded.moves.conflict.2": "Achieve a tactical goal (as in Stunt)",
-"CityOfMist.reloaded.moves.conflict.3": "Spend PWR/2 on De/buff",
-
-
+"Otherscape.moves.mitigate.name" : "Mitigate Consequences",
+"Otherscape.moves.mitigate.fail" : "You suffer the full consequence",
+"Otherscape.moves.mitigate.partial" : "Spend PWR to mitigate the consequences.",
+"Otherscape.moves.mitigate.success" : "spend PWR+1 power to mitigate the consequences or use reflexive effects.",
 
 "CityOfMist.generic.narration": "Narration",
 

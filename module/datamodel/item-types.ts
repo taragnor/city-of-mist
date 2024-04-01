@@ -255,7 +255,6 @@ class Move extends DataModel {
 			abbreviation: new txt(),
 			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
 			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
-			// system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
 		};
 	}
 }
