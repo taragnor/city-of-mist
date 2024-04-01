@@ -171,11 +171,13 @@ export class CityActorSheet extends CitySheet {
 			const options = {
 				awardImprovement
 			};
-			switch (subtype) {
+			const subLower = subtype.toLowerCase();
+			switch (subLower) {
 				case "power":
 				case "weakness":
 				case "bonus":
-					retobj = await owner.addTag(themeId, subtype, idChoice, options);
+					retobj = await owner.addTag(themeId, subLower, idChoice, options);
+					break;
 				default:
 					throw new Error(`Subtype ${subtype} not recognized`);
 			}

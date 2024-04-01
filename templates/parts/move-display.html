@@ -64,12 +64,8 @@
 	</div>
 	{{#if (devMode)}}
 	<hr>
-			<select class="" name="system.system" title="System choice">
-				{{#select item.system.system}}
-				<option value="custom"> Custom </option>
-				<option value="classic"> Classic CoM </option>
-				<option value="reloaded"> CoM Reloaded </option>
-				{{/select}}
+			<select class="" name="system.system_compatiblity" title="System choice">
+				{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
 			</select>
 	<label> Move Special Identifiers </label>
 	<input type="text" value="{{item.system.effect_class}}" name="system.effect_class" title="Advanced Uses (special coded)">

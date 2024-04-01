@@ -179,7 +179,6 @@ class Theme extends DataModel {
 			unspent_upgrades: new num({initial: 0, integer: true, min:0}),
 			img: new txt(),
 			nascent: new bool({initial: false}),
-			inverted: new bool({initial: false}),
 		}
 	}
 }
@@ -195,6 +194,7 @@ class Improvement extends DataModel {
 			chosen: new bool({initial: false}),
 			choice_type: new txt(),
 			effect_class: new txt(),
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
 		}
 	}
 }
@@ -254,7 +254,7 @@ class Move extends DataModel {
 			effect_class: new txt(),
 			abbreviation: new txt(),
 			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
-			system: new txt({choices: ["classic", "legend", "otherscape", "custom"], initial: "custom"}),
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
 			// system: new txt({choices: ["classic", "reloaded", "none", "custom"], initial: "custom"}),
 		};
 	}

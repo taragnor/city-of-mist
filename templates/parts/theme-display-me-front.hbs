@@ -1,4 +1,4 @@
-<div class="{{themebook.subtype}}-theme mist-engine-theme-block theme-block">
+<div class="{{themebook.subtype}}-theme mist-engine-theme-block theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
 	<div class="top-section">
 		<div class="themebook-name flip-button">
 			{{#if (eq theme.themebook.system.subtype "Crew")}}
@@ -17,6 +17,13 @@
 			{{> "systems/city-of-mist/templates/parts/tag-list-display.hbs" itemlist=theme.headerTag owner=owner locked=locked sheetowner=sheetowner canBurn=true subtype="power" themeId=theme.id supertag=""}}
 		</div>
 		<div class="theme-controls">
+			{{#if (gt theme.system.unspent_upgrades 0)}}
+			<a class="theme-create-power-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Power Tag" data-sub-type="power" > <i class="fas fa-bolt"></i></a>
+			{{else}}
+			<span title ="Not enough attention to add power tag">
+				<i class="fas fa-bolt fa-disabled"></i>
+			</span>
+			{{/if}}
 			{{#if (eq owner.system.locked false)}}
 			<a class="theme-create-bonus-tag" data-distinct="true" data-item-type="tag" data-duplicates="false" title="Add Bonus Power Tag" data-sub-type="power" >
 				<i class="fas fa-star"></i>

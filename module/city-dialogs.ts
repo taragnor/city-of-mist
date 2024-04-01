@@ -22,7 +22,7 @@ const PATH = "systems/city-of-mist";
 export class CityDialogs {
 
 	static async themeBookSelector(actor: CityActor): Promise<null | Themebook | ThemeKit> {
-		const all_themebooks : Themebook[] = CityHelpers.getAllItemsByType("themebook") as Themebook[];
+		const all_themebooks : Themebook[] = CityDB.themebooks;
 		const actorThemes = actor.getThemes();
 		const actorThemebooks = actorThemes.map( theme => theme.themebook);
 		const sorted = all_themebooks.sort( (a, b) => {

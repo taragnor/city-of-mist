@@ -17,7 +17,7 @@ declare global {
 }
 
 export class CityDB extends DBAccessor {
-	static themebooks: Themebook[] = [];
+	static _themebooks: Themebook[] = [];
 	static movesList: Move[] = [];
 	static _dangerTemplates: Danger[] = [];
 	static _loaded = false;
@@ -69,14 +69,15 @@ export class CityDB extends DBAccessor {
 		Hooks.on('updateScene', this.onSceneUpdate.bind(this));
 	}
 
-	get themebooks() {
-		if (this.themebooks == undefined)
+	static get themebooks() {
+		if (this._themebooks == undefined)
 			throw new Error("ERROR: No Valid themebooks found")
-		return CityDB.themebooks;
+		const system = CitySettings.get("baseSystem");
+		return CityDB._themebooks.filter( x=> x.isSystemCompatible(system));
 	}
 
 	static async loadThemebooks() {
-		this.themebooks = this.filterItemsByType("themebook") as Themebook[];
+		this._themebooks = this.filterItemsByType("themebook") as Themebook[];
 		Hooks.callAll("themebooksLoaded");
 		return true;
 	}
@@ -107,23 +108,23 @@ export class CityDB extends DBAccessor {
 		movesList = this.filterOverridedContent(movesList);
 		movesList = movesList.filter( x=> x.system.category == movetype);
 		const include = CitySettings.get("movesInclude") ?? "city-of-mist";
-		const custom_moves = movesList.filter( x=> x.system.system == "custom");
+		const custom_moves = movesList.filter( x=> x.system.system_compatiblity == "any");
 		switch (include) {
 			case "city-of-mist":
-				return movesList.filter( x=> x.system.system == "classic")
+				return movesList.filter( x=> x.system.system_compatiblity == "city-of-mist")
 					.concat(custom_moves);
 			case "otherscape":
-				return movesList.filter( x=> x.system.system == "otherscape")
+				return movesList.filter( x=> x.system.system_compatiblity == "otherscape")
 					.concat(custom_moves);
 
 			case "legend":
-				return movesList.filter( x=> x.system.system == "legend")
+				return movesList.filter( x=> x.system.system_compatiblity == "legend")
 			case "none":
 				return custom_moves;
 			default:
 				include satisfies never;
 				console.warn(`Unknown movesInclude setting ${include}, defaulting to Standard CoM`);
-				return movesList.filter( x=> x.system.system == "classic")
+				return movesList.filter( x=> x.system.system_compatiblity == "city-of-mist")
 		}
 	}
 

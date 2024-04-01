@@ -1,4 +1,12 @@
 <form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item.id}}" data-sheet-owner-id="{{item.id}}" data-owner-class="item">
+	<div>
+		<label>
+			System
+		</label>
+		<select class="" name="system.system_compatiblity" title="System choice">
+			{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
+		</select>
+	</div>
 	{{#if (not item.system.chosen)}}
 	<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 	<label> Uses </label>

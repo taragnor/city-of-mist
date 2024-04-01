@@ -2887,7 +2887,8 @@ span.secret {
 
 .story-tag-window {
 	max-height: 800px;
-	overflow: overlay;
+	overflow-y: overlay;
+	overflow-x: hidden;
 	scrollbar-width: thin;
 	scrollbar-color: var(--mythos-pink) var(--logos-text);
 }

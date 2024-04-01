@@ -341,9 +341,9 @@ button.clue-use-button:hover {
 }
 
 .style-city-of-mist .story-tag-window {
-	max-height: 800px;
-	overflow: overlay;
-	scrollbar-width: thin;
+	/* max-height: 800px; */
+	/* overflow: overlay; */
+	/* scrollbar-width: thin; */
 	scrollbar-color: var(--mythos-pink) var(--logos-text);
 }
 

@@ -1,0 +1,44 @@
+div.Noise-theme.theme-block {
+	/* height: 100%; */
+	color: var(--mist-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--mist-blue);
+	border-top: 2em solid var(--mist-blue);
+	background-image: url(../images/mistcardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -5px 0px 10px #28475ba6;	
+}
+
+div.Self-theme.theme-block {
+	color: var(--logos-text);
+	/* height: 100%; */
+	border-radius: 1em;
+	border-bottom: 1em solid var(--logos-orange);
+	border-top: 2em solid var(--logos-orange);
+	background-image: url(../images/themecardbg.webp);
+	box-shadow: 0px -5px 0px 10px #a85d4ba6;
+}
+
+div.Mythos-theme.theme-block {
+	/* height: auto; */
+	/* height: 100%; */
+	color: var(--mythos-text);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--mythos-pink);
+	border-top: 2em solid var(--mythos-pink);
+	background-image: url(../images/mythoscardbg.webp);
+	background-color: black;
+	background-position: center;
+	background-size: 125%;
+	box-shadow: 0px -5px 0px 10px #502c5da6;
+}
+
+
+.style-otherscape .Mythos-theme .theme-name {
+	text-shadow: 0px 0px 10px var(--mythos-bright),
+	0px 1px 12px var(--mythos-pink);
+	color: var(--mythos-white);
+}
+
