@@ -323,7 +323,7 @@
 "Otherscape.moves.mitigate.success" : "spend PWR+1 power to mitigate the consequences or use reflexive effects.",
 
 "Otherscape.moves.blazeOfGlory.significant.name": "Go out in a Blaze (significant)",
-"Otherscape.moves.blazeOfGlory.significant.fail": "The moment turns agaisnt you or you fail to achieve what you hoped.Burn all tags in a theme (choose which before rolling).",
+"Otherscape.moves.blazeOfGlory.significant.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Burn all tags in a theme (choose which before rolling).",
 "Otherscape.moves.blazeOfGlory.significant.partial": "You achieve what you wanted. Burn all tags in a theme (choose which before rolling). ",
 "Otherscape.moves.blazeOfGlory.significant.success": "You achieve what you wanted. Burn two tags from a theme.",
 
@@ -336,6 +336,14 @@
 "Otherscape.moves.blazeOfGlory.ultimate.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Take a tier-6 status, it cannot be mitigated.",
 "Otherscape.moves.blazeOfGlory.ultimate.partial": "You achieve what you wanted. Take a tier-6 status, it cannot be mitigated.",
 "Otherscape.moves.blazeOfGlory.ultimate.success": "You achieve what you wanted. Replace a theme (chosen before rolling)",
+
+"Otherscape.moves.downtime.name": "Downtime",
+"Otherscape.moves.downtime.always": "Each player may represent this actiivty by spending 3 power (without making a roll) or by marking an upgrade box on one of their themes. Alternately the player may forgo downtime benefits and resolve their activity as a player action.",
+"Otherscape.moves.downtime.0": "Heal and Recover (Restore): Recovering burned power tags during downtime costs 1 power per tag instead of 2.",
+"Otherscape.moves.downtime.1": "Prepare for Action (bestow, create, enhance, loadout) : Loadout tags obtained now are added to the PC's loadout theme, butmust be loaded up as normal. Altnerativel, the PC may save some or all of thier power to to the total power they spend on their next loadup.",
+"Otherscape.moves.downtime.2": "Quality Time (Bestow, Disrupt): Spend time with a chosen character or characters. Creates relationship story tag to represent the relationship.",
+"Otherscape.moves.downtime.3": "Research and Inquire (Discover): Gather information.",
+"Otherscape.moves.downtime.4": "Spend Time on a theme: Mark an upgrade box.",
 
 
 "CityOfMist.generic.narration": "Narration",
