@@ -292,6 +292,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			else return "";
 		},
 
+		'isCoM' : function () {
+			return CitySettings.getBaseSystem() == "city-of-mist";
+		},
+
+		'isMistEngine': function () {
+			return CitySettings.getBaseSystem() != "city-of-mist";
+		}
+
 
 	} //end of object holding helpers
 } // end of class

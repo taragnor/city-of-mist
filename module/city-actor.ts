@@ -381,7 +381,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const imp  = this.getImprovement(impId);
 		if (!imp)
 			throw new Error(`Improvement ${impId} not found`);
-		if (imp.system.theme_id.length > 0) {
+		if (imp.system.theme_id && imp.system.theme_id.length > 0) {
 			const theme =  this.getTheme(imp.system.theme_id);
 			if (!theme) {
 				throw new Error(`Can't find theme ${imp.system.theme_id}`);

@@ -166,7 +166,11 @@ export class CityDB extends DBAccessor {
 
 	static async getBuildUpImprovements() : Promise<Improvement[]> {
 		const list = this.filterItemsByType("improvement") as Improvement[];
+		const system = CitySettings.getBaseSystem();
 		return list.filter( item => {
+			if (!item.isSystemCompatible(system)) {
+				return false;
+			}
 			const nameFilter = list.filter( x=> x.name == item.name);
 			if (nameFilter.length == 1)
 				return true;

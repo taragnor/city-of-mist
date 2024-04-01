@@ -203,6 +203,8 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId") as string;
 		const actor = this.getOwner(actorId);
 		const impId = HTMLTools.getClosestData(event, "impId");
+		if (!impId)
+			throw new Error("No improvement Id");
 		const imp =  actor.getImprovement(impId)!;
 		const impName = imp.name;
 		if (await this.confirmBox("Confirm Delete", `Delete ${impName}`)) {

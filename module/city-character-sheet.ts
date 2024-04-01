@@ -273,7 +273,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
 	}
 
-	async _addBUImprovement (_event: JQuery.Event) {
+	async _addBUImprovement (event: JQuery.Event) {
+		event.stopImmediatePropagation();
 		const list = await CityHelpers.getBuildUpImprovements();
 		const choiceList = list
 			.map ( x => {

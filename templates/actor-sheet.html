@@ -14,6 +14,7 @@
 		<a class="item" data-tab="themes">
 			{{localize 'CityOfMist.terms.tags' }} / {{localize 'CityOfMist.terms.themes' }}
 		</a>
+		{{#if (isCoM)}}
 		<a class="item" data-tab="juice">
 			{{localize 'CityOfMist.terms.juice' }} /
 			{{localize 'CityOfMist.terms.help' }} /
@@ -22,9 +23,7 @@
 		<a class="item" data-tab="clues">
 			{{localize 'CityOfMist.terms.clues' }}
 		</a>
-		<a class="item" data-tab="build-up">
-			{{localize 'CityOfMist.terms.MoEs' }}
-		</a>
+		{{/if}}
 		<a class="item" data-tab="bio">
 			{{localize 'CityOfMist.terms.bio' }}
 		</a>
@@ -156,46 +155,6 @@
 				{{#each actor.clueJournal as |journal|}}
 				{{> "systems/city-of-mist/templates/parts/clue-journal-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor clue=journal data=journal.system}}
 				{{/each}}
-			</section>
-		</div>
-		<div class="tab tab-content" data-group="primary" data-tab="build-up">
-			<section id="build-up-section">
-				<div class="BUPoints">
-					<div class="BUPoints-header">
-						{{localize "CityOfMist.terms.bu_points"}}
-					</div>
-					{{#each actor.system.buildup as |pt rank|}}
-					{{#if (eq pt 1)}}
-					<span class="filled-circle tracker-circle"></span>
-					{{else}}
-					<span class="empty-circle tracker-circle"></span>
-					{{/if}}
-					{{/each}}
-					{{#if (ne actor.system.unspentBU 0)}}
-					({{actor.system.unspentBU}})
-					{{/if}}
-					{{#if (eq actor.system.locked false)}}
-					<a class="increment-buildup"  data-type="buildup" > <i class="fas fa-plus-square"></i></a>
-					<a class="decrement-buildup"  data-type="buildup" > <i class="fas fa-minus-square"></i></a>
-					{{/if}}
-				</div>
-				<div class="section-header">
-					{{localize "CityOfMist.terms.MoEs"}}
-					{{#if (gt actor.system.unspentBU 0)}}
-					<a class="add-buildup-improvement" data-type="buildup"> <i class="fas fa-plus-square"></i></a>
-					{{/if}}
-				</div>
-				<ul class="evolutions-list">
-					{{#each items as |item id|}}
-					{{#if (eq item.type "improvement")}}
-					{{#if (eq item.system.theme_id "")}}
-					<li class="evolution-list-item">
-						{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=item owner=../actor locked=../actor.system.locked sheetowner=../actor data=item.system}}
-					</li>
-					{{/if}}
-					{{/if}}
-					{{/each}}
-				</ul>
 			</section>
 		</div>
 		<div class="tab tab-content flexcol space-between bio-section" data-group="primary" data-tab="bio">

@@ -1376,7 +1376,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return (this.themebook as Themebook).system.subtype == "Loadout";
 	}
 
-	isSystemCompatible(this: Themebook, system: System) : boolean {
+	isSystemCompatible(this: Themebook | Improvement | Move, system: System) : boolean {
 		if (this.system.system_compatiblity == "any") return true;
 		return this.system.system_compatiblity == system;
 	}
