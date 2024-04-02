@@ -1,3 +1,5 @@
+import { CitySettings } from "./settings.js"
+import { COLLECTIVE } from "./datamodel/collective.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { Themebook } from "./city-item.js";
@@ -52,6 +54,22 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get my_statuses() {
 		return this.getStatuses();
+	}
+
+	get collectiveStatus(): Status[] {
+	return	this.getStatuses().filter(x=>x.system.specialType == "collective");
+	}
+
+
+	async getCollectiveStatus() : Promise<Status> {
+	let collective=	this.collectiveStatus;
+		if (!collective.length) {
+			const system = CitySettings.getBaseSystem();
+			const col_name = localize(COLLECTIVE[system]);
+			await this.createNewStatus(col_name, this.collective_size, 0, { "specialType": "collective"});
+			collective = this.collectiveStatus;
+		}
+		return collective[0];
 	}
 
 	get my_story_tags(): Tag[] {

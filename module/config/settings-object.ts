@@ -421,6 +421,26 @@ export function DEV_SETTINGS() {
 			}
 		},
 
+		"collectiveMechanics": {
+			name: localize("CityOfMist.settings.collectiveMechanics.name"),
+			hint: localize("CityOfMist.settings.themeStyle.hint"),
+			scope: "world",
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			type: String,
+			default: "city-of-mist",
+			choices: {
+				"city-of-mist" : localize("CityOfMist.settings.themeStyle.0"),
+				"mist-engine": localize("CityOfMist.settings.themeStyle.1"),
+			},
+			restricted: true,
+			onChange: () => {
+				game.settings.set('city-of-mist', "system", "custom");
+			}
+		},
+
+
+		}
+
 		"debugMode": {
 			name: localize("CityOfMist.settings.debugMode.name"),
 			hint: localize("CityOfMist.settings.debugMode.hint"),

@@ -273,6 +273,7 @@ class Status extends DataModel {
 			permanent: new bool({initial: false}),
 			sceneId: new id(),
 			showcased: new bool({initial: false}),
+			specialType: new txt<"collective" | "">({initial :""}),
 		};
 	}
 }

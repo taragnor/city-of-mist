@@ -143,6 +143,7 @@
 "CityOfMist.terms.nascent" : "Nascent",
 "CityOfMist.terms.any" : "Any",
 "CityOfMist.terms.themeClassRoll": "Add Number of Themes",
+"CityOfMist.terms.colllective": "Collective",
 
 "Otherscape.terms.noise": "Noise",
 "Otherscape.terms.self": "Self",
@@ -150,12 +151,14 @@
 "Otherscape.terms.itch": "Itch",
 "Otherscape.terms.decay": "Decay",
 "Otherscape.terms.upgrade": "Upgrade",
+"Otherscape.terms.collective" : "Scale",
 
 
 "Legend.terms.origin": "Origin",
 "Legend.terms.greatness": "Greatness",
 "Legend.terms.motivation": "Motivation",
 "Legend.terms.experience": "Experience",
+"Legend.terms.collective" : "Scale",
 
 "CityOfMist.terms.loadoutTheme.name": "Loadout Theme",
 "Otherscape.terms.loadoutTheme.name": "Loadout",
@@ -625,6 +628,11 @@
 "CityOfMist.settings.themeStyle.hint": "Governs Themecard layout",
 "CityOfMist.settings.themeStyle.0": "City of Mist Style",
 "CityOfMist.settings.themeStyle.1": "Mist Engine Style",
+
+"CityOfMist.settings.collectiveMechanics.name": "Collective/Scale mechanic",
+"CityOfMist.settings.collectiveMechanics.hint": "Determine how the rules handle scale / Collective ",
+
+
 
 "CityOfMist.settings.debugMode.name": "Debug Mode",
 "CityOfMist.settings.debugMode.hint": "Turns on internal Javascript debug code",
