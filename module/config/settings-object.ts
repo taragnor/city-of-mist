@@ -438,9 +438,6 @@ export function DEV_SETTINGS() {
 			}
 		},
 
-
-		}
-
 		"debugMode": {
 			name: localize("CityOfMist.settings.debugMode.name"),
 			hint: localize("CityOfMist.settings.debugMode.hint"),
