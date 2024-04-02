@@ -23,7 +23,7 @@
 		</b>
 		{{#each actor.spectrums as |spectrum id|}}
 		<div class="spectrum-short-label">
-			{{spectrum.name}} {{spectrum.system.maxTier}}
+			{{spectrum.name}} {{spectrumConvert spectrum.system.maxTier}}
 		</div>
 		{{/each}}
 	</div>

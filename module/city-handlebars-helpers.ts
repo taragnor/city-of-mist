@@ -1,3 +1,4 @@
+import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityItem } from "./city-item.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { DEV_SETTINGS } from "./config/settings-object.js";
@@ -298,8 +299,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'isMistEngine': function () {
 			return CitySettings.getBaseSystem() != "city-of-mist";
-		}
+		},
 
+		'spectrumConvert' : function (x: keyof typeof SPECTRUM_VALUES) {
+			return new Handlebars.SafeString(SPECTRUM_VALUES[x]);
+		}
 
 	} //end of object holding helpers
 } // end of class
