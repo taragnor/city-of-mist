@@ -672,20 +672,32 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	get tierString() {
 		if (this.system.type != 'status')
 			return "";
-		if (CitySettings.isOtherscapeStatuses()) {
-			let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
-			let arr = [];
-			while (pips > 0) {
-				arr.push( pips & 1? 1: 0)
-				pips = pips >> 1;
-			}
-			return arr.map(
-				x=> x
-				? '<span class="filled-circle tracker-circle"></span>'
-				:'<span class="empty-circle-status tracker-circle"></span>'
-			).join("");
+		const displaySetting = CitySettings.get("statusDisplay");
+		const system = CitySettings.get("statusAdditionSystem");
+		switch (displaySetting) {
+
+			case "tier-only":
+				break;
+			case "tier+pips":
+				if (system == "mist-engine")
+					break;
+				return `${this.system.tier}.${this.system.pips}`;
+			case "tier+circles":
+				if (system != "mist-engine")
+					break;
+				let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
+				let arr = [];
+				while (pips > 0) {
+					arr.push( pips & 1? 1: 0)
+					pips = pips >> 1;
+				}
+				return this.system.tier + " " + arr.map(
+					x=> x
+					? '<span class="filled-circle tracker-circle"></span>'
+					:'<span class="empty-circle-status tracker-circle"></span>'
+				).join("");
 		}
-	return String(this.system.tier);
+		return String(this.system.tier);
 	}
 
 	get pipString() {

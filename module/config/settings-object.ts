@@ -60,6 +60,25 @@ export function CITY_SETTINGS() {
 			},
 			restricted: true,
 		},
+
+		"statusDisplay": {
+			name: localize("CityOfMist.settings.statusDisplay.name"),
+			hint: localize("CityOfMist.settings.statusDisplay.hint"),
+			scope: "world",
+			config: true,
+			type: String,
+			default: "tier-only",
+			choices: {
+				"tier-only" : localize("CityOfMist.settings.statusDisplay.0"),
+				"tier+pips": localize("CityOfMist.settings.statusDisplay.1"),
+				"tier+circles": localize("CityOfMist.settings.statusDisplay.2"),
+
+			},
+			restricted: true,
+			onChange: (_newval:string) => {
+			}
+		},
+
 		"maxWeaknessTags": {
 			name: localize("CityOfMist.settings.maxWeaknessTags.name"),
 			hint: localize("CityOfMist.settings.maxWeaknessTags.hint"),
@@ -363,6 +382,7 @@ export function DEV_SETTINGS() {
 				game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
+
 
 		"loadoutTheme": {
 			name: localize("CityOfMist.settings.loadout.name"),

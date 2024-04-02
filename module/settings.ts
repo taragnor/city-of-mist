@@ -156,16 +156,17 @@ export class CitySettings {
 				await this.set( "statusAdditionSystem", "classic");
 				await this.set("tagBurn", "classic");
 				await this.set("altPower", false);
-				await this.set("system", "city-of-mist");
 				await this.set("loadoutTheme", false);
 				await this.set("themeStyle", "city-of-mist");
 				await this.set("autoFail_autoSuccess", false);
 				await this.set("collectiveMechanics", "city-of-mist");
+				await this.set("statusDisplay", "tier-only");
+
+				await this.set("system", "city-of-mist");
 				break;
 			case "otherscape" :
 				await this.set("baseSystem", "otherscape");
 				await this.set("loadoutTheme", true);
-				await this.set("system", "otherscape");
 				await this.set("altPower", false);
 				await this.set("tagBurn", "mist-engine");
 				await this.set( "statusAdditionSystem", "mist-engine");
@@ -173,11 +174,13 @@ export class CitySettings {
 				await this.set("themeStyle", "mist-engine");
 				await this.set("autoFail_autoSuccess", true);
 				await this.set("collectiveMechanics", "mist-engine");
+				await this.set("statusDisplay", "tier+circles");
+
+				await this.set("system", "otherscape");
 				break;
 			case "legend" :
 				await this.set("baseSystem", "legend");
 				await this.set("loadoutTheme", true);
-				await this.set("system", "legend");
 				await this.set("altPower", false);
 				await this.set("tagBurn", "mist-engine");
 				await this.set( "statusAdditionSystem", "mist-engine");
@@ -185,6 +188,9 @@ export class CitySettings {
 				await this.set("themeStyle", "mist-engine");
 				await this.set("autoFail_autoSuccess", true);
 				await this.set("collectiveMechanics", "mist-engine");
+				await this.set("statusDisplay", "tier+circles");
+
+				await this.set("system", "legend");
 				break;
 			case "custom":
 				break;

@@ -595,10 +595,6 @@
 "CityOfMist.settings.altPower.name": "Alternate Power House Rule",
 "CityOfMist.settings.altPower.hint": "Roll power just impacts the die roll. For move effect, base effect is set to 2 and can be modified via a penalty.",
 
-"CityOfMist.settings.statusSubtractionSystem.0": "Classic CoM Subtraction",
-"CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Boxes)",
-"CityOfMist.settings.statusSubtractionSystem.2": "Otherscape (no pips)",
-
 "CityOfMist.settings.system.name": "Game System",
 "CityOfMist.settings.system.hint": "Choose version of CoM system (this will overwrite settings and set the system defaults for the chosen system)",
 "CityOfMist.settings.system.0": "City of Mist",
@@ -616,6 +612,11 @@
 "CityOfMist.settings.loadout.name": "Enable Loadout Theme",
 "CityOfMist.settings.loadout.hint": "Show the Loadout theme on the character Sheet",
 
+"CityOfMist.settings.statusDisplay.name": "Status Display",
+"CityOfMist.settings.statusDisplay.hint": "Show how statuses are shown in the status Lists",
+"CityOfMist.settings.statusDisplay.0": "Tier Only",
+"CityOfMist.settings.statusDisplay.1": "Tier + Pips (City of Mist Only)",
+"CityOfMist.settings.statusDisplay.2": "Tier + Dots (Otherscape and LitM only)",
 
 
 
