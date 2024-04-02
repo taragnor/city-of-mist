@@ -1,3 +1,4 @@
+import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityDB } from "./city-db.js";
 import { SYSTEM_CHOICES } from "./config/settings-object.js";
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
@@ -34,6 +35,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		data.TBSYSTEMLIST = SysChoices;
 		data.THEMESUBTYPES = THEME_TYPES;
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
+		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
 		data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );

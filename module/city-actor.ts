@@ -36,6 +36,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}) as Theme | undefined;
 	}
 
+	isDanger() : this is Danger {
+		return this.system.type == "threat";
+	}
+
 	get gmmoves() {
 		return this.getGMMoves();
 	}
@@ -60,9 +64,26 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	return	this.getStatuses().filter(x=>x.system.specialType == "collective");
 	}
 
+	async updateCollectiveStatus(this: Danger): Promise<void> {
+		let collective = this.collectiveStatus;
+		let useCollective = CitySettings.get("collectiveMechanics");
+		if (this.collective_size == 0 || useCollective == "city-of-mist") {
+			collective.forEach( status=> status.delete());
+		} else {
+			if (!collective.length) {
+				const system = CitySettings.getBaseSystem();
+				const col_name = localize(COLLECTIVE[system])
+				await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
+				return;
+			}
+			if (this.collective_size != collective[0].system.tier) {
+				collective[0].update( {"system.tier": this.collective_size});
+			}
+		}
+	}
 
 	async getCollectiveStatus() : Promise<Status> {
-	let collective=	this.collectiveStatus;
+	let collective = this.collectiveStatus;
 		if (!collective.length) {
 			const system = CitySettings.getBaseSystem();
 			const col_name = localize(COLLECTIVE[system]);
@@ -1329,3 +1350,9 @@ export type PC = Subtype<CityActor, "character">;
 export type Danger = Subtype<CityActor, "threat">;
 export type Crew = Subtype<CityActor, "crew">;
 
+
+Hooks.on("updateActor", async (actor: CityActor) => {
+	if (actor.isDanger()) {
+		await actor.updateCollectiveStatus();
+	}
+});

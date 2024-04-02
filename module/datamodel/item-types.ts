@@ -204,7 +204,7 @@ class Spectrum extends DataModel {
 	get type() {return "spectrum" as const;}
 	static override defineSchema() {
 		return {
-			maxTier: new num({initial: 1, min: 1, integer: true, max: 6})
+			maxTier: new num({initial: 1, min: 1, integer: true, max: 999})
 		}
 	}
 }
