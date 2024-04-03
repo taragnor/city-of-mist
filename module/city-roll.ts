@@ -2,7 +2,6 @@ import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
-import { Move } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
@@ -22,7 +21,7 @@ export type RollModifier = {
 	amount: number,
 	ownerId: string | null,
 	tagId: string | null,
-	type: string,
+	type: ActivatedTagFormat["type"],
 	strikeout?: boolean,
 	subtype ?: string;
 	description ?: string;
@@ -181,9 +180,11 @@ export class CityRoll {
 		if (!options.noHelpHurt) {
 			helpHurt = allModifiers.filter (x=> x.type == "juice");
 		}
+		const mods= allModifiers.filter ( x=> x.type == "modifier");
 		let modifiers = tags
 			.concat(usedStatus)
 			.concat(helpHurt)
+			.concat(mods)
 		;
 		if (options.themeType) {
 			const blazetheme = options.BlazeThemeId ? actor.getTheme(options.BlazeThemeId) : undefined;

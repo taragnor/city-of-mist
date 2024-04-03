@@ -70,7 +70,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (this.collective_size == 0 || useCollective == "city-of-mist") {
 			collective.forEach( status=> status.delete());
 		} else {
-			if (!collective.length) {
+			if (collective.length == 0) {
 				const system = CitySettings.getBaseSystem();
 				const col_name = localize(COLLECTIVE[system])
 				await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
@@ -103,9 +103,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get collective_size() {
 		if (this.system.type == "threat") {
-			const number = Number(this.system.collectiveSize ?? 0);
-			if (Number.isNaN(number)) return 0;
-			return number;
+			const size = Number(this.system.collectiveSize ?? 0);
+			if (Number.isNaN(size)) return 0;
+			return size;
 		}
 		return 0;
 	}
@@ -544,10 +544,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async createNewStatus (name: string, tier=1, pips=0, options: Partial<Status["system"]>={} ): Promise<Status> {
-		const temporary  = options.temporary ?? false;
-		const permanent  = options.permanent ?? false;
 		const obj = {
-			name, type: "status", system : {pips, tier, temporary, permanent}};
+			name, type: "status", system : {...options, pips, tier}};
 		return await this.createNewItem(obj) as Status;
 	}
 

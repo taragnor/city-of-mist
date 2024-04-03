@@ -58,11 +58,23 @@
 					{{> "systems/city-of-mist/templates/parts/danger-template.html" owner=actor locked=actor.system.locked sheetowner=actor actor=actor}}
 				</div>
 				<div class="flex-column">
-					<div class="flex-theme-block story-tag-box" >
-						{{> "systems/city-of-mist/templates/parts/story-tag-display.html" owner=actor items=items locked=false sheetowner=actor canBurn=true taglist=storyTags}}
-					</div>
-					<div class="flex-theme-block status-box" >
-						{{> "systems/city-of-mist/templates/parts/status-text-list.html" owner=actor locked=actor.system.locked sheetowner=actor}}
+					<div class="flip-card-front story-tag-box">
+						<div class="story-tags" >
+							{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor  sheetowner=actor}}
+							<div class="story-tag-category">
+								{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" canBurn=true taglist=actor.my_story_tags}}
+
+							</div>
+						</div>
+						<div class="status-text-list">
+							<div class="story-tags-header"> {{localize 'CityOfMist.terms.statuses' }}
+								<a class="create-status" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> 
+									<i class="fas fa-plus-square"></i>
+								</a>
+							</div>
+							<hr>
+							{{> "systems/city-of-mist/templates/parts/status-text-list.html" actor=actor}}
+						</div>
 					</div>
 				</div>
 			</div>

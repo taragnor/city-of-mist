@@ -3,7 +3,6 @@
 		<div class="story-tags" >
 			{{> "systems/city-of-mist/templates/parts/story-tag-header.html" owner=actor  sheetowner=actor}}
 			<div class="story-tag-category">
-				<div class="section-title "> My Story Tags </div>
 				{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" canBurn=true taglist=actor.my_story_tags}}
 
 			</div>
@@ -14,6 +13,7 @@
 					<i class="fas fa-plus-square"></i>
 				</a>
 			</div>
+			<hr>
 			{{> "systems/city-of-mist/templates/parts/status-text-list.html" actor=actor}}
 		</div>
 	</div>

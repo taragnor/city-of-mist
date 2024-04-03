@@ -19,7 +19,7 @@ export type ShorthandNotation = {
 	id: string,
 	ownerId: string ,
 	tokenId?: string ,
-	type: CityItem["type"]
+	type: CityItem["type"] | "modifier",
 	amount: number;
 };
 
@@ -29,7 +29,7 @@ export type ActivatedTagFormat = {
 			amount: number,
 			ownerId: string,
 			tagId: string,
-			type: CityItem["type"],
+			type: CityItem["type"] | "modifier",
 			description: string,
 			subtype: string,
 			strikeout: boolean,
@@ -87,7 +87,7 @@ export class SelectedTagsAndStatus {
 			amount,
 			ownerId: tagOwner?.id ?? "" ,
 			tagId: tag ? x.id : "",
-			type: x.type,
+			type: (tagOrStatus.system.type == "status" && tagOrStatus.system.specialType == "collective") ? "modifier" :  x.type,
 			description: tag ? tag.system.description : "",
 			subtype,
 			strikeout: false,
