@@ -2102,18 +2102,6 @@ ol.dice-rolls {
 	visibility: visible;
 }
 
-.token-tooltip-container {
-	margin: 15 px;
-	max-width: 250px;
-}
-
-.tool-tip.flex-row {
-	max-width: 200px;
-	flex-basis: 100px;
-	margin-left: 10px;
-	margin-right: 10px;
-	flex-wrap: wrap;
-}
 
 * .city-die-tooltip .die {
 	font-weight: bold;
@@ -3041,3 +3029,20 @@ div.flex-theme-block-flip {
 .tag-list {
 	font-size: 10pt;
 }
+
+span.dotStatus {
+	display: inline-block;
+}
+
+div.plus-minus {
+	min-width:2.5em;
+}
+
+div.tag-or-status {
+	flex-grow: 3;
+
+}
+
+/* span.plus-minus-controls { */
+/* 	display: inline-block; */
+/* } */

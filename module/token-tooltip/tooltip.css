@@ -18,3 +18,16 @@
   display: block;
 }
 
+.token-tooltip-container {
+	margin: 15 px;
+	max-width: 250px;
+}
+
+.tool-tip.flex-row {
+	max-width: 240px;
+	flex-basis: 100px;
+	margin-left: 6px;
+	margin-right: 6px;
+	flex-wrap: wrap;
+}
+

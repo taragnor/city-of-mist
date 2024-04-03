@@ -681,7 +681,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "tier+pips":
 				if (system == "mist-engine")
 					break;
-				return `${this.system.tier}.${this.system.pips}`;
+				return new Handlebars.SafeString(`${this.system.tier}.${this.system.pips}`);
 			case "tier+circles":
 				if (system != "mist-engine")
 					break;
@@ -691,13 +691,14 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					arr.push( pips & 1? 1: 0)
 					pips = pips >> 1;
 				}
-				return this.system.tier + " " + arr.map(
+				const dots = arr.map(
 					x=> x
 					? '<span class="filled-circle tracker-circle"></span>'
 					:'<span class="empty-circle-status tracker-circle"></span>'
 				).join("");
+				return new Handlebars.SafeString(`<span class="dotStatus">${this.system.tier} ${dots} </span>`);
 		}
-		return String(this.system.tier);
+		return new Handlebars.SafeString(String(this.system.tier));
 	}
 
 	get pipString() {

@@ -69,6 +69,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		let useCollective = CitySettings.get("collectiveMechanics");
 		if (this.collective_size == 0 || useCollective == "city-of-mist") {
 			collective.forEach( status=> status.delete());
+			return;
 		} else {
 			if (collective.length == 0) {
 				const system = CitySettings.getBaseSystem();
@@ -77,7 +78,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				return;
 			}
 			if (this.collective_size != collective[0].system.tier) {
-				collective[0].update( {"system.tier": this.collective_size});
+				await collective[0].update( {"system.tier": this.collective_size, "system.pips": 0});
 			}
 		}
 	}

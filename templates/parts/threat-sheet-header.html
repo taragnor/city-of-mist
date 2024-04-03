@@ -30,7 +30,11 @@
 </div>
 <div class="header-row">
 	<label class="dialog-label" for="name">
+		{{#if usingCollective}}
 		{{localize "CityOfMist.terms.collectiveSize"}}
+		{{else}}
+		{{localize "Otherscape.terms.scale"}}
+		{{/if}}
 	</label>
 	<input type="radio" name="system.collectiveSize" value=0 {{#if (eq 0 actor.system.collectiveSize)}} checked {{/if}} > 0 </input>
 	<input type="radio" name="system.collectiveSize" value=1 {{#if (eq 1 actor.system.collectiveSize)}} checked {{/if}} > 1 </input>
