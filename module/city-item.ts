@@ -1505,7 +1505,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (!parent) {
 			throw new Error(`Can't create subtag if there is no parent of ${this.name}`);
 		}
-		return await  parent.createNewGMMove("Unnamed SubMove", {
+		return await  parent.createNewGMMove("Unnamed Sub-Move", {
 			"superMoveId" : this.id,
 			"hideName": true,
 			"header":"symbols",
