@@ -1512,7 +1512,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			"subtype":"hard",
 		});
 	}
-
 }
 
 export type Theme = Subtype<CityItem, "theme">;

@@ -153,6 +153,7 @@
 "Otherscape.terms.upgrade": "Upgrade",
 "Otherscape.terms.collective" : "Scale",
 "Otherscape.terms.scale" : "Scale",
+"Otherscape.terms.crew" : "Crew",
 
 
 "Legend.terms.origin": "Origin",
@@ -349,6 +350,16 @@
 "Otherscape.moves.downtime.3": "Research and Inquire (Discover): Gather information.",
 "Otherscape.moves.downtime.4": "Spend Time on a theme: Mark an upgrade box.",
 
+"Otherscape.moves.creditRoll.name": "Credit Roll",
+"Otherscape.moves.creditRoll.always": "At the end of each session, as the imaginary credits are rolling, take some time to discuss what has transpired in this episode of your series.",
+"Otherscape.moves.creditRoll.0": "What did the crew achieve? What new trouble did they get into?",
+"Otherscape.moves.creditRoll.1": "What were the highlight moments of the episode?",
+"Otherscape.moves.creditRoll.2": "Individually, what was the most important thing that happened to each PC?",
+"Otherscape.moves.creditRoll.3": "Did any PCs mark Decay, replace a theme, or have a Moment of Evolution?",
+"Otherscape.moves.creditRoll.4": "Did anyone Go Out In A Blaze? What was the outcome and the Consequences?",
+"Otherscape.moves.creditRoll.5": "If you’re playing a series, each PC has one relationship tag with another PC. First, any such burned tags are restored. Then, go around the table; ask each player whether any of their PC’s relationships with the other PCs changed. If so, they can revise their relationship tags with other PCs to reflect that.",
+"Otherscape.moves.creditRoll.6": "Recover one crew theme power tag for each member in the crew",
+"Otherscape.moves.creditRoll.7": "You may also ask the MC to add any story tags that represent resources you gained access to this session to your loadout theme.",
 
 "CityOfMist.generic.narration": "Narration",
 
