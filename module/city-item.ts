@@ -83,6 +83,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.hasEffectClass("AUTODYN");
 	}
 
+
 	get description() {
 		switch (this.system.type) {
 			case "tag":
@@ -119,10 +120,19 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return [];
 	}
 
+	get submoves() : GMMove[] {
+		if (!this.parent) return [];
+		if (this.system.type != "gmmove") return [];
+		return this.parent.getGMMoves().
+			filter( tag => tag.system.superMoveId == this.id);
+
+
+	}
+
 	get subtags() : Tag[] {
 		if (!this.parent) return [];
 		if (this.system.type != "tag") return [];
-		return (this.parent as CityActor).getTags().
+		return this.parent.getTags().
 			filter( tag => tag.system.parentId == this.id);
 	}
 
@@ -1488,6 +1498,19 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				throw new Error(`trying to get non-existent term ${term}`);
 		}
 
+	}
+
+	async createSubMove(this: GMMove) : Promise<GMMove> {
+		const parent = this.parent;
+		if (!parent) {
+			throw new Error(`Can't create subtag if there is no parent of ${this.name}`);
+		}
+		return await  parent.createNewGMMove("Unnamed SubMove", {
+			"superMoveId" : this.id,
+			"hideName": true,
+			"header":"symbols",
+			"subtype":"hard",
+		});
 	}
 
 }

@@ -6,11 +6,33 @@
 		{{/if}}
 	</div>
 	<div class="gmmove-text">
-				{{> "systems/city-of-mist/templates/parts/gmmove-part.hbs" actor=sheetowner move=move showPrivate=true}}
+		{{> "systems/city-of-mist/templates/parts/gmmove-part.hbs" actor=sheetowner move=move showPrivate=true}}
+		{{#each move.submoves as |submove|}}
+		<div class="submove" data-move-id="{{submove.id}}">
+			<div class="gm-move flex-row draggable {{#if ../locked}}gmmove-select {{else}} gmmove-edit{{/if}}" >
+				<div class= "trash-can-flex">
+					{{#if (and (eq ../locked false) (eq ../sheetowner submove.actor))}}
+					<a class="item-control gmmove-delete" title="Delete GMMove"><i class="fas fa-trash"></i></a>
+					{{/if}}
+				</div>
+				<div class="gmmove-text">
+					{{> "systems/city-of-mist/templates/parts/gmmove-part.hbs" actor=../sheetowner move=submove showPrivate=true}}
+				</div>
+			</div>
+		</div>
+		{{/each}}
 		{{#if (noteq sheetowner move.actor)}}
 		<div class="inherit-msg">
 			Inherited from {{move.actor.displayedName}}
 		</div>
-	{{/if}}
+		{{/if}}
 	</div>
+	<div>
+		{{#if (and (eq locked false) (eq sheetowner move.actor))}}
+		<a class="add-sub-move" title="Add submove"">
+			<i class="fa-solid fa-circle-plus"></i>
+		</a>
+		{{/if}}
+	</div>
+
 </div>

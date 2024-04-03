@@ -40,8 +40,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.system.type == "threat";
 	}
 
+	/** gets top level gmmoves (not submoves) */
 	get gmmoves() {
-		return this.getGMMoves();
+		return this.getGMMoves()
+			.filter( x=> !x.system.superMoveId);
 	}
 
 	get clues() : Clue[] {
@@ -237,7 +239,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	ownsMove(move_id: string) {
-		return this.gmmoves.find(x => x.id == move_id)?.parent == this;
+		return this.getGMMoves().find(x => x.id == move_id)?.parent == this;
 	}
 
 	getAttachedTemplates() : Danger[] {
@@ -325,7 +327,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getGMMove(id: string): GMMove | undefined {
-		return this.gmmoves.find(x => x.type == "gmmove" && x.id == id) as GMMove | undefined;
+		return this.getGMMoves().find(x => x.type == "gmmove" && x.id == id) as GMMove | undefined;
 	}
 
 	getImprovement(id: string) : Improvement | undefined {
@@ -395,7 +397,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async deleteGMMove(id: string) {
+		const move = this.getGMMove(id);
+		if (!move) throw new Error(`Can't delte bad id ${id}`);
+		move.submoves.forEach( x=> this.deleteGMMove(x.id));
 		return await this.deleteEmbeddedById(id);
+
 	}
 
 	async deleteClue(id: string) {
@@ -578,14 +584,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async createNewJuice (name: string, subtype = "") {
 		const obj = {
-			name, type: "juice", data : {amount:1, subtype}};
+			name, type: "juice", system : {amount:1, subtype}};
 		return await this.createNewItem(obj);
 	}
 
-	async createNewGMMove (name : string, data : Partial<GMMove["system"]> = {}) {
+	async createNewGMMove (name : string, systemData : Partial<GMMove["system"]> = {}) : Promise<GMMove> {
 		const obj = {
-			name, type: "gmmove", data : {subtype: "soft", ...data}};
-		return await this.createNewItem(obj);
+			name, type: "gmmove", system : {subtype: "soft", ...systemData}};
+		return await this.createNewItem(obj) as GMMove;
 	}
 
 	async createNewSpectrum (name: string) {

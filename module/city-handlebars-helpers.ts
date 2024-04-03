@@ -44,8 +44,9 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			});
 		},
 		'hasGMMoveOfType': function (actor: CityActor, subtype: GMMove["system"]["subtype"]) {
-			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype ==subtype);
+			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype == subtype && !x.system.superMoveId );
 		},
+
 		"displayAlias": (actor: CityActor) => {
 			return actor.getDisplayedName(); //might be easier
 			// return game.actors.get(actor.id).getDisplayedName();

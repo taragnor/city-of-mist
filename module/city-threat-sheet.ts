@@ -42,6 +42,7 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.template-add').click(this._addTemplate.bind(this));
 		html.find('.template-delete').click(this._deleteTemplate.bind(this));
 		html.find('.template-name').click(this._jumpToTemplate.bind(this));
+		html.find('.add-sub-move').on("click", this.#addSubMove.bind(this));
 	}
 
 	override async getData() {
@@ -107,11 +108,13 @@ export class CityThreatSheet extends CityActorSheet {
 	}
 
 	async _aliasInput (event: Event) {
+		event.stopImmediatePropagation();
 		const val =  $(event.currentTarget!).val() as string;
 		await this.actor.setTokenName(val);
 	}
 
-	async _createGMMove(_event: Event) {
+	async _createGMMove(event: Event) {
+		event.stopImmediatePropagation();
 		const owner = this.actor;
 		const obj = await this.actor.createNewGMMove("Unnamed Move")
 		const move =  owner.getGMMove(obj.id);
@@ -122,16 +125,20 @@ export class CityThreatSheet extends CityActorSheet {
 	async _deleteGMMove(event: Event) {
 		event.stopImmediatePropagation();
 		const move_id = HTMLTools.getClosestData(event, "moveId");
-		if (!this.actor.ownsMove(move_id)) return;
+		if (!this.actor.ownsMove(move_id)) {
+			ui.notifications.warn("Can't delete this move, it's from another sheet");
+			return;
+		}
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const owner =  this.getOwner(actorId);
 		const move = owner.getGMMove(move_id);
 		if (await this.confirmBox("Delete Move", `Delete ${move?.name}`)) {
-			await owner.deleteClue(move_id);
+			await owner.deleteGMMove(move_id);
 		}
 	}
 
 	async _editGMMove(event : Event) {
+		event.stopImmediatePropagation();
 		const move_id = HTMLTools.getClosestData(event, "moveId");
 		if (!this.actor.ownsMove(move_id)) return;
 		const ownerId = HTMLTools.getClosestData(event, "ownerId");
@@ -142,6 +149,7 @@ export class CityThreatSheet extends CityActorSheet {
 	}
 
 	async _selectGMMove(event: Event) {
+		event.stopImmediatePropagation();
 		const move_id = HTMLTools.getClosestData(event, "moveId");
 		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const owner =  this.getOwner(ownerId);
@@ -206,6 +214,16 @@ export class CityThreatSheet extends CityActorSheet {
 						break;
 				}
 		}
+	}
+
+	async #addSubMove(ev: JQuery.Event) {
+		const moveId =  HTMLTools.getClosestData(ev, "moveId");
+		const move = this.actor.getGMMove(moveId);
+		if (!move) throw new Error(`Can't find Move id {$moveId}`);
+		const submove = await move.createSubMove();
+		await this.moveDialog(submove!);
+
+
 	}
 
 

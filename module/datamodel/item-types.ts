@@ -287,7 +287,8 @@ class GMMove extends DataModel {
 			taglist: new arr( new txt()),
 			statuslist: new arr(new txt()),
 			hideName: new bool({initial: false}),
-			header: new txt({initial: "default"}),
+			header: new txt({choices: ["default", "none", "symbols", "text"], initial: "default"}),
+			superMoveId: new id(),
 		}
 	}
 }
