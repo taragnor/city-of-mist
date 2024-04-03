@@ -249,7 +249,7 @@ class Move extends DataModel {
 			onMiss: new txt(),
 			onPartial: new txt(),
 			always: new txt(),
-			listConditionals: new arr( new obj<ListConditionalItem>()),
+			listConditionals: new arr( new obj<ListConditionalItem>(), {initial:[]}),
 			subtype: new txt({choices: ["standard", "noroll", "themeclassroll", "SHB"], initial: "standard"}),// this used to be type and needs to be replaced
 			theme_class: new txt<ThemeType>({initial: ""}),
 			effect_class: new txt(),

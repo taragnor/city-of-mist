@@ -1,3 +1,4 @@
+import { Move } from "./city-item.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
@@ -85,6 +86,13 @@ export class CityRoll {
 		return this;
 	}
 
+	get move() : Move {
+		const move = CityHelpers.getMoves().find(x => x.id == this.#moveId);
+		if (!move) throw new Error(`Cant' find move Id ${this.#moveId}`);
+		return move;
+
+	}
+
 	static async execMove(moveId: string, actor: CityActor | null, selectedList: ActivatedTagFormat[] =[], options :CRollOptions= {}) {
 		const CR = new CityRoll(moveId, actor, selectedList, options);
 		return await CR.execMove();
@@ -133,13 +141,13 @@ export class CityRoll {
 	#prepareModifiers () {
 		const actor = this.#actor;
 		const options = this.#options;
-		if (options.noRoll) {
+		if (options.noRoll || this.move.system.subtype == "noroll") {
 			this.#modifiers = [];
 			this.#tags = [];
 			return this;
 		}
 		if (!actor) {
-			throw new Error("Can't make an actorless move except with a no-roll move");
+			throw new Error(`Can't make an actorless move except with a no-roll move`);
 		}
 		const allModifiers = this.#selectedList
 			.filter (x => {
