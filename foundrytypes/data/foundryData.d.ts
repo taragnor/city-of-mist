@@ -1,0 +1,4 @@
+interface FoundryData {
+	fields: FoundryDataFields
+
+}

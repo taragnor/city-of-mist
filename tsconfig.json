@@ -1,0 +1,30 @@
+{
+ "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 16",
+
+  "compilerOptions": {
+    "target": "es2022",
+    "moduleResolution": "node",
+
+    "outDir": "dist",
+    "rootDir": "src",
+
+	 "noImplicitAny": true,
+	 "alwaysStrict": true,
+	 "noImplicitOverride": true,
+	 "allowJs": false,
+	 "strictNullChecks": true,
+	 "esModuleInterop": true,
+	 "skipLibCheck": true,
+	 "forceConsistentCasingInFileNames": true,
+	 "allowUmdGlobalAccess": true,
+	 "resolveJsonModule": true
+  },
+  "exclude": [
+	  "node_modules"
+  ],
+  "include":[
+	  "src/**/*.ts",
+	  "foundrytypes/**/*.ts"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "city-of-mist",
+  "version": "1.0.0",
+  "description": "City of Mist system for Foundry VTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -r dist; tsc && copyfiles -u 1 src/**/*.css src/**/*.json src/**/*.webp src/**/*.html src/**/*.hbs src/**/*.mp3 src/**/*.wav src/**/*.otf src/**/*.woff2 src/**/*.ttf dist/ && copyfiles README.md dist/"
+  },
+  "keywords": [
+    "RPG",
+    "Foundry"
+  ],
+  "author": "taragnor",
+  "license": "",
+  "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.3.3"
+  }
+}
