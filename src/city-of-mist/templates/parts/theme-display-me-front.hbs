@@ -1,13 +1,13 @@
 <div class="{{themebook.subtype}}-theme mist-engine-theme-block theme-block" id="theme-id-{{id}}" data-theme-id="{{theme.id}}" data-owner-id="{{owner.id}}" data-theme-type="{{themetype}}" data-token-id="{{tokenId}}">
 	<div class="top-section">
 		<div class="themebook-name flip-button">
-			{{#if (eq theme.themebook.system.subtype "Crew")}}
+		{{#if (eq themetype "crew")}}
 			<a class="item-control crew-prev">
 				<i class="fas fa-arrow-left"></i>
 			</a>
 			{{/if}}
 			{{themebook.displayedName}}
-			{{#if (eq theme.themebook.system.subtype "Crew")}}
+		{{#if (eq themetype "crew")}}
 			<a class="item-control crew-next">
 				<i class="fas fa-arrow-right"></i>
 			</a>

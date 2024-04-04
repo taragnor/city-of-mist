@@ -102,21 +102,26 @@ export class CityCharacterSheet extends CityActorSheet {
 		return data;
 	}
 
-	getCrewThemes() {
-		const crew = game.actors.find(actor =>
-			actor.type == "crew" && actor.isOwner
-		);
+	getCrewThemes() : Theme[]{
+		const crew = game.actors.find( (actor: CityActor) =>
+			actor.type == "crew"
+			&& actor.isOwner
+			&& actor.getThemes().length > 0
+		) as CityActor | undefined;
 		// let crewThemes = [];
 		if (!crew) {
 			return [];
 		}
 
-		const crewThemes = crew.items.filter(x => x.type =="theme");
+		const crewThemes = crew.items.filter(x => x.isTheme())as Theme[];
+		if (crewThemes.length == 0) return [];
 		const selected = (this.actor.system.crewThemeSelected % crewThemes.length) || 0;
-		if (crewThemes[selected])
-			return [crewThemes[selected]];
-		else
+		const theme = crewThemes[selected];
+		if (theme)
+			return [theme];
+		else {
 			return [crewThemes[0]];
+		}
 	}
 
 	getExtras() {
