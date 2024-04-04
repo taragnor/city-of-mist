@@ -347,7 +347,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	async addPowerTag(this: ThemeKit) {
 		if (!this.isThemeKit())
 			throw new Error("trying to add power tag to non-theme kit");
-		const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
+		// const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
+		const powerTags = this.system.power_tagstk;
 		const letters = Array.from("ABCDEFGHIJ");
 		const letter = letters.reduce( (acc, l) => {
 			if (acc) return acc;
@@ -371,7 +372,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	async addWeaknessTag(this: ThemeKit) {
 		if (!this.isThemeKit())
 			throw new Error("trying to add tag to non-theme kit");
-		const weakTags = Array.from( Object.values({...this.system.weakness_tagstk}));
+		const weakTags = this.system.weakness_tagstk;
 		const letters = Array.from("ABCDE");
 		const letter = letters.reduce( (acc, l) => {
 			if (acc) return acc;
@@ -1186,14 +1187,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
 			return [];
-		return Array
-			.from(Object.values({...tags}))
-		.map(x=> {return {
+		return tags.map( (x, i)=> ({
 			...x,
-			name: x.tagname,
-		};
-		});
-		;
+			letter: "ABCDEFGHIJ".charAt(i)
+		}));
 	}
 
 	/** gets improvements as an array from a themebook*/

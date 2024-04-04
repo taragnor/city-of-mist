@@ -63,7 +63,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get collectiveStatus(): Status[] {
-	return	this.getStatuses().filter(x=>x.system.specialType == "collective");
+		return	this.getStatuses().filter(x=>x.system.specialType == "collective");
 	}
 
 	async updateCollectiveStatus(this: Danger): Promise<void> {
@@ -86,7 +86,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async getCollectiveStatus() : Promise<Status> {
-	let collective = this.collectiveStatus;
+		let collective = this.collectiveStatus;
 		if (!collective.length) {
 			const system = CitySettings.getBaseSystem();
 			const col_name = localize(COLLECTIVE[system]);
@@ -168,7 +168,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	hasHurtFor(actorId: string) {
-	return this.hurtPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
+		return this.hurtPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);
 
 	}
 
@@ -182,7 +182,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	/** Gets amount of juice for a given provided actor id.
 	whichOne can be either "help" | "hurt"
 	returns Number
-	*/
+	 */
 	getHelpHurtFor( whichOne: "help" | "hurt" = "help", targetCharacterId: string) {
 		let arr ;
 		switch (whichOne) {
@@ -217,8 +217,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return [];
 		const mySpectrums : Spectrum[] = this.items.filter( x=> x.system.type == "spectrum") as Spectrum[];
 		const templateSpectrums = this.getAttachedTemplates()
-		.map( x=> x?.getSpectrums(depth+1) ?? [])
-		.flat();
+			.map( x=> x?.getSpectrums(depth+1) ?? [])
+			.flat();
 		for (const spec of templateSpectrums) {
 			if (!mySpectrums.find( x=> x.name == spec.name))
 				mySpectrums.push(spec);
@@ -271,28 +271,28 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	/** returns the theme for a given id
 	@return {CityItem}
-	*/
+	 */
 	getTheme(id: string): Theme | undefined {
 		return this.items.find(x => x.type == "theme" && x.id == id) as Theme;
 	}
 
 	/** returns the tag for a given id
 	@return {CityItem}
-	*/
+	 */
 	getTag(id: string): Tag  | undefined {
 		return this.items.find(x => x.type == "tag" && x.id == id) as Tag | undefined;
 	}
 
 	/** returns the item for a given id
 	@return {CityItem}
-	*/
+	 */
 	getItem(id: string): CityItem  | undefined{
 		return this.items.find(x =>  x.id == id);
 	}
 
 	/** returns the tag for a given id
 	@return {CityItem[]}
-	*/
+	 */
 	getStoryTags(): Tag[] {
 		return this.items.filter( x => {
 			return x.system.type == "tag" && x.system.subtype == "story";
@@ -304,7 +304,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find(x => (x.type == "tag" || x.type == "status") && x.id == id) as Tag | Status | undefined;
 	}
 
-	 getStatus(id: string): Status | undefined {
+	getStatus(id: string): Status | undefined {
 		return this.items.find(x => x.type == "status" && x.id == id) as Status;
 	}
 
@@ -318,11 +318,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find(x => x.type == "clue" && x.id == id) as Clue | undefined;
 	}
 
-	 getJournalClue(id: string) : ClueJournal | undefined{
+	getJournalClue(id: string) : ClueJournal | undefined{
 		return this.items.find(x => x.type == "journal" && x.id == id) as ClueJournal | undefined;
 	}
 
-	 getJuice(id: string) : Juice | undefined {
+	getJuice(id: string) : Juice | undefined {
 		return this.items.find(x => x.type == "juice" && x.id == id) as Juice | undefined;
 	}
 
@@ -359,7 +359,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 @param {string} tagId
 @param {{removeImprovement ?: boolean}} options
 @param {boolean} options.removeImprovement removes an improvement from the actor as tag is deleted
-*/
+	 */
 	async deleteTag(tagId :string, options: {removeImprovement?: boolean;} = {}) {
 		const tag  =  this.getTag(tagId);
 		if (!tag) return;
@@ -389,7 +389,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	/**deletes a status by name
 	@param {string} name
-	*/
+	 */
 	async deleteStatusByName(name: string) {
 		const status = this.getStatuses().find (x=> x.name == name);
 		if (status)
@@ -475,7 +475,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	/** get improvements from self and from other activeExtra and crew theme
-	*/
+	 */
 	getAllImprovements(): Improvement[] {
 		if (!this.is_character())
 			return this.getImprovements();
@@ -660,7 +660,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	@param temp_subtype {"power" | "weakness" | "bonus"},
 	@param question_letter{string} letter of the answered question or "_" for bonus,
 	@param {{crispy ?: boolean, awardImprovement ?: boolean, noEdit ?: boolean}} options
-	*/
+	 */
 	async addTag(theme_id: string, temp_subtype: "power" | "weakness" | "bonus",  question_letter: string | null, options: {crispy?: boolean; awardImprovement?: boolean; noEdit?: boolean;} = {}) {
 		const theme = this.getTheme(theme_id);
 		if (!theme) {
@@ -762,43 +762,43 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			throw new Error("Not a themekit!");
 		}
 		const tagdata = (themebook as ThemeKit)
-			.themekit_getTags(temp_subtype)
-			.find( x=> x.letter == question_letter);
-			if (!tagdata) {
-				throw new Error(`Can't find TagData for ${theme.name} ${temp_subtype}, ${question_letter}`);
-			}
-			let custom_tag = false;
-			let subtag = false;
-			let question = "-";
-			let tagname, subtype;
-			let upgrades = 0;
-			const description = tagdata?.description ?? "";
-			switch(temp_subtype) {
-				case "power":
-					subtype = "power";
-					tagname = tagdata.name;
-					subtag = false;
-					await theme.decUnspentUpgrades();
-					upgrades --;
-					break;
-				case "weakness":
-					subtype = "weakness";
-					tagname = tagdata.name;
-					subtag = false;
-					if (options.awardImprovement) {
-						await theme.incUnspentUpgrades();
-						upgrades ++;
-					}
-					break;
-				case "bonus":
-					subtype = "power";
-					custom_tag = true;
-					question_letter = "_";
-					question = "???";
-					break;
-				default:
-					throw new Error(`Unknwon tag subtype ${temp_subtype}`);
-			}
+		.themekit_getTags(temp_subtype)
+		.find( x=> x.letter == question_letter);
+		if (!tagdata) {
+			throw new Error(`Can't find TagData for ${theme.name} ${temp_subtype}, ${question_letter}`);
+		}
+		let custom_tag = false;
+		let subtag = false;
+		let question = "-";
+		let tagname, subtype;
+		let upgrades = 0;
+		const description = tagdata?.description ?? "";
+		switch(temp_subtype) {
+			case "power":
+				subtype = "power";
+				tagname = tagdata.tagname ?? (tagdata as Record<string, string>).name ;
+				subtag = false;
+				await theme.decUnspentUpgrades();
+				upgrades --;
+				break;
+			case "weakness":
+				subtype = "weakness";
+				tagname = tagdata.tagname ?? (tagdata as Record<string, string>).name ;
+				subtag = false;
+				if (options.awardImprovement) {
+					await theme.incUnspentUpgrades();
+					upgrades ++;
+				}
+				break;
+			case "bonus":
+				subtype = "power";
+				custom_tag = true;
+				question_letter = "_";
+				question = "???";
+				break;
+			default:
+				throw new Error(`Unknwon tag subtype ${temp_subtype}`);
+		}
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
 			type: "tag",
@@ -881,7 +881,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 
-	 getBuildUpImprovements(this:PC ) : Improvement[] {
+	getBuildUpImprovements(this:PC ) : Improvement[] {
 		return this.items.filter(x => x.system.type == "improvement" && x.system.theme_id.length == 0) as Improvement[];
 	}
 
@@ -1054,7 +1054,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	/** takes an array of pronounds and substitutes if it is incomplete
-	*/
+	 */
 	static _derivePronouns(prArray: string[]): string[] {
 		if (!prArray[0])
 			return [];
@@ -1272,9 +1272,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		if (move.system.abbreviation == "FLASH" && !this.hasFlashbackAvailable())
 			return false;
-			if (move.hasEffectClass("MIST") && this.getNumberOfThemes("Mist") <=0)
+		if (move.hasEffectClass("MIST") && this.getNumberOfThemes("Mist") <=0)
 			return false;
-			if (move.hasEffectClass("MYTHOS") && this.getNumberOfThemes("Mythos") <=0)
+		if (move.hasEffectClass("MYTHOS") && this.getNumberOfThemes("Mythos") <=0)
 			return false;
 		return true;
 	}

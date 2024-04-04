@@ -52,7 +52,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.improvement-edit').on("click", this._improvementEdit.bind(this));
 		html.find('.theme-reset-fade').on("click", this._resetFade.bind(this) );
 
-		html.find('.identity-input').on("change", this._themeChangeInput.bind(this));
+		html.find('.motivation-input').on("change", this._themeChangeInput.bind(this));
 		html.find('.active-extra-drop-down').on("change", this._activeExtraChange.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
 

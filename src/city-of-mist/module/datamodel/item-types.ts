@@ -1,9 +1,15 @@
+import { ThemekitTagData } from "./default-themekit.js";
+import { ThemekitImprovementData } from "./default-themekit.js";
+import { defaultTKPowerTags } from "./default-themekit.js";
+import { defaultTKWeaknessTags } from "./default-themekit.js";
+import { defaultTKImprovementData } from "./default-themekit.js";
 import { System } from "../config/settings-object.js";
 import { Motivation } from "./motivation-types.js";
 import { FadeType } from "./fade-types.js";
 import { ThemeType } from "./theme-types.js";
 import { THEME_TYPES } from "./theme-types.js";
 import { CitySettings } from "../settings.js"
+
 
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, FilePathField:file} = foundry.data.fields;
 
@@ -26,18 +32,7 @@ type ThemebookImprovementData = Record<string, ("_DELETED_" | {
 	uses: null | number,
 })>;
 
-type ThemekitTagData = Record<number, {
-	tagname: string,
-	letter: string,
-	description: string,
-}>;
 
-type ThemekitImprovementData = Record<number, {
-	name: string,
-	uses: number,
-	description: string,
-	effect_class:string,
-}>;
 
 
 export type ListConditionalItem = {
@@ -119,9 +114,9 @@ class Themekit extends DataModel {
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			use_tb_improvements: new bool({initial: false}),
-			power_tagstk: new obj<ThemekitTagData>(),
-			weakness_tagstk: new obj<ThemekitTagData>(),
-			improvements: new obj<ThemekitImprovementData>(),
+			power_tagstk: new arr(new obj<ThemekitTagData>(), {initial: defaultTKPowerTags}),
+			weakness_tagstk: new arr(new obj<ThemekitTagData>(), {initial: defaultTKWeaknessTags}),
+			improvements: new arr(new obj<ThemekitImprovementData>(),{initial: defaultTKImprovementData}),
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType>({initial: "fade"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),

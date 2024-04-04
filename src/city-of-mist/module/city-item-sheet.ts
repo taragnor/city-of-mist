@@ -82,11 +82,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		super.activateListeners(html);
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
-		html.find(".tk-create-power-tag").on("click", this._addTKPowerTag.bind(this));
-		html.find(".tk-create-weakness-tag").on("click", this._addTKWeaknessTag.bind(this));
 		html.find(".tk-create-imp").on("click", this._addTKImprovement.bind(this));
-		html.find(".tk-delete-power-tag").on("click", this._deleteTKPowerTag.bind(this));
-		html.find(".tk-delete-weakness-tag").on("click", this._deleteTKWeaknessTag.bind(this));
 		html.find(".tk-delete-imp").on("click", this._deleteTKImprovement.bind(this));
 		html.find(".item-create-power-tag-question").on("click", this._addPowerTagQuestion.bind(this));
 		html.find(".item-create-weakness-tag-question").on("click", this._addPowerTagQuestion.bind(this));
@@ -238,42 +234,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		return false;
 	}
 
-	async _addTKPowerTag() {
-		if (this.item.system.type != "themekit")
-			throw new Error("Expecting Theme kit");
-		await (this.item as ThemeKit).addPowerTag();
-	}
-
-	async _addTKWeaknessTag() {
-		if (this.item.system.type != "themekit")
-			throw new Error("Expecting Theme kit");
-		await (this.item as ThemeKit).addWeaknessTag();
-	}
-
 	async _addTKImprovement() {
 		if (!this.item.isThemeKit())
 			throw new Error("Expecting Theme kit");
 		await this.item.addImprovement();
-	}
-
-	async _deleteTKPowerTag(event: JQuery.Event) {
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		console.log("Delete TK power");
-		const index = HTMLTools.getClosestData(event, "index");
-		if (this.item.system.type != "themekit")
-			throw new Error("Expecting Theme kit");
-		(this.item as ThemeKit).deleteTagOrImprovement(Number(index), "power");
-		//TODO: sheet has issues as it constantly screws up the TK tags, making multiple of one letter, need to get rid of delete and make it a prefabricated object since Handlebars suck at arrays
-	}
-
-	async _deleteTKWeaknessTag(event: JQuery.Event) {
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		const index = HTMLTools.getClosestData(event, "index");
-		if (!this.item.isThemeKit())
-			throw new Error("Expecting Theme kit");
-		(this.item as ThemeKit).deleteTagOrImprovement(Number(index), "weakness");
 	}
 
 	async _deleteTKImprovement(event: JQuery.Event) {

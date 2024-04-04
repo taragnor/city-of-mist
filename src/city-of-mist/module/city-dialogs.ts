@@ -559,6 +559,11 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	static async improvementOrTagChoiceList(actor: CityActor, theme: Theme, itemtype : "improvement" | "tag" = "tag", subtype: "power" | "weakness" = "power") {
 		if (!theme) throw new Error("No theme provided");
 		const list = await this._listGenFunction(actor, theme, itemtype, subtype);
+		if (list.some(x=> x._id == undefined)) {
+			console.log(list);
+			throw new Error("Undefined Id in list");
+		}
+
 		const themeId = theme.id;
 		let currList : (Tag | Improvement)[];
 		if (itemtype == "tag") {
@@ -617,7 +622,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				.map( x=> {
 					return  {
 						_id: x.letter,
-						name: "question" in x ? x.question : x.name,
+						name: "question" in x ? x.question : x.tagname ?? (x as Record<string,string>).name ,
 						theme_id: theme.id,
 						subtype,
 						subtag: "subtag" in x ? x.subtag : false,

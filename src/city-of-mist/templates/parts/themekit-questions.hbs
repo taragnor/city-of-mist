@@ -1,6 +1,5 @@
 <div class="{{tagtype}}-questions">
 	<h1 class="header"> {{tagtype}} tags
-		<a class="tk-create-{{tagtype}}-tag" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 	</h1>
 	{{#each tagList as |tag ind|}}
 	{{#if ../item.system.themebook_id}}
@@ -11,7 +10,6 @@
 	</div>
 	{{/if}}
 	<div class="tk-tag">
-		<a class="tk-delete-{{../tagtype}}-tag" title="Delete Item" data-index="{{ind}}"><i class="fas fa-trash"></i></a>
 		<input class="tk-tagname-entry" name="system.{{../tagtype}}_tagstk.{{ind}}.tagname" type="text" value="{{tag.tagname}}" placeholder=""/>
 		<input class="tk-tagname-description" name="system.{{../tagtype}}_tagstk.{{ind}}.description" type="text" value="{{tag.description}}" placeholder=""/>
 	</div>
