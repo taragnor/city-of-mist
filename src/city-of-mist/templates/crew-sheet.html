@@ -24,12 +24,10 @@
 				</p>
 			</h1>
 			<div class="theme-block-group">
-				{{#each actor.items as |item|}}
-				{{#if (eq item.type "theme")}}
-				<div class="flex-theme-block">
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="crew" data=item.system themebook=item.themebook tbdata=item.themebook.system}}
+				{{#each actor.mainThemes as |item i|}}
+				<div class="flip-card flex-theme-block-flip " data-card-id="{{i}}" >
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="crew" data=item.system themebook=item.themebook tbdata=item.themebook.system cardNum=i}}
 				</div>
-				{{/if}}
 				{{/each}}
 			</div>
 		</section>

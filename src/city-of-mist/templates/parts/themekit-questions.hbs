@@ -3,7 +3,7 @@
 		<a class="tk-create-{{tagtype}}-tag" data-distinct="true" data-tag-type="{{tagtype}}_questions" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 	</h1>
 	{{#each tagList as |tag ind|}}
-	{{#if ../item.system.themebook_name}}
+	{{#if ../item.system.themebook_id}}
 	<span>Question</span>
 	<div class="question">
 		{{tag.letter}}

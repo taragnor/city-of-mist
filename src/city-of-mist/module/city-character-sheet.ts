@@ -80,7 +80,6 @@ export class CityCharacterSheet extends CityActorSheet {
 		data.MOVEGROUP =Object.fromEntries(
 			moves.map( mv => ([mv.id, mv.displayedName]))
 		);
-		console.log(data.MOVEGROUP);
 		//Crew Themes
 		data.crewThemes = this.getCrewThemes();
 

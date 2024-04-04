@@ -161,7 +161,15 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	get subtype(): string {
 		switch (this.system.type) {
 			case "themebook": return this.system.subtype;
-			case "themekit": return this.themebook?.subtype ?? this.system.subtype;
+			case "themekit": {
+				let themebook : Themebook | null = null;
+				try {
+					themebook = this.themebook as Themebook | null;
+				} catch(e) {
+				}
+				return themebook?.subtype ?? this.system.subtype;
+
+			}
 			case "status" :return "";
 			case "tag": return this.system.subtype;
 			default: if ("subtype" in this.system) return this.system.subtype;
@@ -406,6 +414,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	type : "power" || "weakness" || "improvement"
 	 */
 	async deleteTagOrImprovement(this: ThemeKit, index: number, type = "power") {
+
 		//NOTE: MAY HAVE ERRORS, was rewritten for TS
 		switch (type) {
 			case "power": {
@@ -414,6 +423,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				tags.sort( (a,b) => a.letter!.localeCompare(b.letter!));
 				const tagsObj = Object.assign({}, tags);
 				await this.update( {"system.power_tagstk":tagsObj});
+				console.log(tagsObj);
 				break;
 			}
 			case "weakness": {

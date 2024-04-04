@@ -45,7 +45,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 				?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId)
 		}
 		if (this.item.isThemeKit()) {
-			data.themebooks = CityHelpers.getAllItemsByType("themebook");
+			data.themebooks = CityDB.themebooks;
 		}
 		return data;
 	}
@@ -256,21 +256,27 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		await this.item.addImprovement();
 	}
 
-	async _deleteTKPowerTag(event: Event) {
+	async _deleteTKPowerTag(event: JQuery.Event) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		console.log("Delete TK power");
 		const index = HTMLTools.getClosestData(event, "index");
 		if (this.item.system.type != "themekit")
 			throw new Error("Expecting Theme kit");
-		await (this.item as ThemeKit).deleteTagOrImprovement(Number(index), "power");
+		(this.item as ThemeKit).deleteTagOrImprovement(Number(index), "power");
+		//TODO: sheet has issues as it constantly screws up the TK tags, making multiple of one letter, need to get rid of delete and make it a prefabricated object since Handlebars suck at arrays
 	}
 
-	async _deleteTKWeaknessTag(event: Event) {
+	async _deleteTKWeaknessTag(event: JQuery.Event) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
 		const index = HTMLTools.getClosestData(event, "index");
 		if (!this.item.isThemeKit())
 			throw new Error("Expecting Theme kit");
-		await (this.item as ThemeKit).deleteTagOrImprovement(Number(index), "weakness");
+		(this.item as ThemeKit).deleteTagOrImprovement(Number(index), "weakness");
 	}
 
-	async _deleteTKImprovement(event: Event) {
+	async _deleteTKImprovement(event: JQuery.Event) {
 		const index = HTMLTools.getClosestData(event, "index");
 		if (!this.item.isThemeKit())
 			throw new Error("Expecting Theme kit");

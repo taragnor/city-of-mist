@@ -182,17 +182,15 @@ export class CityDB extends DBAccessor {
 	static getThemebook(tname: string, id?:string) : Themebook {
 		const themebooks = this.themebooks;
 		let book;
-		if (tname && tname != "") {
-			//if there's premium content, get it
-			book = themebooks.find( item =>
-				(item.name == tname || item.id == id)
-				&& !item.system.free_content);
-			if (!book) {
-				//search expands to free content
-				book = themebooks.find( item =>
-					(item.name == tname || item.id == id));
-			}
-		}
+		//if there's premium content, get it
+		book = themebooks.find( item =>
+			(item.name == tname || item.id == id)
+			&& !item.system.free_content);
+		if (book) return book;
+		book = themebooks.find( item =>
+			(item.name == tname || item.id == id));
+		if (book) return book;
+
 		if (!book && id) {
 			//last resort search using old id system
 			// console.log("Using Old Style Search");
