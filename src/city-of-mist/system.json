@@ -69,27 +69,9 @@
   "packs": [
     {
       "name": "themebook",
-      "label": "Themebooks",
+      "label": "CoM Data",
       "system": "city-of-mist",
       "path": "packs/themebooks.db",
-      "type": "Item",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "name": "move",
-      "label": "Moves",
-      "system": "city-of-mist",
-      "path": "packs/moves.db",
-      "type": "Item",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "name": "improvement",
-      "label": "Moments of Evolution",
-      "system": "city-of-mist",
-      "path": "packs/BUImprovements.db",
       "type": "Item",
       "private": false,
       "flags": {}

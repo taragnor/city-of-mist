@@ -1219,7 +1219,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return retImps;
 	}
 
-	/**convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
+	/** convert the tag questions to an array instead of an object also dealing with backwards compatibility stuff
 	*/
 	themebook_getTagQuestions (this: Themebook, type : "power" | "weakness"= "power") {
 		const questionObj = this.system[`${type}_questions`];
