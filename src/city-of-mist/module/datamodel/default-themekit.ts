@@ -33,6 +33,5 @@ export const defaultTKImprovementData : ThemekitImprovementData[] = "ABCDE".
 		uses: 0,
 		description: "",
 		effect_class:"",
-
 	}) );
 

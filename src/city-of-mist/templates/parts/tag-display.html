@@ -4,10 +4,8 @@
 
 <div class="flex-row tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}">
 	<div class="flex-narrow flex-line flex-trash">
-		{{#if (eq tag.parent.system.locked false)}}
-		{{#if tag.parent.isOwner}}
+		{{#if (allowTagDelete tag)}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>
-		{{/if}}
 		{{else}}
 		{{#if (eq tag.system.subtype "loadout")}}
 		<a class="toggle-activation-loadout-tag activation-square" title="Activate Loadout Tag">
@@ -44,6 +42,6 @@
 		{{/if}}
 		{{/if}}
 		{{/if}}
-	{{/if}}
+		{{/if}}
 	</div>
 </div>

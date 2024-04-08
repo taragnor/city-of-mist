@@ -84,9 +84,8 @@ export class HTMLHandlers {
 			ui.notifications.warn("Can't delete a tag with subtags, must delete the subtag first");
 			return;
 		}
-		if (tag.isPermanent())
-			if (!await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
-				return;
+		if (!await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
+			return;
 		const removeImprovement =
 			tag.isWeaknessTag()
 			&& tag.theme!.weaknessTags.length >= 2

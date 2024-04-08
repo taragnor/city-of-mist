@@ -304,7 +304,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'spectrumConvert' : function (x: keyof typeof SPECTRUM_VALUES) {
 			return new Handlebars.SafeString(SPECTRUM_VALUES[x]);
+		},
+		'allowTagDelete': function (tag: Tag) {
+			if (tag.system.subtype == "story") return true;
+			if (!tag.parent) return false;
+			if (tag.parent.system.locked) return false;
+			return (tag.parent.isOwner);
 		}
+
 
 	} //end of object holding helpers
 } // end of class
