@@ -1,0 +1,62 @@
+{
+  "_id": "3dc8uTebFu3GX7op",
+  "name": "Investigate",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1100000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.A10DIQmHrtwifSMS"
+    }
+  },
+  "system": {
+    "description": "When you use your abilities to seek answers to burning questions, roll+Power.",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.investigate.name",
+    "onSuccess": "#CityOfMist.moves.investigate.success",
+    "onDynamite": "#CityOfMist.moves.investigate.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.investigate.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.0",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.1",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.2",
+        "cost": -1
+      }
+    ],
+    "category": "Core",
+    "effect_class": "CHOICEPAR1 CLUES",
+    "abbreviation": "INV",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!3dc8uTebFu3GX7op"
+}

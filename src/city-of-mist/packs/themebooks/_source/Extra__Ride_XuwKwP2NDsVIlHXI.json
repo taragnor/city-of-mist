@@ -1,0 +1,125 @@
+{
+  "_id": "XuwKwP2NDsVIlHXI",
+  "name": "Extra: Ride",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 800000,
+  "flags": {},
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.extra.ride.name",
+    "type": "Extra",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Showoff",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Rev Up",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Protective",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Loyal Steed",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Getaway",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Extra",
+    "motivation": "motivation"
+  },
+  "ownership": {
+    "default": 0,
+    "NrlemU09UKqRfgTf": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!XuwKwP2NDsVIlHXI"
+}

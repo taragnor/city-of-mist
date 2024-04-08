@@ -1,0 +1,132 @@
+{
+  "_id": "WUWnwsC9FYAGzgpH",
+  "name": "Unit",
+  "type": "themebook",
+  "img": "icons/svg/item-bag.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 100391,
+  "flags": {
+    "core": {
+      "sourceId": "Item.Cm2LHznnctGOim7B"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.unit.name",
+    "type": "Mist",
+    "power_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "K": "_DELETED_",
+      "L": "_DELETED_",
+      "M": "_DELETED_"
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 247-250",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "A Numbers Game",
+        "description": "See Shadows and Showdowns page 247-250",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Effective Leadership",
+        "description": "See Shadows and Showdowns page 247-250",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Trained for This",
+        "description": "See Shadows and Showdowns page 247-250",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Play By the Book",
+        "description": "See Shadows and Showdowns page 247-250",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Star Talent",
+        "description": "See Shadows and Showdowns page 247-250",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mist",
+    "motivation": "directive"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669236443,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!WUWnwsC9FYAGzgpH"
+}

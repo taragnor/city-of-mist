@@ -1,0 +1,128 @@
+{
+  "_id": "BbrgN4PsgGgugAT7",
+  "name": "Mobility",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 400000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.sqeIcpU8hQseOmHM"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.mobility.name",
+    "type": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Nine Lives",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "uses": null,
+        "effect_class": "THEME_DYN_RISK"
+      },
+      "1": {
+        "name": "Do Try to Keep Up",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Ain't No Mountain High Enough",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Hit the Brakes",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Rev Up",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mythos"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!BbrgN4PsgGgugAT7"
+}

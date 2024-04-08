@@ -1,0 +1,46 @@
+{
+  "name": "Performance Review",
+  "type": "move",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.performanceReview.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "MC Move.",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.performanceReview.always",
+    "listConditionals": [],
+    "category": "Advanced",
+    "effect_class": "MIST",
+    "abbreviation": "REVIEW",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.EDNVwAdu64ATXVFh"
+    }
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1683273715819,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 500000,
+  "_id": "yMiw3yvt6686Sel8",
+  "_key": "!items!yMiw3yvt6686Sel8"
+}

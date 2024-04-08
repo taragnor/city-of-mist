@@ -1,0 +1,92 @@
+{
+  "_id": "fMAZ5aMQg3gb6uOn",
+  "name": "Hit With All You've Got",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1200000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.T2v14xGlpmWDUTQU"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.HWAYG.name",
+    "onSuccess": "#CityOfMist.moves.HWAYG.success",
+    "onDynamite": "#CityOfMist.moves.HWAYG.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.HWAYG.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.HWAYG.0"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.HWAYG.1"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.HWAYG.2"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.HWAYG.3"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.HWAYG.4"
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.HWAYG.5",
+        "cost": 3
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.HWAYG.6",
+        "cost": 3
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.HWAYG.7",
+        "cost": 3
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.HWAYG.8",
+        "cost": 3
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.HWAYG.9",
+        "cost": 3
+      }
+    ],
+    "category": "Core",
+    "effect_class": "CHOICEHIT2 CHOICEPAR1 CHOICEDYN3",
+    "abbreviation": "HIT",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!fMAZ5aMQg3gb6uOn"
+}

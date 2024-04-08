@@ -1,0 +1,128 @@
+{
+  "_id": "b9cXJ12RlHpigpF5",
+  "name": "Relic",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 150000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.DVCsN3gFxYC591ns"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.relic.name",
+    "type": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Eternal Bond",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Made for This",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "uses": null,
+        "effect_class": "THEME_DYN_SELECT"
+      },
+      "2": {
+        "name": "Ultimate Unlock",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Transference",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "The Mythos Within",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 102-105",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mythos"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669230832,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!b9cXJ12RlHpigpF5"
+}

@@ -1,0 +1,62 @@
+{
+  "_id": "WieSmZGlrV8CQqe5",
+  "name": "Look Beyond the Mist",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 900000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.A10DIQmHrtwifSMS"
+    }
+  },
+  "system": {
+    "description": "When you reach inside to get in touch with your Mythos, you can feel the truth behind things without even knowing how.  Roll + Mythos.",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.lookBeyond.name",
+    "onSuccess": "#CityOfMist.moves.investigate.success",
+    "onDynamite": "#CityOfMist.moves.investigate.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.investigate.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.0",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.1",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.investigate.2",
+        "cost": -1
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "CHOICEPAR1 CLUES",
+    "abbreviation": "LOOK",
+    "subtype": "themeclassroll",
+    "system_compatiblity": "city-of-mist,city-of-mist",
+    "theme_class": "Mythos"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!WieSmZGlrV8CQqe5"
+}

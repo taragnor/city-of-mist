@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Cutting Edge",
+  "type": "themebook",
+  "_id": "eSg1666zWlbhuoyl",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Noise",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.237",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Still in Prototype",
+        "description": "See Otherscape Core p.237",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Amp Up",
+        "description": "See Otherscape Core p.237",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Void the Warranty",
+        "description": "See Otherscape Core p.237",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Modular Design",
+        "description": "See Otherscape Core p.237",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Occult Blueprints",
+        "description": "See Otherscape Core p.237",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "itch",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.cuttingEdge.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711932103998,
+    "modifiedTime": 1711932616569,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!eSg1666zWlbhuoyl"
+}

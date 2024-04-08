@@ -1,0 +1,59 @@
+{
+  "_id": "wUti602WGSvLzpLz",
+  "name": "Make a Hard Choice",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 800000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.hN8dQhuVZgPbGMqy"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.hardchoice.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.hardchoice.0"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.hardchoice.1"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.hardchoice.2"
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "MYTHOS",
+    "abbreviation": "HARDCHOICE",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!wUti602WGSvLzpLz"
+}

@@ -1,0 +1,130 @@
+{
+  "_id": "ll4esBP99oStT0TH",
+  "name": "Advanced Art",
+  "type": "themebook",
+  "img": "icons/svg/item-bag.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 2000000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.9Wdnrx6GRIh5oSk1"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.advancedart.name",
+    "type": "Mist",
+    "power_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 242-245",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Specialist",
+        "description": "See Shadows and Showdowns page 242-245",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Enshrouded by the Veil",
+        "description": "See Shadows and Showdowns page 242-245",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Reverse Engineering (Anchoring)",
+        "description": "See Shadows and Showdowns page 242-245",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Flash-Piercing Gaze (Perching)",
+        "description": "See Shadows and Showdowns page 242-245",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Stitch Shut (Mending)",
+        "description": "See Shadows and Showdowns page 242-245",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "localeName": "",
+    "subtype": "Mist",
+    "motivation": "directive"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!ll4esBP99oStT0TH"
+}

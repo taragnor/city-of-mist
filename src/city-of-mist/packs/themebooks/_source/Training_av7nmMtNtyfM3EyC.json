@@ -1,0 +1,128 @@
+{
+  "_id": "av7nmMtNtyfM3EyC",
+  "name": "Training",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 101563,
+  "flags": {
+    "core": {
+      "sourceId": "Item.fX8cinAG9vezO9yq"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.training.name",
+    "type": "Logos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Expert Advice",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Broad Training",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Sense of Purpose",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "It's Showtime",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Getting Good At This",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "uses": null,
+        "effect_class": "THEME_DYN_SELECT"
+      }
+    },
+    "motivation": "identity"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669234914,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!av7nmMtNtyfM3EyC"
+}

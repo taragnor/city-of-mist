@@ -1,0 +1,128 @@
+{
+  "_id": "zQbEKTXuVmYyZCTb",
+  "name": "Expression",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 1100000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.Svqsm5BRpa49ZWoc"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.expression.name",
+    "type": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": true
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": true
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "#CityOfMist.themebook.expression.imp.0.name",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "uses": null,
+        "effect_class": "THEME_DYN_HIT"
+      },
+      "1": {
+        "name": "#CityOfMist.themebook.expression.imp.1.name",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "#CityOfMist.themebook.expression.imp.2.name",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "#CityOfMist.themebook.expression.imp.3.name",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "#CityOfMist.themebook.expression.imp.4.name",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 94-97",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mythos"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!zQbEKTXuVmYyZCTb"
+}

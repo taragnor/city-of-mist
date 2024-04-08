@@ -1,0 +1,128 @@
+{
+  "_id": "TddJzLIHRJpdUL8N",
+  "name": "Possessions",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 100000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.5nHOn6MBy6vHzJdE"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.possessions.name",
+    "type": "Logos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": true
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": true
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Found it!",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "It's The Gift That Keeps On Giving",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Tools Of The Trade",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Quartermaster",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Quality Matters",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 126-129",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "identity"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!TddJzLIHRJpdUL8N"
+}

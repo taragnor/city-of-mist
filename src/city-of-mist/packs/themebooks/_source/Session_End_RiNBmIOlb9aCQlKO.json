@@ -1,0 +1,62 @@
+{
+  "_id": "RiNBmIOlb9aCQlKO",
+  "name": "Session End",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 400000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.mpjWMEKZUPUB0CMM"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.sessionEnd.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.sessionEnd.always",
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.sessionEnd.0",
+        "cost": 0
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.sessionEnd.1",
+        "cost": 0
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.sessionEnd.2",
+        "cost": 0
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "SESSION_END",
+    "abbreviation": "SESSIONEND",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!RiNBmIOlb9aCQlKO"
+}

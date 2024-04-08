@@ -1,0 +1,541 @@
+{
+  "name": "Zeus",
+  "type": "threat",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "locked": true,
+    "biography": "",
+    "description": "",
+    "short_description": "A lecherous salesman who deals in top end electric cars",
+    "gmnotes": "",
+    "crewThemes": [],
+    "version": "2.6.7",
+    "alias": "?????",
+    "useAlias": true,
+    "num_themes": 0,
+    "finalized": false,
+    "mythos": "Zeus",
+    "logos": "Electric Car salesman",
+    "age": 0,
+    "residence": "",
+    "pronouns": "",
+    "is_template": false,
+    "template_ids": [
+      "LD0GRLAPl7sCF9eW"
+    ],
+    "collective_size": "0"
+  },
+  "prototypeToken": {
+    "name": "Orion Drake",
+    "displayName": 30,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0
+    },
+    "width": 1,
+    "height": 1,
+    "lockRotation": true,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 0,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "flags": {},
+    "randomImg": false
+  },
+  "items": [
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "",
+        "locked": false,
+        "version": "2.6.7",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "Soft",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "default"
+      },
+      "_id": "nXDPe1OOshc7K5FC",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322230754,
+        "modifiedTime": 1688322712227,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.nXDPe1OOshc7K5FC"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "He gains [a: lightning-reflexes-2] ",
+        "locked": false,
+        "version": "2.6.7",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "entrance",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": true,
+        "header": "text"
+      },
+      "_id": "apxEDOe8fk6PvtCS",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322309284,
+        "modifiedTime": 1688323175588,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.apxEDOe8fk6PvtCS"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "If $name is driving an electric car, he may create the following story tags: \n[a: divine-charged-motor] \n[a: chariot-of-the-gods]\n{MC Notes: He may renew these tags as a hard move}",
+        "locked": false,
+        "version": "2.6.7",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "custom",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "default"
+      },
+      "_id": "mq8MfcwyqvBfbefK",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322396297,
+        "modifiedTime": 1688322940883,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.mq8MfcwyqvBfbefK"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "Create a [s:thunderstorm] on the current scene.",
+        "locked": false,
+        "version": "2.6.7",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "soft",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "symbols"
+      },
+      "_id": "SbhdYUckfB0LBN78",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322584179,
+        "modifiedTime": 1688322718377,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.SbhdYUckfB0LBN78"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "Throw a lightning bolt at someone [fried-5]",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "hard",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": true,
+        "header": "symbols"
+      },
+      "_id": "P5JWHLoj4XgsARft",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322726663,
+        "modifiedTime": 1688322758956,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.P5JWHLoj4XgsARft"
+    },
+    {
+      "name": "Lightning Flash",
+      "type": "gmmove",
+      "system": {
+        "description": "inflicts [blinded-4] on everyone in the area. Usable once per scene.",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "intrusion",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "text"
+      },
+      "_id": "kOymhu7K1D7e4cjf",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688322800624,
+        "modifiedTime": 1688323021956,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.kOymhu7K1D7e4cjf"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "$name's hand crackles with electricity",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "soft",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "symbols"
+      },
+      "_id": "MzsCRPAPKdZjak5x",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323128584,
+        "modifiedTime": 1688323143627,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.MzsCRPAPKdZjak5x"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "Remote controls an electric car that enters the scene. (create a danger)",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "hard",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "symbols"
+      },
+      "_id": "ZlcacrY4kmTZ2miO",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323200073,
+        "modifiedTime": 1688323241383,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.ZlcacrY4kmTZ2miO"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "Makes a persuasive argument or sales pitch.",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "soft",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": true,
+        "header": "symbols"
+      },
+      "_id": "cXtfkZhaSqQRgWQ2",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323274504,
+        "modifiedTime": 1688323448312,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.cXtfkZhaSqQRgWQ2"
+    },
+    {
+      "name": "Unnamed Move",
+      "type": "gmmove",
+      "system": {
+        "description": "someone is [persuaded-3], [buys-into-the-hype-3] or [seduced-3]",
+        "locked": false,
+        "version": "1",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "hard",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "symbols"
+      },
+      "_id": "51F17EhZO7qa6T2n",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323304540,
+        "modifiedTime": 1688323374093,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.51F17EhZO7qa6T2n"
+    },
+    {
+      "name": "Hurt",
+      "type": "spectrum",
+      "_id": "JniyEZ0BQXt3ptdi",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "max_tier": "4"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323382439,
+        "modifiedTime": 1688323386104,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.JniyEZ0BQXt3ptdi"
+    },
+    {
+      "name": "Outsmarted",
+      "type": "spectrum",
+      "_id": "hIgKIKQ9Q1utRF0I",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "max_tier": "3"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688323388215,
+        "modifiedTime": 1688323408792,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.hIgKIKQ9Q1utRF0I"
+    },
+    {
+      "name": "Caught by Angry wife",
+      "type": "spectrum",
+      "_id": "oIdDl3Ctirg0nOek",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "max_tier": "2"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.304",
+        "createdTime": 1688324127093,
+        "modifiedTime": 1688324137760,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek"
+    }
+  ],
+  "effects": [],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.6.7",
+    "coreVersion": "11.306",
+    "createdTime": 1688322134599,
+    "modifiedTime": 1690858048026,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_id": "VyBA84uHqW6rsBC9",
+  "sort": 0,
+  "_key": "!actors!VyBA84uHqW6rsBC9"
+}

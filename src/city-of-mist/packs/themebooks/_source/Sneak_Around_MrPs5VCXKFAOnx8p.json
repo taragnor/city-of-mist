@@ -1,0 +1,62 @@
+{
+  "_id": "MrPs5VCXKFAOnx8p",
+  "name": "Sneak Around",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 300000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.WtGSgLrmfWmrdOib"
+    }
+  },
+  "system": {
+    "description": "When you use your abilities to act secretly or deceptively, roll+Power.",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.sneak.name",
+    "onSuccess": "#CityOfMist.moves.sneak.success",
+    "onDynamite": "#CityOfMist.moves.sneak.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.sneak.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.0",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.1",
+        "cost": -1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.2",
+        "cost": -1
+      }
+    ],
+    "category": "Core",
+    "effect_class": "CHOICEPAR1",
+    "abbreviation": "SNEAK",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!MrPs5VCXKFAOnx8p"
+}

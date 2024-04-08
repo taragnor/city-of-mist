@@ -1,0 +1,43 @@
+{
+  "_id": "q908PuPAZBNMlYWM",
+  "name": "Opening Monologue",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 600000,
+  "flags": {},
+  "system": {
+    "description": "At the beginning of every session, one player goes into a monologue as his or her character, relating the character’s thoughts and feelings at this point in the story.",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.monologue.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "MC Move.",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.monologue.always",
+    "listConditionals": [],
+    "category": "Advanced",
+    "effect_class": "MONOLOGUE",
+    "abbreviation": "MONOLOGUE",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!q908PuPAZBNMlYWM"
+}

@@ -1,0 +1,67 @@
+{
+  "_id": "eRlTlBSvsZHtKHCt",
+  "name": "Downtime (Montage)",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1900000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.M0yqP1ZODv8YXy5A"
+    }
+  },
+  "system": {
+    "description": "Whenever your character has some downtime, choose one way to spend it:",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.downtime.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.downtime.always",
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.downtime.0"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.downtime.1"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.downtime.2"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.downtime.3"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.downtime.4"
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "CHOICEHIT1 DOWNTIME",
+    "abbreviation": "DOWN",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!eRlTlBSvsZHtKHCt"
+}

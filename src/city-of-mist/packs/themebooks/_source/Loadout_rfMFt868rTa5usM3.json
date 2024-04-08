@@ -1,0 +1,45 @@
+{
+  "name": "Loadout",
+  "type": "themebook",
+  "_id": "rfMFt868rTa5usM3",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Loadout",
+    "power_questions": {},
+    "weakness_questions": {},
+    "improvements": {
+      "0": "_DELETED_",
+      "1": "_DELETED_",
+      "2": "_DELETED_",
+      "3": "_DELETED_",
+      "4": "_DELETED_",
+      "5": "_DELETED_",
+      "6": "_DELETED_"
+    },
+    "motivation": "motivation",
+    "fade_type": "fade",
+    "system_compatiblity": "city-of-mist",
+    "locale_name": ""
+  },
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 600000,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711389831651,
+    "modifiedTime": 1711932384324,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!rfMFt868rTa5usM3"
+}

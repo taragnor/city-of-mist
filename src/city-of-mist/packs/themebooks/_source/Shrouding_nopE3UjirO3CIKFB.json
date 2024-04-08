@@ -1,0 +1,135 @@
+{
+  "_id": "nopE3UjirO3CIKFB",
+  "name": "Shrouding",
+  "type": "themebook",
+  "img": "icons/svg/item-bag.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 112500,
+  "flags": {
+    "core": {
+      "sourceId": "Item.DW2GZSFGfD3VwXiA"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.shrouding.name",
+    "type": "Mist",
+    "power_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "K": "_DELETED_",
+      "L": "_DELETED_",
+      "M": "_DELETED_",
+      "N": "_DELETED_",
+      "O": "_DELETED_"
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Shadows and Showdowns page 239-241",
+        "subtag": false
+      },
+      "E": "_DELETED_"
+    },
+    "improvements": {
+      "0": {
+        "name": "Well-Placed Charge",
+        "description": "See Shadows and Showdowns page 239-241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Lay It On Thick",
+        "description": "See Shadows and Showdowns page 239-241",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Enshrouded by the Veil",
+        "description": "See Shadows and Showdowns page 239-241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Skilled Greywasher",
+        "description": "See Shadows and Showdowns page 239-241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Overstep Jurisdiction",
+        "description": "See Shadows and Showdowns page 239-241",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mist",
+    "motivation": "directive"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669232588,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!nopE3UjirO3CIKFB"
+}

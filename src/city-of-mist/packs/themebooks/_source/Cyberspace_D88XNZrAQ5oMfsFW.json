@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Cyberspace",
+  "type": "themebook",
+  "_id": "D88XNZrAQ5oMfsFW",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Noise",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.241",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Avatar Flourish",
+        "description": "See Otherscape Core p.241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Cyber-Daemon",
+        "description": "See Otherscape Core p.241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Counter-Hacking",
+        "description": "See Otherscape Core p.241",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Undo",
+        "description": "See Otherscape Core p.241",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Visionary",
+        "description": "See Otherscape Core p.241",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "itch",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.cyberspace.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711932187303,
+    "modifiedTime": 1711932636400,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!D88XNZrAQ5oMfsFW"
+}

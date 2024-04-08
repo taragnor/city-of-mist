@@ -1,0 +1,125 @@
+{
+  "_id": "TLihUIPUef6qz08e",
+  "name": "Extra: Ally",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 1000000,
+  "flags": {},
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.extra.ally.name",
+    "type": "Extra",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Sharing is Caring",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Gets Around",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Back-to-back",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Tag Team",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Serious Firepower",
+        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Extra",
+    "motivation": "motivation"
+  },
+  "ownership": {
+    "default": 0,
+    "NrlemU09UKqRfgTf": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!TLihUIPUef6qz08e"
+}

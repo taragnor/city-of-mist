@@ -1,0 +1,59 @@
+{
+  "_id": "BkuL3WEsBMRYwXPr",
+  "name": "Go Toe To Toe",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1300000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.dTjH6kXA1mMvw5tO"
+    }
+  },
+  "system": {
+    "description": "When you use your abilities to overcome someone or something in a struggle for control, state what your goal is. Your opponent can describe how they respond, at their option.",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.GTTT.name",
+    "onSuccess": "#CityOfMist.moves.GTTT.success",
+    "onDynamite": "#CityOfMist.moves.GTTT.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.GTTT.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.GTTT.0"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.GTTT.1"
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.GTTT.2"
+      }
+    ],
+    "category": "Core",
+    "effect_class": "CHOICEPAR1 CHOICEHIT2 CHOICEDYN3",
+    "abbreviation": "TOE",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!BkuL3WEsBMRYwXPr"
+}

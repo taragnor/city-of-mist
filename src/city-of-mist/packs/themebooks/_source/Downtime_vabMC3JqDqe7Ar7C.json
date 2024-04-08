@@ -1,0 +1,69 @@
+{
+  "folder": "NLghWvaDQZ2fFVwL",
+  "name": "Downtime",
+  "type": "move",
+  "_id": "vabMC3JqDqe7Ar7C",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#Otherscape.moves.downtime.0",
+        "cost": 1
+      },
+      {
+        "condition": "Always",
+        "text": "#Otherscape.moves.downtime.1",
+        "cost": 1
+      },
+      {
+        "condition": "Always",
+        "text": "#Otherscape.moves.downtime.2",
+        "cost": 1
+      },
+      {
+        "condition": "Always",
+        "text": "#Otherscape.moves.downtime.3",
+        "cost": 1
+      },
+      {
+        "condition": "Always",
+        "text": "#Otherscape.moves.downtime.4",
+        "cost": 1
+      }
+    ],
+    "subtype": "noroll",
+    "theme_class": "",
+    "category": "Advanced",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.moves.downtime.name",
+    "always": "#Otherscape.moves.downtime.always",
+    "onMiss": "",
+    "onPartial": "",
+    "onSuccess": "",
+    "onDynamite": "",
+    "effect_class": "CHOICEHIT1 DOWNTIME",
+    "abbreviation": "DOWN"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711951939723,
+    "modifiedTime": 1712594125492,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!vabMC3JqDqe7Ar7C"
+}

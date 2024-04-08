@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Drones",
+  "type": "themebook",
+  "_id": "3i6BJjmC1oKKQvCV",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Noise",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.244",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Everywhere at Once",
+        "description": "See Otherscape Core p.244",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Disaster Protocol",
+        "description": "See Otherscape Core p.244",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Self-Repairing",
+        "description": "See Otherscape Core p.244",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Practiced Synergy",
+        "description": "See Otherscape Core p.244",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Like Family",
+        "description": "See Otherscape Core p.244",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "itch",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.drones.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711932255637,
+    "modifiedTime": 1711932655598,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!3i6BJjmC1oKKQvCV"
+}

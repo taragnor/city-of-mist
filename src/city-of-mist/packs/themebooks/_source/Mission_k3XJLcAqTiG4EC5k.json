@@ -1,0 +1,128 @@
+{
+  "_id": "k3XJLcAqTiG4EC5k",
+  "name": "Mission",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 500000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.6dKSMNHTQEW07H57"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.mission.name",
+    "type": "Logos",
+    "power_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Gung Ho",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Follow me!",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Can't Be Too Ready",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "When Hell Freezes Over",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Getting Good At This",
+        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "uses": null,
+        "effect_class": "THEME_DYN_SELECT"
+      }
+    },
+    "motivation": "identity"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!k3XJLcAqTiG4EC5k"
+}

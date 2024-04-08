@@ -1,0 +1,41 @@
+{
+  "name": "See Through the Mist",
+  "type": "improvement",
+  "flags": {
+    "core": {}
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "system": {
+    "description": "SEE CITY OF MIST PLAYERS GUIDE P. 267-269",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "uses": {
+      "current": 0,
+      "max": 0,
+      "expended": false
+    },
+    "theme_id": null,
+    "effect_class": "",
+    "chosen": false,
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3,
+    "XObjulrAnIfZ284S": 3
+  },
+  "folder": "s47vGIGtyXE1QUAS",
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712593953050,
+    "modifiedTime": 1712593953050,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_id": "jdcknsukMloN8yEZ",
+  "sort": 0,
+  "_key": "!items!jdcknsukMloN8yEZ"
+}

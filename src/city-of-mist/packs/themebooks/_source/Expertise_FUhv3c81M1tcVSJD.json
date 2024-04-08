@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Expertise",
+  "type": "themebook",
+  "_id": "FUhv3c81M1tcVSJD",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Self",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.201",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Evolving Technique",
+        "description": "See Otherscape Core p.201",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Flexible Discipline",
+        "description": "See Otherscape Core p.201",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Reliable Talent",
+        "description": "See Otherscape Core p.201",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Sense of Purpose",
+        "description": "See Otherscape Core p.201",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Strength from Adversity",
+        "description": "See Otherscape Core p.201",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "identity",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.expertise.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711931121296,
+    "modifiedTime": 1711932707279,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!FUhv3c81M1tcVSJD"
+}

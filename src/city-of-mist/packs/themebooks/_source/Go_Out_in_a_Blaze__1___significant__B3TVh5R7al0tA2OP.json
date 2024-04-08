@@ -1,0 +1,42 @@
+{
+  "folder": "NLghWvaDQZ2fFVwL",
+  "name": "Go Out in a Blaze (1 - significant)",
+  "type": "move",
+  "_id": "B3TVh5R7al0tA2OP",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [],
+    "subtype": "SHB",
+    "category": "SHB",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.moves.blazeOfGlory.significant.name",
+    "always": "",
+    "onMiss": "#Otherscape.moves.blazeOfGlory.significant.fail",
+    "onPartial": "#Otherscape.moves.blazeOfGlory.significant.partial",
+    "onSuccess": "#Otherscape.moves.blazeOfGlory.significant.success",
+    "onDynamite": "",
+    "effect_class": "",
+    "abbreviation": "",
+    "theme_class": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711942192684,
+    "modifiedTime": 1712594125492,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!B3TVh5R7al0tA2OP"
+}

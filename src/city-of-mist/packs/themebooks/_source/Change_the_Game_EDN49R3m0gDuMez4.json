@@ -1,0 +1,93 @@
+{
+  "_id": "EDN49R3m0gDuMez4",
+  "name": "Change the Game",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 200000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.qVj5dxGahXYgNPeb"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.CTG.name",
+    "onSuccess": "#CityOfMist.moves.CTG.success",
+    "onDynamite": "#CityOfMist.moves.CTG.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.CTG.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.CTG.0",
+        "cost": 1
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.CTG.1",
+        "cost": 1
+      },
+      {
+        "condition": "gtPartial",
+        "text": "#CityOfMist.moves.CTG.2",
+        "cost": 1
+      },
+      {
+        "condition": "gtSuccess",
+        "text": "#CityOfMist.moves.CTG.3",
+        "cost": 1
+      },
+      {
+        "condition": "gtSuccess",
+        "text": "#CityOfMist.moves.CTG.4",
+        "cost": 1
+      },
+      {
+        "condition": "gtSuccess",
+        "text": "#CityOfMist.moves.CTG.5",
+        "cost": 1
+      },
+      {
+        "condition": "gtSuccess",
+        "text": "#CityOfMist.moves.CTG.6"
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.CTG.7"
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.CTG.8"
+      },
+      {
+        "condition": "eqDynamite",
+        "text": "#CityOfMist.moves.CTG.9"
+      }
+    ],
+    "category": "Core",
+    "effect_class": "",
+    "abbreviation": "CHANGE",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!EDN49R3m0gDuMez4"
+}

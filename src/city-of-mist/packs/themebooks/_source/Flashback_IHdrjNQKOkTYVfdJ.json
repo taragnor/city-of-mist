@@ -1,0 +1,55 @@
+{
+  "_id": "IHdrjNQKOkTYVfdJ",
+  "name": "Flashback",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1500000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.ZQFwZZTrgZga9rUM"
+    }
+  },
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.flashback.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.flashback.always",
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.flashback.0"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.flashback.1"
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "FLASHBACK CHOICEHIT1",
+    "abbreviation": "FLASH",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!IHdrjNQKOkTYVfdJ"
+}

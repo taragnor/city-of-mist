@@ -1,0 +1,144 @@
+{
+  "name": "God of Olympus (Template)",
+  "type": "threat",
+  "_id": "LD0GRLAPl7sCF9eW",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "locked": true,
+    "biography": "",
+    "description": "",
+    "short_description": "",
+    "gmnotes": "",
+    "crewThemes": [],
+    "version": "2.6.7",
+    "alias": "?????",
+    "useAlias": true,
+    "num_themes": 0,
+    "finalized": false,
+    "mythos": "",
+    "logos": "",
+    "age": 0,
+    "residence": "",
+    "pronouns": "",
+    "is_template": true,
+    "template_ids": [],
+    "collective_size": 0
+  },
+  "prototypeToken": {
+    "name": "God of Olympus (Template)",
+    "displayName": 30,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0
+    },
+    "width": 1,
+    "height": 1,
+    "lockRotation": true,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 0,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "flags": {},
+    "randomImg": false
+  },
+  "items": [
+    {
+      "name": "Divine Resilience",
+      "type": "gmmove",
+      "system": {
+        "description": "When you inflict a harm status on $name, it reduces it by 2 tiers. ",
+        "locked": false,
+        "version": "2.6.7",
+        "free_content": false,
+        "locale_name": "",
+        "subtype": "custom",
+        "taglist": [],
+        "statuslist": [],
+        "hideName": false,
+        "header": "default"
+      },
+      "_id": "knmCREh0EE3JXGR9",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "XObjulrAnIfZ284S": 3
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "city-of-mist",
+        "systemVersion": "2.6.7",
+        "coreVersion": "11.306",
+        "createdTime": 1688323585486,
+        "modifiedTime": 1690858064505,
+        "lastModifiedBy": "XObjulrAnIfZ284S"
+      },
+      "_key": "!actors.items!LD0GRLAPl7sCF9eW.knmCREh0EE3JXGR9"
+    }
+  ],
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.6.7",
+    "coreVersion": "11.306",
+    "createdTime": 1688323582710,
+    "modifiedTime": 1690858064505,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!actors!LD0GRLAPl7sCF9eW"
+}

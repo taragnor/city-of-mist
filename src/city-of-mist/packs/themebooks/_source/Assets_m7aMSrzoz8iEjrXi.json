@@ -1,0 +1,127 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Assets",
+  "type": "themebook",
+  "_id": "m7aMSrzoz8iEjrXi",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Self",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "K": "_DELETED_"
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.197",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Ace Up My Sleeve",
+        "description": "See Otherscape Core p.197",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Bottomless Bags",
+        "description": "See Otherscape Core p.197",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "I'm Keeping This",
+        "description": "See Otherscape Core p.197",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Quality Matters",
+        "description": "See Otherscape Core p.197",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Quartermaster",
+        "description": "See Otherscape Core p.197",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "identity",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.assets.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711930987602,
+    "modifiedTime": 1711931108660,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!m7aMSrzoz8iEjrXi"
+}

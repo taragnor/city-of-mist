@@ -1,0 +1,44 @@
+{
+  "folder": "8v7jjpmGlY71tCFd",
+  "name": "Tracked Outcome",
+  "type": "move",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [],
+    "subtype": "standard",
+    "category": "Core",
+    "system_compatiblity": "legend",
+    "locale_name": "#Otherscape.moves.trackedOutcome.name",
+    "always": "",
+    "onMiss": "#Otherscape.moves.generic.fail",
+    "onPartial": "#Otherscape.moves.trackedOutcome.partial",
+    "onSuccess": "#Otherscape.moves.trackedOutcome.success",
+    "onDynamite": "",
+    "effect_class": "",
+    "abbreviation": "",
+    "theme_class": ""
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711941543757,
+    "modifiedTime": 1712594368988,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_id": "jOVQYdtceqsMRvRO",
+  "sort": 0,
+  "_key": "!items!jOVQYdtceqsMRvRO"
+}

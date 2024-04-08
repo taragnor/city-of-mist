@@ -1,0 +1,124 @@
+{
+  "_id": "1z5W0q4yin2dVSmw",
+  "name": "Turf",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 100782,
+  "flags": {},
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.turf.name",
+    "type": "Logos",
+    "power_questions": {
+      "A": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Feel the Pulse",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "The Turf Provides",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "King of My Castle",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "(No) Loyalty Knows No Limits",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "You’re in My Turf Now",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "identity"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669235698,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!1z5W0q4yin2dVSmw"
+}

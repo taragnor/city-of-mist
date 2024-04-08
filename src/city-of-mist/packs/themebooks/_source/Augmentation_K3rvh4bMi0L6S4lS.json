@@ -1,0 +1,128 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Augmentation",
+  "type": "themebook",
+  "_id": "K3rvh4bMi0L6S4lS",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Noise",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.233",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Backstory",
+        "description": "See Otherscape Core p.233",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Pinnacle of Perfection",
+        "description": "See Otherscape Core p.233",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Tamper Protection",
+        "description": "See Otherscape Core p.233",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Quick Reboot",
+        "description": "See Otherscape Core p.233",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": "_DELETED_",
+      "5": {
+        "name": "This is who I am",
+        "description": "See Otherscape Core p.233",
+        "uses": null,
+        "effect_class": ""
+      },
+      "6": "_DELETED_"
+    },
+    "motivation": "itch",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.augmentation.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711932016584,
+    "modifiedTime": 1711934137415,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_key": "!items!K3rvh4bMi0L6S4lS"
+}

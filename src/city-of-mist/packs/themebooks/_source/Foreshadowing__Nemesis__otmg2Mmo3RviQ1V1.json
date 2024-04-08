@@ -1,0 +1,46 @@
+{
+  "_id": "otmg2Mmo3RviQ1V1",
+  "name": "Foreshadowing (Nemesis)",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1400000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.RoBylaR5hbqYcnv4"
+    }
+  },
+  "system": {
+    "description": "At the end of a session, if one of your Nemeses is still out there, roll+(the number of sessions since one of your Nemeses last appeared)",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.foreshadowing.name",
+    "onSuccess": "#CityOfMist.moves.foreshadowing.success",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.foreshadowing.miss",
+    "onPartial": "#CityOfMist.moves.foreshadowing.partial",
+    "always": "",
+    "listConditionals": [],
+    "category": "Advanced",
+    "effect_class": "",
+    "abbreviation": "FORESHADOW",
+    "subtype": "standard",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!otmg2Mmo3RviQ1V1"
+}

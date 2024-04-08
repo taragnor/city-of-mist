@@ -1,0 +1,44 @@
+{
+  "folder": "8v7jjpmGlY71tCFd",
+  "name": "Quick Outcome",
+  "type": "move",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [],
+    "subtype": "standard",
+    "category": "Core",
+    "system_compatiblity": "legend",
+    "locale_name": "#Otherscape.moves.quickOutcome.name",
+    "always": "",
+    "onMiss": "#Otherscape.moves.quickOutcome.fail",
+    "onPartial": "#Otherscape.moves.quickOutcome.partial",
+    "onSuccess": "#Otherscape.moves.quickOutcome.success",
+    "onDynamite": "",
+    "effect_class": "",
+    "abbreviation": "",
+    "theme_class": ""
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711940621877,
+    "modifiedTime": 1712594361500,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_id": "xUtu5F9yVpb0j5zj",
+  "sort": 0,
+  "_key": "!items!xUtu5F9yVpb0j5zj"
+}

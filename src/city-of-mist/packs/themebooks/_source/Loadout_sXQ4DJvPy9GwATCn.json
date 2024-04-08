@@ -1,0 +1,86 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Loadout",
+  "type": "themebook",
+  "_id": "sXQ4DJvPy9GwATCn",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Loadout",
+    "power_questions": {},
+    "weakness_questions": {},
+    "improvements": {
+      "0": {
+        "name": "Deeply Customizeable",
+        "description": "See Otherscape Core p.249",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Fully Decked",
+        "description": "See Otherscape Core p.249",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Got a Spare",
+        "description": "See Otherscape Core p.249",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Modded Out",
+        "description": "See Otherscape Core p.249",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Repurpose",
+        "description": "See Otherscape Core p.249",
+        "uses": null,
+        "effect_class": ""
+      },
+      "5": {
+        "name": "Return Policy",
+        "description": "See Otherscape Core p.249",
+        "uses": null,
+        "effect_class": ""
+      },
+      "6": {
+        "name": "Spread the Wealth",
+        "description": "See Otherscape Core p.249",
+        "uses": null,
+        "effect_class": ""
+      },
+      "7": {
+        "name": "Synergetic Gear",
+        "description": "See Otherscape Core p.249",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "motivation": "motivation",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.loadout.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711932396198,
+    "modifiedTime": 1711932785578,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!sXQ4DJvPy9GwATCn"
+}

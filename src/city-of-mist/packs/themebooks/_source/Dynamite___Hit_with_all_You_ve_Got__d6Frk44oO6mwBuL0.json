@@ -1,0 +1,43 @@
+{
+  "name": "Dynamite! (Hit with all You've Got)",
+  "type": "improvement",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "s47vGIGtyXE1QUAS",
+  "flags": {
+    "core": {}
+  },
+  "system": {
+    "description": "SEE CITY OF MIST PLAYERS GUIDE P. 267-269",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "uses": {
+      "current": 0,
+      "max": 0,
+      "expended": false
+    },
+    "theme_id": null,
+    "choice_item": "",
+    "chosen": false,
+    "choice_type": "",
+    "effect_class": "ALWAYS_DYN_HIT",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712593934596,
+    "modifiedTime": 1712593950472,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_id": "d6Frk44oO6mwBuL0",
+  "sort": 600000,
+  "_key": "!items!d6Frk44oO6mwBuL0"
+}

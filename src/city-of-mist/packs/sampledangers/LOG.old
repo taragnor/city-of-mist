@@ -1,8 +1,15 @@
-2024/04/07-21:29:22.612834 f357c3c0 Recovering log #308
-2024/04/07-21:29:22.623009 f357c3c0 Delete type=3 #306
-2024/04/07-21:29:22.623123 f357c3c0 Delete type=0 #308
-2024/04/07-21:44:17.328894 f1bff3c0 Level-0 table #313: started
-2024/04/07-21:44:17.328942 f1bff3c0 Level-0 table #313: 0 bytes OK
-2024/04/07-21:44:17.332111 f1bff3c0 Delete type=0 #311
-2024/04/07-21:44:17.332342 f1bff3c0 Manual compaction at level-0 from '!actors!LD0GRLAPl7sCF9eW' @ 72057594037927935 : 1 .. '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 0 : 0; will stop at (end)
-2024/04/07-21:44:17.332449 f1bff3c0 Manual compaction at level-1 from '!actors!LD0GRLAPl7sCF9eW' @ 72057594037927935 : 1 .. '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 0 : 0; will stop at (end)
+2024/04/08-13:11:43.140158 f458e3c0 Recovering log #331
+2024/04/08-13:11:43.151188 f458e3c0 Delete type=3 #330
+2024/04/08-13:11:43.151310 f458e3c0 Delete type=0 #331
+2024/04/08-13:11:43.161313 f21ff3c0 Level-0 table #335: started
+2024/04/08-13:11:43.166542 f21ff3c0 Level-0 table #335: 4694 bytes OK
+2024/04/08-13:11:43.169375 f21ff3c0 Delete type=0 #333
+2024/04/08-13:11:43.169593 f21ff3c0 Manual compaction at level-0 from '!actors!LD0GRLAPl7sCF9eW' @ 72057594037927935 : 1 .. '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 0 : 0; will stop at (end)
+2024/04/08-13:11:43.169670 f21ff3c0 Manual compaction at level-1 from '!actors!LD0GRLAPl7sCF9eW' @ 72057594037927935 : 1 .. '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 0 : 0; will stop at '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 71 : 1
+2024/04/08-13:11:43.169694 f21ff3c0 Compacting 1@1 + 1@2 files
+2024/04/08-13:11:43.174019 f21ff3c0 Generated table #336@1: 16 keys, 4694 bytes
+2024/04/08-13:11:43.174067 f21ff3c0 Compacted 1@1 + 1@2 files => 4694 bytes
+2024/04/08-13:11:43.176888 f21ff3c0 compacted to: files[ 0 0 1 0 0 0 0 ]
+2024/04/08-13:11:43.177007 f21ff3c0 Delete type=2 #335
+2024/04/08-13:11:43.177164 f21ff3c0 Delete type=2 #35
+2024/04/08-13:11:43.177321 f21ff3c0 Manual compaction at level-1 from '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 71 : 1 .. '!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek' @ 0 : 0; will stop at (end)

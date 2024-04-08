@@ -1,0 +1,59 @@
+{
+  "_id": "Gs0YO31MDm3ycYCt",
+  "name": "Finally, Some Answers",
+  "type": "move",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1600000,
+  "flags": {
+    "core": {
+      "sourceId": "Item.kgHKO1fyXg3KVAqx"
+    }
+  },
+  "system": {
+    "description": "When you find answers to your Mystery, choose one, two, or all three:",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.answers.name",
+    "onSuccess": "",
+    "onDynamite": "",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "",
+    "always": "#CityOfMist.moves.answers.always",
+    "listConditionals": [
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.answers.0"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.answers.1"
+      },
+      {
+        "condition": "Always",
+        "text": "#CityOfMist.moves.answers.2"
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "MYTHOS",
+    "abbreviation": "ANSWER",
+    "subtype": "noroll",
+    "theme_class": "",
+    "system_compatiblity": "city-of-mist"
+  },
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1712594110605,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!Gs0YO31MDm3ycYCt"
+}

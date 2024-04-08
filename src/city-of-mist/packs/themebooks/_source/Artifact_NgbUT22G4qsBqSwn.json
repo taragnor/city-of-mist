@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Artifact",
+  "type": "themebook",
+  "_id": "NgbUT22G4qsBqSwn",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.217",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Overcharged and Overclocked",
+        "description": "See Otherscape Core p.217",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Reckless Discharge",
+        "description": "See Otherscape Core p.217",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Sharing is Caring",
+        "description": "See Otherscape Core p.217",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Signature Move",
+        "description": "See Otherscape Core p.217",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Status Symbol",
+        "description": "See Otherscape Core p.217",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "ritual",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.artifact.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711931505096,
+    "modifiedTime": 1711932529930,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!NgbUT22G4qsBqSwn"
+}

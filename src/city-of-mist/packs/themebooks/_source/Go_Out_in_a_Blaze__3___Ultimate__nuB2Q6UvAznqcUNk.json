@@ -1,0 +1,42 @@
+{
+  "folder": "NLghWvaDQZ2fFVwL",
+  "name": "Go Out in a Blaze (3 - Ultimate)",
+  "type": "move",
+  "_id": "nuB2Q6UvAznqcUNk",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [],
+    "subtype": "SHB",
+    "category": "SHB",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.moves.blazeOfGlory.ultimate.name",
+    "always": "",
+    "onMiss": "#Otherscape.moves.blazeOfGlory.ultimate.miss",
+    "onPartial": "#Otherscape.moves.blazeOfGlory.ultimate.partial",
+    "onSuccess": "#Otherscape.moves.blazeOfGlory.ultimate.success",
+    "onDynamite": "",
+    "effect_class": "",
+    "abbreviation": "",
+    "theme_class": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711942791351,
+    "modifiedTime": 1712594125492,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!nuB2Q6UvAznqcUNk"
+}

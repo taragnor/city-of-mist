@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Personality",
+  "type": "themebook",
+  "_id": "FW5g6LLhbaf5BFFm",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Self",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.209",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Big Personality",
+        "description": "See Otherscape Core p.209",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Lasting Impression",
+        "description": "See Otherscape Core p.209",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Water Off My Back",
+        "description": "See Otherscape Core p.209",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Why I do this",
+        "description": "See Otherscape Core p.209",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Winning Attitude",
+        "description": "See Otherscape Core p.209",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "identity",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.personality.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711931323395,
+    "modifiedTime": 1711932794948,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!FW5g6LLhbaf5BFFm"
+}

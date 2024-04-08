@@ -1,0 +1,126 @@
+{
+  "folder": "Jmux78DjNkcoxF1y",
+  "name": "Esoterica",
+  "type": "themebook",
+  "_id": "f0Hldws5yB2ezw1Z",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Otherscape Core p.225",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Daily Practices",
+        "description": "See Otherscape Core p.225",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Mystical Savvy",
+        "description": "See Otherscape Core p.225",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Nice Touch",
+        "description": "See Otherscape Core p.225",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Tools of the Practice",
+        "description": "See Otherscape Core p.225",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Universal Toolbox",
+        "description": "See Otherscape Core p.225",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "motivation": "ritual",
+    "fade_type": "fade",
+    "system_compatiblity": "otherscape",
+    "locale_name": "#Otherscape.themebook.esoterica.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711931860077,
+    "modifiedTime": 1711932696116,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!f0Hldws5yB2ezw1Z"
+}

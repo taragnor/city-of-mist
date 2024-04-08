@@ -1,0 +1,124 @@
+{
+  "_id": "eiEBOE0Ksmw54CpV",
+  "name": "Destiny",
+  "type": "themebook",
+  "img": "icons/svg/mystery-man.svg",
+  "effects": [],
+  "folder": "KYLLQKGmHQGXNTgn",
+  "sort": 1400000,
+  "flags": {},
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.4.5",
+    "free_content": true,
+    "locale_name": "#CityOfMist.themebook.destiny.name",
+    "type": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "E": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "F": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "G": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "H": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "I": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "J": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "B": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "C": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      },
+      "D": {
+        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Destiny Manifest",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "uses": null,
+        "effect_class": "THEME_DYN_SELECT"
+      },
+      "1": {
+        "name": "S%#t’s Getting Real",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "What You’re Meant to Be",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "Delay Fate",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Weave the Starry Web of Fortune",
+        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "subtype": "Mythos"
+  },
+  "ownership": {
+    "default": 0,
+    "vLgbC4k0egBgZMMz": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": null,
+    "modifiedTime": 1711669229942,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!eiEBOE0Ksmw54CpV"
+}

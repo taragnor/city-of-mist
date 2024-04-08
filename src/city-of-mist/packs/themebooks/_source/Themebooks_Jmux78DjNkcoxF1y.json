@@ -1,0 +1,19 @@
+{
+  "name": "Themebooks",
+  "sorting": "a",
+  "folder": "qFlVVUo2eXeqRPR6",
+  "type": "Item",
+  "_id": "Jmux78DjNkcoxF1y",
+  "sort": 100000,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1711669244556,
+    "modifiedTime": 1712593874378,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!folders!Jmux78DjNkcoxF1y"
+}

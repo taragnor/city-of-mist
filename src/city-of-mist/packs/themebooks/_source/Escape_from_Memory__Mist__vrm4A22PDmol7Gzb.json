@@ -1,0 +1,62 @@
+{
+  "name": "Escape from Memory (Mist)",
+  "type": "move",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "2.6.6",
+    "free_content": true,
+    "locale_name": "#CityOfMist.moves.escapeFromMemory.name",
+    "onSuccess": "#CityOfMist.moves.sneak.success",
+    "onDynamite": "#CityOfMist.moves.sneak.dynamite",
+    "onMiss": "#CityOfMist.moves.genericFail",
+    "onPartial": "#CityOfMist.moves.sneak.partial",
+    "always": "",
+    "listConditionals": [
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.0",
+        "cost": 1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.1",
+        "cost": 1
+      },
+      {
+        "condition": "eqPartial",
+        "text": "#CityOfMist.moves.sneak.2",
+        "cost": 1
+      }
+    ],
+    "category": "Advanced",
+    "effect_class": "AUTODYN ALLOW_STATUS CHOICEPAR1",
+    "abbreviation": "ESCAPE",
+    "subtype": "themeclassroll",
+    "theme_class": "Mist",
+    "system_compatiblity": "city-of-mist"
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.GsW4KuiWMd3lKTw4"
+    }
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.7.1",
+    "coreVersion": "11.315",
+    "createdTime": 1683270286004,
+    "modifiedTime": 1712594110605,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "folder": "mdXZYTXjdSdobcIp",
+  "sort": 1800000,
+  "_id": "vrm4A22PDmol7Gzb",
+  "_key": "!items!vrm4A22PDmol7Gzb"
+}
