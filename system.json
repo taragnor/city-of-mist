@@ -97,5 +97,5 @@
   ],
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
-  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.3.0.0.zip"
+  "download": "https://github.com/taragnor/city-of-mist/archive/refs/tags/v.3.0.0/city-of-mist-v.3.0.0.zip"
 }
