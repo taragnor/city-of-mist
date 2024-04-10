@@ -342,55 +342,51 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return data.question;
 	}
 
-	/** add a power tag to themekit
-	*/
-	async addPowerTag(this: ThemeKit) {
-		if (!this.isThemeKit())
-			throw new Error("trying to add power tag to non-theme kit");
-		// const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
-		const powerTags = this.system.power_tagstk;
-		const letters = Array.from("ABCDEFGHIJ");
-		const letter = letters.reduce( (acc, l) => {
-			if (acc) return acc;
-			if (powerTags.some( x=> x.letter == l)) return acc;
-			return l;
-		}, null);
-		if (!letter) {
-			ui.notifications.error("Max number of power tags reached");
-			return;
-		}
-		const description = "";
-		powerTags.push( {tagname: "Unnamed Tag", letter, description});
-		powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
-		const powerTagsObj = Object.assign({}, powerTags);
-		await this.update({ "system.power_tagstk": "x"});
-		await this.update({ "system.power_tagstk": powerTagsObj});
-	}
+	// async addPowerTag(this: ThemeKit) {
+	// 	if (!this.isThemeKit())
+	// 		throw new Error("trying to add power tag to non-theme kit");
+	// 	// const powerTags = Array.from(Object.values({...this.system.power_tagstk}));
+	// 	const powerTags = this.system.power_tagstk;
+	// 	const letters = Array.from("ABCDEFGHIJ");
+	// 	const letter = letters.reduce( (acc, l) => {
+	// 		if (acc) return acc;
+	// 		if (powerTags.some( x=> x.letter == l)) return acc;
+	// 		return l;
+	// 	}, null);
+	// 	if (!letter) {
+	// 		ui.notifications.error("Max number of power tags reached");
+	// 		return;
+	// 	}
+	// 	const description = "";
+	// 	powerTags.push( {tagname: "Unnamed Tag", letter, description});
+	// 	powerTags.sort( (a,b) => a.letter.localeCompare(b.letter));
+	// 	const powerTagsObj = Object.assign({}, powerTags);
+	// 	await this.update({ "system.power_tagstk": "x"});
+	// 	await this.update({ "system.power_tagstk": powerTagsObj});
+	// }
 
-	/** add a weakness tag to themekit
-	*/
-	async addWeaknessTag(this: ThemeKit) {
-		if (!this.isThemeKit())
-			throw new Error("trying to add tag to non-theme kit");
-		const weakTags = this.system.weakness_tagstk;
-		const letters = Array.from("ABCDE");
-		const letter = letters.reduce( (acc, l) => {
-			if (acc) return acc;
-			if (weakTags.some( x=> x.letter == l)) return acc;
-			return l;
-		}, null);
-		if (!letter) {
-			ui.notifications.error("Max number of weakness tags reached");
-			return;
-		}
-		const description = "";
-		weakTags.push( {tagname: "Unnamed Tag", letter, description});
-		weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
-		await this.update( {"system.weakness_tagstk": 0});
-		const weakTagsObj = Object.assign({}, weakTags);
-		// console.log(weakTagsObj);
-		await this.update( {"system.weakness_tagstk": weakTagsObj});
-	}
+	// async addWeaknessTag(this: ThemeKit) {
+	// 	if (!this.isThemeKit())
+	// 		throw new Error("trying to add tag to non-theme kit");
+	// 	const weakTags = this.system.weakness_tagstk;
+	// 	const letters = Array.from("ABCDE");
+	// 	const letter = letters.reduce( (acc, l) => {
+	// 		if (acc) return acc;
+	// 		if (weakTags.some( x=> x.letter == l)) return acc;
+	// 		return l;
+	// 	}, null);
+	// 	if (!letter) {
+	// 		ui.notifications.error("Max number of weakness tags reached");
+	// 		return;
+	// 	}
+	// 	const description = "";
+	// 	weakTags.push( {tagname: "Unnamed Tag", letter, description});
+	// 	weakTags.sort( (a,b) => a.letter.localeCompare(b.letter));
+	// 	await this.update( {"system.weakness_tagstk": 0});
+	// 	const weakTagsObj = Object.assign({}, weakTags);
+	// 	// console.log(weakTagsObj);
+	// 	await this.update( {"system.weakness_tagstk": weakTagsObj});
+	// }
 
 	/** add an improvement to a theme kit
 	*/
@@ -1518,6 +1514,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			"header":"symbols",
 			"subtype":"hard",
 		});
+	}
+
+	static numIndexToLetter(index: number): string {
+		return "ABCDEFGHIJKLM".at(index)!;
 	}
 }
 

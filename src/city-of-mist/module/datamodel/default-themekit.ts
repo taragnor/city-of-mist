@@ -1,14 +1,14 @@
 
 export type ThemekitTagData = {
 	tagname: string,
-	letter: string,
 	description: string,
+	letter: string,
 };
 
 
 export const defaultTKPowerTags : ThemekitTagData[] = "ABCDEFGHIJ"
 	.split('')
-	.map( (letter, i)=> ({
+	.map( (letter, _i)=> ({
 		tagname: "", letter, description: ""
 	}));
 

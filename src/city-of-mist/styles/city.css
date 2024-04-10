@@ -3043,6 +3043,10 @@ div.tag-or-status {
 
 }
 
+input.tk-tagname-letter {
+	width: 0em;
+}
+
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
 /* } */

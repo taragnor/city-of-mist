@@ -204,10 +204,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return "ERROR";
 			}
 
-			if (!tb) throw new Error("No themebook provided");
 			try {
+				if (!tb) throw new Error("No themebook provided");
 				return tb.getQuestion(type, letter);
 			}  catch (e) {
+				console.log(`Can't get question for ${this?.themebook?.name} ${type} ${letter}`);
 				console.error(e);
 				return "ERROR";
 			}

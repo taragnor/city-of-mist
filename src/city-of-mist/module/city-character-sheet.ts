@@ -74,10 +74,10 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		data.LOADOUT = loadoutTheme;
 
-		data.MOVEGROUPS =MOVEGROUPS;
+		data.MOVEGROUPS = MOVEGROUPS;
 			const moves =  CityHelpers.getMoves().filter( mv=> mv.system.category == this.actor.system.selectedMoveGroup && this.actor.canUseMove(mv));
 
-		data.MOVEGROUP =Object.fromEntries(
+		data.MOVEGROUP = Object.fromEntries(
 			moves.map( mv => ([mv.id, mv.displayedName]))
 		);
 		//Crew Themes

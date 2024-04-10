@@ -1,3 +1,4 @@
+import { CityDataMigration } from "../migration.js";
 import { refreshStyleBodyTags } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
@@ -470,7 +471,20 @@ export function DEV_SETTINGS() {
 				DebugTools.setDebugMode(val);
 			},
 		},
+
+		"version": {
+			name: "Version",
+			hint: "Version number",
+			scope: "world",
+			config: false,
+			type: String,
+			default: "",
+			restricted: true,
+		},
+
+
 	} as const;
+
 }
 
 export function delayedReload() {

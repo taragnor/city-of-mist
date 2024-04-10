@@ -16,6 +16,7 @@ declare global {
 }
 
 // Import Modules
+import { CityDataMigration } from "./migration.js";
 import { CitySettings } from "./settings.js";
 import { DEV_SETTINGS } from "./config/settings-object.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
@@ -116,6 +117,11 @@ Hooks.once("init", async function() {
 	CityKeyBinds.init();
 	TokenTooltip.init();
 });
+
+Hooks.on("cityDBLoaded", async () => {
+	CityDataMigration.checkMigration();
+});
+
 
 //Support for TaragnorSecurity module if installed
 //@ts-ignore
