@@ -59,14 +59,10 @@
 			{{/if}}
 		</div>
 		<ul class="improvement-list">
-			{{#each owner.items as |imp |}}
-			{{#if (eq imp.type "improvement")}}
-			{{#if (eq imp.system.theme_id ../theme.id)}}
+			{{#each (getImprovements theme) as |imp |}}
 			<li>
 				{{> "systems/city-of-mist/templates/parts/improvement-display.html" improvement=imp owner=../owner locked=../locked sheetowner=../sheetowner }}
 			</li>
-			{{/if}}
-			{{/if}}
 			{{/each}}
 		</ul>
 	</div>

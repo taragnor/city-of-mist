@@ -1,3 +1,4 @@
+import { Improvement } from "./city-item.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityItem } from "./city-item.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
@@ -311,6 +312,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			if (!tag.parent) return false;
 			if (tag.parent.system.locked) return false;
 			return (tag.parent.isOwner);
+		},
+
+		'getImprovements' : function (theme: Theme): Improvement[] {
+			Debug(theme);
+			return theme.improvements();
 		}
 
 
