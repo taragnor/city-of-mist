@@ -84,7 +84,7 @@ export class CityDataMigration {
 				description: "",
 				letter: ""
 			});
-			change= true;
+			change = true;
 			await themekit.update( {"system.weakness_tagstk": arr});
 		}
 		for (const tag of arr) {

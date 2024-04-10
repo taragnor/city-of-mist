@@ -633,9 +633,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async incBuildUp(this: PC, amount = 1) {
 		const oldBU = this.system.buildup.slice();
 		const [newBU, improvements] = CityHelpers.modArray(oldBU, amount, 5);
-		await this.update({"data.buildup" : newBU});
+		await this.update({"system.buildup" : newBU});
 		if (improvements > 0)  {
-			await this.update({"data.unspentBU": this.system.unspentBU+improvements});
+			await this.update({"system.unspentBU": this.system.unspentBU+improvements});
 		}
 		return improvements;
 	}
@@ -643,9 +643,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async decBuildUp(this: PC, amount =1) {
 		const oldBU = this.system.buildup.slice();
 		const [newBU, improvements] = CityHelpers.modArray(oldBU, -amount, 5);
-		await this.update({"data.buildup" : newBU});
+		await this.update({"system.buildup" : newBU});
 		if (improvements < 0)  {
-			await this.update({"data.unspentBU": this.system.unspentBU+improvements});
+			await this.update({"system.unspentBU": this.system.unspentBU+improvements});
 		}
 		return improvements;
 	}
