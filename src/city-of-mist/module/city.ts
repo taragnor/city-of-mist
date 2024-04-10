@@ -119,7 +119,7 @@ Hooks.once("init", async function() {
 });
 
 Hooks.on("cityDBLoaded", async () => {
-	CityDataMigration.checkMigration();
+	await CityDataMigration.checkMigration();
 });
 
 
