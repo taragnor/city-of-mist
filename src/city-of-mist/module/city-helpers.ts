@@ -856,4 +856,8 @@ export class CityHelpers {
 			await CityHelpers.playTagOff()
 	}
 
+	static async resetVersion() {
+		await CitySettings.set("version", "");
+	}
+
 } //end of class

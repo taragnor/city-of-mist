@@ -214,7 +214,9 @@ export class CityDB extends DBAccessor {
 	}
 
 	static searchForContent<T extends CityItem>(arr: T[], id?: string, name ?: string): T | undefined {
-		return arr.find( x=> x.id == id || x.name == name);
+		const answer = arr.find(x=> x.id == id);
+		if (answer) return answer;
+		else return arr.find( x=> x.name == name);
 	}
 
 	static oldTBIdToName(id: string) {

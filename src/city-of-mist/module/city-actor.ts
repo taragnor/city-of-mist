@@ -1287,14 +1287,20 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async createLoadoutTheme() : Promise<Theme> {
-		const themebook_id= CityDB.getLoadoutThemebook();
-		if (!themebook_id) {
+		const themebook= CityDB.getLoadoutThemebook();
+		if (!themebook) {
 			throw new Error("Can't create Loadout theme: No valid Loadout theme exists");
+		}
+		const system : Partial<Theme["system"]> = {
+			themebook_id: themebook.id,
+			themebook_name: themebook.name,
+			unspent_upgrades: 0,
+			nascent: false
 		}
 		const obj = {
 			name: "__LOADOUT__",
-			type: "theme", system:
-			{themebook_id, themebook_name: "Loadout", unspent_upgrades:0, nascent:false}
+			type: "theme",
+			system
 		};
 		console.log("Loadout theme created");
 		return await this.createNewItem(obj) as Theme;

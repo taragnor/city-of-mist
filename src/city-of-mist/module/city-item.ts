@@ -1410,7 +1410,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	isLoadoutTheme(this: Theme) :boolean {
-		return (this.themebook as Themebook).system.subtype == "Loadout";
+		return this.name == "__LOADOUT__";
+		// return (this.themebook as Themebook).system.subtype == "Loadout";
 	}
 
 	isSystemCompatible(this: Themebook | Improvement | Move, system: System) : boolean {
