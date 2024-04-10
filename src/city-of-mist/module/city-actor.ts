@@ -622,7 +622,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	getNumberOfThemes(target_type: ThemeType) {
 		const themes = this.items.filter(x => x.type == "theme") as Theme[];
 		let count = 0;
-		for (let theme of themes) {
+		for (const theme of themes) {
 			let type = theme.getThemeType();
 			if (target_type == type)
 				count++;
