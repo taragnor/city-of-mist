@@ -63,6 +63,7 @@ export class CityDataMigration {
 				description: "",
 				letter: ""
 			});
+			change= true;
 			await themekit.update( {"system.power_tagstk": arr});
 		}
 		for (const tag of arr) {
@@ -83,6 +84,7 @@ export class CityDataMigration {
 				description: "",
 				letter: ""
 			});
+			change= true;
 			await themekit.update( {"system.weakness_tagstk": arr});
 		}
 		for (const tag of arr) {
