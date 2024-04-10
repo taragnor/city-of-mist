@@ -57,6 +57,14 @@ export class CityDataMigration {
 	static async themekitFix(themekit: ThemeKit) {
 		let change = false;
 		let arr = themekit.system.power_tagstk;
+		while (arr.length < 10)  {
+			arr.push( {
+				tagname: "",
+				description: "",
+				letter: ""
+			});
+			await themekit.update( {"system.power_tagstk": arr});
+		}
 		for (const tag of arr) {
 			if (!tag.letter)  {
 				tag.letter = CityItem.numIndexToLetter(arr.indexOf(tag));
@@ -67,8 +75,16 @@ export class CityDataMigration {
 			console.log(`Fixing theme kit ${themekit.name}`);
 			await themekit.update( {"system.power_tagstk": arr});
 		}
-		arr = themekit.system.weakness_tagstk;
 
+		arr = themekit.system.weakness_tagstk;
+		while (arr.length < 4)  {
+			arr.push( {
+				tagname: "",
+				description: "",
+				letter: ""
+			});
+			await themekit.update( {"system.weakness_tagstk": arr});
+		}
 		for (const tag of arr) {
 			if (!tag.letter)  {
 				tag.letter = CityItem.numIndexToLetter(arr.indexOf(tag));
