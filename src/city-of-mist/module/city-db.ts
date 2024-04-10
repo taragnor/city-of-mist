@@ -21,6 +21,8 @@ export class CityDB extends DBAccessor {
 	static movesList: Move[] = [];
 	static _dangerTemplates: Danger[] = [];
 	static _loaded = false;
+	static _allThemebooks : Themebook[] =[];
+	static _systemThemebooks : Themebook[] =[];
 
 	static override async loadPacks() {
 		await super.loadPacks();
@@ -77,12 +79,17 @@ export class CityDB extends DBAccessor {
 	}
 
 	static async loadThemebooks() {
-		this._themebooks = this.filterItemsByType("themebook") as Themebook[];
+		const system = CitySettings.get("baseSystem");
+		this._allThemebooks = this._themebooks = this.filterItemsByType("themebook") as Themebook[];
+		this._systemThemebooks = this._allThemebooks
+			.filter(tb => tb.isSystemCompatible(system));
+		this._themebooks = this.filterOverridedContent(this._systemThemebooks);
+
 		Hooks.callAll("themebooksLoaded");
 		return true;
 	}
 
-	static filterOverridedContent(list : Move[]) {
+	static filterOverridedContent<T extends Move | Themebook>(list : T[]): T[] {
 		return list.filter( x=> !x.system.free_content || !list.some(y=>
 			x != y
 			&& y.name == x.name
@@ -180,32 +187,34 @@ export class CityDB extends DBAccessor {
 	}
 
 	static getThemebook(tname: string, id?:string) : Themebook {
-		const themebooks = this.themebooks;
-		let book;
-		//if there's premium content, get it
-		book = themebooks.find( item =>
-			(item.name == tname || item.id == id)
-			&& !item.system.free_content);
+		let book: Themebook | undefined;
+		book = this.searchForContent(this._themebooks, id, tname);
 		if (book) return book;
-		book = themebooks.find( item =>
-			(item.name == tname || item.id == id));
+		book = this.searchForContent(this._systemThemebooks, id, tname);
+		if (book) {
+			const updated = this.searchForContent(this._themebooks, id, book.name);
+			return updated ?? book;
+		}
+		book = this.searchForContent(this._allThemebooks, id, tname);
 		if (book) return book;
-
 		if (!book && id) {
 			//last resort search using old id system
 			// console.log("Using Old Style Search");
 			try {
-				return this.getThemebook (this.oldTBIdToName(id));
+				book= this.getThemebook (this.oldTBIdToName(id));
+				if (book) return book;
+				throw new Error(`Can't find themebook ${tname}: ${id}`);
 			} catch (e) {
 				ui.notifications.warn(`Couldn't get themebook for ${tname}, try refreshing your browser window (F5)`);
-				throw new Error(`Couldn't get themebook for ${tname}`);
+				throw e;
 			}
 		}
-		if (!book) {
-			ui.notifications.warn(`Could get themebook for ${tname}, try refreshing your browser window (F5)`);
-			throw new Error(`Couldn't get themebook for ${tname}`);
-		}
-		return book;
+		ui.notifications.warn(`Could get themebook for ${tname}, try refreshing your browser window (F5)`);
+		throw new Error(`Couldn't get themebook for ${tname} :  ${id}`);
+	}
+
+	static searchForContent<T extends CityItem>(arr: T[], id?: string, name ?: string): T | undefined {
+		return arr.find( x=> x.id == id || x.name == name);
 	}
 
 	static oldTBIdToName(id: string) {
@@ -315,3 +324,6 @@ export class CityDB extends DBAccessor {
 
 CityDB.init();
 
+
+//@ts-ignore
+window.CityDB = CityDB;
