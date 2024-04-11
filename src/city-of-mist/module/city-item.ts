@@ -252,10 +252,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const themebook = this.getThemebook();
 		if (themebook == null)
 			throw new Error("ERROR Can't find themebook!");
-		if ( themebook.system.subtype)
-			return themebook.system.subtype;
 		if (themebook.isThemeKit())
 			return themebook.getThemeType();
+		if ( themebook.system.subtype)
+			return themebook.system.subtype;
 		throw new Error(`Can't get theme type of ${this.name}`);
 	}
 
@@ -1414,9 +1414,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		// return (this.themebook as Themebook).system.subtype == "Loadout";
 	}
 
-	isSystemCompatible(this: Themebook | Improvement | Move, system: System) : boolean {
+	isSystemCompatible(this: Themebook | Improvement | Move, system: System | "none") : boolean {
 		if (this.system.system_compatiblity == "any") return true;
-		return this.system.system_compatiblity == system;
+		return this.system.system_compatiblity.includes(system);
 	}
 
 	async toggleLoadoutActivation(this: Tag) : Promise<boolean> {
