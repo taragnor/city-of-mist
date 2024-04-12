@@ -214,6 +214,7 @@ export class CityThreatSheet extends CityActorSheet {
 						break;
 				}
 		}
+		return undefined;
 	}
 
 	async #addSubMove(ev: JQuery.Event) {

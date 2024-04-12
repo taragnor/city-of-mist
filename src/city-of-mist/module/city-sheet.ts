@@ -55,6 +55,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 				const tb : Themebook[] = await super._onDropItem(_event, o) as unknown as Themebook[];
 				if (tb && tb[0] && tb[0] instanceof CityItem)
 				await this.actor.createNewTheme("Unnamed Theme", tb[0]);
+				return tb[0];
 				break;
 			default:
 				console.log("Unsupported Drop Type: ${item.system.type}");

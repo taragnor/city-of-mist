@@ -45,7 +45,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 				?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId)
 		}
 		if (this.item.isThemeKit()) {
-			data.themebooks = CityDB.themebooks;
+			const baseTbs = this.item.parent
+				? this.item.parent.items.filter( x=> x.isThemeBook())
+				: [];
+			data.themebooks = baseTbs.concat(CityDB.themebooks);
 		}
 		return data;
 	}

@@ -23,6 +23,7 @@
 			{{#each themebooks as |themebook|}}
 			<option value="{{themebook.id}}">
 			{{themebook.displayedName}}
+			{{#if themebook.isLocal}} * {{/if}}
 			</option>
 			{{/each}}
 			{{/select}}

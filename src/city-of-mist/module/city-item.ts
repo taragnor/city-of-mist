@@ -1035,6 +1035,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.getDisplayedName();
 	}
 
+	get isLocal() : boolean {
+		return this.parent instanceof CityActor;
+	}
+
 	async spend(this: Clue | Juice, amount = 1 ) {
 		const curr = this.getAmount();
 		if (amount > curr)
@@ -1175,16 +1179,18 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 	/** gets the tags from a themekit
 	type: "power" || "weakness"
-	*/
+	 */
 	themekit_getTags(this: ThemeKit, type : "power" | "weakness" | "bonus" = "power") {
 		if (type == "bonus") return [];
 		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
 			return [];
-		return tags.map( (x, i)=> ({
-			...x,
-			letter: "ABCDEFGHIJ".charAt(i)
-		}));
+		return tags
+			.filter( x=> x.tagname != "")
+			.map( (x, i)=> ({
+				...x,
+				letter: x.letter ?? "ABCDEFGHIJ".charAt(i)
+			}));
 	}
 
 	/** gets improvements as an array from a themebook*/
