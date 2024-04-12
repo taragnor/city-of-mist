@@ -380,7 +380,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async deleteEmbeddedById(id: string) {
-		return this.deleteEmbeddedDocuments("Item", [id]);
+		return await this.deleteEmbeddedDocuments("Item", [id]);
 	}
 
 	async deleteStatus(id: string) {
@@ -458,9 +458,24 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		} else {
 			await CityHelpers.modificationLog(this, `Theme Deleted`, theme);
 		}
-		if (theme.usesThemeKit())
-			await this.deleteThemeKit(theme.themebook?.id ?? "");
+		const tb = theme.themebook;
+		if (tb && tb.isLocal) {
+			if (tb.isThemeBook()) {
+				console.log("Deleting embedded themebook");
+				await this.deleteEmbeddedById(tb.id);
+			} else if (tb.isThemeKit()) {
+				const tb2 = tb.themebook;
+				if (tb2 && tb2.isLocal) {
+					console.log("Deleting embedded themebook");
+					await this.deleteEmbeddedById(tb2.id);
+				}
+				console.log("Deleting embedded themekit");
+				await this.deleteThemeKit(tb.id);
+			}
+		}
 		await this.deleteEmbeddedById(themeId);
+		console.log("Deleting theme");
+
 		await this.update({data: {num_themes: this.system.num_themes-1}});
 	}
 

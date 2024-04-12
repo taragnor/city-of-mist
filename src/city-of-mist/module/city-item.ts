@@ -272,12 +272,18 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (!name && !id) {
 			return null;
 		}
-		const tb = actor?.items?.find( x=> x.id == id) ??
-			CityDB.getThemebook(name, id);
-		if (!tb)  {
-			throw new Error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+		try {
+			const tb = actor?.items?.find( x=> x.id == id) ??
+				CityDB.getThemebook(name, id);
+			if (!tb)  {
+				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+				return null;
+			}
+			return tb as Themebook | ThemeKit;
+		} catch (e) {
+			console.error(e);
+			return null;
 		}
-		return tb as Themebook | ThemeKit;
 	}
 
 	get mainTags() : Tag[] {
@@ -1457,7 +1463,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 					motivation = "directive";
 					break;
 				default:
-					throw new Error(`NO motivaiton for theme ${this.name}`);
+					throw new Error(`No motivation for theme ${this.name}`);
 			}
 
 
@@ -1466,22 +1472,28 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	themeSortValue(this: Theme) : number {
-		const themetype =this.themebook!.system.subtype;
-		switch (themetype) {
-			case "Mythos":
-			case "Greatness":
-				return 1;
-			case "Noise": case "Mist": return 2;
-			case "Self": case "Origin": case "Logos": return 3;
-			case "Extra": case "Loadout": return 4;
-			case "Crew" : return 5;
-			case "": return 99;
-			default:
-				themetype satisfies never;
-				console.warn(` Unknown Type ${themetype}`);
-				return 1000;
+		try {
+			const themetype =this.themebook!.system.subtype;
+			switch (themetype) {
+				case "Mythos":
+				case "Greatness":
+					return 1;
+				case "Noise": case "Mist": return 2;
+				case "Self": case "Origin": case "Logos": return 3;
+				case "Extra": case "Loadout": return 4;
+				case "Crew" : return 5;
+				case "": return 99;
+					//@ts-ignore
+				case "None": return 99;
+				default:
+					themetype satisfies never;
+					console.warn(` Unknown Type ${themetype}`);
+					return 1000;
+			}
+		} catch (e) {
+			console.log(e);
+			return 1000;
 		}
-
 	}
 
 	getThemePropertyTerm(this:Theme, term: "attention" | "fade") {
@@ -1499,7 +1511,14 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 				}
 			case "fade":
-				const fadeType = this.themebook!.system.fade_type;
+				try {
+					if (!this.themebook)
+						return "";
+				}
+				catch (e) {return "ERROR";}
+				if (!this.themebook)
+					return "";
+				const fadeType = this.themebook.system.fade_type;
 				return l(FADETYPELIST[fadeType]);
 			default:
 				term satisfies never;

@@ -202,11 +202,16 @@ export class CityDB extends DBAccessor {
 			//last resort search using old id system
 			// console.log("Using Old Style Search");
 			try {
-				book= this.getThemebook (this.oldTBIdToName(id));
-				if (book) return book;
+				const idconv = this.oldTBIdToName(id);
+				if (idconv) {
+					book= this.getThemebook (idconv);
+					if (book) return book;
+				}
 				throw new Error(`Can't find themebook ${tname}: ${id}`);
 			} catch (e) {
-				ui.notifications.warn(`Couldn't get themebook for ${tname}, try refreshing your browser window (F5)`);
+				// ui.notifications.warn(`Couldn't get themebook for ${tname}, try refreshing your browser window (F5)`);
+				if (e instanceof Error)
+					console.log(e.stack);
 				throw e;
 			}
 		}
@@ -220,7 +225,7 @@ export class CityDB extends DBAccessor {
 		else return arr.find( x=> x.name == name);
 	}
 
-	static oldTBIdToName(id: string) {
+	static oldTBIdToName(id: string) : string | undefined {
 		// converts Beta version ids into names
 		// ugly code for backwards compatiblity
 		switch (id) {
@@ -245,8 +250,6 @@ export class CityDB extends DBAccessor {
 			case "kj7MU8YgUzkbC7BF" : return "Subversion";
 			case "DtP21Q36GuCLDMeL" : return "Training";
 			case "zoOtXbPteK6gkObm" : return "Turf";
-			default:
-				throw new Error(`Couldnt' match id ${id} with any old themebook`);
 		}
 	}
 
