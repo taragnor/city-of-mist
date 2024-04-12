@@ -1,3 +1,4 @@
+import { Themebook } from "./city-item.js";
 import { ThemeKit } from "./city-item.js";
 import { CityItem } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
@@ -50,6 +51,11 @@ export class CitySheet extends ActorSheet<CityActor> {
 			case "themekit":
 				await this.actor.addThemeKit(item as ThemeKit);
 				break;
+			case "themebook":
+				const tb : Themebook[] = await super._onDropItem(_event, o) as unknown as Themebook[];
+				if (tb && tb[0] && tb[0] instanceof CityItem)
+				await this.actor.createNewTheme("Unnamed Theme", tb[0]);
+				break;
 			default:
 				console.log("Unsupported Drop Type: ${item.system.type}");
 				break;
@@ -89,7 +95,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		// const themebook = await this.themeBookSelector();
 		const themebook = await CityDialogs.themeBookSelector(this.actor);
 		if (themebook)
-			await this.actor.createNewTheme("Unnamed Theme", themebook.id);
+			await this.actor.createNewTheme("Unnamed Theme", themebook);
 	}
 
 	async _scrollSheet (_event: Event) {

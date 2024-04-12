@@ -503,17 +503,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return game.actors.filter( (x: CityActor)=> x.system.type=="crew" && x.isOwner) as Crew[];
 	}
 
-	async createNewTheme(name: string, themebook_id: string) {
-		const themebooks  = CityHelpers.getAllItemsByType("themebook");
-		const themebook = themebooks.find( x=> x.id == themebook_id)
-			?? this.items.find(item => item.id == themebook_id);
-		if (!themebook )
-			throw new Error(`Themebook ID #${themebook_id} not found`);
+	async createNewTheme(name: string, themebook: Themebook | ThemeKit) {
 		const nascent = !this.isNewCharacter();
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
 		const obj = {
-			name, type: "theme", system: {themebook_id, themebook_name, unspent_upgrades, nascent}
+			name, type: "theme", system: {themebook_id: themebook.id, themebook_name, unspent_upgrades, nascent}
 		};
 		await this.createNewItem(obj);
 		await this.update({ system: { num_themes: this.system.num_themes+1 }});
@@ -524,11 +519,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			ui.notifications.warn("Can't add extra theme kit, already at 4 themes");
 			return;
 		}
-		const tb =  await this.createNewItem(tk);
-		if (!tb.id) {
+		const localtk =  await this.createNewItem(tk) as ThemeKit;
+		if (!localtk.id) {
 			throw new Error("Doesn't have an ID");
 		}
-		await this.createNewTheme(tk.displayedName, tb.id);
+		await this.createNewTheme(tk.displayedName, localtk);
 	}
 
 	async createNewThemeKit( name = "Unnamed Theme Kit") {
