@@ -15,7 +15,6 @@ function default_template() {
 
 function themeHolder() {
 	return {
-		num_themes: new num({initial:0, integer:true}),
 		finalized: new bool({initial: false}),
 		mythos: new txt(),
 	}

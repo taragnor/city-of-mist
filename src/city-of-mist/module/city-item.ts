@@ -154,6 +154,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return ("showcased" in this.system && this.system?.showcased) ?? false;
 	}
 
+
 	isDowntimeTriggeredMove(this: GMMove) {
 		return this.system.subtype == "downtime";
 	}
@@ -204,6 +205,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	isTheme() : this is Theme {return this.type == "theme"};
 	isThemeKit(): this is ThemeKit { return this.type == "themekit"; }
 	isThemeBook(): this is Themebook { return this.type == "themebook"; }
+	isExtraTheme(this: Theme): boolean { return this.system.isExtra; }
 
 	isImprovementActivated(this: Improvement, move_id: string) {
 		const move = CityHelpers.getMoveById(move_id);
@@ -530,9 +532,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	get headerTag() : Tag[] {
 		const header = this.powerTags[0];
 		if (!header) {
-			console.warn(`No headertag for ${this.type} ${this.name}`);
 			return [];
-
 		}
 		return [header];
 
@@ -1099,6 +1099,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 		return null;
 	}
+
 
 	get weaknessTags() : Tag[] {
 		if (this.isTheme() || this.isThemeBook()) {

@@ -17,7 +17,7 @@
 			<h1 id="Theme Header" class="flex-horizontal item-block">
 				<p>Themes
 				{{#if (eq actor.system.locked false)}}
-				{{#if (lt actor.system.num_themes 3)}}
+				{{#if (lt actor.mainThemes.length 3)}}
 				<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 				{{/if}}
 				{{/if}}

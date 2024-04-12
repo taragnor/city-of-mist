@@ -1,6 +1,9 @@
 import { CityActor } from "../city-actor.js";
 import { CityItem } from "../city-item.js";
 
+type SingleChoiceData = {id: string, data:string[], description?:string};
+
+
 export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
 	static getClosestData<T extends string | number | null = string> ( eventOrJQObj: JQuery<HTMLElement> | Event | JQuery.Event, prop: string, default_value?: T): T {
@@ -107,7 +110,7 @@ export class HTMLTools {
 
 	/** List is in the form of {id, data:[rows], description} returns null if abort or the id of the selection.
 		*/
-	static async singleChoiceBox( list:{id: string, data:string[], description?:string}[], headerText: string) : Promise<string | null> {
+	static async singleChoiceBox<const T extends SingleChoiceData[]>( list:T, headerText: string) : Promise<(T[number]["id"]) | null> {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};

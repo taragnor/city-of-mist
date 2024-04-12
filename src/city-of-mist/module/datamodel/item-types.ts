@@ -174,6 +174,7 @@ class Theme extends DataModel {
 			unspent_upgrades: new num({initial: 0, integer: true, min:0}),
 			img: new txt(),
 			nascent: new bool({initial: false}),
+			isExtra: new bool({initial: false}),
 		}
 	}
 }

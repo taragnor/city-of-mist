@@ -45,7 +45,7 @@
 				<div class="flexrow section-header">
 					<h1 id="Theme-header" class="item-block no-border">
 						{{#if (eq actor.system.locked false)}}
-						{{#if (lt actor.system.num_themes 4)}}
+						{{#if (lt actor.mainThemes.length 4)}}
 						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> {{localize 'CityOfMist.command.addTheme' }} <i class="fas fa-plus-square"></i></a>
 						{{/if}}
 						{{/if}}
@@ -70,7 +70,7 @@
 					{{/each}}
 				</div>
 			</div>
-			{{#if (gt actor.system.num_themes 2)}}
+			{{#if (gt actor.mainThemes.length 2)}}
 			<div class="theme-block-group">
 				{{#each crewThemes as |item |}}
 				<!-- Should be max of 1 -->

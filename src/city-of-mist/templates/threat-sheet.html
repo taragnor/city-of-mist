@@ -86,7 +86,7 @@
 				<div id="Theme Header" class="item-block section-header">
 					<div class="theme-header">Themes
 						{{#if (eq actor.system.locked false)}}
-						{{#if (lt actor.system.num_themes 1)}}
+						{{#if (lt actor.mainThemes.length 1)}}
 						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
 						{{/if}}
 						{{/if}}

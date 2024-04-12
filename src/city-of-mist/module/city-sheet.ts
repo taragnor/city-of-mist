@@ -49,17 +49,39 @@ export class CitySheet extends ActorSheet<CityActor> {
 		const item : CityItem = await Item.implementation.fromDropData(o);
 		switch (item.system.type) {
 			case "themekit":
-				await this.actor.addThemeKit(item as ThemeKit);
+				const choice = await this.getCreationLocation();
+				if (!choice) break;
+				await this.actor.addThemeKit(item as ThemeKit, choice == "extra");
+
 				break;
 			case "themebook":
 				const tb : Themebook[] = await super._onDropItem(_event, o) as unknown as Themebook[];
-				if (tb && tb[0] && tb[0] instanceof CityItem)
-				await this.actor.createNewTheme("Unnamed Theme", tb[0]);
+				if (tb && tb[0] && tb[0] instanceof CityItem) {
+					const choice = await this.getCreationLocation();
+					if(!choice) break;
+
+					await this.actor.createNewTheme("Unnamed Theme", tb[0], choice == "extra") ;
 				return tb[0];
+				}
 				break;
 			default:
 				console.log("Unsupported Drop Type: ${item.system.type}");
 				break;
+		}
+	}
+
+	async getCreationLocation() {
+		const choices = [
+			{ id: "main", data: [localize("CityOfMist.terms.mainTheme")]},
+			{ id: "extra", data: [localize("CityOfMist.terms.extra" )]},
+		];
+		const choice = await HTMLTools.singleChoiceBox(choices, "Choose");
+		switch (choice) {
+			case "main":
+			case "extra":
+				return choice;
+			default:
+				return undefined;
 		}
 	}
 

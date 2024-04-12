@@ -85,7 +85,7 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		//Extra themes
 		data.extras = this.getExtras();
-		data.activeExtra = this.getActiveExtra();
+		data.activeExtra = this.actor.activeExtraTheme;
 
 		//Status Container
 		data.otherStatuses = await this.getOtherStatuses();
@@ -129,18 +129,18 @@ export class CityCharacterSheet extends CityActorSheet {
 			.filter( (actor: CityActor) => actor.isExtra() && actor.isOwner && actor.hasPlayerOwner && !!actor.items.find(x=> x.type == "theme"));
 	}
 
-	getActiveExtra() {
-		const filterList = game.actors.filter( (actor: CityActor) =>
-			actor.isExtra() && actor.isOwner
-			&& this.actor.system.activeExtraId == actor.id
-		);
-		if (filterList.length == 0)
-			return null;
-		const activeExtra = filterList[0];
-		if (activeExtra  == null) return null;
-		const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
-		return activeTheme;
-	}
+	// getActiveExtra() {
+	// 	const filterList = game.actors.filter( (actor: CityActor) =>
+	// 		actor.isExtra() && actor.isOwner
+	// 		&& this.actor.system.activeExtraId == actor.id
+	// 	);
+	// 	if (filterList.length == 0)
+	// 		return null;
+	// 	const activeExtra = filterList[0];
+	// 	if (activeExtra  == null) return null;
+	// 	const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
+	// 	return activeTheme;
+	// }
 
 	getCrewStoryTags() {
 		return this.getTokenStoryTags()

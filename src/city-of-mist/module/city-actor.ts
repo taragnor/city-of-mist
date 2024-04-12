@@ -475,8 +475,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		await this.deleteEmbeddedById(themeId);
 		console.log("Deleting theme");
-
-		await this.update({data: {num_themes: this.system.num_themes-1}});
 	}
 
 	async deleteThemeKit(themeKitId: string) {
@@ -518,19 +516,28 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return game.actors.filter( (x: CityActor)=> x.system.type=="crew" && x.isOwner) as Crew[];
 	}
 
-	async createNewTheme(name: string, themebook: Themebook | ThemeKit) {
+	async createNewTheme(name: string, themebook: Themebook | ThemeKit, isExtra: boolean = false ) {
 		const nascent = !this.isNewCharacter();
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
-		const obj = {
-			name, type: "theme", system: {themebook_id: themebook.id, themebook_name, unspent_upgrades, nascent}
+		const system : Partial<Theme["system"]>= {
+			themebook_id: themebook.id, themebook_name, unspent_upgrades, nascent, isExtra
 		};
-		await this.createNewItem(obj);
-		await this.update({ system: { num_themes: this.system.num_themes+1 }});
+		const obj = {
+			name, type: "theme", system	};
+		if (this.mainThemes.length > 3 && !isExtra) {
+			ui.notifications.warn("Can't add another theme");
+			return null;
+		}
+		const theme  = await this.createNewItem(obj)
+		if (theme) {
+			return theme;
+		}
+		ui.notifications.error(`Trouble creating theme: ${name} from ${themebook.name}`);
 	}
 
-	async addThemeKit(tk: ThemeKit) {
-		if (this.system.num_themes>3) {
+	async addThemeKit(tk: ThemeKit, isExtra: boolean = false) {
+		if (this.mainThemes.length>3 && !isExtra) {
 			ui.notifications.warn("Can't add extra theme kit, already at 4 themes");
 			return;
 		}
@@ -538,8 +545,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (!localtk.id) {
 			throw new Error("Doesn't have an ID");
 		}
-		await this.createNewTheme(tk.displayedName, localtk);
+		await this.createNewTheme(tk.displayedName, localtk, isExtra);
 	}
+
 
 	async createNewThemeKit( name = "Unnamed Theme Kit") {
 		const obj = {
@@ -625,8 +633,35 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.find( x=> x.id == id && x.type =="themekit");
 	}
 
+
+	localExtraThemes() : Theme[] {
+		return this.items.filter( x=> x.isTheme()
+			&& x.isExtraTheme()
+		) as Theme[];
+	}
+
 	getThemes() : Theme[]{
-		return this.items.filter( x=> x.type == "theme" && x != this.loadout) as Theme[];
+		return this.items.filter( x=> x.isTheme()
+			&& !x.isExtraTheme()
+			&& x != this.loadout) as Theme[];
+	}
+
+	get activeExtraTheme(): Theme | undefined {
+		if (this.system.type != "character") return undefined;
+		const extraId = this.system.activeExtraId;
+		let theme= this.localExtraThemes().find( x=> x.id == extraId);
+		if (theme) return theme;
+		const filterList = game.actors.filter( (actor: CityActor) =>
+			actor.isExtra() && actor.isOwner
+			&& extraId == actor.id
+		);
+		if (filterList.length == 0)
+			return undefined;
+		const activeExtra = filterList[0];
+		if (activeExtra  == null) return undefined;
+		const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
+		return activeTheme;
+
 	}
 
 	getNumberOfThemes(target_type: ThemeType) {
