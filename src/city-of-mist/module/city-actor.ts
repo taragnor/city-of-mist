@@ -203,12 +203,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const GMMoves : GMMove[] = this.items.filter( x => x.system.type == "gmmove") as GMMove[];
 		const attached = this.getAttachedTemplates().map( x=> x?.getGMMoves(depth+1)  ?? []).flat();
 		return GMMoves.concat(attached);
-
-		// return this.items.filter( x => x.type == "gmmove")
-		// 	.concat(
-		// 		this.getAttachedTemplates()
-		// 		.map( x=> x?.getGMMoves(depth+1)) ?? []
-		// 	).flat();
 	}
 
 	getSpectrums(depth = 0) : Spectrum[] {
