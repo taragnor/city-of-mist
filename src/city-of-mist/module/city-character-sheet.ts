@@ -33,38 +33,37 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	override async getData() {
 		let data = await super.getData();
-		//Sort Mythos themes always come first
-		(data.items as CityItem[]).sort( (a, b) => {
-			if (a.type != "theme" && b.type != "theme")
-				return 0;
-			if (a.type != "theme")
-				return -1;
-			if (b.type != "theme")
-				return 1;
-			const tba  = a.themebook as Themebook;
-			const tbb  = b.themebook as Themebook;
-			const value_convert = function (themetype: ThemeType) {
-				switch (themetype) {
-					case "Mythos":
-					case "Greatness":
-						return 1;
-					case "Noise": case "Mist": return 2;
-					case "Self": case "Origin": case "Logos": return 3;
-					case "Extra": case "Loadout": return 4;
-					case "Crew" : return 5;
-					case "": return 0;
-					default:
-						themetype satisfies never;
-						console.warn(` Unknown Type ${themetype}`);
-						return 99;
-				}
-			}
-			const atype = value_convert(tba?.system?.subtype ?? "None");
-			const btype = value_convert(tbb?.system?.subtype ?? "None");
-			if (atype < btype)  return -1;
-			if (atype > btype)  return 1;
-			else return 0;
-		});
+		// (data.items as CityItem[]).sort( (a, b) => {
+		// 	if (a.type != "theme" && b.type != "theme")
+		// 		return 0;
+		// 	if (a.type != "theme")
+		// 		return -1;
+		// 	if (b.type != "theme")
+		// 		return 1;
+		// 	const tba  = a.themebook as Themebook;
+		// 	const tbb  = b.themebook as Themebook;
+		// 	const value_convert = function (themetype: ThemeType) {
+		// 		switch (themetype) {
+		// 			case "Mythos":
+		// 			case "Greatness":
+		// 				return 1;
+		// 			case "Noise": case "Mist": return 2;
+		// 			case "Self": case "Origin": case "Logos": return 3;
+		// 			case "Extra": case "Loadout": return 4;
+		// 			case "Crew" : return 5;
+		// 			case "": return 0;
+		// 			default:
+		// 				themetype satisfies never;
+		// 				console.warn(` Unknown Type ${themetype}`);
+		// 				return 99;
+		// 		}
+		// 	}
+		// 	const atype = value_convert(tba?.system?.subtype ?? "None");
+		// 	const btype = value_convert(tbb?.system?.subtype ?? "None");
+		// 	if (atype < btype)  return -1;
+		// 	if (atype > btype)  return 1;
+		// 	else return 0;
+		// });
 		let loadoutTheme = this.actor.loadout;
 		if (!loadoutTheme && this.actor.isOwner) {
 			loadoutTheme= await this.actor.createLoadoutTheme();

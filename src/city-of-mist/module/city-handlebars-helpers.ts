@@ -70,6 +70,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		"getJuiceList": (actor : CityActor) => {
+			return actor.juice.filter( x=> !x.isHurt() && !x.isHelp());
 			return actor.items.filter( i => i.isJuice());
 		},
 

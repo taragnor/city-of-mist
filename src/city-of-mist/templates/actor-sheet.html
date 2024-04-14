@@ -112,7 +112,7 @@
 				<div class="flex-row-left">
 					{{#each (getJuiceList actor) as |item id|}}
 					{{#if (eq item.type "juice")}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item}}
 					{{/if}}
 					{{/each}}
 				</div>
@@ -124,7 +124,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHelpList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item}}
 					{{/each}}
 				</div>
 			</section>
@@ -135,7 +135,7 @@
 				</div>
 				<div class="flex-row-left">
 					{{#each (getHurtList actor) as |item id|}}
-					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item data=item.system}}
+					{{> "systems/city-of-mist/templates/parts/juice-display.html" owner=../actor locked=../actor.system.locked sheetowner=../actor juice=item}}
 					{{/each}}
 				</div>
 			</section>
