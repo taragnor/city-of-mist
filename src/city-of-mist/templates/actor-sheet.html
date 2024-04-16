@@ -30,17 +30,6 @@
 	</nav>
 	<section class="sheet-body {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} ">
 		<div class="tab tab-content theme-section" data-group="primary" data-tab="themes">
-			{{#if (not (isGM))}}
-			<section id="active-extra-selection">
-				<label for="extra-drop-down"> {{localize 'CityOfMist.terms.activeExtraTheme' }} </label>
-				<select class="active-extra-drop-down" name="active-extra-drop-down" id="active-extra-drop-down">
-					<option value="" {{#if (eq actor.system.activeExtraId "")}} selected="selected" {{/if}}>- </option>
-					{{#each extras as |extra| }}
-					<option value="{{extra.id}}" {{#if (eq extra.id ../actor.system.activeExtraId)}} selected="selected" {{/if}}> {{extra.name}}</option>
-					{{/each}}
-				</select>
-			</section>
-			{{/if}}
 			<div name="Personal Themes">
 				<div class="flexrow section-header">
 					<h1 id="Theme-header" class="item-block no-border">
@@ -65,7 +54,7 @@
 				<div class="theme-block-group">
 					{{#each actor.mainThemes as |item i|}}
 					<div class="flip-card flex-theme-block-flip" data-card-id="{{i}}">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor ownerdata=../items theme=item data=item.system locked=../actor.system.locked sheetowner=../actor themetype="character" themebook=item.themebook tbdata=item.themebook.system cardNum=i}}
+						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="character" cardNum=i}}
 					</div>
 					{{/each}}
 				</div>
@@ -75,12 +64,12 @@
 				{{#each crewThemes as |item |}}
 				<!-- Should be max of 1 -->
 				<div class="flip-card flex-theme-block-flip" data-card-id="4" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" themebook=item.themebook tbdata=item.themebook.system data=item.system cardNum=4}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" cardNum=4}}
 				</div>
 				{{/each}}
-				{{#if activeExtra}}
+				{{#if actor.activeExtra}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="5" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=activeExtra.parent theme=activeExtra locked=true sheetowner=actor themetype="extra" items=activeExtra.parent.items themebook=activeExtra.themebook data=activeExtra.system tbdata=activeExtra.themebook.system cardNum=5}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.activeExtra.parent theme=actor.activeExtra locked=actor.activeExtra.parent.system.locked sheetowner=actor themetype="extra" cardNum=5}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">

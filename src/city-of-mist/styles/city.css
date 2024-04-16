@@ -1491,21 +1491,38 @@ span.improvement-name {
 	/* font-family: 'Fira Sans Extra Condensed'; */
 }
 
+span.themebook-name {
+	white-space: nowrap;
+	display: inline-block;
+	max-width: 170px;
+	width: 170px;
+	overflow: hidden;
+
+}
+
 div.themebook-name {
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	word-wrap: normal;
 	font-style: italic;
 	font-family: Rubik;
-	height: auto;
+	/* height: auto; */
+	height: 1.2em;
 	font-size: 1.2em;
-	padding: 0.2em 0em 0.2em 1em;
-	margin: 0.2em 0;
+	padding: 0.2em 0em 0.2em 0em;
+	/* margin: 0.2em 0.2em; */
+	margin-bottom: .5em;
 	margin-top: -1.9em;
 	min-height: 1em;
 	/* max-height: 2em; */
 	color: white;
 	border-top-right-radius: 0.7em;
 	border-top-left-radius: 0.7em;
+}
+
+.theme-block .theme-next,
+.theme-block .theme-prev {
+	display: inline-block;
+
 }
 
 .sheet {

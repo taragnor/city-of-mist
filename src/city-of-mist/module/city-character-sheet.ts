@@ -53,7 +53,6 @@ export class CityCharacterSheet extends CityActorSheet {
 
 		//Extra themes
 		data.extras = this.getExtras();
-		data.activeExtra = this.actor.activeExtraTheme;
 
 		//Status Container
 		data.otherStatuses = await this.getOtherStatuses();
@@ -235,8 +234,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		if (!this.options.editable) return;
 		//Everything below here is only needed if the sheet is editable
 		html.find(".non-char-theme-name"	).on("click", this.openOwnerSheet.bind(this));
-		html.find(".crew-prev").on("click" ,this.crewPrevious.bind(this));
-		html.find(".crew-next").on("click", this.crewNext.bind(this));
+		html.find(".theme-prev").on("click" ,this.themePrevious.bind(this));
+		html.find(".theme-next").on("click", this.themeNext.bind(this));
 		html.find('.execute-move-button').on("click",  this._executeMove.bind(this) );
 		html.find('.increment-buildup').on("click",  this._buildUpIncrement.bind(this) );
 		html.find('.decrement-buildup').on("click",  this._buildUpDecrement.bind(this) );
@@ -374,19 +373,27 @@ export class CityCharacterSheet extends CityActorSheet {
 		owner.sheet.render(true);
 	}
 
-	async crewNext(event: JQuery.Event) {
-		event.stopImmediatePropagation();
-		await this.actor.moveCrewSelector(1);
-		event.preventDefault();
-		event.stopImmediatePropagation();
+	async themeNext(ev: JQuery.Event) {
+		ev.stopImmediatePropagation();
+		const themeOwnerId = HTMLTools.getClosestData(ev, "ownerId");
+		const themeOwner= game.actors.find(x=> x.id == themeOwnerId);
+		if (!themeOwner) return;
+		if (themeOwner.system.type == "crew") {
+			await this.actor.moveCrewSelector(1);
+		}
+		else await this.actor.moveExtraSelector(1);
 		return false;
 	}
 
-	async crewPrevious(event: JQuery.Event) {
-		event.stopImmediatePropagation();
-		await this.actor.moveCrewSelector(-1);
-		event.preventDefault();
-		event.stopImmediatePropagation();
+	async themePrevious(ev: JQuery.Event) {
+		ev.stopImmediatePropagation();
+		const themeOwnerId = HTMLTools.getClosestData(ev, "ownerId");
+		const themeOwner= game.actors.find(x=> x.id == themeOwnerId);
+		if (!themeOwner) return;
+		if (themeOwner.system.type == "crew") {
+			await this.actor.moveCrewSelector(-1);
+		}
+		else await this.actor.moveExtraSelector(-1);
 		return false;
 	}
 

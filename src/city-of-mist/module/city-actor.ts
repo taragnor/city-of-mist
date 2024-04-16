@@ -36,6 +36,32 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}) as Theme | undefined;
 	}
 
+	possibleExtraThemeSources() : CityActor[] {
+		const nonGMOwners = game.users.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"))
+		return (game.actors.contents as CityActor[]).filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER") && actor.system.type != "crew"));
+	}
+
+	get allLinkedExtraThemes() : Theme[] {
+		const sources = this.possibleExtraThemeSources();
+		return sources.flatMap( actor => actor.personalExtraThemes());
+	}
+
+	personalExtraThemes() : Theme[] {
+		const themeType = this.system.type;
+		switch (themeType) {
+			case "character":
+			return this.items.filter( x=> x.isTheme() && x.isExtraTheme()) as Theme[];
+			case "crew":
+				return [];
+			case "threat":
+		return this.items.filter( x=> x.isTheme()) as Theme[];
+			default:
+				themeType satisfies never;
+				console.error(`Unknown themetype ${themeType}`);
+				return [];
+		}
+	}
+
 	isDanger() : this is Danger {
 		return this.system.type == "threat";
 	}
@@ -491,20 +517,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			.map( x=> x.getImprovements())
 			.flat(1);
 		const activeExtraImprovements =
-			this.getActiveExtras()
-			.map(x=> x.getImprovements())
-			.flat(1);
+			this.activeExtra ? this.activeExtra.getImprovements(): [];
 		return base
 			.concat(crewImprovements)
 			.concat(activeExtraImprovements);
 	}
 
-	getActiveExtras(this: PC) : CityActor[] {
+	get activeExtra(): Theme | undefined {
+		if (this.system.type != "character") return undefined;
 		const id = this.system.activeExtraId ;
-		if (!id) return [];
-		else return game.actors
-			.filter(x=> x.id == id) as CityActor[];
+		if (!id) return undefined;
+			const theme = this.allLinkedExtraThemes.find( theme => theme.id == id);
+			if (theme) return theme;
+		return this.allLinkedExtraThemes[0];
 	}
+
 
 	getCrewThemes(): Crew[] {
 		return game.actors.filter( (x: CityActor)=> x.system.type=="crew" && x.isOwner) as Crew[];
@@ -640,23 +667,23 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			&& x != this.loadout) as Theme[];
 	}
 
-	get activeExtraTheme(): Theme | undefined {
-		if (this.system.type != "character") return undefined;
-		const extraId = this.system.activeExtraId;
-		let theme= this.localExtraThemes().find( x=> x.id == extraId);
-		if (theme) return theme;
-		const filterList = game.actors.filter( (actor: CityActor) =>
-			actor.isExtra() && actor.isOwner
-			&& extraId == actor.id
-		);
-		if (filterList.length == 0)
-			return undefined;
-		const activeExtra = filterList[0];
-		if (activeExtra  == null) return undefined;
-		const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
-		return activeTheme;
+	// get activeExtraTheme(): Theme | undefined {
+	// 	if (this.system.type != "character") return undefined;
+	// 	const extraId = this.system.activeExtraId;
+	// 	let theme= this.localExtraThemes().find( x=> x.id == extraId);
+	// 	if (theme) return theme;
+	// 	const filterList = game.actors.filter( (actor: CityActor) =>
+	// 		actor.isExtra() && actor.isOwner
+	// 		&& extraId == actor.id
+	// 	);
+	// 	if (filterList.length == 0)
+	// 		return undefined;
+	// 	const activeExtra = filterList[0];
+	// 	if (activeExtra  == null) return undefined;
+	// 	const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
+	// 	return activeTheme;
 
-	}
+	// }
 
 	getNumberOfThemes(target_type: ThemeType) {
 		// const themes = this.items.filter(x => x.type == "theme") as Theme[];
@@ -1215,6 +1242,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (old + amount < 0)
 			old = -amount;
 		return await this.update( {"system.crewThemeSelected": old + amount} );
+	}
+
+	async moveExtraSelector(this:PC, amount: number) {
+		const activeExtra = this.activeExtra;
+		if (!activeExtra) return;
+		const list = this.allLinkedExtraThemes;
+		const ind = list.findIndex( x=> x.id == activeExtra.id);
+		const newIndex = (ind + amount) % list.length;
+		const newExtra= list[newIndex];
+		const newId = newExtra.id;
+		await this.update({"system.activeExtraId": newId});
+		if (!game.user.isGM) {
+			const msg =localize("CityOfMist.logger.action.changeActiveExtra");
+			await CityLogger.modificationLog(this, msg, newExtra);
+		}
 	}
 
 	hasEntranceMoves() {

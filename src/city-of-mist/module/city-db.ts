@@ -215,7 +215,7 @@ export class CityDB extends DBAccessor {
 				throw e;
 			}
 		}
-		ui.notifications.warn(`Could get themebook for ${tname}, try refreshing your browser window (F5)`);
+		// ui.notifications.warn(`Could get themebook for ${tname}, try refreshing your browser window (F5)`);
 		throw new Error(`Couldn't get themebook for ${tname} :  ${id}`);
 	}
 

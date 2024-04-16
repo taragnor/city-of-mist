@@ -646,6 +646,11 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			return false;
 	}
 
+	getImprovements(this: Theme) {
+		if (!this.parent) return [];
+		return this.parent.getImprovements(this.id);
+	}
+
 	getImprovementUses(this: Improvement) {
 		return (this.system.uses?.max) > 0 ? this.system.uses.current : Infinity;
 	}

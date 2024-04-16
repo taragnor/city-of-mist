@@ -687,7 +687,8 @@
 
 "General.error.LOTagNotLoaded": "Loadout tags must be loaded before they can be used",
 
-"CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change"
+"CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change",
 
+"CityOfMist.logger.action.changeActiveExtra": "Changes active extra to:"
 
 }

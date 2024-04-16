@@ -1,13 +1,15 @@
-<div class="{{themebook.subtype}}-theme theme-block " >
+<div class="{{theme.themebook.subtype}}-theme theme-block " >
 	<div class="themebook-name flip-button">
-		{{#if (eq themetype "crew")}}
-		<a class="item-control crew-prev">
+		{{#if (allowThemeSwitch theme sheetowner)}}
+		<a class="item-control theme-prev">
 			<i class="fas fa-arrow-left"></i>
 		</a>
 		{{/if}}
-		{{themebook.displayedName}}
-		{{#if (eq themetype "crew")}}
-		<a class="item-control crew-next">
+		<span class="themebook-name">
+			{{theme.themebook.displayedName}}
+		</span>
+		{{#if (allowThemeSwitch theme sheetowner)}}
+		<a class="item-control theme-next">
 			<i class="fas fa-arrow-right"></i>
 		</a>
 		{{/if}}

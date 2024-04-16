@@ -318,6 +318,25 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		'getImprovements' : function (theme: Theme): Improvement[] {
 			Debug(theme);
 			return theme.improvements();
+		},
+
+		'allowThemeSwitch' : function (theme: Theme, sheetowner: CityActor): boolean {
+			if (sheetowner.system.type != "character") return false;
+			if (!theme.parent) return false;
+			switch (theme.parent.system.type) {
+				case "crew":
+					return sheetowner.getCrewThemes().length > 1;
+				case "character":
+					if (!theme.isExtraTheme()) return false;
+					return sheetowner.allLinkedExtraThemes.length > 1;
+				case "threat":
+					return sheetowner.allLinkedExtraThemes.length > 1;
+				default:
+					theme.parent.system satisfies never;
+					return false;
+			}
+
+
 		}
 
 
