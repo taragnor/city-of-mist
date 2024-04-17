@@ -394,9 +394,9 @@
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "Must add attention manually",
 "CityOfMist.message.burns-on-use": "Burns on Use",
-"CityOfMist.message.noExtraSelected": "No Extra Theme Selected (either give players ownership over a Danger/Extra type actor with a theme or drag a themebook or themekit over the player sheet to assign)",
+"CityOfMist.message.noExtraSelected": "No Extra Theme Selected (either give players ownership over a Danger/Extra type actor with a theme or drag and drop a themebook or themekit)",
 "CityOfMist.message.noCrewSelected": "No Crew Theme Selected (create a crew Actor and give players ownership to view it here)",
-"CityOfMist.message.noThemeSelected": "No Theme (either click the add Theme button or drag a themebook or themekit onto this actor)",
+"CityOfMist.message.noThemeSelected": "No Theme (either click the add Theme button or drag and drop a themebook or themekit)",
 "CityOfMist.message.levelUpAvailable": "Theme Level Up Available",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",

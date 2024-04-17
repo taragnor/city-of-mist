@@ -72,6 +72,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async getCreationLocation() {
+		if (this.actor.type != "character")
+			return "main";
 		const choices = [
 			{ id: "main", data: [localize("CityOfMist.terms.mainTheme")]},
 			{ id: "extra", data: [localize("CityOfMist.terms.extra" )]},
