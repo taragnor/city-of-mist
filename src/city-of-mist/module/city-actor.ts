@@ -546,10 +546,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	get activeExtra(): Theme | undefined {
 		if (this.system.type != "character") return undefined;
 		const id = this.system.activeExtraId ;
-		if (!id) return undefined;
-			const theme = this.allLinkedExtraThemes.find( theme => theme.id == id);
+		const list = this.allLinkedExtraThemes;
+		if (id) {
+			const theme = list.find( theme => theme.id == id);
 			if (theme) return theme;
-		return this.allLinkedExtraThemes[0];
+		}
+		if( list.length > 0) return list[0];
+		return undefined;
 	}
 
 	getCrewThemes(): Crew[] {

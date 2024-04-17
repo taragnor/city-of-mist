@@ -59,8 +59,9 @@ export class CitySheet extends ActorSheet<CityActor> {
 				const tb : Themebook[] = await super._onDropItem(_event, o) as unknown as Themebook[];
 				if (tb && tb[0] && tb[0] instanceof CityItem) {
 					const choice = await this.getCreationLocation();
-					if(!choice) break;
-
+					if(!choice) {
+						break;
+					}
 					await this.actor.createNewTheme("Unnamed Theme", tb[0], choice == "extra") ;
 				return tb[0];
 				}

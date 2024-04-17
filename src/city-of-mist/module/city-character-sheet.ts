@@ -329,6 +329,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	async themeNext(ev: JQuery.Event) {
+		ev.preventDefault();
 		ev.stopImmediatePropagation();
 		const themeOwnerId = HTMLTools.getClosestData(ev, "ownerId");
 		const themeOwner= game.actors.find(x=> x.id == themeOwnerId);
@@ -341,6 +342,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	async themePrevious(ev: JQuery.Event) {
+		ev.preventDefault();
 		ev.stopImmediatePropagation();
 		const themeOwnerId = HTMLTools.getClosestData(ev, "ownerId");
 		const themeOwner= game.actors.find(x=> x.id == themeOwnerId);
