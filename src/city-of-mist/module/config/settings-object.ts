@@ -65,7 +65,7 @@ export function CITY_SETTINGS() {
 		"statusDisplay": {
 			name: localize("CityOfMist.settings.statusDisplay.name"),
 			hint: localize("CityOfMist.settings.statusDisplay.hint"),
-			scope: "world",
+			scope: "client",
 			config: true,
 			type: String,
 			default: "tier-only",
@@ -75,7 +75,7 @@ export function CITY_SETTINGS() {
 				"tier+circles": localize("CityOfMist.settings.statusDisplay.2"),
 
 			},
-			restricted: true,
+			restricted: false,
 			onChange: (_newval:string) => {
 			}
 		},
@@ -253,14 +253,13 @@ export function CITY_SETTINGS() {
 			config: true,
 			type: Boolean,
 			default: false,
-			restricted: true,
-
+			restricted: false,
 		},
 
 		"sceneTagWindow": {
 			name: localize("CityOfMist.settings.sceneTagWindow.name"),
 			hint: localize("CityOfMist.settings.sceneTagWindow.hint"),
-			scope: "world",
+			scope: "client",
 			config: true,
 			type: String,
 			default: "full",
@@ -269,7 +268,7 @@ export function CITY_SETTINGS() {
 				"omitEmpty": localize("CityOfMist.settings.sceneTagWindow.choice1"),
 				"full": localize("CityOfMist.settings.sceneTagWindow.choice2")
 			},
-			restricted: true,
+			restricted: false,
 			onChange: () => delayedReload()
 		},
 
@@ -277,12 +276,12 @@ export function CITY_SETTINGS() {
 			name: localize("CityOfMist.settings.sceneTagWindowPosition.name"),
 			hint: localize("CityOfMist.settings.sceneTagWindowPosition.hint"),
 			//NOTE: FOR SOME REASON scop wil not shift to client
-			scope: "world",
+			scope: "client",
 			config: true,
 			type: String,
 			default: "left",
 			requiresReload: true,
-			restricted: true,
+			restricted: false,
 			choices: {
 				"left" : localize("CityOfMist.settings.sceneTagWindowPosition.choice0"),
 				"right": localize("CityOfMist.settings.sceneTagWindowPosition.choice1"),
