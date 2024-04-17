@@ -1525,6 +1525,16 @@ div.themebook-name {
 
 }
 
+.level-up-arrow {
+	animation: blinker 1s linear infinite;
+	-webkit-animation: blinker 1s steps(5, start) infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}
 .sheet {
 	font-family: Roboto;
 }

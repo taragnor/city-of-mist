@@ -246,6 +246,17 @@ export function CITY_SETTINGS() {
 			restricted: true,
 		},
 
+		"flashyLevelUp": {
+			name: localize("CityOfMist.settings.flashyLevelUp.name"),
+			hint: localize("CityOfMist.settings.flashyLevelUp.hint"),
+			scope: "client",
+			config: true,
+			type: Boolean,
+			default: false,
+			restricted: true,
+
+		},
+
 		"sceneTagWindow": {
 			name: localize("CityOfMist.settings.sceneTagWindow.name"),
 			hint: localize("CityOfMist.settings.sceneTagWindow.hint"),

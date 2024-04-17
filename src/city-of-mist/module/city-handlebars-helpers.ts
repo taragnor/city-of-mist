@@ -335,9 +335,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					theme.parent.system satisfies never;
 					return false;
 			}
+		},
 
+		'flashyLevelUp': function (theme: Theme) : boolean {
+			if (!CitySettings.get("flashyLevelUp"))
+				return false;
+			return theme.system.unspent_upgrades > 0;
+		},
 
-		}
 
 
 	} //end of object holding helpers

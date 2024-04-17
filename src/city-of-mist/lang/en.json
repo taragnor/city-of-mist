@@ -395,6 +395,7 @@
 "CityOfMist.message.attentionManual": "Must add attention manually",
 "CityOfMist.message.burns-on-use": "Burns on Use",
 "CityOfMist.message.noExtraSelected": "No Extra Theme Selected",
+"CityOfMist.message.levelUpAvailable": "Theme Level Up Available",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
@@ -572,6 +573,9 @@
 "CityOfMist.settings.clueBoxes.2": "Public Clue Boxes",
 "CityOfMist.settings.tagReview.name": "MC Tag Review",
 "CityOfMist.settings.tagReview.hint": "Before roll is made MC gets to review what tags and statuses are included.",
+
+"CityOfMist.settings.flashyLevelUp.name": "Flashing Level Up Indicator",
+"CityOfMist.settings.flashyLevelUp.hint": "Adds a flashing level up indicator to themes that can be advanced.",
 
 "CityOfMist.settings.gmmoveheaders.name": "Danger Move starting text",
 "CityOfMist.settings.gmmoveheaders.hint": "Automatically Apply an identifier to the start of each danger's move based on its type (soft, hard, etc)",
