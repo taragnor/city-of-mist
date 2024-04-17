@@ -30,6 +30,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		if (!this.options.editable) return;
 
 		html.find(".item-create-theme").on("click", this._addThemeBook.bind(this));
+		html.find(".add-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));
 		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
 		html.scroll(this._scrollSheet.bind(this));

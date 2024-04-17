@@ -28,17 +28,11 @@
 			{{localize 'CityOfMist.terms.bio' }}
 		</a>
 	</nav>
+
 	<section class="sheet-body {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}} ">
 		<div class="tab tab-content theme-section" data-group="primary" data-tab="themes">
 			<div name="Personal Themes">
 				<div class="flexrow section-header">
-					<h1 id="Theme-header" class="item-block no-border">
-						{{#if (eq actor.system.locked false)}}
-						{{#if (lt actor.mainThemes.length 4)}}
-						<a class="item-create-theme" data-distinct="true" data-item-type="themebook" data-duplicates="false" data-actor-id={{actor.id}}> {{localize 'CityOfMist.command.addTheme' }} <i class="fas fa-plus-square"></i></a>
-						{{/if}}
-						{{/if}}
-					</h1>
 					<section class="move-section">
 						<span class="move-section-header"></span>
 						<select class="select-move-group" name="system.selectedMoveGroup">
@@ -52,14 +46,29 @@
 					</section>
 				</div>
 				<div class="theme-block-group">
-					{{#each actor.mainThemes as |item i|}}
+					{{#each (mainFourThemes actor) as |item i|}}
+					{{#if item}}
 					<div class="flip-card flex-theme-block-flip" data-card-id="{{i}}">
 						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="character" cardNum=i}}
 					</div>
+					{{else}}
+					<div class="flex-theme-block empty-box">
+						<div class="empty-extra-placeholder-text">
+							<span>
+								{{localize "CityOfMist.message.noThemeSelected"}}
+							</span>
+							<br> <br> <br> <br>
+							<span class="add-theme">
+
+								{{localize 'CityOfMist.command.addTheme' }}
+								<i class="fas fa-plus-square"></i></a>
+							</span>
+						</div>
+					</div>
+					{{/if}}
 					{{/each}}
 				</div>
 			</div>
-			{{#if (gt actor.mainThemes.length 2)}}
 			<div class="theme-block-group">
 				{{#if actor.crewTheme}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="4" >
@@ -97,7 +106,6 @@
 
 				</div>
 			</div>
-			{{/if}}
 		</div>
 		<div class="tab tab-content juice-tab" data-group="primary" data-tab="juice">
 			<section id="juice-section">

@@ -343,6 +343,13 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return theme.system.unspent_upgrades > 0;
 		},
 
+		'mainFourThemes': function (actor: CityActor): (Theme | undefined)[] {
+			const themes: (Theme | undefined)[]= actor.mainThemes;
+			while (themes.length < 4) {
+				themes.push(undefined);
+			}
+			return themes;
+		},
 
 
 	} //end of object holding helpers

@@ -1530,6 +1530,10 @@ div.themebook-name {
 	-webkit-animation: blinker 1s steps(5, start) infinite;
 }
 
+.add-theme {
+	cursor: pointer;
+}
+
 @keyframes blinker {
 	50% {
 		opacity: 0;
