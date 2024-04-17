@@ -55,13 +55,13 @@ export class CharacterSchema extends foundry.abstract.DataModel {
 			...person(),
 			...aliasable(),
 			activeExtraId: new id(),
+			activeCrewId: new id(),
 			buildup: new arr(
 				new num( {choices:[0,1]}),
 				{initial : [0,0,0,0,0]}
 			),
 			unspentBU: new num({initial: 0, min:0, integer:true}),
 			flashback_used: new bool({initial: false}),
-			crewThemeSelected: new num({initial: 0, integer: true}),
 		} as const;
 		return ret;
 	}

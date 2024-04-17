@@ -61,12 +61,19 @@
 			</div>
 			{{#if (gt actor.mainThemes.length 2)}}
 			<div class="theme-block-group">
-				{{#each crewThemes as |item |}}
-				<!-- Should be max of 1 -->
+				{{#if actor.crewTheme}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="4" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=item.parent theme=item locked=true sheetowner=../actor themetype="crew" cardNum=4}}
+					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.crewTheme.parent theme=actor.crewTheme locked=true sheetowner=actor themetype="crew" cardNum=4}}
 				</div>
-				{{/each}}
+				{{else}}
+
+				<div class="flex-theme-block empty-box">
+					<div class="empty-extra-placeholder-text">
+						{{localize "CityOfMist.message.noCrewSelected"}}
+					</div>
+				</div>
+
+				{{/if}}
 				{{#if actor.activeExtra}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="5" >
 					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.activeExtra.parent theme=actor.activeExtra locked=actor.activeExtra.parent.system.locked sheetowner=actor themetype="extra" cardNum=5}}

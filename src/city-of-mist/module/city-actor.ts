@@ -41,6 +41,26 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return (game.actors.contents as CityActor[]).filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER") && actor.system.type != "crew"));
 	}
 
+	get crewTheme(): Theme | undefined {
+		return this.activeCrew;
+	}
+
+	get crewThemes(): Theme[] {
+		const nonGMOwners = game.users.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"))
+		const validCrewActors = (game.actors.contents as CityActor[]).filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER") && actor.system.type == "crew"));
+		return validCrewActors.flatMap( x=> x.getThemes());
+	}
+
+	get activeCrew(): Theme | undefined {
+		if (this.system.type != "character") return undefined;
+		const crewThemes = this.crewThemes;
+		const activeId = this.system.activeCrewId;
+		const theme = crewThemes.find( x=> x.id == activeId);
+		if (theme) return theme;
+		if (crewThemes.length == 0) return undefined;
+		return crewThemes[0];
+	}
+
 	get allLinkedExtraThemes() : Theme[] {
 		const sources = this.possibleExtraThemeSources();
 		return sources.flatMap( actor => actor.personalExtraThemes());
@@ -531,7 +551,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			if (theme) return theme;
 		return this.allLinkedExtraThemes[0];
 	}
-
 
 	getCrewThemes(): Crew[] {
 		return game.actors.filter( (x: CityActor)=> x.system.type=="crew" && x.isOwner) as Crew[];
@@ -1238,10 +1257,18 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async moveCrewSelector(this: PC, amount: number) {
-		let old = this.system.crewThemeSelected ?? 0;
-		if (old + amount < 0)
-			old = -amount;
-		return await this.update( {"system.crewThemeSelected": old + amount} );
+		const crewTheme = this.activeCrew;
+		if (!crewTheme) return;
+		const list = this.crewThemes;
+		const ind = list.findIndex( x=> x.id == crewTheme.id);
+		const newIndex = (ind + amount) % list.length;
+		const newCrew= list[newIndex];
+		const newId = newCrew.id;
+		await this.update({"system.activeCrewId": newId});
+		if (!game.user.isGM) {
+			const msg =localize("CityOfMist.logger.action.changeActiveCrew");
+			await CityLogger.modificationLog(this, msg, newCrew);
+		}
 	}
 
 	async moveExtraSelector(this:PC, amount: number) {

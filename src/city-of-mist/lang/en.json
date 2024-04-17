@@ -394,7 +394,8 @@
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "Must add attention manually",
 "CityOfMist.message.burns-on-use": "Burns on Use",
-"CityOfMist.message.noExtraSelected": "No Extra Theme Selected",
+"CityOfMist.message.noExtraSelected": "No Extra Theme Selected (either give players ownership over a Danger/Extra type actor with a theme or drag a themebook or themekit over the player sheet to assign)",
+"CityOfMist.message.noCrewSelected": "No Crew Theme Selected (create a crew Actor and give players ownership to view it here)",
 "CityOfMist.message.levelUpAvailable": "Theme Level Up Available",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
@@ -693,6 +694,7 @@
 
 "CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change",
 
-"CityOfMist.logger.action.changeActiveExtra": "Changes active extra to:"
+"CityOfMist.logger.action.changeActiveExtra": "Changes active extra to:",
+"CityOfMist.logger.action.changeActiveCrew": "Changes active Crew Theme to:"
 
 }
