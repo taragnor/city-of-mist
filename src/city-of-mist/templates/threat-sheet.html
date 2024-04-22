@@ -27,12 +27,13 @@
 			{{localize 'CityOfMist.terms.spectrums' }}
 			{{#if (not actor.system.locked)}}
 			<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-			{{/if}}
-			<div class="spectrum-list">
-				{{#each actor.my_spectrums as |spectrum id|}}
-				{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../actor.system.locked sheetowner=actor }}
-				{{/each}}
-			</div>
+		</div>
+		{{/if}}
+		<div class="spectrum-list">
+			{{#each actor.my_spectrums as |spectrum id|}}
+			{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../actor.system.locked sheetowner=actor }}
+			{{/each}}
+		</div>
 	</section>
 	{{/if}}
 	<nav class="sheet-tabs tabs" data-group="primary">

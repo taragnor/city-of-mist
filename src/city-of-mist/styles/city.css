@@ -2289,7 +2289,9 @@ input.number-modifier-box {
 	margin-left: 5%;
 	margin-right: 5%;
 	text-align: center;
-	max-height: 80px;
+	height: auto;
+	flex-shrink: 5;
+	max-height: 120px;
 }
 
 .spectrum-section-label {
