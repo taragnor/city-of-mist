@@ -210,7 +210,7 @@ class Spectrum extends DataModel {
 			const x = Number(data.max_tier);
 			if (Number.isNaN(x) ) {
 				console.log("Fixed NaN Spectrum");
-				data.maxTier= 1;
+				data.maxTier= 999; //invulnerable spectrum
 				return data;
 			}
 			delete data.max_tier;
