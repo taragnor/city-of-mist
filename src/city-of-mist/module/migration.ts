@@ -21,7 +21,6 @@ export class CityDataMigration {
 		console.log(`Migrating from ${oldVersion} to ${newVersion}`);
 		try {
 			await this.migrationScript(oldVersion);
-
 		} catch (a) {
 			ui.notifications.error( "Error in migration!");
 			return;

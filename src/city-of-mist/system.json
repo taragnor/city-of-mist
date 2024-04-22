@@ -1,70 +1,77 @@
 {
-  "id": "city-of-mist",
-  "title": "City of Mist",
-  "description": "Unofficial City of Mist RPG system",
-  "authors": [
-    {
-      "name": "Taragnor",
-      "discord": "Taragnor#3338",
-      "flags": {}
-    }
-  ],
-  "url": "https://github.com/taragnor/city-of-mist/",
-  "version": "3.0.5",
-  "compatibility": {
-    "minimum": "11",
-    "verified": "11.315",
-    "maximum": "11"
-  },
-  "esmodules": [
-    "module/city.js"
+	"id": "city-of-mist",
+	"title": "City of Mist",
+	"description": "Unofficial City of Mist RPG system",
+	"authors": [
+		{
+			"name": "Taragnor",
+			"discord": "Taragnor#3338",
+			"flags": {}
+		}
+	],
+	"url": "https://github.com/taragnor/city-of-mist/",
+	"version": "3.0.5",
+	"compatibility": {
+		"minimum": "11",
+		"verified": "11.315",
+		"maximum": "11"
+	},
+	"esmodules": [
+		"module/city.js"
   ],
   "styles": [
-    "styles/city.css",
-    "module/token-tooltip/tooltip.css",
-    "module/city-status-tracker/city-status-tracker.css",
-	 "styles/com.css",
-	 "styles/otherscape.css",
-	 "styles/legend.css",
-	 "styles/mist-engine.css"
+	  "styles/city.css",
+	  "module/token-tooltip/tooltip.css",
+	  "module/city-status-tracker/city-status-tracker.css",
+	  "styles/com.css",
+	  "styles/otherscape.css",
+	  "styles/legend.css",
+	  "styles/mist-engine.css"
   ],
   "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json",
-      "flags": {}
-    },
-    {
-      "lang": "de",
-      "name": "German",
-      "path": "lang/de.json",
-      "flags": {}
-    },
-    {
-      "lang": "pl",
-      "name": "Polish",
-      "path": "lang/pl.json",
-      "flags": {}
-    },
-    {
-      "lang": "pt-BR",
-      "name": "Português (Brasil)",
-      "path": "lang/pt-br.json",
-      "flags": {}
-    },
-    {
-      "lang": "fr",
-      "name": "French",
-      "path": "lang/fr.json",
-      "flags": {}
-    },
-	    {
-      "lang": "it",
-      "name": "Italian",
-      "path": "lang/it.json",
-      "flags": {}
-    }
+	  {
+		  "lang": "en",
+		  "name": "English",
+		  "path": "lang/en.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "de",
+		  "name": "German",
+		  "path": "lang/de.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "pl",
+		  "name": "Polish",
+		  "path": "lang/pl.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "pt-BR",
+		  "name": "Português (Brasil)",
+		  "path": "lang/pt-br.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "fr",
+		  "name": "French",
+		  "path": "lang/fr.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "it",
+		  "name": "Italian",
+		  "path": "lang/it.json",
+		  "flags": {}
+	  },
+	  {
+		  "lang": "es",
+		  "name": "Español (placeholder)",
+		  "path": "lang/es.json",
+		  "flags": {}
+	  }
+
   ],
   "packs": [
     {

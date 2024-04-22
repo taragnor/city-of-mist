@@ -203,6 +203,22 @@ class Spectrum extends DataModel {
 			maxTier: new num({initial: 1, min: 1, integer: true, max: 999})
 		}
 	}
+
+	static override migrateData(source?: any) {
+		let data = super.migrateData(source);
+		if ("max_tier" in data && data.max_tier && !data.maxTier) {
+			const x = Number(data.max_tier);
+			if (Number.isNaN(x) ) {
+				console.log("Fixed NaN Spectrum");
+				data.maxTier= 1;
+				return data;
+			}
+			delete data.max_tier;
+			data.maxTier = x;
+			console.log("Fixed Spectrum");
+		}
+		return data;
+	}
 }
 
 class Clue extends DataModel {
@@ -286,6 +302,14 @@ class GMMove extends DataModel {
 			header: new txt({choices: ["default", "none", "symbols", "text"], initial: "default"}),
 			superMoveId: new id(),
 		}
+	}
+
+	static override migrateData(source?: any) {
+		const data = super.migrateData(source);
+		if (data.subtype as string == "Soft") {
+			data.subtype = "soft";
+		}
+		return data;
 	}
 }
 

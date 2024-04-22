@@ -54,27 +54,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 
 */
 
-	override migrateSystemData(data?: any) {
-		// let data = super.migrateSystemData();
-		console.log("Migrating Item");
-		if (this.system.type == "spectrum") {
-			if ("max_tier" in this.system && this.system.max_tier) {
-				const x = Number(data.system.max_tier);
-				if (Number.isNaN(x) && x>0) {
-					return data;
-				}
-				data.system.max_tier = 0;
-				data.system.maxTier = x;
-			}
-		}
-		if (this.system.type =="gmmove") {
-			if (this.system.subtype as unknown == "Soft") {
-				data.system.subtype = "soft";
-			}
-		}
-		return data;
-	}
-
 	hasEffectClass(cl: string) {
 		return this.effect_classes.includes(cl);
 	}
