@@ -1,5 +1,6 @@
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
+import { FadeType } from "./datamodel/fade-types.js";
 
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { Sounds } from "./tools/sounds.js"
@@ -231,10 +232,18 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	getThemeType (this: Theme | ThemeKit): Exclude<ThemeType, ""> {
 		// return logos/mythos
 		const themebook = this.getThemebook();
-		if (themebook == null)
+		if (themebook == null) {
+			console.log(`Can't find themebook for theme ${this.name}`);
 			throw new Error("ERROR Can't find themebook!");
-		if (themebook.isThemeKit())
-			return themebook.getThemeType();
+		}
+		if (themebook.isThemeKit()) {
+			if (themebook.themebook) {
+				return themebook.getThemeType();
+			}
+			const subtype =  themebook.system.subtype;
+			if (!subtype) return "Crew";
+			return subtype;
+		}
 		if ( themebook.system.subtype)
 			return themebook.system.subtype;
 		throw new Error(`Can't get theme type of ${this.name}`);
@@ -1503,13 +1512,43 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				catch (e) {return "ERROR";}
 				if (!this.themebook)
 					return "";
-				const fadeType = this.themebook.system.fade_type;
-				return l(FADETYPELIST[fadeType]);
+				let fadetype : FadeType = "decay";
+				const themeType = this.getThemeType();
+				if (this.themebook.system.fade_type != "default") {
+					fadetype = this.themebook.system.fade_type;
+				} else {
+					if (CitySettings.getBaseSystem() != "city-of-mist") {
+						fadetype = "decay";
+					}
+					else {
+						const CoMType = CityItem.getCoMdefaultFade(themeType);
+						if (CoMType == "crew") {
+							return l(FADETYPELIST["fade"]) + " / " + l(FADETYPELIST["crack"]);
+						} else {
+							fadetype = CoMType;
+						}
+					}
+				}
+				return l(FADETYPELIST[fadetype]);
 			default:
 				term satisfies never;
 				throw new Error(`trying to get non-existent term ${term}`);
 		}
+	}
 
+	static getCoMdefaultFade(themeType : ThemeType) : FadeType | "crew" {
+		switch(themeType) {
+			case "Logos":
+				return "crack";
+			case "Mythos":
+				return "fade";
+			case "Mist":
+				return "crack";
+			case "Crew":
+				return "crew";
+			default:
+				return "decay";
+		}
 	}
 
 	async createSubMove(this: GMMove) : Promise<GMMove> {

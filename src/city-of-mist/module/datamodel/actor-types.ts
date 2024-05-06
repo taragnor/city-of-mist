@@ -84,9 +84,6 @@ export class ThreatSchema extends foundry.abstract.DataModel {
 	}
 }
 
-
-
-
 export class CrewSchema extends foundry.abstract.DataModel {
 	get type() {return "crew" as const;}
 	static override defineSchema() {

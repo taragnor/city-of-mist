@@ -100,7 +100,7 @@ class Themebook extends DataModel {
 			weakness_questions: new obj<ThemebookTagData>(),
 			improvements: new obj<ThemebookImprovementData>(),
 			motivation: new txt<Motivation>({initial: "mystery"}),
-			fade_type: new txt<FadeType>({initial: "fade"}),
+			fade_type: new txt<FadeType >({initial: "default"}),
 			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
 		}
 	}
@@ -118,7 +118,7 @@ class Themekit extends DataModel {
 			weakness_tagstk: new arr(new obj<ThemekitTagData>(), {initial: defaultTKWeaknessTags}),
 			improvements: new arr(new obj<ThemekitImprovementData>(),{initial: defaultTKImprovementData}),
 			motivation: new txt<Motivation>({initial: "mystery"}),
-			fade_type: new txt<FadeType>({initial: "fade"}),
+			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
 		}
 	}

@@ -1,3 +1,4 @@
+import { FADETYPELIST } from "./datamodel/fade-types.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityDB } from "./city-db.js";
 import { SYSTEM_CHOICES } from "./config/settings-object.js";
@@ -32,6 +33,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
 			"any":  "CityOfMist.terms.any",
 		} as const;
+		data.FADE_TYPE_LIST = FADETYPELIST;
 		data.TBSYSTEMLIST = SysChoices;
 		data.THEMESUBTYPES = THEME_TYPES;
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
