@@ -1213,20 +1213,22 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				break;
 			case "threat":
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
-					return game.actors.filter( actor=> actor.type == "character") as CityActor[];
+					return [];
+					// return game.actors.filter( actor=> actor.type == "character") as CityActor[];
 				if (this.isOwner && this.getThemes().length > 0) {
 					return game.actors.filter ( (act) => {
 						return act.type == "character" && act.isOwner;
 					}) as CityActor[];
 				}
 				//check for update to tokens
-				if (this.getActiveTokens().length)
-					return game.actors.filter ( (act) => {
-						return act.type == "character";
-					}) as CityActor[];
+				// if (this.getActiveTokens().length)
+				// 	return game.actors.filter ( (act) => {
+				// 		return act.type == "character";
+				// 	}) as CityActor[];
 				break;
 			case "character":
-				return game.actors.filter( act=> act.type == "character") as CityActor[];
+				return [];
+				// return game.actors.filter( act=> act.type == "character") as CityActor[];
 			default:
 				console.error(`Unknown type ${this.type}`);
 				return [];

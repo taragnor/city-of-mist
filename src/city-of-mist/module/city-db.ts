@@ -275,6 +275,7 @@ export class CityDB extends DBAccessor {
 			const sheet = dep.sheet;
 			// const state = dep.sheet._state
 			if (sheet._state  > 0) {
+				console.log(`Refreshing sheet of ${dep.name}`);
 				CityHelpers.refreshSheet(dep);
 			}
 		}
