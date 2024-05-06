@@ -1202,12 +1202,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getDependencies(): CityActor[] {
-		//return characters that include this actor
+		//return characters that have data dependant on this actor (such as members of a crew that use this actor)
 		switch (this.type) {
 			case "crew":
 				if (this.isOwner) {
-					return game.actors.filter ( (act) => {
-						return act.type == "character" && act.isOwner;
+					return game.actors.filter ( (act: CityActor) => {
+						return act.type == "character"
+							&& act.isOwner
+							&& act.crewTheme?.parent == this;
 					}) as CityActor[];
 				}
 				break;
@@ -1216,8 +1218,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 					return [];
 					// return game.actors.filter( actor=> actor.type == "character") as CityActor[];
 				if (this.isOwner && this.getThemes().length > 0) {
-					return game.actors.filter ( (act) => {
-						return act.type == "character" && act.isOwner;
+					return game.actors.filter ( (act:CityActor) => {
+						return act.type == "character"
+							&& act.isOwner
+							&& act.activeExtra != null
+							&& this.mainThemes.includes(act.activeExtra);
 					}) as CityActor[];
 				}
 				//check for update to tokens
