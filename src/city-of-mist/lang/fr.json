@@ -1,20 +1,19 @@
 {
-"ACTOR.TypeCharacter": "Personnage Joueur",
-"ACTOR.TypeThreat": "Danger / Extra",
-"ACTOR.TypeCrew": "Equipe",
-"ACTOR.TypeExtra": "Extra (Obsolète)",
-"ACTOR.TypeStorytagcontainer": "Boîte à Traits d'Intrigue",
-"ITEM.TypeTheme" : "Theme",
-"ITEM.TypeThemebook" : "Carte Theme",
-"ITEM.TypeTag" : "Trait",
-"ITEM.TypeImprovement" : "Amélioration",
-"ITEM.TypeTag_question" : "Question de Trait",
-"ITEM.TypeStatus" : "Statut",
-"ITEM.TypeClue" : "Indice",
-"ITEM.TypeJuice" : "Punch",
-"ITEM.TypeMove" : "Manoeuvre de Joueur",
-"ITEM.TypeGmmove" : "Manoeuvre de MC",
-"ITEM.TypeSpectrum" : "Indicateur de Danger",
+"TYPES.Actor.character": "Personnage Joueur",
+"TYPES.Actor.threat": "Danger / Extra",
+"TYPES.Actor.crew": "Equipe",
+"TYPES.Item.theme" : "Thème",
+"TYPES.Item.themebook" : "Livret de Thème",
+"TYPES.Item.tag" : "Trait",
+"TYPES.Item.improvement" : "Amélioration",
+"TYPES.Item.tag_question" : "Question de Trait",
+"TYPES.Item.status" : "Statut",
+"TYPES.Item.clue" : "Indice",
+"TYPES.Item.juice" : "Punch",
+"TYPES.Item.move" : "Manoeuvre de Joueur",
+"TYPES.Item.gmmove" : "Manoeuvre de la MC",
+"TYPES.Item.spectrum" : "Indicateur de Danger",
+"TYPES.Item.themekit" : "Kit de Thème",
 
 "CityOfMistTracker.trackerwindow.title": "Suivi de Statuts City of Mist",
 "CityOfMistTracker.trackerwindow.empty": "Placez un token sur la scène pour lancer le suivi.",
@@ -38,11 +37,12 @@
 "CityOfMist.terms.alias": "Alias / Nom du Token",
 "CityOfMist.terms.logos": "Logos",
 "CityOfMist.terms.mythos": "Mythos",
+"CityOfMist.terms.mist": "Brume",  
 "CityOfMist.terms.short_desc": "Courte Description",
 "CityOfMist.terms.attention": "Attention",
 "CityOfMist.terms.crack": "Trauma",
 "CityOfMist.terms.fade": "Déclin",
-"CityOfMist.terms.strike": "Strike",
+"CityOfMist.terms.strike": "Blâme",
 "CityOfMist.terms.mystery": "Mystère",
 "CityOfMist.terms.identity": "Identité",
 "CityOfMist.terms.directive": "Directive",
@@ -61,6 +61,7 @@
 "CityOfMist.terms.weaknessTags": "Traits de Contrainte",
 "CityOfMist.terms.storyTags": "Traits d'Intrigue",
 "CityOfMist.terms.permanentStoryTag": "Trait d'Intrigue Permanent",
+"CityOfMist.terms.default": "Défaut",
 "CityOfMist.terms.broadTag": "Trait Générique",
 "CityOfMist.terms.crispyTag": "Trait Fragile",
 "CityOfMist.terms.temporaryTag": "Trait Temporaire",
@@ -74,8 +75,8 @@
 "CityOfMist.terms.juice": "Punch",
 "CityOfMist.terms.juiceSource": "Source",
 "CityOfMist.terms.juiceMethod": "Méthode",
-"CityOfMist.terms.help": "Soutien",
-"CityOfMist.terms.hurt": "Tension",
+"CityOfMist.terms.help": "Aide",
+"CityOfMist.terms.hurt": "Blessure",
 "CityOfMist.terms.MoEs": "Moments d'Évolution",
 "CityOfMist.terms.bio": "Bio",
 "CityOfMist.terms.move": "Manoeuvre",
@@ -101,11 +102,12 @@
 "CityOfMist.terms.templates": "Templates",
 "CityOfMist.terms.isTemplate": "Template ?",
 "CityOfMist.terms.collectiveSize": "Taille du Groupe",
-"CityOfMist.terms.activeExtraTheme": "Thème Supplémentaire Actif",
+"CityOfMist.terms.activeExtraTheme": "Thème Bonus Actif",
 "CityOfMist.terms.MCEdit": "Ajustement de la MC",
 "CityOfMist.terms.customModifier": "Modificateur Personnalisé",
 "CityOfMist.terms.mythosThemes": "Thèmes de Mythos",
 "CityOfMist.terms.logosThemes": "Thèmes de Logos",
+"CityOfMist.terms.mistThemes": "Thèmes de Brume",
 "CityOfMist.terms.biography": "Biographie",
 "CityOfMist.terms.mc_notes": "Notes de MC",
 "CityOfMist.terms.bu_points": "Points de Progression",
@@ -121,6 +123,7 @@
 "CityOfMist.terms.noRoll": "Aucun Lancer",
 "CityOfMist.terms.logosRoll": "Lancer de Logos",
 "CityOfMist.terms.mythosRoll": "Lancer de Mythos",
+"CityOfMist.terms.mistRoll": "Lancer de Brume",
 "CityOfMist.terms.category": "Catégorie",
 "CityOfMist.terms.advanced": "Avancé",
 "CityOfMist.terms.SHB": "Tenter le Tout pour le Tout",
@@ -135,8 +138,39 @@
 "CityOfMist.terms.always": "Toujours",
 "CityOfMist.terms.miss": "Échec",
 "CityOfMist.terms.GM": "MJ",
+"CityOfMist.terms.Tier": "Rang",
 "CityOfMist.terms.maxTier": "Rang Max",
+"CityOfMist.terms.extra" : "Bonus",
+"CityOfMist.terms.nascent" : "Emergent",
+"CityOfMist.terms.any" : "Any",
+"CityOfMist.terms.themeClassRoll": "Ajoute le nombre de Thèmes",
+"CityOfMist.terms.colllective": "Groupe",
+"CityOfMist.terms.mainTheme": "Thème Principal",
+  
+"Otherscape.terms.noise": "Noise",
+"Otherscape.terms.self": "Self",
+"Otherscape.terms.ritual": "Ritual",
+"Otherscape.terms.itch": "Itch",
+"Otherscape.terms.decay": "Decay",
+"Otherscape.terms.upgrade": "Upgrade",
+"Otherscape.terms.collective" : "Scale",
+"Otherscape.terms.scale" : "Scale",
+"Otherscape.terms.crew" : "Crew",
 
+  
+"Legend.terms.origin": "Origin",
+"Legend.terms.greatness": "Greatness",
+"Legend.terms.motivation": "Motivation",
+"Legend.terms.experience": "Experience",
+"Legend.terms.collective" : "Scale",
+
+"CityOfMist.terms.loadoutTheme.name": "Loadout Theme",
+"Otherscape.terms.loadoutTheme.name": "Loadout",
+"Legend.terms.loadoutTheme.name": "Backpack",
+
+"CityOfMist.characterSheet.useClue.tooltip": "Poster la carte d'Indice dans le tchat",
+"CityOfMist.characterSheet.useClue.button": "Utiliser",
+  
 "CityOfMist.moves.genericFail": "Manoeuvre Majeure de MC.",
 
 "CityOfMist.moves.CTG.name":"Changer la Donne",
@@ -152,10 +186,10 @@
 "CityOfMist.moves.CTG.6": "Bénéficier de n'importe quelle autre amélioration approuvée par la MC",
 "CityOfMist.moves.CTG.7": "Effet à grande échelle",
 "CityOfMist.moves.CTG.8": "Effet permanent",
-"CityOfMist.moves.CTG.9": "Effet embrumé",
+"CityOfMist.moves.CTG.9": "Effet Embrumé",
 
 "CityOfMist.moves.convince.name":"Convaincre",
-"CityOfMist.moves.convince.partial": "Choisissez un statut adapté de rang PWR. Votre cible peut choisir entre prendre le statut ou céder un légèrement, tout en protégeant ses propres objectifs.",
+"CityOfMist.moves.convince.partial": "Choisissez un statut adapté de rang PWR. Votre cible peut choisir entre prendre le statut ou céder légèrement, tout en protégeant ses propres objectifs.",
 "CityOfMist.moves.convince.success": "Choisissez un statut adapté de rang PWR. Votre cible peut choisir entre prendre le statut ou modifier ses objectifs pour y ajouter les vôtres... du moins pour le moment.",
 "CityOfMist.moves.convince.dynamite": "Choisissez un statut adapté de rang PWR+2. Votre cible peut choisir entre prendre le statut ou modifier ses objectifs pour y ajouter les vôtres... du moins pour le moment. Si votre cible modifie ses objectifs, elle doit en plus subir un statut temporaire de rang 2 de votre choix représentant votre influence. Le trait doit être différent de celui qu'elle aurait subit si elle avait refusé.",
 
@@ -266,48 +300,75 @@
 "CityOfMist.moves.sessionEnd.1": "Au cours de cette session, quel personnage a interagi le plus significativement avec le vôtre ? Sur votre fiche de personnage, ajoutez 1 point d’Aide ou de Blessure à côté de son nom.",
 "CityOfMist.moves.sessionEnd.2": "Lequel de vos thèmes a été mis en danger ? S’il venait à disparaître, quel nouvel aspect viendrait prendre sa place ? Écrivez la réponse dans la case ENVERS DU DÉCOR sous ce thème sur la fiche de personnage.",
 
-"CityOfMist.reloaded.moves.stunt.name": "Cascade",
-"CityOfMist.reloaded.moves.stunt.partial": "Vous réussissez, mais la MC choisit une complication parmi :",
-"CityOfMist.reloaded.moves.stunt.success": "Vous réussissez.",
-"CityOfMist.reloaded.moves.stunt.0": "Succès partiel ou exécution imparfaite.",
-"CityOfMist.reloaded.moves.stunt.1": "Effet secondaire, coût ou sacrifice.",
-"CityOfMist.reloaded.moves.stunt.2": "Exposition à une nouvelle menace.",
-"CityOfMist.reloaded.moves.stunt.3": "Un choix difficile parmi les options ci-dessus.",
+"CityOfMist.moves.escapeFromMemory.name": "Disparaître des Mémoires",
 
-"CityOfMist.reloaded.moves.discover.name": "Découvrir",
-"CityOfMist.reloaded.moves.discover.partial":"Gagnez PWR Indices. La MC choisit une complication parmi :",
-"CityOfMist.reloaded.moves.discover.success": "Gagnez PWR Indices.",
-"CityOfMist.reloaded.moves.discover.0": "Votre cible révèle des informations sur vous.",
-"CityOfMist.reloaded.moves.discover.1": "Information vague ou partielle.",
-"CityOfMist.reloaded.moves.discover.2": "Effet secondaire, coût ou sacrifice.",
-"CityOfMist.reloaded.moves.discover.3": "Exposition à une nouvelle menace.",
-"CityOfMist.reloaded.moves.discover.4": "Un choix difficile parmi les options ci-dessus.",
+  
+"CityOfMist.moves.performanceReview.name": "Entretien d'Évaluation",
+"CityOfMist.moves.performanceReview.always": "<p>Quand vos supérieurs vous félicitent pour avoir rempli une mission confiée dans le cadre de votre Directive, cochez une case d’Attention de ce thème. Vous pouvez aussi cocher une case de Trauma d’un thème de Logos pour représenter une promotion imminente.</p><br><p> Lorsque vos supérieurs vous accusent d’avoir failli à une mission confiée dans le cadre de votre Directive, ou d’avoir bravé un interdit défini par votre Directive, cochez une case de Blâme du thème de la Directive concernée (deux cases si vos supérieurs jugent votre transgression particulièrement grave).</p><br><p> Quand la Directive est résolue ou que vous supérieurs choisissent de vous assigner à un autre poste, réfléchissez avec la MC à une nouvelle Directive pour ce thème.</p>",
 
-"CityOfMist.reloaded.moves.resist.name": "Résister",
-"CityOfMist.reloaded.moves.resist.fail":"Vous prenez le statut complet.",
-"CityOfMist.reloaded.moves.resist.partial":"Enlevez PWR/2 cases du statut.",
-"CityOfMist.reloaded.moves.resist.success": "Enlevez PWR cases du statut.",
+"CityOfMist.moves.hardchoiceGK.name": "Faire un Choix Difficile (Gardiens)",
+"CityOfMist.moves.hardchoiceGK.always": "<p>Quand vous devez agir ou parler d’une certaine façon pour vous conformer à une Directive, que vous n’en faites rien et que la hiérarchie l’apprend, votre mauvaise conduite vous retombera dessus durant un Entretien d’évaluation</p><br><p> Quand vous devez agir ou parler d’une certaine façon pour vous conformer à votre Identité, mais que vous n’en faites rien, cochez une cause de Trauma de ce thème.</p><br><p> Quand vous sacrifiez quelque chose d’essentiel pour respecter votre Identité, cochez une case d’Attention de ce thème</p>",
 
-"CityOfMist.reloaded.moves.buff.name": "Bonus/Malus",
-"CityOfMist.reloaded.moves.buff.partial":"Ajoutez ou enlevez un Trait ou une case de Statut pour chaque point de Puissance (PWR). Les traits créés sont logiques, à usage unique et affectent une seule personne (ou une zone équivalente).",
-"CityOfMist.reloaded.moves.buff.success": "Ajoutez ou enlevez un Trait ou une case de Statut pour chaque point de Puissance (PWR). Les traits créés sont logiques, à usage unique et affectent une seule personne (ou une zone équivalente). Vous pouvez utiliser un point de Puissance pour acheter une des améliorations suivantes :",
+"CityOfMist.moves.LBTM.name": "Voir par-delà la Brume",
 
-"CityOfMist.reloaded.moves.conflict.name": "Entrer en Conflit",
-"CityOfMist.reloaded.moves.conflict.partial":"Infligez un Statut de PWR cases et choisissez une amélioration :",
-"CityOfMist.reloaded.moves.conflict.success": "Infligez un Statut de PWR cases et choisissez 2 améliorations :",
-"CityOfMist.reloaded.moves.conflict.0": "Eviter une contre-attaque.",
-"CityOfMist.reloaded.moves.conflict.1": "Cocher PWR autre(s) case(s) sur le Statut.",
-"CityOfMist.reloaded.moves.conflict.2": "Réussir un objectif tactique (comme pour Cascade).",
-"CityOfMist.reloaded.moves.conflict.3": "Dépenser PWR/2 en Bonus/Malus.",
+"CityOfMist.gmmove.hideName" : "Cacher le nom de la manœuvre",
+"CityOfMist.gmmove.header" : "Entête de la manœuvre",
 
+"Otherscape.moves.quickOutcome.name" : "Quick Outcome",
+"Otherscape.moves.quickOutcome.fail" : "Something doesn't work as intended and there are adverse consequences.",
+"Otherscape.moves.quickOutcome.partial" : "The action succeeds or benefits the PC but there are still some consequences",
+"Otherscape.moves.quickOutcome.success" : "The action succeeds as intended, or better. There are no consequences, the player may choose to take consequences for an even greater degree of success",
 
+"Otherscape.moves.trackedOutcome.name" : "Tracked Outcome",
+"Otherscape.moves.generic.fail" : "You suffer a consequence.",
+"Otherscape.moves.trackedOutcome.partial" : "Suffer a consequence and choose effects of Power PWR (Otherscape Page 90).",
+"Otherscape.moves.trackedOutcome.success" : "Choose effects equal to your Power (PWR) (otherscape Page 90).",
+
+"Otherscape.moves.mitigate.name" : "Mitigate Consequences",
+"Otherscape.moves.mitigate.fail" : "You suffer the full consequence",
+"Otherscape.moves.mitigate.partial" : "Spend PWR power to mitigate the consequences.",
+"Otherscape.moves.mitigate.success" : "spend PWR+1 power to mitigate the consequences or use reflexive effects.",
+
+"Otherscape.moves.blazeOfGlory.significant.name": "Go out in a Blaze (significant)",
+"Otherscape.moves.blazeOfGlory.significant.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Burn all tags in a theme (choose which before rolling).",
+"Otherscape.moves.blazeOfGlory.significant.partial": "You achieve what you wanted. Burn all tags in a theme (choose which before rolling). ",
+"Otherscape.moves.blazeOfGlory.significant.success": "You achieve what you wanted. Burn two tags from a theme.",
+
+"Otherscape.moves.blazeOfGlory.noReturn.name": "Go out in a Blaze (No Return)",
+"Otherscape.moves.blazeOfGlory.noReturn.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Replace a theme (chosen before rolling)",
+"Otherscape.moves.blazeOfGlory.noReturn.partial": "You achieve what you wanted. Replace a theme (chosen before rolling)",
+"Otherscape.moves.blazeOfGlory.noReturn.success": "You achieve what you wanted. Burn all tags in a theme (choose which before rolling). ",
+
+"Otherscape.moves.blazeOfGlory.ultimate.name": "Go out in a Blaze (Ultimate)",
+"Otherscape.moves.blazeOfGlory.ultimate.fail": "The moment turns agaisnt you or you fail to achieve what you hoped. Take a tier-6 status, it cannot be mitigated.",
+"Otherscape.moves.blazeOfGlory.ultimate.partial": "You achieve what you wanted. Take a tier-6 status, it cannot be mitigated.",
+"Otherscape.moves.blazeOfGlory.ultimate.success": "You achieve what you wanted. Replace a theme (chosen before rolling)",
+
+"Otherscape.moves.downtime.name": "Downtime",
+"Otherscape.moves.downtime.always": "Each player may represent this actiivty by spending 3 power (without making a roll) or by marking an upgrade box on one of their themes. Alternately the player may forgo downtime benefits and resolve their activity as a player action.",
+"Otherscape.moves.downtime.0": "Heal and Recover (Restore): Recovering burned power tags during downtime costs 1 power per tag instead of 2.",
+"Otherscape.moves.downtime.1": "Prepare for Action (bestow, create, enhance, loadout) : Loadout tags obtained now are added to the PC's loadout theme, butmust be loaded up as normal. Altnerativel, the PC may save some or all of thier power to to the total power they spend on their next loadup.",
+"Otherscape.moves.downtime.2": "Quality Time (Bestow, Disrupt): Spend time with a chosen character or characters. Creates relationship story tag to represent the relationship.",
+"Otherscape.moves.downtime.3": "Research and Inquire (Discover): Gather information.",
+"Otherscape.moves.downtime.4": "Spend Time on a theme: Mark an upgrade box.",
+
+"Otherscape.moves.creditRoll.name": "Credit Roll",
+"Otherscape.moves.creditRoll.always": "At the end of each session, as the imaginary credits are rolling, take some time to discuss what has transpired in this episode of your series.",
+"Otherscape.moves.creditRoll.0": "What did the crew achieve? What new trouble did they get into?",
+"Otherscape.moves.creditRoll.1": "What were the highlight moments of the episode?",
+"Otherscape.moves.creditRoll.2": "Individually, what was the most important thing that happened to each PC?",
+"Otherscape.moves.creditRoll.3": "Did any PCs mark Decay, replace a theme, or have a Moment of Evolution?",
+"Otherscape.moves.creditRoll.4": "Did anyone Go Out In A Blaze? What was the outcome and the Consequences?",
+"Otherscape.moves.creditRoll.5": "If you’re playing a series, each PC has one relationship tag with another PC. First, any such burned tags are restored. Then, go around the table; ask each player whether any of their PC’s relationships with the other PCs changed. If so, they can revise their relationship tags with other PCs to reflect that.",
+	"Otherscape.moves.creditRoll.6": "Recover one crew theme power tag for each member in the crew",
+"Otherscape.moves.creditRoll.7": "You may also ask the MC to add any story tags that represent resources you gained access to this session to your loadout theme.",
 
 "CityOfMist.generic.narration": "Narration",
 
 "CityOfMist.command.submit": "Soumettre",
 "CityOfMist.command.toggleLock": "Activer Verrouillage Fiche",
 "CityOfMist.command.addTheme": "Ajouter un Thème",
-"CityOfMist.command.narrationBox": "Écrire un Trait (sous forme [nom])",
+"CityOfMist.command.narrationBox": "Fenêtre de Narration",
 "CityOfMist.command.executeMove": "Exécuter la Manoeuvre",
 "CityOfMist.command.destroyTheme": "Thème Détruit",
 "CityOfMist.command.deleteImprovement": "Détruire l'Amélioration",
@@ -334,6 +395,9 @@
 "CityOfMist.message.attentionManual": "L'Attention doit être ajoutée manuellement",
 "CityOfMist.message.burns-on-use": "Se détruit quand utilisé",
 "CityOfMist.message.noExtraSelected": "Aucun Theme Bonus sélectionné",
+"CityOfMist.message.noCrewSelected": "Aucun Thème d'Equipe sélectionnée (créez un nouvel Acteur d'équipe et donnez-en la propriété aux joueurs pour le voir apparaitre ici)",
+"CityOfMist.message.noThemeSelected": "Aucun Thème (cliquez sur le bouton Ajouter un Thème ou glisser et déposer un Livret de Thème ou un Kit de Thème)",
+"CityOfMist.message.levelUpAvailable": "Amélioration de Thème disponible",
 
 "CityOfMist.misc.newMoE": "Nouveaux Moments d'Évolution",
 "CityOfMist.misc.reduceTier": "Réduire le rang du Statut de 1",
@@ -346,7 +410,7 @@
 "CityOfMist.themebook.crew.name": "Equipe",
 "CityOfMist.themebook.definingevent.name": "Événement-Clef",
 "CityOfMist.themebook.definingrelationship.name": "Relation-Clef",
-"CityOfMist.themebook.destiny.name": "Destiné",
+"CityOfMist.themebook.destiny.name": "Destinée",
 "CityOfMist.themebook.divination.name": "Divination",
 "CityOfMist.themebook.enclave.name": "Enclave",
 "CityOfMist.themebook.expression.name": "Manifestation",
@@ -370,7 +434,28 @@
 "CityOfMist.themebook.training.name": "Formation",
 "CityOfMist.themebook.turf.name": "Territoire",
 "CityOfMist.themebook.unit.name": "Unité",
-"CityOfMist.themebook.shrouding.name": "Dissimulation",
+"CityOfMist.themebook.shrouding.name": "Embrumage",
+
+"Otherscape.themebook.affiliation.name": "Affiliation",
+"Otherscape.themebook.artifact.name": "Artifact",
+"Otherscape.themebook.assets.name": "Assets",
+"Otherscape.themebook.augmentation.name": "Augmentation",
+"Otherscape.themebook.companion.name": "Companion",
+"Otherscape.themebook.cuttingEdge.name": "Cutting Edge",
+"Otherscape.themebook.cyberspace.name": "Cyberspace",
+"Otherscape.themebook.drones.name": "Drones",
+"Otherscape.themebook.esoterica.name": "Esoterica",
+"Otherscape.themebook.expertise.name": "Expertise",
+"Otherscape.themebook.exposure.name": "Exposure",
+"Otherscape.themebook.horizon.name": "Horizon",
+"Otherscape.themebook.loadout.name": "Loadout",
+"Otherscape.themebook.personality.name": "Personality",
+"Otherscape.themebook.troubledPast.name": "Troubled Past",
+
+
+"CityOfMist.themekit.html.inherit_improvements_checkbox": "Inclut Améliorations du livret de base",
+
+"CityOfMist.chatmessage.clue.use":"dépense un indice.",
 
 "CityOfMist.dialog.roll.waitForMC": "En attente de validation par la MC",
 "CityOfMist.dialog.roll.title": "Lancer les dés",
@@ -382,6 +467,32 @@
 "CityOfMist.dialog.roll.burnTag": "Dépenser un Trait",
 "CityOfMist.dialog.roll.dontBurn": "Ne pas dépenser de Trait",
 
+"CityOfMist.dialog.downtime.title": "Possible Downtime Moves",
+"CityOfMist.dialog.downtime.unburn": "Prepare for your next activity. Tell everyone at the table how you prepare. Unburn all burned tags",
+"CityOfMist.dialog.downtime.juice": "Prepare for your next activity. Tell everyone at the table how you prepare. Gain 3 Juice with a method based on your description. You can choose from the effect improvements under Change the Game.",
+
+"CityOfMist.dialog.downtimeconfirm.title": "Confirmation de la Pause",
+"CityOfMist.dialog.downtimeconfirm.body": "Voulez vous déclencher la Pause pour l'ensemble des joueurs ?",
+
+
+"CityOfMist.dialog.pcdowntime.title": "Pause pour ",
+
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Donner une amélioration ?",
+"CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body": "Donner une amélioration gratuite pour avoir pris 2+ traits de contrainte sur un thème ?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.title": "Retirer l'amélioration?",
+"CityOfMist.dialog.deleteTag.confirmExtraImprovementOnWeakness.body": "Retirer l'amélioration gratuite pour avoir 2+ traits de contrainte sur un thème ?",
+
+"CityOfMist.dialog.actorSheet.deleteTheme.title": "Supprimer le Thème",
+"CityOfMist.dialog.actorSheet.deleteTheme.body": "Supprimer le Thème sans ajouter de points de Progression ? Cette action ne peut pas être annulée.",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.0": "Supprimer",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.1": "Remplacer (donne de la Progression)",
+"CityOfMist.dialog.actorSheet.deleteTheme.option.2": "Annuler",
+
+"CityOfMist.dialog.actorSheet.addFade.title": "Confirmer l'ajout de Déclin/Trauma",
+"CityOfMist.dialog.actorSheet.addFade.body": "Cette action supprimera le thème (en échange de points de Progression). Êtes-vous sûr ?",
+
+"CityOfMist.dialog.themebook_select.themekit": "Utiliser Thème de Kit",
+  
 "CityOfMist.dialog.tag.usageExamples": "Exemples d'où des Traits s'appliqueraient",
 "CityOfMist.dialog.tag.counterExamples": "Exemples d'où des Traits ne s'appliqueraient pas",
 "CityOfMist.dialog.tag.restrictions": "Restrictions de l'utilisation du Trait",
@@ -392,11 +503,10 @@
 "CityOfMist.dialog.SHB.source":"Source de votre Pouvoir",
 "CityOfMist.dialog.SHB.mythicpower":"Puiser dans votre Mythos (Par Défaut)",
 "CityOfMist.dialog.SHB.logosPower":"Puiser dans votre Logos (Règle Optionnelle)",
+"CityOfMist.dialog.SHB.mistPower":"Puiser dans la Brume (Gardiens)",
 "CityOfMist.dialog.SHB.yes":"C'est parti !",
 "CityOfMist.dialog.SHB.no":"Attend, j'ai changé d'avis",
 "CityOfMist.dialog.statusAdd.CoMClassic": "Choisir le rang de statut à additionner/soustraire",
-"CityOfMist.dialog.statusAdd.CoMReloaded": "Choisir le nombre de cases à ajouter/enlever",
-"CityOfMist.dialog.statusDrop.CoMReloaded": "Choisir le nombre de cases à enlever",
 "CityOfMist.dialog.downtime.query": "Effectuer une Pause ?",
 "CityOfMist.dialog.endOfSession.query": "Effectuer la manoeuvre de Bavarder Pendant le Générique (Fin de Session) ?",
 "CityOfMist.dialog.endOfSession.name": "Fin de Session",
@@ -432,8 +542,6 @@
 "CityOfMist.settings.maxRollCap.name": "Limiter le bonus maximum au lancer",
 "CityOfMist.settings.maxRollCap.hint": "Limite le bonus maximum applicable à un lancer (ne réduit pas la Puissance pour ce qui concerne les effets d'une manoeuvre).",
 
-"CityOfMist.settings.commutativeStatusAddition.name": "Commuter l'addition des Statuts",
-"CityOfMist.settings.commutativeStatusAddition.hint": "Lors de l'addition de Statuts, toujours compter le statut de plus haut rang en premier, puis lui ajouter le statut de rang le plus faible. Par exemple, rang 3 + rang 4 deviendra rang 4 + rang 3.",
 "CityOfMist.settings.monologueAttention.name": "Bonus d'Attention de Monologue",
 "CityOfMist.settings.monologueAttention.hint": "Récompense le monologue d'un joueur en donnant de l'Attention à son Thème le moins développé.",
 "CityOfMist.settings.loggedActions.name": "Journal de Modification de Personnage",
@@ -442,7 +550,11 @@
 "CityOfMist.settings.autoWeakness.name": "Appliquer Automatiquement l'Attention Issue des Contraintes",
 "CityOfMist.settings.autoWeakness.hint": "Applique automatiquement l'Attention lorsqu'un Trait de Contrainte est utilisé.",
 
-"CityOfMist.settings.execEntranceMoves.name": "Manoeuvre d'Entrée des Dangers",
+"CityOfMist.settings.autoAwardWeaknessImp.name": "Appliquer Automatiquement les Améliorations issues des Traits de Contrainte",
+"CityOfMist.settings.autoAwardWeaknessImp.hint": "Donne automatiquement une amélioration bonus lorsqu'au moins 2 Traits de Contrainte When adding 2 or more weakness tags to a theme you will automatically gain a bonus improvement ot that theme. If this is switched off a prompt will instead come up.",  
+
+  
+  "CityOfMist.settings.execEntranceMoves.name": "Manoeuvre d'Entrée des Dangers",
 "CityOfMist.settings.execEntranceMoves.hint": "Définit les options d'automatisation pour les manoeuvres 'entrée en scène' des Dangers. Se déclenche lorsqu'un token est créé ou révélé. Disparaît quand le token est caché ou supprimé.",
 "CityOfMist.settings.execEntranceMoves.0": "Pas d'automatisation",
 "CityOfMist.settings.execEntranceMoves.1": "Demander à l'utilisateur",
@@ -458,16 +570,38 @@
 "CityOfMist.settings.enhancedActorDirectory.hint": "Montre uniquement l'alias d'un personnage aux personnes non propriétaires dans le dossier, et dissimule le vrai nom (nécessite d'actualiser la page).",
 "CityOfMist.settings.clueBoxes.name": "Système d'Indices Avancé",
 "CityOfMist.settings.clueBoxes.hint": "Les Indices apparaissent comme des objets interactifs dans le chat (boîtes à indice) que le joueur et la MJ peuvent remplir.",
+"CityOfMist.settings.clueBoxes.0": "Pas de fenêtre d'Indice",
+"CityOfMist.settings.clueBoxes.1": "Fenêtres d'Indice Privées",
+"CityOfMist.settings.clueBoxes.2": "Fenêtre d'Indice Publiques"
 "CityOfMist.settings.tagReview.name": "Vérification des Traits pour la MJ",
 "CityOfMist.settings.tagReview.hint": "Avant que quelqu'un lance les dés, la MJ peut vérifier les Traits et Status utilisés.",
 
+"CityOfMist.settings.flashyLevelUp.name": "Flashing Level Up Indicator",
+"CityOfMist.settings.flashyLevelUp.hint": "Adds a flashing level up indicator to themes that can be advanced.",
+
+"CityOfMist.settings.gmmoveheaders.name": "Texte d'introduction aux manoeuvres de Dangers",
+"CityOfMist.settings.gmmoveheaders.hint": "Applique automatiquement un texte au début de chaque manoeuvres de Dangers afin d'en identifier le type (mineur, majeur, etc)",
+"CityOfMist.settings.gmmoveheaders.choice0": "Aucun",
+"CityOfMist.settings.gmmoveheaders.choice1": "Symboles",
+"CityOfMist.settings.gmmoveheaders.choice2": "Texte",
+"CityOfMist.settings.gmmoveheaders.soft": "Pour une manoeuvre mineure, $name",
+"CityOfMist.settings.gmmoveheaders.hard": "Pour une manoeuvre majeure, $name",
+"CityOfMist.settings.gmmoveheaders.intrusion": "Pour une intrusion, $name",
+"CityOfMist.settings.gmmoveheaders.downtime": "Durant une Pause, $name",
+"CityOfMist.settings.gmmoveheaders.entrance": "Quand $name entre en scène,",
+  
 "CityOfMist.settings.sceneTagWindow.name": "Traits de Scène",
 "CityOfMist.settings.sceneTagWindow.hint": "Affiche les Traits et Status de Scène sur l'écran principal (peut surcharger l'écran).",
 "CityOfMist.settings.sceneTagWindow.choice0": "Pas de fenêtre de Traits de Scène",
 "CityOfMist.settings.sceneTagWindow.choice1": "Inclure les combattants avec au moins un trait ou statut",
 "CityOfMist.settings.sceneTagWindow.choice2": "Inclure touts les combattants du combat tracker",
 
-
+"CityOfMist.settings.sceneTagWindowPosition.name": "Traits de scène",
+"CityOfMist.settings.sceneTagWindowPosition.hint": "Position de la Fenêtre de Traits de scène",
+"CityOfMist.settings.sceneTagWindowPosition.choice0": "Gauche",
+"CityOfMist.settings.sceneTagWindowPosition.choice1": "Droite",
+"CityOfMist.settings.sceneTagWindowPosition.choice2": "Cacher",
+  
 "CityOfMist.settings.devMode.name": "Mode Développeur",
 "CityOfMist.settings.devMode.hint": "Affiche diverses variables du système (utilisateurs avancés uniquement).",
 
@@ -476,20 +610,50 @@
 "CityOfMist.settings.statusAdditionSystem.hint": "Quel système utiliser pour l'addition des rangs de Statuts.",
 "CityOfMist.settings.statusAdditionSystem.0": "Addition cassique de CoM",
 "CityOfMist.settings.statusAdditionSystem.1": "Commutation d'après sur le Rang",
-"CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Boîtes)",
-"CityOfMist.settings.statusSubtractionSystem.name": "Soustraction des Statuts",
-"CityOfMist.settings.statusSubtractionSystem.hint": "Quel système utiliser pour la soustraction des statuts.",
+"CityOfMist.settings.statusAdditionSystem.3": "Mist Engine",
 
 "CityOfMist.settings.altPower.name": "Règles Maison pour la Puissance",
 "CityOfMist.settings.altPower.hint": "La Puissance d'un lancer impacte seulement le résultat du dé. Pour les effets des manoeuvres, la base est de 2 et peu être affectée par des pénalités.",
 
-"CityOfMist.settings.statusSubtractionSystem.0": "Soustraction classique de CoM",
-"CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Boîtes)",
 "CityOfMist.settings.system.name": "Système de Jeu",
 "CityOfMist.settings.system.hint": "Choix de la version du système CoM.",
-"CityOfMist.settings.system.0": "CoM Classique",
-"CityOfMist.settings.system.1": "CoM Reloaded",
-"CityOfMist.settings.system.2": "Personnalisé",
+"CityOfMist.settings.system.0": "City of Mist",
+"CityOfMist.settings.system.1": "Otherscape",
+"CityOfMist.settings.system.2": "Legend in the Mist",
+"CityOfMist.settings.system.3": "Personnalisé",
+
+"CityOfMist.settings.movesInclude.name": "Manoeuvres de base Incluses",
+"CityOfMist.settings.movesInclude.hint": "Choisir les manoeuvre de base incluses, utile pour les développeurs souhaitant personnaliser les manoeuvres pour leurs tables",
+"CityOfMist.settings.movesInclude.none": "Ne charger aucune manoeuvre",
+
+"CityOfMist.settings.baseSystem.name": "Système de base",
+"CityOfMist.settings.baseSystem.hint": "Règles utilisées comme socle de base.",
+
+"CityOfMist.settings.loadout.name": "Activer le Thème de Loadout",
+"CityOfMist.settings.loadout.hint": "Affiche le Thème de Loadout sur la fiche",
+
+"CityOfMist.settings.statusDisplay.name": "Affichage des statuts",
+"CityOfMist.settings.statusDisplay.hint": "Détermine l'affichage des statuts sur la liste des statuts",
+"CityOfMist.settings.statusDisplay.0": "Uniquement le rang",
+"CityOfMist.settings.statusDisplay.1": "Rang + Points (City of Mist)",
+"CityOfMist.settings.statusDisplay.2": "Rang + Cases (Otherscape et LitM)",
+
+
+  
+"CityOfMist.settings.tagBurn.name": "Mécanique de Dépense de Traits",
+"CityOfMist.settings.tagBurn.hint": "Gère la fonctionnement de la Dépense de Traits ",
+"CityOfMist.settings.tagBurn.0": "City of Mist",
+"CityOfMist.settings.tagBurn.1": "Mist Engine",
+
+"CityOfMist.settings.themeStyle.name": "Style des cartes de Thème Card",
+"CityOfMist.settings.themeStyle.hint": "Gère l'affichage des cartes de Thème",
+"CityOfMist.settings.themeStyle.0": "City of Mist",
+"CityOfMist.settings.themeStyle.1": "Mist Engine",
+
+"CityOfMist.settings.collectiveMechanics.name": "Mécaniques d'échelle et de groupe",
+"CityOfMist.settings.collectiveMechanics.hint": "Détermine la manière dont les règles gèrent les échelles et les groupes",
+
+
 
 "CityOfMist.settings.debugMode.name": "Mode Debug",
 "CityOfMist.settings.debugMode.hint": "Active le code Javascript interne de débogage.",
@@ -500,9 +664,38 @@
 "CityOfMist.settings.handleTempItems.choice1": "Détruire les Traits Temporaires ou Fragiles",
 "CityOfMist.settings.handleTempItems.choice2": "Détruire les Traits Temporaires ou Fragiles et supprimer les Statuts",
 
-"CityOfMist.tooltip.createStory": "Créer un Trait d'Intrigue",
-"CityOfMist.tooltip.createStatus": "Créer un Statut",
+"CityOfMist.settings.autofail.name": "Succès et échec automatiques",
+"CityOfMist.settings.autofail.hint": "Les résultats naturels de 2 et 12 sont respectivement des échecs et des succès automatiques",
 
+
+  "CityOfMist.keybinds.narration.name" : "Fenêtre de Narration",
+"CityOfMist.keybinds.narration.help" :"Utilisé pour narrer des scènes (utilise une syntaxe similaire à celle des manoeuvres de la MC pour les traits et les statuts)",
+"CityOfMist.keybinds.sessionEnd.name" : "Fin de session",
+"CityOfMist.keybinds.sessionEnd.help" :"Déclenche la manoeuvre Bavarder durant le Générique pour l'ensemble des joueurs, regénérant les Flashbacks et les autres ressources limitées par session.",
+
+"CityOfMist.keybinds.startDowntime.name" : "Fondu Enchainé (Pause)",
+"CityOfMist.keybinds.startDowntime.help" :"Déclenche les choix de la Pause pour l'ensemble des joueurs et permet à la MC de sélectionner les manoeuvres de Pause des acteurs visibles et invisibles de la scène active.",
+
+  "CityOfMist.tooltip.createStory": "Créer un Trait d'Intrigue",
+"CityOfMist.tooltip.createStatus": "Créer un Statut",
+"CityOfMist.tooltip.toggleTokenInStoryTagWindow": "Ajouter/Retirer un token de la Fenêtre des Traits de Scène.",
+"CityOfMist.tooltip.removeFromStoryTagWindow": "Retire de la Fenêtre des Traits de Scène",
+  
 "CityOfMist.tooltip.gmmove": "Ajouter des [] autour d'un mot pour en faire un Statut ou Trait. &#013;[a:nom] créera un statut appliqué automatiquement quand la manoeuvre sera activée. &#013;[i:nom] ignorera le Bonus de Groupe.&#013; [a,i:nom] fera les deux.&#013; [s:nom] ajoutera le Trait ou Statut aux Traits/Statuts de Scène. Ajouter {} autour d'un bloc de texte le rendra visible uniquement par la MJ. Ce texte n'apparaîtra pas dans le chat.",
 "CityOfMist.tooltip.error.missingParent": "ERREUR : Ce Trait doit être un Sous-Trait d'un autre Trait."
+
+"CityOfMist.log.theme.addImp" : "+1 Amélioration",
+"CityOfMist.log.theme.remImp" : "-1 Amélioration",
+
+"CityOfMist.error.themeKitTagEdit": "Impossible de modifier le Trait du Kit de Thème",
+"CityOfMist.error.dontOwnTag": "Vous ne pouvez pas modifier ce trait car vous n'en êtes pas propriétaire",
+"CityOfMist.error.MCEditOnly" : "Seule la MC peut le modifier.",
+
+"General.error.LOTagNotLoaded": "Les traits de Loadout doivent être chargés avant de pouvoir être utilisés",
+
+"CityOfMist.notification.reloadRequired" : "En raison d'une modification des paramètres, les fenêtres de l'ensemble des joueurs vont être réinitialisées."",
+
+"CityOfMist.logger.action.changeActiveExtra": "Changer le Bonus actif pour:",
+"CityOfMist.logger.action.changeActiveCrew": "Changer le Thème d'Equipe actif pour:"
+  
 }
