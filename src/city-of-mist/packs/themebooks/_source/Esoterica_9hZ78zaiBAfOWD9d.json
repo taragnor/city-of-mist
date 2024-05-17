@@ -1,0 +1,126 @@
+{
+  "folder": "KYLLQKGmHQGXNTgn",
+  "name": "Esoterica",
+  "type": "themebook",
+  "_id": "9hZ78zaiBAfOWD9d",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Mythos",
+    "power_questions": {
+      "A": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "E": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "F": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "G": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "H": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "I": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "J": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "B": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "C": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      },
+      "D": {
+        "question": "See Local Legends p. 186-189",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "Font of Magic",
+        "description": "See Local Legends p. 186-189",
+        "uses": 1,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "Peer Review",
+        "description": "See Local Legends p. 186-189",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "Unraveller of Secrets",
+        "description": "See Local Legends p. 186-189",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "As Above, So Below",
+        "description": "See Local Legends p. 186-189",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "Mythic Channeling",
+        "description": "See Local Legends p. 186-189",
+        "uses": 1,
+        "effect_class": ""
+      }
+    },
+    "motivation": "mystery",
+    "fade_type": "fade",
+    "system_compatiblity": "city-of-mist",
+    "locale_name": "#CityOfMist.themebook.esoterica.name"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "3.0.7",
+    "coreVersion": "11.315",
+    "createdTime": 1715985441977,
+    "modifiedTime": 1715985664988,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!items!9hZ78zaiBAfOWD9d"
+}

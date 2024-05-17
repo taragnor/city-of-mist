@@ -1,0 +1,29 @@
+{
+  "name": "End of Session",
+  "type": "script",
+  "author": "XObjulrAnIfZ284S",
+  "img": "icons/svg/tower-flag.svg",
+  "scope": "global",
+  "command": "CityHelpers.sessionEnd();",
+  "folder": null,
+  "sort": 300000,
+  "flags": {
+    "core": {
+      "sourceId": "Macro.EhfqdTvriTKeQ8wS"
+    }
+  },
+  "_id": "YPVMsrJ58FNPJW3S",
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.6.9",
+    "coreVersion": "11.308",
+    "createdTime": null,
+    "modifiedTime": 1693234942580,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!macros!YPVMsrJ58FNPJW3S"
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Narrate",
+  "type": "script",
+  "author": "XObjulrAnIfZ284S",
+  "img": "icons/svg/sound.svg",
+  "scope": "global",
+  "command": "CityHelpers.narratorDialog()",
+  "folder": null,
+  "sort": 200000,
+  "flags": {
+    "furnace": {
+      "runAsGM": false
+    },
+    "core": {
+      "sourceId": "Macro.qQtmlSYp9fohJVU0"
+    }
+  },
+  "_id": "HS8oj64OK5JQg1HD",
+  "ownership": {
+    "default": 0,
+    "XObjulrAnIfZ284S": 3
+  },
+  "_stats": {
+    "systemId": "city-of-mist",
+    "systemVersion": "2.6.9",
+    "coreVersion": "11.308",
+    "createdTime": null,
+    "modifiedTime": 1693234942580,
+    "lastModifiedBy": "XObjulrAnIfZ284S"
+  },
+  "_key": "!macros!HS8oj64OK5JQg1HD"
+}
