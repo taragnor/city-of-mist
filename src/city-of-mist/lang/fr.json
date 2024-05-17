@@ -389,7 +389,7 @@
 
 "CityOfMist.message.rejectedQuestion" : "La question ne correspond pas à la méthode (Indice remboursé)",
 "CityOfMist.message.waitingPlayer" : "En Attente de la Réponse du joueur",
-"CityOfMist.message.waitingMC" : "En Attente de la Réponse de la MJ",
+"CityOfMist.message.waitingMC" : "En Attente de la Réponse de la MC",
 "CityOfMist.message.clueBanked" : "Indice Conservé",
 "CityOfMist.message.attentionAwarded": "+1 Attention",
 "CityOfMist.message.attentionManual": "L'Attention doit être ajoutée manuellement",
