@@ -6,5 +6,4 @@ export const FADETYPELIST = {
 	"default": "CityOfMist.terms.default",
 } as const;
 
-
 export type FadeType = keyof typeof FADETYPELIST;

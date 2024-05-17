@@ -20,7 +20,7 @@
 						{{ind}}
 					</span>
 					<input class="question-entry" name="system.{{../tagtype}}_questions.{{ind}}.question" type="text" value="{{question.question}}" placeholder=""/>
-					<input class="checkbox" name="system.{{../tagtype}}_questions.{{ind}}.subtag" type="checkbox" {{#if question.subtag}} checked {{/if}} />
+					<input class="checkbox" name="system.{{../tagtype}}_questions.{{ind}}.subtag" title="Is subtag" type="checkbox" {{#if question.subtag}} checked {{/if}} />
 					<a class="delete-tag-question" data-tag-type="{{../tagtype}}_questions" data-question-letter="{{ind}}" title="Delete Item"><i class="fas fa-trash"></i></a>
 				</div>
 			</div>

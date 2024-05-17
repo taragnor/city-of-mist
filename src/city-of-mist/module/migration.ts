@@ -40,7 +40,6 @@ export class CityDataMigration {
 					await this.themekitFix(item);
 			}
 		}
-
 	}
 
 	/**repairs themekits missing letters due to handlebars hating arrays */
@@ -75,7 +74,6 @@ export class CityDataMigration {
 			console.log(`Fixing theme kit ${themekit.name}`);
 			await themekit.update( {"system.power_tagstk": arr});
 		}
-
 		arr = themekit.system.weakness_tagstk;
 		while (arr.length < 4)  {
 			arr.push( {
