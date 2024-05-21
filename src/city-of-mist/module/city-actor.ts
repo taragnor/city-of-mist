@@ -534,8 +534,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return this.getImprovements();
 		const base = this.getImprovements();
 		const crewImprovements = this.getCrewThemes()
-			.map( x=> x.getImprovements())
-			.flat(1);
+			.flatMap( x=> x.getImprovements());
 		const activeExtraImprovements =
 			this.activeExtra ? this.activeExtra.getImprovements(): [];
 		return base
@@ -555,8 +554,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return undefined;
 	}
 
-	getCrewThemes(): Crew[] {
-		return game.actors.filter( (x: CityActor)=> x.system.type=="crew" && x.isOwner) as Crew[];
+	getCrewThemes(): Theme[] {
+		return (game.actors.contents as CityActor[])
+			.filter( actor => actor.system.type=="crew" && actor.isOwner)
+			.flatMap( actor=> actor.getThemes())
 	}
 
 	async createNewTheme(name: string, themebook: Themebook | ThemeKit, isExtra: boolean = false ) {
