@@ -572,7 +572,7 @@
 "CityOfMist.settings.clueBoxes.hint": "Les Indices apparaissent comme des objets interactifs dans le chat (boîtes à indice) que le joueur et la MJ peuvent remplir.",
 "CityOfMist.settings.clueBoxes.0": "Pas de fenêtre d'Indice",
 "CityOfMist.settings.clueBoxes.1": "Fenêtres d'Indice Privées",
-"CityOfMist.settings.clueBoxes.2": "Fenêtre d'Indice Publiques"
+"CityOfMist.settings.clueBoxes.2": "Fenêtre d'Indice Publiques",
 "CityOfMist.settings.tagReview.name": "Vérification des Traits pour la MJ",
 "CityOfMist.settings.tagReview.hint": "Avant que quelqu'un lance les dés, la MJ peut vérifier les Traits et Status utilisés.",
 
@@ -682,7 +682,7 @@
 "CityOfMist.tooltip.removeFromStoryTagWindow": "Retire de la Fenêtre des Traits de Scène",
   
 "CityOfMist.tooltip.gmmove": "Ajouter des [] autour d'un mot pour en faire un Statut ou Trait. &#013;[a:nom] créera un statut appliqué automatiquement quand la manoeuvre sera activée. &#013;[i:nom] ignorera le Bonus de Groupe.&#013; [a,i:nom] fera les deux.&#013; [s:nom] ajoutera le Trait ou Statut aux Traits/Statuts de Scène. Ajouter {} autour d'un bloc de texte le rendra visible uniquement par la MJ. Ce texte n'apparaîtra pas dans le chat.",
-"CityOfMist.tooltip.error.missingParent": "ERREUR : Ce Trait doit être un Sous-Trait d'un autre Trait."
+"CityOfMist.tooltip.error.missingParent": "ERREUR : Ce Trait doit être un Sous-Trait d'un autre Trait.",
 
 "CityOfMist.log.theme.addImp" : "+1 Amélioration",
 "CityOfMist.log.theme.remImp" : "-1 Amélioration",
@@ -693,7 +693,7 @@
 
 "General.error.LOTagNotLoaded": "Les traits de Loadout doivent être chargés avant de pouvoir être utilisés",
 
-"CityOfMist.notification.reloadRequired" : "En raison d'une modification des paramètres, les fenêtres de l'ensemble des joueurs vont être réinitialisées."",
+"CityOfMist.notification.reloadRequired" : "En raison d'une modification des paramètres, les fenêtres de l'ensemble des joueurs vont être réinitialisées.",
 
 "CityOfMist.logger.action.changeActiveExtra": "Changer le Bonus actif pour:",
 "CityOfMist.logger.action.changeActiveCrew": "Changer le Thème d'Equipe actif pour:"
