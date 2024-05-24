@@ -6,7 +6,8 @@ class TokenDocument<T extends Actor<any, any>> extends FoundryDocument<never>
 		parent: Scene;
 		name: string;
 		baseActor: T;
-		_object: Token<T>;
+		get object(): Token<T>
+		private _object: Token<T>;
 		override get documentName(): "token";
 		get inCombat(): boolean;
 		get combatant(): Combatant;

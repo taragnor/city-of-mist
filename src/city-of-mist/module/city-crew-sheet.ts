@@ -4,7 +4,7 @@ export class CityCrewSheet extends CityActorSheet {
 
 	/** @override */
 	static override get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			// classes: ["city-of-mist", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/crew-sheet.html",

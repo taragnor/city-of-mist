@@ -16,7 +16,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	/** @override */
 		static override get defaultOptions() {
 		const [width, height] = [600,500];
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["city-of-mist", "sheet", "item"],
 			width,
 			height,
@@ -259,7 +259,7 @@ export class CityItemSheetLarge extends CityItemSheet {
 	/** @override */
 	static override get defaultOptions() {
 		const [width, height] = [800, 1000];
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["city-of-mist", "sheet", "item"],
 			width,
 			height,
@@ -272,7 +272,7 @@ export class CityItemSheetSmall extends CityItemSheet {
 		/** @override */
 		static override get defaultOptions() {
 					const [width, height] = [600, 300 ];
-					return mergeObject(super.defaultOptions, {
+					return foundry.utils.mergeObject(super.defaultOptions, {
 									classes: ["city-of-mist", "sheet", "item"],
 									width,
 									height,

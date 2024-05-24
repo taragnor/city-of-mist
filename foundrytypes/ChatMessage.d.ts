@@ -2,15 +2,23 @@ declare class ChatMessage extends FoundryDocument {
 	static getSpeaker(spkOptions: Partial<ChatSpeakerObject>) : SpeakerOptions;
 	static async create(msgData: MessageData, options: MessageOptions = {}): Promise<ChatMessage>;
 	static getSpeaker() : ChatSpeakerObject;
-	user: FoundryUser;
+	/**deprecated as of V12, use author instead*/
+	user?: FoundryUser;
+	author: FoundryUser;
 	rolls: Roll[];
+	_preCreate: (data: Partial<ChatMessage>, metaData: unknwon, user: FoundryUser)=> void;
 }
 
 type MessageData<R extends Roll = Roll> = {
 	speaker: ChatSpeakerObject,
 	content: string,
 	user?: User,
-	type: (typeof CONST.CHAT_MESSAGE_TYPES)[ keyof (typeof CONST.CHAT_MESSAGE_TYPES)],
+	style?: (typeof CONST.CHAT_MESSAGE_TYPES)[ keyof (typeof CONST.CHAT_MESSAGE_TYPES)],
+	/**
+	@deprecated Replaced use ChatMessage.style instead
+	*/
+	type?: (typeof CONST.CHAT_MESSAGE_TYPES)[ keyof (typeof CONST.CHAT_MESSAGE_TYPES)],
+
 	sound?: string,
 	rolls?: R[],
 	whisper?: User[],

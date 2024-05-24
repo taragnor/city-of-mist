@@ -558,7 +558,7 @@ export class CityRoll {
 
 	async themeClassRoll( themeType: ThemeType) {
 		if (!themeType) throw new Error("Theme type can't be empty");
-		mergeObject(this.#options, {
+		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			themeType,
@@ -568,7 +568,7 @@ export class CityRoll {
 	}
 
 	async logosRoll () {
-		mergeObject(this.#options, {
+		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			logosRoll: true,
@@ -577,7 +577,7 @@ export class CityRoll {
 	}
 
 	async mythosRoll () {
-		mergeObject(this.#options, {
+		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			mythosRoll: true,
@@ -586,7 +586,7 @@ export class CityRoll {
 	}
 
 	async mistRoll () {
-		mergeObject(this.#options, {
+		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
 			mistRoll: true,
@@ -594,41 +594,13 @@ export class CityRoll {
 		});
 	}
 
-	// async SHBRoll (_move_id: string, _actor: string, type = "Logos") {
-	// 	const rollOptions = {
-	// 		noTags: true,
-	// 		noStatus: true,
-	// 		logosRoll: true,
-	// 		mythosRoll: false,
-	// 		mistRoll: false,
-	// 		setRoll: 0
-	// 	};
-	// 	switch (type) {
-	// 		case "Mythos":
-	// 			rollOptions.logosRoll = false;
-	// 			rollOptions.mythosRoll = true;
-	// 			rollOptions.mistRoll = false;
-	// 			break;
-	// 		case "Logos":
-	// 			break;
-	// 		case "Mist":
-	// 			rollOptions.logosRoll = false;
-	// 			rollOptions.mythosRoll = false;
-	// 			rollOptions.mistRoll = true;
-	// 			break;
-	// 		default:
-	// 			throw new Error(`Unknown SHB type : ${type}`);
-	// 	}
-	// 	mergeObject(this.#options, rollOptions);
-	// }
-
 	async noRoll () {
 		const rollOptions = {
 			noTags: true,
 			noStatus: true,
 			noRoll: true
 		};
-		mergeObject(this.#options, rollOptions);
+		foundry.utils.mergeObject(this.#options, rollOptions);
 	}
 
 	static async diceModListeners (_app: unknown, html: JQuery, _data: unknown) {

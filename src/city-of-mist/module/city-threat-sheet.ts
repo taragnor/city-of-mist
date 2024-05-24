@@ -11,7 +11,7 @@ export class CityThreatSheet extends CityActorSheet {
 
 	/** @override */
 	static override get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["city", "sheet", "actor"],
 			template: "systems/city-of-mist/templates/threat-sheet.html",
 			width: 990,

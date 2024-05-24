@@ -12,10 +12,16 @@ declare const foundry:   {
 	data: FoundryData;
 	documents: {
 		BaseCombat: typeof BaseCombat;
-
 	}
+	/** audio doesn't exist in v11 */
+	audio: {
+		AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
+		Sound: typeof Sound;
+	}
+	utils: FoundryUtil
 
 }
+
 
 
 class BaseCombat {
@@ -42,23 +48,27 @@ declare interface Game {
 	messages: Collection<ChatMessage>;
 	keybindings: Keybindings;
 	combats: Collection<Combat>;
+	journal: Collection<JournalEntry>;
+	world: World;
 }
 
 
 interface Localization{
-	localize(x: string) : string;
+	localize(localizationString: string) : string;
+	/** replaces {X} with substitution data using X as a keylookup*/
+	format(localizationString: string, substitutionData: Record<string, string>): string;
 }
 
 
 declare class Actors {
-	static unregisterSheet<T>(scope: string, sheetClass: typeof ActorSheet<T>): void;
-	static registerSheet<T>(scope: string, sheetClass: typeof ActorSheet<T>, details: {
+	static unregisterSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>): void;
+	static registerSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>, details: {
 		types: string[], makeDefault: boolean}) : void;
 }
 
 declare class Items {
-	static unregisterSheet<T>(scope: string, sheetClass: typeof ItemSheet<T>): void;
-	static registerSheet<T>(scope: string, sheetClass: typeof ItemSheet<T>, details: {
+	static unregisterSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>): void;
+	static registerSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>, details: {
 		types: string[], makeDefault: boolean}) : void;
 }
 
@@ -71,9 +81,11 @@ class Collection<T> extends Map<string, T> {
 	find (fn : (item: T) => boolean): T | undefined;
 }
 
-class FoundryCompendium<T extends object> extends FoundryDocument<never> {
+class FoundryCompendium<T extends FoundryDocument> extends FoundryDocument<never> {
+	find(condition: (x:T) => boolean): T;
 	documentName: FoundryDocumentTypes;
-	async getDocuments(): Promise<T[]>;
+	async getDocument(id: string): Promise<T>;
+	async getDocuments(query : Record<string, unknown> = {}): Promise<T[]>;
 }
 
 class FoundryUser extends FoundryDocument<never>{

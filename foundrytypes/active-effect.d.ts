@@ -9,7 +9,7 @@ declare class ActiveEffect<A extends Actor<any,I>, I extends Item<any>> extends 
 	parent:A | I;
 	origin: Option<unknown>;
 	icon: string;
-	changes: unknown[];
+	changes: AEChange[];
 	description: string;
 	duration: EffectDuration;
 	transfer: boolean;
@@ -31,7 +31,7 @@ type EffectDuration = {
 type AEChange = {
 	effect: ActiveEffect<any>;
 	key: string; //keys to one of the system values
-	mode: number,
+	mode: typeof CONST["ACTIVE_EFFECT_MODES"][keyof typeof CONST["ACTIVE_EFFECT_MODES"]],
 	priority: number,
 	value: string,
 }

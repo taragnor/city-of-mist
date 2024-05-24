@@ -27,17 +27,9 @@ declare interface CONFIG {
 	},
 }
 
-
 type StatusEffectObject = {
 	id: string,
 	name: string,
 	icon: string,
-	changes ?: STATUS_OBJ_CHANGE[],
+	changes ?: AEChange[],
 }
-
-type STATUS_OBJ_CHANGE = {
-	key: string,
-	value: string,
-	mode: CONST.ACTIVE_EFFECT_MODES[string],
-};
-

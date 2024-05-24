@@ -14,6 +14,9 @@ class Sheet<T extends Document> extends FormApplication {
 
 
 class FormApplication extends Application {
+	constructor(object: Object={}, options:Object ={});
+	getData(options : Record<string, unknown> = {}): AppData | Promise<AppData>;
+
 	close( options?: unknown): void;
 }
 
@@ -23,5 +26,7 @@ interface SheetOptions {
 	template: string;
 
 }
+
+type AppData = Record<number | string, unknown>;
 
 type SheetData = Record<number | string, unknown>;

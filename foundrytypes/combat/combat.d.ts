@@ -20,6 +20,8 @@ declare class Combat<T extends Actor<any, any> = Actor<any, any>> extends Foundr
 	nextTurn(): Promise<this>;
 	previousTurn(): Promise<this>;
 	setInitiative(combatantId: string, number: number): Promise<void>;
+	/** call dialog to end combat */
+	async endCombat(): Promise<boolean>;
   /**
    * Update active effect durations for all actors present in this Combat encounter.
    */

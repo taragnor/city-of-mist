@@ -3,14 +3,11 @@ declare const CONST : {
 	USER_ROLES: {
 		GAMEMASTER:number,
 	}
-	CHAT_MESSAGE_TYPES: {
-		WHISPER: number;
-		OOC: number;
-		ROLL: number;
-		EMOTE: number;
-		OTHER: number;
-		IC: number;
-	},
+	/**
+	@deprecated as of V12
+	 */
+	CHAT_MESSAGE_TYPES: ChatMessageStyles,
+		CHAT_MESSAGE_STYLES: ChatMessageStyles,
 		KEYBINDING_PRECEDENCE: {
 			PRIORITY: number;
 			NORMAL: number;
@@ -28,3 +25,11 @@ type AE_MODES = {
 	OVERRIDE: 5
 }
 
+type ChatMessageStyles =  {
+	WHISPER: number;
+	OOC: number;
+	ROLL: number;
+	EMOTE: number;
+	OTHER: number;
+	IC: number;
+}
