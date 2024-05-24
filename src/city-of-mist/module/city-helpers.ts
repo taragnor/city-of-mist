@@ -677,7 +677,7 @@ export class CityHelpers {
 		  return new Promise(resolve => setTimeout(resolve, time));
 	}
 
-	static async _statusAddSubDialog(status: Status, title: string,type : "addition" | "subtraction"  = "addition") : Promise<null | {name: string, tier: number}> {
+	static async _statusAddSubDialog(status: Status, title: string,_type : "addition" | "subtraction"  = "addition") : Promise<null | {name: string, tier: number}> {
 		const templateData = {status, data: status.system};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, _reject) => {
@@ -849,7 +849,7 @@ export class CityHelpers {
 			.get(tokenId);
 		if (!token)
 			throw new Error( `Can't find token id ${tokenId}`);
-		await CityHelpers.toggleTokensCombatState([token._object as Token<CityActor>]);
+		await CityHelpers.toggleTokensCombatState([token.object as Token<CityActor>]);
 		if (token.inCombat)
 			await CityHelpers.playTagOn();
 		else

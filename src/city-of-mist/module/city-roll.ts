@@ -253,7 +253,7 @@ export class CityRoll {
 			rstring = `2d6`;
 		}
 		let r = new Roll(rstring);
-		r = await r.roll({async:true});
+		r = await r.roll();
 		if (r.total == null || Number.isNaN(r.total)) {
 			Debug(r);
 			throw new Error("Null Total");
@@ -440,6 +440,7 @@ export class CityRoll {
 		if (!roll) throw new Error("Can't find roll");
 		const moveId = roll.options.moveId;
 		const options = roll.options as RollOptions;
+		if (!options.actorId) return;
 		const actor = CityDB.getActorById(options.actorId);
 		if (!actor) throw new Error(`Can't find actor ${options.actorId}`);
 		const {total } = CityRoll.getTotal(roll);

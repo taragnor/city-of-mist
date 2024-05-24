@@ -140,7 +140,7 @@ export class StoryTagDisplayContainer {
 		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId") as string;
 		// const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
 		if (!tokenId)  return;
-		const token = game.scenes.current.tokens.get(tokenId)?._object;
+		const token = game.scenes.current.tokens.get(tokenId)?.object;
 		if (!token || !token.actor.isOwner) return;
 		if (token.center)
 			//@ts-ignore

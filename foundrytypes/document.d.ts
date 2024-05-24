@@ -22,6 +22,7 @@
 	 static async create<T>(this: T, data: CreationData):Promise<InstanceType<T>>;
 	 migrateSystemData(sourceMaybe?: unknown): unknown;
 	 async updateSource(updateData: Record<string, unknown>): Promise<unknown>;
+	 get folder(): Folder;
 
 }
 
@@ -31,3 +32,7 @@ type CreationData = Record<string, unknown>  & {
 	type: string;
 
 }
+
+interface Folder {
+
+};

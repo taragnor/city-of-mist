@@ -6,6 +6,7 @@ declare global {
 		"encryptionEnable": () => void;
 	}
 }
+
 import { CityActor } from "../city-actor.js";
 
 
@@ -111,7 +112,8 @@ export class EnhancedActorDirectory {
 
       // Match documents by name
       for ( let d of this.documents ) {
-        if ( rgx.test(SearchFilter.cleanQuery(d?.directoryName || d.name)) ) {
+			const searchName :string = "directoryName" in d ? d.directoryName as string: d.name;
+        if ( rgx.test(SearchFilter.cleanQuery(searchName)) ) {
           documentIds.add(d.id);
           includeFolder(d.folder);
         }
