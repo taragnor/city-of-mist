@@ -10,8 +10,8 @@ export class Sounds {
 		}
 		catch(e){
 			console.error(e);
-			return await AudioHelper.play(sounddata, false);
 		}
+		return await AudioHelper.play(sounddata, false);
 	}
 }
 
