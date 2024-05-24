@@ -47,7 +47,7 @@ export class Logger {
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
 		let type = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_TYPES.OOC :  CONST.CHAT_MESSAGE_TYPES.WHISPER;
-		let messageData : Record<string, unknown>= {
+		let messageData : MessageData<Roll>= {
 			speaker: speaker,
 			content: text,
 			type,
@@ -60,14 +60,11 @@ export class Logger {
 			messageData.user = sender.altUser;
 		}
 		if (whisperTarget) {
-			// messageData.whisperTo = [whisperTarget];
 			const recipients = game.users.contents.filter(x=> x.isGM).map(x=> x.id);
-			messageData.isWhisper = true;
 			recipients.push(whisperTarget);
-			//@ts-ignore
 			messageData.whisper = recipients;
 		}
-		const msg = await ChatMessage.create(messageData as MessageData<Roll>, {});
+		const msg = await ChatMessage.create(messageData, {});
 		return msg;
 	}
 

@@ -425,8 +425,8 @@ export class CityRoll {
 			user: game.user,
 			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
 			sound: this.#roll ? CONFIG.sounds.dice : undefined,
-			roll: this.#roll
-		};
+			rolls: this.#roll ? [this.#roll] : undefined,
+		} satisfies MessageData;
 		this.#msgId = ( await ChatMessage.create(messageData, messageOptions)).id;
 	}
 
