@@ -27,6 +27,11 @@
 		{{#if (eq theme.themebook.type "themekit")}}
 		<a class="item-control edit-themekit" title="Edit ThemeKit" data-tk-id="{{theme.themebook.id}}"><i class="fas fa-pencil"></i></a>
 		{{/if}}
+		{{#if (hasCustomThemebook theme)}}
+		<a class="item-control edit-themebook" title="Edit ThemeBook" data-tk-id="{{theme.themebook.id}}">
+			<i class="fa-solid fa-book"></i>
+		</a>
+		{{/if}}
 		<a class="item-control theme-delete delete-button" title="Delete Theme"><i class="theme-trash fas fa-trash"></i></a>
 		{{/if}}
 		{{#if theme.system.nascent}} <div class="nascent-label">

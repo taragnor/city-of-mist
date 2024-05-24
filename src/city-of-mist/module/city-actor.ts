@@ -833,7 +833,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const obj = {
 			name: "Unnamed Tag",
 			type: "tag",
-			data: {
+			system: {
 				subtype,
 				theme_id: theme.id,
 				question_letter,
@@ -854,7 +854,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const tagdata = (themebook as ThemeKit)
 		.themekit_getTags(temp_subtype)
 		.find( x=> x.letter == question_letter);
-		if (!tagdata) {
+		if (!tagdata && temp_subtype != "bonus") {
 			throw new Error(`Can't find TagData for ${theme.name} ${temp_subtype}, ${question_letter}`);
 		}
 		let custom_tag = false;
@@ -866,14 +866,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		switch(temp_subtype) {
 			case "power":
 				subtype = "power";
-				tagname = tagdata.tagname ?? (tagdata as Record<string, string>).name ;
+				tagname = tagdata!.tagname ?? (tagdata as Record<string, string>).name ;
 				subtag = false;
 				await theme.decUnspentUpgrades();
 				upgrades --;
 				break;
 			case "weakness":
 				subtype = "weakness";
-				tagname = tagdata.tagname ?? (tagdata as Record<string, string>).name ;
+				tagname = tagdata!.tagname ?? (tagdata as Record<string, string>).name ;
 				subtag = false;
 				if (options.awardImprovement) {
 					await theme.incUnspentUpgrades();
@@ -887,7 +887,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				question = "???";
 				break;
 			default:
-				throw new Error(`Unknwon tag subtype ${temp_subtype}`);
+				throw new Error(`Unknown tag subtype ${temp_subtype}`);
 		}
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
@@ -1472,6 +1472,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
 		return await tag.toggleLoadoutActivation();
 	}
+
 
 } //end of class
 

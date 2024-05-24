@@ -32,6 +32,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		html.find(".item-create-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".add-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));
+		html.find(".edit-themebook").on("click", this._editThemeBook.bind(this));
 		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
 		DragAndDrop.addDragFunctionality( html);
@@ -116,6 +117,26 @@ export class CitySheet extends ActorSheet<CityActor> {
 			return;
 		}
 		await CityDialogs.itemEditDialog(tk);
+	}
+
+	async _editThemeBook(event: JQuery.Event) {
+		event.stopPropagation();
+		const themeId = HTMLTools.getClosestData(event, "themeId");
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const owner = this.getOwner(ownerId);
+		const theme = owner.getTheme(themeId)!;
+		const tkOrTB = theme.themebook;
+		if (!tkOrTB) return;
+		switch (tkOrTB.system.type) {
+			case "themebook":
+				return CityDialogs.itemEditDialog(tkOrTB);
+			case "themekit":
+				const tb = tkOrTB.themebook;
+				if (!tb) return;
+				return CityDialogs.itemEditDialog(tb);
+			default:
+				tkOrTB.system satisfies never;
+		}
 	}
 
 	async _addThemeBook(_event: Event) {

@@ -351,6 +351,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return themes;
 		},
 
+		'hasCustomThemebook': function (theme: Theme) : boolean {
+			return theme.hasCustomThemebook();
+		},
+
 
 	} //end of object holding helpers
 } // end of class

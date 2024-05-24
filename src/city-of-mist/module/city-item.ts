@@ -165,6 +165,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (this.type != "tag" && this.type != "improvement")
 			return false;
 		if (!this.themebook) return false;
+		if (this.isTag() && this.isBonusTag()) return false;
 		return this.themebook.isThemeKit();
 	}
 
@@ -1567,6 +1568,23 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	static numIndexToLetter(index: number): string {
 		return "ABCDEFGHIJKLM".at(index)!;
 	}
+
+	hasCustomThemebook(this: Theme): boolean {
+		const tbOrTk = this.themebook;
+		if (!tbOrTk) return false;
+		switch (tbOrTk.system.type) {
+			case "themekit": {
+				const tb = (tbOrTk as ThemeKit).themebook;
+				if (!tb) return false;
+				return tb.isLocal;
+			}
+			case "themebook": {
+				const tb = tbOrTk as Themebook;
+				return tb.isLocal;
+			}
+		}
+	}
+
 }
 
 export type Theme = Subtype<CityItem, "theme">;
