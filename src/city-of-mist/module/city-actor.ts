@@ -302,7 +302,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				console.debug(`Updating Version of Item: ${item.name}`);
 				await item.updateVersion(version);
 			}
-			return await this.update( {"data.version" : version});
+			return await this.update( {"system.version" : version});
 		}
 		if (version < this.system.version)
 			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
@@ -476,7 +476,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await theme.incUnspentUpgrades();
 		} else {
 			if (this.system.type == "character") {
-				await this.update({"data.unspentBU": this.system.unspentBU+1});
+				await this.update({"system.unspentBU": this.system.unspentBU+1});
 			} else {
 				throw new Error("Something strange happened");
 			}
@@ -666,7 +666,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const obj = {
 			name: "Unnamed Journal",
 			type: "journal",
-			data: {question, answer}
+			system: {question, answer}
 		}
 		if (!this.clueJournal.find( x=> x.system.question == question && x.system.answer == answer))
 			return await this.createNewItem(obj);
@@ -1110,7 +1110,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async setExtraThemeId (id: string) {
-		await this.update({data: {activeExtraId:id}});
+		await this.update({system: {activeExtraId:id}});
 	}
 
 	async grantAttentionForWeaknessTag(id: string) {
@@ -1247,11 +1247,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async expendFlashback() {
-		await this.update( {"data.flashback_used" : true});
+		await this.update( {"system.flashback_used" : true});
 	}
 
 	async refreshFlashback() {
-		await this.update( {"data.flashback_used" : false});
+		await this.update( {"system.flashback_used" : false});
 	}
 
 	async sessionEnd () {

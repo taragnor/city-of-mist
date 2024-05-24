@@ -1,6 +1,9 @@
  class FoundryDocument <Embedded extends (FoundryDocument | never) = never> {
 	get parent(): FoundryDocument | null;
-	async update(updateData: Record<string, any>): Promise<this>;
+
+	async update<T extends Record<string, any>>(updateData: T): Promise<this>;
+	 // async update(updateData: RecursivePartial< typeof this>): Promise<this>
+
 	name: string;
 	id: string;
 	async createEmbeddedDocuments(type: string, objData: Record<string, any>[], context?: unknown): Promise<Embedded[]>;
@@ -25,6 +28,13 @@
 	 get folder(): Folder;
 
 }
+
+// type RecursivePartial<T> = {
+//   [P in keyof T]?:
+//     T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+//     T[P] extends object | undefined ? RecursivePartial<T[P]> :
+//     T[P];
+// };
 
 
 type CreationData = Record<string, unknown>  & {

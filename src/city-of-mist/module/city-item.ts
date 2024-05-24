@@ -329,12 +329,12 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			default: throw new Error(`bad type: ${type}`);
 
 		}
-		const data = this.system[`${type}_questions`][letter];
-		if (data == "_DELETED_")
+		const system = this.system[`${type}_questions`][letter];
+		if (system == "_DELETED_")
 		{
 			throw new Error("Question is deleted");
 		}
-		return data.question;
+		return system.question;
 	}
 
 	// async addPowerTag(this: ThemeKit) {
@@ -539,7 +539,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const arr = this.system.crack;
 		const moddata = CityHelpers.modArray(arr, amount)
 		const newArr = moddata[0];
-		await this.update( {data: {crack: newArr}});
+		await this.update( {system: {crack: newArr}});
 		return !!moddata[1];
 	}
 
@@ -549,7 +549,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (arr[0] == 0) return false; //Can't remove if there's no crack
 		const moddata = CityHelpers.modArray(arr, -amount)
 		const newArr = moddata[0];
-		await this.update( {data: {crack: newArr}});
+		await this.update( {system: {crack: newArr}});
 		return !!moddata[1];
 	}
 
@@ -557,7 +557,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		let unspent_upgrades = this.system.unspent_upgrades;
 		unspent_upgrades--;
 		const crack = [0, 0, 0];
-		await this.update( {data: {crack, unspent_upgrades}});
+		await this.update( {system: {crack, unspent_upgrades}});
 	}
 
 	async addAttention(this: Theme, amount=1) {
@@ -574,7 +574,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 		else if (extra_upgrades > 0)
 			nascent = false;
-		await this.update( {data: {attention: newArr, unspent_upgrades, nascent}});
+		await this.update( {system: {attention: newArr, unspent_upgrades, nascent}});
 		await CityHelpers.modificationLog(this.parent!, `Attention Gained `, this, `Current ${await this.getAttention()}`);
 		return extra_upgrades;
 	}
@@ -593,7 +593,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 		else if (extra_upgrades > 0)
 			nascent = false;
-		await this.update( {data: {attention: newArr, unspent_upgrades, nascent}});
+		await this.update( {system: {attention: newArr, unspent_upgrades, nascent}});
 		await CityHelpers.modificationLog(this.parent!,  `Attention removed`, this, `Current ${await this.getAttention()}`);
 		return extra_upgrades;
 	}
@@ -603,7 +603,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	async incUnspentUpgrades(this: Theme) {
-		return await this.update( {"data.unspent_upgrades" : this.system.unspent_upgrades+1});
+		return await this.update( {"system.unspent_upgrades" : this.system.unspent_upgrades+1});
 	}
 
 	async burnTag( this: Tag,  state =1 ) {
@@ -651,9 +651,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (uses > 999)
 			return;
 		const newUses = uses-1;
-		await this.update( {"data.uses.current": newUses});
+		await this.update( {"system.uses.current": newUses});
 		if (newUses <= 0)
-			await this.update( {"data.uses.expended": true});
+			await this.update( {"system.uses.expended": true});
 	}
 
 	async refreshImprovementUses(this: Improvement) {
@@ -662,8 +662,8 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			return false;
 		if (this.getImprovementUses() == this.system?.uses?.max)
 			return false;
-		await this.update( {"data.uses.current": this.system?.uses?.max});
-		await this.update( {"data.uses.expended": false});
+		await this.update( {"system.uses.current": this.system?.uses?.max});
+		await this.update( {"system.uses.expended": false});
 		return true;
 	}
 
@@ -812,28 +812,28 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const newval = this.system.unspent_upgrades-1;
 		if (newval < 0)
 			console.warn (`Possible Error: Theme ${this.name} lowered to ${newval} upgrade points`);
-		return await this.update( {"data.unspent_upgrades" : newval});
+		return await this.update( {"system.unspent_upgrades" : newval});
 	}
 
 	async setField (field: string, val: unknown) {
-		let data : Record<string, unknown> = {};
-		data[field] = val;
-		return await this.update({data});
+		let system : Record<string, unknown> = {};
+		system[field] = val;
+		return await this.update({system});
 	}
 
 	static generateMoveText(movedata: Move, result: RollResultType, power = 1) {
 		const numRes = CityItem.convertTextResultToNumeric(result);
-		const data = movedata.system;
+		const sys = movedata.system;
 		let html = "";
-		html += localizeS(data.always);
+		html += localizeS(sys.always);
 		if (numRes == 2)
-			html += localizeS(data.onSuccess);
+			html += localizeS(sys.onSuccess);
 		if (numRes == 3)
-			html += localizeS(data.onDynamite);
+			html += localizeS(sys.onDynamite);
 		if (numRes == 1)
-			html += localizeS(data.onPartial);
+			html += localizeS(sys.onPartial);
 		if (numRes == 0)
-			html += localizeS(data.onMiss);
+			html += localizeS(sys.onMiss);
 		return CityItem.substitutePower(html, power);
 	}
 
@@ -925,7 +925,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		version = String(version);
 		if (this.versionIsLessThan(version)) {
 			console.debug (`Updated version of ${this.name} to ${version}`);
-			return await this.update( {"data.version" : version});
+			return await this.update( {"system.version" : version});
 		}
 		if (this.versionIsLessThan(version))
 			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
@@ -1144,16 +1144,16 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		if (!description)
 			throw new Error(`Can't find improvement ${this.name}`);
 		const curruses = this.system.uses.current;
-		const updateObj = {
-			data: {
+		const updateObj : RecursivePartial<CityItem> = {
+			system: {
 				uses: {
 					current: curruses ??  max_uses,
 					max: max_uses,
-					expended: (curruses ?? max_uses) < 1 && max_uses > 0
+					expended: (curruses ?? max_uses) < 1 && max_uses > 0,
 				},
 				description: description,
 				chosen: true,
-				effect_class: effect_class,
+				effect_class: effect_class ?? "",
 			}
 		};
 		return await this.update(updateObj);
@@ -1255,16 +1255,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				}
 			]
 		});
-			// .filter( ([_number, data]) => data !== "_DELETED_")
-			// .map( ([number, data]) => {
-			// 	return {
-			// 		number,
-			// 		name: data.name,
-			// 		description: data.description,
-			// 		uses: data.uses,
-			// 		effect_class: data.effect_class,
-			// 	};
-			// })
 	}
 
 	async GMMovePopUp(actor = this.parent) {
