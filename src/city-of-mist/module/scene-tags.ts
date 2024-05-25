@@ -130,7 +130,7 @@ export class SceneTags {
 			return await this.#createSceneStatusInteractive();
 		const container = await this.#getSceneContainer(game.scenes.current);
 		const status = await container.addOrCreateStatus(name, tier, pips, options);
-		await status.update( {"data.sceneId": game.scenes.current.id});
+		await status.update( {"system.sceneId": game.scenes.current.id});
 		Hooks.callAll("createSceneItem", status, game.scenes.current);
 		return status;
 	}

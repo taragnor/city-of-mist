@@ -1,7 +1,7 @@
  class FoundryDocument <Embedded extends (FoundryDocument | never) = never> {
 	get parent(): FoundryDocument | null;
 
-	async update<T extends Record<string, any>>(updateData: T): Promise<this>;
+	async update<T extends updateObj> (updateData: AllowedUpdateKeys<T>): Promise<this>;
 	 // async update(updateData: RecursivePartial< typeof this>): Promise<this>
 
 	name: string;
@@ -46,3 +46,10 @@ type CreationData = Record<string, unknown>  & {
 interface Folder {
 
 };
+
+type AllStringsStartingWith<Prefix extends string, T extends string | number | symbol = string | number | symbol>=
+  T extends `${Prefix}${infer _}` ? T : never;
+type updateObj = {[k:string] : any};
+type DisallowKey<O extends updateObj , key extends string> = { [K in keyof O]: K extends AllStringsStartingWith<key, K> ? undefined : O[K]};
+type AllowedUpdateKeys<O extends updateObj> = DisallowKey<O, "data">;
+
