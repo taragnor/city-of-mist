@@ -369,7 +369,7 @@
 "CityOfMist.command.toggleLock": "Activer Verrouillage Fiche",
 "CityOfMist.command.addTheme": "Ajouter un Thème",
 "CityOfMist.command.narrationBox": "Fenêtre de Narration",
-"CityOfMist.command.executeMove": "Exécuter la Manoeuvre",
+"CityOfMist.command.executeMove": "Exécuter",
 "CityOfMist.command.destroyTheme": "Thème Détruit",
 "CityOfMist.command.deleteImprovement": "Détruire l'Amélioration",
 "CityOfMist.command.buildUpGained": "Points de Progression Gagnés",
