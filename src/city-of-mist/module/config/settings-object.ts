@@ -105,6 +105,7 @@ export function CITY_SETTINGS() {
 			default: 9999,
 			choices: {
 				9999 : "None",
+				5: "+5",
 				4: "+4",
 				3: "+3",
 				2: "+2",
