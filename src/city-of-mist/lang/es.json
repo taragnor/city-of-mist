@@ -171,7 +171,7 @@
     "CityOfMist.characterSheet.useClue.tooltip": "Enviar tarjeta de pista al chat",
     "CityOfMist.characterSheet.useClue.button": "Utilizar",
     
-    "CityOfMist.moves.genericFail": "Muvomiento duro de la MC.",
+    "CityOfMist.moves.genericFail": "Movimiento duro de la MC.",
     
     "CityOfMist.moves.CTG.name":"Cambiar el juego",
     "CityOfMist.moves.CTG.partial": "Obtienes Energía = Poder. Gasta tu Energía para conseguir los siguientes efectos, a un punto por efecto:",
@@ -388,7 +388,7 @@
     
     
     "CityOfMist.message.rejectedQuestion" : "La pregunta es incorrecta para el Método (Pista devuelta)",
-    "CityOfMist.message.waitingPlayer" : "Esperando la respuesta de los jugadores",
+    "CityOfMist.message.waitingPlayer" : "Esperando la respuesta del jugador",
     "CityOfMist.message.waitingMC" : "Esperando la respuesta de la MC",
     "CityOfMist.message.clueBanked" : "almacenada",
     "CityOfMist.message.attentionAwarded": "+1 Atención",
