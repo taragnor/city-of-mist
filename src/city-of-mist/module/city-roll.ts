@@ -341,7 +341,7 @@ export class CityRoll {
 		let gritPenalty = this.calculateGritPenalty(base_power);
 		const gritPower = base_power + gritPenalty;
 		const final_power = Math.min(cap, gritPower);
-		const adjustment = final_power - base_power;
+		const adjustment = final_power - gritPower;
 		return { power: final_power, adjustment } ;
 	}
 
@@ -408,16 +408,18 @@ export class CityRoll {
 	}
 
 	static calculateGritPenalty(standardPower: number) {
-		if (CitySettings.isGritMode()) {
-			if (standardPower >=7)
-				return -(standardPower - 4);
-			else if  (standardPower >= 4)
-				return -(standardPower - 3);
-			else if (standardPower == 3)
-				return -(standardPower - 2);
+		if (!CitySettings.isGritMode()) {
+			return 0;
 		}
-		return 0;
+		if (standardPower >=7)
+			return -(standardPower - 4);
+		else if  (standardPower >= 4)
+			return -(standardPower - 3);
+		else if (standardPower == 3)
+			return -(standardPower - 2);
+		else return 0;
 	}
+
 	async #sendRollToChat (messageOptions = {}) {
 		const messageData = {
 			speaker: ChatMessage.getSpeaker(),
