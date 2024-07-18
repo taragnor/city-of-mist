@@ -754,6 +754,7 @@ export class CityRoll {
 				msg = await message.update( {
 					content: newContent,
 					roll: roll.toJSON(),
+					rolls: [roll.toJSON()]
 				});
 			else
 				msg = await message.update( {
