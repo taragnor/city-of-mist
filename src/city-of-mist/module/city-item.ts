@@ -1482,10 +1482,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	getThemePropertyTerm(this:Theme, term: "attention" | "fade") {
+		const system = CitySettings.get("baseSystem");
 		const l = localize;
 		switch (term) {
 			case "attention" :
-				const system = CitySettings.get("baseSystem");
 				switch (system) {
 					case "city-of-mist":
 						return l("CityOfMist.terms.attention");
@@ -1503,6 +1503,15 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				catch (e) {return "ERROR";}
 				if (!this.themebook)
 					return "";
+				switch (system) {
+					case "otherscape":
+						return l("Otherscape.terms.decay");
+					case "city-of-mist": break;
+					case "legend": break;
+					default:
+						system satisfies never;
+				}
+
 				let fadetype : FadeType = "decay";
 				const themeType = this.getThemeType();
 				if (this.themebook.system.fade_type != "default") {
