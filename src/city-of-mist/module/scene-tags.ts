@@ -30,8 +30,6 @@ export class SceneTags {
 			invContainers.forEach( x=> x.delete());
 			console.log("Deleting invalid containers");
 		}
-
-		// this.sceneContainer = await this.#getSceneContainer();
 	}
 
 	static async #getSceneContainer(scene: Scene): Promise<CityActor> {

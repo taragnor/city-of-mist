@@ -1256,9 +1256,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async sessionEnd () {
 		let items = [];
-		for (const x of this.items.filter( x=> x.type=="improvement") ) {
-			if (await (x as Improvement).refreshImprovementUses())
-				items.push(x.name);
+		const improvements : Improvement[] = [
+			this.crewThemes.flatMap( theme=> theme.improvements()),
+			this.allLinkedExtraThemes.flatMap(theme=> theme.improvements()),
+			this.items.contents.flatMap( x=> x.isImprovement() ? [x]: []),
+		].flat();
+		for (const imp of improvements) {
+			if (await imp.refreshImprovementUses())
+				items.push(imp.name);
 		}
 		if (this.system.type == "character" && !(this as PC).hasFlashbackAvailable()) {
 			await this.refreshFlashback();
