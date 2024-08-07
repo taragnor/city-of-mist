@@ -2907,11 +2907,15 @@ span.secret {
 }
 
 .story-tag-window {
+	min-height: 200px;
 	max-height: 800px;
+	max-width: 350px;
+	min-width: 200px;
 	overflow-y: overlay;
 	overflow-x: hidden;
 	scrollbar-width: thin;
 	scrollbar-color: var(--mythos-pink) var(--logos-text);
+	margin: 10px;
 }
 
 
