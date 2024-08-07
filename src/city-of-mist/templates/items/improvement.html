@@ -1,13 +1,16 @@
 <form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item.id}}" data-sheet-owner-id="{{item.id}}" data-owner-class="item">
+	{{#if (not item.system.chosen)}}
+	<header class="sheet-header">
+		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		<input name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+	</header>
 	<div>
 		<label>
 			System
 		</label>
 	</div>
-	{{#if (not item.system.chosen)}}
 	<select class="" name="system.system_compatiblity" title="System choice"> {{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
 	</select>
-	<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 	<label> Uses </label>
 	<input name="system.uses.max" value="{{item.system.uses.max}}">
 	<label class="dialog-label" for="free-content"> Allow Override </label>
