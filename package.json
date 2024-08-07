@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -r dist; tsc && copyfiles -u 1 src/**/*.css src/**/*.json src/**/*.webp src/**/*.html src/**/*.hbs src/**/*.mp3 src/**/*.wav src/**/*.otf src/**/*.woff2 src/**/*.ttf src/**/*.gif dist/ && copyfiles README.md dist/"
+    "build": "rm -r dist; tsc && copyfiles -u 1 src/**/*.css src/**/*.json src/**/*.png src/**/*.webp src/**/*.html src/**/*.hbs src/**/*.mp3 src/**/*.wav src/**/*.otf src/**/*.woff2 src/**/*.ttf src/**/*.gif dist/ && copyfiles README.md dist/"
   },
   "keywords": [
     "RPG",

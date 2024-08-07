@@ -3059,8 +3059,8 @@ div.flex-theme-block-flip {
 	transition: transform .2s;
 }
 
-.flic-card .flip-button:hover {
-	cursor: pointer;
+.flip-card .flip-button:hover {
+	cursor: url("../images/flip-card.png"), pointer;
 }
 
 .tag-list {
@@ -3087,3 +3087,4 @@ input.tk-tagname-letter {
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
 /* } */
+
