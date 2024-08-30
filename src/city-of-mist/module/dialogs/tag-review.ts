@@ -141,8 +141,8 @@ export class TagReviewDialog extends EnhancedDialog {
 		$(html).find(".selected-list .tag .name").on("click",this.flipTag.bind(this) );
 		$(html).find(".status .name").middleclick( HTMLHandlers.statusEdit);
 		$(html).find(".selected-list .status .name").on("click", this.flipStatus.bind(this));
-		$(html).find(".suggestion-list .status .name").on("click", (ev:JQuery.Event)=>SelectedTagsAndStatus.selectStatusHandler(ev));
-		$(html).find(".suggestion-list .tag .name").on("click", (ev: JQuery.Event)=>SelectedTagsAndStatus.selectTagHandler(ev));
+		$(html).find(".suggestion-list .status .name").on("click", ev =>SelectedTagsAndStatus.selectStatusHandler(ev));
+		$(html).find(".suggestion-list .tag .name").on("click", ev =>SelectedTagsAndStatus.selectTagHandler(ev));
 		$(html).find(".suggestion-list .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		$(html).find(".suggestion-list .tag .name").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 

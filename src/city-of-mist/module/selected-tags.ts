@@ -1,3 +1,4 @@
+import { CityDB } from "./city-db.js";
 import { localize } from "./city.js";
 import { ReviewableItem } from "./ReviewableModifierList.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
@@ -48,7 +49,7 @@ export class SelectedTagsAndStatus {
 
 	/** returns -1, 0, 1 for which direction activateabley is set in
 	*/
-	static toggleSelectedItem(tagOrStatus: Tag | Status, direction= 1) {
+	static toggleSelectedItem(tagOrStatus: Tag | Status, direction = 1) {
 		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent!.tokenId);
 		if (item) {
 			if (item.amount * direction >= 0) { //tests if sign of these is the same
@@ -187,15 +188,15 @@ export class SelectedTagsAndStatus {
 	static activateStatus(status: Status, direction= 1) { return this.activateSelectedItem(status, direction); }
 
 
-	static async selectTagHandler_invert(event: JQuery.Event) {
+	static async selectTagHandler_invert(event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, true);
 	}
 
-	static async selectTagHandler(event: JQuery.Event) {
+	static async selectTagHandler(event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, false);
 	}
 
-	static async _selectTagHandler(event: JQuery.Event , invert = false ) {
+	static async _selectTagHandler(event: JQuery.ClickEvent , invert = false ) {
 		const id = HTMLTools.getClosestData(event, "tagId");
 		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
@@ -207,9 +208,7 @@ export class SelectedTagsAndStatus {
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		if (tag.system.subtype == "loadout" && !tag.system.activated_loadout) {
-			const msg = localize ("General.error.LOTagNotLoaded")
-			ui.notifications.notify(msg);
+		if (!this.checkValidityForSelect(tag)) {
 			return;
 		}
 		let direction = this.getDefaultTagDirection(tag, owner);
@@ -218,8 +217,7 @@ export class SelectedTagsAndStatus {
 		const activated = this.toggleSelectedItem(tag, direction);
 
 		if (activated === null) return;
-		//@ts-ignore
-		const html = $(event.currentTarget!);
+		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
 		if (activated != 0) {
@@ -233,15 +231,42 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static async selectStatusHandler_invert(event: JQuery.Event) {
+	static checkValidityForSelect(item: Tag | Status) : boolean {
+		const selected = this.getPlayerActivatedTagsAndStatusItems();
+		if (item.system.type == "tag" && item.system.subtype == "loadout" && !item.system.activated_loadout) {
+			const msg = localize ("General.error.LOTagNotLoaded")
+			ui.notifications.notify(msg);
+			return false;
+		}
+		if (item.system.createdBy
+			.flatMap( acc => CityDB.findItem(acc) != undefined ? [item as Tag | Status] : [] )
+			.some( creator => selected.includes(creator) )) {
+			const msg = localize ("General.error.LinkedTagError")
+			ui.notifications.notify(msg);
+			return false;
+		}
+		if (selected
+			.some( selItem => selItem.system.createdBy
+			.flatMap( acc => CityDB.findItem(acc) != undefined ? [item as Tag | Status] : [] )
+				.includes(item))) {
+			const msg = localize ("General.error.LinkedTagError2")
+			ui.notifications.notify(msg);
+			return false;
+
+		}
+
+		return true;
+	}
+
+	static async selectStatusHandler_invert(event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._statusSelect(event, true);
 	}
 
-	static async selectStatusHandler(event: JQuery.Event) {
+	static async selectStatusHandler(event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._statusSelect(event, false);
 	}
 
-	static async _statusSelect (event: JQuery.Event, invert = false) {
+	static async _statusSelect (event: JQuery.ClickEvent, invert = false) {
 		const id = HTMLTools.getClosestData(event, "statusId");
 		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");

@@ -1,3 +1,4 @@
+import { UniversalItemAccessor } from "../tools/db-accessor.js";
 import { ThemekitTagData } from "./default-themekit.js";
 import { ThemekitImprovementData } from "./default-themekit.js";
 import { defaultTKPowerTags } from "./default-themekit.js";
@@ -7,8 +8,6 @@ import { System } from "../config/settings-object.js";
 import { Motivation } from "./motivation-types.js";
 import { FadeType } from "./fade-types.js";
 import { ThemeType } from "./theme-types.js";
-import { THEME_TYPES } from "./theme-types.js";
-import { CitySettings } from "../settings.js"
 
 
 const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, FilePathField:file} = foundry.data.fields;
@@ -19,6 +18,13 @@ import { TAGTYPES } from "./tag-types.js";
 const DataModel = foundry.abstract.DataModel;
 
 const VERSION ="1" ; //TODO: import real version number
+
+
+function createdBy() {
+return 	{
+		createdBy : new arr( new obj<UniversalItemAccessor<Item>>()),
+	}
+}
 
 type ThemebookTagData = Record<string, ("_DELETED_" | {
 	question: string,
@@ -31,9 +37,6 @@ type ThemebookImprovementData = Record<string, ("_DELETED_" | {
 	effect_class: string,
 	uses: null | number,
 })>;
-
-
-
 
 export type ListConditionalItem = {
 	condition : ConditionalString,
@@ -124,7 +127,7 @@ class Themekit extends DataModel {
 	}
 }
 
-class Tag extends DataModel {
+class TagDM extends DataModel {
 	get type() {return "tag" as const}
 	static override defineSchema() {
 		return {
@@ -155,6 +158,7 @@ class Tag extends DataModel {
 			restriction1:new txt(),
 			restriction2:new txt(),
 			sceneId: new id(),
+			...createdBy()
 		}
 	}
 }
@@ -272,7 +276,7 @@ class Move extends DataModel {
 	}
 }
 
-class Status extends DataModel {
+class StatusDM extends DataModel {
 	get type() {return "status" as const;}
 	static override defineSchema() {
 		return {
@@ -286,6 +290,8 @@ class Status extends DataModel {
 			sceneId: new id(),
 			showcased: new bool({initial: false}),
 			specialType: new txt<"collective" | "">({initial :""}),
+			...createdBy(),
+
 		};
 	}
 }
@@ -327,7 +333,7 @@ class Journal extends DataModel {
 export const ITEMMODELS = {
 	move: Move,
 	themebook: Themebook,
-	tag: Tag,
+	tag: TagDM,
 	improvement: Improvement,
 	theme: Theme,
 	juice: Juice,
@@ -336,6 +342,6 @@ export const ITEMMODELS = {
 	spectrum: Spectrum,
 	journal: Journal,
 	themekit: Themekit,
-	"status": Status,
+	"status": StatusDM,
 } as const;
 

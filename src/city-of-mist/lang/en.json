@@ -694,6 +694,8 @@
 "CityOfMist.error.MCEditOnly" : "Only MC may edit this.",
 
 "General.error.LOTagNotLoaded": "Loadout tags must be loaded before they can be used",
+"General.error.LinkedTagError": "Can't select as you already have selected a tag/status which created this one.",
+"General.error.LinkedTagError2": "Can't select this item as one of your already selected tags and statuses was created by it.",
 
 "CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change",
 

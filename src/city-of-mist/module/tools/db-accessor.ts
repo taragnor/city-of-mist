@@ -158,8 +158,121 @@ export class DBAccessor {
 		return a.name.localeCompare(b.name);
 	}
 
+	static findItem<T extends Item<any>> ({actor, itemId}: UniversalItemAccessor<T>): T {
+		if (actor) {
+			const foundActor = this.findActor(actor);
+			if (!foundActor) throw new Error(`Actor Id ${actor.actorId} doesn't exist`);
+			const item = foundActor.items.find( x=> x.id == itemId);
+			if (!item) {
+				throw new Error(`Item Id ${itemId} not found on Actor Id ${foundActor.id}` );
+			}
+			return item as unknown as T;
+		}
+		return this.getItemById(itemId) as unknown as T;
+	}
+
+	static findToken<X extends UniversalTokenAccessor<any> | undefined>(acc: X) : X extends UniversalTokenAccessor<infer R> ? R : undefined  {
+		if (!acc) return undefined as any;
+			const {scene, tokenId} = acc;
+		if (scene != null) {
+			const sc = game.scenes.get(scene);
+			if (!sc)  {
+				throw new Error(`Scene Id ${scene} doesn't exist`);
+			}
+			const tok = sc.tokens.get(tokenId!);
+			if (!tok) {
+				throw new Error(`Token Id ${tokenId} doesn't exist`);
+			}
+			if (!tok.actor) {
+				throw new Error(`No actor on Token Id ${tokenId}`);
+			}
+			return tok as any;
+		}
+		const sc = game.scenes.find(x=> x.tokens.get(tokenId) != null);
+		if (!sc)
+		throw new Error(`Couldn't find tokenId ${tokenId} on any scene`);
+		const tok = sc.tokens.get(tokenId)!;
+		if (!tok.actor) {
+			throw new Error(`No actor on Token Id ${tokenId}`);
+		}
+		return tok as any;
+	}
+
+	static findActor<T extends Actor<any>>(accessor: UniversalActorAccessor<T>) : T {
+		if (accessor.token != undefined) {
+			const token =  this.findToken(accessor.token);
+			return token.actor as T;
+		}
+		return this.getActorById(accessor.actorId) as unknown as T;
+	}
+
+	static getUniversalItemAccessor<T extends Item<any>>(item: T) : UniversalItemAccessor<T> {
+		return {
+			actor: (item.parent) ? this.getUniversalActorAccessor(item.parent): undefined,
+			itemId: item.id,
+		}
+	}
+
+	static getUniversalActorAccessor<T extends Actor<any>> (actor: T) : UniversalActorAccessor<T> {
+		if (actor.token && actor.token.object) {
+			return {
+				actorId: actor.id,
+				token: this.getUniversalTokenAccessor(actor.token.object),
+			};
+		}
+		for (const comb of game.combat?.combatants ?? [])
+		if (comb.actor == actor && comb.token.actorLink) {
+			return  {
+				actorId: actor.id,
+				token: this.getUniversalTokenAccessor(comb.token),
+			};
+		}
+		return {
+			actorId: actor.id,
+			token: undefined
+		}
+	}
+
+	static getUniversalTokenAccessor<T extends Token<any>>(tok: T) : UniversalTokenAccessor<T["document"]> ;
+	static getUniversalTokenAccessor<T extends TokenDocument<any>>(tok: T) : UniversalTokenAccessor<T>;
+	static getUniversalTokenAccessor(tok: Token<any> | TokenDocument<any>) : UniversalTokenAccessor<any> {
+		if (tok instanceof Token) tok = tok.document;
+		return {
+			scene: tok.parent.id,
+			tokenId: tok.id,
+		};
+	}
+
+	static accessorEq<T extends UniversalTokenAccessor<any> | UniversalItemAccessor<any> | UniversalActorAccessor<any>> ( a: T, b: T) : boolean {
+		if ("tokenId" in a && "tokenId" in b) {
+			return a.tokenId == b.tokenId
+		}
+		if ("actorId" in a && "actorId" in b) {
+			return a.actorId == b.actorId && a.token?.tokenId == a.token?.tokenId;
+		}
+		if ("itemId" in a && "itemId" in b) {
+			return a.itemId == b.itemId && a.actor?.actorId == b.actor?.actorId && a.actor?.token?.tokenId == b.actor?.token?.tokenId;
+		}
+		return false;
+	}
 
 } //End of class
+
+
+export type UniversalTokenAccessor<_T extends TokenDocument<any>> = {
+	scene: string,
+	tokenId : string,
+};
+
+export type UniversalActorAccessor<T extends Actor<any, any, any>> = {
+	token ?: UniversalTokenAccessor<TokenDocument<T>>,
+	actorId : string,
+}
+
+export type UniversalItemAccessor<_T extends Item<any>> = {
+	actor?: UniversalActorAccessor<Actor<any, any>>
+	itemId: string,
+}
 
 
 // Should inherit these to a subclass

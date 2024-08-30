@@ -1203,7 +1203,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getDependencies(): CityActor[] {
-		//return characters that have data dependant on this actor (such as members of a crew that use this actor)
 		switch (this.type) {
 			case "crew":
 				if (this.isOwner) {
@@ -1217,7 +1216,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			case "threat":
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
 					return [];
-					// return game.actors.filter( actor=> actor.type == "character") as CityActor[];
 				if (this.isOwner && this.getThemes().length > 0) {
 					return game.actors.filter ( (act:CityActor) => {
 						return act.type == "character"
@@ -1226,15 +1224,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 							&& this.mainThemes.includes(act.activeExtra);
 					}) as CityActor[];
 				}
-				//check for update to tokens
-				// if (this.getActiveTokens().length)
-				// 	return game.actors.filter ( (act) => {
-				// 		return act.type == "character";
-				// 	}) as CityActor[];
 				break;
 			case "character":
 				return [];
-				// return game.actors.filter( act=> act.type == "character") as CityActor[];
 			default:
 				console.error(`Unknown type ${this.type}`);
 				return [];
