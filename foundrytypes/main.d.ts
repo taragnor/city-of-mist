@@ -76,8 +76,8 @@ class Collection<T> extends Map<string, T> {
 	contents: T[];
 	filter(fn: (item: T) => boolean) : T[];
 	[Symbol.iterator]() : Iterator<T>;
-	get(id: string) : T | null;
-	getName(name: string): T | null;
+	get(id: string) : T | undefined;
+	getName(name: string): T | undefined;
 	find (fn : (item: T) => boolean): T | undefined;
 }
 

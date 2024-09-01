@@ -1,5 +1,7 @@
 class TextEditor {
 	static enrichHTML(str: string, options: TextEditorOptions);
+	static getDragEventData(event: DragEvent): Record<any,any>;
+
 
 }
 

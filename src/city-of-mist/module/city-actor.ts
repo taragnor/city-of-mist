@@ -939,6 +939,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return docs;
 		}
 		catch (e) {
+			console.log("Problem Adding Improvement");
 			Debug(this);
 			throw e;
 		}

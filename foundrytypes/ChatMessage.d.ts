@@ -9,6 +9,7 @@ declare class ChatMessage<R extends Roll = Roll> extends FoundryDocument {
 	/**deprecated as of V12, use author instead*/
 	user?: FoundryUser;
 	author: FoundryUser;
+	content: string;
 	rolls: R[];
 	_preCreate: (data: Partial<ChatMessage>, metaData: unknwon, user: FoundryUser)=> void;
 }

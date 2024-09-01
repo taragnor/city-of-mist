@@ -22,7 +22,7 @@ interface DialogOptions {
 	title: string;
 	content: string;
 	close ?: (html:string) => void;
-	buttons: Record<string, buttonOptions>;
+	buttons: Record<string, ButtonOptions>;
 	render ?: (html:string) => void;
 	/**default button label */
 	default?: string
@@ -31,10 +31,13 @@ interface DialogOptions {
 
 }
 
-interface ButtonOptions {
+type ButtonOptions = ({icon: string} | {label: string}) &
+	ButtonOptionsI;
+
+interface ButtonOptionsI {
 
 	icon?: string;
-	label: string;
+	label?: string;
 	callback?: (html: string) => void;
 
 }

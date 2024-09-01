@@ -12,8 +12,8 @@ declare class Combat<T extends Actor<any, any> = Actor<any, any>> extends Foundr
 	combatants: Collection<Combatant<T>>;
 	turns: Combatant<T>[];
 	static defineSchema(): SchemaReturnObject;
-	getCombatantByToken(tokenId: string) : Combatant<T>;
-	getCombatantByActor(actorId: string): Combatant<T>;
+	getCombatantByToken(tokenIdOrToken: string | Token<T>) : Combatant<T>;
+	getCombatantByActor(actorIdOrActor: string | Actor<T>): Combatant<T>;
 	startCombat(): Promise<this>;
 	nextRound(): Promise<this>;
 	previousRound(): Promise<this>;

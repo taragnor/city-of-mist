@@ -2,7 +2,7 @@
 <!-- tag: tag inquestion -->
 <!-- canBurn: allow burning of this tag -->
 
-<div class="flex-row tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}">
+<div class="flex-row tag item item-entry" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" data-item-id="{{tag.id}}" >
 	<div class="flex-narrow flex-line flex-trash">
 		{{#if (allowTagDelete tag)}}
 		<a class="item-control tag-delete" title="Delete Tag" data-tag-id="{{tag.id}}"><i class="fas fa-trash shrink-icon"></i></a>

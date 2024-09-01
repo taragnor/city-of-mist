@@ -1,3 +1,4 @@
+import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityDB } from "./city-db.js";
@@ -99,6 +100,54 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		html.find('.delete-move-list-element').on ("click", this._deleteMoveListElement.bind(this));
 		html.on("keydown", this.quickClose.bind(this));
 		// html.keydown(this.quickClose.bind(this));
+		html.on("drop", (ev) => ev.originalEvent ? this._onDrop(ev.originalEvent) : undefined);
+	}
+
+	override async _onDrop(event: DragEvent) {
+		const data = TextEditor.getDragEventData(event);
+		const item = this.item;
+		// const allowed = Hooks.call("dropItemSheetData", item, this, data);
+		// if ( allowed === false ) return;
+
+    // Handle different data types
+    switch ( data.type ) {
+      case "ActiveEffect":
+			 break;
+        // return this._onDropActiveEffect(event, data);
+      case "Actor":
+			 break;
+        // return this._onDropActor(event, data);
+      case "Item":
+        return this._onDropItem(event, data);
+      case "Folder":
+			 break;
+        // return this._onDropFolder(event, data);
+    }
+  }
+
+	_canDragDrop() {
+		return this.isEditable;
+	}
+
+	async _onDropItem(_event: DragEvent, o: any){
+		//@ts-ignore
+		const item = await Item.implementation.fromDropData(o) as CityItem;
+		const thisItem = this.item;
+		switch (item.system.type) {
+			case "tag":
+			case "status":
+				if (thisItem.system.type == "tag" ||
+					thisItem.system.type == "status") {
+					//create dependent Tag
+					const tagOrStatus = thisItem as Tag | Status;
+					tagOrStatus.addCreatingTagOrStatus(item as Tag | Status);
+					break;
+				}
+				return undefined;
+			default:
+				console.log(`Unsupported Drop Type: ${item.system.type}`);
+		}
+		return undefined;
 	}
 
 	/* -------------------------------------------- */

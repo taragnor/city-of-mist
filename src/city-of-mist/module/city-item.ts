@@ -1,3 +1,4 @@
+import { UniversalItemAccessor } from "./tools/db-accessor.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
 import { FadeType } from "./datamodel/fade-types.js";
@@ -1581,6 +1582,26 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				const tb = tbOrTk as Themebook;
 				return tb.isLocal;
 			}
+		}
+	}
+
+	async addCreatingTagOrStatus(this: Tag | Status, creator: Tag | Status) {
+		const acc = CityDB.getUniversalItemAccessor(creator);
+		const arr = this.system.createdBy ? this.system.createdBy : [];
+		if (!arr.find(x=> CityDB.accessorEq(x, acc))) {
+			arr.push(acc);
+		}
+		await this.update({"system.createdBy": arr});
+	}
+
+	get creators() : (Tag | Status)[] {
+		switch (this.system.type) {
+			case "tag":
+			case "status":
+				return (this.system.createdBy ?? [])
+					.map( x=> CityDB.findItem(x));
+			default:
+				return [];
 		}
 	}
 

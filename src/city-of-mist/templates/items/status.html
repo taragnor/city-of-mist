@@ -25,6 +25,17 @@
 	</label>
 	<input type="checkbox" class="item-checkbox" name="system.showcased" {{#if item.system.showcased}} checked{{/if}}>
 	{{/if}}
+
+	{{#if item.system.createdBy}}
+	<div class="creators-list">
+		<div> Created By: </div>
+		<ul>
+			{{#each item.creators as |creator|}}
+			<li> {{creator.name}} </li>
+			{{/each}}
+			</ul>
+	</div>
+	{{/if}}
 	<hr>
 </form>
 

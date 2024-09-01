@@ -20,6 +20,7 @@ declare interface HOOKS {
 	"preUpdateActor": UpdateHook<Actor>;
 	"preUpdateItem": UpdateHook<Item>;
 	"preUpdateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
+	"preUpdateWall": UpdateHook<WallDocument>;
 	"deleteCombat": DeleteHook<Combat>;
 	"createActor": CreateHook<Actor<any,any>>;
 	"createItem": CreateHook<Item<any>>;
@@ -27,6 +28,7 @@ declare interface HOOKS {
 	"createScene": CreateHook<Scene>;
 	"createCombatant": CreateHook<Combatant>;
 	"createActiveEffect": CreateHook<ActiveEffect>;
+	"createWall": CreateHook<WallDocument>;
 	"updateToken": UpdateHook<TokenDocument<any>>;
 	"deleteToken": DeleteHook<TokenDocument<any>>;
 	"deleteActor": DeleteHook<Actor<any>>;
@@ -34,11 +36,13 @@ declare interface HOOKS {
 	"deleteItem": DeleteHook<Item<any>>;
 	"deleteScene": DeleteHook<Scene>;
 	"deleteActiveEffect": DeleteHook<ActiveEffect>;
+	"deleteWall": DeleteHook<WallDocument>;
 	"preDeleteActiveEffect": PreDeleteHook<ActiveEffect>;
 	"updateScene": UpdateHook<Scene>;
 	"updateItem": UpdateHook<Item<any>>;
 	"updateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
 	"updateActor": UpdateHook<Actor>;
+	"updateWall": UpdateHook<WallDocument>;
 	"getSceneControlButtons": Function;
 	"renderJournalDirectory": Function;
 	"renderCombatTracker": RenderCombatTabFn;
@@ -56,7 +60,7 @@ type CreateHook<T extends FoundryDocument> = (item: T, metaData: Record<string, 
 
 type ApplyAEHookFn = (actor: Actor<any,any>, change: AEChange , current: any , delta: any, changes: Record<string, any>) => unknown;
 
-type UpdateHook<T extends FoundryDocument, Diff = {}> = (updatedItem: T, changes: Record<string, unknown>, diff: DiffObject & Diff, id: string) => unknown;
+type UpdateHook<T extends FoundryDocument, Diff = {}> = (updatedItem: T, changes: Record<string, unknown>, diff: DiffObject & Diff, userId: string) => unknown;
 
 type DeleteHook<T extends FoundryDocument> = (deletedItem: T, something: Record<string, unknown>, id: string) => unknown;
 

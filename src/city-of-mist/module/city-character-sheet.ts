@@ -1,7 +1,5 @@
 import { CitySettings } from "./settings.js";
 import { CityDialogs } from "./city-dialogs.js";
-import { ThemeType } from "./datamodel/theme-types.js";
-import { Themebook } from "./city-item.js";
 import { CRollOptions } from "./city-roll.js";
 import { CityDB } from "./city-db.js";
 import { MOVEGROUPS } from "./datamodel/move-types.js";
@@ -12,7 +10,6 @@ import { HTMLTools } from "./tools/HTMLTools.js";
 import { Tag } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
-import { CityItem } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import {SceneTags } from "./scene-tags.js";
 import { PC } from "./city-actor.js";

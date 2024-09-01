@@ -316,7 +316,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		'getImprovements' : function (theme: Theme): Improvement[] {
-			Debug(theme);
 			return theme.improvements();
 		},
 

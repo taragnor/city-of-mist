@@ -75,12 +75,12 @@ export class CityDialogs {
 								else conf(null);
 							}
 						},
-						cancel: {
-							label: "Cancel",
-							callback: () => conf(null)
-						}
 					},
-				},
+					cancel: {
+						label: "Cancel",
+						callback: () => conf(null)
+					}
+			},
 				default: "cancel"
 			}, options);
 			dialog.render(true);
@@ -449,7 +449,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
 		return await new Promise( (conf, reject) => {
 			const options ={};
-			let buttons : Record<string, unknown> = {
+			let buttons : Record<string, ButtonOptions> = {
 				none: {
 					icon: '<i class="fas fa-times"></i>',
 					label: localize("CityOfMist.command.cancel"),
