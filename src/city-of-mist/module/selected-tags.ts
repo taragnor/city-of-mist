@@ -238,23 +238,23 @@ export class SelectedTagsAndStatus {
 			ui.notifications.notify(msg);
 			return false;
 		}
-		if (item.system.createdBy
+		if ( item.system.createdBy
 			.flatMap( acc => CityDB.findItem(acc) != undefined ? [item as Tag | Status] : [] )
-			.some( creator => selected.includes(creator) )) {
+			.some( creator => selected.includes(creator) )
+		) {
 			const msg = localize ("General.error.LinkedTagError")
 			ui.notifications.notify(msg);
 			return false;
 		}
 		if (selected
 			.some( selItem => selItem.system.createdBy
-			.flatMap( acc => CityDB.findItem(acc) != undefined ? [item as Tag | Status] : [] )
-				.includes(item))) {
+				.flatMap( acc => CityDB.findItem(acc) != undefined ? [item as Tag | Status] : [] )
+				.includes(item))
+		) {
 			const msg = localize ("General.error.LinkedTagError2")
 			ui.notifications.notify(msg);
 			return false;
-
 		}
-
 		return true;
 	}
 

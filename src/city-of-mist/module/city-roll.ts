@@ -1,3 +1,4 @@
+import { MistEngineEffectType } from "./config/roll-effect-types.js";
 import { Move } from "./city-item.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { ThemeType } from "./datamodel/theme-types.js";
@@ -35,7 +36,6 @@ type RollOptions = CRollOptions & {
 	tags: RollModifier[],
 	moveId :string;
 	autoAttention :boolean;
-
 }
 
 export type CRollOptions = {
@@ -52,7 +52,14 @@ export type CRollOptions = {
 	burnTag ?: string;
 	noRoll ?: boolean;
 	modifiers?: RollModifier[];
-}
+};
+
+
+type TrackedRollChoice = {
+	effectType: MistEngineEffectType,
+	powerSpent: number,
+};
+
 export class CityRoll {
 	#roll: Roll | null;
 	#moveId: string;
@@ -63,6 +70,7 @@ export class CityRoll {
 	#html: string ;
 	#msgId : string;
 	#selectedList : ActivatedTagFormat[];
+	#trackedRollChoices: TrackedRollChoice[] = [];
 
 	constructor (moveId: string, actor: CityActor | null, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
 		this.#roll = null;
