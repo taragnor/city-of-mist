@@ -1,3 +1,6 @@
+import { DragAndDrop } from "./dragAndDrop.js";
+import { TagCreationOptions } from "./config/statusDropTypes.js";
+import { Tag } from "./city-item.js";
 import { MistEngineEffectType } from "./config/roll-effect-types.js";
 import { Move } from "./city-item.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
@@ -307,6 +310,8 @@ export class CityRoll {
 		const moveListRaw = CityItem.generateMoveList(move!, roll_status, power).map ( x=> {x.checked = false; return x;});
 		const actor = CityDB.getActorById(options.actorId);
 		const actorName = actor ?actor.name : "";
+		const isChangeTheGame = move.system.abbreviation == "CHANGE";
+		const createTagButton  = roll_status != "Failure" && isChangeTheGame;
 		const templateData = {
 			modifiers,
 			actorName,
@@ -314,6 +319,8 @@ export class CityRoll {
 			options: roll.options,
 			moveList: moveList ?? moveListRaw,
 			moveName: move.getDisplayedName(),
+			move,
+			createTagButton,
 			moveText: CityItem.generateMoveText(move, roll_status, power),
 			//@ts-ignore
 			rolls : (roll.terms)[0].results,
@@ -628,6 +635,38 @@ export class CityRoll {
 		return true;
 	}
 
+	static async createTag(name: string, options:RollOptions) {
+		const realTags = this.convertToRealTags(options.tags);
+		const creationOptions: TagCreationOptions = {
+			creatorTags: realTags.map(tag=> CityDB.getUniversalItemAccessor(tag))
+		};
+		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
+		const messageData = {
+			speaker: ChatMessage.getSpeaker(),
+			content: tagHtml,
+			user: game.user,
+			type: CONST.CHAT_MESSAGE_TYPES.OOC,
+		} satisfies MessageData;
+		await ChatMessage.create(messageData, {});
+		return tagHtml;
+	}
+
+	static convertToRealTags( tags: RollOptions["tags"]) : Tag[] {
+		return tags
+			.filter(tag => tag.ownerId != null && tag.tagId != null)
+			.map( tag => ({
+				itemId: tag.tagId!,
+				actor: {
+					actorId: tag.ownerId!,
+					token: tag.tokenId ? {
+						tokenId: tag.tokenId,
+						scene: game.scenes.find(sc => sc.tokens.has(tag.tokenId!))!.id,
+					}: undefined,
+				}
+			}))
+			.map( acc => CityDB.findItem(acc) as Tag)
+	}
+
 	static async _strikeoutModifierToggle(event: Event) {
 		if (!game.user.isGM) return;
 		event.preventDefault();
@@ -642,7 +681,6 @@ export class CityRoll {
 			}
 		});
 		await CityRoll._updateMessage(messageId);
-
 	}
 
 	static async _checkOption (event: Event) {
@@ -778,6 +816,11 @@ export class CityRoll {
 	}
 
 
+	static createStoryTagHandlers(msg: ChatMessage, html : JQuery) {
+		const options = msg.rolls[0].options;
+		html.find(".city-roll .create-story-tag").on("click", _ev=> this.createTag("Test", options as RollOptions))
+	}
+
 } //end of class
 
 Hooks.on("ready", async () => {
@@ -789,3 +832,7 @@ Hooks.on("ready", async () => {
 
 
 export type RollResultType = "Success" | "Failure" | "Dynamite" | "Partial";
+
+Hooks.on("renderChatMessage", async (msg, html, _data) => {
+	CityRoll.createStoryTagHandlers(msg, html);
+});

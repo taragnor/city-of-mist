@@ -1,3 +1,4 @@
+import { GMMoveOptions } from "./datamodel/item-types.js";
 import { CityDB } from "./city-db.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -23,13 +24,7 @@ export class DragAndDrop {
 
 	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor) {
 		if (!actor.isOwner) return;
-		let optionsRaw = draggable.data("options") ??"{}";
-		let options : TagCreationOptions = {};
-		try {
-			options = JSON.parse(optionsRaw);
-		} catch (e) {
-			console.warn(`Error parsing options on draggable: ${optionsRaw}`);
-		}
+		let options = draggable.data("options") ?? {};
 		const draggableType = DragAndDrop.getDraggableType(draggable);
 		switch (draggableType) {
 			case "status":{
@@ -104,15 +99,26 @@ export class DragAndDrop {
 			const actor = token.document.actor;
 			DragAndDrop.dropDraggableOnActor(dragged, actor);
 
-}
+		}
 	}
+
+	static htmlDraggableStatus(name: string, tier: number,  options: GMMoveOptions & TagCreationOptions) {
+		const autoStatus = options.autoApply ? "auto-status" : "";
+		return `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${name}-<span class="status-tier">${tier}</span></span>`;
+	}
+
+	static htmlDraggableTag(name: string, options: GMMoveOptions & TagCreationOptions) {
+		return `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
+	}
+
 }
 
 DragAndDrop.initCanvasDropping();
 
-//@ts-ignore
 Hooks.on("canvasReady", DragAndDrop.init);
 
 
+//@ts-ignore
+window.DragAndDrop = DragAndDrop;
 
 

@@ -1,3 +1,4 @@
+import { DragAndDrop } from "./dragAndDrop.js";
 import { DOWNTIME_CHOICES } from "./datamodel/downtime-choices.js";
 import { Move } from "./city-item.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
@@ -302,6 +303,7 @@ export class CityHelpers {
 		return text.trim();
 	}
 
+
 	static unifiedSubstitution(text :string, status_mod = 0) {
 		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;
 		let match = regex.exec(text);
@@ -320,9 +322,10 @@ export class CityHelpers {
 				if (!options.ignoreCollective) {
 					tier = Number(tier) + status_mod;
 				}
-				const autoStatus = options.autoApply ? "auto-status" : "";
-				const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
-				text = text.replace(match[0], newtext);
+				// const autoStatus = options.autoApply ? "auto-status" : "";
+				// const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
+				const newText = DragAndDrop.htmlDraggableStatus(formatted_statusname, tier, options);
+				text = text.replace(match[0], newText);
 				statuslist.push( {
 					name: formatted_statusname,
 					tier,
@@ -333,8 +336,9 @@ export class CityHelpers {
 					name,
 					options
 				});
-				const newtext = `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
-				text = text.replace(match[0] , newtext);
+				const newText = DragAndDrop.htmlDraggableTag(name, options);
+				// const newtext = `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
+				text = text.replace(match[0] , newText);
 			}
 			match = regex.exec(text);
 		}
