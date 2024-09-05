@@ -158,20 +158,22 @@ export class DBAccessor {
 		return a.name.localeCompare(b.name);
 	}
 
-	static findItem<T extends Item<any>> ({actor, itemId}: UniversalItemAccessor<T>): T {
+	static findItem<T extends Item<any>> ({actor, itemId}: UniversalItemAccessor<T>): T | undefined {
 		if (actor) {
 			const foundActor = this.findActor(actor);
-			if (!foundActor) throw new Error(`Actor Id ${actor.actorId} doesn't exist`);
+			if (!foundActor) {
+				return undefined;
+			}
 			const item = foundActor.items.find( x=> x.id == itemId);
 			if (!item) {
-				throw new Error(`Item Id ${itemId} not found on Actor Id ${foundActor.id}` );
+				return undefined;
 			}
 			return item as unknown as T;
 		}
 		return this.getItemById(itemId) as unknown as T;
 	}
 
-	static findToken<X extends UniversalTokenAccessor<any> | undefined>(acc: X) : X extends UniversalTokenAccessor<infer R> ? R : undefined  {
+	static findToken<X extends UniversalTokenAccessor<any> | undefined>(acc: X) : X extends UniversalTokenAccessor<infer R> ? R | undefined : undefined  {
 		if (!acc) return undefined as any;
 			const {scene, tokenId} = acc;
 		if (scene != null) {
@@ -198,10 +200,10 @@ export class DBAccessor {
 		return tok as any;
 	}
 
-	static findActor<T extends Actor<any>>(accessor: UniversalActorAccessor<T>) : T {
+	static findActor<T extends Actor<any>>(accessor: UniversalActorAccessor<T>) : T | undefined {
 		if (accessor.token != undefined) {
 			const token =  this.findToken(accessor.token);
-			return token.actor as T;
+			return token?.actor as T | undefined;
 		}
 		return this.getActorById(accessor.actorId) as unknown as T;
 	}

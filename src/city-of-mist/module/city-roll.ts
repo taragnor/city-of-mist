@@ -636,7 +636,8 @@ export class CityRoll {
 	}
 
 	static async createTag(name: string, options:RollOptions) {
-		const realTags = this.convertToRealTags(options.tags);
+		const activeTags = options.tags.filter( x=> !x.strikeout);
+		const realTags = this.convertToRealTags(activeTags);
 		const creationOptions: TagCreationOptions = {
 			creatorTags: realTags.map(tag=> CityDB.getUniversalItemAccessor(tag))
 		};
@@ -664,7 +665,8 @@ export class CityRoll {
 					}: undefined,
 				}
 			}))
-			.map( acc => CityDB.findItem(acc) as Tag)
+			.map( acc => CityDB.findItem(acc))
+			.filter (item => item != undefined) as Tag[];
 	}
 
 	static async _strikeoutModifierToggle(event: Event) {
