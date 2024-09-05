@@ -193,11 +193,11 @@ export class HTMLHandlers {
 			throw new Error("couldn't find status");
 		}
 		const {name, system: {tier, pips}} = status;
-		const ret = await HTMLHandlers.statusAddDialog(status) 
+		const ret = await HTMLHandlers.statusAddDialog(status);
 		if (!ret) return;
 		const {name: newname, tier: amt} = ret;
 		// console.log(`${name} : ${tier}`);
-		await status.addStatus(amt, newname);
+		await status.addStatus(amt, {newName: newname});
 		await HTMLHandlers.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
 	}
 	static async statusSubtract (event: JQuery.Event) {

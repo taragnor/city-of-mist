@@ -1,10 +1,9 @@
-import { UniversalItemAccessor } from "./tools/db-accessor.js";
+import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
 import { FadeType } from "./datamodel/fade-types.js";
 
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
-import { Sounds } from "./tools/sounds.js"
 import { System } from "./config/settings-object.js";
 import { ListConditionalItem } from "./datamodel/item-types.js";
 import { RollResultType } from "./city-roll.js";
@@ -668,20 +667,34 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return true;
 	}
 
-	async addStatus (this:Status, tierOrBoxes: number, newname :null | string = null) {
-		newname = newname ?? this.name;
+	async addStatus (this:Status, tierOrBoxes: number, options: TagCreationOptions) : Promise<Status> {
+		const newname = options?.newName ?? this.name;
 		const system = CitySettings.getStatusAdditionSystem();
+		let status : Status | null = null;
 		switch (system) {
 			case "classic":
-				return this.addStatus_CoM(tierOrBoxes, newname);
+				status = await this.addStatus_CoM(tierOrBoxes, newname);
 			case"classic-commutative":
-				return this.addStatus_CoM(tierOrBoxes, newname);
+				status = await this.addStatus_CoM(tierOrBoxes, newname);
 			case "mist-engine":
-				return this.addStatus_ME(tierOrBoxes, newname);
+				status = await this.addStatus_ME(tierOrBoxes, newname);
 			default:
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to CoM`);
-				return this.addStatus_CoM(tierOrBoxes, newname);
+				status = await this.addStatus_CoM(tierOrBoxes, newname);
 		}
+		if (options.creatorTags) {
+			const arr = status.system.createdBy ?? [];
+			for (const tagAcc of options.creatorTags) {
+				if (!arr
+					.some(x=> CityDB.accessorEq(tagAcc, x))) {
+					arr.push(tagAcc);
+				}
+			}
+			if (arr.length) {
+				await status.update({"system.createdBy": arr});
+			}
+		}
+		return status;
 	}
 
 	/**shows status tier and pips potentially as a string*/
@@ -1588,9 +1601,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	async addCreatingTagOrStatus(this: Tag | Status, creator: Tag | Status) {
 		const acc = CityDB.getUniversalItemAccessor(creator);
 		const arr = this.system.createdBy ? this.system.createdBy : [];
-		if (!arr.find(x=> CityDB.accessorEq(x, acc))) {
-			arr.push(acc);
+		if (arr.find(x=> CityDB.accessorEq(x, acc))) {
+			return;
 		}
+		arr.push(acc);
 		await this.update({"system.createdBy": arr});
 	}
 
@@ -1599,9 +1613,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			case "tag":
 			case "status":
 				return (this.system.createdBy ?? [])
-					.map( x=> CityDB.findItem(x));
+					.map( x=> CityDB.findItem(x) as Tag | Status)
+					.filter(x=> x != undefined);
 			default:
-				return [];
+					return [];
 		}
 	}
 

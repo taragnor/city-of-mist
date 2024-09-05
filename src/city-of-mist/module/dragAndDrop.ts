@@ -1,21 +1,19 @@
 import { CityDB } from "./city-db.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
+import { TagCreationOptions } from "./config/statusDropTypes.js";
 
 export class DragAndDrop {
 
 	static init() {
 	}
 
-	static async dropStatusOnActor(textStatus: string, actor: CityActor, _options = {}) {
+	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : TagCreationOptions = {}) {
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
-		//@ts-ignore
-		await actor.sheet.statusDrop(protostatus);
-				// TODO: options are not yet supported for actual addition of statuses
-
+		await actor.sheet.statusDrop(protostatus , options);
 	}
 
-	static async dropTagOnActor(textTag: string, actor: CityActor, options = {}) {
+	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
 		await actor.createStoryTag(textTag, true, options);
 	}
 
@@ -25,9 +23,15 @@ export class DragAndDrop {
 
 	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor) {
 		if (!actor.isOwner) return;
-		let options = draggable.data("options") ??{};
-		const type = DragAndDrop.getDraggableType(draggable);
-		switch (type) {
+		let optionsRaw = draggable.data("options") ??"{}";
+		let options : TagCreationOptions = {};
+		try {
+			options = JSON.parse(optionsRaw);
+		} catch (e) {
+			console.warn(`Error parsing options on draggable: ${optionsRaw}`);
+		}
+		const draggableType = DragAndDrop.getDraggableType(draggable);
+		switch (draggableType) {
 			case "status":{
 				DragAndDrop.dropStatusOnActor(draggable.text(), actor, options);
 				break;
@@ -51,7 +55,7 @@ export class DragAndDrop {
 			case "threat":
 
 				break;
-			default: console.warn("Unknown draggableType: ${type}");
+			default: console.warn(`Unknown draggableType: ${draggableType}`);
 		}
 	}
 
@@ -60,13 +64,13 @@ export class DragAndDrop {
 		html.find('.draggable').on("dragend", DragAndDrop.dragEnd);
 	}
 
-	static async dragStart(event: Event) {
+	static async dragStart(event: JQuery.DragStartEvent) {
 		event.stopPropagation();
 		$(event.currentTarget!).addClass("dragging");
 		return true;
 	}
 
-	static async dragEnd(event: Event) {
+	static async dragEnd(event: JQuery.DragEndEvent) {
 		event.stopPropagation();
 		$(event.currentTarget!).removeClass("dragging");
 		return true;

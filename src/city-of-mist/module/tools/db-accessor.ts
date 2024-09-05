@@ -269,8 +269,8 @@ export type UniversalActorAccessor<T extends Actor<any, any, any>> = {
 	actorId : string,
 }
 
-export type UniversalItemAccessor<_T extends Item<any>> = {
-	actor?: UniversalActorAccessor<Actor<any, any>>
+export type UniversalItemAccessor<I extends Item<any>> = {
+	actor?: UniversalActorAccessor<Actor<any, I>>,
 	itemId: string,
 }
 

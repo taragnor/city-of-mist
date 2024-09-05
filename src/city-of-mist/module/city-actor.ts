@@ -1,3 +1,4 @@
+import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { CitySettings } from "./settings.js"
 import { COLLECTIVE } from "./datamodel/collective.js";
 import { ThemeType } from "./datamodel/theme-types.js";
@@ -23,8 +24,11 @@ import { GMMove } from "./city-item.js";
 import { ClueJournal } from "./city-item.js";
 import { Theme } from "./city-item.js";
 import { Spectrum } from "./city-item.js";
+import { CityActorSheet } from "./city-actor-sheet.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
+
+	declare sheet: CityActorSheet;
 
 	get mainThemes() : Theme[] {
 		return this.getThemes().sort ( (a,b) => b.themeSortValue() - a.themeSortValue());
@@ -612,9 +616,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return (await this.createEmbeddedDocuments("Item", [obj]))[0];
 	}
 
-	async createNewStatus (name: string, tier=1, pips=0, options: Partial<Status["system"]>={} ): Promise<Status> {
+	async createNewStatus (name: string, tier=1, pips=0, options: DeepPartial<Status["system"]>={} ): Promise<Status> {
 		const obj = {
-			name, type: "status", system : {...options, pips, tier}};
+			name,
+			type: "status",
+			system : {...options, pips, tier}};
 		return await this.createNewItem(obj) as Status;
 	}
 
@@ -976,32 +982,26 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter(x => x.system.type == "improvement" && x.system.theme_id.length == 0) as Improvement[];
 	}
 
-	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : { temporary?: boolean, permanent?: boolean } = {}) : Promise<Tag | null> {
+	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : TagCreationOptions = {}) : Promise<Tag | null> {
 		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getTags().find( x=> x.name == name))
 				return null;
 		}
-		const burned = 0;
-		const theme_id = "";
-		const crispy = false;
-		const question = "";
 		const temporary = options?.temporary ?? !(game.user.isGM);
-		const permanent = options?.permanent ?? false;
-		const question_letter = "_";
-		const subtype = "story";
-		const obj = {
+		const obj : DeepPartial<CityItem> = {
 			name,
 			type: "tag",
 			system: {
-				subtype,
-				theme_id,
-				question_letter,
-				question,
-				crispy,
-				burned,
+				subtype: "story",
+				theme_id: "",
+				question_letter : "_",
+				question: "",
+				crispy: false,
+				burned: false,
 				temporary,
-				permanent
+				permanent: options?.permanent ?? false,
+				createdBy: options.creatorTags ?? [],
 			}
 		};
 		return await this.createNewItem(obj) as Tag;
@@ -1330,10 +1330,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2: string, tier2: number, pips=0, options= {}) : Promise<Status> {
+	async addOrCreateStatus (name2: string, tier2: number, pips=0, options: TagCreationOptions= {}) : Promise<Status> {
 		let status = this.hasStatus(name2);
 		if (status) {
-			return await status.addStatus(tier2);
+			return await status.addStatus(tier2, options);
 		} else {
 			return await this.createNewStatus(name2, tier2, pips, options);
 		}

@@ -54,7 +54,6 @@ export type CRollOptions = {
 	modifiers?: RollModifier[];
 };
 
-
 type TrackedRollChoice = {
 	effectType: MistEngineEffectType,
 	powerSpent: number,
