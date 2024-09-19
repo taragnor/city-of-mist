@@ -1055,12 +1055,10 @@ div.other-status-owner-name {
 	);
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
-
 	transition: font-weight 0.1s;
 }
 
 .item-selection-context .status-name:hover{
-
 	font-weight: bold;
 	border-radius: 0.8em 0.3em;
 	background: transparent;
@@ -1072,12 +1070,11 @@ div.other-status-owner-name {
 	);
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
-
 	transition: font-weight 0.1s;
 }
+
 .item-selection-context .active-tag.default-positive:hover:not(.negative-selected) {
 	font-weight: bold;
-
 	margin: 0 -0.4em;
 	padding: 0.1em 0.4em;
 	border-radius: 0.8em 0.3em;
@@ -1090,7 +1087,6 @@ div.other-status-owner-name {
 	);
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
-
 	transition: font-weight 0.1s;
 }
 
