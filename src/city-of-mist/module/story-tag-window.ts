@@ -1,3 +1,4 @@
+import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import {HTMLTools} from "./tools/HTMLTools.js";
 import {SceneTags} from "./scene-tags.js";
@@ -49,7 +50,6 @@ export class StoryTagDisplayContainer {
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
 		Hooks.on("createCombatant", () =>this.refreshContents() );
 		Hooks.on("deleteCombatant", () =>this.refreshContents());
-
 	}
 
 	async refreshContents() {
@@ -103,6 +103,7 @@ export class StoryTagDisplayContainer {
 		html.find(".create-status").on("click", this.createStatus );
 		html.find(".combatant-name").on("click", this.centerOnToken );
 		html.find(".combatant-name").rightclick( this.openSheet );
+		html.find(".combatant-block").on("drop", this._dragDropEvent.bind(this));
 
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
 	}
@@ -165,7 +166,49 @@ export class StoryTagDisplayContainer {
 			}
 	}
 
+	async _dragDropEvent(event: JQuery.DropEvent) {
+		debugger;
+		const dragging = $(document).find(".dragging");
+		if (dragging.length != 1) {
+			console.warn ("Something went wrong with dragging");
+			return;
+		}
+		let x = this.getTokenAt(event);
+		if (x == undefined) {
+			ui.notifications.error("Error with Drag and Drop");
+			return;
+		}
+		if (x instanceof Token) {
+			x = x.actor;
+		}
+		if (x instanceof CityActor) {
+			await DragAndDrop.dropDraggableOnActor(dragging, x);
+			return;
+		}
+		if (x == SceneTags) {
+			await DragAndDrop.dropDraggableOnSceneTags(dragging);
+			return;
+		}
+	}
+
+	getTokenAt(event: JQuery.Event) : Token<CityActor> | CityActor |  typeof SceneTags | undefined {
+		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
+		if (ownerId.length < 1) {
+			return SceneTags;
+		}
+		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", ""));
+		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", ""));
+		const x = CityHelpers.getOwner(ownerId, tokenId, sceneId);
+		if (x instanceof CityActor) {
+			return x;
+		}
+		else {
+			return undefined;
+		}
+	}
+
 }
+
 
 
 

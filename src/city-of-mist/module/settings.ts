@@ -77,7 +77,7 @@ export class CitySettings {
 			default:
 				system satisfies never;
 				console.warn(`Unknown System :${system}`);
-				return "classic;"
+				return "classic"
 		}
 	}
 

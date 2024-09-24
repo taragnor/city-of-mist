@@ -1,3 +1,5 @@
+import { DragAndDrop } from "./dragAndDrop.js";
+import { CityActor } from "./city-actor.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Clue } from "./city-item.js";
 
@@ -449,26 +451,30 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async statusDrop({name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
-		if (!tier)
-			throw new Error(`Tier is not valid ${tier}`);
-		const retval = await CityDialogs.statusDropDialog(this.actor, name, tier);
-		if (retval == null) return null;
-		switch (retval.action) {
-			case 'create':
-				const status = await this.actor.addOrCreateStatus(retval.name, retval.tier, retval.pips, options);
-				await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${retval.tier}`);
-				return status;
-			case 'merge':
-				const origStatus =   this.actor.getStatus(retval.statusId!)!;
-				options.newName = retval.name;
-				await origStatus.addStatus(retval.tier, options);
-				await HTMLHandlers.reportStatusAdd(this.actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
-				return origStatus;
-			default:
-				retval.action satisfies never;
-				throw new Error(`Unknown action : ${retval.action}`);
-		}
-	}
+		await DragAndDrop.statusDrop(this.actor, {name, tier}, options);
+}
+
+	// async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
+	// 	if (!tier)
+	// 		throw new Error(`Tier is not valid ${tier}`);
+	// 	const retval = await CityDialogs.statusDropDialog(this.actor, name, tier);
+	// 	if (retval == null) return null;
+	// 	switch (retval.action) {
+	// 		case 'create':
+	// 			const status = await actor.addOrCreateStatus(retval.name, retval.tier, retval.pips, options);
+	// 			await CityHelpers.modificationLog(this.actor, "Created", status, `tier  ${retval.tier}`);
+	// 			return status;
+	// 		case 'merge':
+	// 			const origStatus =   this.actor.getStatus(retval.statusId!)!;
+	// 			options.newName = retval.name;
+	// 			await origStatus.addStatus(retval.tier, options);
+	// 			await HTMLHandlers.reportStatusAdd(this.actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
+	// 			return origStatus;
+	// 		default:
+	// 			retval.action satisfies never;
+	// 			throw new Error(`Unknown action : ${retval.action}`);
+	// 	}
+	// }
 
 	async _statusSubtract (event: JQuery.Event) {
 		return HTMLHandlers.statusSubtract(event);

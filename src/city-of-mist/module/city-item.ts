@@ -674,11 +674,15 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		switch (system) {
 			case "classic":
 				status = await this.addStatus_CoM(tierOrBoxes, newname);
+				break;
 			case"classic-commutative":
 				status = await this.addStatus_CoM(tierOrBoxes, newname);
+				break;
 			case "mist-engine":
 				status = await this.addStatus_ME(tierOrBoxes, newname);
+				break;
 			default:
+				system satisfies never;
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to CoM`);
 				status = await this.addStatus_CoM(tierOrBoxes, newname);
 		}

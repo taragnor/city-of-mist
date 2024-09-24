@@ -1,27 +1,30 @@
 <div class="story-tag-window {{#if shrink}} font-shrink {{/if}}">
-	<div class="combatant-name flex-row">
-		<span class="name flex-wide">
-			{{localize "CityOfMist.terms.scene"}}
-		</span>
-		{{#if (isGM)}}
-		<div class="shrink-icon">
-			<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
+	<div class="combatant-block">
+		<div class="combatant-name flex-row">
+			<span class="name flex-wide">
+				{{localize "CityOfMist.terms.scene"}}
+			</span>
+			{{#if (isGM)}}
+			<div class="shrink-icon">
+				<a class="create-story-tag" data-item-type="tag" title="{{localize 'CityOfMist.tooltip.createStory'}}" data-sub-type="story" > <i class="fas fa-tag"> </i> </a>
+			</div>
+			<div class="shrink-icon">
+				<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+			</div>
+			{{/if}}
 		</div>
-		<div class="shrink-icon">
-			<a class="create-status" title="{{localize 'CityOfMist.tooltip.createStatus'}}" data-item-type="status" data-duplicates="false" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
-		</div>
-		{{/if}}
+		<hr>
+		<ul class="tag-or-status-list">
+			{{#each tagsAndStatuses as |item|}}
+			<li class="tag-or-status">
+				{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=item sheetowner=null locked=true}}
+			</li>
+			{{/each}}
+		</ul>
 	</div>
-	<hr>
-	<ul class="tag-or-status-list">
-		{{#each tagsAndStatuses as |item|}}
-		<li class="tag-or-status">
-			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=item sheetowner=null locked=true}}
-		</li>
-		{{/each}}
-	</ul>
+
 	{{#each combatants as |combatant|}}
-	<div class="" data-owner-id="{{combatant.actorId}}" data-token-id="{{combatant.tokenId}}" data-scene-id="{{combatant.sceneId}}">
+	<div class="combatant-block" data-owner-id="{{combatant.actorId}}" data-token-id="{{combatant.tokenId}}" data-scene-id="{{combatant.sceneId}}">
 		<div class="combatant-name flex-row">
 			<span>
 				{{#if (isGM)}}
@@ -40,37 +43,37 @@
 			</div>
 			{{/if}}
 		</div>
-	</div>
 
-	<ul class="tag-or-status-list">
-		{{#each combatant.actor.my_story_tags as |tag|}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
+		<ul class="tag-or-status-list">
+			{{#each combatant.actor.my_story_tags as |tag|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
+			{{/each}}
+			{{#each combatant.actor.my_statuses as |status|}}
+			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
+			{{/each}}
+		</ul>
 		{{/each}}
-		{{#each combatant.actor.my_statuses as |status|}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
-		{{/each}}
-	</ul>
-	{{/each}}
-	<hr>
-	{{#each showcasedActors as |actor|}}
-	<div class="" data-owner-id="{{actor.id}}" data-token-id="" data-scene-id="">
-	<div class="combatant-name">
-		<span class="name">
-			{{actor.displayedName}}
-		</span>
-	</div>
-	<ul class="tag-or-status-list">
-		{{#each actor.my_story_tags as |tag|}}
-		{{#if tag.isShowcased}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
-		{{/if}}
-		{{/each}}
-		{{#each actor.my_statuses as |status|}}
-		{{#if status.isShowcased}}
-		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
-		{{/if}}
-		{{/each}}
-	</ul>
+		<hr>
+		{{#each showcasedActors as |actor|}}
+		<div class="" data-owner-id="{{actor.id}}" data-token-id="" data-scene-id="">
+			<div class="combatant-name">
+				<span class="name">
+					{{actor.displayedName}}
+				</span>
+			</div>
+			<ul class="tag-or-status-list">
+				{{#each actor.my_story_tags as |tag|}}
+				{{#if tag.isShowcased}}
+				{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
+				{{/if}}
+				{{/each}}
+				{{#each actor.my_statuses as |status|}}
+				{{#if status.isShowcased}}
+				{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
+				{{/if}}
+				{{/each}}
+			</ul>
+		</div>
 	</div>
 	{{/each}}
 </div>

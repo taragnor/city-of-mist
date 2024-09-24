@@ -1,3 +1,6 @@
+import { HTMLHandlers } from "./universal-html-handlers.js";
+import { CityDialogs } from "./city-dialogs.js";
+import { SceneTags } from "./scene-tags.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
 import { CityDB } from "./city-db.js";
 import { CityActor } from "./city-actor.js";
@@ -19,7 +22,28 @@ export class DragAndDrop {
 	}
 
 	static getDraggableType(draggable: JQuery) {
-		return draggable.data("draggableType");
+		return draggable.data("draggableType") as "status" | "tag" | "gmmove" | "threat";
+	}
+
+	static async dropDraggableOnSceneTags (draggable: JQuery) {
+		if (!game.user.isGM) return;
+		const draggableType = DragAndDrop.getDraggableType(draggable);
+		const options = draggable.data("options") ?? {};
+		switch ( draggableType ) {
+			case "status":
+				const protoStatus = await CityHelpers.parseStatusString(draggable.text());
+				await SceneTags.statusDrop(protoStatus, options);
+				break;
+			case "tag":
+				await SceneTags.createSceneTag(draggable.text(), true, options);
+				break;
+			case "gmmove":
+			case "threat":
+				break;
+			default:
+				draggableType satisfies never;
+				break;
+		}
 	}
 
 	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor) {
@@ -50,7 +74,31 @@ export class DragAndDrop {
 			case "threat":
 
 				break;
-			default: console.warn(`Unknown draggableType: ${draggableType}`);
+			default:
+				draggableType satisfies never;
+				console.warn(`Unknown draggableType: ${draggableType}`);
+		}
+	}
+
+	static async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
+		if (!tier)
+			throw new Error(`Tier is not valid ${tier}`);
+		const retval = await CityDialogs.statusDropDialog(actor, name, tier);
+		if (retval == null) return null;
+		switch (retval.action) {
+			case 'create':
+				const status = await actor.addOrCreateStatus(retval.name, retval.tier, retval.pips, options);
+				await CityHelpers.modificationLog(actor, "Created", status, `tier  ${retval.tier}`);
+				return status;
+			case 'merge':
+				const origStatus =   actor.getStatus(retval.statusId!)!;
+				options.newName = retval.name;
+				await origStatus.addStatus(retval.tier, options);
+				await HTMLHandlers.reportStatusAdd(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
+				return origStatus;
+			default:
+				retval.action satisfies never;
+				throw new Error(`Unknown action : ${retval.action}`);
 		}
 	}
 

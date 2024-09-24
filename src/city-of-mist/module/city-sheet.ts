@@ -186,7 +186,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		return CityHelpers.sendToChatBox(title, text, options);
 	}
 
-	async _dragDropEvent (_event : Event) {
+	async _dragDropEvent (_event : JQuery.DropEvent) {
 		const dragging = $(document).find(".dragging");
 		if (dragging.length != 1) {
 			console.warn ("Something went wrong with dragging");
