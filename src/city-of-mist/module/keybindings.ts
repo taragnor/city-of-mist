@@ -1,3 +1,4 @@
+import { StoryTagDisplayContainer } from "./story-tag-window.js";
 
 import { CityHelpers } from "./city-helpers.js";
 
@@ -12,6 +13,7 @@ export class CityKeyBinds {
 		this.init_narration();
 		this.init_downtime();
 		this.init_sessionEnd();
+		this.init_StoryTagHider();
 	}
 
 	static init_narration() {
@@ -58,6 +60,23 @@ export class CityKeyBinds {
 			onDown: () => {CityHelpers.sessionEnd()},
 			onUp: () => {},
 			restricted: true,// GM only?
+			reservedModifiers: [],
+			precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
+		});
+
+	}
+
+	static init_StoryTagHider() {
+		game.keybindings.register("city-of-mist", "hideStory", {
+			name: localize("CityOfMist.keybinds.storyTagHider.name"),
+			hint: localize("CityOfMist.keybinds.storyTagHider.hint" ),
+			uneditable: [ ],
+			editable: [
+				{ key: "KeyS", modifiers: ["Alt"]}
+			],
+			onDown: () => {StoryTagDisplayContainer.toggleVisibility()},
+			onUp: () => {},
+			restricted: false,// GM only?
 			reservedModifiers: [],
 			precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
 		});

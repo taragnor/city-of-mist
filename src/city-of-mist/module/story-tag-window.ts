@@ -7,13 +7,14 @@ import {HTMLHandlers} from "./universal-html-handlers.js";
 import { CitySettings } from "./settings.js";
 
 export class StoryTagDisplayContainer {
-	element: HTMLElement;
-	dataElement: HTMLElement;
+	element: HTMLDivElement;
+	dataElement: HTMLDivElement;
+	static instance: StoryTagDisplayContainer;
 
 	static init() {
 		Hooks.once('cityDBLoaded', () => {
 			if (CityHelpers.sceneTagWindowEnabled())  {
-				new StoryTagDisplayContainer();
+				StoryTagDisplayContainer.instance = new StoryTagDisplayContainer();
 			}
 		});
 	}
@@ -59,9 +60,6 @@ export class StoryTagDisplayContainer {
 			return false;
 		}
 		const combatants = !game.combat ? [] : (game.combat.combatants.contents as Combatant<CityActor>[])
-			// .flatMap( combat => {
-			// 	return combat.combatants.contents as Combatant<CityActor>[];
-			// })
 			.filter(combatant => {
 				if (!combatant.actor) return false;
 				if (CityHelpers.sceneTagWindowFilterEmpty())
@@ -83,7 +81,6 @@ export class StoryTagDisplayContainer {
 			.length;
 		}, 3);
 		const shrink = (combatActorsSize + showcasedActorsSize) > 50;
-		// console.log(`Shrink: ${shrink}, cas: ${combatActorsSize}, saz: ${showcasedActorsSize}`);
 		const templateData = {
 			tagsAndStatuses,
 			combatants,
@@ -205,6 +202,19 @@ export class StoryTagDisplayContainer {
 		else {
 			return undefined;
 		}
+	}
+
+	async toggleVisibility() {
+		const element = $(this.element);
+		if ( element.css('visibility') == 'hidden' ) {
+			element.css('visibility','visible');
+		} else {
+			element.css('visibility','hidden');
+		}
+	}
+
+	static async toggleVisibility() {
+		this.instance.toggleVisibility();
 	}
 
 }

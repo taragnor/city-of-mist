@@ -52,9 +52,11 @@
 			{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
 			{{/each}}
 		</ul>
-		{{/each}}
-		<hr>
-		{{#each showcasedActors as |actor|}}
+	</div>
+	{{/each}}
+	<hr>
+	{{#each showcasedActors as |actor|}}
+	<div class="combatant-block" data-owner-id="{{actor.id}}" data-token-id="{{actor.token.id}}" data-scene-id="">
 		<div class="" data-owner-id="{{actor.id}}" data-token-id="" data-scene-id="">
 			<div class="combatant-name">
 				<span class="name">

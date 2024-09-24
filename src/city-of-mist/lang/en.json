@@ -684,12 +684,15 @@
 
 
 "CityOfMist.keybinds.narration.name" : "Narration Box",
-"CityOfMist.keybinds.narration.help" :"Used for Narrating scenes (has special tag and status synatx similar to GM moves)",
+"CityOfMist.keybinds.narration.hint" :"Used for Narrating scenes (has special tag and status synatx similar to GM moves)",
 "CityOfMist.keybinds.sessionEnd.name" : "Session End",
-"CityOfMist.keybinds.sessionEnd.help" :"Initiates the End of Session Move for all players, refreshing Flashbacks and other session-based resources.",
+"CityOfMist.keybinds.sessionEnd.hint" :"Initiates the End of Session Move for all players, refreshing Flashbacks and other session-based resources.",
 
 "CityOfMist.keybinds.startDowntime.name" : "Start Downtime",
-"CityOfMist.keybinds.startDowntime.help" :"Triggers downtime choices for all players and allows the MC to select from downtime moves of visible and invisible tokens actors on current scene",
+"CityOfMist.keybinds.startDowntime.hint" :"Triggers downtime choices for all players and allows the MC to select from downtime moves of visible and invisible tokens actors on current scene",
+
+"CityOfMist.keybinds.storyTagHider.name" : "Hide/Show Story Tag Window",
+"CityOfMist.keybinds.storyTagHider.hint" : "Press the shortcut key to hide or show the Story Tag Window",
 
 "CityOfMist.tooltip.createStory": "Create Story Tag",
 "CityOfMist.tooltip.createStatus": "Create New Status",
