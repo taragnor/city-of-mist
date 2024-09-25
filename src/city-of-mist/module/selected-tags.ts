@@ -1,4 +1,3 @@
-import { CityDB } from "./city-db.js";
 import { localize } from "./city.js";
 import { ReviewableItem } from "./ReviewableModifierList.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
@@ -25,18 +24,18 @@ export type ShorthandNotation = {
 };
 
 export type ActivatedTagFormat = {
-			name: string,
-			id: string,
-			amount: number,
-			ownerId: string,
-			tagId: string,
-			type: CityItem["type"] | "modifier",
-			description: string,
-			subtype: string,
-			strikeout: boolean,
-			review: "pending" ,
-			tokenId: string,
-			crispy: boolean
+	name: string,
+	id: string,
+	amount: number,
+	ownerId: string,
+	tagId: string,
+	type: CityItem["type"] | "modifier",
+	description: string,
+	subtype: string,
+	strikeout: boolean,
+	review: "pending" ,
+	tokenId: string,
+	crispy: boolean
 };
 export class SelectedTagsAndStatus {
 
@@ -48,7 +47,7 @@ export class SelectedTagsAndStatus {
 	}
 
 	/** returns -1, 0, 1 for which direction activateabley is set in
-	*/
+	 */
 	static toggleSelectedItem(tagOrStatus: Tag | Status, direction = 1) {
 		const item = this._playerActivatedStuff.find( x => x.id == tagOrStatus.id && x.tokenId == tagOrStatus.parent!.tokenId);
 		if (item) {
@@ -110,7 +109,7 @@ export class SelectedTagsAndStatus {
 	}
 
 	/** returns shorthand version of tags and statuses
-	*/
+	 */
 	static getPlayerActivatedTagsAndStatus() : ActivatedTagFormat[] {
 		//TODO: return only valid tags and status (not on deleted tokens)
 		return this._playerActivatedStuff
@@ -136,9 +135,10 @@ export class SelectedTagsAndStatus {
 	}
 
 	/** returns full foundry objects for tags and statuses
-	*/
-	static getPlayerActivatedTagsAndStatusItems() {
+	 */
+	static getPlayerActivatedTagsAndStatusItems(filterFn = (_x: ActivatedTagFormat) => true) {
 		return this.getPlayerActivatedTagsAndStatus()
+			.filter(filterFn)
 			.map( tagShortHand => this.resolveTagAndStatusShorthand(tagShortHand));
 	}
 
@@ -205,12 +205,12 @@ export class SelectedTagsAndStatus {
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
-		if (!this.checkValidityForSelect(tag)) {
-			return;
-		}
 		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
 			direction *= -1;
+		if (!this.checkValidityForSelect(tag, direction)) {
+			return;
+		}
 		const activated = this.toggleSelectedItem(tag, direction);
 
 		if (activated === null) return;
@@ -228,20 +228,22 @@ export class SelectedTagsAndStatus {
 		}
 	}
 
-	static checkValidityForSelect(item: Tag | Status) : boolean {
-		const selected = this.getPlayerActivatedTagsAndStatusItems();
-		if (item.system.type == "tag" && item.system.subtype == "loadout" && !item.system.activated_loadout) {
+	static checkValidityForSelect(item: Tag | Status, direction: number) : boolean {
+		const selected = this.getPlayerActivatedTagsAndStatusItems(x => x.amount > 0);
+		if (item.system.type == "tag"
+			&& item.system.subtype == "loadout"
+			&& !item.system.activated_loadout) {
 			const msg = localize ("General.error.LOTagNotLoaded")
 			ui.notifications.notify(msg);
 			return false;
 		}
-		if ( item.creators.some( creator => selected.includes(creator) )
+		if ( direction > 0 && item.creators.some( creator => selected.includes(creator) )
 		) {
 			const msg = localize ("General.error.LinkedTagError")
 			ui.notifications.notify(msg);
 			return false;
 		}
-		if (selected
+		if (direction > 0 && selected
 			.some( selItem => selItem.creators.includes(item))
 		) {
 			const msg = localize ("General.error.LinkedTagError2")
@@ -273,6 +275,9 @@ export class SelectedTagsAndStatus {
 		const status = owner.getStatus(id);
 		if (!status) {
 			console.error(`Couldn't find status ${id}`);
+			return;
+		}
+		if (!this.checkValidityForSelect(status, direction)) {
 			return;
 		}
 		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
