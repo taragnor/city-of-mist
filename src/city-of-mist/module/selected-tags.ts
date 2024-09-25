@@ -70,12 +70,12 @@ export class SelectedTagsAndStatus {
 		Hooks.callAll("TagOrStatusSelectChange");
 	}
 
-	static toActivatedTagFormat(tagOrStatus: ReviewableItem["item"], direction =1, amountUsed = 1): ActivatedTagFormat {
+	static toActivatedTagFormat(tagOrStatus: ReviewableItem["item"], direction = 1, amountUsed = 1): ActivatedTagFormat {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
 		const tag = x.type == "tag" ? tagOrStatus : null;
-		let subtype : string = tag ? tag.system.subtype : "";
+		let subtype : string = tag ? (tag as Tag).system.subtype : "";
 		subtype = tagOrStatus.type == "juice" && direction>0 ? "help": subtype;
 		subtype = tagOrStatus.type == "juice" && direction<0 ? "hurt": subtype;
 		const base_amount = tagOrStatus.isStatus() ? tagOrStatus.system.tier : 1;

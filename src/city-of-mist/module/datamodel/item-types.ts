@@ -1,3 +1,5 @@
+import { TAG_CATEGORY_LIST } from "../config/tag-categories.js";
+import { STATUS_CATEGORY_LIST } from "../config/status-categories.js";
 import { UniversalItemAccessor } from "../tools/db-accessor.js";
 import { ThemekitTagData } from "./default-themekit.js";
 import { ThemekitImprovementData } from "./default-themekit.js";
@@ -135,6 +137,7 @@ class TagDM extends DataModel {
 			question: new txt(),
 			question_letter: new txt(),
 			subtype: new txt({choices: TAGTYPES, initial:"story"}),
+			category: new txt({choices: TAG_CATEGORY_LIST, initial: "none"}),
 			burn_state: new num({initial: 0}),
 			burned: new bool({initial: false}),
 			crispy: new bool({initial: false}),
@@ -282,7 +285,7 @@ class StatusDM extends DataModel {
 		return {
 			...defaultItem(),
 			...tiered(),
-			subtype: new txt(), //what does this field do?
+			category: new txt({initial: "none", choices:STATUS_CATEGORY_LIST}),
 			hidden: new bool({initial: false}),
 			spectrum_status: new txt(),
 			temporary: new bool({initial: false}),

@@ -177,6 +177,30 @@
 "MistEngine.rollEffects.effect.discover": "Discover",
 "MistEngine.rollEffects.effect.extra-feat": "Extra Feat",
 
+"MistEngine.rollEffects.effect.extra.clue.name": "Clue",
+"MistEngine.rollEffects.effect.extra.extra-feat.name": "Extra Feat",
+"MistEngine.rollEffects.effect.extra.recover-burn.name": "Recover Burned Tag",
+
+"MistEngine.tag.category.none.name": "-",
+"MistEngine.tag.category.hindering.name": "Hindering",
+"MistEngine.tag.category.weakening.name": "Weakening",
+"MistEngine.tag.category.ability.name": "Ability",
+"MistEngine.tag.category.empower.name": "Empower",
+"MistEngine.tag.category.object.name": "Object",
+"MistEngine.tag.category.being.name": "Being",
+
+"MistEngine.status.category.none.name": "-",
+"MistEngine.status.category.harm.name": "Harm",
+"MistEngine.status.category.hindering.name": "Hindering",
+"MistEngine.status.category.compelling.name": "Compelling",
+"MistEngine.status.category.weakening.name": "Weaken",
+"MistEngine.status.category.advantage.name": "Advantage",
+"MistEngine.status.category.restore.name": "Restore",
+"MistEngine.status.category.advance.name": "Advance",
+"MistEngine.status.category.set-back.name": "Set Back",
+
+
+"MistEngine.effects.none.name": "-",
 
 "CityOfMist.terms.loadoutTheme.name": "Loadout Theme",
 "Otherscape.terms.loadoutTheme.name": "Loadout",
