@@ -9,8 +9,9 @@ import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityHelpers } from "./city-helpers.js";
 import { HTMLTools } from "./tools/HTMLTools.js"
-import { ThemeKit } from "./city-item.js";
 import { CityItem } from "./city-item.js";
+import { TAG_CATEGORIES } from "./config/tag-categories.js";
+import { STATUS_CATEGORIES } from "./config/status-categories.js";
 
 export class CityItemSheet extends ItemSheet<CityItem> {
 
@@ -34,6 +35,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
 			"any":  "CityOfMist.terms.any",
 		} as const;
+		data.CONST = {
+			TAG_CATEGORIES,
+			STATUS_CATEGORIES,
+		};
 		data.FADE_TYPE_LIST = FADETYPELIST;
 		data.TBSYSTEMLIST = SysChoices;
 		data.THEMESUBTYPES = THEME_TYPES;

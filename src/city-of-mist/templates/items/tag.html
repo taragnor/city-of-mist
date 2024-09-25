@@ -11,6 +11,14 @@
 	{{else}}
 	<input type="text" class="tag-question-entry" name="system.question" value="{{item.system.question}}">
 	{{/if}}
+
+	<label>
+		{{localize "MistEngine.terms.category"}}
+	</label>
+	<select name="system.category">
+		{{selectOptions CONST.TAG_CATEGORIES localize=true selected=item.system.category}}
+	</select>
+
 	{{#if (eq item.system.subtype "power")}}
 	<label for="crispy">
 		{{localize "CityOfMist.terms.crispyTag"}}

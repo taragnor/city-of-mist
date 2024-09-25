@@ -14,6 +14,14 @@
 	<label class="dialog-label" for="temp">
 		{{localize "CityOfMist.terms.temporary"}}
 	</label>
+	<label>
+		{{localize "MistEngine.terms.category"}}
+	</label>
+	<select name="system.category">
+		{{selectOptions CONST.STATUS_CATEGORIES localize=true selected=item.system.category}}
+	</select>
+
+	<hr>
 	<input id="temporary-status-checkbox" class="item-checkbox" type="checkbox" name="system.temporary" {{#if item.system.temporary}} checked {{/if}}>
 	<label class="dialog-label" for="permanent">
 		{{localize "CityOfMist.terms.permanent"}}
