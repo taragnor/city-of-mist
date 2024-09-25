@@ -97,6 +97,25 @@ export class HTMLTools {
 		});
 	}
 
+	static writeHTMLSelector( dataKey: string, initial: string | number, choices: Required<DDElement<any>>["choices"], label ="", localize= false) : string {
+		if (Array.isArray(choices)) {
+			choices = Object.fromEntries(
+				choices.map( x=> [String(x),String(x)])
+			);
+		}
+		label = localize ? game.i18n.localize(label): label;
+		const selectItems = Object.entries(choices).map( ([k,v]) => {
+			if (v != k) {
+				v = game.i18n.localize(v);
+			}
+			return `<option value="${k}"> ${v} </option>`;
+		});
+		return `<select class="key-${dataKey}">
+		<label> ${label} </label>
+		${selectItems.join("")}
+		</select>`;
+	}
+
 	static async dynamicDialog<const T extends DDData>(elements: T, title = "") : Promise< { [a in keyof T]: NoInfer<T[a]["initial"]> } > {
 		let html = "";
 		for (const [k,v] of Object.entries(elements)) {
@@ -106,12 +125,20 @@ export class HTMLTools {
 			}
 			switch (typeof initial) {
 				case "string":
+					if ("choices" in v) {
+						html += this.writeHTMLSelector(k, initial, v.choices as string[], v.label, v.localize);
+						break;
+					}
 					html += `<div class="string-input key-${k}">
 					<label> ${v.label} </label>
 					<input type="text" value="${initial}">
 					</div> `;
 					break;
 				case "number":
+					if ("choices" in v) {
+						html += this.writeHTMLSelector(k, initial, v.choices as string[], v.label, v.localize);
+						break;
+					}
 					html += `<div class="number-input key-${k}">
 					<label> ${v.label} </label>
 					<input type="number" value="${initial}">
@@ -140,6 +167,15 @@ export class HTMLTools {
 						callback: (html: string) => {
 							const ret = Object.entries(elements)
 								.map( ([k, v]) => {
+									if (v.choices) {
+										const data = $(`select.key-${k}`).find(":selected").val();
+										debugger;
+										if (typeof v.initial == "number") {
+											return [k, Number(data)];
+										} else {
+											return [k, String(data)];
+										}
+									}
 									switch (typeof v.initial) {
 										case "string":
 											const str = String($(`.key-${k} input`).val());
@@ -335,12 +371,12 @@ declare global {
 }
 
 
-export type DDData = Record< string, DDElement<string  | number  | boolean>>;
+export type DDData = Record< string, DDElement<any>>;
 
 type DDElement<T extends string | number | boolean> = {
 	label: string,
-	initial: T,
 	/**decides whether to localize the label*/
 	localize?: boolean,
-	choices?: T[],
+	initial: T,
+	choices?: string[] | Record<string, string>,
 };

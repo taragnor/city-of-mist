@@ -1,3 +1,4 @@
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { CitySettings } from "./settings.js"
 import { COLLECTIVE } from "./datamodel/collective.js";
@@ -1000,8 +1001,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				crispy: false,
 				burned: false,
 				temporary,
-				permanent: options?.permanent ?? false,
-				createdBy: options.createdBy ?? [],
+				...options,
 			}
 		};
 		return await this.createNewItem(obj) as Tag;
@@ -1330,7 +1330,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2: string, tier2: number, pips=0, options: TagCreationOptions= {}) : Promise<Status> {
+	async addOrCreateStatus (name2: string, tier2: number, pips=0, options: StatusCreationOptions= {}) : Promise<Status> {
 		let status = this.hasStatus(name2);
 		if (status) {
 			return await status.addStatus(tier2, options);

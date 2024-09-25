@@ -1,5 +1,5 @@
 import { DragAndDrop } from "./dragAndDrop.js";
-import { TagCreationOptions } from "./config/statusDropTypes.js";
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { Status } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
 import { Tag } from "./city-item.js";
@@ -125,7 +125,7 @@ export class SceneTags {
 		return null;
 	}
 
-	static async statusDrop({name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
+	static async statusDrop({name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
 		const container = await this.#getSceneContainer(game.scenes.current);
 		const status = await DragAndDrop.statusDrop(container, {name, tier}, options);
 		if (status) {

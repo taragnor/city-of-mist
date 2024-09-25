@@ -1,3 +1,5 @@
+import { StatusCreationOptions } from "./config/statusDropTypes.js"
+
 import { DragAndDrop } from "./dragAndDrop.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Tag } from "./city-item.js";
@@ -47,12 +49,14 @@ type CreatedStatusData = {
 	name: string,
 	tier: number,
 	temporary: boolean,
+	options: StatusCreationOptions,
 };
 
 type CreatedTagData = {
 	type: "tag",
 	name: string,
 	temporary: boolean,
+	options: TagCreationOptions,
 };
 
 export type CRollOptions = {
@@ -133,10 +137,10 @@ export class CityRoll {
 				break;
 			case "SHB":
 			case "themeclassroll":
-				await this.themeClassRoll(themeType);
+				this.themeClassRoll(themeType);
 				break;
 			case "noroll":
-				await this.noRoll();
+				this.noRoll();
 				break;
 			default:
 				move.system.subtype satisfies never;
@@ -449,11 +453,11 @@ export class CityRoll {
 	}
 
 	async #sendRollToChat (messageOptions = {}) {
-		const messageData = {
+		const messageData : MessageData = {
 			speaker: ChatMessage.getSpeaker(),
 			content: this.#html,
 			user: game.user,
-			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+			style: CONST.CHAT_MESSAGE_STYLES.ROLL,
 			sound: this.#roll ? CONFIG.sounds.dice : undefined,
 			rolls: this.#roll ? [this.#roll] : undefined,
 		} satisfies MessageData;
@@ -651,12 +655,13 @@ export class CityRoll {
 
 	static async onCreateTag(chatMsg: ChatMessage) : Promise<void> {
 		const options= chatMsg.rolls[0].options as RollOptions;
-		const {name, temporary} = await CityDialogs.getTagCreationData();
-		if (name) {
+		const data = await CityDialogs.getTagCreationData();
+		if (data.name) {
 			options.createdItems.push( {
 				type: "tag",
-				name,
-				temporary
+				name: data.name,
+				temporary: data.temporary,
+				options: {...data as any}
 			});
 		}
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
@@ -664,13 +669,14 @@ export class CityRoll {
 
 	static async onCreateStatus(chatMsg: ChatMessage) : Promise<void> {
 		const options= chatMsg.rolls[0].options as RollOptions;
-		const {name, tier, temporary} = await CityDialogs.getStatusData();
-		if (name) {
+		const data = await CityDialogs.getStatusData();
+		if (data.name) {
 			options.createdItems.push( {
 				type: "status",
-				name,
-				tier,
-				temporary,
+				name: data.name,
+				tier: data.tier,
+				temporary: data.temporary,
+				options: {...data as any}
 			});
 		}
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
@@ -690,7 +696,7 @@ export class CityRoll {
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : TagCreationOptions = {}) : string {
+	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : StatusCreationOptions = {}) : string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
 	}
@@ -698,9 +704,9 @@ export class CityRoll {
 	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]): string {
 		switch (data.type) {
 			case "status":
-				return this.createStatusHtml(data.name, data.tier, options);
+				return this.createStatusHtml(data.name, data.tier, options, data.options);
 			case "tag":
-				return this.createTagHtml(data.name, options);
+				return this.createTagHtml(data.name, options, data.options);
 		}
 	}
 

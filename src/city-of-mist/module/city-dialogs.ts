@@ -1,3 +1,5 @@
+import { STATUS_CATEGORIES} from "./config/status-categories.js";
+import { TAG_CATEGORIES} from "./config/tag-categories.js";
 import { DDData } from "./tools/HTMLTools.js";
 import { CitySettings } from "./settings.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
@@ -764,6 +766,12 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				initial: false,
 				label: "CityOfMist.terms.temporaryTag",
 				localize: true,
+			},
+			category: {
+				initial: "none",
+				label: "CityOfMist.terms.category",
+				localize: true,
+				choices: TAG_CATEGORIES,
 			}
 		};
 		return  await HTMLTools.dynamicDialog(data);
@@ -785,7 +793,13 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				initial: false,
 				label: "CityOfMist.terms.temporary",
 				localize: true,
-			}
+			},
+			category: {
+				initial: "none",
+				label: "CityOfMist.terms.category",
+				localize: true,
+				choices: STATUS_CATEGORIES,
+			},
 
 		};
 		return  await HTMLTools.dynamicDialog(data);

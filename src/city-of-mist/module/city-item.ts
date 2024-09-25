@@ -1,3 +1,4 @@
+import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
@@ -667,7 +668,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return true;
 	}
 
-	async addStatus (this:Status, tierOrBoxes: number, options: TagCreationOptions) : Promise<Status> {
+	async addStatus (this:Status, tierOrBoxes: number, options: StatusCreationOptions) : Promise<Status> {
 		const newname = options?.newName ?? this.name;
 		const system = CitySettings.getStatusAdditionSystem();
 		let status : Status | null = null;
@@ -688,7 +689,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 		if (options.createdBy) {
 			const arr = status.system.createdBy ?? [];
-			for (const tagAcc of options.createdBy) {
+			for (const tagAcc of options.createdBy as Tag["system"]["createdBy"]) {
 				if (!arr
 					.some(x=> CityDB.accessorEq(tagAcc, x))) {
 					arr.push(tagAcc);
@@ -1437,9 +1438,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const toggled = !active;
 		await CityHelpers.playLoadoutToggle(toggled);
 		await this.update({"system.activated_loadout": toggled});
-		const subtags = this.parent!.loadout!.tags()
-			.filter(x=> x.system.parentId == this.id)
-			.forEach( tag => tag.update({"system.activated_loadout": toggled}));
+		// const subtags = this.parent!.loadout!.tags()
+		// 	.filter(x=> x.system.parentId == this.id)
+		// 	.forEach( tag => tag.update({"system.activated_loadout": toggled}));
 		return toggled;
 	}
 

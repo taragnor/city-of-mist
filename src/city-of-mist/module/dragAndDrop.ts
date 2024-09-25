@@ -1,3 +1,4 @@
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { HTMLHandlers } from "./universal-html-handlers.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { SceneTags } from "./scene-tags.js";
@@ -12,7 +13,7 @@ export class DragAndDrop {
 	static init() {
 	}
 
-	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : TagCreationOptions = {}) {
+	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : StatusCreationOptions = {}) {
 		debugger;
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
 		await actor.sheet.statusDrop(protostatus , options);
@@ -82,7 +83,7 @@ export class DragAndDrop {
 		}
 	}
 
-	static async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
+	static async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
 		if (!tier)
 			throw new Error(`Tier is not valid ${tier}`);
 		const retval = await CityDialogs.statusDropDialog(actor, name, tier);
@@ -152,7 +153,7 @@ export class DragAndDrop {
 		}
 	}
 
-	static htmlDraggableStatus(name: string, tier: number,  options: GMMoveOptions & TagCreationOptions) {
+	static htmlDraggableStatus(name: string, tier: number,  options: GMMoveOptions & (TagCreationOptions | StatusCreationOptions)) {
 		const autoStatus = options.autoApply ? "auto-status" : "";
 		return `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${name}-<span class="status-tier">${tier}</span></span>`;
 	}

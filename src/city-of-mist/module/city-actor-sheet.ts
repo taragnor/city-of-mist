@@ -1,5 +1,6 @@
 import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Clue } from "./city-item.js";
 
@@ -450,7 +451,7 @@ export class CityActorSheet extends CitySheet {
 		await HTMLHandlers.statusAdd(event);
 	}
 
-	async statusDrop({name, tier}: {name: string, tier:number}, options: TagCreationOptions) {
+	async statusDrop({name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
 		await DragAndDrop.statusDrop(this.actor, {name, tier}, options);
 }
 
