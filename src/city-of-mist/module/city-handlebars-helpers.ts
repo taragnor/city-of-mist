@@ -1,3 +1,4 @@
+import { Move } from "./city-item.js";
 import { RollOptions } from "./city-roll.js";
 import { CityRoll } from "./city-roll.js";
 import { Improvement } from "./city-item.js";
@@ -271,7 +272,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					return str == style;
 				case "mist-engine":
 					return str == style;
-				default: 
+				default:
 					str satisfies never;
 					ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
 					return false;
@@ -358,6 +359,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"generateCreatedRollItem": function (options: RollOptions, data: RollOptions["createdItems"][number]): SafeString {
 			return new Handlebars.SafeString(CityRoll.statusOrTagHtmlFromRollData(options, data));
+		},
+
+		"moveCanCreateTags": function (move: Move) : boolean {
+			return move.canCreateTags();
 		},
 
 	} //end of object holding helpers

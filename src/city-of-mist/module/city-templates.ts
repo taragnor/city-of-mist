@@ -52,6 +52,8 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/clue-list.hbs",
 	  "systems/city-of-mist/templates/parts/tag-status-card.hbs",
 	  "systems/city-of-mist/templates/parts/build-up-section.hbs",
+	  "systems/city-of-mist/templates/parts/move-create-tag-com.hbs",
+	  "systems/city-of-mist/templates/parts/move-create-tag-me.hbs",
   ];
 
   // Load the template parts

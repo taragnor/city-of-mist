@@ -1624,6 +1624,11 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 	}
 
+	canCreateTags(this: Move): boolean {
+		//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
+		return true;
+	}
+
 }
 
 export type Theme = Subtype<CityItem, "theme">;

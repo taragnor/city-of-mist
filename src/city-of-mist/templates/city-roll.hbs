@@ -58,27 +58,17 @@
 				{{li.text}} </li>
 			{{/each}}
 	</ul>
-	<hr>
 
-
-	{{#if createTagButton}}
-	<button class="create-story-tag">
-		<i class="fas fa-plus"></i><i class="fas fa-tag"></i>
-	</button>
-	<button class="create-status">
-		<i class="fas fa-plus"></i> {{localize "CityOfMist.terms.status"}}
-	</button>
-	{{/if}}
-	{{#if options.createdItems}}
+	{{#if (moveCanCreateTags move)}}
 	<hr>
-	<ul>
-		{{#each options.createdItems as |created i|}}
-		<li data-created-index="{{i}}">
-			{{generateCreatedRollItem ../options created}}
-			<a class="item-control delete-created-item" title="Delete Status/Tag"><i class="fas fa-trash"></i></a>
-		</li>
-		{{/each}}
-	</ul>
+	<div class="move-tag-status-creator">
+		{{#if ( isMistEngine )}}
+		{{> "systems/city-of-mist/templates/parts/move-create-tag-me.hbs" move=move options=options}}
+
+		{{else}}
+		{{> "systems/city-of-mist/templates/parts/move-create-tag-com.hbs" move=move options=options}}
+		{{/if}}
+	</div>
 	{{/if}}
 
 </div>
