@@ -72,9 +72,10 @@
 	{{#if options.createdItems}}
 	<hr>
 	<ul>
-		{{#each options.createdItems as |created|}}
-		<li>
+		{{#each options.createdItems as |created i|}}
+		<li data-created-index="{{i}}">
 			{{generateCreatedRollItem ../options created}}
+			<a class="item-control delete-created-item" title="Delete Status/Tag"><i class="fas fa-trash"></i></a>
 		</li>
 		{{/each}}
 	</ul>

@@ -680,6 +680,14 @@ export class CityRoll {
 		// return await this.outputTagOrStatusMsg(statusHtml);
 	}
 
+	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) {
+		const createdItems = (chatMsg.rolls[0].options as RollOptions).createdItems;
+		const index = Number(HTMLTools.getClosestDataNT(ev, "createdIndex", undefined));
+		if (index == undefined) return;
+		createdItems.splice(index, 1);
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+	}
+
 	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}) {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
@@ -887,6 +895,7 @@ export class CityRoll {
 		if (!options) return;
 		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
 		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
+		html.find(".city-roll .delete-created-item").on("click", ev => this.deleteCreatedItem(ev, msg));
 	}
 
 } //end of class
