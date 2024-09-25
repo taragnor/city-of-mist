@@ -1001,7 +1001,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				burned: false,
 				temporary,
 				permanent: options?.permanent ?? false,
-				createdBy: options.creatorTags ?? [],
+				createdBy: options.createdBy ?? [],
 			}
 		};
 		return await this.createNewItem(obj) as Tag;

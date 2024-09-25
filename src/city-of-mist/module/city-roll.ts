@@ -681,13 +681,13 @@ export class CityRoll {
 	}
 
 	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}) {
-		creationOptions.creatorTags =  this.getCreatorTags(options);
+		creationOptions.createdBy =  this.getCreatorTags(options);
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
 		return tagHtml;
 	}
 
 	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : TagCreationOptions = {}) {
-		creationOptions.creatorTags =  this.getCreatorTags(options);
+		creationOptions.createdBy =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
 	}
 

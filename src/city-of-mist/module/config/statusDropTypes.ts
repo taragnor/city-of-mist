@@ -5,6 +5,6 @@ export type StatusDropOptions = {
 export type TagCreationOptions = {
 	temporary ?: boolean,
 	permanent ?: boolean,
-	creatorTags ?: (Tag["system"]["createdBy"]);
+	createdBy ?: (Tag["system"]["createdBy"]);
 	newName ?: string;
 }

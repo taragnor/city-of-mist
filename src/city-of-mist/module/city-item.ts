@@ -686,9 +686,9 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to CoM`);
 				status = await this.addStatus_CoM(tierOrBoxes, newname);
 		}
-		if (options.creatorTags) {
+		if (options.createdBy) {
 			const arr = status.system.createdBy ?? [];
-			for (const tagAcc of options.creatorTags) {
+			for (const tagAcc of options.createdBy) {
 				if (!arr
 					.some(x=> CityDB.accessorEq(tagAcc, x))) {
 					arr.push(tagAcc);
