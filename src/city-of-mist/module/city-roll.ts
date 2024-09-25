@@ -587,7 +587,7 @@ export class CityRoll {
 		return true;
 	}
 
-	async themeClassRoll( themeType: ThemeType) {
+	themeClassRoll( themeType: ThemeType) {
 		if (!themeType) throw new Error("Theme type can't be empty");
 		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
@@ -598,7 +598,7 @@ export class CityRoll {
 
 	}
 
-	async logosRoll () {
+	logosRoll () {
 		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
@@ -607,7 +607,7 @@ export class CityRoll {
 		});
 	}
 
-	async mythosRoll () {
+	mythosRoll () {
 		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
@@ -616,7 +616,7 @@ export class CityRoll {
 		});
 	}
 
-	async mistRoll () {
+	mistRoll () {
 		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
@@ -625,7 +625,7 @@ export class CityRoll {
 		});
 	}
 
-	async noRoll () {
+	noRoll () {
 		const rollOptions = {
 			noTags: true,
 			noStatus: true,
@@ -634,7 +634,7 @@ export class CityRoll {
 		foundry.utils.mergeObject(this.#options, rollOptions);
 	}
 
-	static async diceModListeners (_app: unknown, html: JQuery, _data: unknown) {
+	static async diceModListeners (_app: unknown, html: JQuery, _data: unknown) : Promise<true> {
 		html.on('click', '.edit-roll', CityRoll._editRoll.bind(this));
 		html.on('click', '.roll-selector-checkbox', CityRoll._checkOption.bind(this));
 		html.on('click', '.roll-modifiers .name', CityRoll._strikeoutModifierToggle.bind(this));
@@ -642,14 +642,14 @@ export class CityRoll {
 		return true;
 	}
 
-	static async showEditButton (_app: unknown, html: string | JQuery, _data: unknown) {
+	static async showEditButton (_app: unknown, html: string | JQuery, _data: unknown) : Promise<true> {
 		if (game.user.isGM) {
 			$(html as JQuery).find('.edit-roll').css("display", "inline-block");
 		}
 		return true;
 	}
 
-	static async onCreateTag(chatMsg: ChatMessage) {
+	static async onCreateTag(chatMsg: ChatMessage) : Promise<void> {
 		const options= chatMsg.rolls[0].options as RollOptions;
 		const {name, temporary} = await CityDialogs.getTagCreationData();
 		if (name) {
@@ -662,7 +662,7 @@ export class CityRoll {
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static async onCreateStatus(chatMsg: ChatMessage) {
+	static async onCreateStatus(chatMsg: ChatMessage) : Promise<void> {
 		const options= chatMsg.rolls[0].options as RollOptions;
 		const {name, tier, temporary} = await CityDialogs.getStatusData();
 		if (name) {
@@ -676,7 +676,7 @@ export class CityRoll {
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) {
+	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) : Promise<void> {
 		const createdItems = (chatMsg.rolls[0].options as RollOptions).createdItems;
 		const index = Number(HTMLTools.getClosestDataNT(ev, "createdIndex", undefined));
 		if (index == undefined) return;
@@ -684,18 +684,18 @@ export class CityRoll {
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}) {
+	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}): string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : TagCreationOptions = {}) {
+	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : TagCreationOptions = {}) : string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
 	}
 
-	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]) {
+	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]): string {
 		switch (data.type) {
 			case "status":
 				return this.createStatusHtml(data.name, data.tier, options);
@@ -737,7 +737,7 @@ export class CityRoll {
 			.filter (item => item != undefined) as Tag[];
 	}
 
-	static async _strikeoutModifierToggle(event: Event) {
+	static async _strikeoutModifierToggle(event: Event) : Promise<void> {
 		if (!game.user.isGM) return;
 		event.preventDefault();
 		const modifierId = HTMLTools.getClosestData(event, "modifierId");
