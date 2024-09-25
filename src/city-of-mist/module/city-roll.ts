@@ -33,13 +33,27 @@ export type RollModifier = {
 	tokenId ?: string;
 }
 
-type RollOptions = CRollOptions & {
+export type RollOptions = CRollOptions & {
 	actorId: string,
 	modifiers :RollModifier[],
 	tags: RollModifier[],
 	moveId :string;
 	autoAttention :boolean;
+	createdItems: (CreatedStatusData | CreatedTagData)[];
 }
+
+type CreatedStatusData = {
+	type: "status",
+	name: string,
+	tier: number,
+	temporary: boolean,
+};
+
+type CreatedTagData = {
+	type: "tag",
+	name: string,
+	temporary: boolean,
+};
 
 export type CRollOptions = {
 	newtype ?: Exclude<ThemeType, "">;
@@ -72,7 +86,6 @@ export class CityRoll {
 	#html: string ;
 	#msgId : string;
 	#selectedList : ActivatedTagFormat[];
-	#trackedRollChoices: TrackedRollChoice[] = [];
 
 	constructor (moveId: string, actor: CityActor | null, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
 		this.#roll = null;
@@ -274,6 +287,7 @@ export class CityRoll {
 		r.options.actorId = this.#actor?.id;
 		r.options.moveId = this.#moveId;
 		r.options.autoAttention = CitySettings.isAutoWeakness();
+		r.options.createdItems = [];
 		this.#roll = r;
 	}
 
@@ -635,31 +649,55 @@ export class CityRoll {
 		return true;
 	}
 
-	static async onCreateTag(options: RollOptions) {
-		const name = await CityDialogs.getTagName();
-		const tagHtml = this.createTagHtml(name, options);
-		return await this.outputTagOrStatusMsg(tagHtml);
+	static async onCreateTag(chatMsg: ChatMessage) {
+		const options= chatMsg.rolls[0].options as RollOptions;
+		const {name, temporary} = await CityDialogs.getTagCreationData();
+		if (name) {
+			options.createdItems.push( {
+				type: "tag",
+				name,
+				temporary
+			});
+		}
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+		// const tagHtml = this.createTagHtml(name, options);
+		// return await this.outputTagOrStatusMsg(tagHtml);
 	}
 
-	static async onCreateStatus(options: RollOptions) {
-		const {name, tier} = await CityDialogs.getStatusNameAndTier();
-		const statusHtml = this.createStatusHtml(name, tier, options);
-		return await this.outputTagOrStatusMsg(statusHtml);
+	static async onCreateStatus(chatMsg: ChatMessage) {
+		const options= chatMsg.rolls[0].options as RollOptions;
+		const {name, tier, temporary} = await CityDialogs.getStatusData();
+		if (name) {
+			options.createdItems.push( {
+				type: "status",
+				name,
+				tier,
+				temporary,
+			});
+		}
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+		// const statusHtml = this.createStatusHtml(name, tier, options);
+		// return await this.outputTagOrStatusMsg(statusHtml);
 	}
 
-	static createTagHtml(name: string, options:RollOptions) {
-		const creationOptions: TagCreationOptions = {
-			creatorTags: this.getCreatorTags(options)
-		};
+	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}) {
+		creationOptions.creatorTags =  this.getCreatorTags(options);
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, tier: number, options: RollOptions) {
-		const creationOptions: TagCreationOptions = {
-			creatorTags: this.getCreatorTags(options),
-		};
+	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : TagCreationOptions = {}) {
+		creationOptions.creatorTags =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
+	}
+
+	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]) {
+		switch (data.type) {
+			case "status":
+				return this.createStatusHtml(data.name, data.tier, options);
+			case "tag":
+				return this.createTagHtml(data.name, options);
+		}
 	}
 
 	static getCreatorTags(options: RollOptions): Tag["system"]["createdBy"]  {
@@ -828,7 +866,7 @@ export class CityRoll {
 			if (game.user.isGM)
 				msg = await message.update( {
 					content: newContent,
-					roll: roll.toJSON(),
+					// roll: roll.toJSON(),
 					rolls: [roll.toJSON()]
 				});
 			else
@@ -846,8 +884,8 @@ export class CityRoll {
 
 	static createStoryTagHandlers(msg: ChatMessage, html : JQuery) {
 		const options = msg.rolls[0].options;
-		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(options as RollOptions))
-		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(options as RollOptions));
+		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
+		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
 	}
 
 } //end of class

@@ -123,6 +123,7 @@ export class HTMLTools {
 					<label> ${v.label} </label>
 					<input type="checkbox" ${initial ? "checked" : ""}>
 					</div> `;
+					break;
 				default:
 					html += `UNRECOGNIZED TYPE ${typeof initial}`;
 			}

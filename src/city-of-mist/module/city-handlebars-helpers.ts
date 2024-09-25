@@ -1,3 +1,5 @@
+import { RollOptions } from "./city-roll.js";
+import { CityRoll } from "./city-roll.js";
 import { Improvement } from "./city-item.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityItem } from "./city-item.js";
@@ -354,6 +356,9 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return theme.hasCustomThemebook();
 		},
 
+		"generateCreatedRollItem": function (options: RollOptions, data: RollOptions["createdItems"][number]): SafeString {
+			return new Handlebars.SafeString(CityRoll.statusOrTagHtmlFromRollData(options, data));
+		},
 
 	} //end of object holding helpers
 } // end of class

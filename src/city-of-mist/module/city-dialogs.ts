@@ -753,19 +753,23 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 
-	static async getTagName() : Promise<string> {
+	static async getTagCreationData() {
 		const data = {
 			name: {
 				initial: "Unnamed Tag",
 				label: "CityOfMist.terms.tag",
 				localize: true,
+			},
+			temporary: {
+				initial: false,
+				label: "CityOfMist.terms.temporaryTag",
+				localize: true,
 			}
 		};
-		const {name} =  await HTMLTools.dynamicDialog(data);
-		return name;
+		return  await HTMLTools.dynamicDialog(data);
 	}
 
-	static async getStatusNameAndTier() : Promise<{name: string, tier:number}> {
+	static async getStatusData() {
 		const data = {
 			name: {
 				initial: "Unnamed Status",
@@ -776,7 +780,13 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				initial: 0,
 				label: "CityOfMist.terms.Tier",
 				localize: true,
+			},
+			temporary: {
+				initial: false,
+				label: "CityOfMist.terms.temporary",
+				localize: true,
 			}
+
 		};
 		return  await HTMLTools.dynamicDialog(data);
 	}
