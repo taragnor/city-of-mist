@@ -883,7 +883,8 @@ export class CityRoll {
 
 
 	static createStoryTagHandlers(msg: ChatMessage, html : JQuery) {
-		const options = msg.rolls[0].options;
+		const options = msg?.rolls[0]?.options;
+		if (!options) return;
 		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
 		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
 	}

@@ -164,7 +164,6 @@ export class StoryTagDisplayContainer {
 	}
 
 	async _dragDropEvent(event: JQuery.DropEvent) {
-		debugger;
 		const dragging = $(document).find(".dragging");
 		if (dragging.length != 1) {
 			console.warn ("Something went wrong with dragging");

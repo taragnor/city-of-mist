@@ -69,8 +69,16 @@
 		<i class="fas fa-plus"></i> {{localize "CityOfMist.terms.status"}}
 	</button>
 	{{/if}}
-	{{#each options.createdItems as |created|}}
-	{{generateCreatedRollItem ../options created}}
-	{{/each}}
+	{{#if options.createdItems}}
+	<hr>
+	<ul>
+		{{#each options.createdItems as |created|}}
+		<li>
+			{{generateCreatedRollItem ../options created}}
+		</li>
+		{{/each}}
+	</ul>
+	{{/if}}
+
 </div>
 

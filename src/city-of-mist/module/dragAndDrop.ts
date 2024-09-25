@@ -18,6 +18,7 @@ export class DragAndDrop {
 	}
 
 	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
+		debugger;
 		await actor.createStoryTag(textTag, true, options);
 	}
 

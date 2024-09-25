@@ -617,7 +617,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async createNewStatus (name: string, tier=1, pips=0, options: DeepPartial<Status["system"]>={} ): Promise<Status> {
-		const obj = {
+		const obj : DeepPartial<Status> = {
 			name,
 			type: "status",
 			system : {...options, pips, tier}};
@@ -985,7 +985,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async createStoryTag(name = "Unnamed Tag", preventDuplicates = false, options : TagCreationOptions = {}) : Promise<Tag | null> {
 		name = name.trim();
 		if (preventDuplicates) {
-			if (this.getTags().find( x=> x.name == name))
+			if (this.getStoryTags().some( x=> x.name == name))
 				return null;
 		}
 		const temporary = options?.temporary ?? !(game.user.isGM);
