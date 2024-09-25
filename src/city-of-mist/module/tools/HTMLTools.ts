@@ -169,7 +169,6 @@ export class HTMLTools {
 								.map( ([k, v]) => {
 									if (v.choices) {
 										const data = $(`select.key-${k}`).find(":selected").val();
-										debugger;
 										if (typeof v.initial == "number") {
 											return [k, Number(data)];
 										} else {

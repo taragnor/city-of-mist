@@ -14,13 +14,11 @@ export class DragAndDrop {
 	}
 
 	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : StatusCreationOptions = {}) {
-		debugger;
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
 		await actor.sheet.statusDrop(protostatus , options);
 	}
 
 	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
-		debugger;
 		await actor.createStoryTag(textTag, true, options);
 	}
 
