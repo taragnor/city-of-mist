@@ -97,6 +97,73 @@ export class HTMLTools {
 		});
 	}
 
+	static async dynamicDialog<const T extends DDData>(elements: T, title = "") : Promise< { [a in keyof T]: NoInfer<T[a]["initial"]> } > {
+		let html = "";
+		for (const [k,v] of Object.entries(elements)) {
+			const initial = v.initial;
+			if (v.localize) {
+				v.label = game.i18n.localize(v.label);
+			}
+			switch (typeof initial) {
+				case "string":
+					html += `<div class="string-input key-${k}">
+					<label> ${v.label} </label>
+					<input type="text" value="${initial}">
+					</div> `;
+					break;
+				case "number":
+					html += `<div class="number-input key-${k}">
+					<label> ${v.label} </label>
+					<input type="number" value="${initial}">
+					</div> `;
+
+					break;
+				case "boolean":
+					html += `<div class="boolean-input key-${k}">
+					<label> ${v.label} </label>
+					<input type="checkbox" ${initial ? "checked" : ""}>
+					</div> `;
+				default:
+					html += `UNRECOGNIZED TYPE ${typeof initial}`;
+			}
+		}
+		html = `<br> <div> ${html} </div> <hr>`;
+		return await new Promise( (conf, reject) => {
+			const x = new Dialog({
+				title,
+				content: html,
+				close: () => reject("close"),
+				buttons: {
+					okay: {
+						label: "OK",
+						callback: (html: string) => {
+							const ret = Object.entries(elements)
+								.map( ([k, v]) => {
+									switch (typeof v.initial) {
+										case "string":
+											const str = String($(`.key-${k} input`).val());
+											return [k, str];
+										case "number":
+											const num = Number($(`.key-${k} input`).val());
+											return [k, num];
+										case "boolean":
+											const checked = $(`.key-${k} input`).is(":checked");
+											return [k, checked];
+										default:
+											throw new Error(`Unknown Tyep ${v.initial}`);
+									}
+								});
+							conf( Object.fromEntries(ret));
+						}
+					}
+				},
+				default: "okay",
+			}, {});
+			x.render(true);
+		});
+
+	}
+
 	static async ItemSelectionDialog ( itemlist: (CityItem)[], data: unknown, title= "Select One", list_of_properties = [])  {
 	   const revlist = itemlist.map ( x=> {
 			return {
@@ -266,3 +333,13 @@ declare global {
 	}
 }
 
+
+export type DDData = Record< string, DDElement<string  | number  | boolean>>;
+
+type DDElement<T extends string | number | boolean> = {
+	label: string,
+	initial: T,
+	/**decides whether to localize the label*/
+	localize?: boolean,
+	choices?: T[],
+};

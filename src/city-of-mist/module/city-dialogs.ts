@@ -1,3 +1,4 @@
+import { DDData } from "./tools/HTMLTools.js";
 import { CitySettings } from "./settings.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
@@ -751,6 +752,34 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 
 	}
 
+
+	static async getTagName() : Promise<string> {
+		const data = {
+			name: {
+				initial: "Unnamed Tag",
+				label: "CityOfMist.terms.tag",
+				localize: true,
+			}
+		};
+		const {name} =  await HTMLTools.dynamicDialog(data);
+		return name;
+	}
+
+	static async getStatusNameAndTier() : Promise<{name: string, tier:number}> {
+		const data = {
+			name: {
+				initial: "Unnamed Status",
+				label: "CityOfMist.terms.statusName",
+				localize: true,
+			},
+			tier: {
+				initial: 0,
+				label: "CityOfMist.terms.Tier",
+				localize: true,
+			}
+		};
+		return  await HTMLTools.dynamicDialog(data);
+	}
 
 } //end of class
 

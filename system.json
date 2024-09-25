@@ -12,8 +12,8 @@
 	"url": "https://github.com/taragnor/city-of-mist/",
 	"version": "3.1.4",
 	"compatibility": {
-		"minimum": "11",
-		"verified": "11.315",
+		"minimum": "12",
+		"verified": "12",
 		"maximum": "12"
 	},
 	"esmodules": [

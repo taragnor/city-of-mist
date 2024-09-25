@@ -635,21 +635,47 @@ export class CityRoll {
 		return true;
 	}
 
-	static async createTag(name: string, options:RollOptions) {
-		const activeTags = options.tags.filter( x=> !x.strikeout);
-		const realTags = this.convertToRealTags(activeTags);
+	static async onCreateTag(options: RollOptions) {
+		const name = await CityDialogs.getTagName();
+		const tagHtml = this.createTagHtml(name, options);
+		return await this.outputTagOrStatusMsg(tagHtml);
+	}
+
+	static async onCreateStatus(options: RollOptions) {
+		const {name, tier} = await CityDialogs.getStatusNameAndTier();
+		const statusHtml = this.createStatusHtml(name, tier, options);
+		return await this.outputTagOrStatusMsg(statusHtml);
+	}
+
+	static createTagHtml(name: string, options:RollOptions) {
 		const creationOptions: TagCreationOptions = {
-			creatorTags: realTags.map(tag=> CityDB.getUniversalItemAccessor(tag))
+			creatorTags: this.getCreatorTags(options)
 		};
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
+		return tagHtml;
+	}
+
+	static createStatusHtml(name: string, tier: number, options: RollOptions) {
+		const creationOptions: TagCreationOptions = {
+			creatorTags: this.getCreatorTags(options),
+		};
+		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
+	}
+
+	static getCreatorTags(options: RollOptions): Tag["system"]["createdBy"]  {
+		const activeTags = options.tags.filter( x=> !x.strikeout && x.amount > 0);
+		const realTags = this.convertToRealTags(activeTags);
+		return realTags.map(tag=> CityDB.getUniversalItemAccessor(tag))
+	}
+
+	static async outputTagOrStatusMsg(tagOrStatusHtml: string) {
 		const messageData = {
 			speaker: ChatMessage.getSpeaker(),
-			content: tagHtml,
+			content: tagOrStatusHtml,
 			user: game.user,
-			type: CONST.CHAT_MESSAGE_TYPES.OOC,
+			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 		} satisfies MessageData;
-		await ChatMessage.create(messageData, {});
-		return tagHtml;
+		return await ChatMessage.create(messageData, {});
 	}
 
 	static convertToRealTags( tags: RollOptions["tags"]) : Tag[] {
@@ -820,7 +846,8 @@ export class CityRoll {
 
 	static createStoryTagHandlers(msg: ChatMessage, html : JQuery) {
 		const options = msg.rolls[0].options;
-		html.find(".city-roll .create-story-tag").on("click", _ev=> this.createTag("Test", options as RollOptions))
+		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(options as RollOptions))
+		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(options as RollOptions));
 	}
 
 } //end of class
