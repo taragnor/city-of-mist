@@ -660,8 +660,6 @@ export class CityRoll {
 			});
 		}
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
-		// const tagHtml = this.createTagHtml(name, options);
-		// return await this.outputTagOrStatusMsg(tagHtml);
 	}
 
 	static async onCreateStatus(chatMsg: ChatMessage) {
@@ -676,8 +674,6 @@ export class CityRoll {
 			});
 		}
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
-		// const statusHtml = this.createStatusHtml(name, tier, options);
-		// return await this.outputTagOrStatusMsg(statusHtml);
 	}
 
 	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) {
