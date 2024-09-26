@@ -1,7 +1,7 @@
 import { TagCategory } from "./tag-categories.js";
 import { StatusCategory } from "./status-categories.js";
 
-const MIST_ENGINE_EFFECTS_OBJ = {
+export const MIST_ENGINE_EFFECTS_OBJ = {
 	"attack": {
 		status: ["harm"],
 		tag: [],
@@ -67,11 +67,11 @@ const MIST_ENGINE_EFFECTS_OBJ = {
 export const MIST_ENGINE_EFFECTS_LIST = Object.keys(MIST_ENGINE_EFFECTS_OBJ);
 
 export const MIST_ENGINE_EFFECTS = Object.fromEntries(
-	MIST_ENGINE_EFFECTS_LIST.map(x=> [x, `MistEngine.effects.${x}.name`])
+	MIST_ENGINE_EFFECTS_LIST.map(x=> [x, `MistEngine.rollEffects.effect.${x}.name`])
 );
 
 
-export type MistEffect = keyof typeof MIST_ENGINE_EFFECTS;
+export type MistEffect = keyof typeof MIST_ENGINE_EFFECTS_OBJ;
 
 type MistEffectType = Record< string, {
 	status: StatusCategory[],
@@ -87,7 +87,7 @@ const OTHER_EFFECTS_LIST = [
 
 ] as const;
 
-type OtherEffect = typeof OTHER_EFFECTS_LIST[number];
+export type OtherEffect = typeof OTHER_EFFECTS_LIST[number];
 
 export const OTHER_EFFECTS = Object.fromEntries(
 	OTHER_EFFECTS_LIST.map( x=> [x, `MistEngine.rollEffects.effect.extra.${x}.name`])

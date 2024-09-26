@@ -3080,6 +3080,19 @@ input.tk-tagname-letter {
 	width: 0em;
 }
 
+.me-effects {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.me-effects .me-effect {
+	flex: 1 0 26%;
+	margin: 1px;
+	height: 25px;
+	overflow: hidden;
+}
+
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
 /* } */

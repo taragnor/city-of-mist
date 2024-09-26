@@ -755,7 +755,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 
-	static async getTagCreationData() {
+	static async getTagCreationData(presets: Record<string,any> = {}) {
 		const data = {
 			name: {
 				initial: "Unnamed Tag",
@@ -774,10 +774,16 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				choices: TAG_CATEGORIES,
 			}
 		};
+		for (const [k,v] of Object.entries(presets)) {
+			if (k in data) {
+				data[k as keyof typeof data] = v;
+			}
+		}
+
 		return  await HTMLTools.dynamicDialog(data);
 	}
 
-	static async getStatusData() {
+	static async getStatusData(presets: Record<string,any> = {}) {
 		const data = {
 			name: {
 				initial: "Unnamed Status",
@@ -800,8 +806,12 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				localize: true,
 				choices: STATUS_CATEGORIES,
 			},
-
 		};
+		for (const [k,v] of Object.entries(presets)) {
+			if (k in data) {
+				data[k as keyof typeof data] = v;
+			}
+		}
 		return  await HTMLTools.dynamicDialog(data);
 	}
 

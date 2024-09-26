@@ -1,0 +1,35 @@
+<div class="me-effects">
+	{{#each (me-effects-list) as |effect|}}
+	<button class="me-effect me-{{effect.name}}"
+			title="{{localize effect.hint}}"
+	data-action-type="{{effect.name}}" >
+	{{localize effect.label}}
+	</button>
+		{{/each}}
+</div>
+
+{{#if options.createdItems}}
+<hr>
+<ul class="created-items">
+	{{#each options.createdItems as |created i|}}
+	<li data-created-index="{{i}}">
+		{{generateCreatedRollItem ../options created}}
+		<a class="item-control delete-created-item" title="Delete Status/Tag"><i class="fas fa-trash"></i></a>
+	</li>
+	{{/each}}
+</ul>
+{{/if}}
+
+{{#if options.extraFeats}}
+<ul class="extra-feats">
+	{{#each options.extraFeats as |feat i|}}
+	<li data-feat-index="{{i}}">
+		{{localize (strcat "MistEngine.rollEffects.effect.extra." feat ".name")}}
+		{{#if (ne feat "clue")}}
+		<a class="item-control delete-extra-feat" title="Delete Extra Feat"><i class="fas fa-trash"></i></a>
+		{{/if}}
+	</li>
+	{{/each}}
+</ul>
+{{/if}}
+

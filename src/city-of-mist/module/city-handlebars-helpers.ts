@@ -1,3 +1,5 @@
+import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
+import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
 import { Move } from "./city-item.js";
 import { RollOptions } from "./city-roll.js";
 import { CityRoll } from "./city-roll.js";
@@ -363,6 +365,29 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"moveCanCreateTags": function (move: Move) : boolean {
 			return move.canCreateTags();
+		},
+
+		"me-effects-list": function (){
+			return MIST_ENGINE_EFFECTS_LIST
+				.map(x=> ({
+					name: x,
+					label: MIST_ENGINE_EFFECTS[x],
+					hint: MIST_ENGINE_EFFECTS[x].slice(0, -4) + "hint",
+				}));
+		},
+
+		"strcat": function (...args: (string | number)[]) : string{
+			let str = "";
+			for (const arg of args)  {
+				switch (typeof arg) {
+					case "string":
+					case "number":
+						str += String(arg);
+					default:
+						break;
+				}
+			}
+			return str;
 		},
 
 	} //end of object holding helpers

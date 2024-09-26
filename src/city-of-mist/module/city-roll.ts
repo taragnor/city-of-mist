@@ -1,3 +1,8 @@
+import { OtherEffect } from "./config/mist-engine-effects.js";
+import { TAG_CATEGORIES } from "./config/tag-categories.js";
+import { STATUS_CATEGORIES } from "./config/status-categories.js";
+import { MistEffect } from "./config/mist-engine-effects.js";
+import { MIST_ENGINE_EFFECTS_OBJ } from "./config/mist-engine-effects.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
 
 import { DragAndDrop } from "./dragAndDrop.js";
@@ -42,7 +47,10 @@ export type RollOptions = CRollOptions & {
 	moveId :string;
 	autoAttention :boolean;
 	createdItems: (CreatedStatusData | CreatedTagData)[];
+	extraFeats: ExtraFeat[]
 }
+
+type ExtraFeat = OtherEffect ;
 
 type CreatedStatusData = {
 	type: "status",
@@ -292,6 +300,7 @@ export class CityRoll {
 		r.options.moveId = this.#moveId;
 		r.options.autoAttention = CitySettings.isAutoWeakness();
 		r.options.createdItems = [];
+		r.options.extraFeats = [];
 		this.#roll = r;
 	}
 
@@ -653,9 +662,8 @@ export class CityRoll {
 		return true;
 	}
 
-	static async onCreateTag(chatMsg: ChatMessage) : Promise<void> {
-		const options= chatMsg.rolls[0].options as RollOptions;
-		const data = await CityDialogs.getTagCreationData();
+
+	static addCreatedTag(options: RollOptions, data: Omit<CreatedTagData, "type" | "options">) {
 		if (data.name) {
 			options.createdItems.push( {
 				type: "tag",
@@ -664,22 +672,116 @@ export class CityRoll {
 				options: {...data as any}
 			});
 		}
+	}
+
+	static async onCreateTag(chatMsg: ChatMessage, initialData : Record<string, string> = {}) : Promise<void> {
+		const options= chatMsg.rolls[0].options as RollOptions;
+		const data = await CityDialogs.getTagCreationData(initialData);
+		this.addCreatedTag(options, data);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static async onCreateStatus(chatMsg: ChatMessage) : Promise<void> {
-		const options= chatMsg.rolls[0].options as RollOptions;
-		const data = await CityDialogs.getStatusData();
+	static addCreatedStatus(options: RollOptions, data: Omit<CreatedStatusData, "type" | "options"> ) {
 		if (data.name) {
 			options.createdItems.push( {
 				type: "status",
 				name: data.name,
-				tier: data.tier,
-				temporary: data.temporary,
+				tier: data.tier ?? 0,
+				temporary: data.temporary ?? false,
 				options: {...data as any}
 			});
 		}
+	}
+
+	static async onCreateStatus(chatMsg: ChatMessage,  initialData : Record<string, string> = {}) : Promise<void> {
+		const options= chatMsg.rolls[0].options as RollOptions;
+		const data = await CityDialogs.getStatusData(initialData);
+		this.addCreatedStatus(options, data);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+	}
+
+	static async onMEEffectButton(event: JQuery.ClickEvent, chatMsg: ChatMessage) : Promise<void> {
+		const actionType = HTMLTools.getClosestData(event, "actionType") as MistEffect;
+		const allowables = MIST_ENGINE_EFFECTS_OBJ[actionType];
+		debugger;
+		const otherArray = allowables.other.map(
+			x=> Object.fromEntries( [[x, `MistEngine.rollEffects.effect.extra.${x}.name`]])
+		);
+		const allowableCreations = (allowables.status.length > 0 ? [{"status": "CityOfMist.terms.status"} as Record<string, string>] : [])
+		.concat( allowables.tag.length ? [{"tag": "CityOfMist.terms.tag"}] : [] )
+		.concat(otherArray) ;
+		let result: string | null = null;
+		if (allowableCreations.length > 1) {
+		const choiceData= allowableCreations.flatMap( o=> 
+			Object.entries(o).map( ([k,v]) => ({
+				id: k,
+				data:[ game.i18n.localize(v)],
+			}))
+		);
+		result = await HTMLTools.singleChoiceBox(choiceData, "select Effect")
+		} else {
+			result = Object.keys(allowableCreations[0])[0];
+		}
+		const rollOptions = chatMsg?.rolls[0]?.options as RollOptions;
+		if (!rollOptions) throw new Error("Can't find roll options in Chat Message");
+		switch (result) {
+			case "status":
+				await this.ME_CreateStatus(allowables.status, rollOptions)
+				break;
+			case "tag":
+				await this.ME_CreateTag(allowables.tag, rollOptions);
+				break;
+			case "recover-burn":
+				await this.ME_RecoverBurn(rollOptions);
+				break;
+			case "clue":
+				await this.ME_CreateClue(rollOptions);
+				break;
+			case "extra-feat":
+				await this.ME_CreateExtraFeat(rollOptions);
+				break;
+		}
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+	}
+
+	static async ME_CreateStatus(allowables: string[], options: RollOptions) {
+		const initialData = {
+			category: {
+				initial: allowables[0],
+				choices: Object.fromEntries(
+					allowables.map( x=> [x, STATUS_CATEGORIES[x]])
+				),
+				localize: true,
+			}
+		};
+		const data = await CityDialogs.getStatusData(initialData);
+		this.addCreatedStatus(options, data);
+	}
+
+	static async ME_CreateTag(allowables: string[], options: RollOptions) {
+		const initialData = {
+			category: {
+				initial: allowables[0],
+				choices: Object.fromEntries(
+					allowables.map( x=> [x, TAG_CATEGORIES[x]])
+				),
+				localize: true,
+			}
+		};
+		const data = await CityDialogs.getTagCreationData(initialData);
+		this.addCreatedTag(options, data);
+	}
+
+	static async ME_RecoverBurn(options: RollOptions) {
+		options.extraFeats.push("recover-burn");
+	}
+
+	static async ME_CreateClue(options: RollOptions) {
+		options.extraFeats.push("clue");
+	}
+
+	static async ME_CreateExtraFeat(options: RollOptions) {
+		options.extraFeats.push("extra-feat");
 	}
 
 	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) : Promise<void> {
@@ -898,6 +1000,7 @@ export class CityRoll {
 		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
 		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
 		html.find(".city-roll .delete-created-item").on("click", ev => this.deleteCreatedItem(ev, msg));
+		html.find(".city-roll .me-effects .me-effect").on("click", ev => this.onMEEffectButton(ev, msg));
 	}
 
 } //end of class
