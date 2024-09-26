@@ -241,22 +241,6 @@ export class CityRoll {
 			Debug(r);
 			throw new Error("Null Total");
 		}
-		// r.options = {
-		// 	...this.#options,
-		// 	...r.options,
-		// 	modifiers: this.#modifiers,
-		// 	tags: this.#tags,
-		// 	actorId: this.#actor?.id,
-		// 	moveId: this.#moveId,
-		// 	// autoAttention: CitySettings.isAutoWeakness(),
-		// 	createdItems : [],
-		// 	extraFeats : [],
-		// };
-		// r.options.modifiers = this.#modifiers;
-		// r.options.tags = this.#tags;
-		// r.options.actorId = this.#actor?.id;
-		// r.options.moveId = this.#moveId;
-		// r.options.autoAttention = CitySettings.isAutoWeakness();
 		this.#roll = r;
 	}
 
