@@ -210,14 +210,14 @@ export class CityHelpers {
 
 		for (const {name, tier, options} of statuslist) {
 			if (options.scene) {
-				await SceneTags.createSceneStatus(name.trim(), tier,0, options);
+				await SceneTags.createSceneStatus(name.trim(), {...options, tier, pips: 0}  );
 				continue;
 			}
 			if (options.autoApply) {
 				if (actor)
-					await actor.addOrCreateStatus(name.trim(), tier, 0, options);
+					await actor.addOrCreateStatus(name.trim(), {...options, tier});
 				else
-					await SceneTags.createSceneStatus(name.trim(), tier, 0, options);
+					await SceneTags.createSceneStatus(name.trim(), {...options, tier, pips:0 });
 			}
 		}
 	}
@@ -450,7 +450,7 @@ export class CityHelpers {
 		const messageData = {
 			speaker: speaker,
 			content: html,
-			type: CONST.CHAT_MESSAGE_TYPES.OOC,
+			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 		}
 		ChatMessage.create(messageData, {})
 		// CONFIG.ChatMessage.documentClass.create(messageData, {})
@@ -602,7 +602,7 @@ export class CityHelpers {
 			speaker: {alias: actor.displayedName},
 			content: html,
 			user: game.user,
-			type: CONST.CHAT_MESSAGE_TYPES.OOC,
+			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 		} ;
  await ChatMessage.create(messageData, messageOptions);
 

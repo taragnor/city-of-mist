@@ -1,6 +1,8 @@
+import { Status } from "./city-item.js";
+import { StatusCategory } from "./config/status-categories.js";
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { STATUS_CATEGORIES} from "./config/status-categories.js";
 import { TAG_CATEGORIES} from "./config/tag-categories.js";
-import { DDData } from "./tools/HTMLTools.js";
 import { CitySettings } from "./settings.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
@@ -103,9 +105,75 @@ export class CityDialogs {
 		}
 	}
 
-	static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
-		const statusList = actor.my_statuses;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, name, facedanger});
+
+	static statusesAffectedByCategory(list: Status[], newCategory: StatusCategory = "none", direction: "positive" | "negative" | "both" = "both"): Status[] {
+		return list.filter( s => {
+			let addTo : StatusCategory[] = ["none"];
+			let subtractFrom : StatusCategory[] = ["none"];
+			switch (newCategory) {
+				case "none":
+					return true;
+				case "harm":
+					subtractFrom = ["shield"]
+					addTo = 	["harm"];
+					break;
+				case "hindering":
+					addTo = ["advantage", "shield"];
+					subtractFrom = [ "hindering"];
+					break;
+				case "compelling":
+					addTo = ["compelling"];
+					subtractFrom = [ "hindering", "shield"];
+					break;
+				case "weakening":
+					subtractFrom = ["advantage", "shield", "compelling", "polar"];
+					break;
+				case "advance":
+					addTo = ["progress", "polar"];
+					subtractFrom = ["polar"];
+					break;
+				case "advantage":
+					addTo = ["advantage"];
+					break;
+				case "shield":
+					addTo = ["shield"];
+					break;
+				case "restore":
+					subtractFrom= ["harm", "hindering", "compelling", "weakening"];
+					break;
+				case "set-back":
+					addTo = ["polar"];
+					subtractFrom = ["progress", "polar"];
+					break;
+				case "progress":
+				case "polar":
+					break;
+				default:
+					newCategory satisfies never;
+					ui.notifications.warn(`Unknown Category ${newCategory}`);
+					return true;
+			}
+			switch (direction) {
+				case "positive":
+					return addTo.includes(s.system.category ?? "none");
+				case "negative":
+					return subtractFrom.includes(s.system.category ?? "none");
+				case "both":
+					return addTo.includes(s.system.category ?? "none") && subtractFrom.includes(s.system.category ?? "none");
+				default:
+						throw new Error(`Bad Direction ${direction}`);
+			}
+		});
+	}
+
+
+
+	// static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
+	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
+		const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
+		// const statusList = actor.my_statuses;
+		let tier = options.tier;
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, facedanger});
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog({
 				title:`Add Dropped Status: ${name}`,

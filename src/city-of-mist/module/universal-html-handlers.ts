@@ -197,7 +197,7 @@ export class HTMLHandlers {
 		if (!ret) return;
 		const {name: newname, tier: amt} = ret;
 		// console.log(`${name} : ${tier}`);
-		await status.addStatus(amt, {newName: newname});
+		await status.addStatus(amt, {newName: newname, tier:amt});
 		await HTMLHandlers.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
 	}
 	static async statusSubtract (event: JQuery.Event) {

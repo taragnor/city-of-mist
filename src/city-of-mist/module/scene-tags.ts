@@ -133,11 +133,11 @@ export class SceneTags {
 		}
 	}
 
-	static async createSceneStatus(name = "", tier = 1, pips = 0, options = {}) {
+	static async createSceneStatus(name = "", options : StatusCreationOptions = {tier:1}) {
 		if (!name)
 			return await this.#createSceneStatusInteractive();
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const status = await container.addOrCreateStatus(name, tier, pips, options);
+		const status = await container.addOrCreateStatus(name, {...options, tier: options.tier, pips: options.pips ?? 0, });
 		await status.update( {"system.sceneId": game.scenes.current.id});
 		Hooks.callAll("createSceneItem", status, game.scenes.current);
 		return status;
@@ -157,7 +157,7 @@ export class SceneTags {
 
 	static async #createSceneStatusInteractive() {
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const item = await this.createSceneStatus("Unnamed Status", 1, 0);
+		const item = await this.createSceneStatus("Unnamed Status",{tier: 1});
 		if (!item) return;
 		const updateObj = await CityDialogs.itemEditDialog(item);
 		if (updateObj) {

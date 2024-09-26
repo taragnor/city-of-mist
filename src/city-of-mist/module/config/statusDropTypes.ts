@@ -10,7 +10,7 @@ type GenericCreationOptions = {
 export type TagCreationOptions = GenericCreationOptions &
 	DeepPartial<Tag["system"]>;
 
-export type StatusCreationOptions = GenericCreationOptions & DeepPartial<Status["system"]>;
+export type StatusCreationOptions = GenericCreationOptions & DeepPartial<Status["system"]> & {tier:number};
 
 // export type TagCreationOptions = {
 // 	temporary ?: boolean,

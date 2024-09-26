@@ -1330,7 +1330,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			await this.deleteStatusByName(name);
 	}
 
-	async addOrCreateStatus (name2: string, tier2: number, pips=0, options: StatusCreationOptions= {}) : Promise<Status> {
+	async addOrCreateStatus (name2: string, options: StatusCreationOptions) : Promise<Status> {
+		const pips = options.pips ?? 0;
+		const tier2 = options.tier;
 		let status = this.hasStatus(name2);
 		if (status) {
 			return await status.addStatus(tier2, options);

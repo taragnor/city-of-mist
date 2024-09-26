@@ -13,7 +13,7 @@ export class DragAndDrop {
 	static init() {
 	}
 
-	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : StatusCreationOptions = {}) {
+	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : StatusCreationOptions) {
 		const protostatus = await CityHelpers.parseStatusString(textStatus);
 		await actor.sheet.statusDrop(protostatus , options);
 	}
@@ -84,11 +84,11 @@ export class DragAndDrop {
 	static async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
 		if (!tier)
 			throw new Error(`Tier is not valid ${tier}`);
-		const retval = await CityDialogs.statusDropDialog(actor, name, tier);
+		const retval = await CityDialogs.statusDropDialog(actor, name, {...options, tier});
 		if (retval == null) return null;
 		switch (retval.action) {
 			case 'create':
-				const status = await actor.addOrCreateStatus(retval.name, retval.tier, retval.pips, options);
+				const status = await actor.addOrCreateStatus(retval.name,{ ...options, tier: retval.tier, pips: retval.pips});
 				await CityHelpers.modificationLog(actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
 			case 'merge':

@@ -19,8 +19,8 @@ export const MIST_ENGINE_EFFECTS_OBJ = {
 	},
 	"weaken": {
 		status: ["weakening"],
-		tag: ["weakening"],
-		other: []
+		tag: [],
+		other: ["burn-tag"]
 	},
 	"bestow": {
 		status: [],
@@ -33,7 +33,7 @@ export const MIST_ENGINE_EFFECTS_OBJ = {
 		other: []
 	},
 	"enhance": {
-		status: ["advantage"],
+		status: ["advantage", "shield"],
 		tag: [],
 		other: []
 	},
@@ -84,6 +84,7 @@ const OTHER_EFFECTS_LIST = [
 	"clue",
 	"extra-feat",
 	"recover-burn",
+	"burn-tag",
 
 ] as const;
 

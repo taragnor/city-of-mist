@@ -798,7 +798,7 @@ export class CityRoll {
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : StatusCreationOptions = {}) : string {
+	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : StatusCreationOptions) : string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
 	}

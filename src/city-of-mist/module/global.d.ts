@@ -4,3 +4,5 @@ type RecursivePartial<T> = {
     T[P] extends object | undefined ? RecursivePartial<T[P]> :
     T[P];
 };
+
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
