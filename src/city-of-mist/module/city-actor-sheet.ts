@@ -451,8 +451,8 @@ export class CityActorSheet extends CitySheet {
 		await HTMLHandlers.statusAdd(event);
 	}
 
-	async statusDrop({name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
-		await DragAndDrop.statusDrop(this.actor, {name, tier}, options);
+	async statusDrop(name: string, options: StatusCreationOptions) {
+		await DragAndDrop.statusDrop(this.actor, name, options);
 }
 
 	// async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: TagCreationOptions) {

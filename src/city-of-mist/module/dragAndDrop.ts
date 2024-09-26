@@ -14,9 +14,9 @@ export class DragAndDrop {
 	static init() {
 	}
 
-	static async dropStatusOnActor(textStatus: string, actor: CityActor, options : StatusCreationOptions) {
-		const protostatus = await CityHelpers.parseStatusString(textStatus);
-		await actor.sheet.statusDrop(protostatus , options);
+	static async dropStatusOnActor(statusName: string, actor: CityActor, options : StatusCreationOptions) {
+		// const protostatus = await CityHelpers.parseStatusString(textStatus);
+		await actor.sheet.statusDrop(statusName , options);
 	}
 
 	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
@@ -53,13 +53,14 @@ export class DragAndDrop {
 		if (!actor.isOwner) return;
 		let options = draggable.data("options") ?? {};
 		const draggableType = DragAndDrop.getDraggableType(draggable);
+		const name = draggable.data("name") ?? "name unknown";
 		switch (draggableType) {
 			case "status":{
-				DragAndDrop.dropStatusOnActor(draggable.text(), actor, options);
+				DragAndDrop.dropStatusOnActor(name, actor, options);
 				break;
 			}
 			case "tag": {
-				DragAndDrop.dropTagOnActor(draggable.text(), actor, options);
+				DragAndDrop.dropTagOnActor(name, actor, options);
 				break;
 			}
 			case "gmmove":
@@ -83,7 +84,8 @@ export class DragAndDrop {
 		}
 	}
 
-	static async statusDrop(actor: CityActor, {name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
+	static async statusDrop(actor: CityActor, name:string, options: StatusCreationOptions) {
+		const tier = options.tier;
 		if (!tier)
 			throw new Error(`Tier is not valid ${tier}`);
 		const retval = await CityDialogs.statusDropDialog(actor, name, {...options, tier});
@@ -163,7 +165,7 @@ export class DragAndDrop {
 	}
 
 	static htmlDraggableTag(name: string, options: GMMoveOptions & TagCreationOptions) {
-		return `<span draggable="true" class="narrated-story-tag draggable" data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
+		return `<span draggable="true" class="narrated-story-tag draggable" data-name='${name}' data-draggable-type="tag" data-options='${JSON.stringify(options)}'>${name}</span>`;
 	}
 
 }
