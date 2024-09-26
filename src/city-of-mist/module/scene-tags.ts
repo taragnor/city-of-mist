@@ -125,9 +125,9 @@ export class SceneTags {
 		return null;
 	}
 
-	static async statusDrop({name, tier}: {name: string, tier:number}, options: StatusCreationOptions) {
+	static async statusDrop(name: string, options: StatusCreationOptions) {
 		const container = await this.#getSceneContainer(game.scenes.current);
-		const status = await DragAndDrop.statusDrop(container, {name, tier}, options);
+		const status = await DragAndDrop.statusDrop(container, {name, tier: options.tier}, options);
 		if (status) {
 			await status.update( {"system.sceneId": game.scenes.current.id});
 		}

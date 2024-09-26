@@ -1,3 +1,4 @@
+import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { HTMLHandlers } from "./universal-html-handlers.js";
 import { CityDialogs } from "./city-dialogs.js";
@@ -32,11 +33,12 @@ export class DragAndDrop {
 		const options = draggable.data("options") ?? {};
 		switch ( draggableType ) {
 			case "status":
-				const protoStatus = await CityHelpers.parseStatusString(draggable.text());
-				await SceneTags.statusDrop(protoStatus, options);
+				// const protoStatus = await CityHelpers.parseStatusString(draggable.text());
+				const name = draggable.data("name") ?? "name unknown";
+				await SceneTags.statusDrop(name, options);
 				break;
 			case "tag":
-				await SceneTags.createSceneTag(draggable.text(), true, options);
+					await SceneTags.createSceneTag(draggable.text(), true, options);
 				break;
 			case "gmmove":
 			case "threat":
@@ -151,9 +153,13 @@ export class DragAndDrop {
 		}
 	}
 
-	static htmlDraggableStatus(name: string, tier: number,  options: GMMoveOptions & (TagCreationOptions | StatusCreationOptions)) {
+	static htmlDraggableStatus(name: string, options: GMMoveOptions & StatusCreationOptions) {
+		const tier = options.tier;
+		let nameExtra = "";
 		const autoStatus = options.autoApply ? "auto-status" : "";
-		return `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${name}-<span class="status-tier">${tier}</span></span>`;
+		nameExtra += (options.category && options.category != "none") ? game.i18n.localize(STATUS_CATEGORIES[options.category])  : "";
+		const nameParens = nameExtra.length ? `(${nameExtra})`: "";
+		return `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-name='${name}' data-tier='${tier}' data-options='${JSON.stringify(options)}'>${name}-<span class="status-tier">${tier} ${nameParens}</span></span>`;
 	}
 
 	static htmlDraggableTag(name: string, options: GMMoveOptions & TagCreationOptions) {

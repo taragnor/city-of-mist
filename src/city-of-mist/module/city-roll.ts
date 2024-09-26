@@ -735,7 +735,7 @@ export class CityRoll {
 				await this.ME_RecoverBurn(rollOptions);
 				break;
 			case "clue":
-				await this.ME_CreateClue(rollOptions);
+				await this.ME_CreateClue(chatMsg, rollOptions);
 				break;
 			case "extra-feat":
 				await this.ME_CreateExtraFeat(rollOptions);
@@ -776,8 +776,24 @@ export class CityRoll {
 		options.extraFeats.push("recover-burn");
 	}
 
-	static async ME_CreateClue(options: RollOptions) {
+	static async ME_CreateClue(msg: ChatMessage, options: RollOptions) {
+		const move = CityHelpers.getMoves().find(x=> x.id == options.moveId);
+		if (!move) {
+			ui.notifications.error("Can't find mMove for create clue");
+			return;
+		}
 		options.extraFeats.push("clue");
+		const tags = options.modifiers
+			.filter( x=> x.type == "tag")
+			.map( x=> x.name)
+			.join(", ");
+		const tagStr = tags.length > 1 ? `: ${tags}` : "";
+		await ClueChatCards.postClue( {
+			actorId: options.actorId,
+			metaSource: msg.id,
+			method: `${move.name} ${tagStr}`,
+		});
+
 	}
 
 	static async ME_CreateExtraFeat(options: RollOptions) {
@@ -798,15 +814,15 @@ export class CityRoll {
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, tier: number, options: RollOptions,  creationOptions : StatusCreationOptions) : string {
+	static createStatusHtml(name: string, options: RollOptions,  creationOptions : StatusCreationOptions) : string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
-		return DragAndDrop.htmlDraggableStatus(name, tier,  creationOptions);
+		return DragAndDrop.htmlDraggableStatus(name, creationOptions);
 	}
 
 	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]): string {
 		switch (data.type) {
 			case "status":
-				return this.createStatusHtml(data.name, data.tier, options, data.options);
+				return this.createStatusHtml(data.name, options, data.options);
 			case "tag":
 				return this.createTagHtml(data.name, options, data.options);
 		}

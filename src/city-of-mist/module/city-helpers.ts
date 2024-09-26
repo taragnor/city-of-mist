@@ -324,7 +324,7 @@ export class CityHelpers {
 				}
 				// const autoStatus = options.autoApply ? "auto-status" : "";
 				// const newtext = `<span draggable="true" class="narrated-status-name draggable ${autoStatus}" data-draggable-type="status" data-options='${JSON.stringify(options)}'>${formatted_statusname}-<span class="status-tier">${tier}</span></span>`;
-				const newText = DragAndDrop.htmlDraggableStatus(formatted_statusname, tier, options);
+				const newText = DragAndDrop.htmlDraggableStatus(formatted_statusname, {...options, tier});
 				text = text.replace(match[0], newText);
 				statuslist.push( {
 					name: formatted_statusname,
