@@ -7,13 +7,20 @@ declare const CONST : {
 	@deprecated as of V12
 	 */
 	CHAT_MESSAGE_TYPES: ChatMessageStyles,
+
 		CHAT_MESSAGE_STYLES: ChatMessageStyles,
 		KEYBINDING_PRECEDENCE: {
 			PRIORITY: number;
 			NORMAL: number;
 			DEFERRED: number;
+		},
+		DOCUMENT_OWNERSHIP_LEVELS: {
+			INHERIT: -1,
+				NONE: 0,
+				LIMITED: 1,
+				OBSERVER: 2,
+				OWNER: 3,
 		}
-
 };
 
 type AE_MODES = {

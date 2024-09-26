@@ -1,6 +1,6 @@
 import { CitySettings } from "./settings.js";
 import { CityDialogs } from "./city-dialogs.js";
-import { CRollOptions } from "./city-roll.js";
+import { CRollOptions } from "./mist-roll.js";
 import { CityDB } from "./city-db.js";
 import { MOVEGROUPS } from "./datamodel/move-types.js";
 import { CityRoll } from "./city-roll.js";

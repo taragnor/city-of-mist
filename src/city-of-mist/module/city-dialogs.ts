@@ -1,3 +1,4 @@
+import { MistRoll } from "./mist-roll.js";
 import { Status } from "./city-item.js";
 import { StatusCategory } from "./config/status-categories.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
@@ -6,9 +7,9 @@ import { TAG_CATEGORIES} from "./config/tag-categories.js";
 import { CitySettings } from "./settings.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
-import { CRollOptions } from "./city-roll.js";
+import { CRollOptions } from "./mist-roll.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
-import { RollModifier } from "./city-roll.js";
+import { RollModifier } from "./mist-roll.js";
 import { GMMove } from "./city-item.js";
 import { Improvement } from "./city-item.js";
 import { Theme } from "./city-item.js";
@@ -444,7 +445,7 @@ export class CityDialogs {
 		});
 	}
 
-	static async getRollModifierBox (rollOptions : Roll["options"]) : Promise<typeof rollOptions | null> {
+	static async getRollModifierBox (rollOptions : MistRoll["options"]) : Promise<typeof rollOptions | null> {
 		const moves = CityHelpers.getMoves();
 		const templateData = {moves,
 			...rollOptions};
@@ -475,7 +476,7 @@ export class CityDialogs {
 							const moveChoice = $(html).find("select.move-select").find(":selected").val();
 							console.log(`moveCHoice: ${moveChoice}`);
 							if (rollOptions.moveId != moveChoice) {
-								rollOptions.moveId = moveChoice;
+								rollOptions.moveId = String(moveChoice);
 							}
 							rollOptions.dynamiteAllowed = dynamiteAllowed;
 							conf(rollOptions);

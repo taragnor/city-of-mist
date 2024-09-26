@@ -1,16 +1,15 @@
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
 import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
 import { Move } from "./city-item.js";
-import { RollOptions } from "./city-roll.js";
+import { MistRoll } from "./mist-roll.js";
 import { CityRoll } from "./city-roll.js";
 import { Improvement } from "./city-item.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
-import { CityItem } from "./city-item.js";
 import { CityCharacterSheet } from "./city-character-sheet.js";
 import { DEV_SETTINGS } from "./config/settings-object.js";
 import { Theme } from "./city-item.js";
 import { Themebook } from "./city-item.js";
-import { RollModifier } from "./city-roll.js";
+import { RollModifier } from "./mist-roll.js";
 import { Status } from "./city-item.js";
 import { localize } from "./city.js";
 import { Tag } from "./city-item.js";
@@ -76,7 +75,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"getJuiceList": (actor : CityActor) => {
 			return actor.juice.filter( x=> !x.isHurt() && !x.isHelp());
-			return actor.items.filter( i => i.isJuice());
 		},
 
 		"PCList": (_actor: CityActor) => {
@@ -359,7 +357,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return theme.hasCustomThemebook();
 		},
 
-		"generateCreatedRollItem": function (options: RollOptions, data: RollOptions["createdItems"][number]): SafeString {
+		"generateCreatedRollItem": function (options: MistRoll["options"], data: MistRoll["options"]["createdItems"][number]): SafeString {
 			return new Handlebars.SafeString(CityRoll.statusOrTagHtmlFromRollData(options, data));
 		},
 

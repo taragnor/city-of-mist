@@ -101,7 +101,7 @@ export class CityActorSheet extends CitySheet {
 	/* -------------------------------------------- */
 
 	/** override */
-	get template() {
+	override get template() {
 		if ( !game.user.isGM && this.actor.limited ) return "systems/city-of-mist/templates/limited-actor.html";
 		return this.options.template;
 	}

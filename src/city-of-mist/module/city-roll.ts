@@ -1,4 +1,4 @@
-import { OtherEffect } from "./config/mist-engine-effects.js";
+import { MistChatMessage } from "./mist-chat-message.js";
 import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { MistEffect } from "./config/mist-engine-effects.js";
@@ -8,7 +8,6 @@ import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { DragAndDrop } from "./dragAndDrop.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Tag } from "./city-item.js";
-import { MistEngineEffectType } from "./config/roll-effect-types.js";
 import { Move } from "./city-item.js";
 import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { ThemeType } from "./datamodel/theme-types.js";
@@ -25,81 +24,24 @@ import {JuiceSpendingSessionM} from "./city-sessions.js";
 import {RollDialog} from "./roll-dialog.js";
 import {CitySettings} from "./settings.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
+import { MistRoll } from "./mist-roll.js";
+import { RollModifier } from "./mist-roll.js";
+import { CreatedStatusData } from "./mist-roll.js";
+import { CreatedTagData } from "./mist-roll.js";
 
-
-export type RollModifier = {
-	id:string,
-	name: string,
-	amount: number,
-	ownerId: string | null,
-	tagId: string | null,
-	type: ActivatedTagFormat["type"],
-	strikeout?: boolean,
-	subtype ?: string;
-	description ?: string;
-	tokenId ?: string;
-}
-
-export type RollOptions = CRollOptions & {
-	actorId: string,
-	modifiers :RollModifier[],
-	tags: RollModifier[],
-	moveId :string;
-	autoAttention :boolean;
-	createdItems: (CreatedStatusData | CreatedTagData)[];
-	extraFeats: ExtraFeat[]
-}
-
-type ExtraFeat = OtherEffect ;
-
-type CreatedStatusData = {
-	type: "status",
-	name: string,
-	tier: number,
-	temporary: boolean,
-	options: StatusCreationOptions,
-};
-
-type CreatedTagData = {
-	type: "tag",
-	name: string,
-	temporary: boolean,
-	options: TagCreationOptions,
-};
-
-export type CRollOptions = {
-	newtype ?: Exclude<ThemeType, "">;
-	themeType ?: Exclude<ThemeType, "">;
-	BlazeThemeId ?: string;
-	dynamiteAllowed ?: boolean;
-	noStatus ?: boolean;
-	noTags ?: boolean;
-	noHelpHurt ?: boolean;
-	powerModifier?: number;
-	setRoll ?: number;
-	modifier ?: number;
-	burnTag ?: string;
-	noRoll ?: boolean;
-	modifiers?: RollModifier[];
-};
-
-type TrackedRollChoice = {
-	effectType: MistEngineEffectType,
-	powerSpent: number,
-};
 
 export class CityRoll {
-	#roll: Roll | null;
+	#roll: MistRoll | null;
 	#moveId: string;
 	#actor: CityActor  | null;
-	#options: CRollOptions;
+	#options: Partial<MistRoll["options"]>;
 	#modifiers: RollModifier[];
 	#tags : RollModifier[];
 	#html: string ;
 	#msgId : string;
 	#selectedList : ActivatedTagFormat[];
 
-	constructor (moveId: string, actor: CityActor | null, selectedList : ActivatedTagFormat[] = [],  options: CRollOptions = {}) {
+	constructor (moveId: string, actor: CityActor | null, selectedList : ActivatedTagFormat[] = [],  options: Partial<MistRoll["options"]> = {}) {
 		this.#roll = null;
 		this.#moveId = moveId;
 		this.#actor = actor;
@@ -128,7 +70,7 @@ export class CityRoll {
 
 	}
 
-	static async execMove(moveId: string, actor: CityActor | null, selectedList: ActivatedTagFormat[] =[], options :CRollOptions= {}) {
+	static async execMove(moveId: string, actor: CityActor | null, selectedList: ActivatedTagFormat[] =[], options :Partial<RollOptions> = {}) {
 		const CR = new CityRoll(moveId, actor, selectedList, options);
 		return await CR.execMove();
 	}
@@ -287,20 +229,34 @@ export class CityRoll {
 		} else  {
 			rstring = `2d6`;
 		}
-		let r = new Roll(rstring);
+		let r = new MistRoll(rstring, {}, {
+			...this.#options,
+			modifiers: this.#modifiers,
+			tags: this.#tags,
+			actorId: this.#actor?.id,
+			moveId: this.#moveId,
+		});
 		r = await r.roll();
 		if (r.total == null || Number.isNaN(r.total)) {
 			Debug(r);
 			throw new Error("Null Total");
 		}
-		r.options = {...this.#options, ...r.options};
-		r.options.modifiers = this.#modifiers;
-		r.options.tags = this.#tags;
-		r.options.actorId = this.#actor?.id;
-		r.options.moveId = this.#moveId;
-		r.options.autoAttention = CitySettings.isAutoWeakness();
-		r.options.createdItems = [];
-		r.options.extraFeats = [];
+		// r.options = {
+		// 	...this.#options,
+		// 	...r.options,
+		// 	modifiers: this.#modifiers,
+		// 	tags: this.#tags,
+		// 	actorId: this.#actor?.id,
+		// 	moveId: this.#moveId,
+		// 	// autoAttention: CitySettings.isAutoWeakness(),
+		// 	createdItems : [],
+		// 	extraFeats : [],
+		// };
+		// r.options.modifiers = this.#modifiers;
+		// r.options.tags = this.#tags;
+		// r.options.actorId = this.#actor?.id;
+		// r.options.moveId = this.#moveId;
+		// r.options.autoAttention = CitySettings.isAutoWeakness();
 		this.#roll = r;
 	}
 
@@ -313,7 +269,7 @@ export class CityRoll {
 	/** Takes a foundry roll and an options object containing
 	{moveList ?: { see generateMoveList function} }
 	*/
-	static async #_getContent (roll: Roll, otherOptions : Record<string, unknown> = {}) {
+	static async #_getContent (roll: MistRoll, otherOptions : Record<string, unknown> = {}) {
 		const modifiers = (roll.options.modifiers as RollModifier[]).map ( x=> {
 			return {
 				id: x.id,
@@ -327,7 +283,7 @@ export class CityRoll {
 				tokenId: x.tokenId,
 			};
 		});
-		const options = roll.options as RollOptions;
+		const options = roll.options;
 		const {power, adjustment} = CityRoll.getPower(options);
 		const moveList = otherOptions?.moveList ?? null;
 		const moveId = roll.options.moveId;
@@ -335,7 +291,7 @@ export class CityRoll {
 		const {total, roll_adjustment} = this.getTotal(roll);
 		const roll_status = CityRoll.getRollStatus(roll, total, options);
 		const moveListRaw = CityItem.generateMoveList(move!, roll_status, power).map ( x=> {x.checked = false; return x;});
-		const actor = CityDB.getActorById(options.actorId);
+		const actor = CityDB.getActorById(options.actorId!);
 		const actorName = actor ?actor.name : "";
 		const isChangeTheGame = move.system.abbreviation == "CHANGE";
 		const createTagButton  = roll_status != "Failure" && isChangeTheGame;
@@ -365,7 +321,7 @@ export class CityRoll {
 		return { total: bonus + roll.total, roll_adjustment};
 	}
 
-	static getRollBonus(rollOptions: CRollOptions, modifiers: {strikeout ?: boolean, amount: number}[] = rollOptions.modifiers!, misc_mod = 0 ) {
+	static getRollBonus(rollOptions: Partial<MistRoll["options"]>, modifiers: {strikeout ?: boolean, amount: number}[] = rollOptions.modifiers!, misc_mod = 0 ) {
 		const {power} = CityRoll.getRollPower(rollOptions, modifiers);
 		const rollCap = CityHelpers.getRollCap();
 		const capped = Math.min(rollCap, power + misc_mod);
@@ -373,7 +329,7 @@ export class CityRoll {
 		return { bonus: capped, roll_adjustment };
 	}
 
-	static getRollPower (rollOptions: CRollOptions, modifiers : {strikeout ?: boolean, subtype?: string, amount: number}[]= rollOptions.modifiers!) {
+	static getRollPower (rollOptions: Partial<MistRoll["options"]>, modifiers : {strikeout ?: boolean, subtype?: string, amount: number}[]= rollOptions.modifiers!) {
 		const validModifiers = modifiers!.filter(x => !x.strikeout);
 		const weaknessCap = CitySettings.getWeaknessCap();
 		const base_power = validModifiers
@@ -386,7 +342,7 @@ export class CityRoll {
 		return { power: final_power, adjustment } ;
 	}
 
-	static getPower(rollOptions: CRollOptions, modifiers : {strikeout ?: boolean, amount: number}[]= rollOptions.modifiers!) {
+	static getPower(rollOptions: Partial<MistRoll["options"]>, modifiers : {strikeout ?: boolean, amount: number}[]= rollOptions.modifiers!) {
 		if (CityHelpers.altPowerEnabled())
 			return this.getAltPower(rollOptions);
 		const { power, adjustment} = this.getRollPower(rollOptions, modifiers);
@@ -394,13 +350,13 @@ export class CityRoll {
 		return {power: adjPower, adjustment:0};
 	}
 
-	static getAltPower(rollOptions: CRollOptions) {
+	static getAltPower(rollOptions: Partial<MistRoll["options"]>) {
 		let adjustment = rollOptions.powerModifier ?? 0;
 		let power = (rollOptions.burnTag) ? 3 : 2 + adjustment;
 		return { power: power, adjustment: 0 };
 	}
 
-	static getRollStatus (roll: Roll, total:number,  options: CRollOptions) {
+	static getRollStatus (roll: Roll, total:number,  options: Partial<MistRoll["options"]>) {
 		if (CitySettings.get("autoFail_autoSuccess")) {
 			if (roll.total == 12)
 				return options.dynamiteAllowed && total >= 12 ? "Dynamite" : "Success";
@@ -482,7 +438,7 @@ export class CityRoll {
 		const roll = this.#roll;
 		if (!roll) throw new Error("Can't find roll");
 		const moveId = roll.options.moveId;
-		const options = roll.options as RollOptions;
+		const options = roll.options;
 		if (!options.actorId) return;
 		const actor = CityDB.getActorById(options.actorId);
 		if (!actor) throw new Error(`Can't find actor ${options.actorId}`);
@@ -663,7 +619,7 @@ export class CityRoll {
 	}
 
 
-	static addCreatedTag(options: RollOptions, data: Omit<CreatedTagData, "type" | "options">) {
+	static addCreatedTag(options: MistRoll["options"], data: Omit<CreatedTagData, "type" | "options">) {
 		if (data.name) {
 			options.createdItems.push( {
 				type: "tag",
@@ -674,14 +630,14 @@ export class CityRoll {
 		}
 	}
 
-	static async onCreateTag(chatMsg: ChatMessage, initialData : Record<string, string> = {}) : Promise<void> {
-		const options= chatMsg.rolls[0].options as RollOptions;
+	static async onCreateTag(chatMsg: MistChatMessage, initialData : Record<string, string> = {}) : Promise<void> {
+		const options= chatMsg.rolls[0].options;
 		const data = await CityDialogs.getTagCreationData(initialData);
 		this.addCreatedTag(options, data);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static addCreatedStatus(options: RollOptions, data: Omit<CreatedStatusData, "type" | "options"> ) {
+	static addCreatedStatus(options: MistRoll["options"], data: Omit<CreatedStatusData, "type" | "options"> ) {
 		if (data.name) {
 			options.createdItems.push( {
 				type: "status",
@@ -693,14 +649,14 @@ export class CityRoll {
 		}
 	}
 
-	static async onCreateStatus(chatMsg: ChatMessage,  initialData : Record<string, string> = {}) : Promise<void> {
-		const options= chatMsg.rolls[0].options as RollOptions;
+	static async onCreateStatus(chatMsg: MistChatMessage,  initialData : Record<string, string> = {}) : Promise<void> {
+		const options= chatMsg.rolls[0].options;
 		const data = await CityDialogs.getStatusData(initialData);
 		this.addCreatedStatus(options, data);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static async onMEEffectButton(event: JQuery.ClickEvent, chatMsg: ChatMessage) : Promise<void> {
+	static async onMEEffectButton(event: JQuery.ClickEvent, chatMsg: MistChatMessage) : Promise<void> {
 		const actionType = HTMLTools.getClosestData(event, "actionType") as MistEffect;
 		const allowables = MIST_ENGINE_EFFECTS_OBJ[actionType];
 		debugger;
@@ -722,7 +678,7 @@ export class CityRoll {
 		} else {
 			result = Object.keys(allowableCreations[0])[0];
 		}
-		const rollOptions = chatMsg?.rolls[0]?.options as RollOptions;
+		const rollOptions = chatMsg?.rolls[0]?.options;
 		if (!rollOptions) throw new Error("Can't find roll options in Chat Message");
 		switch (result) {
 			case "status":
@@ -744,7 +700,7 @@ export class CityRoll {
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static async ME_CreateStatus(allowables: string[], options: RollOptions) {
+	static async ME_CreateStatus(allowables: string[], options: MistRoll["options"]) {
 		const initialData = {
 			category: {
 				initial: allowables[0],
@@ -758,7 +714,7 @@ export class CityRoll {
 		this.addCreatedStatus(options, data);
 	}
 
-	static async ME_CreateTag(allowables: string[], options: RollOptions) {
+	static async ME_CreateTag(allowables: string[], options: MistRoll["options"]) {
 		const initialData = {
 			category: {
 				initial: allowables[0],
@@ -772,11 +728,11 @@ export class CityRoll {
 		this.addCreatedTag(options, data);
 	}
 
-	static async ME_RecoverBurn(options: RollOptions) {
+	static async ME_RecoverBurn(options: MistRoll["options"]) {
 		options.extraFeats.push("recover-burn");
 	}
 
-	static async ME_CreateClue(msg: ChatMessage, options: RollOptions) {
+	static async ME_CreateClue(msg: MistChatMessage, options: MistRoll["options"]) {
 		const move = CityHelpers.getMoves().find(x=> x.id == options.moveId);
 		if (!move) {
 			ui.notifications.error("Can't find mMove for create clue");
@@ -789,37 +745,37 @@ export class CityRoll {
 			.join(", ");
 		const tagStr = tags.length > 1 ? `: ${tags}` : "";
 		await ClueChatCards.postClue( {
-			actorId: options.actorId,
+			actorId: options.actorId!,
 			metaSource: msg.id,
 			method: `${move.name} ${tagStr}`,
 		});
 
 	}
 
-	static async ME_CreateExtraFeat(options: RollOptions) {
+	static async ME_CreateExtraFeat(options: MistRoll["options"]) {
 		options.extraFeats.push("extra-feat");
 	}
 
-	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: ChatMessage) : Promise<void> {
-		const createdItems = (chatMsg.rolls[0].options as RollOptions).createdItems;
+	static async deleteCreatedItem(ev: JQuery.ClickEvent, chatMsg: MistChatMessage) : Promise<void> {
+		const createdItems = chatMsg.rolls[0].options.createdItems;
 		const index = Number(HTMLTools.getClosestDataNT(ev, "createdIndex", undefined));
 		if (index == undefined) return;
 		createdItems.splice(index, 1);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
-	static createTagHtml(name: string, options: RollOptions, creationOptions : TagCreationOptions = {}): string {
+	static createTagHtml(name: string, options: MistRoll["options"], creationOptions : TagCreationOptions = {}): string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		const tagHtml = DragAndDrop.htmlDraggableTag(name, creationOptions);
 		return tagHtml;
 	}
 
-	static createStatusHtml(name: string, options: RollOptions,  creationOptions : StatusCreationOptions) : string {
+	static createStatusHtml(name: string, options: MistRoll["options"],  creationOptions : StatusCreationOptions) : string {
 		creationOptions.createdBy =  this.getCreatorTags(options);
 		return DragAndDrop.htmlDraggableStatus(name, creationOptions);
 	}
 
-	static statusOrTagHtmlFromRollData(options: RollOptions, data: RollOptions["createdItems"][number]): string {
+	static statusOrTagHtmlFromRollData(options: MistRoll["options"], data: MistRoll["options"]["createdItems"][number]): string {
 		switch (data.type) {
 			case "status":
 				return this.createStatusHtml(data.name, options, data.options);
@@ -828,7 +784,7 @@ export class CityRoll {
 		}
 	}
 
-	static getCreatorTags(options: RollOptions): Tag["system"]["createdBy"]  {
+	static getCreatorTags(options: MistRoll["options"]): Tag["system"]["createdBy"]  {
 		const activeTags = options.tags.filter( x=> !x.strikeout && x.amount > 0);
 		const realTags = this.convertToRealTags(activeTags);
 		return realTags.map(tag=> CityDB.getUniversalItemAccessor(tag))
@@ -844,7 +800,7 @@ export class CityRoll {
 		return await ChatMessage.create(messageData, {});
 	}
 
-	static convertToRealTags( tags: RollOptions["tags"]) : Tag[] {
+	static convertToRealTags( tags: MistRoll["options"]["tags"]) : Tag[] {
 		return tags
 			.filter(tag => tag.ownerId != null && tag.tagId != null)
 			.map( tag => ({
@@ -866,7 +822,7 @@ export class CityRoll {
 		event.preventDefault();
 		const modifierId = HTMLTools.getClosestData(event, "modifierId");
 		const messageId  = HTMLTools.getClosestData(event, "messageId");
-		const message = game.messages.get(messageId);
+		const message = game.messages.get(messageId) as MistChatMessage;
 		message!.rolls.forEach( roll => {
 			const modifier = (roll.options.modifiers as RollModifier[])
 				.find(x=> x.id == modifierId);
@@ -880,7 +836,7 @@ export class CityRoll {
 	static async _checkOption (event: Event) {
 		event.preventDefault();
 		const messageId  = HTMLTools.getClosestData(event, "messageId");
-		const message = game.messages.get(messageId)!;
+		const message = game.messages.get(messageId)! as MistChatMessage;
 		const roll = message.rolls[0];
 		const {power} = CityRoll.getPower(roll.options);
 		const {total} = CityRoll.getTotal(roll);
@@ -939,14 +895,14 @@ export class CityRoll {
 		if (!game.user.isGM)
 			return true;
 		const messageId  = HTMLTools.getClosestData(event, "messageId");
-		const message = game.messages.get(messageId)!;
+		const message = game.messages.get(messageId)! as MistChatMessage;
 		const roll = message.rolls[0];
 		const rollOptions = roll.options;
 		await CityDialogs.getRollModifierBox(rollOptions); // Poor style here since getModBox actually modifies the options it's given. consider refactor
 		await CityRoll._updateMessage(messageId, roll);
 	}
 
-	static async verifyCheckedOptions(checkedOptions: ReturnType<typeof CityItem["generateMoveList"]>, roll: Roll) {
+	static async verifyCheckedOptions(checkedOptions: ReturnType<typeof CityItem["generateMoveList"]>, roll: MistRoll) {
 		const {power} = CityRoll.getPower(roll.options);
 		const moveId = roll.options.moveId;
 		const move = CityHelpers.getMoves().find(x=> x.id == moveId);
@@ -975,10 +931,10 @@ export class CityRoll {
 		}
 	}
 
-	static async _updateMessage (messageId: string, newRoll : Roll | null = null) {
+	static async _updateMessage (messageId: string, newRoll : MistRoll | null = null) {
 		if (newRoll && !game.user.isGM)
 			console.warn("Trying to update roll as non-GM");
-		const message = game.messages.get(messageId)!;
+		const message = game.messages.get(messageId)! as MistChatMessage;
 		const roll = newRoll ?? message.rolls[0];
 		try {
 			const checkedOptions = await this.verifyCheckedOptions(
@@ -1010,7 +966,7 @@ export class CityRoll {
 	}
 
 
-	static createStoryTagHandlers(msg: ChatMessage, html : JQuery) {
+	static createStoryTagHandlers(msg: MistChatMessage, html : JQuery) {
 		const options = msg?.rolls[0]?.options;
 		if (!options) return;
 		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
@@ -1032,5 +988,5 @@ Hooks.on("ready", async () => {
 export type RollResultType = "Success" | "Failure" | "Dynamite" | "Partial";
 
 Hooks.on("renderChatMessage", async (msg, html, _data) => {
-	CityRoll.createStoryTagHandlers(msg, html);
+	CityRoll.createStoryTagHandlers(msg as MistChatMessage, html);
 });

@@ -1,5 +1,4 @@
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
-import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
 import { FadeType } from "./datamodel/fade-types.js";

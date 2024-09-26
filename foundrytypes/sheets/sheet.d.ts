@@ -8,6 +8,7 @@ class Sheet<T extends Document> extends FormApplication {
 	_getSubmitData(data: Record<string, any>): Record<string, any>;
 	_onDrop(event: DragEvent): unknown;
 	get isEditable(): boolean;
+	get template(): string;
 
 }
 

@@ -15,6 +15,7 @@
 	 get limited(): boolean;
 	 get hasPlayerOwner(): boolean;
 	 get documentName(): string;
+	 ownership : { default: number} & Record<FoundryUser["id"], number>;
 	 getFlag<T = unknown>(scope: string, key: string): T;
 	 async setFlag(scope:string, key:string, value: any): Promise<void>;
 	 async unsetFlag(scope:string, key:string): Promise<void>;

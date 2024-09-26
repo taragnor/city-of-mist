@@ -16,7 +16,7 @@ declare interface CONFIG {
 		dice: string
 	}
 	Dice: {
-		rolls: typeof unknown[];
+		rolls: (typeof Roll)[];
 	}
 	Combat: {
 		documentClass: typeof Combat<any>;
@@ -25,6 +25,12 @@ declare interface CONFIG {
 			decimals: number;
 		},
 	},
+		ChatMessage : {
+			template: string;
+			/** default "fas fa-comments" */
+			sidebar: string;
+			documentClass: typeof ChatMessage;
+		}
 }
 
 type StatusEffectObject = {

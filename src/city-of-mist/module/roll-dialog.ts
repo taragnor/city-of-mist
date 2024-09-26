@@ -1,10 +1,10 @@
+import { MistRoll } from "./mist-roll.js";
 import { Tag } from "./city-item.js";
 import { Status } from "./city-item.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
 import { ReviewStatus } from "./ReviewableModifierList.js";
 import { CitySockets } from "./city-sockets.js";
 import { localize } from "./city.js";
-import { CRollOptions } from "./city-roll.js";
 import { CityActor } from "./city-actor.js";
 import {CityHelpers} from "./city-helpers.js";
 import { JuiceMasterSession, TagReviewMasterSession} from "./city-sessions.js";
@@ -19,7 +19,7 @@ export class RollDialog extends Dialog {
 	#resolve: (value: unknown) => void;
 	#reject: (reason: unknown) => void;
 	#modifierList :ReviewableModifierList;
-	#options :CRollOptions;
+	#options :Partial<MistRoll["options"]>;
 	#power : number;
 	#pendingJuice : CityActor[];
 	#oldButtonHTML : string;
@@ -123,7 +123,7 @@ export class RollDialog extends Dialog {
 	}
 
 
-	async getResult() : Promise<null | {modList: ActivatedTagFormat[], options: CRollOptions}> {
+	async getResult() : Promise<null | {modList: ActivatedTagFormat[], options: Partial<MistRoll["options"]>}> {
 		return await new Promise ( (res, rej) => {
 			this.setPromise(res, rej);
 			this.render(true);

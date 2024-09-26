@@ -1,5 +1,5 @@
 class Roll {
-	constructor (dice_expr: string);
+	constructor (dice_expr: string, data: Record<string, unknown> = {}, options: RollOptions = {});
 
 	async roll(options: RollEvalOptions = {}): Promise<this>;
 	/**@deprecated eval is no longer necessary in Foundry V12
@@ -17,7 +17,7 @@ class Roll {
 	get dice(): Die[];
 	terms: RollTerm[];
 	formula: string;
-	options: Record<string, unknown>;
+	options: RollOptions;
 	toJSON(): string;
 	static fromJSON<T extends Roll= Roll>(json: string): T;
 	static fromData<T extends Roll= Roll>(obj: Object): T;
@@ -33,6 +33,10 @@ interface Die extends TermBase {
 	results:  {result: number, active:boolean}[];
 
 }
+
+interface RollOptions {
+
+};
 
 interface OperatorTerm extends TermBase {
 	operator: string;

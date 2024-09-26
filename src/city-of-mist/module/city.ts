@@ -16,6 +16,8 @@ declare global {
 }
 
 // Import Modules
+import { MistChatMessage } from "./mist-chat-message.js";
+import { MistRoll } from "./mist-roll.js";
 import { CityDataMigration } from "./migration.js";
 import { CitySettings } from "./settings.js";
 import { DEV_SETTINGS } from "./config/settings-object.js";
@@ -76,6 +78,9 @@ Hooks.once("cityDBLoaded", async function() {
 function registerDataModels() {
 	CONFIG.Actor.dataModels= ACTORMODELS;
 	CONFIG.Item.dataModels= ITEMMODELS;
+	CONFIG.Dice.rolls = [MistRoll];
+	//@ts-ignore
+	CONFIG.ChatMessage.documentClass = MistChatMessage;
 }
 
 

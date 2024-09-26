@@ -60,7 +60,7 @@ type CreateHook<T extends FoundryDocument> = (item: T, metaData: Record<string, 
 
 type ApplyAEHookFn = (actor: Actor<any,any>, change: AEChange , current: any , delta: any, changes: Record<string, any>) => unknown;
 
-type UpdateHook<T extends FoundryDocument, Diff = {}> = (updatedItem: T, changes: Record<string, unknown>, diff: DiffObject & Diff, userId: string) => unknown;
+type UpdateHook<T extends FoundryDocument, Diff = {}> = (updatedItem: T, changes: DeepPartial<T>, diff: DiffObject & Diff, userId: string) => unknown;
 
 type DeleteHook<T extends FoundryDocument> = (deletedItem: T, something: Record<string, unknown>, id: string) => unknown;
 
