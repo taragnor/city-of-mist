@@ -344,6 +344,49 @@ export class HTMLTools {
 		}
 	}
 
+	static getElementValue(element: JQuery<HTMLElement>): string | boolean | number | undefined {
+		// Ensure we have a jQuery object
+		if (!element || !(element instanceof jQuery)) {
+			return undefined;
+		}
+
+    // Check if the element is a checkbox
+    if (element.is(':checkbox')) {
+        return element.is(':checked');
+    }
+
+    // Check if the element is a select (single or multiple)
+    if (element.is('select')) {
+        // If it's a multiple select box
+        if (element.prop('multiple')) {
+            const selectedValues: string[] = [];
+            element.find('option:selected').each((i, option) => {
+                selectedValues.push($(option).val() as string);
+            });
+            return selectedValues.join(', '); // Join multiple selections with a comma
+        }
+        // Single select
+        return element.val() as string;
+    }
+
+    // Check if the element is an input or textarea
+    if (element.is('input') || element.is('textarea')) {
+
+        const inputType = element.attr('type');
+        // Handle number inputs
+        if (inputType === 'number') {
+            const value = element.val();
+            return value ? Number(value) : undefined;
+        }
+
+        // Handle other input types like text
+        return element.val() as string;
+    }
+
+    // In case of other unsupported types, return undefined
+    return undefined;
+}
+
 	static initCustomJqueryFunctions() {
 		if (!jQuery.fn.middleclick) {
 			jQuery.fn.middleclick = function (handler) {
@@ -354,6 +397,10 @@ export class HTMLTools {
 			jQuery.fn.rightclick = function (handler) {
 				this.mousedown(HTMLTools.rightClick(handler));
 			}
+		}
+		if (!jQuery.fn.getSelected)
+			jQuery.fn.getSelected = function () {
+			return HTMLTools.getElementValue(this);
 		}
 	}
 } // end of class
@@ -366,6 +413,7 @@ declare global {
 	interface JQuery{
 		middleclick(handler: (e: Event | JQuery.Event) => any) :void;
 		rightclick(handler: (e: Event | JQuery.Event) => any) :void;
+		getSelected() : string | boolean | number | undefined;
 	}
 }
 
@@ -379,3 +427,8 @@ type DDElement<T extends string | number | boolean> = {
 	initial: T,
 	choices?: string[] | Record<string, string>,
 };
+
+
+
+
+
