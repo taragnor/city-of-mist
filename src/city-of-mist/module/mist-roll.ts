@@ -77,5 +77,15 @@ export class MistRoll extends Roll {
 		};
 	}
 
+	get powerCostOfRollOptions() : number {
+		const options= this.options;
+		const tags = options.createdItems.filter(x=> x.type == "tag").length;
+		const statuses = options.createdItems
+			.filter(x=> x.type == "status")
+			.reduce( (a,x : CreatedStatusData) => a + x.tier, 0);
+		const other = options.extraFeats.length;
+		return tags * 2 + statuses + other;
+	}
+
 }
 

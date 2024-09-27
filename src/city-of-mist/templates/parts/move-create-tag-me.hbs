@@ -33,3 +33,14 @@
 </ul>
 {{/if}}
 
+{{#if (gt roll.powerCostOfRollOptions 0)}}
+<div class="spent-points">
+	<label>
+		{{localize "MistEngine.rollEffects.label.spentPower"}}
+	</label>
+	<span>
+		{{roll.powerCostOfRollOptions}}
+	</span>
+</div>
+{{/if}}
+

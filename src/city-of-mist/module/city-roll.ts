@@ -292,6 +292,7 @@ export class CityRoll {
 			//@ts-ignore
 			rolls : (roll.terms)[0].results,
 			total : total,
+			roll,
 			power : power,
 			powerAdjustment: adjustment,
 			rollAdjustment: roll_adjustment,
@@ -643,7 +644,6 @@ export class CityRoll {
 	static async onMEEffectButton(event: JQuery.ClickEvent, chatMsg: MistChatMessage) : Promise<void> {
 		const actionType = HTMLTools.getClosestData(event, "actionType") as MistEffect;
 		const allowables = MIST_ENGINE_EFFECTS_OBJ[actionType];
-		debugger;
 		const otherArray = allowables.other.map(
 			x=> Object.fromEntries( [[x, `MistEngine.rollEffects.effect.extra.${x}.name`]])
 		);
@@ -722,17 +722,24 @@ export class CityRoll {
 			ui.notifications.error("Can't find mMove for create clue");
 			return;
 		}
+		const title = "#CityOfMist.dialog.postClue.title";
+		const text = "#CityOfMist.dialog.postClue.text";
+		if (!await HTMLTools.confirmBox(title, text)) {
+			return;
+		}
 		options.extraFeats.push("clue");
 		const tags = options.modifiers
 			.filter( x=> x.type == "tag")
 			.map( x=> x.name)
 			.join(", ");
 		const tagStr = tags.length > 1 ? `: ${tags}` : "";
-		await ClueChatCards.postClue( {
-			actorId: options.actorId!,
-			metaSource: msg.id,
-			method: `${move.name} ${tagStr}`,
-		});
+		if (CitySettings.useClueBoxes()) {
+			await ClueChatCards.postClue( {
+				actorId: options.actorId!,
+				metaSource: msg.id,
+				method: `${move.name} ${tagStr}`,
+			});
+		}
 
 	}
 
@@ -745,6 +752,14 @@ export class CityRoll {
 		const index = Number(HTMLTools.getClosestDataNT(ev, "createdIndex", undefined));
 		if (index == undefined) return;
 		createdItems.splice(index, 1);
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+	}
+
+	static async deleteExtraFeat(ev: JQuery.ClickEvent, chatMsg: MistChatMessage) : Promise<void> {
+		const extraEffects = chatMsg.rolls[0].options.extraFeats;
+		const index = Number(HTMLTools.getClosestDataNT(ev, "featIndex", undefined));
+		if (index == undefined) return;
+		extraEffects.splice(index, 1);
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
@@ -784,6 +799,7 @@ export class CityRoll {
 		return await ChatMessage.create(messageData, {});
 	}
 
+
 	static convertToRealTags( tags: MistRoll["options"]["tags"]) : Tag[] {
 		return tags
 			.filter(tag => tag.ownerId != null && tag.tagId != null)
@@ -800,6 +816,7 @@ export class CityRoll {
 			.map( acc => CityDB.findItem(acc))
 			.filter (item => item != undefined) as Tag[];
 	}
+
 
 	static async _strikeoutModifierToggle(event: Event) : Promise<void> {
 		if (!game.user.isGM) return;
@@ -956,6 +973,7 @@ export class CityRoll {
 		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg))
 		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
 		html.find(".city-roll .delete-created-item").on("click", ev => this.deleteCreatedItem(ev, msg));
+		html.find(".city-roll .delete-extra-feat").on("click", ev => this.deleteExtraFeat(ev, msg));
 		html.find(".city-roll .me-effects .me-effect").on("click", ev => this.onMEEffectButton(ev, msg));
 	}
 

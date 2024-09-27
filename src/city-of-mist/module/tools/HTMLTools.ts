@@ -1,3 +1,4 @@
+import { localizeS } from "./handlebars-helpers.js";
 import { CityActor } from "../city-actor.js";
 import { CityItem } from "../city-item.js";
 
@@ -65,16 +66,16 @@ export class HTMLTools {
 // **************************************************
 
 	/** brings up a confirmation window
-	@param {string} title
-	@param {string} text
+	@param {string} title starting with a # will localize
+	@param {string} text starting with a # will localize
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
 	static async confirmBox(title: string, text: string, options : Record<string, unknown> = {}) : Promise<boolean> {
-		const templateData = {text};
+		const templateData = {text : localizeS(text)};
 		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
 		return await new Promise( (conf, reject) => {
 			Dialog.confirm({
-				title,
+				title : localizeS(title) as string,
 				content: html,
 				yes: conf.bind(null, true),
 				no: conf.bind(null, false),

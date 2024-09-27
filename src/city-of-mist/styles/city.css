@@ -3093,6 +3093,13 @@ input.tk-tagname-letter {
 	overflow: hidden;
 }
 
+.city-roll .spent-points {
+	font-family: "Rift Bold";
+	font-weight: bold;
+	border: solid;
+	padding: 5px;
+}
+
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
 /* } */

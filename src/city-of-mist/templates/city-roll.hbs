@@ -63,10 +63,10 @@
 	<hr>
 	<div class="move-tag-status-creator">
 		{{#if ( isMistEngine )}}
-		{{> "systems/city-of-mist/templates/parts/move-create-tag-me.hbs" move=move options=options}}
+		{{> "systems/city-of-mist/templates/parts/move-create-tag-me.hbs" move=move options=options roll=roll}}
 
 		{{else}}
-		{{> "systems/city-of-mist/templates/parts/move-create-tag-com.hbs" move=move options=options}}
+		{{> "systems/city-of-mist/templates/parts/move-create-tag-com.hbs" move=move options=options roll=roll}}
 		{{/if}}
 	</div>
 	{{/if}}

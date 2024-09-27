@@ -164,6 +164,8 @@
 "Legend.terms.experience": "Experience",
 "Legend.terms.collective" : "Scale",
 
+"MistEngine.rollEffects.label.spentPower": "Total Spent Power",
+
 "MistEngine.rollEffects.effect.attack.name": "Attack",
 "MistEngine.rollEffects.effect.attack.hint": "Give your target a harmful status",
 "MistEngine.rollEffects.effect.disrupt.name": "Disrupt",
@@ -522,6 +524,9 @@
 "CityOfMist.dialog.roll.takePenalty": "Take Penalty to Increase Effect",
 "CityOfMist.dialog.roll.burnTag": "Burn Tag",
 "CityOfMist.dialog.roll.dontBurn": "Don't Burn",
+
+"CityOfMist.dialog.postClue.title": "Post Clue",
+"CityOfMist.dialog.postClue.text": "Create a Clue (1 power)?",
 
 "CityOfMist.dialog.downtime.title": "Possible Downtime Moves",
 "CityOfMist.dialog.downtime.unburn": "Prepare for your next activity. Tell everyone at the table how you prepare. Unburn all burned tags",
