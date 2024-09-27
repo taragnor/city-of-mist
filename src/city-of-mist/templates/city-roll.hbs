@@ -59,7 +59,7 @@
 			{{/each}}
 	</ul>
 
-	{{#if (moveCanCreateTags move)}}
+	{{#if roll.showPowerPanel}}
 	<hr>
 	<div class="move-tag-status-creator">
 		{{#if ( isMistEngine )}}
@@ -69,6 +69,10 @@
 		{{> "systems/city-of-mist/templates/parts/move-create-tag-com.hbs" move=move options=options roll=roll}}
 		{{/if}}
 	</div>
+	{{else}}
+	<button class="show-effects-list">
+		+<i class="fa-solid fa-tags"></i> / <i class="fa-solid fa-briefcase-medical"></i>
+	</button>
 	{{/if}}
 
 </div>

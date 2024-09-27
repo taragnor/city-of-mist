@@ -219,6 +219,7 @@ export class CityRoll {
 		});
 	}
 
+
 	async #getRoll() {
 		const options = this.#options;
 		let rstring;
@@ -229,12 +230,17 @@ export class CityRoll {
 		} else  {
 			rstring = `2d6`;
 		}
+		const move = CityDB.getMoveById(this.#moveId);
+		if (!move) {
+			throw new Error(`No Move found for Id: ${this.#moveId}`);
+		}
 		let r = new MistRoll(rstring, {}, {
 			...this.#options,
 			modifiers: this.#modifiers,
 			tags: this.#tags,
 			actorId: this.#actor?.id,
 			moveId: this.#moveId,
+			canCreateTags: move.canCreateTags(),
 		});
 		r = await r.roll();
 		if (r.total == null || Number.isNaN(r.total)) {
@@ -300,7 +306,7 @@ export class CityRoll {
 		return await renderTemplate("systems/city-of-mist/templates/city-roll.hbs", templateData);
 	}
 
-	static getTotal (roll : Roll) {
+	static getTotal (roll : MistRoll) {
 		// const modifiers = roll.options.modifiers;
 		const {bonus, roll_adjustment} = CityRoll.getRollBonus(roll.options);
 		return { total: bonus + roll.total, roll_adjustment};
@@ -641,6 +647,11 @@ export class CityRoll {
 		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
 	}
 
+	static async showEffectsList(_event: JQuery.ClickEvent, chatMsg: MistChatMessage) {
+		chatMsg.rolls[0].options.forceShowPanel = true;
+		await this._updateMessage(chatMsg.id, chatMsg.rolls[0]);
+	}
+
 	static async onMEEffectButton(event: JQuery.ClickEvent, chatMsg: MistChatMessage) : Promise<void> {
 		const actionType = HTMLTools.getClosestData(event, "actionType") as MistEffect;
 		const allowables = MIST_ENGINE_EFFECTS_OBJ[actionType];
@@ -975,6 +986,7 @@ export class CityRoll {
 		html.find(".city-roll .delete-created-item").on("click", ev => this.deleteCreatedItem(ev, msg));
 		html.find(".city-roll .delete-extra-feat").on("click", ev => this.deleteExtraFeat(ev, msg));
 		html.find(".city-roll .me-effects .me-effect").on("click", ev => this.onMEEffectButton(ev, msg));
+		html.find(".city-roll .show-effects-list").on("click", ev => this.showEffectsList(ev, msg));
 	}
 
 } //end of class

@@ -1625,8 +1625,18 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	}
 
 	canCreateTags(this: Move): boolean {
-		//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
-		return true;
+		switch( this.system.system_compatiblity) {
+			case "city-of-mist":
+				//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
+				return true;
+			case "otherscape":
+				return this.name == "Tracked Outcome";
+			case "legend":
+				return this.name == "Tracked Outcome";
+			default:
+				console.warn(`Unknown System compatiblity for ${this.name}: ${this.system.system_compatiblity}`);
+				return true;
+		}
 	}
 
 }

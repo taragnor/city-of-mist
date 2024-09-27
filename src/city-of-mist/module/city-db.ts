@@ -187,6 +187,10 @@ export class CityDB extends DBAccessor {
 		});
 	}
 
+	static getMoveById(moveId: string) : Move | undefined {
+		return CityDB.movesList.find(x=> x.id == moveId);
+	}
+
 	static getThemebook(tname: string, id?:string) : Themebook {
 		let book: Themebook | undefined;
 		book = this.searchForContent(this._themebooks, id, tname);

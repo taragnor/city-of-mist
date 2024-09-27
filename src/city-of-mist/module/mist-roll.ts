@@ -1,3 +1,7 @@
+import { CitySettings } from "./settings.js";
+import { CityRoll } from "./city-roll.js";
+import { Move } from "./city-item.js";
+import { CityDB } from "./city-db.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
@@ -12,7 +16,9 @@ export type MRollOptions = CRollOptions & {
 	moveId :string;
 	// autoAttention :boolean;
 	createdItems: (CreatedStatusData | CreatedTagData)[];
-	extraFeats: ExtraFeat[]
+	extraFeats: ExtraFeat[];
+	canCreateTags: boolean;
+	forceShowPanel: boolean;
 }
 
 
@@ -73,6 +79,8 @@ export class MistRoll extends Roll {
 			createdItems: [],
 			extraFeats : [],
 			moveId: options.moveId,
+			canCreateTags: options.canCreateTags ?? false,
+			forceShowPanel: options.forceShowPanel ?? false,
 			...this.options as Partial<MRollOptions>,
 		};
 	}
@@ -85,6 +93,24 @@ export class MistRoll extends Roll {
 			.reduce( (a,x : CreatedStatusData) => a + x.tier, 0);
 		const other = options.extraFeats.length;
 		return tags * 2 + statuses + other;
+	}
+
+	get move() : Move {
+		const move=  CityDB.getMoveById(this.options.moveId);
+		if (!move) {
+			throw new Error("No Move found for roll");
+		}
+		return move;
+	}
+
+	get showPowerPanel(): boolean {
+		if (CitySettings.getBaseSystem() == "city-of-mist") {
+			return true;
+		}
+		const o= this.options;
+		if (o.forceShowPanel) return true;
+		const { total } = CityRoll.getTotal(this);
+		return o.canCreateTags && total > 6;
 	}
 
 }
