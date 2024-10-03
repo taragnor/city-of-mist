@@ -107,7 +107,7 @@ export class MistRoll extends Roll {
 		if (CitySettings.getBaseSystem() == "city-of-mist") {
 			return true;
 		}
-		const o= this.options;
+		const o = this.options;
 		if (o.forceShowPanel) return true;
 		const { total } = CityRoll.getTotal(this);
 		return o.canCreateTags && total > 6;

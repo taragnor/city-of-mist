@@ -1,3 +1,4 @@
+import { Status } from "./city-item.js";
 import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import {HTMLTools} from "./tools/HTMLTools.js";
@@ -169,6 +170,7 @@ export class StoryTagDisplayContainer {
 			console.warn ("Something went wrong with dragging");
 			return;
 		}
+		const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
 		if (x == undefined) {
 			ui.notifications.error("Error with Drag and Drop");
@@ -177,12 +179,12 @@ export class StoryTagDisplayContainer {
 		if (x instanceof Token) {
 			x = x.actor;
 		}
-		if (x instanceof CityActor) {
-			await DragAndDrop.dropDraggableOnActor(dragging, x);
+		if (x == SceneTags) {
+			await DragAndDrop.dropDraggableOnSceneTags(dragging, {mergeStatus: existingStatus});
 			return;
 		}
-		if (x == SceneTags) {
-			await DragAndDrop.dropDraggableOnSceneTags(dragging);
+		if (x instanceof CityActor) {
+			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
 			return;
 		}
 	}
@@ -203,6 +205,15 @@ export class StoryTagDisplayContainer {
 		}
 	}
 
+getStatusAt(event: JQuery.Event) : Status | undefined {
+		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
+	const statusId = String(HTMLTools.getClosestDataNT(event, "statusId", ""));
+		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", ""));
+		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", ""));
+	if (!statusId || !ownerId) return undefined;
+		const owner = CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
+	return owner.items.get(statusId) as Status | undefined;
+}
 	async toggleVisibility() {
 		const element = $(this.element);
 		if ( element.css('visibility') == 'hidden' ) {
