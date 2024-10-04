@@ -5,6 +5,7 @@ export type StatusDropOptions = {
 
 type GenericCreationOptions = {
 	newName?: string;
+	faceDanger ?: boolean;
 };
 
 export type TagCreationOptions = GenericCreationOptions &

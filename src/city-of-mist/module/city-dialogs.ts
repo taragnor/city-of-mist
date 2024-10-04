@@ -1,3 +1,4 @@
+import { localize } from "./city.js";
 import { MistRoll } from "./mist-roll.js";
 import { Status } from "./city-item.js";
 import { StatusCategory } from "./config/status-categories.js";
@@ -19,7 +20,6 @@ import { ReviewableModifierList } from "./ReviewableModifierList.js";
 import { JuiceSlaveSession } from "./city-sessions.js";
 import { ThemeKit } from "./city-item.js";
 import { CityItem } from "./city-item.js"
-import { localize } from "./city.js";
 import { Themebook } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
 import {CityDB} from "./city-db.js";
@@ -167,14 +167,52 @@ export class CityDialogs {
 		});
 	}
 
+	//TODO: implement this fully
+	static async mergeWithStatusDialog(targetStatus: Status,  name: string, options: StatusCreationOptions): Promise<null | { action: "add" | "subtract" | "override", name: string, tier: number, pips: number, statusId: string}> {
+		const {tier} = options;
+		const templateOptions = {
 
+		};
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
+		return new Promise ( (conf, reject) => {
+			const dialog = new Dialog( {
+				title: localize("MistEngine.dialog.statusMerge.label"),
+				content: html,
+				buttons: {
+					ok: {
+						icon: `<i class="fa-solid fa-check"></i>`,
+						callback: (html: string) => {
+							//NOTE: Placeholder values
+							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
+								action: "override",
+								name: "",
+								tier: 0,
+								pips: 0,
+								statusId: "",
+							};
+								;
+							conf(ret);
 
-	// static async statusDropDialog(actor: CityActor, name : string , tier: number, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
-	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions, facedanger = false) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
+						},
+					},
+					cancel: {
+						icon: `<i class="fa-solid fa-xmark"></i>`,
+						callback: () => { conf(null); },
+					}
+				},
+				close: () => {conf(null);},
+			}, {});
+			dialog.render(true);
+		});
+
+	}
+
+	//TODO: implemeent check for status dropped on other status via options.mergeWithStatus
+	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
 		const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
 		// const statusList = actor.my_statuses;
 		let tier = options.tier;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, facedanger});
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, facedanger: options.faceDanger ?? false});
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog({
 				title:`Add Dropped Status: ${name}`,

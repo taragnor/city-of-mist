@@ -515,6 +515,8 @@
 
 "CityOfMist.chatmessage.clue.use":"uses a clue.",
 
+"MistEngine.dialog.statusMerge.label": "Merge Status",
+
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 "CityOfMist.dialog.roll.title": "Make Roll",
 "CityOfMist.dialog.roll.rollBonus": "Roll Bonus:",

@@ -95,22 +95,39 @@ export class DragAndDrop {
 		const tier = options.tier;
 		if (!tier || tier < 0)
 			throw new Error(`Tier is not valid ${tier}`);
-		const retval = await CityDialogs.statusDropDialog(actor, name, {...options, tier});
-		if (retval == null) return null;
+		const retval = await ( options.mergeWithStatus
+			? CityDialogs.mergeWithStatusDialog(options.mergeWithStatus, name, options)
+			: CityDialogs.statusDropDialog(actor, name, {...options, tier}));
+		if (retval == null) {
+			return null;
+		}
 		switch (retval.action) {
 			case 'create':
 				const status = await actor.addOrCreateStatus(retval.name,{ ...options, tier: retval.tier, pips: retval.pips});
 				await CityHelpers.modificationLog(actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
-			case 'merge':
+			case 'add':
+			case 'merge': {
 				const origStatus =   actor.getStatus(retval.statusId!)!;
 				options.newName = retval.name;
 				await origStatus.addStatus(retval.tier, options);
 				await HTMLHandlers.reportStatusAdd(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
-			default:
-				retval.action satisfies never;
-				throw new Error(`Unknown action : ${retval.action}`);
+			} case "subtract": {
+				const origStatus =   actor.getStatus(retval.statusId!)!;
+				options.newName = retval.name;
+				await origStatus.subtractStatus(retval.tier, options.newName);
+				await HTMLHandlers.reportStatusSubtract(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
+				return origStatus;
+			} case "override": {
+				const origStatus =   actor.getStatus(retval.statusId!)!;
+				await origStatus.delete();
+				const status = await actor.addOrCreateStatus(retval.name,{ ...options, tier: retval.tier, pips: retval.pips});
+				await CityHelpers.modificationLog(actor, `Overrode Status: ${origStatus.name} with ${status} tier  ${retval.tier}`);
+				return status;
+			} default:
+				retval satisfies never;
+				throw new Error(`Unknown action : ${(retval as any)?.action}`);
 		}
 	}
 
