@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "question": "#CityOfMist.themebook.definingevent.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Touchy Subject",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "name": "#CityOfMist.themebook.definingevent.imp.0.name",
+        "description": "#CityOfMist.themebook.definingevent.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Take It to the Grave",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "name": "#CityOfMist.themebook.definingevent.imp.1.name",
+        "description": "#CityOfMist.themebook.definingevent.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Echoes From the Past",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "name": "#CityOfMist.themebook.definingevent.imp.2.name",
+        "description": "#CityOfMist.themebook.definingevent.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Over It",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "name": "#CityOfMist.themebook.definingevent.imp.3.name",
+        "description": "#CityOfMist.themebook.definingevent.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getting Good at This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 110-113",
+        "name": "#CityOfMist.themebook.definingevent.imp.4.name",
+        "description": "#CityOfMist.themebook.definingevent.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       }

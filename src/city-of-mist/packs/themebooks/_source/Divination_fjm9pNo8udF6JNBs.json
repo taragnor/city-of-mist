@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "question": "#CityOfMist.themebook.divination.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Open Book",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "name": "#CityOfMist.themebook.divination.imp.0.name",
+        "description": "#CityOfMist.themebook.divination.reference",
         "uses": null,
-        "effect_class": "THEME_DYN_INV"
+        "effect_class": "THEME_DYN_SELECT"
       },
       "1": {
-        "name": "Ahead of the Game",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "name": "#CityOfMist.themebook.divination.imp.1.name",
+        "description": "#CityOfMist.themebook.divination.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Seasoned Investigator",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "name": "#CityOfMist.themebook.divination.imp.2.name",
+        "description": "#CityOfMist.themebook.divination.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Prophetic",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "name": "#CityOfMist.themebook.divination.imp.3.name",
+        "description": "#CityOfMist.themebook.divination.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "A Fighting Chance",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 90-93",
+        "name": "#CityOfMist.themebook.divination.imp.4.name",
+        "description": "#CityOfMist.themebook.divination.reference",
         "uses": null,
         "effect_class": ""
       }

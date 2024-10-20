@@ -16,92 +16,92 @@
     "type": "Extra",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "question": "#CityOfMist.themebook.extra.ride.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Showoff",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "name": "#CityOfMist.themebook.extra.ride.imp.0.name",
+        "description": "#CityOfMist.themebook.extra.ride.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Rev Up",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "name": "#CityOfMist.themebook.extra.ride.imp.1.name",
+        "description": "#CityOfMist.themebook.extra.ride.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "Protective",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "name": "#CityOfMist.themebook.extra.ride.imp.2.name",
+        "description": "#CityOfMist.themebook.extra.ride.reference",
         "uses": 1,
         "effect_class": ""
       },
       "3": {
-        "name": "Loyal Steed",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "name": "#CityOfMist.themebook.extra.ride.imp.3.name",
+        "description": "#CityOfMist.themebook.extra.ride.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getaway",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 292-294",
+        "name": "#CityOfMist.themebook.extra.ride.imp.4.name",
+        "description": "#CityOfMist.themebook.extra.ride.reference",
         "uses": 1,
         "effect_class": ""
       }
