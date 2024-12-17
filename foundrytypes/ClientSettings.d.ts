@@ -5,11 +5,11 @@ declare class ClientSettings {
 	register<T extends typeof String | typeof Number | typeof Boolean>(namespace: string, key: string, data: SettingConfig<T> ): void;
 	registerMenu<C extends typeof FormApplication>(namespace:string, key: string, data: SettingSubmenuConfig<C>): void;
 	get<Output = unknown>(namespace: string, key: string): Output;
-	async set(namespace:string, key: string, value: unkwown): Promise<void>
+	async set(namespace:string, key: string, value: unknown): Promise<void>
 
 }
 
-interface SettingConfig<T extends typeof String | typeof Number | typeof Boolean | typeof Object> {
+interface SettingConfig<T extends typeof String | typeof Number | typeof Boolean | typeof object> {
 	name: string;
 	hint: string;
 	scope: "client" | "world";
@@ -21,7 +21,7 @@ interface SettingConfig<T extends typeof String | typeof Number | typeof Boolean
 	default: InstanceType<T>;
 	onChange?: (newval: InstanceType<T>) => void;
 	/** Restrict this submenu to gamemaster only? */
-	restricted: boolean
+	restricted?: boolean
 }
 
 

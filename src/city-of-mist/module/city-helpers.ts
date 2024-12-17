@@ -779,12 +779,12 @@ export class CityHelpers {
 
 	static sceneTagWindowEnabled() {
 		const setting = game.settings.get('city-of-mist', "sceneTagWindow");
-		return setting != "none" ?? false;
+		return setting != "none";
 	}
 
 	static sceneTagWindowFilterEmpty() {
 		const setting = game.settings.get('city-of-mist', "sceneTagWindow");
-		return setting == "omitEmpty" ?? false;
+		return setting == "omitEmpty";
 	}
 
 	static altPowerEnabled() {

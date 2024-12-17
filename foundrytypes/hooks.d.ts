@@ -15,6 +15,8 @@ declare interface HOOKS {
 	"combatTurn": (combat: Combat, updateData: CombatUpdateData, updateOptions: CombatUpdateOptions) => unknown;
 	"combatRound": (combat: Combat, updateData: CombatUpdateData, updateOptions: CombatUpdateOptions) => unknown;
 	"chatMessage": (chatLog: ChatLog, contents: string, chatMsgData: unknown) => unknown;
+	"preCreateActor": PreCreateHook<Actor>;
+	"preCreateItem": PreCreateHook<Item>;
 	"preCreateChatMessage": PreCreateHook<ChatMessage>;
 	"createChatMessage": CreateHook<ChatMessage>;
 	"preUpdateActor": UpdateHook<Actor>;
@@ -43,12 +45,17 @@ declare interface HOOKS {
 	"updateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
 	"updateActor": UpdateHook<Actor>;
 	"updateWall": UpdateHook<WallDocument>;
+	"updateRegion": UpdateHook<RegionDocument>;
 	"getSceneControlButtons": Function;
 	"renderJournalDirectory": Function;
 	"renderCombatTracker": RenderCombatTabFn;
 	"renderApplication": Function;
 	"renderChatMessage": (msg: ChatMessage, htmlElement: JQuery<HTMLElement>, data: unknown) => Promise<unknown>;
+	"renderSceneConfig": (app: unknown, html: JQuery, options: unknown) => unknown;
+	"renderRegionConfig": (app: ConfigApp<RegionDocument>, html: JQuery, options: unknown) => unknown;
+	"closeRegionConfig": (app: ConfigApp<RegionDocument>) => unknown,
 	"canvasReady": Function;
+	"canvasInit": Function;
 	"hoverToken" : (token: Token<any>, hover:boolean) => unknown;
 	/**hook boolean value is true on connect, false on disconnect*/
 	"userConnected": (user: FoundryUser, isConnectionEvent : boolean) => unknown;
@@ -69,6 +76,10 @@ type PreDeleteHook<T extends FoundryDocument> = DeleteHook<T>;
 type DiffObject = {
 	diff: boolean,
 	render: boolean
+}
+
+type ConfigApp<T extends FoundryDocument> = {
+	get document(): T;
 }
 
 type CombatUpdateOptions = {

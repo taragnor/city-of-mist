@@ -108,8 +108,10 @@ export class CityRoll {
 				let {modList, options} = dialogReturn;
 
 					this.#selectedList = modList;
-					this.#options = {...options,
-						...this.#options};
+					this.#options = {
+						...options,
+						...this.#options
+					};
 				}
 		}
 		return await this.execRoll();

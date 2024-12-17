@@ -2,6 +2,7 @@ class Scene extends FoundryDocument<never> {
 	tokens: Collection<TokenDocument<Actor<any>>>;
 	dimensions: {distance:number};
 	walls: Collection<WallDocument>;
+	regions: Collection<RegionDocument>;
 }
 
 class WallDocument extends FoundryDocument {
@@ -13,4 +14,9 @@ class WallDocument extends FoundryDocument {
 	doorSound: string;
 	dir: number;
 	c: number[];
+}
+
+class RegionDocument extends FoundryDocument<never> {
+	get tokens(): Set<TokenDocument<Actor<any>>>;
+
 }

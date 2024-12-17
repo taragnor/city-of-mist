@@ -1,6 +1,6 @@
 declare class ChatMessage<R extends Roll = Roll> extends FoundryDocument {
 	static getSpeaker(spkOptions: Partial<ChatSpeakerObject>) : SpeakerOptions;
-	static async create(msgData: MessageData<R>, options: MessageOptions = {}): Promise<ChatMessage>;
+	static async create(msgData: MessageData<R>, options: MessageOptions = {}): Promise<ChatMessage<R>>;
 
 	/** @deprecated: use rolls instead of roll*/
 	static async create(msgData: DeprecatedMessageData<R>, options: MessageOptions = {}): Promise<ChatMessage>;

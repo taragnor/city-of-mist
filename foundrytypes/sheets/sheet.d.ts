@@ -1,4 +1,4 @@
-class Sheet<T extends Document> extends FormApplication {
+class Sheet<T extends FoundryDocument<any>> extends FormApplication {
 	options: SheetOptions;
 	getData(): SheetData | Promise<SheetData>;
 	activateListeners(html: JQuery<HTMLElement>): void;
@@ -14,7 +14,7 @@ class Sheet<T extends Document> extends FormApplication {
 
 
 class FormApplication extends Application {
-	constructor(object: Object={}, options:Object ={});
+	constructor(object: object={}, options:object ={});
 	getData(options : Record<string, unknown> = {}): AppData | Promise<AppData>;
 
 	close( options?: unknown): void;

@@ -1,14 +1,15 @@
  class FoundryDocument <Embedded extends (FoundryDocument | never) = never> {
-	get parent(): FoundryDocument | null;
+	get parent(): FoundryDocument<any> | undefined;
 
 	async update<T extends updateObj> (updateData: AllowedUpdateKeys<T>): Promise<this>;
 	 // async update(updateData: RecursivePartial< typeof this>): Promise<this>
 
-	name: string;
-	id: string;
-	async createEmbeddedDocuments(type: string, objData: Record<string, any>[], context?: unknown): Promise<Embedded[]>;
+	 name: string;
+	 id: string;
+	 async updateEmbeddedDocuments(type: string, updates: unknown): Promise<unknown>;
+	 async createEmbeddedDocuments(type: string, objData: Record<string, any>[], context?: unknown): Promise<Embedded[]>;
 	 sheet: Sheet<this>
-
+	 get schema(): SchemaField<unknown>;
 	 async delete(): Promise<void>;
 	 async deleteEmbeddedDocuments( embeddedName: string, ids: unknown, context: Record<string, any> = {}): Promise<void>;
 	 get isOwner(): boolean;
@@ -19,33 +20,24 @@
 	 getFlag<T = unknown>(scope: string, key: string): T;
 	 async setFlag(scope:string, key:string, value: any): Promise<void>;
 	 async unsetFlag(scope:string, key:string): Promise<void>;
-	 prepareBaseData(): void;
 	 prepareEmbeddedDocuments(): void;
-	 prepareDerivedData(): void;
+	 // Now handled in DataModel Class via inheritance
+	 // prepareBaseData(): void;
+	 // prepareDerivedData(): void;
 	 testUserPermission(user: FoundryUser, permissionLevel: "NONE" | "LIMITED" | "OWNER" | "OBSERVER", options: {exact?: boolean} = {}): boolean;
 	 static async create<T>(this: T, data: CreationData):Promise<InstanceType<T>>;
 	 migrateSystemData(sourceMaybe?: unknown): unknown;
 	 async updateSource(updateData: Record<string, unknown>): Promise<unknown>;
 	 get folder(): Folder;
-
+	 static defineSchema(): Record<string, FoundryDMField<any>>;
 }
-
-// type RecursivePartial<T> = {
-//   [P in keyof T]?:
-//     T[P] extends (infer U)[] ? RecursivePartial<U>[] :
-//     T[P] extends object | undefined ? RecursivePartial<T[P]> :
-//     T[P];
-// };
-
 
 type CreationData = Record<string, unknown>  & {
 	name: string;
 	type: string;
-
 }
 
 interface Folder {
-
 };
 
 type AllStringsStartingWith<Prefix extends string, T extends string | number | symbol = string | number | symbol>=

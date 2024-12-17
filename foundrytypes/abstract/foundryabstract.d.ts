@@ -1,5 +1,6 @@
 interface FoundryAbstract {
-	DataModel: typeof DataModelClass
+	DataModel: typeof DataModelClass;
+	TypeDataModel : typeof TypeDataModelClass;
 }
 
 

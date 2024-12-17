@@ -34,15 +34,16 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.system.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
-	override prepareDerivedData() {
-		super.prepareDerivedData();
-		switch (this.system.type) {
-			case "improvement":
-				this.system.choice_type = (this as Improvement).getChoiceType();
-				break;
-			default: break;
-		}
-	}
+	// NOTE: this override doesn't function in this version of foundry so this is removed not 100% sure what this does
+	// override prepareDerivedData() {
+	// 	super.prepareDerivedData();
+	// 	switch (this.system.type) {
+	// 		case "improvement":
+	// 			this.system.choice_type = (this as Improvement).getChoiceType();
+	// 			break;
+	// 		default: break;
+	// 	}
+	// }
 
 	/*
 	Options for effect_class on improvmeents;
@@ -803,6 +804,43 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
 		const newpips = pips >> tier;
 		return await this.refreshStatus_otherscape(newpips, newname)
+	}
+
+	/** returns the amount of status card boxes checked by a status, otherwise returns 0 for non-status
+	works only for City of Mist style status and not Otherscape which has the potential for disjoint checked boxes
+	*/
+	get boxesChecked(): number {
+		if (this.system.type != "status") return 0;
+		let {tier, pips} = this.system;
+		if (tier <= 0) return 0;
+		let total = 1;
+		while (--tier >= 1) {
+			total += tier;
+		}
+		return total + pips;
+	}
+
+	/** sets the tier and pips based on the amount of status boxes checked, requires city of Mist system to do correctly, and assumes linear boxes.
+	DOES NOT WORK WITH OTHERSCAPE
+	 */
+	async setBoxesChecked(this: Status, boxes: number) : Promise<void> {
+		boxes = Math.round(boxes);
+		if (boxes <= 0) {
+			await this.update( {
+				"system.pips": 0,
+				"system.tier": 0
+			});
+				return;
+			}
+		let tier = 0;
+		while (boxes >= tier) {
+			boxes -= Math.max(1, tier++);
+		}
+		let pips = boxes;
+		await this.update( {
+			"system.pips": pips,
+			"system.tier": tier
+		});
 	}
 
 	async addStatus_ME(this: Status,tier: number, newname: string) {

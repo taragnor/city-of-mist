@@ -20,6 +20,12 @@ declare const CONST : {
 				LIMITED: 1,
 				OBSERVER: 2,
 				OWNER: 3,
+		};
+		DICE_ROLL_MODES: {
+			PUBLIC: "publicroll";
+			PRIVATE: "gmroll";
+			BLIND: "blindroll";
+			SELF: "selfroll";
 		}
 };
 

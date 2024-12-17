@@ -1,34 +1,45 @@
 interface FoundryUtil {
-		getProperty<T extends unknown>(doc: FoundryDocument, keystring: string): T,
+		// getProperty<T extends unknown>(doc: {}, keystring: string): T,
+		getProperty<T extends {}, const S extends string>(doc: T, keystring: S): GetProperty<T,S>,
 			/**
 			 * Return whether a target version (v1) is more advanced than some other reference version (v0).
 			 * Supports either numeric or string version comparison with version parts separated by periods.
 			 */
 			isNewerVersion(v1: string | number, v0: string | number): boolean,
 
-			/**
-			 * Wrap a callback in a throttled timeout.
-			 * Delay execution of the callback function when the last time the function was called was delay milliseconds ago
-			 */
-			throttle<F extends (...args: any[])=> any>(callback: F, delay: number) : F,
+		/**
+		 * Wrap a callback in a throttled timeout.
+		 * Delay execution of the callback function when the last time the function was called was delay milliseconds ago
+		 */
+		throttle<F extends (...args: any[])=> any>(callback: F, delay: number) : F,
 
-			lineCircleIntersection(a: Point, b: Point, center: Point, radius: number, epsilon?: number): unknown,
-			lineLineIntersection(a: Point, b: Point, c: Point,d: Point, options:unknown): unknown,
-			lineSegmentIntersection(...args: unknown[]): unknown,
-			lineSegmentIntersects(...args: unknown[]): unknown,
-			mergeObject<A extends Object, B extends Object>(original: A, other: B={}, {insertKeys=true, insertValues=true, overwrite=true, recursive=true, inplace=true, enforceTypes=false,
-
-				      performDeletions=false}: MergeOptions = {}): A&B,
+		lineCircleIntersection(a: Point, b: Point, center: Point, radius: number, epsilon?: number): unknown,
+		lineLineIntersection(a: Point, b: Point, c: Point,d: Point, options:unknown): unknown,
+		lineSegmentIntersection(...args: unknown[]): unknown,
+		lineSegmentIntersects(...args: unknown[]): unknown,
+		mergeObject<A extends object, B extends object>(original: A, other: B={}, {insertKeys=true, insertValues=true, overwrite=true, recursive=true, inplace=true, enforceTypes=false,
+			performDeletions=false}: MergeOptions = {}): A&B,
 		randomId(length =16) : string,
-		expandObject(obj : Object): Object;
+		expandObject(obj : object): object;
 
 	/**
  * Wrap a callback in a debounced timeout.
    * Delay execution of the callback function until the function has not been called for delay milliseconds
 	*/
 	debounce<T extends (...args:any[]) => any>(callback: T, delayMs: number) : T;
+
+	/**
+Quickly clone a simple piece of data, returning a copy which can be mutated safely. This method DOES support recursive data structures containing inner objects or arrays. This method DOES NOT support advanced object types like Set, Map, or other specialized classes.
+	 */
+	deepClone<T extends object>(original: T, options : DeepCloneOptions = {}) : T;
 }
 
+
+type DeepCloneOptions = {
+	/** throws an error if Throw an Error if deepClone is unable to clone something instead of returning the original
+	*/
+	strict: boolean;
+}
 
 type MergeOptions = {
 
@@ -77,3 +88,20 @@ type MergeOptions = {
 	 */
 	performDeletions?: boolean,
 }
+
+type Split<S extends string, D extends string> = 
+  S extends `${infer T}${D}${infer U}` ? [T, ...Split<U, D>] : [S];
+
+type GetProperty<Obj, Path extends string> = 
+  Split<Path, "."> extends [infer First extends keyof Obj, ...infer Rest]
+    ? Rest extends []
+      ? Obj[First]
+      : GetProperty<Obj[First], RestToString<Rest>>
+    : never;
+
+type RestToString<T extends unknown[]> = T extends [infer F extends string, ...infer R]
+  ? F extends string
+    ? `${F}${R extends [] ? '' : '.'}${RestToString<R>}`
+    : never
+  : '';
+

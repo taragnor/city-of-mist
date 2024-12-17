@@ -6,4 +6,5 @@ declare class Item<T extends SchemaDict = any> extends FoundryDocument<never> {
 	type: keyof T;
 	system: TotalConvert<T>;
 	sheet: ItemSheet<this>;
+	getRollData(): TotalConvert<T>;
 }

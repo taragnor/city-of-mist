@@ -16,7 +16,7 @@ class TokenDocument<T extends Actor<any, any>> extends FoundryDocument<never>
 		x: number;
 		y: number;
 		img: string
-
+		visible: boolean;
 		hidden: boolean;
 }
 
@@ -64,11 +64,15 @@ class PrototypeToken<Act extends Actor<any, any>> {
 	randomImg: boolean;
 	rotation: number;
 	sight: Record<string, unknown>;
-	texture: {src: string, scaleX: number, scaleY: number, offsetX: number, offsetY: number, rotation: number, tint?: unknown};
+	texture: {
+		src: string,
+		scaleX: number,
+		scaleY: number,
+		offsetX: number,
+		offsetY: number,
+		rotation: number,
+		tint?: unknown
+	};
 	width: number;
 	get parent(): Act;
-
-
-
-
 }

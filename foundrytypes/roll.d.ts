@@ -13,14 +13,15 @@ class Roll {
 
 	get total(): number;
 	get result(): string;
-	async toMessage(): Promise<ChatMessage>;
+	async toMessage(MessageData: Partial<ChatMessageData>={}, {rollMode, create=true }: RollChatMessageOptions={}): Promise<ChatMessage>;
 	get dice(): Die[];
 	terms: RollTerm[];
 	formula: string;
 	options: RollOptions;
+	async render({ flavor, template, isPrivate }: RollRenderOptions={}): Promise<string>;
 	toJSON(): string;
 	static fromJSON<T extends Roll= Roll>(json: string): T;
-	static fromData<T extends Roll= Roll>(obj: Object): T;
+	static fromData<T extends Roll= Roll>(obj: object): T;
 	toAnchor(...stuff : unknown[]): HTMLElement;
 	_evaluated: boolean;
 }
@@ -88,4 +89,36 @@ default: true
 }
 
 type RollTerm = Die | OperatorTerm | NumericTerm;
+
+
+// TODO: Figure out how to derive this from CONST.DICE_ROLL_MODES
+// instead of using literal strings
+type RollMode = "publicroll" | "gmroll" | "blindroll" | "selfroll";
+
+interface RollChatMessageOptions {
+	rollMode?: RollMode;
+	create?: boolean;
+}
+
+interface ChatMessageData {
+	_id: string;
+	type: number;
+	user: string;
+	timestamp: number;
+	flavor: string;
+	content: string;
+	speaker: ChatSpeakerObject;
+	whisper: string[];
+	blind: boolean;
+	rolls: string[];
+	sound: string;
+	emote: boolean;
+	flags: object;
+}
+
+interface RollRenderOptions {
+	flavor?: string;
+	template?: string;
+	isPrivate?: boolean;
+}
 
