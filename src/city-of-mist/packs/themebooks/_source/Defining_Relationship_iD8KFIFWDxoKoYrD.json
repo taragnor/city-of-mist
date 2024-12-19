@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "question": "#CityOfMist.themebook.definingrelationship.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Forever",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "name": "#CityOfMist.themebook.definingrelationship.imp.0.name",
+        "description": "#CityOfMist.themebook.definingrelationship.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Protect at All Costs",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "name": "#CityOfMist.themebook.definingrelationship.imp.1.name",
+        "description": "#CityOfMist.themebook.definingrelationship.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Shared Experiences",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "name": "#CityOfMist.themebook.definingrelationship.imp.2.name",
+        "description": "#CityOfMist.themebook.definingrelationship.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Back-to-Back",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "name": "#CityOfMist.themebook.definingrelationship.imp.3.name",
+        "description": "#CityOfMist.themebook.definingrelationship.reference",
         "uses": 1,
         "effect_class": ""
       },
       "4": {
-        "name": "Who's the Boss",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 114-117",
+        "name": "#CityOfMist.themebook.definingrelationship.imp.4.name",
+        "description": "#CityOfMist.themebook.definingrelationship.reference",
         "uses": null,
         "effect_class": ""
       },

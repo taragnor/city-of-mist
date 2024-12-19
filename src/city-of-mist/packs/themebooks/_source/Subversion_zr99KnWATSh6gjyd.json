@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "question": "#CityOfMist.themebook.subversion.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Cloak & Dagger",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "name": "#CityOfMist.themebook.subversion.imp.0.name",
+        "description": "#CityOfMist.themebook.subversion.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SNEAK"
       },
       "1": {
-        "name": "Under The Wings of Darkness",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "name": "#CityOfMist.themebook.subversion.imp.1.name",
+        "description": "#CityOfMist.themebook.subversion.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Stalker",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "name": "#CityOfMist.themebook.subversion.imp.2.name",
+        "description": "#CityOfMist.themebook.subversion.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Oblivious",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "name": "#CityOfMist.themebook.subversion.imp.3.name",
+        "description": "#CityOfMist.themebook.subversion.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Go For the Jugular",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 106-109",
+        "name": "#CityOfMist.themebook.subversion.imp.4.name",
+        "description": "#CityOfMist.themebook.subversion.reference",
         "uses": null,
         "effect_class": ""
       }

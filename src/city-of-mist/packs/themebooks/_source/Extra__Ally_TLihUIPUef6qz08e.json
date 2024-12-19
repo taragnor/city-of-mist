@@ -16,92 +16,92 @@
     "type": "Extra",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYERS GUIDE P 285",
+        "question": "#CityOfMist.themebook.extra.ally.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Sharing is Caring",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "name": "#CityOfMist.themebook.extra.ally.imp.0.name",
+        "description": "#CityOfMist.themebook.extra.ally.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Gets Around",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "name": "#CityOfMist.themebook.extra.ally.imp.1.name",
+        "description": "#CityOfMist.themebook.extra.ally.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "Back-to-back",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "name": "#CityOfMist.themebook.extra.ally.imp.2.name",
+        "description": "#CityOfMist.themebook.extra.ally.reference",
         "uses": 1,
         "effect_class": ""
       },
       "3": {
-        "name": "Tag Team",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "name": "#CityOfMist.themebook.extra.ally.imp.3.name",
+        "description": "#CityOfMist.themebook.extra.ally.reference",
         "uses": 1,
         "effect_class": ""
       },
       "4": {
-        "name": "Serious Firepower",
-        "description": "SEE CITY OF MIST PLAYERS GUIDE P 287",
+        "name": "#CityOfMist.themebook.extra.ally.imp.4.name",
+        "description": "#CityOfMist.themebook.extra.ally.reference",
         "uses": null,
         "effect_class": ""
       }

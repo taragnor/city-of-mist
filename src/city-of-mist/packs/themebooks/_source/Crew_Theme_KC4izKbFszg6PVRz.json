@@ -20,93 +20,93 @@
     "type": "Crew",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "question": "#CityOfMist.themebook.crew.reference",
         "subtag": false
       },
       "E": "_DELETED_"
     },
     "improvements": {
       "0": {
-        "name": "Tight Like That",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "name": "#CityOfMist.themebook.crew.imp.0.name",
+        "description": "#CityOfMist.themebook.crew.reference",
         "uses": 1,
         "effect_class": ""
       },
       "1": {
-        "name": "Quality Matters",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "name": "#CityOfMist.themebook.crew.imp.1.name",
+        "description": "#CityOfMist.themebook.crew.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Sacrifice",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "name": "#CityOfMist.themebook.crew.imp.2.name",
+        "description": "#CityOfMist.themebook.crew.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Pull It Together",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "name": "#CityOfMist.themebook.crew.imp.3.name",
+        "description": "#CityOfMist.themebook.crew.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Black Sheep",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 145-148",
+        "name": "#CityOfMist.themebook.crew.imp.4.name",
+        "description": "#CityOfMist.themebook.crew.reference",
         "uses": null,
         "effect_class": ""
       }

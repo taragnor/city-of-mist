@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "question": "#CityOfMist.themebook.enclave.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Legendary Headquarters",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "name": "#CityOfMist.themebook.enclave.imp.0.name",
+        "description": "#CityOfMist.themebook.enclave.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Bastion of Mythos",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "name": "#CityOfMist.themebook.enclave.imp.1.name",
+        "description": "#CityOfMist.themebook.enclave.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Private Lab",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "name": "#CityOfMist.themebook.enclave.imp.2.name",
+        "description": "#CityOfMist.themebook.enclave.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Take Me Home",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "name": "#CityOfMist.themebook.enclave.imp.3.name",
+        "description": "#CityOfMist.themebook.enclave.reference",
         "uses": 1,
         "effect_class": ""
       },
       "4": {
-        "name": "Maw of Conjurations",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 20-23",
+        "name": "#CityOfMist.themebook.enclave.imp.4.name",
+        "description": "#CityOfMist.themebook.enclave.reference",
         "uses": null,
         "effect_class": ""
       }

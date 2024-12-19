@@ -12,92 +12,92 @@
     "subtype": "Mythos",
     "power_questions": {
       "A": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "E": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "F": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "G": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "H": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "I": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "J": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Local Legends p. 186-189",
+        "question": "#CityOfMist.themebook.esoterica.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Font of Magic",
-        "description": "See Local Legends p. 186-189",
+        "name": "#CityOfMist.themebook.esoterica.imp.0.name",
+        "description": "#CityOfMist.themebook.esoterica.reference",
         "uses": 1,
         "effect_class": ""
       },
       "1": {
-        "name": "Peer Review",
-        "description": "See Local Legends p. 186-189",
+        "name": "#CityOfMist.themebook.esoterica.imp.1.name",
+        "description": "#CityOfMist.themebook.esoterica.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Unraveller of Secrets",
-        "description": "See Local Legends p. 186-189",
+        "name": "#CityOfMist.themebook.esoterica.imp.2.name",
+        "description": "#CityOfMist.themebook.esoterica.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "As Above, So Below",
-        "description": "See Local Legends p. 186-189",
+        "name": "#CityOfMist.themebook.esoterica.imp.3.name",
+        "description": "#CityOfMist.themebook.esoterica.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Mythic Channeling",
-        "description": "See Local Legends p. 186-189",
+        "name": "#CityOfMist.themebook.esoterica.imp.4.name",
+        "description": "#CityOfMist.themebook.esoterica.reference",
         "uses": 1,
         "effect_class": ""
       }

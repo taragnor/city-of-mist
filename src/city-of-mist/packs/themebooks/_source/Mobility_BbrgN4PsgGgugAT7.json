@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "question": "#CityOfMist.themebook.mobility.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Nine Lives",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "name": "#CityOfMist.themebook.mobility.imp.0.name",
+        "description": "#CityOfMist.themebook.mobility.reference",
         "uses": null,
         "effect_class": "THEME_DYN_RISK"
       },
       "1": {
-        "name": "Do Try to Keep Up",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "name": "#CityOfMist.themebook.mobility.imp.1.name",
+        "description": "#CityOfMist.themebook.mobility.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "Ain't No Mountain High Enough",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "name": "#CityOfMist.themebook.mobility.imp.2.name",
+        "description": "#CityOfMist.themebook.mobility.reference",
         "uses": 1,
         "effect_class": ""
       },
       "3": {
-        "name": "Hit the Brakes",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "name": "#CityOfMist.themebook.mobility.imp.3.name",
+        "description": "#CityOfMist.themebook.mobility.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Rev Up",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 98-101",
+        "name": "#CityOfMist.themebook.mobility.imp.4.name",
+        "description": "#CityOfMist.themebook.mobility.reference",
         "uses": 1,
         "effect_class": ""
       }

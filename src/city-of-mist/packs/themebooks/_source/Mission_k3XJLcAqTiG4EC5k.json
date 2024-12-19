@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "question": "#CityOfMist.themebook.mission.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Gung Ho",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "name": "#CityOfMist.themebook.mission.imp.0.name",
+        "description": "#CityOfMist.themebook.mission.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Follow me!",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "name": "#CityOfMist.themebook.mission.imp.1.name",
+        "description": "#CityOfMist.themebook.mission.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Can't Be Too Ready",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "name": "#CityOfMist.themebook.mission.imp.2.name",
+        "description": "#CityOfMist.themebook.mission.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "When Hell Freezes Over",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "name": "#CityOfMist.themebook.mission.imp.3.name",
+        "description": "#CityOfMist.themebook.mission.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getting Good At This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 118-121",
+        "name": "#CityOfMist.themebook.mission.imp.4.name",
+        "description": "#CityOfMist.themebook.mission.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       }

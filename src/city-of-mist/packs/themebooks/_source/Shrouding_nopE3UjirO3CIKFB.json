@@ -20,43 +20,43 @@
     "type": "Mist",
     "power_questions": {
       "A": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "E": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "F": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "G": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "H": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "I": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "J": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "K": "_DELETED_",
@@ -67,51 +67,51 @@
     },
     "weakness_questions": {
       "A": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Shadows and Showdowns page 239-241",
+        "question": "#CityOfMist.themebook.shrouding.reference",
         "subtag": false
       },
       "E": "_DELETED_"
     },
     "improvements": {
       "0": {
-        "name": "Well-Placed Charge",
-        "description": "See Shadows and Showdowns page 239-241",
+        "name": "#CityOfMist.themebook.shrouding.imp.0.name",
+        "description": "#CityOfMist.themebook.shrouding.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Lay It On Thick",
-        "description": "See Shadows and Showdowns page 239-241",
+        "name": "#CityOfMist.themebook.shrouding.imp.1.name",
+        "description": "#CityOfMist.themebook.shrouding.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "Enshrouded by the Veil",
-        "description": "See Shadows and Showdowns page 239-241",
+        "name": "#CityOfMist.themebook.shrouding.imp.2.name",
+        "description": "#CityOfMist.themebook.shrouding.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Skilled Greywasher",
-        "description": "See Shadows and Showdowns page 239-241",
+        "name": "#CityOfMist.themebook.shrouding.imp.3.name",
+        "description": "#CityOfMist.themebook.shrouding.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Overstep Jurisdiction",
-        "description": "See Shadows and Showdowns page 239-241",
+        "name": "#CityOfMist.themebook.shrouding.imp.4.name",
+        "description": "#CityOfMist.themebook.shrouding.reference",
         "uses": null,
         "effect_class": ""
       }

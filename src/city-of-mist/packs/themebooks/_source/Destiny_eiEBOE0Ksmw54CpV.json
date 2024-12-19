@@ -16,92 +16,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "question": "#CityOfMist.themebook.destiny.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Destiny Manifest",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "name": "#CityOfMist.themebook.destiny.imp.0.name",
+        "description": "#CityOfMist.themebook.destiny.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       },
       "1": {
-        "name": "S%#t’s Getting Real",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "name": "#CityOfMist.themebook.destiny.imp.1.name",
+        "description": "#CityOfMist.themebook.destiny.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "What You’re Meant to Be",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "name": "#CityOfMist.themebook.destiny.imp.2.name",
+        "description": "#CityOfMist.themebook.destiny.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Delay Fate",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "name": "#CityOfMist.themebook.destiny.imp.3.name",
+        "description": "#CityOfMist.themebook.destiny.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Weave the Starry Web of Fortune",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 16-19",
+        "name": "#CityOfMist.themebook.destiny.imp.4.name",
+        "description": "#CityOfMist.themebook.destiny.reference",
         "uses": null,
         "effect_class": ""
       }

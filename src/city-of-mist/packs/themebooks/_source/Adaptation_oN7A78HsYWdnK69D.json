@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "question": "#CityOfMist.themebook.adaption.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Game Changer",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "name": "#CityOfMist.themebook.adaption.imp.0.name",
+        "description": "#CityOfMist.themebook.adaption.reference",
         "uses": null,
         "effect_class": "THEME_DYN_CHANGE"
       },
       "1": {
-        "name": "Tap Into the Source",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "name": "#CityOfMist.themebook.adaption.imp.1.name",
+        "description": "#CityOfMist.themebook.adaption.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "I Have Just the Thing",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "name": "#CityOfMist.themebook.adaption.imp.2.name",
+        "description": "#CityOfMist.themebook.adaption.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Creative Stroke",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "name": "#CityOfMist.themebook.adaption.imp.3.name",
+        "description": "#CityOfMist.themebook.adaption.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Specialization",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 83-85",
+        "name": "#CityOfMist.themebook.adaption.imp.4.name",
+        "description": "#CityOfMist.themebook.adaption.reference",
         "uses": null,
         "effect_class": ""
       }

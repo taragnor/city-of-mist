@@ -16,92 +16,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "question": "#CityOfMist.themebook.conjuration.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "No Conjurer of Cheap Tricks",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "name": "#CityOfMist.themebook.conjuration.imp.0.name",
+        "description": "#CityOfMist.themebook.conjuration.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Banish Resistance",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "name": "#CityOfMist.themebook.conjuration.imp.1.name",
+        "description": "#CityOfMist.themebook.conjuration.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Form Serves Purpose",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "name": "#CityOfMist.themebook.conjuration.imp.2.name",
+        "description": "#CityOfMist.themebook.conjuration.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       },
       "3": {
-        "name": "Mask of the Mundane",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "name": "#CityOfMist.themebook.conjuration.imp.3.name",
+        "description": "#CityOfMist.themebook.conjuration.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Ruptured Rift",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 12-15",
+        "name": "#CityOfMist.themebook.conjuration.imp.4.name",
+        "description": "#CityOfMist.themebook.conjuration.reference",
         "uses": null,
         "effect_class": ""
       }

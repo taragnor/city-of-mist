@@ -16,92 +16,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "question": "#CityOfMist.themebook.turf.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Feel the Pulse",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "name": "#CityOfMist.themebook.turf.imp.0.name",
+        "description": "#CityOfMist.themebook.turf.reference",
         "uses": 1,
         "effect_class": ""
       },
       "1": {
-        "name": "The Turf Provides",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "name": "#CityOfMist.themebook.turf.imp.1.name",
+        "description": "#CityOfMist.themebook.turf.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "King of My Castle",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "name": "#CityOfMist.themebook.turf.imp.2.name",
+        "description": "#CityOfMist.themebook.turf.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "(No) Loyalty Knows No Limits",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "name": "#CityOfMist.themebook.turf.imp.3.name",
+        "description": "#CityOfMist.themebook.turf.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "You’re in My Turf Now",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 32-35",
+        "name": "#CityOfMist.themebook.turf.imp.4.name",
+        "description": "#CityOfMist.themebook.turf.reference",
         "uses": null,
         "effect_class": ""
       }

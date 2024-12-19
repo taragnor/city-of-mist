@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "question": "#CityOfMist.themebook.familiar.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Natural Affinity",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "name": "#CityOfMist.themebook.familiar.imp.0.name",
+        "description": "#CityOfMist.themebook.familiar.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       },
       "1": {
-        "name": "Friends Are There",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "name": "#CityOfMist.themebook.familiar.imp.1.name",
+        "description": "#CityOfMist.themebook.familiar.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Back-to-Back",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "name": "#CityOfMist.themebook.familiar.imp.2.name",
+        "description": "#CityOfMist.themebook.familiar.reference",
         "uses": 1,
         "effect_class": ""
       },
       "3": {
-        "name": "True Form",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "name": "#CityOfMist.themebook.familiar.imp.3.name",
+        "description": "#CityOfMist.themebook.familiar.reference",
         "uses": 1,
         "effect_class": ""
       },
       "4": {
-        "name": "The Mythos Within",
-        "description": "SEE SHADOWS AND SHOWDOWNS P 24-27",
+        "name": "#CityOfMist.themebook.familiar.imp.4.name",
+        "description": "#CityOfMist.themebook.familiar.reference",
         "uses": null,
         "effect_class": ""
       }
