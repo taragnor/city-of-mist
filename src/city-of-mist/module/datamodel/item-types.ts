@@ -106,7 +106,7 @@ class Themebook extends DataModel {
 			improvements: new obj<ThemebookImprovementData>(),
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType >({initial: "default"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
 		}
 	}
 }
@@ -125,6 +125,7 @@ class Themekit extends DataModel {
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
 		}
 	}
 }
@@ -182,6 +183,8 @@ class Theme extends DataModel {
 			img: new txt(),
 			nascent: new bool({initial: false}),
 			isExtra: new bool({initial: false}),
+			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
+			subtype: new txt<ThemeType>( {initial: "Logos"}),
 		}
 	}
 }
