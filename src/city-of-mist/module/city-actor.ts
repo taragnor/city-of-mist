@@ -569,8 +569,18 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const nascent = !this.isNewCharacter();
 		const unspent_upgrades = nascent ? 1 : 3;
 		const themebook_name = themebook.name;
+		const subtype = themebook.system.subtype;
+		const system_compatiblity = themebook.system.system_compatiblity;
+		const locale_name = themebook.system.locale_name
 		const system : Partial<Theme["system"]>= {
-			themebook_id: themebook.id, themebook_name, unspent_upgrades, nascent, isExtra
+			themebook_id: themebook.id,
+			themebook_name,
+			unspent_upgrades,
+			nascent,
+			isExtra,
+			subtype,
+			system_compatiblity,
+			locale_name
 		};
 		const obj = {
 			name, type: "theme", system	};
