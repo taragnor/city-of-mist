@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "question": "#CityOfMist.themebook.personality.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "This Is My Moment",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "name": "#CityOfMist.themebook.personality.imp.0.name",
+        "description": "#CityOfMist.themebook.personality.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "It's Showtime",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "name": "#CityOfMist.themebook.personality.imp.1.name",
+        "description": "#CityOfMist.themebook.personality.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Reinvent Myself",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "name": "#CityOfMist.themebook.personality.imp.2.name",
+        "description": "#CityOfMist.themebook.personality.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Why I Do This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "name": "#CityOfMist.themebook.personality.imp.3.name",
+        "description": "#CityOfMist.themebook.personality.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getting Good At This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 122-125",
+        "name": "#CityOfMist.themebook.personality.imp.4.name",
+        "description": "#CityOfMist.themebook.personality.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       }
