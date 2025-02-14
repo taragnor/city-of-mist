@@ -228,7 +228,7 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 	}
 
-	isCompatibile(system: System):  boolean {
+	isCompatible(system: System):  boolean {
 		const compat = this.systemCompatiblity;
 		if (compat == "any") return true;
 		return compat == system;
