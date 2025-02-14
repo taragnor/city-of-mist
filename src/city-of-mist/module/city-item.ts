@@ -1,4 +1,3 @@
-import { System } from "./config/settings-object.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"

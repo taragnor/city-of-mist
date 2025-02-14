@@ -708,7 +708,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				const name = letterPart + localizeS(x.name.trim());
 				const data = [name];
 				return {
-					id: String(x._id), data, description: x.description
+					id: String(x._id), data, description: localizeS(x.description).toString(),
 				};
 			});
 		return await HTMLTools.singleChoiceBox(inputList, "Choose Item");
