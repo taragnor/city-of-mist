@@ -51,8 +51,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get crewThemes(): Theme[] {
-		const nonGMOwners = game.users.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"))
-		const validCrewActors = (game.actors.contents as CityActor[]).filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER") && actor.system.type == "crew"));
+		const nonGMOwners = game.users
+			.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"));
+		const validCrewActors = (game.actors.contents as CityActor[])
+			.filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER")
+				&& actor.system.type == "crew"));
 		return validCrewActors.flatMap( x=> x.getThemes());
 	}
 

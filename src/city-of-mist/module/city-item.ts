@@ -1,3 +1,4 @@
+import { System } from "./config/settings-object.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
@@ -188,6 +189,50 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 	isThemeKit(): this is ThemeKit { return this.type == "themekit"; }
 	isThemeBook(): this is Themebook { return this.type == "themebook"; }
 	isExtraTheme(this: Theme): boolean { return this.system.isExtra; }
+
+	get systemCompatiblity() : System | "any" {
+		switch (this.system.type) {
+			case "themebook":
+			case "move":
+				return this.system.system_compatiblity;
+			case "themekit": {
+				const tb = this.themebook;
+				if (tb) return tb.systemCompatiblity;
+				return this.system.system_compatiblity;
+			}
+			case "tag": {
+				const tb = this.themebook;
+				if (tb) return tb.systemCompatiblity;
+				return "any";
+			}
+			case "improvement": {
+				const tb = this.themebook;
+				if (tb) return tb.systemCompatiblity;
+				return this.system.system_compatiblity;
+			}
+			case "theme":
+				const tb = this.themebook;
+				if (tb) return tb.systemCompatiblity;
+				return "any";
+			case "clue":
+			case "juice":
+				return "any"; // technically this should only be CoM but I'm including it for potential mixed rules customs
+			case "spectrum":
+			case "journal":
+			case "status":
+			case "gmmove":
+				return "any";
+			default:
+				this.system satisfies never
+				return "any";
+		}
+	}
+
+	isCompatibile(system: System):  boolean {
+		const compat = this.systemCompatiblity;
+		if (compat == "any") return true;
+		return compat == system;
+	}
 
 	isImprovementActivated(this: Improvement, move_id: string) {
 		const move = CityHelpers.getMoveById(move_id);
@@ -1142,14 +1187,14 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 			return this.theme.getThemebook();
 		}
 		try {
-			if (this.isTheme() || this.isThemeKit()) return this.getThemebook();
+			if (this.isTheme() || this.isThemeKit())
+				return this.getThemebook();
 		} catch (e) {
 			console.error(e);
 			return null;
 		}
 		return null;
 	}
-
 
 	get weaknessTags() : Tag[] {
 		if (this.isTheme() || this.isThemeBook()) {
