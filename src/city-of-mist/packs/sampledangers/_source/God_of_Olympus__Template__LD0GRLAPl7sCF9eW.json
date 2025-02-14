@@ -36,7 +36,12 @@
       "scaleY": 1,
       "offsetX": 0,
       "offsetY": 0,
-      "rotation": 0
+      "rotation": 0,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
     },
     "width": 1,
     "height": 1,
@@ -71,7 +76,10 @@
       "darkness": {
         "min": 0,
         "max": 1
-      }
+      },
+      "negative": false,
+      "priority": 0,
+      "color": null
     },
     "sight": {
       "enabled": false,
@@ -81,11 +89,28 @@
       "attenuation": 0.1,
       "brightness": 0,
       "saturation": 0,
-      "contrast": 0
+      "contrast": 0,
+      "color": null
     },
     "detectionModes": [],
     "flags": {},
-    "randomImg": false
+    "randomImg": false,
+    "hexagonalShape": 0,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    }
   },
   "items": [
     {
@@ -116,10 +141,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.306",
+        "coreVersion": "12.331",
         "createdTime": 1688323585486,
         "modifiedTime": 1690858064505,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!LD0GRLAPl7sCF9eW.knmCREh0EE3JXGR9"
     }
@@ -135,10 +162,12 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.6.7",
-    "coreVersion": "11.306",
+    "coreVersion": "12.331",
     "createdTime": 1688323582710,
     "modifiedTime": 1690858064505,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_key": "!actors!LD0GRLAPl7sCF9eW"
 }

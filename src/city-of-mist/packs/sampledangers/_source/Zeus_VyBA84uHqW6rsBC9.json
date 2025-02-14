@@ -37,7 +37,12 @@
       "scaleY": 1,
       "offsetX": 0,
       "offsetY": 0,
-      "rotation": 0
+      "rotation": 0,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
     },
     "width": 1,
     "height": 1,
@@ -72,7 +77,10 @@
       "darkness": {
         "min": 0,
         "max": 1
-      }
+      },
+      "negative": false,
+      "priority": 0,
+      "color": null
     },
     "sight": {
       "enabled": false,
@@ -82,11 +90,28 @@
       "attenuation": 0.1,
       "brightness": 0,
       "saturation": 0,
-      "contrast": 0
+      "contrast": 0,
+      "color": null
     },
     "detectionModes": [],
     "flags": {},
-    "randomImg": false
+    "randomImg": false,
+    "hexagonalShape": 0,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    }
   },
   "items": [
     {
@@ -117,10 +142,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322230754,
         "modifiedTime": 1688322712227,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.nXDPe1OOshc7K5FC"
     },
@@ -152,10 +179,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322309284,
         "modifiedTime": 1688323175588,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.apxEDOe8fk6PvtCS"
     },
@@ -187,10 +216,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322396297,
         "modifiedTime": 1688322940883,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.mq8MfcwyqvBfbefK"
     },
@@ -222,10 +253,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322584179,
         "modifiedTime": 1688322718377,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.SbhdYUckfB0LBN78"
     },
@@ -257,10 +290,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322726663,
         "modifiedTime": 1688322758956,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.P5JWHLoj4XgsARft"
     },
@@ -292,10 +327,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688322800624,
         "modifiedTime": 1688323021956,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.kOymhu7K1D7e4cjf"
     },
@@ -327,10 +364,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323128584,
         "modifiedTime": 1688323143627,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.MzsCRPAPKdZjak5x"
     },
@@ -362,10 +401,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323200073,
         "modifiedTime": 1688323241383,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.ZlcacrY4kmTZ2miO"
     },
@@ -397,10 +438,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323274504,
         "modifiedTime": 1688323448312,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.cXtfkZhaSqQRgWQ2"
     },
@@ -432,10 +475,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323304540,
         "modifiedTime": 1688323374093,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.51F17EhZO7qa6T2n"
     },
@@ -458,10 +503,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323382439,
         "modifiedTime": 1688323386104,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.JniyEZ0BQXt3ptdi"
     },
@@ -484,10 +531,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688323388215,
         "modifiedTime": 1688323408792,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.hIgKIKQ9Q1utRF0I"
     },
@@ -510,10 +559,12 @@
       "_stats": {
         "systemId": "city-of-mist",
         "systemVersion": "2.6.7",
-        "coreVersion": "11.304",
+        "coreVersion": "12.331",
         "createdTime": 1688324127093,
         "modifiedTime": 1688324137760,
-        "lastModifiedBy": "XObjulrAnIfZ284S"
+        "lastModifiedBy": "XObjulrAnIfZ284S",
+        "compendiumSource": null,
+        "duplicateSource": null
       },
       "_key": "!actors.items!VyBA84uHqW6rsBC9.oIdDl3Ctirg0nOek"
     }
@@ -530,10 +581,12 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.6.7",
-    "coreVersion": "11.306",
+    "coreVersion": "12.331",
     "createdTime": 1688322134599,
     "modifiedTime": 1690858048026,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "VyBA84uHqW6rsBC9",
   "sort": 0,
