@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "question": "#CityOfMist.themebook.routine.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Incidental Shuteye",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "name": "#CityOfMist.themebook.routine.imp.0.name",
+        "description": "#CityOfMist.themebook.routine.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "All in a Day's Work",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "name": "#CityOfMist.themebook.routine.imp.1.name",
+        "description": "#CityOfMist.themebook.routine.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Good Memory",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "name": "#CityOfMist.themebook.routine.imp.2.name",
+        "description": "#CityOfMist.themebook.routine.reference",
         "uses": 3,
         "effect_class": ""
       },
       "3": {
-        "name": "Why I Do This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "name": "#CityOfMist.themebook.routine.imp.3.name",
+        "description": "#CityOfMist.themebook.routine.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getting Good at This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 130-133",
+        "name": "#CityOfMist.themebook.routine.imp.4.name",
+        "description": "#CityOfMist.themebook.routine.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       }

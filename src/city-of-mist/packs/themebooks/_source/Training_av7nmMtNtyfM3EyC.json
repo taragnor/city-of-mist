@@ -20,92 +20,92 @@
     "type": "Logos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "question": "#CityOfMist.themebook.training.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Expert Advice",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "name": "#CityOfMist.themebook.training.imp.0.name",
+        "description": "#CityOfMist.themebook.training.reference",
         "uses": 1,
         "effect_class": ""
       },
       "1": {
-        "name": "Broad Training",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "name": "#CityOfMist.themebook.training.imp.1.name",
+        "description": "#CityOfMist.themebook.training.reference",
         "uses": 1,
         "effect_class": ""
       },
       "2": {
-        "name": "Sense of Purpose",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "name": "#CityOfMist.themebook.training.imp.2.name",
+        "description": "#CityOfMist.themebook.training.reference",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "It's Showtime",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "name": "#CityOfMist.themebook.training.imp.3.name",
+        "description": "#CityOfMist.themebook.training.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Getting Good At This",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 134-137",
+        "name": "#CityOfMist.themebook.training.imp.4.name",
+        "description": "#CityOfMist.themebook.training.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       }

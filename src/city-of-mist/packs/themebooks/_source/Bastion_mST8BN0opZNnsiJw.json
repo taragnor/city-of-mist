@@ -20,92 +20,92 @@
     "type": "Mythos",
     "power_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "E": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": true
       },
       "F": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": true
       },
       "G": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": true
       },
       "H": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "I": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": true
       },
       "J": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "B": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "C": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       },
       "D": {
-        "question": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "question": "#CityOfMist.themebook.bastion.name",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Unbreakable",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "name": "#CityOfMist.themebook.bastion.imp.0.name",
+        "description": "#CityOfMist.themebook.bastion.name",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Got Your Back",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "name": "#CityOfMist.themebook.bastion.imp.1.name",
+        "description": "#CityOfMist.themebook.bastion.name",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Sacrifice",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "name": "#CityOfMist.themebook.bastion.imp.2.name",
+        "description": "#CityOfMist.themebook.bastion.name",
         "uses": null,
         "effect_class": ""
       },
       "3": {
-        "name": "Sorry, was that your gun?",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "name": "#CityOfMist.themebook.bastion.imp.3.name",
+        "description": "#CityOfMist.themebook.bastion.name",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Redirected Hostility",
-        "description": "SEE CITY OF MIST PLAYER'S GUIDE P 87-89",
+        "name": "#CityOfMist.themebook.bastion.imp.4.name",
+        "description": "#CityOfMist.themebook.bastion.name",
         "uses": null,
         "effect_class": ""
       }

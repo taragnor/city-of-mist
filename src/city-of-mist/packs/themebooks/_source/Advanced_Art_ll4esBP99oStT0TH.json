@@ -20,92 +20,92 @@
     "type": "Mist",
     "power_questions": {
       "A": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "E": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "F": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "G": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "H": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "I": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "J": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "B": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "C": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       },
       "D": {
-        "question": "See Shadows and Showdowns page 242-245",
+        "question": "#CityOfMist.themebook.advancedart.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "Specialist",
-        "description": "See Shadows and Showdowns page 242-245",
+        "name": "#CityOfMist.themebook.advancedart.imp.0.name",
+        "description": "#CityOfMist.themebook.advancedart.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "Enshrouded by the Veil",
-        "description": "See Shadows and Showdowns page 242-245",
+        "name": "#CityOfMist.themebook.advancedart.imp.1.name",
+        "description": "#CityOfMist.themebook.advancedart.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Reverse Engineering (Anchoring)",
-        "description": "See Shadows and Showdowns page 242-245",
+        "name": "#CityOfMist.themebook.advancedart.imp.2.name",
+        "description": "#CityOfMist.themebook.advancedart.reference",
         "uses": 1,
         "effect_class": ""
       },
       "3": {
-        "name": "Flash-Piercing Gaze (Perching)",
-        "description": "See Shadows and Showdowns page 242-245",
+        "name": "#CityOfMist.themebook.advancedart.imp.3.name",
+        "description": "#CityOfMist.themebook.advancedart.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Stitch Shut (Mending)",
-        "description": "See Shadows and Showdowns page 242-245",
+        "name": "#CityOfMist.themebook.advancedart.imp.4.name",
+        "description": "#CityOfMist.themebook.advancedart.reference",
         "uses": 1,
         "effect_class": ""
       }

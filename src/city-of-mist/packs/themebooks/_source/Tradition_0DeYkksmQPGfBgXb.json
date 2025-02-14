@@ -12,92 +12,92 @@
     "subtype": "Logos",
     "power_questions": {
       "A": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "B": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "C": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "D": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "E": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "F": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "G": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "H": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "I": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "J": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       }
     },
     "weakness_questions": {
       "A": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "B": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "C": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       },
       "D": {
-        "question": "Local Legends Page 34-37",
+        "question": "#CityOfMist.themebook.tradition.reference",
         "subtag": false
       }
     },
     "improvements": {
       "0": {
-        "name": "So Ancient It's Magic",
-        "description": "Local Legends Page 34-37",
+        "name": "#CityOfMist.themebook.tradition.imp.0.name",
+        "description": "#CityOfMist.themebook.tradition.reference",
         "uses": null,
         "effect_class": ""
       },
       "1": {
-        "name": "The Legacy Now Mine",
-        "description": "Local Legends Page 34-37",
+        "name": "#CityOfMist.themebook.tradition.imp.1.name",
+        "description": "#CityOfMist.themebook.tradition.reference",
         "uses": null,
         "effect_class": ""
       },
       "2": {
-        "name": "Unwritten Secrets",
-        "description": "Local Legends Page 34-37",
+        "name": "#CityOfMist.themebook.tradition.imp.2.name",
+        "description": "#CityOfMist.themebook.tradition.reference",
         "uses": null,
         "effect_class": "THEME_DYN_SELECT"
       },
       "3": {
-        "name": "Learn From Yesterday",
-        "description": "Local Legends Page 34-37",
+        "name": "#CityOfMist.themebook.tradition.imp.3.name",
+        "description": "#CityOfMist.themebook.tradition.reference",
         "uses": null,
         "effect_class": ""
       },
       "4": {
-        "name": "Ties to Tradition",
-        "description": "Local Legends Page 34-37",
+        "name": "#CityOfMist.themebook.tradition.imp.4.name",
+        "description": "#CityOfMist.themebook.tradition.reference",
         "uses": 1,
         "effect_class": ""
       }

@@ -3,7 +3,7 @@
 **Visual/CSS design by:** LorduFreeman <br>
 **Additional Code Contributions by:** Plenett/Galdormin, Ch1sKey <br> 
 **Localizations:** 
-* *German:* Markus Raab
+* *German:* Markus Raab powered by Storypunks
 * *Polish:* Red the Neko
 * *Portugese (Brazilian):* Busca
 * *French:* Matisse
