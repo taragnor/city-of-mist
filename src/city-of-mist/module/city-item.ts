@@ -34,17 +34,6 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return this.system.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
-	// NOTE: this override doesn't function in this version of foundry so this is removed not 100% sure what this does
-	// override prepareDerivedData() {
-	// 	super.prepareDerivedData();
-	// 	switch (this.system.type) {
-	// 		case "improvement":
-	// 			this.system.choice_type = (this as Improvement).getChoiceType();
-	// 			break;
-	// 		default: break;
-	// 	}
-	// }
-
 	/*
 	Options for effect_class on improvmeents;
 		THEME_DYN_SELECT: select a type of core move that is now dynamite when using tags from this theme.
