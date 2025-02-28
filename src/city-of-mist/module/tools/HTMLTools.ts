@@ -23,7 +23,7 @@ export class HTMLTools {
 		if (data != null) return data;
 		else {
 			if (default_value !== undefined) {
-				console.log(`Return defautl value : ${default_value}`);
+				// console.debug(`Get Closest Data return default value : ${default_value}`);
 				return default_value;
 			}
 			throw new Error(`Couldn't find ${prop} property`);

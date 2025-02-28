@@ -124,10 +124,11 @@ export class DragAndDrop {
 				await HTMLHandlers.reportStatusSubtract(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
 			} case "override": {
-				const origStatus =   actor.getStatus(retval.statusId!)!;
-				await origStatus.delete();
-				const status = await actor.addOrCreateStatus(retval.name,{ ...options, tier: retval.tier, pips: retval.pips});
-				await CityHelpers.modificationLog(actor, `Overrode Status: ${origStatus.name} with ${status} tier  ${retval.tier}`);
+				const status =   actor.getStatus(retval.statusId!)!;
+				const origName =status.name;
+				const {name} = retval;
+				await status.update( {name, system: {...retval}});
+				await CityHelpers.modificationLog(actor, `Overrode Status: ${origName} with ${name} tier  ${retval.tier}`);
 				return status;
 			} default:
 				retval satisfies never;
