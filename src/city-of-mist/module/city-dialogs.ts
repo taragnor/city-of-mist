@@ -209,7 +209,6 @@ export class CityDialogs {
 			}, {});
 			dialog.render(true);
 		});
-
 	}
 
 	//TODO: implemeent check for status dropped on other status via options.mergeWithStatus
