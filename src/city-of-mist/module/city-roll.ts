@@ -952,7 +952,7 @@ export class CityRoll {
 		const roll = newRoll ?? message.rolls[0];
 		try {
 			const checkedOptions = await this.verifyCheckedOptions(
-				message.getFlag("city-of-mist", "checkedOptions"),
+				message.getFlag("city-of-mist", "checkedOptions")!,
 				roll
 			);
 			let newContent;

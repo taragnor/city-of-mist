@@ -31,6 +31,6 @@ module FOUNDRY.AUDIO {
 		get loaded(): boolean;
 		get failed(): boolean;
 		get loop(): boolean;
-
+		stop(): void;
 	}
 }

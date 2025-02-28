@@ -14,7 +14,8 @@ export type TagCreationOptions = GenericCreationOptions &
 export type StatusCreationOptions = GenericCreationOptions
 	& DeepPartial<Status["system"]>
 	&
-	{tier:number
+	{
+		tier:number
 		mergeWithStatus ?:Status
 	};
 

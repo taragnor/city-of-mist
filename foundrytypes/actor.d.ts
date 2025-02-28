@@ -9,7 +9,7 @@
 
 
 // declare class Actor<T extends {[key:string]: foundry.abstract.DataModel}, U extends X<T>> {
-declare class Actor<const T extends SchemaDict = any, ItemType extends Item<J> = Item, AEType extends ActiveEffect<this, ItemType> = ActiveEffect> extends FoundryDocument<ItemType | AEType>{
+declare class Actor<const T extends SchemaDict = any, ItemType extends Item<any, this, any> = Item<any, this>, AEType extends ActiveEffect<this, ItemType> = ActiveEffect<this, ItemType>> extends FoundryDocument<ItemType | AEType>{
 	type: keyof T;
 	system: TotalConvert<T>;
 	get items(): Collection<ItemType>;
@@ -32,30 +32,34 @@ declare class Actor<const T extends SchemaDict = any, ItemType extends Item<J> =
   */
 	allApplicableEffects() : Generator<AEType>
 	getActiveTokens(linked?: boolean, document?: boolean) : Token<Actor<T, ItemType, AEType>>[];
+	async toggleStatusEffect(statusId: string, options: ToggleStatusOptions = {}): Promise<AEType | boolean | undefined>;
 
 // Get a list of all effects that are actually applied to the actor.
 	get appliedEffects(): AEType[];
 }
 
+type ToggleStatusOptions = {
+	active?: boolean, //**Force the effect to be active or inactive regardless of its current state*/
+	overlay: boolean, //**defaults to false*/
+}
 
 
 type SystemDataObjectFromDM<T extends typeof foundry.abstract.DataModel> =
 SystemDataObject<ReturnType<T['defineSchema']>>;
+
 type SystemDataObject<T extends SchemaReturnObject> = {[name in keyof T]: SchemaConvert<T[name]>};
 
+// type SchemaConvert<F> = F extends FoundryDMField<infer T>
+// 	? T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
+// 	:F;
+
 type SchemaConvert<F> = F extends FoundryDMField<infer T>
-	? T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
+	// ? T extends typeof DataModelClass ? SystemDataObjectFromDM<T>
+	? T extends typeof DataModelClass ? SystemDataObjectFromDM<T>
+	: T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
 	:F;
 
-
 //Components to help with converting
-type MakeSchemaData<T extends typeof foundry.abstract.DataModel> = T & SystemDataObjectFromDM<T>;
-
-type MakeSchemaDataList<T extends Record<string | number | symbol, typeof foundry.abstract.DataModel>> = {[K in keyof T]: MakeSchemaData<T[K]>};
-
-type DefineActor<T extends typeof CONFIG.Actor.dataModels> = typeof Actor & {new () : DefineActorInstance<T>};
-
-type DefineActorInstance<T extends typeof CONFIG.Actor.dataModels> = Actor & X<MakeSchemaDataList<T>>;
 
 type TransformToRealData<T extends SchemaDict> = {
   [K in keyof T]: SystemDataObjectFromDM<T[K]> & InstanceType<T[K]>;

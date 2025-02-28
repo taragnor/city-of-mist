@@ -12,11 +12,15 @@ import { TagCreationOptions } from "./config/statusDropTypes.js";
 
 export class DragAndDrop {
 
-	static init() {
-	}
+	static init() { }
 
-	static async dropStatusOnActor(statusName: string, actor: CityActor, options : StatusCreationOptions) {
-		await actor.sheet.statusDrop(statusName , options);
+	static draggedElement(): JQuery {
+		const dragging = $(document).find(".dragging");
+		if (dragging.length != 1) {
+			console.warn ("Something went wrong with dragging");
+			throw new Error("Something went wrong with Dragging");
+		}
+		return dragging;
 	}
 
 	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
@@ -63,11 +67,11 @@ export class DragAndDrop {
 				if (dragOptions.mergeStatus) {
 					statusOptions.mergeWithStatus = dragOptions.mergeStatus;
 				}
-				DragAndDrop.dropStatusOnActor(name, actor, statusOptions);
+				await this.statusDrop(actor, name, statusOptions);
 				break;
 			}
 			case "tag": {
-				DragAndDrop.dropTagOnActor(name, actor, options as TagCreationOptions);
+				this.dropTagOnActor(name, actor, options as TagCreationOptions);
 				break;
 			}
 			case "gmmove":

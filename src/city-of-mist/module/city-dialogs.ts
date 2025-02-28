@@ -1,3 +1,4 @@
+import { StatusMath } from "./status-math.js";
 import { localize } from "./city.js";
 import { MistRoll } from "./mist-roll.js";
 import { Status } from "./city-item.js";
@@ -22,10 +23,10 @@ import { ThemeKit } from "./city-item.js";
 import { CityItem } from "./city-item.js"
 import { Themebook } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
-import {CityDB} from "./city-db.js";
-import {CityHelpers} from "./city-helpers.js";
-import {HTMLTools} from "./tools/HTMLTools.js";
-import {TagReviewDialog} from "./dialogs/tag-review.js";
+import { CityDB } from "./city-db.js";
+import { CityHelpers } from "./city-helpers.js";
+import { HTMLTools } from "./tools/HTMLTools.js";
+import { TagReviewDialog } from "./dialogs/tag-review.js";
 
 const PATH = "systems/city-of-mist";
 
@@ -170,27 +171,31 @@ export class CityDialogs {
 	//TODO: implement this fully
 	static async mergeWithStatusDialog(targetStatus: Status,  name: string, options: StatusCreationOptions): Promise<null | { action: "add" | "subtract" | "override", name: string, tier: number, pips: number, statusId: string}> {
 		const {tier} = options;
+		const title =  game.i18n.format("MistEngine.dialog.statusMerge.label", {
+			newStatus: `${name} ${tier}`,
+			existingStatus: `${targetStatus.name} ${targetStatus.system.tier}`
+		});
 		const templateOptions = {
-
+			titleString: title
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
-		return new Promise ( (conf, reject) => {
+		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog( {
-				title: localize("MistEngine.dialog.statusMerge.label"),
+				title,
 				content: html,
 				buttons: {
 					ok: {
 						icon: `<i class="fa-solid fa-check"></i>`,
-						callback: (html: string) => {
+						callback: (_html: string) => {
 							//NOTE: Placeholder values
+							const newStData = StatusMath.merge(targetStatus, tier);
 							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
 								action: "override",
-								name: "",
-								tier: 0,
-								pips: 0,
-								statusId: "",
+								name: newStData.tier > targetStatus.tier ? name : targetStatus.name,
+								tier: newStData.tier,
+								pips: newStData.pips ?? 0,
+								statusId: targetStatus.id,
 							};
-								;
 							conf(ret);
 
 						},

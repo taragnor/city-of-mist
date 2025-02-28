@@ -1,3 +1,4 @@
+import { StatusMath } from "./status-math.js";
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
 import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
 import { Move } from "./city-item.js";
@@ -387,6 +388,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			}
 			return str;
 		},
+
+		"statusBoxesME" : function (status: Status) : boolean[] {
+			return StatusMath.statusBoxesME(status);
+		}
+
 
 	} //end of object holding helpers
 } // end of class

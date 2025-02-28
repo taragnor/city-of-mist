@@ -356,6 +356,40 @@ export function DEV_SETTINGS() {
 			}
 		},
 
+		"tagCreationCost": {
+			name: localize("CityOfMist.settings.tagCreationCost.name"),
+			hint: localize("CityOfMist.settings.tagCreationCost.hint"),
+			scope: "world",
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			type: Number,
+			default: 2,
+			choices:
+			{
+				1: "1",
+				2: "2",
+				3: "3",
+			},
+			restricted: true,
+			onChange: (_newval: string) => { }
+		},
+
+		"statusCreationCost": {
+			name: localize("CityOfMist.settings.statusCreationCost.name"),
+			hint: localize("CityOfMist.settings.statusCreationCost.hint"),
+			scope: "world",
+			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			type: Number,
+			default: 1,
+			choices:
+			{
+				1: "1",
+				2: "2",
+				3: "3",
+			},
+			restricted: true,
+			onChange: (_newval: string) => { }
+		},
+
 		"movesInclude": {
 			name: localize("CityOfMist.settings.movesInclude.name"),
 			hint: localize("CityOfMist.settings.movesInclude.hint"),

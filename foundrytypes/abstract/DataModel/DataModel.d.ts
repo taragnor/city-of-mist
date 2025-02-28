@@ -12,8 +12,9 @@ declare class DataModelClass  {
 type SchemaReturnObject = Record<string, FoundryDMField<any>>;
 
 declare class TypeDataModelClass extends DataModelClass {
+	/** this function is weird, relying on interpreting this as system data of whatever object it represents. and directly modifying that system data in place instead of returning. */
 	prepareBaseData(): void;
 	prepareDerivedData(): void;
-	static defineSchema() : T;
+	static defineSchema() : SchemaReturnObject;
 }
 

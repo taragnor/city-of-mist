@@ -1,3 +1,4 @@
+import { StatusMath } from "./status-math.js";
 import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
 import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
@@ -106,6 +107,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		html.on("keydown", this.quickClose.bind(this));
 		// html.keydown(this.quickClose.bind(this));
 		html.on("drop", (ev) => ev.originalEvent ? this._onDrop(ev.originalEvent) : undefined);
+		html.find(".status-tier-circles .tracker-circle").on("click", this.clickStatusCircle.bind(this))
 	}
 
 	override async _onDrop(event: DragEvent) {
@@ -304,6 +306,16 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		if (!this.item.isThemeKit())
 			throw new Error("Expecting Theme kit");
 		await this.item.deleteTagOrImprovement(Number(index), "improvement");
+	}
+
+	async clickStatusCircle(event: JQuery.Event) {
+		const index  = Number(HTMLTools.getClosestData(event, "index"));
+		const item = this.item;
+		if (item.system.type == "status") {
+			const result= StatusMath.binaryToggle(this.item, index);
+			await this.item.update({ system: result});
+		}
+
 	}
 
 }

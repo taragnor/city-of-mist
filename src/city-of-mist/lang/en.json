@@ -684,7 +684,7 @@
 
 "CityOfMist.chatmessage.clue.use":"uses a clue.",
 
-"MistEngine.dialog.statusMerge.label": "Merge Status",
+"MistEngine.dialog.statusMerge.label": "Merge {newStatus} with Status {existingStatus}",
 
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 "CityOfMist.dialog.roll.title": "Make Roll",
@@ -860,6 +860,12 @@
 
 "CityOfMist.settings.baseSystem.name": "Base System",
 "CityOfMist.settings.baseSystem.hint": "The base system upon which most of the rules are drawn.",
+
+"CityOfMist.settings.tagCreationCost.name": "Tag Creation Cost",
+"CityOfMist.settings.tagCreationCost.hint": "Amount of Power Required to Create a new Tag (Mist Engine Only)",
+
+"CityOfMist.settings.statusCreationCost.name": "Status Creation Cost",
+"CityOfMist.settings.statusCreationCost.hint": "Amount of Power Required to Create a new Status (Mist Engine Only)",
 
 "CityOfMist.settings.loadout.name": "Enable Loadout Theme",
 "CityOfMist.settings.loadout.hint": "Show the Loadout theme on the character Sheet",

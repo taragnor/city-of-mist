@@ -1,8 +1,18 @@
 declare const CONST : {
+	FILE_CATEGORIES : {
+		AUDIO: Record<string, string>,
+		FONT: Record<string, string>,
+		GRAPHICS: Record<string, string>,
+		HTML: Record<string, string>,
+		IMAGE: Record<string, string>,
+		MEDIA: Record<string, string>,
+		TEXT: Record<string, string>,
+		VIDEO: Record<string, string>,
+	},
 	ACTIVE_EFFECT_MODES	: AE_MODES;
 	USER_ROLES: {
 		GAMEMASTER:number,
-	}
+	},
 	/**
 	@deprecated as of V12
 	 */

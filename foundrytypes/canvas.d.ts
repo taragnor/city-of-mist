@@ -16,8 +16,7 @@ type Animation = unknown;
 
 class TokenLayer {
 	get ownedTokens(): Token[];
-
-
+	get controlled(): Token[];
 }
 
 class Stage {

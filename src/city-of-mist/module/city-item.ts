@@ -1,3 +1,4 @@
+import { StatusMath } from "./status-math.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js"
@@ -22,7 +23,7 @@ import {CitySockets} from "./city-sockets.js";
 import { CityLogger } from "./city-logger.js";
 import { CitySettings } from "./settings.js";
 
-export class CityItem extends Item<typeof ITEMMODELS> {
+export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	declare parent: CityActor | undefined;
 
@@ -701,25 +702,20 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		return true;
 	}
 
+	get tier() : number {
+		if (this.system.type != "status") return 0;
+		return this.system.tier;
+	}
+
+	get pips() : number {
+		if (this.system.type != "status") return 0;
+		return this.system.pips;
+	}
+
 	async addStatus (this:Status, tierOrBoxes: number, options: StatusCreationOptions) : Promise<Status> {
 		const newname = options?.newName ?? this.name;
-		const system = CitySettings.getStatusAdditionSystem();
-		let status : Status | null = null;
-		switch (system) {
-			case "classic":
-				status = await this.addStatus_CoM(tierOrBoxes, newname);
-				break;
-			case"classic-commutative":
-				status = await this.addStatus_CoM(tierOrBoxes, newname);
-				break;
-			case "mist-engine":
-				status = await this.addStatus_ME(tierOrBoxes, newname);
-				break;
-			default:
-				system satisfies never;
-				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to CoM`);
-				status = await this.addStatus_CoM(tierOrBoxes, newname);
-		}
+		const statusData = StatusMath.add(this, tierOrBoxes);
+		const status = await this.update( {name:newname, system: statusData});
 		if (options.createdBy) {
 			const arr = status.system.createdBy ?? [];
 			for (const tagAcc of options.createdBy as Tag["system"]["createdBy"]) {
@@ -788,55 +784,10 @@ export class CityItem extends Item<typeof ITEMMODELS> {
 		}
 	}
 
-	async addStatus_CoM (this: Status, ntier: number, newname: string) {
-		const standardSystem = !CitySettings.isCommutativeStatusAddition();
-		let tier = this.system.tier;
-		let pips = this.system.pips;
-		if (ntier > tier) {
-			if (standardSystem) {
-				tier = ntier;
-				pips = 0;
-				ntier = 0;
-			} else {
-				[tier, ntier] = [ntier, tier]; //swap
-			}
-		}
-		while (ntier-- > 0) {
-			pips++;
-			while (pips >= tier) {
-				pips -= tier++;
-			}
-		}
-		return await this.update( {name:newname, system: {tier, pips}});
-	}
-
 	async subtractStatus(this: Status, tierOrBoxes: number, replacename : null | string = null) {
 		const newname = replacename ?? this.name;
-		const system = CitySettings.getStatusSubtractionSystem();
-		switch (system) {
-			case "classic":
-				return this.subtractStatus_CoM(tierOrBoxes, newname);
-			case "mist-engine" :
-				return this.subtractStatus_ME(tierOrBoxes, newname);
-			default:
-				system satisfies never;
-				ui.notifications.warn(`Unknown System for adding statuses: ${system}, defaulting to core CoM`);
-				return this.subtractStatus_CoM(tierOrBoxes, newname);
-		}
-	}
-
-	async subtractStatus_CoM (this: Status, ntier:number, newname:string) {
-		let tier = this.system.tier;
-		let pips = this.system.pips;
-		pips = 0;
-		tier = Math.max(tier - ntier, 0);
-		return await this.update( {name:newname, system: {tier, pips}});
-	}
-
-	async subtractStatus_ME(this: Status, tier:number, newname: string) {
-		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
-		const newpips = pips >> tier;
-		return await this.refreshStatus_otherscape(newpips, newname)
+		const statusData = StatusMath.subtract(this, tierOrBoxes);
+		return await this.update( {name:newname, system: statusData});
 	}
 
 	/** returns the amount of status card boxes checked by a status, otherwise returns 0 for non-status

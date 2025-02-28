@@ -3,14 +3,26 @@
 		{{localize "CityOfMist.terms.name"}}
 	</label>
 	<input class="status-name-input" type="text" name="name" value="{{item.name}}">
+	{{#if (isCoM)}}
 	<label class="dialog-label" for="tier">
 		{{localize "CityOfMist.terms.Tier"}}
 	</label>
 	<input id="status-tier" type="number" name="system.tier" value="{{item.system.tier}}">
-	{{#if (isCoM)}}
 	<label class="dialog-label" for="pips"> Pips </label>
 	<input id="status-pips" type="number" name="system.pips" value="{{item.system.pips}}">
+	{{else}}
+	<div class="status-tier-circles">
+	{{#each (statusBoxesME item) as |box i|}}
+		{{#if (eq box true)}}
+		<span class="filled-circle tracker-circle" data-index="{{i}}"></span>
+		{{else}}
+		<span class="empty-circle-status tracker-circle" data-index="{{i}}"></span>
+		{{/if}}
+	{{/each}}
+	</div>
+
 	{{/if}}
+
 	<label class="dialog-label" for="temp">
 		{{localize "CityOfMist.terms.temporary"}}
 	</label>

@@ -1,4 +1,4 @@
-type TrackerItem = {
+export type TrackerItem = {
 	name: "Scene",
 	actor: CityActor,
 	id: string,
@@ -67,7 +67,7 @@ export class StatusTracker {
 			throw new Error("No sort function found for Status Tracker");
 		const sorted = combined
 			.sort(sortFn);
-		return new StatusTracker(sorted);
+		return new StatusTracker(sorted as TrackerItem[]);
 	}
 
 	static pc_type_sort(a:TrackerItem,b:TrackerItem) {

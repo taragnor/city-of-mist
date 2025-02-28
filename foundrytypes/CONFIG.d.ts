@@ -7,7 +7,7 @@ declare interface CONFIG {
 		dataModels: Record<string, typeof foundry.abstract.DataModel>;
 		documentClass: typeof Item<any>;
 	};
-	statusEffects: StatusEffectObject[];
+	statusEffects: readonly StatusEffectObject[];
 	ActiveEffect: {
 		documentClass: typeof ActiveEffect<any, any>;
 		legacyTransferral: boolean;
@@ -36,7 +36,14 @@ declare interface CONFIG {
 	};
 	Scene: {
 		documentClass: typeof Scene;
-
+	}
+	weatherEffects: {
+		"blizzard": WeatherEffectData;
+		"fog": WeatherEffectData;
+		"leaves": WeatherEffectData;
+		"rain": WeatherEffectData;
+		"rainstorm": WeatherEffectData;
+		"snow": WeatherEffectData;
 	}
 }
 
@@ -44,5 +51,7 @@ type StatusEffectObject = {
 	id: string,
 	name: string,
 	icon: string,
-	changes ?: AEChange[],
+	changes ?: readonly AEChange[],
 }
+
+type WeatherEffectData = unknown;

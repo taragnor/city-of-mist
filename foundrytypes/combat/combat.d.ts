@@ -13,7 +13,7 @@ declare class Combat<T extends Actor<any, any> = Actor<any, any>> extends Foundr
 	combatants: Collection<Combatant<T>>;
 	turns: Combatant<T>[];
 	static defineSchema(): SchemaReturnObject;
-	getCombatantByToken(tokenIdOrToken: string | Token<T>) : Combatant<T>;
+	getCombatantByToken(tokenIdOrToken: string | TokenDocument<T>) : Combatant<T>;
 	getCombatantByActor(actorIdOrActor: string | Actor<T>): Combatant<T>;
 	startCombat(): Promise<this>;
 	nextRound(): Promise<this>;

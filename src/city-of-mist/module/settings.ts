@@ -128,6 +128,14 @@ export class CitySettings {
 		}
 	}
 
+	static tagCreationPowerCost() : number {
+		return Number(this.get("tagCreationCost")) ?? 2;
+	}
+
+	static statusCreationPowerCost() : number {
+		return Number(this.get("statusCreationCost")) ?? 1;
+	}
+
 	/** returns "text", "symbols" or "none" */
 	static GMMoveHeaderSetting() {
 		return this.get("gmmoveheaders");
@@ -175,6 +183,8 @@ export class CitySettings {
 				await this.set("autoFail_autoSuccess", true);
 				await this.set("collectiveMechanics", "mist-engine");
 				await this.set("statusDisplay", "tier+circles");
+				await this.set("tagCreationCost", 2);
+				await this.set("statusCreationCost", 1);
 
 				await this.set("system", "otherscape");
 				break;
@@ -189,8 +199,9 @@ export class CitySettings {
 				await this.set("autoFail_autoSuccess", true);
 				await this.set("collectiveMechanics", "mist-engine");
 				await this.set("statusDisplay", "tier+circles");
-
 				await this.set("system", "legend");
+				await this.set("tagCreationCost", 2);
+				await this.set("statusCreationCost", 1);
 				break;
 			case "custom":
 				break;

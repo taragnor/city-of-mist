@@ -92,7 +92,7 @@ export class MistRoll extends Roll {
 			.filter(x=> x.type == "status")
 			.reduce( (a,x : CreatedStatusData) => a + x.tier, 0);
 		const other = options.extraFeats.length;
-		return tags * 2 + statuses + other;
+		return tags * CitySettings.tagCreationPowerCost() + statuses * CitySettings.statusCreationPowerCost() + other;
 	}
 
 	get move() : Move {

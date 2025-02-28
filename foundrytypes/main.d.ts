@@ -50,6 +50,7 @@ declare interface Game {
 	combats: Collection<Combat>;
 	journal: Collection<JournalEntry>;
 	world: World;
+	get paused(): boolean;
 }
 
 
@@ -84,8 +85,14 @@ class Collection<T> extends Map<string, T> {
 class FoundryCompendium<T extends FoundryDocument> extends FoundryDocument<never> {
 	find(condition: (x:T) => boolean): T;
 	documentName: FoundryDocumentTypes;
+	metadata: CompendiumMetaData;
 	async getDocument(id: string): Promise<T>;
 	async getDocuments(query : Record<string, unknown> = {}): Promise<T[]>;
+}
+
+type CompendiumMetaData = {
+	name:string;
+
 }
 
 class FoundryUser extends FoundryDocument<never>{

@@ -1,6 +1,7 @@
 /* global jQuery, Handlebars, Sortable */
 /* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
 import { CityHelpers } from "../city-helpers.js";
+import { TrackerItem } from "./status-tracker.js";
 import { HTMLTools } from "../tools/HTMLTools.js";
 import { CitySettings } from "../settings.js";
 import {HTMLHandlers} from "../universal-html-handlers.js";
@@ -81,7 +82,7 @@ export class StatusTrackerWindow extends Application {
 		const combined = actors.concat(scene);
 		const sortFn = this.sortFunction();
 		const sorted = combined.sort(sortFn);
-		const statusTracker = new StatusTracker(sorted);
+		const statusTracker = new StatusTracker(sorted as TrackerItem[]);
 		return {
 			statusTracker: statusTracker
 		};

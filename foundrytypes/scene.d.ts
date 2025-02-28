@@ -3,6 +3,7 @@ class Scene extends FoundryDocument<never> {
 	dimensions: {distance:number};
 	walls: Collection<WallDocument>;
 	regions: Collection<RegionDocument>;
+	weather: keyof CONFIG["weatherEffects"];
 }
 
 class WallDocument extends FoundryDocument {
@@ -20,3 +21,5 @@ class RegionDocument extends FoundryDocument<never> {
 	get tokens(): Set<TokenDocument<Actor<any>>>;
 
 }
+
+

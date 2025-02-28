@@ -7,6 +7,13 @@ import {CityHelpers} from "./city-helpers.js";
 import {HTMLHandlers} from "./universal-html-handlers.js";
 import { CitySettings } from "./settings.js";
 
+declare global {
+	interface HOOKS {
+
+"updateSceneTagWindow": (container: StoryTagDisplayContainer, html: string) => unknown;
+	}
+}
+
 export class StoryTagDisplayContainer {
 	element: HTMLDivElement;
 	dataElement: HTMLDivElement;
@@ -91,6 +98,7 @@ export class StoryTagDisplayContainer {
 		const html = await renderTemplate("systems/city-of-mist/templates/story-tag-window.hbs", templateData);
 		this.dataElement.innerHTML = html;
 		this.updateHandlers();
+		Hooks.callAll("updateSceneTagWindow", this, html);
 		return true;
 	}
 
@@ -102,6 +110,7 @@ export class StoryTagDisplayContainer {
 		html.find(".combatant-name").on("click", this.centerOnToken );
 		html.find(".combatant-name").rightclick( this.openSheet );
 		html.find(".combatant-block").on("drop", this._dragDropEvent.bind(this));
+		html.find(".combatant-block .status").on("drop", this._dropOnOtherStatus.bind(this));
 
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
 	}
@@ -165,11 +174,9 @@ export class StoryTagDisplayContainer {
 	}
 
 	async _dragDropEvent(event: JQuery.DropEvent) {
-		const dragging = $(document).find(".dragging");
-		if (dragging.length != 1) {
-			console.warn ("Something went wrong with dragging");
-			return;
-		}
+		event.stopPropagation();
+		console.debug("Standard Drag and drop");
+		const dragging = DragAndDrop.draggedElement();
 		const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
 		if (x == undefined) {
@@ -184,10 +191,29 @@ export class StoryTagDisplayContainer {
 			return;
 		}
 		if (x instanceof CityActor) {
+			console.log(`existing Status: ${existingStatus?.name}`);
 			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
 			return;
 		}
 	}
+
+	async _dropOnOtherStatus(event: JQuery.DropEvent) {
+		event.stopPropagation();
+		console.debug("Other STatus Drop");
+		const dragging = DragAndDrop.draggedElement();
+		const existingStatus = this.getStatusAt(event);
+		let x = this.getTokenAt(event);
+		if (x == SceneTags) {
+			await DragAndDrop.dropDraggableOnSceneTags(dragging, {mergeStatus: existingStatus});
+			return;
+		}
+		if (x instanceof CityActor) {
+			console.log(`existing Status: ${existingStatus?.name}`);
+			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
+			return;
+		}
+	}
+
 
 	getTokenAt(event: JQuery.Event) : Token<CityActor> | CityActor |  typeof SceneTags | undefined {
 		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
@@ -204,6 +230,7 @@ export class StoryTagDisplayContainer {
 			return undefined;
 		}
 	}
+
 
 getStatusAt(event: JQuery.Event) : Status | undefined {
 		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
@@ -228,7 +255,3 @@ getStatusAt(event: JQuery.Event) : Status | undefined {
 	}
 
 }
-
-
-
-
