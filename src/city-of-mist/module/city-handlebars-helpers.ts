@@ -313,7 +313,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(SPECTRUM_VALUES[x]);
 		},
 		'allowTagDelete': function (tag: Tag) {
-			if (tag.system.subtype == "story") return true;
+			switch (tag.system.subtype) {
+				case "story":
+					return true;
+				case "relationship": case "power": case "weakness": case "loadout":
+					break;
+				default:
+					tag.system.subtype satisfies never;
+			}
 			if (!tag.parent) return false;
 			if (tag.parent.system.locked) return false;
 			return (tag.parent.isOwner);
