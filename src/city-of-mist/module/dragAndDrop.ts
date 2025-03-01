@@ -34,7 +34,9 @@ export class DragAndDrop {
 	static async dropDraggableOnSceneTags (draggable: JQuery, dragOptions: DragAndDropOptions = {}) {
 		if (!game.user.isGM) return;
 		const draggableType = DragAndDrop.getDraggableType(draggable);
-		const options : StatusCreationOptions | TagCreationOptions = draggable.data("options") ?? {};
+		const options : StatusCreationOptions | TagCreationOptions = {
+			...(draggable.data("options") ?? {})
+		}; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
 		switch ( draggableType ) {
 			case "status":
 				const name = draggable.data("name") ?? "name unknown";
@@ -58,7 +60,10 @@ export class DragAndDrop {
 
 	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor, dragOptions: DragAndDropOptions = {}) {
 		if (!actor.isOwner) return;
-		let options : StatusCreationOptions | TagCreationOptions  = draggable.data("options") ?? {};
+		const options : StatusCreationOptions | TagCreationOptions = {
+			...(draggable.data("options") ?? {})
+		}; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
+
 		const draggableType = DragAndDrop.getDraggableType(draggable);
 		const name = draggable.data("name") ?? "name unknown";
 		switch (draggableType) {
@@ -117,20 +122,23 @@ export class DragAndDrop {
 				await origStatus.addStatus(retval.tier, options);
 				await HTMLHandlers.reportStatusAdd(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
-			} case "subtract": {
+			}
+			case "subtract": {
 				const origStatus =   actor.getStatus(retval.statusId!)!;
 				options.newName = retval.name;
 				await origStatus.subtractStatus(retval.tier, options.newName);
 				await HTMLHandlers.reportStatusSubtract(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
-			} case "override": {
+			}
+			case "override": {
 				const status =   actor.getStatus(retval.statusId!)!;
-				const origName =status.name;
+				const origName = status.name;
 				const {name} = retval;
 				await status.update( {name, system: {...retval}});
 				await CityHelpers.modificationLog(actor, `Overrode Status: ${origName} with ${name} tier  ${retval.tier}`);
 				return status;
-			} default:
+			}
+			default:
 				retval satisfies never;
 				throw new Error(`Unknown action : ${(retval as any)?.action}`);
 		}

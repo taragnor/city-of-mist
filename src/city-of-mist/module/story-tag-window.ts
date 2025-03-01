@@ -174,10 +174,10 @@ export class StoryTagDisplayContainer {
 	}
 
 	async _dragDropEvent(event: JQuery.DropEvent) {
-		event.stopPropagation();
+		event.stopImmediatePropagation();
 		console.debug("Standard Drag and drop");
 		const dragging = DragAndDrop.draggedElement();
-		const existingStatus = this.getStatusAt(event);
+		// const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
 		if (x == undefined) {
 			ui.notifications.error("Error with Drag and Drop");
@@ -187,19 +187,18 @@ export class StoryTagDisplayContainer {
 			x = x.actor;
 		}
 		if (x == SceneTags) {
-			await DragAndDrop.dropDraggableOnSceneTags(dragging, {mergeStatus: existingStatus});
+			await DragAndDrop.dropDraggableOnSceneTags(dragging);
 			return;
 		}
 		if (x instanceof CityActor) {
-			console.log(`existing Status: ${existingStatus?.name}`);
-			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
+			await DragAndDrop.dropDraggableOnActor(dragging, x);
 			return;
 		}
 	}
 
 	async _dropOnOtherStatus(event: JQuery.DropEvent) {
-		event.stopPropagation();
-		console.debug("Other STatus Drop");
+		event.stopImmediatePropagation();
+		console.debug("Other Status Drop");
 		const dragging = DragAndDrop.draggedElement();
 		const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
@@ -208,7 +207,7 @@ export class StoryTagDisplayContainer {
 			return;
 		}
 		if (x instanceof CityActor) {
-			console.log(`existing Status: ${existingStatus?.name}`);
+			// console.log(`existing Status: ${existingStatus?.name}`);
 			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
 			return;
 		}

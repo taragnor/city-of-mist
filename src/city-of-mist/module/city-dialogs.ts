@@ -189,9 +189,10 @@ export class CityDialogs {
 						callback: (_html: string) => {
 							//NOTE: Placeholder values
 							const newStData = StatusMath.merge(targetStatus, tier);
+							debugger;
 							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
 								action: "override",
-								name: newStData.tier > targetStatus.tier ? name : targetStatus.name,
+								name: tier > targetStatus.tier ? name : targetStatus.name,
 								tier: newStData.tier,
 								pips: newStData.pips ?? 0,
 								statusId: targetStatus.id,
@@ -223,14 +224,10 @@ export class CityDialogs {
 				content: html,
 				buttons: {
 					one: {
-						label: "Cancel",
-						callback: (_html: string) => conf(null)
-					},
-					two: {
 						label: "Add",
 						callback: (html: string) => {
 							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
-							const newName = $(html).find(".status-name").val();
+							const newName = String($(html).find(".status-name").val());
 							let pips = 0;
 							let boxes : number | undefined;
 							const facedanger = $(html).find(".face-danger").is(":checked");
@@ -238,25 +235,27 @@ export class CityDialogs {
 							if (!statusChoiceId )
 								return conf({
 									action: "create",
-									name,
+									name: newName,
 									tier,
 									pips
 								});
 							return conf({
 								action:"merge",
-								name: String(newName),
+								name: newName,
 								statusId: String(statusChoiceId),
 								tier : boxes ?? tier,
 								pips
 							});
 						}
 					},
+					two: {
+						label: "Cancel",
+						callback: (_html: string) => conf(null)
+					},
 				},
 			}, {});
 			dialog.render(true);
 		});
-
-
 	}
 
 	static async narratorDialog() : Promise<string> {
