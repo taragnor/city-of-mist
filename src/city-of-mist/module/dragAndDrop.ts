@@ -112,22 +112,21 @@ export class DragAndDrop {
 		}
 		switch (retval.action) {
 			case 'create':
-				const status = await actor.addOrCreateStatus(retval.name,{ ...options, tier: retval.tier, pips: retval.pips});
+				const {tier, pips} = retval;
+				const status = await actor.createNewStatus(retval.name,tier, pips);
 				await CityHelpers.modificationLog(actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
 			case 'add':
 			case 'merge': {
-				const origStatus =   actor.getStatus(retval.statusId!)!;
+				const origStatus = actor.getStatus(retval.statusId!)!;
 				options.newName = retval.name;
 				await origStatus.addStatus(retval.tier, options);
-				await HTMLHandlers.reportStatusAdd(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
 			}
 			case "subtract": {
 				const origStatus =   actor.getStatus(retval.statusId!)!;
 				options.newName = retval.name;
 				await origStatus.subtractStatus(retval.tier, options.newName);
-				await HTMLHandlers.reportStatusSubtract(actor, retval.tier,  {name: origStatus.name, tier: origStatus.system.tier,pips: origStatus.system.pips}, origStatus);
 				return origStatus;
 			}
 			case "override": {

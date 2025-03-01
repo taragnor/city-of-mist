@@ -712,10 +712,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		return this.system.pips;
 	}
 
-	async addStatus (this:Status, tierOrBoxes: number, options: StatusCreationOptions) : Promise<Status> {
-		const newname = options?.newName ?? this.name;
-		const statusData = StatusMath.add(this, tierOrBoxes);
-		const status = await this.update( {name:newname, system: statusData});
+	async addStatus (this:Status, tier: number, options: StatusCreationOptions) : Promise<Status> {
+		const newName = options?.newName ?? this.name;
+		const statusData = StatusMath.add(this, tier);
+		await CityLogger.reportStatusAdd(this.parent!, tier,  this, {name: newName, ...statusData}, this);
+		const status = await this.update( {name:newName, system: statusData});
 		if (options.createdBy) {
 			const arr = status.system.createdBy ?? [];
 			for (const tagAcc of options.createdBy as Tag["system"]["createdBy"]) {
@@ -728,6 +729,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				await status.update({"system.createdBy": arr});
 			}
 		}
+
 		return status;
 	}
 
@@ -784,10 +786,16 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
-	async subtractStatus(this: Status, tierOrBoxes: number, replacename : null | string = null) {
-		const newname = replacename ?? this.name;
-		const statusData = StatusMath.subtract(this, tierOrBoxes);
-		return await this.update( {name:newname, system: statusData});
+	async subtractStatus(this: Status, tier: number, replacename : null | string = null) {
+		const newName = replacename ?? this.name;
+		const statusData = StatusMath.subtract(this, tier);
+		if (statusData.tier == 0) {
+			await this.delete();
+			return;
+		}
+		await CityLogger.reportStatusSubtract(this.parent!, tier,  this, {name: newName, ...statusData} , this);
+		return await this.update( {name:newName, system: statusData});
+
 	}
 
 	/** returns the amount of status card boxes checked by a status, otherwise returns 0 for non-status

@@ -108,75 +108,19 @@ export class CityDialogs {
 	}
 
 
-	static statusesAffectedByCategory(list: Status[], newCategory: StatusCategory = "none", direction: "positive" | "negative" | "both" = "both"): Status[] {
-		return list.filter( s => {
-			let addTo : StatusCategory[] = ["none"];
-			let subtractFrom : StatusCategory[] = ["none"];
-			switch (newCategory) {
-				case "none":
-					return true;
-				case "harm":
-					subtractFrom = ["shield"]
-					addTo = 	["harm"];
-					break;
-				case "hindering":
-					addTo = ["advantage", "shield"];
-					subtractFrom = [ "hindering"];
-					break;
-				case "compelling":
-					addTo = ["compelling"];
-					subtractFrom = [ "hindering", "shield"];
-					break;
-				case "weakening":
-					subtractFrom = ["advantage", "shield", "compelling", "polar"];
-					break;
-				case "advance":
-					addTo = ["progress", "polar"];
-					subtractFrom = ["polar"];
-					break;
-				case "advantage":
-					addTo = ["advantage"];
-					break;
-				case "shield":
-					addTo = ["shield"];
-					break;
-				case "restore":
-					subtractFrom= ["harm", "hindering", "compelling", "weakening"];
-					break;
-				case "set-back":
-					addTo = ["polar"];
-					subtractFrom = ["progress", "polar"];
-					break;
-				case "progress":
-				case "polar":
-					break;
-				default:
-					newCategory satisfies never;
-					ui.notifications.warn(`Unknown Category ${newCategory}`);
-					return true;
-			}
-			switch (direction) {
-				case "positive":
-					return addTo.includes(s.system.category ?? "none");
-				case "negative":
-					return subtractFrom.includes(s.system.category ?? "none");
-				case "both":
-					return addTo.includes(s.system.category ?? "none") && subtractFrom.includes(s.system.category ?? "none");
-				default:
-						throw new Error(`Bad Direction ${direction}`);
-			}
-		});
-	}
 
 	//TODO: implement this fully
 	static async mergeWithStatusDialog(targetStatus: Status,  name: string, options: StatusCreationOptions): Promise<null | { action: "add" | "subtract" | "override", name: string, tier: number, pips: number, statusId: string}> {
 		const {tier} = options;
+		name= tier > targetStatus.tier ? name : targetStatus.name;
 		const title =  game.i18n.format("MistEngine.dialog.statusMerge.label", {
 			newStatus: `${name} ${tier}`,
 			existingStatus: `${targetStatus.name} ${targetStatus.system.tier}`
 		});
 		const templateOptions = {
-			titleString: title
+			titleString: title,
+			tier,
+			name,
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
 		return new Promise ( (conf, _reject) => {
@@ -184,21 +128,35 @@ export class CityDialogs {
 				title,
 				content: html,
 				buttons: {
-					ok: {
-						icon: `<i class="fa-solid fa-check"></i>`,
+					add: {
+						icon: `<i class="fa-solid fa-square-plus"></i>`,
 						callback: (_html: string) => {
-							//NOTE: Placeholder values
-							const newStData = StatusMath.merge(targetStatus, tier);
-							debugger;
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							// const newStData = StatusMath.merge(targetStatus, newTier);
 							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
-								action: "override",
-								name: tier > targetStatus.tier ? name : targetStatus.name,
-								tier: newStData.tier,
-								pips: newStData.pips ?? 0,
+								action: "add",
+								name: newName,
+								tier: newTier,
+								pips: 0,
 								statusId: targetStatus.id,
 							};
 							conf(ret);
-
+						},
+					},
+					sub: {
+						icon: `<i class="fa-solid fa-square-minus"></i>`,
+						callback: (_html: string) => {
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
+								action: "subtract",
+								name: newName,
+								tier: newTier,
+								pips: 0,
+								statusId: targetStatus.id,
+							};
+							conf(ret);
 						},
 					},
 					cancel: {
@@ -213,43 +171,64 @@ export class CityDialogs {
 	}
 
 	//TODO: implemeent check for status dropped on other status via options.mergeWithStatus
-	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
-		const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
-		// const statusList = actor.my_statuses;
-		let tier = options.tier;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, facedanger: options.faceDanger ?? false});
+	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions) : Promise<null | {action: "create" | "merge" | "subtract", name: string, tier: number, pips:number, statusId?: string}> {
+		// const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
+		const statusList = actor.my_statuses;
+		const tier = options.tier;
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, tier, facedanger: options.faceDanger ?? false});
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog({
 				title:`Add Dropped Status: ${name}`,
 				content: html,
 				buttons: {
-					one: {
+					add: {
+						icon: `<i class="fa-solid fa-square-plus"></i>`,
 						label: "Add",
 						callback: (html: string) => {
 							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
 							const newName = String($(html).find(".status-name").val());
-							let pips = 0;
-							let boxes : number | undefined;
-							const facedanger = $(html).find(".face-danger").is(":checked");
-							tier -= facedanger ? 1 : 0;
+							const newTier = Number($(html).find(`[name="tier"]`).val());
 							if (!statusChoiceId )
 								return conf({
 									action: "create",
 									name: newName,
-									tier,
-									pips
+									tier : newTier,
+									pips : 0,
 								});
 							return conf({
 								action:"merge",
 								name: newName,
 								statusId: String(statusChoiceId),
-								tier : boxes ?? tier,
-								pips
+								tier : newTier,
+								pips : 0,
+							});
+						}
+					},
+					sub:  {
+						icon: `<i class="fa-solid fa-square-minus"></i>`,
+						callback: (html: string) => {
+							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							if (!statusChoiceId )  {
+								return conf({
+									action: "create",
+									name: newName,
+									tier : newTier,
+									pips : 0,
+								});
+							} else conf({
+								action: "subtract",
+								name: newName,
+								statusId: String(statusChoiceId),
+								tier : newTier,
+								pips : 0,
 							});
 						}
 					},
 					two: {
-						label: "Cancel",
+						icon: `<i class="fa-solid fa-xmark"></i>`,
+						// label: "Cancel",
 						callback: (_html: string) => conf(null)
 					},
 				},

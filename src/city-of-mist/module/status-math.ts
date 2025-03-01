@@ -1,6 +1,7 @@
 import { CitySettings } from "./settings.js";
 
-type StatusLike = {tier: number, pips?: number};
+export type StatusLike = {tier: number, pips?: number};
+export type NamedStatusLike = {name: string} & StatusLike;
 
 export class StatusMath {
 
