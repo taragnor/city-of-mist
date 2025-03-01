@@ -1,0 +1,8 @@
+<h2>
+	{{localize "Otherscape.terms.crewRelationship"}}
+		<a class="create-relationship-tag" data-item-type="tag" title= "{{localize 'Otherscape.tooltip.createRelationshipTag' }}" data-sub-type="relationship" > <i class="fas fa-tag"></i></a>
+</h2>
+<div class="relationship-tags" data-owner-id="{{owner.id}}" >
+	{{> "systems/city-of-mist/templates/parts/story-tag-list-display.html" owner=actor locked=locked sheetowner=actor canBurn=true taglist=taglist}}
+</div>
+

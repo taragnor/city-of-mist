@@ -156,6 +156,10 @@
 "Otherscape.terms.collective" : "Scale",
 "Otherscape.terms.scale" : "Scale",
 "Otherscape.terms.crew" : "Crew",
+"Otherscape.terms.crewRelationship" : "Crew Relationships",
+
+"Otherscape.tooltip.createRelationshipTag": "Create Relationship Tag",
+
 
 
 "Legend.terms.origin": "Origin",

@@ -179,6 +179,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	isThemeBook(): this is Themebook { return this.type == "themebook"; }
 	isExtraTheme(this: Theme): boolean { return this.system.isExtra; }
 
+	isRelationshipTag(): boolean {
+		return this.system.type == "tag" && this.system.subtype == "relationship";
+
+	}
+
 	get systemCompatiblity() : System | "any" {
 		switch (this.system.type) {
 			case "themebook":

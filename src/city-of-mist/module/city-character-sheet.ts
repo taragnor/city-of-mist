@@ -197,6 +197,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
 		html.find(".clue-list-section .clue-name").on('click', this._clueEdit.bind(this));
 		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
+		html.find(".create-relationship-tag").click(this.createRelationshipTag.bind(this));
 	}
 
 	async _addBUImprovement (event: JQuery.Event) {
@@ -450,6 +451,15 @@ export class CityCharacterSheet extends CityActorSheet {
 			const owner = this.getOwner(ownerId);
 			owner.sheet.render(true);
 		}
+	}
+
+	async createRelationshipTag( _ev: JQuery.ClickEvent) {
+		const owner = this.actor;
+		const retobj = await owner.createRelationshipTag();
+		if (!retobj) return;
+		const tag =  owner.getTag(retobj.id)!;
+		await this.tagDialog(tag);
+		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
 
 }

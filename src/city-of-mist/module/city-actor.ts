@@ -1010,6 +1010,26 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return await this.createNewItem(obj) as Tag;
 	}
 
+	get relationshipTags(): Tag[] {
+		return this.items.filter( item => item.isTag() && item.isRelationshipTag()) as Tag[];
+	}
+
+	async createRelationshipTag(name = "Unnamed Tag", options: Partial<Tag["system"]> = {}) : Promise<Tag | null> {
+		const obj : DeepPartial<CityItem> = {
+			name: name.trim(),
+			type: "tag",
+			system: {
+				subtype: "relationship",
+				theme_id: "",
+				question_letter : "_",
+				question: "",
+				crispy: true,
+				...options,
+			}
+		};
+		return await this.createNewItem(obj) as Tag;
+	}
+
 	async deleteStoryTagByName(tagname: string) {
 		const tag = this.getStoryTags().find( x=> x.name == tagname);
 		if (tag)

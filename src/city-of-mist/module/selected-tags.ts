@@ -170,6 +170,8 @@ export class SelectedTagsAndStatus {
 					return 1;
 				case "weakness":
 					return -1;
+				case "relationship":
+					return 1;
 				default:
 					subtype satisfies never;
 					return -1;
