@@ -9,13 +9,22 @@ declare global {
 			CityActor: typeof CityActor;
 			CityItem: typeof CityItem;
 		}
+		rulesSystems: Map<string, SystemModuleI>;
 	}
 	interface CONFIG {
 		CITYCFG: unknown
 	}
+
+	interface HOOKS {
+		"registerRulesSystemPhase": (sys : typeof SystemModule) => unknown;
+	}
 }
 
 // Import Modules
+import { SystemModuleI } from "./systemModule/baseSystemModule.js";
+import { SystemModule } from "./config/system-module.js";
+import { OtherScapeSystem } from "./systemModule/otherscape.js";
+import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
 import { MistRoll } from "./mist-roll.js";
 import { CityDataMigration } from "./migration.js";
@@ -74,6 +83,13 @@ Hooks.once("cityDBLoaded", async function() {
 	return true;
 });
 
+Hooks.on("registerRulesSystemPhase", (sys) => {
+	const os = new OtherScapeSystem();
+	const com = new CoMSystem();
+	sys.registerRulesSystem("city-of-mist", com);
+	sys.registerRulesSystem("otherscape", os);
+
+});
 
 function registerDataModels() {
 	CONFIG.Actor.dataModels= ACTORMODELS;
@@ -99,6 +115,11 @@ Hooks.once("init", async function() {
 		CityActor,
 		CityItem
 	};
+	game.rulesSystems = new Map<string, SystemModuleI>();
+	// SystemModule.registerRulesSystem("city-of-mist", new CoMSystem());
+	SystemModule.init();
+	// game.rulesSystems.set("city-of-mist", new CoMSystem());
+	// game.rulesSystems.set("otherscape", new OtherscapeSystem());
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;

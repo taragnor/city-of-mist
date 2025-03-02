@@ -21,7 +21,6 @@ const DataModel = foundry.abstract.DataModel;
 
 const VERSION ="1" ; //TODO: import real version number
 
-
 function createdBy() {
 return 	{
 		createdBy : new arr( new obj<UniversalItemAccessor<Item>>()),
@@ -307,6 +306,7 @@ class EssenceDM extends DataModel {
 			...defaultItem(),
 			effect_class: new txt(),
 			system_compatiblity: new txt<System | "any">({initial: "otherscape"}),
+			expended: new bool(),
 		};
 	}
 }

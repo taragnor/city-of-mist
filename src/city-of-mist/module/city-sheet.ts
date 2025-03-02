@@ -21,6 +21,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 		let data = await super.getData();
 
 		data.items = this.actor.items.contents.map(x=>x);
+		data.sheetHeader = await window.SystemModule.active.sheetHeader(this.actor);
+
 		return data;
 	}
 
