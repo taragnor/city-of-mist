@@ -7,7 +7,7 @@
 		"crew" :{}
 	},
 	"Item": {
-		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal", "themekit"],
+		"types": ["themebook", "tag", "improvement", "theme", "juice", "status", "clue", "move", "gmmove", "spectrum", "journal", "themekit", "essence"],
 		"htmlFields": ["description"],
 		"themebook":{},
 		"tag":{},
@@ -20,6 +20,7 @@
 		"gmmove": {},
 		"spectrum":{},
 		"journal":{},
-		"themekit":{}
+		"themekit":{},
+		"essence": {}
 	}
 }

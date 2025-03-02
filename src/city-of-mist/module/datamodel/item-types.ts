@@ -300,6 +300,17 @@ class StatusDM extends DataModel {
 	}
 }
 
+class EssenceDM extends DataModel {
+	get type() {return "essence" as const;}
+	static override defineSchema() {
+		return {
+			...defaultItem(),
+			effect_class: new txt(),
+			system_compatiblity: new txt<System | "any">({initial: "otherscape"}),
+		};
+	}
+}
+
 class GMMove extends DataModel {
 	get type() {return "gmmove" as const}
 	static override defineSchema() {
@@ -346,6 +357,7 @@ export const ITEMMODELS = {
 	spectrum: Spectrum,
 	journal: Journal,
 	themekit: Themekit,
+	essence: EssenceDM,
 	"status": StatusDM,
 } as const;
 

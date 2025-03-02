@@ -1,3 +1,4 @@
+import { Essence } from "./city-item.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { CitySettings } from "./settings.js"
@@ -1494,6 +1495,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const tag =theme.tags().find( x=> x.id == loadoutTagId);
 		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
 		return await tag.toggleLoadoutActivation();
+	}
+
+	async setEssence(this: PC, essence: Essence) {
+		await this.update( {"system.essence" : essence.id});
+		return this;
+	}
+
+	async clearEssence(this: PC) {
+		await this.update( {"system.essence" : ""});
+		return this;
+	}
+
+	get essence() : Essence | undefined {
+		if (this.system.type != "character") return undefined;
+		return CityDB.getEssence(this.system.essence);
 	}
 
 

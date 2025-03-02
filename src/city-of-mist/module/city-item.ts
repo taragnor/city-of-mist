@@ -216,6 +216,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "status":
 			case "gmmove":
 				return "any";
+			case "essence":
+				return this.system.system_compatiblity;
 			default:
 				this.system satisfies never
 				return "any";
@@ -1688,5 +1690,6 @@ export type Move = Subtype<CityItem, "move">;
 export type Status = Subtype<CityItem, "status">;
 export type ClueJournal = Subtype<CityItem, "journal">;
 export type Spectrum = Subtype<CityItem, "spectrum">;
+export type Essence = Subtype<CityItem, "essence">;
 
 

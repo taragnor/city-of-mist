@@ -1,3 +1,4 @@
+import { Essence } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { Improvement } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -329,6 +330,16 @@ export class CityDB extends DBAccessor {
 		if (!changes.active) return;
 		await CityHelpers.refreshTokenActorsInScene(scene);
 		return true;
+	}
+
+	static getEssence(id: string) : Essence | undefined {
+		return this.allItems().find( item =>
+			item.id == id && item.system.type == "essence"
+		) as Essence | undefined;
+	}
+
+	static override allItems() : CityItem[] {
+		return super.allItems() as CityItem[];
 	}
 
 }

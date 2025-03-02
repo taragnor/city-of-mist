@@ -47,7 +47,6 @@ export class CitySheet extends ActorSheet<CityActor> {
 	/* -------------------------------------------- */
 
 	override async _onDropItem(_event: Event, o: any) {
-		Debug(_event);
 		//@ts-ignore
 		const item : CityItem = await Item.implementation.fromDropData(o);
 		switch (item.system.type) {

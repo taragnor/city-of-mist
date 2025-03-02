@@ -1,3 +1,5 @@
+import { Essence } from "./city-item.js";
+import { CityItem } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { CRollOptions } from "./mist-roll.js";
@@ -27,6 +29,20 @@ export class CityCharacterSheet extends CityActorSheet {
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "themes"}]
 		});
 	}
+
+	override async _onDropItem(event: Event, o: any) {
+		//@ts-ignore
+		const item : CityItem = await Item.implementation.fromDropData(o);
+		switch (item.system.type) {
+			case "essence":
+				await this.actor.setEssence(item as Essence);
+				return;
+			default:
+				return super._onDropItem(event, o);
+		}
+
+	}
+
 
 	override async getData() {
 		let data = await super.getData();

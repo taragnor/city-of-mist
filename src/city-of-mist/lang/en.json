@@ -14,6 +14,7 @@
 "TYPES.Item.gmmove" : "MC Move",
 "TYPES.Item.spectrum" : "Danger Spectrum",
 "TYPES.Item.themekit" : "Themekit",
+"TYPES.Item.essence" : "Essence",
 
 "CityOfMistTracker.trackerwindow.title": "City of Mist Status Tracker",
 "CityOfMistTracker.trackerwindow.empty": "Place a token on the scene to start the tracker.",

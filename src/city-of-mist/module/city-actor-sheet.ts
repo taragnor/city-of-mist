@@ -1,7 +1,3 @@
-import { DragAndDrop } from "./dragAndDrop.js";
-import { CityActor } from "./city-actor.js";
-import { StatusCreationOptions } from "./config/statusDropTypes.js";
-import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Clue } from "./city-item.js";
 
 import { Juice } from "./city-item.js";
@@ -492,6 +488,7 @@ export class CityActorSheet extends CitySheet {
 		await this.tagDialog(tag);
 		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
+
 
 	async _useClue(event: JQuery.Event) {
 		if (game.user.isGM) {

@@ -54,6 +54,7 @@ export class CharacterSchema extends foundry.abstract.DataModel {
 			...TagSelector(),
 			...person(),
 			...aliasable(),
+			essence: new id(),
 			activeExtraId: new id(),
 			activeCrewId: new id(),
 			buildup: new arr(

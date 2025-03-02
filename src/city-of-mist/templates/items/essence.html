@@ -1,0 +1,28 @@
+<form class="{{cssClass}} essence-sheet flex-col" autocomplete="off">
+	<header class="sheet-header">
+		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		<label>
+			{{localize "CityOfMist.terms.name"}}
+		</label>
+		<input type="text" class="tag-name" name="name" value="{{item.name}}">
+	</header>
+	<span>
+		<label class="dialog-label" for="free-content"> Allow Override </label>
+		<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
+	</span>
+	<textarea name="system.description">{{item.system.description}}</textarea>
+	<div>
+		<label>
+			System Compatibility
+		</label>
+		<select name="system.system_compatiblity">
+			{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
+		</select>
+	</div>
+	<div>
+		<label> Effect Class </label>
+		<input class="effect-class" name="system.effect_class" type="text" value="{{item.system.effect_class}}" placeholder="" title="Effect Class"/>
+	</div>
+
+</form>
+
