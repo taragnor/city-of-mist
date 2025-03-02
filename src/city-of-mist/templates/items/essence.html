@@ -11,6 +11,7 @@
 		<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
 	</span>
 	<textarea name="system.description">{{item.system.description}}</textarea>
+	{{#if (devMode)}}
 	<div>
 		<label>
 			System Compatibility
@@ -23,6 +24,7 @@
 		<label> Effect Class </label>
 		<input class="effect-class" name="system.effect_class" type="text" value="{{item.system.effect_class}}" placeholder="" title="Effect Class"/>
 	</div>
+	{{/if}}
 
 </form>
 
