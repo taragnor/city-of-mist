@@ -3,8 +3,6 @@ import { CityDB } from "../city-db.js";
 import { Themebook } from "../city-item.js";
 import { CitySettings } from "../settings.js";
 import { BaseSystemModule } from "./baseSystemModule.js";
-import { SystemModule } from "../config/system-module.js";
-import { CityActor } from "../city-actor.js";
 import { Essence } from "../city-item.js";
 import { PC } from "../city-actor.js";
 

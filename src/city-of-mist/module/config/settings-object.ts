@@ -1,4 +1,3 @@
-import { CityDataMigration } from "../migration.js";
 import { refreshStyleBodyTags } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
