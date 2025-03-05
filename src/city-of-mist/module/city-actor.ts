@@ -1,8 +1,8 @@
+import { SystemModule } from "./config/system-module.js";
 import { Essence } from "./city-item.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { CitySettings } from "./settings.js"
-import { COLLECTIVE } from "./datamodel/collective.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { Themebook } from "./city-item.js";
@@ -129,8 +129,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return;
 		} else {
 			if (collective.length == 0) {
-				const system = CitySettings.getBaseSystem();
-				const col_name = localize(COLLECTIVE[system])
+				const col_name = SystemModule.active.collectiveTermName();
 				await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
 				return;
 			}
@@ -143,8 +142,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async getCollectiveStatus() : Promise<Status> {
 		let collective = this.collectiveStatus;
 		if (!collective.length) {
-			const system = CitySettings.getBaseSystem();
-			const col_name = localize(COLLECTIVE[system]);
+			// const system = CitySettings.getBaseSystem();
+			// const col_name = localize(COLLECTIVE[system]);
+				const col_name = SystemModule.active.collectiveTermName();
 			await this.createNewStatus(col_name, this.collective_size, 0, { "specialType": "collective"});
 			collective = this.collectiveStatus;
 		}

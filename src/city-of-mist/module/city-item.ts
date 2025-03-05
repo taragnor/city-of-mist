@@ -1,7 +1,8 @@
+import { EffectClass } from "./config/effect-classes.js";
+import { SystemModule } from "./config/system-module.js";
 import { StatusMath } from "./status-math.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js"
 import { ThemeType } from "./datamodel/theme-types.js";
-import { FADETYPELIST } from "./datamodel/fade-types.js"
 import { FadeType } from "./datamodel/fade-types.js";
 
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
@@ -46,7 +47,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 */
 
-	hasEffectClass(cl: string) {
+	hasEffectClass(cl: EffectClass | (string & {})) {
 		return this.effect_classes.includes(cl);
 	}
 
@@ -1536,58 +1537,58 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
-	getThemePropertyTerm(this:Theme, term: "attention" | "fade") {
-		const system = CitySettings.get("baseSystem");
-		const l = localize;
+	getThemePropertyTerm(this:Theme, term: "attention" | "fade") : string {
+		// const system = CitySettings.get("baseSystem");
+		// const l = localize;
 		switch (term) {
 			case "attention" :
-				switch (system) {
-					case "city-of-mist":
-						return l("CityOfMist.terms.attention");
-					case "otherscape":
-						return l("Otherscape.terms.upgrade");
-					case "legend":
-						return l("Legend.terms.experience");
+				return SystemModule.active.themeIncreaseName(this);
+				// switch (system) {
+				// 	case "city-of-mist":
+				// 		return l("CityOfMist.terms.attention");
+				// 	case "otherscape":
+				// 		return l("Otherscape.terms.upgrade");
+				// 	case "legend":
+				// 		return l("Legend.terms.experience");
 
-				}
+				// }
 			case "fade":
-				try {
-					if (!this.themebook)
-						return "";
-				}
-				catch (e) {return "ERROR";}
-				if (!this.themebook)
-					return "";
-				switch (system) {
-					case "otherscape":
-						return l("Otherscape.terms.decay");
-					case "city-of-mist": break;
-					case "legend": break;
-					default:
-						system satisfies never;
-				}
-
-				let fadetype : FadeType = "decay";
-				const themeType = this.getThemeType();
-				if (this.themebook.system.fade_type != "default") {
-					fadetype = this.themebook.system.fade_type;
-				} else {
-					if (CitySettings.getBaseSystem() != "city-of-mist") {
-						fadetype = "decay";
-					}
-					else {
-						const CoMType = CityItem.getCoMdefaultFade(themeType);
-						if (CoMType == "crew") {
-							return l(FADETYPELIST["fade"]) + " / " + l(FADETYPELIST["crack"]);
-						} else {
-							fadetype = CoMType;
-						}
-					}
-				}
-				return l(FADETYPELIST[fadetype]);
-			default:
-				term satisfies never;
-				throw new Error(`trying to get non-existent term ${term}`);
+				return SystemModule.active.themeDecreaseName(this);
+				// try {
+				// 	if (!this.themebook)
+				// 		return "";
+				// }
+				// catch (e) {return "ERROR";}
+				// if (!this.themebook)
+				// 	return "";
+				// switch (system) {
+				// 	case "otherscape":
+				// 		return l("Otherscape.terms.decay");
+				// 	case "city-of-mist": break;
+				// 	case "legend": break;
+				// default:
+				// 	system satisfies never;
+				// let fadetype : FadeType = "decay";
+				// const themeType = this.getThemeType();
+				// if (this.themebook.system.fade_type != "default") {
+				// 	fadetype = this.themebook.system.fade_type;
+				// } else {
+				// 	if (CitySettings.getBaseSystem() != "city-of-mist") {
+				// 		fadetype = "decay";
+				// 	}
+				// 	else {
+				// 		const CoMType = CityItem.getCoMdefaultFade(themeType);
+				// 		if (CoMType == "crew") {
+				// 			return l(FADETYPELIST["fade"]) + " / " + l(FADETYPELIST["crack"]);
+				// 		} else {
+				// 			fadetype = CoMType;
+				// 		}
+				// 	}
+				// }
+				// return l(FADETYPELIST[fadetype]);
+			// default:
+			// 	term satisfies never;
+			// 	throw new Error(`trying to get non-existent term ${term}`);
 		}
 	}
 
@@ -1662,18 +1663,19 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	canCreateTags(this: Move): boolean {
-		switch( this.system.system_compatiblity) {
-			case "city-of-mist":
-				//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
-				return true;
-			case "otherscape":
-				return this.name == "Tracked Outcome";
-			case "legend":
-				return this.name == "Tracked Outcome";
-			default:
-				console.warn(`Unknown System compatiblity for ${this.name}: ${this.system.system_compatiblity}`);
-				return true;
-		}
+		return SystemModule.active.canCreateTags(this);
+		//switch( this.system.system_compatiblity) {
+		//	case "city-of-mist":
+		//		//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
+		//		return true;
+		//	case "otherscape":
+		//		return this.name == "Tracked Outcome";
+		//	case "legend":
+		//		return this.name == "Tracked Outcome";
+		//	default:
+		//		console.warn(`Unknown System compatiblity for ${this.name}: ${this.system.system_compatiblity}`);
+		//		return true;
+		//}
 	}
 
 	get systemName() : string {

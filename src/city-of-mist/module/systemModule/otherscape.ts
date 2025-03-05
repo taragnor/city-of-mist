@@ -4,13 +4,55 @@ import { Themebook } from "../city-item.js";
 import { CitySettings } from "../settings.js";
 import { BaseSystemModule } from "./baseSystemModule.js";
 import { Essence } from "../city-item.js";
-import { PC } from "../city-actor.js";
+import { CityActor, PC } from "../city-actor.js";
+import { Theme } from "../city-item.js";
 
-export class OtherScapeSystem extends BaseSystemModule{
+const PATH = "systems/city-of-mist";
+
+export class OtherScapeSystem extends BaseSystemModule {
+
+	override get localizationStarterName() {
+		return "Otherscape" as const;
+	}
+
+	override themeIncreaseName(_theme: Theme) {
+		return localize("Otherscape.terms.upgrade");
+	}
+
+	override themeDecreaseName(_theme: Theme) {
+		return localize("Otherscape.terms.decay");
+	}
+
+	override async downtimeTemplate(actor: CityActor): Promise<string> {
+		const templateData ={actor};
+		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+	}
+
+	get name(){ return "otherscape" as const;}
+	get localizationString() { return localize("CityOfMist.settings.system.1");}
+
 	headerTable = {
 		character: "systems/city-of-mist/templates/otherscape/pc-sheet-header.hbs",
 		threat: "",
 		crew: ""
+	}
+
+
+	async onChangeTo() : Promise<void> {
+		const settings = CitySettings;
+		await settings.set("baseSystem", "otherscape");
+		await settings.set("loadoutTheme", true);
+		await settings.set("altPower", false);
+		await settings.set("tagBurn", "mist-engine");
+		await settings.set( "statusAdditionSystem", "mist-engine");
+		await settings.set( "movesInclude", "otherscape");
+		await settings.set("themeStyle", "mist-engine");
+		await settings.set("autoFail_autoSuccess", true);
+		await settings.set("collectiveMechanics", "mist-engine");
+		await settings.set("statusDisplay", "tier+circles");
+		await settings.set("tagCreationCost", 2);
+		await settings.set("statusCreationCost", 1);
+		await settings.set("system", "otherscape");
 	}
 
 	async determineEssence(actor : PC) {
@@ -65,7 +107,8 @@ export class OtherScapeSystem extends BaseSystemModule{
 		}
 	}
 
-	activate() {
+	override async activate() {
+		super.activate();
 		Hooks.on("themeCreated", async (actor, _theme) => {
 			if (!this.isActive()) return;
 			if (actor.system.type != "character") return;
@@ -93,6 +136,11 @@ export class OtherScapeSystem extends BaseSystemModule{
 }
 
 declare global {
+
+	interface SYSTEM_NAMES {
+		"otherscape": string;
+	}
+
 	interface EssenceNames {
 		Singularity: {}; // all noise
 		Conduit: {}; //all mythos (difftype)
@@ -116,7 +164,3 @@ declare global {
 		}
 	}
 }
-
-
-
-function never() :never {throw new Error("x");}

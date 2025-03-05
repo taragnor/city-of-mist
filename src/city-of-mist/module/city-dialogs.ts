@@ -1,3 +1,4 @@
+import { SystemModule } from "./config/system-module.js";
 import { StatusMath } from "./status-math.js";
 import { localize } from "./city.js";
 import { MistRoll } from "./mist-roll.js";
@@ -415,19 +416,20 @@ export class CityDialogs {
 	}
 
 	static async getDowntimeTemplate(actor: CityActor) : Promise <string> {
-		const templateData = {actor};
-		const system = CitySettings.getBaseSystem();
-		switch (system) {
-			case "city-of-mist":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
-			case "otherscape":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
-			case "legend":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
-			default:
-				system satisfies never;
-				throw new Error(`Can't find downtime, bad system: ${system}`);
-		}
+		return await SystemModule.active.downtimeTemplate(actor);
+		// const templateData = {actor};
+		// const system = CitySettings.getBaseSystem();
+		// switch (system) {
+		// 	case "city-of-mist":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
+		// 	case "otherscape":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		// 	case "legend":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		// 	default:
+		// 		system satisfies never;
+		// 		throw new Error(`Can't find downtime, bad system: ${system}`);
+		// }
 
 	}
 

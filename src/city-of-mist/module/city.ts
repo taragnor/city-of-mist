@@ -4,13 +4,13 @@
  */
 
 declare global {
-	interface Game {
+		interface Game {
 		city:  {
 			CityActor: typeof CityActor;
 			CityItem: typeof CityItem;
 		}
-		rulesSystems: Map<string, SystemModuleI>;
 	}
+
 	interface CONFIG {
 		CITYCFG: unknown
 	}
@@ -84,10 +84,8 @@ Hooks.once("cityDBLoaded", async function() {
 });
 
 Hooks.on("registerRulesSystemPhase", (sys) => {
-	const os = new OtherScapeSystem();
-	const com = new CoMSystem();
-	sys.registerRulesSystem("city-of-mist", com);
-	sys.registerRulesSystem("otherscape", os);
+	sys.registerRulesSystem(new CoMSystem());
+	sys.registerRulesSystem(new OtherScapeSystem());
 });
 
 function registerDataModels() {
@@ -106,16 +104,15 @@ Hooks.once("init", async function() {
 	console.log(`Initializing City of Mist System`);
 	console.log(`***********************************`);
 	registerDataModels();
-
+	await SystemModule.init();
 	registerSystemSettings();
 	refreshStyleBodyTags(CitySettings.get("baseSystem"));
+	await SystemModule.active.activate();
 
 	game.city = {
 		CityActor,
 		CityItem
 	};
-	game.rulesSystems = new Map<string, SystemModuleI>();
-	SystemModule.init();
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
@@ -183,25 +180,26 @@ Hooks.on("renderApplication", function() {
 });
 
 export function refreshStyleBodyTags(system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
-	let target : string;
-	switch (system) {
-		case "city-of-mist":
-			target = "style-city-of-mist";
-			break;
-		case "otherscape":
-			target = "style-otherscape";
-			break;
-		case "legend":
-			target = "style-legend";
-			break;
-		default:
-			system satisfies never;
-			throw new Error(`Invalid choice ${system}`);
-	}
-	$(document).find("body").removeClass("style-city-of-mist");
-	$(document).find("body").removeClass("style-otherscape");
-	$(document).find("body").removeClass("style-legend");
-	$(document).find("body").addClass(target);
+	//NOTE: now handled in SystemModule.activate
+	// let target : string;
+	// switch (system) {
+	// 	case "city-of-mist":
+	// 		target = "style-city-of-mist";
+	// 		break;
+	// 	case "otherscape":
+	// 		target = "style-otherscape";
+	// 		break;
+	// 	case "legend":
+	// 		target = "style-legend";
+	// 		break;
+	// 	default:
+	// 		system satisfies never;
+	// 		throw new Error(`Invalid choice ${system}`);
+	// }
+	// $(document).find("body").removeClass("style-city-of-mist");
+	// $(document).find("body").removeClass("style-otherscape");
+	// $(document).find("body").removeClass("style-legend");
+	// $(document).find("body").addClass(target);
 }
 
 
