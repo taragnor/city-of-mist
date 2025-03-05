@@ -1,3 +1,4 @@
+import { localizeS } from "./tools/handlebars-helpers.js";
 import { StatusMath } from "./status-math.js";
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
 import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
@@ -398,6 +399,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"statusBoxesME" : function (status: Status) : boolean[] {
 			return StatusMath.statusBoxesME(status);
+		},
+
+		"localizeS": function (txt: string) {
+			return localizeS(txt);
 		}
 
 

@@ -1,15 +1,14 @@
-import { CitySettings } from "../settings.js";
-import { BaseSystemModule } from "./baseSystemModule.js";
 import { localize } from "../city.js";
 import {CityActor} from "../city-actor.js";
 import { Theme } from "../city-item.js";
 import { CityItem } from "../city-item.js";
 import { FADETYPELIST } from "../datamodel/fade-types.js";
 import { Move } from "../city-item.js";
+import { CoMTypeSystem } from "./com-type-system.js";
 
 const PATH = "systems/city-of-mist";
 
-export class CoMSystem extends BaseSystemModule {
+export class CoMSystem extends CoMTypeSystem {
 
 	override get localizationStarterName() {
 		return "CityOfMist" as const;
@@ -51,20 +50,12 @@ export class CoMSystem extends BaseSystemModule {
 		crew: ""
 	}
 
-	async onChangeTo() : Promise<void> {
-		const settings = CitySettings;
+	override async onChangeTo() : Promise<void> {
+		await super.onChangeTo();
+		const settings = this.settings;
 		await settings.set("baseSystem", "city-of-mist");
 		await settings.set( "movesInclude", "city-of-mist");
-		await settings.set( "statusAdditionSystem", "classic");
-		await settings.set("tagBurn", "classic");
-		await settings.set("altPower", false);
-		await settings.set("loadoutTheme", false);
-		await settings.set("themeStyle", "city-of-mist");
-		await settings.set("autoFail_autoSuccess", false);
-		await settings.set("collectiveMechanics", "city-of-mist");
-		await settings.set("statusDisplay", "tier-only");
 		await settings.set("system", "city-of-mist");
-
 	}
 }
 

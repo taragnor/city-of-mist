@@ -2,14 +2,14 @@ import { localize } from "../city.js";
 import { CityDB } from "../city-db.js";
 import { Themebook } from "../city-item.js";
 import { CitySettings } from "../settings.js";
-import { BaseSystemModule } from "./baseSystemModule.js";
 import { Essence } from "../city-item.js";
 import { CityActor, PC } from "../city-actor.js";
 import { Theme } from "../city-item.js";
+import { MistEngineSystem } from "./mist-engine.js";
 
 const PATH = "systems/city-of-mist";
 
-export class OtherScapeSystem extends BaseSystemModule {
+export class OtherScapeSystem extends MistEngineSystem {
 
 	override get localizationStarterName() {
 		return "Otherscape" as const;
@@ -38,21 +38,12 @@ export class OtherScapeSystem extends BaseSystemModule {
 	}
 
 
-	async onChangeTo() : Promise<void> {
+	override async onChangeTo() : Promise<void> {
+		await super.onChangeTo();
 		const settings = CitySettings;
 		await settings.set("baseSystem", "otherscape");
-		await settings.set("loadoutTheme", true);
-		await settings.set("altPower", false);
-		await settings.set("tagBurn", "mist-engine");
-		await settings.set( "statusAdditionSystem", "mist-engine");
-		await settings.set( "movesInclude", "otherscape");
-		await settings.set("themeStyle", "mist-engine");
-		await settings.set("autoFail_autoSuccess", true);
-		await settings.set("collectiveMechanics", "mist-engine");
-		await settings.set("statusDisplay", "tier+circles");
-		await settings.set("tagCreationCost", 2);
-		await settings.set("statusCreationCost", 1);
 		await settings.set("system", "otherscape");
+		await settings.set( "movesInclude", "otherscape");
 	}
 
 	async determineEssence(actor : PC) {

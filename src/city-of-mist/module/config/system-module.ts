@@ -1,8 +1,12 @@
 import { CitySettings } from "../settings.js";
 import { SystemModuleI } from "../systemModule/baseSystemModule.js";
 import { CoMSystem } from "../systemModule/com-system.js";
+import { CoMTypeSystem } from "../systemModule/com-type-system.js";
+import { MistEngineSystem } from "../systemModule/mist-engine.js";
 
 export abstract class SystemModule {
+
+	static baseClasses = [CoMTypeSystem, MistEngineSystem];
 
 	static systems= new Map<keyof SYSTEM_NAMES, SystemModuleI>();
 
@@ -72,3 +76,4 @@ declare global {
 
 }
 
+window.SystemModule = SystemModule;

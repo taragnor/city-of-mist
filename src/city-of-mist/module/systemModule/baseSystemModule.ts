@@ -3,8 +3,13 @@ import { SystemModule } from "../config/system-module.js";
 import { localize } from "../city.js";
 import { Theme } from "../city-item.js";
 import { Move } from "../city-item.js";
+import { CitySettings } from "../settings.js";
 
 export abstract class BaseSystemModule implements SystemModuleI {
+
+	get settings(): typeof CitySettings {
+		return CitySettings;
+	}
 
 	loadoutThemeName(): string {
 		return localize(`${this.localizationStarterName}.terms.loadoutTheme.name`);
