@@ -1602,6 +1602,10 @@ img.profile-img {
 	/* height: 100% !important; */
 }
 
+.essence-sheet img.profile-img {
+	max-height: 120px !important;
+}
+
 .threat-sheet img.profile-img {
 	width: 10em;
 }
@@ -1939,6 +1943,10 @@ select.move-selector {
 
 input.effect-class {
 	width: 20%;
+}
+
+input.system-name {
+	width: 40%;
 }
 
 div.themebook-improvement-entry {

@@ -12,6 +12,13 @@
 	</span>
 	<textarea name="system.description">{{item.system.description}}</textarea>
 	{{#if (devMode)}}
+	<hr>
+	<div>
+		<label>
+			System Name (used for internal ID if present)
+		</label>
+		<input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
+	</div>
 	<div>
 		<label>
 			System Compatibility
