@@ -162,8 +162,6 @@
 
 "Otherscape.tooltip.createRelationshipTag": "Create Relationship Tag",
 
-
-
 "Legend.terms.origin": "Origin",
 "Legend.terms.greatness": "Greatness",
 "Legend.terms.motivation": "Motivation",
@@ -425,6 +423,16 @@
 "Otherscape.moves.creditRoll.6": "Recover one crew theme power tag for each member in the crew",
 "Otherscape.moves.creditRoll.7": "You may also ask the MC to add any story tags that represent resources you gained access to this session to your loadout theme.",
 
+"Otherscape.essence.generic.description": "See Otherscape page 134-136.",
+"Otherscape.essence.Nexus.name": "Nexus",
+"Otherscape.essence.Spiritualist.name": "Spiritualist",
+"Otherscape.essence.Cyborg.name": "Cyborg",
+"Otherscape.essence.Transhuman.name": "Transhuman",
+"Otherscape.essence.Real.name": "Real",
+"Otherscape.essence.Avatar.name": "Avatar",
+"Otherscape.essence.Conduit.name": "Conduit",
+"Otherscape.essence.Singularity.name": "Singularity",
+
 "CityOfMist.generic.narration": "Narration",
 
 "CityOfMist.command.submit": "Submit",
@@ -447,7 +455,6 @@
 "CityOfMist.command.send_to_chat" : "Send To Chat",
 "CityOfMist.command.reveal_alias" : "Reveal Alias",
 "CityOfMist.command.listElements": "List Elements",
-
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 "CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",

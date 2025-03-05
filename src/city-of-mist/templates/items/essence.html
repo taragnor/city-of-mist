@@ -1,16 +1,24 @@
 <form class="{{cssClass}} essence-sheet flex-col" autocomplete="off">
 	<header class="sheet-header">
 		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		<label>
-			{{localize "CityOfMist.terms.name"}}
-		</label>
-		<input type="text" class="tag-name" name="name" value="{{item.name}}">
+		<div>
+			<div>
+				<label>
+					{{localize "CityOfMist.terms.name"}}
+				</label>
+				<input type="text" class="tag-name" name="name" value="{{item.name}}">
+			</div>
+			<div>
+				<h1 class="localename"><input name="system.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Displayed Name"/></h1>
+			</div>
+		</div>
 	</header>
 	<span>
 		<label class="dialog-label" for="free-content"> Allow Override </label>
 		<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>
 	</span>
 	<textarea name="system.description">{{item.system.description}}</textarea>
+
 	{{#if (devMode)}}
 	<hr>
 	<div>
@@ -19,6 +27,7 @@
 		</label>
 		<input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
 	</div>
+
 	<div>
 		<label>
 			System Compatibility
@@ -34,4 +43,3 @@
 	{{/if}}
 
 </form>
-
