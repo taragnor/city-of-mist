@@ -70,9 +70,15 @@ function defaultItem() {
 		description: new html(),
 		locked: new bool({initial: false}),
 		version: new txt({initial:VERSION}),
+	};
+}
+
+function systemItem() {
+	return {
 		free_content: new bool({initial: false}),
 		locale_name: new txt(),
-	}
+		systemName: new txt(),
+	};
 }
 
 function tiered() {
@@ -99,6 +105,7 @@ class Themebook extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
 			power_questions: new obj<ThemebookTagData>(),
 			weakness_questions: new obj<ThemebookTagData>(),
@@ -115,6 +122,7 @@ class Themekit extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			use_tb_improvements: new bool({initial: false}),
@@ -191,6 +199,7 @@ class Improvement extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			...expendable(),
 			theme_id: new id(),
 			choice_item: new txt(),
@@ -263,6 +272,7 @@ class Move extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			onSuccess: new txt(),
 			onDynamite: new txt(),
 			onMiss: new txt(),
@@ -304,6 +314,7 @@ class EssenceDM extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			effect_class: new txt(),
 			system_compatiblity: new txt<System | "any">({initial: "otherscape"}),
 			expended: new bool(),

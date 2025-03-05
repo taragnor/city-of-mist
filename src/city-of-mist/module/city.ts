@@ -88,7 +88,6 @@ Hooks.on("registerRulesSystemPhase", (sys) => {
 	const com = new CoMSystem();
 	sys.registerRulesSystem("city-of-mist", com);
 	sys.registerRulesSystem("otherscape", os);
-
 });
 
 function registerDataModels() {
@@ -116,10 +115,7 @@ Hooks.once("init", async function() {
 		CityItem
 	};
 	game.rulesSystems = new Map<string, SystemModuleI>();
-	// SystemModule.registerRulesSystem("city-of-mist", new CoMSystem());
 	SystemModule.init();
-	// game.rulesSystems.set("city-of-mist", new CoMSystem());
-	// game.rulesSystems.set("otherscape", new OtherscapeSystem());
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;

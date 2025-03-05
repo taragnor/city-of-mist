@@ -543,12 +543,20 @@ export function delayedReload() {
 
 let isDelayedReload = false;
 
-export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof DEV_SETTINGS>);
+export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof DEV_SETTINGS> & OTHERSETTINGS);
 
- type SettingsChoicesSub<R extends Record<string, SettingConfig<any>>, K extends keyof R> = R[K]["choices"] extends Record<string, any> ? keyof R[K]["choices"] : InstanceType<R[K]["type"]>;
+ type SettingsChoicesSub<R extends Record<string, SelectSettings<any>>, K extends keyof R> = R[K]["choices"] extends Record<string, any> ? keyof R[K]["choices"] : InstanceType<R[K]["type"]>;
 
 export type SettingsChoices<K extends keyof SettingsType> = SettingsChoicesSub<SettingsType, K>;
 
 type a = SettingsChoices<"system">;
+type b = SettingsChoices<"autoEssence">;
+type k = keyof SettingsType;
 
+declare global {
+	type SelectSettings<T extends SettingConfig = SettingConfig> = T;
+	// type SelectSettings<T extends SettingConfig<any>> = Pick<T, "name" | "type" | "choices">;
+	interface OTHERSETTINGS extends Record<string & {}, SelectSettings> {
+	}
+}
 

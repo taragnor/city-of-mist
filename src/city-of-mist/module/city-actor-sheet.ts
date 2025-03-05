@@ -103,7 +103,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 
-	async _themeChangeInput(event: Event) {
+	async _themeChangeInput(event: JQuery.ChangeEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const field = HTMLTools.getClosestData(event, "property");
 		const val =  $(event.currentTarget!).val();
@@ -116,7 +116,7 @@ export class CityActorSheet extends CitySheet {
 		await theme.setField(field, val);
 	}
 
-	async _themebookNameInput (event: Event) {
+	async _themebookNameInput (event: JQuery.ChangeEvent | JQuery.FocusOutEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const name =  $(event.currentTarget!).val();
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
@@ -128,7 +128,7 @@ export class CityActorSheet extends CitySheet {
 		await theme.update ({name});
 	}
 
-	async _createTagOrImprovement (event: Event, bonus = false) {
+	async _createTagOrImprovement (event: JQuery.ClickEvent, bonus = false) {
 		//TODO: allow for text string attachment to improvements
 		const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
 		const owner = this.getOwner(ownerId);
@@ -189,7 +189,7 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _createBonusTag(event : Event) {
+	async _createBonusTag(event : JQuery.ClickEvent) {
 		await this._createTagOrImprovement(event, true);
 	}
 

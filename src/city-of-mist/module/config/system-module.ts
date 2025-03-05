@@ -21,6 +21,7 @@ export abstract class SystemModule {
 		window.SystemModule = this;
 		Hooks.callAll("registerRulesSystemPhase", this);
 	}
+
 }
 
 

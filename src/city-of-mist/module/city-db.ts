@@ -332,10 +332,19 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
+	static allEssences() : Essence [] {
+		return this.allItems().filter( item =>
+			item.system.type == "essence"
+		) as Essence[];
+	}
+
 	static getEssence(id: string) : Essence | undefined {
-		return this.allItems().find( item =>
-			item.id == id && item.system.type == "essence"
-		) as Essence | undefined;
+		return this.allEssences().find( item => item.id == id);
+	}
+
+	static getEssenceBySystemName(name: keyof EssenceNames) : Essence | undefined {
+		return this.allEssences().find( item =>
+			item.systemName == name);
 	}
 
 	static override allItems() : CityItem[] {
@@ -349,3 +358,8 @@ CityDB.init();
 
 //@ts-ignore
 window.CityDB = CityDB;
+
+declare global {
+	interface EssenceNames {
+	}
+}

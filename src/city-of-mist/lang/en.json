@@ -158,6 +158,7 @@
 "Otherscape.terms.scale" : "Scale",
 "Otherscape.terms.crew" : "Crew",
 "Otherscape.terms.crewRelationship" : "Crew Relationships",
+"Otherscape.terms.essence" : "Essence",
 
 "Otherscape.tooltip.createRelationshipTag": "Create Relationship Tag",
 
@@ -459,6 +460,8 @@
 "CityOfMist.message.noCrewSelected": "No Crew Theme Selected (create a crew Actor and give players ownership to view it here)",
 "CityOfMist.message.noThemeSelected": "No Theme (either click the add Theme button or drag and drop a themebook or themekit)",
 "CityOfMist.message.levelUpAvailable": "Theme Level Up Available",
+
+"Otherscape.message.noEssenceSelected": "No essence Selected",
 
 "CityOfMist.misc.newMoE": "New Moments of Evolution",
 "CityOfMist.misc.reduceTier": "Reduce Tier of Status by 1",
@@ -909,6 +912,9 @@
 
 "CityOfMist.settings.autofail.name": "Auto success/fail",
 "CityOfMist.settings.autofail.hint": "natural 2 and 12 are automatic failure and success (respectively)",
+
+"Otherscape.settings.autoEssence.name": "Auto Determine Essence",
+"Otherscape.settings.autoEssence.hint": "Automatically determine Essence when possible (doesn't work for Avatar vs Conduit)",
 
 
 "CityOfMist.keybinds.narration.name" : "Narration Box",

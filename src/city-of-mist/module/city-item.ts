@@ -1676,6 +1676,13 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
+	get systemName() : string {
+		if ("systemName" in this.system) {
+			return this.system.systemName ?? this.name;
+		}
+		return this.name;
+	}
+
 }
 
 export type Theme = Subtype<CityItem, "theme">;

@@ -19,7 +19,6 @@ import { DEV_SETTINGS } from "./config/settings-object.js";
 import { CITY_SETTINGS } from "./config/settings-object.js";
 
 import { SettingsType } from "./config/settings-object.js";
-import { System } from "./config/settings-object.js";
 
 
 export class CitySettings {
@@ -27,7 +26,9 @@ export class CitySettings {
 		await game.settings.set("city-of-mist", settingField, newvalue);
 	}
 
-	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K>{
+	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K> extends (string | Boolean | number) ? SettingsChoices<K> : never;
+
+	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K> {
 		return game.settings.get('city-of-mist', settingName);
 	}
 

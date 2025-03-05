@@ -582,8 +582,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			ui.notifications.warn("Can't add another theme");
 			return null;
 		}
-		const theme  = await this.createNewItem(obj)
+		const theme  = await this.createNewItem(obj) as Theme;
 		if (theme) {
+			Hooks.callAll("themeCreated", this, theme);
 			return theme;
 		}
 		ui.notifications.error(`Trouble creating theme: ${name} from ${themebook.name}`);
@@ -1231,7 +1232,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		switch (this.type) {
 			case "crew":
 				if (this.isOwner) {
-					return game.actors.filter ( (act: CityActor) => {
+					return (game.actors.contents as CityActor[])
+						.filter ( (act: CityActor) => {
 						return act.type == "character"
 							&& act.isOwner
 							&& act.crewTheme?.parent == this;
@@ -1242,7 +1244,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
 					return [];
 				if (this.isOwner && this.getThemes().length > 0) {
-					return game.actors.filter ( (act:CityActor) => {
+					return (game.actors.contents as CityActor[])
+					.filter ( (act:CityActor) => {
 						return act.type == "character"
 							&& act.isOwner
 							&& act.activeExtra != null
@@ -1492,7 +1495,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async toggleLoadoutTagActivation(this: PC, loadoutTagId: string) : Promise<boolean> {
 		const theme = this.loadout;
 		if (!theme) throw new Error(`Can't find Loadout Theme`);
-		const tag =theme.tags().find( x=> x.id == loadoutTagId);
+		const tag = theme.tags().find( x=> x.id == loadoutTagId);
 		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
 		return await tag.toggleLoadoutActivation();
 	}
@@ -1522,7 +1525,8 @@ export type Danger = Subtype<CityActor, "threat">;
 export type Crew = Subtype<CityActor, "crew">;
 
 
-Hooks.on("updateActor", async (actor: CityActor) => {
+Hooks.on("updateActor", async (act) => {
+	const actor = act as CityActor;
 	if (actor.isDanger()) {
 		await actor.updateCollectiveStatus();
 	}
