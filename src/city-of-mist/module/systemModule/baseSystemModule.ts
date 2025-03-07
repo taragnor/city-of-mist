@@ -1,3 +1,5 @@
+import { RollDialog } from "../roll-dialog.js";
+import { MistRoll } from "../mist-roll.js";
 import { CityActor } from "../city-actor.js";
 import { SystemModule } from "../config/system-module.js";
 import { localize } from "../city.js";
@@ -43,9 +45,27 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	isActive() : boolean {
 		return SystemModule.active == this;
 	}
+
 	async activate() : Promise<void> {
+		await this._setHooks();
 		SystemModule.setActiveStyle(this);
 	}
+
+	protected async _setHooks(): Promise<void> {
+		Hooks.on("updateRollDialog", this.updateRollOptions.bind(this));
+		Hooks.on("renderRollDialog", this.renderRollDialog.bind(this));
+	}
+
+	protected async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
+
+	}
+
+	protected async renderRollDialog( dialog: RollDialog) {
+
+	}
+
+
+
 
 	async sheetHeader( actor: CityActor) : Promise<SafeString> {
 		const templateLoc = this.headerTable[actor.system.type];

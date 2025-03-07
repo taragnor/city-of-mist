@@ -1,3 +1,4 @@
+import { Overrideable } from "./city-item.js";
 import { Essence } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { Improvement } from "./city-item.js";
@@ -332,23 +333,47 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static allEssences() : Essence [] {
-		return this.allItems().filter( item =>
+	static essences() : Essence [] {
+		const essences = this.allItems().filter( item =>
 			item.system.type == "essence"
 		) as Essence[];
+		return essences.filter(this.filterBestVersion);
 	}
 
 	static getEssence(id: string) : Essence | undefined {
-		return this.allEssences().find( item => item.id == id);
+		return this.essences().find( item => item.id == id);
 	}
 
 	static getEssenceBySystemName(name: keyof EssenceNames) : Essence | undefined {
-		return this.allEssences().find( item =>
+		return this.essences().find( item =>
 			item.systemName == name);
 	}
 
 	static override allItems() : CityItem[] {
 		return super.allItems() as CityItem[];
+	}
+
+	static filterBestVersion< T extends Overrideable>(item: T, _index: number, arr:  T[]) {
+		const others = arr.filter(x=> x!= item && CityDB.overrideableEqualityTest(item, x))
+		if (others.length == 0)
+		{ //if there is only one kind, use that
+			return true;
+		}
+		if (item.system.free_content && others.some( other=> !other.system.free_content)) {
+			return false;
+		}
+		return true;
+	}
+
+	static overrideableEqualityTest < T extends Overrideable> (item1: T, item2: T) {
+		if (item1.type != item2.type) return false;
+		return item1.systemName == item2.systemName;
+		// if (item1.system.systemName && item1.system.systemName == item2.system.systemName) {return true;}
+		// if (item1.system.type == "move" && item2.system.type == "move") {
+		// 	if (item1.system.abbreviation &&
+		// 	item1.system.abbreviation == item2.system?.abbreviation) { return true; }
+		// }
+		// if (item1.name == item2.name) {return true;}
 	}
 
 }

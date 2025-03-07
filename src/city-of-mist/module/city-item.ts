@@ -1679,8 +1679,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get systemName() : string {
-		if ("systemName" in this.system) {
-			return this.system.systemName ?? this.name;
+		if ("systemName" in this.system && this.system.systemName) {
+			return this.system.systemName;
+		}
+		if ("abbreviation" in this.system && this.system.abbreviation) {
+			return this.system.abbreviation;
 		}
 		return this.name;
 	}
@@ -1701,4 +1704,5 @@ export type ClueJournal = Subtype<CityItem, "journal">;
 export type Spectrum = Subtype<CityItem, "spectrum">;
 export type Essence = Subtype<CityItem, "essence">;
 
+export type Overrideable = CityItem & {system: {free_content: boolean, systemName: string}};
 

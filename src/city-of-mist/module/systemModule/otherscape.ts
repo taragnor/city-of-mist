@@ -1,3 +1,5 @@
+import { RollDialog } from "../roll-dialog.js";
+import { MistRoll } from "../mist-roll.js";
 import { localize } from "../city.js";
 import { CityDB } from "../city-db.js";
 import { Themebook } from "../city-item.js";
@@ -36,7 +38,6 @@ export class OtherScapeSystem extends MistEngineSystem {
 		threat: "",
 		crew: ""
 	}
-
 
 	override async onChangeTo() : Promise<void> {
 		await super.onChangeTo();
@@ -110,6 +111,18 @@ export class OtherScapeSystem extends MistEngineSystem {
 		}
 	}
 
+	protected override async _setHooks () {
+
+	}
+
+	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
+		await super.updateRollOptions(html, options, dialog);
+	}
+
+	override async renderRollDialog( dialog: RollDialog) {
+		await super.renderRollDialog(dialog);
+	}
+
 	override systemSettings() : OTHERSETTINGS {
 		return {
 			...super.systemSettings(),
@@ -155,3 +168,4 @@ declare global {
 		}
 	}
 }
+

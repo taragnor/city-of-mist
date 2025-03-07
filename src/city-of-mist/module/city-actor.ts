@@ -1501,7 +1501,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async setEssence(this: PC, essence: Essence) {
-		await this.update( {"system.essence" : essence.id});
+		if (essence.systemName) {
+			await this.update( {"system.essence" : essence.systemName});
+		} else {
+			await this.update( {"system.essence" : essence.id});
+		}
 		return this;
 	}
 
@@ -1512,6 +1516,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get essence() : Essence | undefined {
 		if (this.system.type != "character") return undefined;
+		const ess = CityDB.getEssenceBySystemName(this.system.essence);
+		if (ess) return ess;
 		return CityDB.getEssence(this.system.essence);
 	}
 
