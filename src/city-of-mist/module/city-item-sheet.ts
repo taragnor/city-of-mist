@@ -318,6 +318,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	}
 
+	focusName() {
+		$(this.element).find("[name=name]").trigger("focus");
+	}
+
 }
 
 

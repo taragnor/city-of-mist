@@ -161,6 +161,10 @@ export class HTMLTools {
 			const x = new Dialog({
 				title,
 				content: html,
+				render: async (html) => {
+					const k = Object.keys(elements).at(0);
+					$(html).find(`key-${k}`).trigger("focus");
+				},
 				close: () => reject("close"),
 				buttons: {
 					okay: {

@@ -53,6 +53,14 @@ div.Mythos-theme.theme-block {
 	font-size: 15px;
 }
 
+.essence-block {
+	padding:5px;
+	border-radius: 1em;
+	/* border-bottom: 1em solid var(--mist-blue); */
+	/* border-top: 2em solid var(--mist-blue); */
+	background-image: url(../images/mistcardbg.webp);
+}
+
 .essence-block .name {
 }
 
