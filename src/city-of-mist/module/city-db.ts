@@ -368,12 +368,6 @@ export class CityDB extends DBAccessor {
 	static overrideableEqualityTest < T extends Overrideable> (item1: T, item2: T) {
 		if (item1.type != item2.type) return false;
 		return item1.systemName == item2.systemName;
-		// if (item1.system.systemName && item1.system.systemName == item2.system.systemName) {return true;}
-		// if (item1.system.type == "move" && item2.system.type == "move") {
-		// 	if (item1.system.abbreviation &&
-		// 	item1.system.abbreviation == item2.system?.abbreviation) { return true; }
-		// }
-		// if (item1.name == item2.name) {return true;}
 	}
 
 }

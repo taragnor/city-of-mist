@@ -672,10 +672,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	isBurned() : boolean {
-		if (this.system.type == "tag")
+		switch (this.system.type) {
+			case "tag":
 			return this.system.burned && this.system.burn_state != 0;
-		else
-			return false;
+			default:
+				return false;
+		}
 	}
 
 	getImprovements(this: Theme) {

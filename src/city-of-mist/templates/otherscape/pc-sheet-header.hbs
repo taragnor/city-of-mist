@@ -6,16 +6,29 @@
 		{{localize "Otherscape.terms.essence"}}
 	</label>
 	{{#if actor.essence}}
-	<div class="name"> {{actor.essence.displayedName}}
-	</div>
-	<div class="description">
-		{{localizeS actor.essence.description}}
+	<div class="flexrow">
+		<div>
+			<div class="name"> {{actor.essence.displayedName}}
+			</div>
+			<div class="description">
+				{{localizeS actor.essence.description}}
+			</div>
+		</div>
+		<div>
+			{{#if actor.essence.isBurned}}
+			<a class="essence-unburn"><i class="fas fa-undo"></i> </a>
+			{{else}}
+			<a class="essence-burn" > <i class="fas fa-fire"></i> </a>
+			{{/if}}
+
+		</div>
 	</div>
 	{{else}}
 	<div class="no-essence">
 		{{localize "Otherscape.message.noEssenceSelected"}}
 	</div>
 	{{/if}}
+
 </div>
 <div class="header-row">
 	<input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if actor.system.locked}} disabled {{/if}}>

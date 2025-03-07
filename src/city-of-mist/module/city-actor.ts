@@ -1502,11 +1502,29 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async setEssence(this: PC, essence: Essence) {
 		if (essence.systemName) {
-			await this.update( {"system.essence" : essence.systemName});
+			await this.update( {"system.essence.systemName" : essence.systemName});
 		} else {
-			await this.update( {"system.essence" : essence.id});
+			await this.update( {"system.essence.systemName" : essence.id});
 		}
 		return this;
+	}
+
+	async setEssenceBurn(val : boolean){
+await this.update( {"system.essence.isBurned": val});
+	}
+
+
+	get isEssenceBurned(): boolean {
+		switch (this.system.type) {
+			case "character":
+				return this.system.essence.isBurned;
+			case "threat":
+			case "crew":
+				break;
+			default:
+				this.system satisfies never;
+		}
+		return false;
 	}
 
 	async clearEssence(this: PC) {
@@ -1516,9 +1534,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	get essence() : Essence | undefined {
 		if (this.system.type != "character") return undefined;
-		const ess = CityDB.getEssenceBySystemName(this.system.essence);
+		const ess = CityDB.getEssenceBySystemName(this.system.essence.systemName);
 		if (ess) return ess;
-		return CityDB.getEssence(this.system.essence);
+		return CityDB.getEssence(this.system.essence.systemName);
 	}
 
 
