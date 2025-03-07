@@ -142,6 +142,7 @@ export class CityRoll {
 		let tags : RollModifier[]= [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
+				&& (x.amount <= 0 || !options.noPositiveTags)
 				&& (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {

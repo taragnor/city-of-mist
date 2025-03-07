@@ -71,39 +71,31 @@ export class OtherScapeSystem extends MistEngineSystem {
 			case 1:
 				switch (themeTypes[0]) {
 					case "Noise":
-						essence = CityDB.getEssenceBySystemName("Singularity");
-						break;
+						return CityDB.getEssenceBySystemName("Singularity");
 					case "Self":
-						essence = CityDB.getEssenceBySystemName("Real");
-						break;
+						return CityDB.getEssenceBySystemName("Real");
 					case "Mythos":
-						return; //can'tdefuined essence
+						return; //can't defuined essence
 				}
 			case 2:
 				switch (true) {
 					case !themeTypes.includes("Mythos"): {
-						essence = CityDB.getEssenceBySystemName("Cyborg");
-						break;
+						return CityDB.getEssenceBySystemName("Cyborg");
 					}
 					case !themeTypes.includes("Noise"): {
-						essence = CityDB.getEssenceBySystemName("Spiritualist");
-						break;
-
+						return CityDB.getEssenceBySystemName("Spiritualist");
 					}
 					case !themeTypes.includes("Self"): {
-						essence = CityDB.getEssenceBySystemName("Transhuman");
-						break;
+						return CityDB.getEssenceBySystemName("Transhuman");
 					}
 				}
 				break;
 			case 3:
-				essence = CityDB.getEssenceBySystemName("Nexus");
-				break;
+				return CityDB.getEssenceBySystemName("Nexus");
 			default:
 				break;
 		}
 		return essence;
-
 	}
 
 	override async activate() {
@@ -128,12 +120,25 @@ export class OtherScapeSystem extends MistEngineSystem {
 		});
 	}
 
-	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
-		await super.updateRollOptions(html, options, dialog);
-	}
-
 	getEssence(actor: CityActor) : keyof EssenceNames | undefined {
 		return actor.essence?.system.systemName as keyof EssenceNames;
+	}
+
+
+	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
+		await super.updateRollOptions(html, options, dialog);
+		const essence = this.getEssence(dialog.actor);
+		const self = $(html).find("#add-self").prop("checked");
+		const mythos = $(html).find("#add-mythos").prop("checked")
+			const noise = $(html).find("#add-noise").prop("checked")
+		const tt : MistRoll["options"]["themeTypes"] = [] ;
+		if (self) { tt.push("Self");}
+		if (mythos) { tt.push("Mythos");}
+		if (noise) { tt.push("Noise");}
+		if (essence  == "Real" && self) {
+			options.noPositiveTags = true;
+		}
+		options.themeTypes = tt;
 	}
 
 	override async renderRollDialog( dialog: RollDialog) {
@@ -153,14 +158,14 @@ export class OtherScapeSystem extends MistEngineSystem {
 		`;
 		const mythosCheck = `
 		<div>
-		<label class="dialog-label" for="add-Mythos"> ${mythosLoc} </label>
-		<input id="add-self" type="checkbox" ${false ? "checked": ""} >
+		<label class="dialog-label" for="add-mythos"> ${mythosLoc} </label>
+		<input id="add-mythos" type="checkbox" ${false ? "checked": ""} >
 		</div>
 `;
 		const noiseCheck = `
 		<div>
-		<label class="dialog-label" for="add-Noise"> ${noiseLoc} </label>
-		<input id="add-self" type="checkbox" ${false ? "checked": ""} >
+		<label class="dialog-label" for="add-noise"> ${noiseLoc} </label>
+		<input id="add-noise" type="checkbox" ${false ? "checked": ""} >
 		</div>
 `;
 		switch (essence) {
@@ -184,6 +189,24 @@ export class OtherScapeSystem extends MistEngineSystem {
 				dialog.html.find(".essence-effects").append(element);
 				break;
 			}
+			case "Real": {
+				const element = `<div>${selfCheck}</div>`;
+				dialog.html.find(".essence-effects").append(element);
+				break;
+			}
+			case "Singularity": {
+				const element = `<div>${noiseCheck}</div>`;
+				dialog.html.find(".essence-effects").append(element);
+				break;
+			}
+			case "Nexus":
+			case "Conduit":
+			case "Avatar":
+			case "Transhuman":
+			case undefined:
+				break;
+			default:
+				essence satisfies never;
 		}
 	}
 

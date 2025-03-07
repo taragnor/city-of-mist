@@ -828,7 +828,6 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
 							const themeId = $(html).find(".blaze-theme-sacrifice :selected").val() as string;
-							console.log(`Theme Id ${themeId}`);
 							conf(actor.getTheme(themeId));
 						}
 					},

@@ -57,6 +57,7 @@ export type CRollOptions = {
 	themeTypes ?: Exclude<ThemeType, "">[];
 	BlazeThemeId ?: string;
 	dynamiteAllowed ?: boolean;
+	noPositiveTags ?: boolean;
 	noStatus ?: boolean;
 	noTags ?: boolean;
 	noHelpHurt ?: boolean;
