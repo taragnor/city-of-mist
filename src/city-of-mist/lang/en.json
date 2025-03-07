@@ -701,6 +701,10 @@
 
 "MistEngine.dialog.statusMerge.label": "Merge {newStatus} with Status {existingStatus}",
 
+"Otherscape.dialog.addMythos": "Add Mythos to Power",
+"Otherscape.dialog.addSelf": "Add Self to Power",
+"Otherscape.dialog.addNoise": "Add Noise to Power",
+
 "CityOfMist.dialog.roll.waitForMC": "Waiting for MC approval",
 "CityOfMist.dialog.roll.title": "Make Roll",
 "CityOfMist.dialog.roll.rollBonus": "Roll Bonus:",

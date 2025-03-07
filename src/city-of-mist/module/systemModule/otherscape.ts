@@ -114,6 +114,7 @@ export class OtherScapeSystem extends MistEngineSystem {
 	}
 
 	protected override async _setHooks () {
+		super._setHooks();
 		Hooks.on("themeCreated", async (actor, theme) => {
 			if (!this.isActive()) return;
 			if (actor.system.type != "character") return;
@@ -131,8 +132,59 @@ export class OtherScapeSystem extends MistEngineSystem {
 		await super.updateRollOptions(html, options, dialog);
 	}
 
+	getEssence(actor: CityActor) : keyof EssenceNames | undefined {
+		return actor.essence?.system.systemName as keyof EssenceNames;
+	}
+
 	override async renderRollDialog( dialog: RollDialog) {
 		await super.renderRollDialog(dialog);
+		const essence = this.getEssence(dialog.actor);
+		const move = CityDB.getMoveById(dialog.move_id);
+		if (!move) return;
+		if (move.system.category == "SHB") return;
+		const selfLoc = localize("Otherscape.dialog.addSelf");
+		const mythosLoc = localize("Otherscape.dialog.addMythos");
+		const noiseLoc = localize("Otherscape.dialog.addNoise");
+		const selfCheck = `
+		<div>
+		<label class="dialog-label" for="add-self"> ${selfLoc} </label>
+		<input id="add-self" type="checkbox" ${false ? "checked": ""} >
+		</div>
+		`;
+		const mythosCheck = `
+		<div>
+		<label class="dialog-label" for="add-Mythos"> ${mythosLoc} </label>
+		<input id="add-self" type="checkbox" ${false ? "checked": ""} >
+		</div>
+`;
+		const noiseCheck = `
+		<div>
+		<label class="dialog-label" for="add-Noise"> ${noiseLoc} </label>
+		<input id="add-self" type="checkbox" ${false ? "checked": ""} >
+		</div>
+`;
+		switch (essence) {
+			case "Spiritualist":  {
+				const element = `
+				<div>
+					${selfCheck}
+					${mythosCheck}
+				</div>
+				`;
+				dialog.html.find(".essence-effects").append(element);
+				break;
+			}
+			case "Cyborg": {
+				const element = `;
+				<div>
+					${noiseCheck}
+					${selfCheck}
+					</div>
+				`;
+				dialog.html.find(".essence-effects").append(element);
+				break;
+			}
+		}
 	}
 
 	override systemSettings() : OTHERSETTINGS {

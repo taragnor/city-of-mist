@@ -880,7 +880,6 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	static generateMoveText(movedata: Move, result: RollResultType, power = 1) {
-		debugger;
 		const numRes = CityItem.convertTextResultToNumeric(result);
 		const sys = movedata.system;
 		let html = "";

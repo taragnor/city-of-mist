@@ -54,7 +54,7 @@ export type CreatedTagData = {
 
 export type CRollOptions = {
 	newtype ?: Exclude<ThemeType, "">;
-	themeType ?: Exclude<ThemeType, "">;
+	themeTypes ?: Exclude<ThemeType, "">[];
 	BlazeThemeId ?: string;
 	dynamiteAllowed ?: boolean;
 	noStatus ?: boolean;
