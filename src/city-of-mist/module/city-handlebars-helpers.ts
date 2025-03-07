@@ -409,8 +409,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"themeCard": function (theme: Theme) : string {
 			return SystemModule.active.themeCardTemplateLocation(theme);
-		}
+		},
 
+		"keys": function (obj: Object) : string[] {
+			return Object.keys(obj);
+		}
 
 	} //end of object holding helpers
 } // end of class

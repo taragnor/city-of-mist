@@ -6,9 +6,7 @@
 			<h1 class="localename"><input name="system.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Displayed Name"/></h1>
 		</div>
 	</header>
-	<select name="system.system_compatiblity" title="System choice">
-		{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-	</select>
+	{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 	<section id="move-core">
 		{{> "systems/city-of-mist/templates/parts/move-display.html" move=item data=data owner=item locked=false sheetowner=item item=item}}
 	</section>

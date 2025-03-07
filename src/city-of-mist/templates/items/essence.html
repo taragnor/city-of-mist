@@ -28,14 +28,7 @@
 		<input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
 	</div>
 
-	<div>
-		<label>
-			System Compatibility
-		</label>
-		<select name="system.system_compatiblity">
-			{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-		</select>
-	</div>
+	{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 	<div>
 		<label> Effect Class </label>
 		<input class="effect-class" name="system.effect_class" type="text" value="{{item.system.effect_class}}" placeholder="" title="Effect Class"/>

@@ -5,10 +5,15 @@
 
 declare global {
 		interface Game {
-		city:  {
-			CityActor: typeof CityActor;
-			CityItem: typeof CityItem;
-		}
+		city: CITYDATA;
+	}
+
+	interface CITYDATA {
+		CityActor: typeof CityActor;
+		CityItem: typeof CityItem;
+		BaseSystemModule: typeof BaseSystemModule;
+		MistEngineSystem: typeof MistEngineSystem;
+		CoMTypeSystem: typeof CoMTypeSystem;
 	}
 
 	interface CONFIG {
@@ -21,8 +26,11 @@ declare global {
 }
 
 // Import Modules
-import { SystemModuleI } from "./systemModule/baseSystemModule.js";
+// Note: Must initialize systemModule before BaseSystemModule or its derived classes for some reason to avoid error
 import { SystemModule } from "./config/system-module.js";
+import { BaseSystemModule } from "./systemModule/baseSystemModule.js";
+import { MistEngineSystem } from "./systemModule/mist-engine.js";
+import { CoMTypeSystem } from "./systemModule/com-type-system.js";
 import { OtherScapeSystem } from "./systemModule/otherscape.js";
 import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
@@ -111,7 +119,10 @@ Hooks.once("init", async function() {
 
 	game.city = {
 		CityActor,
-		CityItem
+		CityItem,
+		BaseSystemModule,
+		CoMTypeSystem,
+		MistEngineSystem,
 	};
 
 	CONFIG.Item.documentClass = CityItem;

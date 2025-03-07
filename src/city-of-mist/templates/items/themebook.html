@@ -17,9 +17,7 @@
 			<select name="system.fade_type">
 				{{selectOptions FADE_TYPE_LIST localize=true selected=item.system.fade_type}}
 			</select>
-			<select name="system.system_compatiblity">
-				{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-			</select>
+			{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 		</div>
 		<label class="dialog-label" for="free-content"> Allow Override </label>
 		<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>

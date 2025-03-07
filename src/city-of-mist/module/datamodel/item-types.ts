@@ -112,7 +112,7 @@ class Themebook extends DataModel {
 			improvements: new obj<ThemebookImprovementData>(),
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType >({initial: "default"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
 		}
 	}
 }
@@ -132,7 +132,7 @@ class Themekit extends DataModel {
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
 		}
 	}
 }
@@ -206,7 +206,7 @@ class Improvement extends DataModel {
 			chosen: new bool({initial: false}),
 			choice_type: new txt(),
 			effect_class: new txt(),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
+			system_compatiblity: new txt<System | "any">({initial: "any"})
 		}
 	}
 }
@@ -284,7 +284,7 @@ class Move extends DataModel {
 			effect_class: new txt(),
 			abbreviation: new txt(),
 			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
+			system_compatiblity: new txt<System | "any">({initial: "any"})
 		};
 	}
 }
@@ -316,7 +316,7 @@ class EssenceDM extends DataModel {
 			...defaultItem(),
 			...systemItem(),
 			effect_class: new txt(),
-			system_compatiblity: new txt<System | "any">({initial: "otherscape"}),
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
 			expended: new bool(),
 		};
 	}

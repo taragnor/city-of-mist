@@ -1,0 +1,13 @@
+{{#if (devMode)}}
+<div>
+	<label>
+		{{localize "Generic.terms.compatibleWith"}}
+	</label>
+	<input list="systems" name="system.system_compatiblity" value="{{item.system.system_compatiblity}}"> </label>
+<datalist id="systems">
+	{{#each (keys TBSYSTEMLIST) as |system i|}}
+	<option value="{{system}}">
+	{{/each}}
+</datalist>
+</div>
+{{/if}}

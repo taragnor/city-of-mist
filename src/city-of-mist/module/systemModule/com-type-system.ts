@@ -1,5 +1,6 @@
 import { BaseSystemModule } from "./baseSystemModule.js";
 
+
 export abstract class CoMTypeSystem extends BaseSystemModule {
 
 	protected override themeCardTemplate = "systems/city-of-mist/templates/parts/theme-display.html";
@@ -18,3 +19,4 @@ export abstract class CoMTypeSystem extends BaseSystemModule {
 	}
 
 }
+
