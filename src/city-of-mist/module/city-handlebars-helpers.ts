@@ -1,3 +1,5 @@
+import { AsyncHandleBarsHelper } from "./tools/asyncHandlebarsHelper.js";
+import { SystemModule } from "./config/system-module.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { StatusMath } from "./status-math.js";
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
@@ -403,6 +405,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"localizeS": function (txt: string) {
 			return localizeS(txt);
+		},
+
+		"themeCard": function (theme: Theme, sheetowner: CityActor, cardNum: number) : string {
+			return AsyncHandleBarsHelper(SystemModule.active.themeCard(theme, sheetowner, cardNum));
 		}
 
 

@@ -49,7 +49,7 @@
 					{{#each (mainFourThemes actor) as |item i|}}
 					{{#if item}}
 					<div class="flip-card flex-theme-block-flip" data-card-id="{{i}}">
-						{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="character" cardNum=i}}
+						{{themeCard item ../actor i}}
 					</div>
 					{{else}}
 					<div class="flex-theme-block empty-box">

@@ -1,6 +1,10 @@
 import { BaseSystemModule } from "./baseSystemModule.js";
 
 export abstract class MistEngineSystem extends BaseSystemModule {
+	themeTable = {
+		"generic": "systems/city-of-mist/templates/otherscape/theme-card.hbs",
+	};
+
 	async onChangeTo() : Promise<void> {
 		const settings = this.settings;
 		await settings.set("loadoutTheme", true);

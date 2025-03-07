@@ -1,3 +1,4 @@
+import { Themebook } from "../city-item.js";
 import { RollDialog } from "../roll-dialog.js";
 import { MistRoll } from "../mist-roll.js";
 import { CityActor } from "../city-actor.js";
@@ -41,6 +42,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 
 	abstract onChangeTo(): Promise<void>;
 	abstract headerTable: Record<CityActor["system"]["type"], string>;
+	abstract themeTable: Partial<Record<Themebook["system"]["subtype"], string>> & {"generic": string};
 
 	isActive() : boolean {
 		return SystemModule.active == this;
@@ -66,9 +68,36 @@ export abstract class BaseSystemModule implements SystemModuleI {
 
 
 
+	async themeCard(theme: Theme, sheetOwner: CityActor, cardNum: number): Promise<string> {
+		const themeType = theme.getThemeType();
+		let template : string = "";
+		if (this.themeTable[themeType]) {
+			template =  this.themeTable[themeType];
+		} else {
+			template= this.themeTable["generic"];
+		}
+		const data = {
+			owner : theme.parent,
+			theme,
+			locked: theme.parent?.system?.locked ?? true,
+			sheetowner: sheetOwner,
+			themeType,
+			cardNum,
+		}
+		const html = await renderTemplate(template, data);
+		return html;
 
-	async sheetHeader( actor: CityActor) : Promise<SafeString> {
+	}
+
+
+	async sheetHeader( actor: CityActor) : Promise<string> {
 		const templateLoc = this.headerTable[actor.system.type];
+		if (!templateLoc) {
+			const msg = `No sheet header provided for ${actor.system.type}`;
+			ui.notifications.error(msg);
+			console.error(msg);
+			return `ERROR: ${msg}`;
+		}
 		return await renderTemplate(templateLoc, {actor});
 	}
 
@@ -82,7 +111,8 @@ export interface SystemModuleI {
 	name: keyof SYSTEM_NAMES;
 	localizationString: string;
 	localizationStarterName: string;
-	sheetHeader( actor: CityActor): Promise<SafeString> ;
+	sheetHeader( actor: CityActor): Promise<string> ;
+	themeCard(theme: Theme, sheetOwner: CityActor, cardNum: number): Promise<string>;
 	downtimeTemplate(actor: CityActor) : Promise<string>;
 	onChangeTo (): Promise<void>;
 	activate(): Promise<void>;
