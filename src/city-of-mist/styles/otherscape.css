@@ -42,3 +42,31 @@ div.Mythos-theme.theme-block {
 	color: var(--mythos-white);
 }
 
+.essence-block .burn-box {
+	max-width: 10%;
+}
+
+.essence-block label {
+	font-family: "Rift Bold";
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+.essence-block .name {
+}
+
+.essence-block .description {
+	margin-right: 5px;
+	margin-left: 5px;
+	font-size: smaller;
+}
+
+.essence-block .burned {
+	color: red !important;
+}
+
+.essence-block .shaded {
+	opacity: 75%;
+}
+

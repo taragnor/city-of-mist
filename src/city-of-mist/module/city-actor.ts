@@ -1509,8 +1509,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this;
 	}
 
-	async setEssenceBurn(val : boolean){
-await this.update( {"system.essence.isBurned": val});
+	async setEssenceBurn(this: PC, val : boolean, sound= true){
+		if (val && !this.system.essence.isBurned && sound) {
+			CityHelpers.playBurn();
+		}
+		await this.update( {"system.essence.isBurned": val});
 	}
 
 

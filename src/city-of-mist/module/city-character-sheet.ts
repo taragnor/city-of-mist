@@ -214,6 +214,8 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find(".clue-list-section .clue-name").on('click', this._clueEdit.bind(this));
 		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
 		html.find(".create-relationship-tag").click(this.createRelationshipTag.bind(this));
+		html.find('.essence-burn').on("click", this._essenceBurn.bind(this));
+		html.find('.essence-unburn').on("click", this._essenceUnburn.bind(this));
 	}
 
 	async _addBUImprovement (event: JQuery.Event) {
@@ -477,5 +479,14 @@ export class CityCharacterSheet extends CityActorSheet {
 		await this.tagDialog(tag);
 		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
+
+	async _essenceBurn(_ev: JQuery.ClickEvent) {
+		await this.actor.setEssenceBurn(true);
+	}
+
+	async _essenceUnburn(_ev: JQuery.ClickEvent) {
+		await this.actor.setEssenceBurn(false);
+	}
+
 
 }

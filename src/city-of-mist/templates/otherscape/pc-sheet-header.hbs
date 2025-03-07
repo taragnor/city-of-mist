@@ -7,20 +7,19 @@
 	</label>
 	{{#if actor.essence}}
 	<div class="flexrow">
-		<div>
+		<div class="{{#if actor.isEssenceBurned}} burned shaded {{/if}}">
 			<div class="name"> {{actor.essence.displayedName}}
 			</div>
 			<div class="description">
 				{{localizeS actor.essence.description}}
 			</div>
 		</div>
-		<div>
-			{{#if actor.essence.isBurned}}
+		<div class="burn-box">
+			{{#if actor.isEssenceBurned}}
 			<a class="essence-unburn"><i class="fas fa-undo"></i> </a>
 			{{else}}
 			<a class="essence-burn" > <i class="fas fa-fire"></i> </a>
 			{{/if}}
-
 		</div>
 	</div>
 	{{else}}

@@ -51,11 +51,9 @@ export class CityActorSheet extends CitySheet {
 		html.find('.improvement-name').on("click", this._sendImprovementToChat.bind(this));
 		html.find('.improvement-edit').on("click", this._improvementEdit.bind(this));
 		html.find('.theme-reset-fade').on("click", this._resetFade.bind(this) );
-
 		html.find('.motivation-input').on("change", this._themeChangeInput.bind(this));
 		html.find('.active-extra-drop-down').on("change", this._activeExtraChange.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
-
 		html.find('.create-clue').on("click", this._createClue.bind(this));
 		html.find('.clue-delete').on("click", this._deleteClue.bind(this));
 		html.find('.clue-journal-delete').on("click", this._deleteJournalClue.bind(this));

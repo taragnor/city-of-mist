@@ -3108,6 +3108,9 @@ input.tk-tagname-letter {
 	padding: 5px;
 }
 
+.shaded {
+	opacity: 55%;
+}
 
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
