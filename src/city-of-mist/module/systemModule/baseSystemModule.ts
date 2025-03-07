@@ -9,6 +9,13 @@ import { Move } from "../city-item.js";
 import { CitySettings } from "../settings.js";
 
 export abstract class BaseSystemModule implements SystemModuleI {
+	abstract downtimeTemplate(actor: CityActor): Promise<string>;
+	abstract name: keyof SYSTEM_NAMES;
+	abstract localizationString: string;
+
+	abstract onChangeTo(): Promise<void>;
+	abstract headerTable: Record<CityActor["system"]["type"], string>;
+	protected abstract themeCardTemplate: string;
 
 	get settings(): typeof CitySettings {
 		return CitySettings;
@@ -36,19 +43,13 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return localize(`${this.name}.terms.themeIncrease`);
 	}
 
-	abstract downtimeTemplate(actor: CityActor): Promise<string>;
-	abstract name: keyof SYSTEM_NAMES;
-	abstract localizationString: string;
-
-	abstract onChangeTo(): Promise<void>;
-	abstract headerTable: Record<CityActor["system"]["type"], string>;
-	abstract themeTable: Partial<Record<Themebook["system"]["subtype"], string>> & {"generic": string};
 
 	isActive() : boolean {
 		return SystemModule.active == this;
 	}
 
 	async activate() : Promise<void> {
+		loadTemplates([this.themeCardTemplate]);
 		await this._setHooks();
 		SystemModule.setActiveStyle(this);
 	}
@@ -58,35 +59,18 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		Hooks.on("renderRollDialog", this.renderRollDialog.bind(this));
 	}
 
-	protected async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
+	protected async updateRollOptions( _html: JQuery, _options: Partial<MistRoll["options"]>, _dialog: RollDialog) {
 
 	}
 
-	protected async renderRollDialog( dialog: RollDialog) {
+	protected async renderRollDialog( _dialog: RollDialog) {
 
 	}
 
 
 
-	async themeCard(theme: Theme, sheetOwner: CityActor, cardNum: number): Promise<string> {
-		const themeType = theme.getThemeType();
-		let template : string = "";
-		if (this.themeTable[themeType]) {
-			template =  this.themeTable[themeType];
-		} else {
-			template= this.themeTable["generic"];
-		}
-		const data = {
-			owner : theme.parent,
-			theme,
-			locked: theme.parent?.system?.locked ?? true,
-			sheetowner: sheetOwner,
-			themeType,
-			cardNum,
-		}
-		const html = await renderTemplate(template, data);
-		return html;
-
+	themeCardTemplateLocation(_theme :Theme) : string {
+		return this.themeCardTemplate;
 	}
 
 
@@ -112,7 +96,7 @@ export interface SystemModuleI {
 	localizationString: string;
 	localizationStarterName: string;
 	sheetHeader( actor: CityActor): Promise<string> ;
-	themeCard(theme: Theme, sheetOwner: CityActor, cardNum: number): Promise<string>;
+	themeCardTemplateLocation(theme: Theme): string;
 	downtimeTemplate(actor: CityActor) : Promise<string>;
 	onChangeTo (): Promise<void>;
 	activate(): Promise<void>;

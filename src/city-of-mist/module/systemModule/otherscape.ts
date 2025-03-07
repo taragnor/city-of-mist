@@ -49,7 +49,15 @@ export class OtherScapeSystem extends MistEngineSystem {
 
 	async determineEssence(actor : PC) {
 		if (!CitySettings.get("autoEssence")) return;
-		const themeTypes = actor.mainThemes.reduce(
+		const essence = OtherScapeSystem.determineEssenceFromThemes(actor.mainThemes);
+		if (essence) {
+			await actor.setEssence(essence);
+		}
+		return essence;
+	}
+
+	static determineEssenceFromThemes(themes: Theme[]) : Essence | undefined {
+		const themeTypes = themes.reduce(
 			(acc, theme) => {
 				const themeType = theme.getThemebook()!.system.subtype;
 				if (acc.includes(themeType) || !themeType) return acc;
@@ -94,25 +102,29 @@ export class OtherScapeSystem extends MistEngineSystem {
 			default:
 				break;
 		}
-		if (essence) {
-			await actor.setEssence(essence);
-		}
+		return essence;
+
 	}
 
 	override async activate() {
 		super.activate();
-		Hooks.on("themeCreated", async (actor, _theme) => {
-			if (!this.isActive()) return;
-			if (actor.system.type != "character") return;
-			await this.determineEssence(actor as PC);
-		});
 		for (const [name, data] of Object.entries(this.systemSettings())) {
 			game.settings.register("city-of-mist", name, data)
 		}
 	}
 
 	protected override async _setHooks () {
-
+		Hooks.on("themeCreated", async (actor, theme) => {
+			if (!this.isActive()) return;
+			if (actor.system.type != "character") return;
+			if (actor.mainThemes.length < 4) return;
+			//Nexus Theme Effect
+			const oldEssence = actor.essence;
+			const newEssence = await this.determineEssence(actor as PC);
+			if (actor.isOwner && oldEssence?.system.systemName == "Nexus" && newEssence?.systemName == "Nexus") {
+				await theme.update({ "system.nascent": false});
+			}
+		});
 	}
 
 	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {

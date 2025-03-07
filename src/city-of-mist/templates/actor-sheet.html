@@ -49,7 +49,7 @@
 					{{#each (mainFourThemes actor) as |item i|}}
 					{{#if item}}
 					<div class="flip-card flex-theme-block-flip" data-card-id="{{i}}">
-						{{themeCard item ../actor i}}
+						{{> (themeCard item) owner=../actor theme=item locked=../actor.system.locked sheetowner=../actor themetype="character" cardNum=i}}
 					</div>
 					{{else}}
 					<div class="flex-theme-block empty-box">
@@ -72,7 +72,7 @@
 			<div class="theme-block-group">
 				{{#if actor.crewTheme}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="4" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.crewTheme.parent theme=actor.crewTheme locked=true sheetowner=actor themetype="crew" cardNum=4}}
+					{{> (themeCard item) owner=actor.crewTheme.parent theme=actor.crewTheme locked=true sheetowner=actor themetype="crew" cardNum=4}}
 				</div>
 				{{else}}
 
@@ -85,7 +85,7 @@
 				{{/if}}
 				{{#if actor.activeExtra}}
 				<div class="flip-card flex-theme-block-flip" data-card-id="5" >
-					{{> "systems/city-of-mist/templates/parts/theme-display.html" owner=actor.activeExtra.parent theme=actor.activeExtra locked=actor.activeExtra.parent.system.locked sheetowner=actor themetype="extra" cardNum=5}}
+					{{> (themeCard item) owner=actor.activeExtra.parent theme=actor.activeExtra locked=actor.activeExtra.parent.system.locked sheetowner=actor themetype="extra" cardNum=5}}
 				</div>
 				{{else }}
 				<div class="flex-theme-block empty-box">

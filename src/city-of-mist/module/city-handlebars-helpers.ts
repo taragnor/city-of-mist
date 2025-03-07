@@ -407,8 +407,8 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return localizeS(txt);
 		},
 
-		"themeCard": function (theme: Theme, sheetowner: CityActor, cardNum: number) : string {
-			return AsyncHandleBarsHelper(SystemModule.active.themeCard(theme, sheetowner, cardNum));
+		"themeCard": function (theme: Theme) : string {
+			return SystemModule.active.themeCardTemplateLocation(theme);
 		}
 
 

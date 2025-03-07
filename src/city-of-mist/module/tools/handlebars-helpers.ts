@@ -47,7 +47,7 @@ export class HandlebarsHelpers {
 	}
 } // end of class
 export function localizeS (str :string): SafeString {
-	if (!str || typeof str != "string")  {
+	if (str == undefined || typeof str != "string")  {
 		return "ERROR";
 	}
 	if (!str.startsWith("#"))

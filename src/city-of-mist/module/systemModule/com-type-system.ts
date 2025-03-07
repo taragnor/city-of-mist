@@ -2,11 +2,7 @@ import { BaseSystemModule } from "./baseSystemModule.js";
 
 export abstract class CoMTypeSystem extends BaseSystemModule {
 
-	themeTable = {
-		"generic": "systems/city-of-mist/templates/parts/theme-display.html",
-	};
-
-
+	protected override themeCardTemplate = "systems/city-of-mist/templates/parts/theme-display.html";
 
 	async onChangeTo() : Promise<void> {
 		const settings = this.settings;

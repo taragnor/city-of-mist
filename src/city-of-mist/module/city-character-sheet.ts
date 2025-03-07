@@ -216,6 +216,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find(".create-relationship-tag").click(this.createRelationshipTag.bind(this));
 		html.find('.essence-burn').on("click", this._essenceBurn.bind(this));
 		html.find('.essence-unburn').on("click", this._essenceUnburn.bind(this));
+
 	}
 
 	async _addBUImprovement (event: JQuery.Event) {
