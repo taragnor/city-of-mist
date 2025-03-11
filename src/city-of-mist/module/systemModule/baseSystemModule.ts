@@ -1,4 +1,9 @@
-import { Themebook } from "../city-item.js";
+import { CityItemSheetLarge } from "../city-item-sheet.js";
+import { CityItemSheetSmall } from "../city-item-sheet.js";
+import { CityCharacterSheet } from "../city-character-sheet.js";
+import { CityThreatSheet } from "../city-threat-sheet.js";
+import { CityCrewSheet } from "../city-crew-sheet.js";
+
 import { RollDialog } from "../roll-dialog.js";
 import { MistRoll } from "../mist-roll.js";
 import { CityActor } from "../city-actor.js";
@@ -48,8 +53,36 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return SystemModule.active == this;
 	}
 
-	async activate() : Promise<void> {
+	loadTemplates() {
 		loadTemplates([this.themeCardTemplate]);
+	}
+
+	unregisterCoreSheets() {
+		Actors.unregisterSheet("core", ActorSheet);
+		Items.unregisterSheet("core", ItemSheet);
+	}
+
+	registerActorSheets() {
+		Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
+		Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
+		Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
+
+	}
+
+	registerItemSheets() {
+	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
+	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
+	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
+	}
+
+	registerSheets() {
+		this.registerActorSheets();
+		this.registerItemSheets();
+	}
+
+	async activate() : Promise<void> {
+		this.loadTemplates();
+		this.registerSheets();
 		await this._setHooks();
 		SystemModule.setActiveStyle(this);
 	}

@@ -133,7 +133,7 @@ class Themekit extends DataModel {
 			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
 			system_compatiblity: new txt<System | "any">({initial: "any"}),
-		}
+			}
 	}
 }
 

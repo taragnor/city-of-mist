@@ -14,6 +14,8 @@ declare global {
 		BaseSystemModule: typeof BaseSystemModule;
 		MistEngineSystem: typeof MistEngineSystem;
 		CoMTypeSystem: typeof CoMTypeSystem;
+		ActorSheets: [typeof CityCharacterSheet, typeof CityThreatSheet, typeof CityCrewSheet];
+		ItemSheets: [typeof CityItemSheet, typeof CityItemSheetSmall, typeof CityItemSheetLarge];
 	}
 
 	interface CONFIG {
@@ -123,20 +125,22 @@ Hooks.once("init", async function() {
 		BaseSystemModule,
 		CoMTypeSystem,
 		MistEngineSystem,
+		ActorSheets: [CityCharacterSheet, CityThreatSheet, CityCrewSheet],
+		ItemSheets: [CityItemSheet, CityItemSheetLarge, CityItemSheetSmall],
 	};
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
 
 	// Register sheet application classes
-	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
-	Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
-	Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
-	Items.unregisterSheet("core", ItemSheet);
-	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
-	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
-	Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
+	// Actors.unregisterSheet("core", ActorSheet);
+	// Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
+	// Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
+	// Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
+	// Items.unregisterSheet("core", ItemSheet);
+	// Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
+	// Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
+	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	preloadHandlebarsTemplates();
 
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
@@ -190,7 +194,7 @@ Hooks.on("renderApplication", function() {
 	}
 });
 
-export function refreshStyleBodyTags(system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
+export function refreshStyleBodyTags(_system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
 	//NOTE: now handled in SystemModule.activate
 	// let target : string;
 	// switch (system) {
