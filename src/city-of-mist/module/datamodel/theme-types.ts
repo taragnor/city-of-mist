@@ -6,6 +6,7 @@ export const THEME_TYPES = {
 	"Loadout": "Otherscape.terms.loadoutTheme.name",
 	"Noise": "Otherscape.terms.noise",
 	"Self": "Otherscape.terms.self",
+	"Adventure": "Legend.terms.adventure",
 	"Origin": "Legend.terms.origin",
 	"Greatness" : "Legend.terms.greatness",
 	"Extra": "CityOfMist.terms.extra",
