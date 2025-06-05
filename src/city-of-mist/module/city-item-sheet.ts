@@ -5,7 +5,7 @@ import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityDB } from "./city-db.js";
 import { SYSTEM_CHOICES } from "./config/settings-object.js";
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { SystemModule } from "./config/system-module.js";
 import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -42,7 +42,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		};
 		data.FADE_TYPE_LIST = FADETYPELIST;
 		data.TBSYSTEMLIST = SysChoices;
-		data.THEMESUBTYPES = THEME_TYPES;
+		data.THEMESUBTYPES = SystemModule.allThemeTypes();
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
 		data.movelist = CityHelpers.getMoves()

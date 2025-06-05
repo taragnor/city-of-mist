@@ -55,6 +55,21 @@ export abstract class SystemModule {
 		return true;
 	}
 
+	/** returns active theme types as localization object */
+	static themeTypes(): ReturnType<SystemModuleI["themeTypes"]> {
+		return this.active.themeTypes();
+	}
+
+	/** return all theme types  as localization object*/
+
+	static allThemeTypes(): ReturnType<SystemModuleI["themeTypes"]> {
+		let retobj : ReturnType<SystemModuleI["themeTypes"]>= {};
+		for (const [_k,v] of this.systems) {
+			retobj = foundry.utils.mergeObject(retobj, v.themeTypes());
+		}
+		return retobj;
+	}
+
 	static setActiveStyle( system: SystemModuleI) {
 		const body = $(document).find("body");
 		for (const {name} of this.systems.values()) {

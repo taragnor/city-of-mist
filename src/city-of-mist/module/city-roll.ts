@@ -10,7 +10,8 @@ import { DragAndDrop } from "./dragAndDrop.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Tag } from "./city-item.js";
 import { Move } from "./city-item.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
+// import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { SystemModule } from "./config/system-module.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
@@ -179,7 +180,7 @@ export class CityRoll {
 			const blazetheme = options.BlazeThemeId ? actor.getTheme(options.BlazeThemeId) : undefined;
 			modifiers.push({
 				id: themeType,
-				name: localize(THEME_TYPES[themeType]) + (blazetheme ?` (${blazetheme.getDisplayedName()})` : ""),
+				name: localize(SystemModule.allThemeTypes()[themeType].localization) + (blazetheme ?` (${blazetheme.getDisplayedName()})` : ""),
 				amount: actor.getNumberOfThemes(themeType),
 				ownerId: null,
 				tagId: null,

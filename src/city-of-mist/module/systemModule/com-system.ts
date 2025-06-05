@@ -1,8 +1,6 @@
+import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { localize } from "../city.js";
 import {CityActor} from "../city-actor.js";
-import { Theme } from "../city-item.js";
-import { CityItem } from "../city-item.js";
-import { FADETYPELIST } from "../datamodel/fade-types.js";
 import { Move } from "../city-item.js";
 import { CoMTypeSystem } from "./com-type-system.js";
 
@@ -19,19 +17,19 @@ export class CoMSystem extends CoMTypeSystem {
 				//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
 	}
 
-	override themeIncreaseName(_theme: Theme) {
-		return localize("CityOfMist.terms.attention");
-	}
 
-	override themeDecreaseName(theme: Theme) {
-		if (theme.themebook)
-			return theme.themebook.system.fade_type;
-		const defFade =  CityItem.getCoMdefaultFade(theme.getThemeType());
-		if (defFade == "crew")  {
-			return localize(FADETYPELIST["fade"]) + " / " + localize(FADETYPELIST["crack"]);
-		}
-		return localize(FADETYPELIST[defFade]);
-	}
+	// 	return localize("CityOfMist.terms.attention");
+	// }
+
+	// override themeDecreaseName(theme: Theme) {
+	// 	if (theme.themebook)
+	// 		return theme.themebook.system.fade_type;
+	// 	const defFade =  CityItem.getCoMdefaultFade(theme.getThemeType());
+	// 	if (defFade == "crew")  {
+	// 		return localize(FADETYPELIST["fade"]) + " / " + localize(FADETYPELIST["crack"]);
+	// 	}
+	// 	return localize(FADETYPELIST[defFade]);
+	// }
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
@@ -39,6 +37,35 @@ export class CoMSystem extends CoMTypeSystem {
 	}
 	get name() {return  "city-of-mist" as const;}
 	get localizationString() {return localize("CityOfMist.settings.system.0");}
+
+	override themeTypes() {
+		return {
+			"Logos": {
+				localization: "CityOfMist.terms.logos",
+				sortOrder : 3,
+				"increaseLocalization": "CityOfMist.terms.attention",
+				"decreaseLocalization":  "CityOfMist.terms.crack",
+			},
+			"Mythos": {
+				localization: "CityOfMist.terms.mythos",
+				sortOrder: 1,
+				"increaseLocalization": "CityOfMist.terms.attention",
+				"decreaseLocalization":  "CityOfMist.terms.fade",
+			},
+			"Mist": {
+				localization: "CityOfMist.terms.mist",
+				sortOrder: 2,
+				"increaseLocalization": "CityOfMist.terms.attention",
+				"decreaseLocalization":  "CityOfMist.terms.strike",
+			},
+			"Crew": {
+				localization:"CityOfMist.themebook.crew.name",
+				sortOrder: 5,
+				"increaseLocalization": "CityOfMist.terms.attention",
+				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
+			}
+		} satisfies Record<string, ThemeTypeInfo>;
+	}
 
 	override async activate() {
 		super.activate();
@@ -64,6 +91,14 @@ declare global {
 	interface SYSTEM_NAMES {
 		"city-of-mist": string;
 	}
+
+	interface ThemeTypes {
+		"Logos": "CityOfMist.terms.logos";
+		"Mythos": "CityOfMist.terms.mythos";
+		"Mist":  "CityOfMist.terms.mist";
+		"Crew": "CityOfMist.themebook.crew.name";
+	}
+
 }
 
 

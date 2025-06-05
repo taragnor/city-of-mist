@@ -26,6 +26,8 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return CitySettings;
 	}
 
+	abstract themeTypes(): Record<string, ThemeTypeInfo>;
+
 	loadoutThemeName(): string {
 		return localize(`${this.localizationStarterName}.terms.loadoutTheme.name`);
 	}
@@ -40,12 +42,14 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return move.hasEffectClass("CREATE_TAGS");
 	}
 
-	themeDecreaseName(_theme: Theme) {
-		return localize(`${this.name}.terms.themeDecrease`);
+	themeDecreaseName(theme: Theme) {
+		const themetype = theme.getThemeType();
+		return localize(this.themeTypes()[themetype].decreaseLocalization);
 	}
 
-	themeIncreaseName(_theme: Theme) {
-		return localize(`${this.name}.terms.themeIncrease`);
+	themeIncreaseName(theme: Theme) {
+		const themetype = theme.getThemeType();
+		return localize(this.themeTypes()[themetype].increaseLocalization);
 	}
 
 
@@ -138,6 +142,12 @@ export interface SystemModuleI {
 	collectiveTermName(): string;
 	loadoutThemeName(): string;
 	canCreateTags(move: Move): boolean;
+	themeTypes(): Record<string, ThemeTypeInfo>;
 }
 
-
+export type ThemeTypeInfo = {
+	localization: string,
+	sortOrder: number,
+	decreaseLocalization: string,
+	increaseLocalization: string,
+}

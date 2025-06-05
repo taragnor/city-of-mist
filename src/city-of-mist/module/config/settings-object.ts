@@ -558,8 +558,7 @@ type b = SettingsChoices<"autoEssence">;
 type k = keyof SettingsType;
 
 declare global {
-	type SelectSettings<T extends SettingConfig = SettingConfig> = T;
-	// type SelectSettings<T extends SettingConfig<any>> = Pick<T, "name" | "type" | "choices">;
+	type SelectSettings<T extends SettingConfig<any> = SettingConfig<any>> = T;
 	interface SYSTEM_NAMES {
 	}
 

@@ -29,11 +29,12 @@ declare global {
 
 // Import Modules
 // Note: Must initialize systemModule before BaseSystemModule or its derived classes for some reason to avoid error
+import { LitMSystem } from "./systemModule/litm-system.js";
 import { SystemModule } from "./config/system-module.js";
 import { BaseSystemModule } from "./systemModule/baseSystemModule.js";
 import { MistEngineSystem } from "./systemModule/mist-engine.js";
 import { CoMTypeSystem } from "./systemModule/com-type-system.js";
-import { OtherScapeSystem } from "./systemModule/otherscape.js";
+import { OtherscapeSystem } from "./systemModule/otherscape.js";
 import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
 import { MistRoll } from "./mist-roll.js";
@@ -95,7 +96,8 @@ Hooks.once("cityDBLoaded", async function() {
 
 Hooks.on("registerRulesSystemPhase", (sys) => {
 	sys.registerRulesSystem(new CoMSystem());
-	sys.registerRulesSystem(new OtherScapeSystem());
+	sys.registerRulesSystem(new OtherscapeSystem());
+	sys.registerRulesSystem(new LitMSystem());
 });
 
 function registerDataModels() {

@@ -18,7 +18,8 @@ declare const foundry:   {
 		AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
 		Sound: typeof Sound;
 	}
-	utils: FoundryUtil
+	utils: FoundryUtil;
+	applications: foundryApps.Applications;
 
 }
 

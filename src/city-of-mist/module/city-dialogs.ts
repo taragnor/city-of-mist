@@ -8,7 +8,6 @@ import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { STATUS_CATEGORIES} from "./config/status-categories.js";
 import { TAG_CATEGORIES} from "./config/tag-categories.js";
 import { CitySettings } from "./settings.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
 import { CRollOptions } from "./mist-roll.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
@@ -794,6 +793,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
 							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
+							const THEME_TYPES = SystemModule.themeTypes();
 							if (!Object.keys(THEME_TYPES).includes(result!)) {
 								ui.notifications.error(`Bad Theme Type ${result}`)
 								conf(null);

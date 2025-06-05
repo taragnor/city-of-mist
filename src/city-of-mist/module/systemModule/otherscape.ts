@@ -1,3 +1,4 @@
+import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { RollDialog } from "../roll-dialog.js";
 import { MistRoll } from "../mist-roll.js";
 import { localize } from "../city.js";
@@ -11,19 +12,19 @@ import { MistEngineSystem } from "./mist-engine.js";
 
 const PATH = "systems/city-of-mist";
 
-export class OtherScapeSystem extends MistEngineSystem {
+export class OtherscapeSystem extends MistEngineSystem {
 
 	override get localizationStarterName() {
 		return "Otherscape" as const;
 	}
 
-	override themeIncreaseName(_theme: Theme) {
-		return localize("Otherscape.terms.upgrade");
-	}
+	// override themeIncreaseName(_theme: Theme) {
+	// 	return localize("Otherscape.terms.upgrade");
+	// }
 
-	override themeDecreaseName(_theme: Theme) {
-		return localize("Otherscape.terms.decay");
-	}
+	// override themeDecreaseName(_theme: Theme) {
+	// 	return localize("Otherscape.terms.decay");
+	// }
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
@@ -37,6 +38,35 @@ export class OtherScapeSystem extends MistEngineSystem {
 		character: "systems/city-of-mist/templates/otherscape/pc-sheet-header.hbs",
 		threat: "",
 		crew: ""
+	}
+
+	override themeTypes() {
+		return {
+			"Loadout": {
+				localization: "Otherscape.terms.loadoutTheme.name",
+				sortOrder: 4,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay"
+			},
+			"Noise": {
+				localization:	"Otherscape.terms.noise",
+				sortOrder: 2,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay"
+			},
+			"Self": {
+				localization: "Otherscape.terms.self",
+				sortOrder: 3,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay"
+			},
+			"Mythos-OS": {
+				localization: "Otherscape.terms.mythos",
+				sortOrder: 1,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay"
+			}
+		} satisfies Record<string, ThemeTypeInfo>;
 	}
 
 	override async onChangeTo() : Promise<void> {
@@ -230,6 +260,13 @@ declare global {
 
 	interface SYSTEM_NAMES {
 		"otherscape": string;
+	}
+
+	interface ThemeTypes {
+		"Loadout": "Otherscape.terms.loadoutTheme.name";
+		"Noise": "Otherscape.terms.noise";
+		"Self": "Otherscape.terms.self";
+		"Mythos-OS": "Otherscape.terms.mythos";
 	}
 
 	interface EssenceNames {

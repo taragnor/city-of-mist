@@ -1508,8 +1508,6 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				default:
 					throw new Error(`No motivation for theme ${this.name}`);
 			}
-
-
 		}
 		return localize (MOTIVATIONLIST[motivation]);
 	}
@@ -1517,22 +1515,24 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	themeSortValue(this: Theme) : number {
 		try {
 			const themetype =this.themebook!.system.subtype;
-			switch (themetype) {
-				case "Mythos":
-				case "Greatness":
-					return 1;
-				case "Noise": case "Mist": return 2;
-				case "Self": case "Origin": case "Logos": return 3;
-				case "Extra": case "Loadout": return 4;
-				case "Crew" : return 5;
-				case "": return 99;
-					//@ts-ignore
-				case "None": return 99;
-				default:
-					themetype satisfies never;
-					console.warn(` Unknown Type ${themetype}`);
-					return 1000;
-			}
+			const theme = SystemModule.allThemeTypes()[themetype];
+			return theme.sortOrder;
+			//switch (themetype) {
+			//	case "Mythos":
+			//	case "Greatness":
+			//		return 1;
+			//	case "Noise": case "Mist": return 2;
+			//	case "Self": case "Origin": case "Logos": return 3;
+			//	case "Extra": case "Loadout": return 4;
+			//	case "Crew" : return 5;
+			//	case "": return 99;
+			//		//@ts-ignore
+			//	case "None": return 99;
+			//	default:
+			//		themetype satisfies never;
+			//		console.warn(` Unknown Type ${themetype}`);
+			//		return 1000;
+			//}
 		} catch (e) {
 			console.log(e);
 			return 1000;
