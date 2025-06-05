@@ -169,7 +169,66 @@
 "Legend.terms.greatness": "Greatness",
 "Legend.terms.motivation": "Motivation",
 "Legend.terms.experience": "Experience",
-"Legend.terms.collective" : "Scale",
+"Legend.terms.collective": "Scale",
+
+"Legend.terms.improve": "Improve",
+"Legend.terms.abandon": "Abandon",
+"Legend.terms.quest": "Quest",
+"Legend.terms.milestone": "Milestone",
+
+"Legend.terms.adventure": "Adventure",
+"Legend.terms.greatness": "Greatness",
+"Legend.terms.origin": "Origin",
+
+"Legend.moves.outcome.fail": "The Narrator decides on a narrative development detrimental to the Hero, and can give or remove a tag or status in a way that hinders the Hero.",
+"Legend.moves.outcome.partial": "The action unfolds as expected, or better, achieving its intended goal or overcoming an obstacle. The Narrator can also give you a useful tag or status. \n The Narrator decides on a narrative development detrimental to the Hero, and can give or remove a tag or status in a way that hinders the Hero.",
+"Legend.moves.outcome.success": "The action unfolds as expected, or better, achieving its intended goal or overcoming an obstacle. The Narrator can also give you a useful tag or status. \n You can Push your Luck: \n Accept Consequences for Great Success (Quick) or for +1 Power to spend (Detailed).",
+
+"Legend.moves.reaction.name": "Reaction",
+"Legend.moves.quickOutcome.name": "Quick Outcome",
+"Legend.moves.detailedOutcome.name": "Detailed Outcome",
+
+"Legend.moves.reaction.fail": "You suffer the Consequences as-is",
+"Legend.moves.reaction.partial": "You succeed and may spend PWR Power only to lessen the Consequences.",
+"Legend.moves.reaction.success": "You succeed and may spend PWR+1 Power, on any Effect.",
+
+"Legend.moves.sacrifice.fail": "It is in Vain...\nYou pay in full the Consequence of your Sacrifice, but nothing comes out of it, or things go terribly wrong. The Narrator may add further Consequences (especially Ill Tidings).",
+"Legend.moves.sacrifice.partial": "It is Fate!\nYou Succeed but pay in full the Consequences of your Sacrifice.",
+"Legend.moves.sacrifice.success": "It is a Miracle!\nYou Succeed and your Sacrifice is lessened by one level.",
+
+"Legend.moves.sacrifice.painful.name": "Sacrifice (Painful)",
+"Legend.moves.sacrifice.painful.consequences": "Scratch all tags in a relevant theme (only one tag if lessened)",
+"Legend.moves.sacrifice.painful.successful": "Achieve something unlikely or that would normally take much longer or require much more resources \n Match the Might of a Challenge one level higher or lower than you have in this situation for the duration of a scene.",
+
+"Legend.moves.sacrifice.scarring.name": "Sacrifice (Scarring)",
+"Legend.moves.sacrifice.scarring.consequences": "Replace a relevant theme",
+"Legend.moves.sacrifice.scarring.successful": "Achieve something extraordinary. \n Match the Might of a Challenge two levels higher or lower than you have in this situation for the duration of a scene.",
+
+"Legend.moves.sacrifice.grave.name": "Sacrifice (Grave)",
+"Legend.moves.sacrifice.grave.consequences": "Take a tier-6 status without lessening",
+"Legend.moves.sacrifice.grave.successful": "Achieve something impossible. \n Save someone from certain death or bring them back from the dead (if the moment allows for it).",
+
+"Legend.themebook.duty.name": "Duty",
+"Legend.themebook.influence.name": "Influence",
+"Legend.themebook.knowledge.name": "Knowledge",
+"Legend.themebook.prodigiousAbility.name": "Prodigious Ability",
+"Legend.themebook.relic.name": "Relic",
+"Legend.themebook.uncannyBeing.name": "Uncanny Being",
+"Legend.themebook.companion.name": "Companion",
+"Legend.themebook.fellowship.name": "Fellowship",
+"Legend.themebook.magic.name": "Magic",
+"Legend.themebook.possessions.name": "Possessions",
+"Legend.themebook.destiny.name": "Destiny",
+"Legend.themebook.dominion.name": "Dominion",
+"Legend.themebook.mastery.name": "Mastery",
+"Legend.themebook.monstrosity.name": "Monstrosity",
+"Legend.themebook.circumstance.name": "Circumstance",
+"Legend.themebook.devotion.name": "Devotion",
+"Legend.themebook.past.name": "Past",
+"Legend.themebook.people.name": "People",
+"Legend.themebook.personality.name": "Personality",
+"Legend.themebook.skillOrTrade.name": "Skill or Trade",
+"Legend.themebook.trait.name": "Trait",
 
 "MistEngine.rollEffects.label.spentPower": "Total Spent Power",
 

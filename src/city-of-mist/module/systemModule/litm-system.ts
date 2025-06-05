@@ -14,7 +14,14 @@ export class LitMSystem extends MistEngineSystem {
 
 	 themeTypes() {
 		return {
-			"Origin"
+			"Adventure": {
+			},
+			"Origin": {
+			}
+			"Greatness": {
+				localization: "
+
+			}
 
 		} satisfies Record<string, ThemeTypeInfo>;
 	}
