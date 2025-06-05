@@ -240,6 +240,10 @@ h1#Theme\ Header p {
 	margin: 0;
 }
 
+.window-content button {
+	font-family: "Rift Bold";
+}
+
 button {
 	margin: 0 1px;
 	border: 2px solid #321c3a;
@@ -248,7 +252,7 @@ button {
 	border-radius: 4px;
 	display: inline-block;
 	position: relative;
-	font-family: "Rift Bold";
+	/* font-family: "Rift Bold"; Caused errors with layout*/
 	font-weight: bold;
 	text-transform: uppercase;
 	background: rgb(21 21 21 / 80%);

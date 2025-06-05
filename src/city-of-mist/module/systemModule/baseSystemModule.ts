@@ -42,15 +42,18 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return move.hasEffectClass("CREATE_TAGS");
 	}
 
-	themeDecreaseName(theme: Theme) {
-		const themetype = theme.getThemeType();
-		return localize(this.themeTypes()[themetype].decreaseLocalization);
-	}
+	// themeDecreaseName(theme: Theme) {
+	// 	// return "";
+	// 	const themetype = theme.getThemeType();
+	// 	return localize(this.themeTypes()[themetype].decreaseLocalization);
+	// }
 
-	themeIncreaseName(theme: Theme) {
-		const themetype = theme.getThemeType();
-		return localize(this.themeTypes()[themetype].increaseLocalization);
-	}
+	// themeIncreaseName(theme: Theme) {
+	// 	// return "";
+	// 	const themetype = theme.getThemeType();
+	// 	if (!themetype) return;
+	// 	return localize(this.themeTypes()[themetype].increaseLocalization);
+	// }
 
 
 	isActive() : boolean {
@@ -137,8 +140,8 @@ export interface SystemModuleI {
 	downtimeTemplate(actor: CityActor) : Promise<string>;
 	onChangeTo (): Promise<void>;
 	activate(): Promise<void>;
-	themeIncreaseName(theme: Theme): string;
-	themeDecreaseName(theme: Theme): string;
+	// themeIncreaseName(theme: Theme): string;
+	// themeDecreaseName(theme: Theme): string;
 	collectiveTermName(): string;
 	loadoutThemeName(): string;
 	canCreateTags(move: Move): boolean;

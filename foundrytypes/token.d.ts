@@ -1,26 +1,38 @@
-class TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends FoundryDocument<never>
-	{
-		actorId: string;
-		actorLink: boolean;
-		get actor() : T | undefined;
-		parent: Scene;
-		name: string;
-		baseActor: T;
-		get object(): Token<T> | null
-		private _object: Token<T>;
-		override get documentName(): "token";
-		get inCombat(): boolean;
-		get combatant(): Combatant;
-		get isLinked(): boolean;
-		sight: SightObject;
-		x: number;
-		y: number;
-		img: string
-		visible: boolean;
-		hidden: boolean;
-}
+namespace Foundry {
 
- type SightObject = Record < string, any>;
+	interface TokenDocumentConstructor extends DocumentConstructor {
+		new <T extends Actor<any, any, any> = Actor<any>>(...args: unknown[]) : TokenDocument<T>;
+
+	}
+
+	// class TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends FoundryDocument<never>
+	interface TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends Document<never>
+		{
+			actorId: string;
+			actorLink: boolean;
+			get actor() : T | undefined;
+			parent: Scene;
+			name: string;
+			baseActor: T;
+			get object(): Token<T> | null
+			private _object: Token<T>;
+			documentName: "token";
+			get inCombat(): boolean;
+			get combatant(): Combatant;
+			get isLinked(): boolean;
+			sight: SightObject;
+			x: number;
+			y: number;
+			img: string
+			visible: boolean;
+			hidden: boolean;
+		}
+
+	type SightObject = Record < string, any>;
+}
+declare const TokenDocument : Foundry.TokenDocumentConstructor;
+type TokenDocument<T extends Actor<any, any, any> = Actor<any>> = Foundry.TokenDocument<T>;
+
 
 
 //this is canvas stuff so I've ignored it for now

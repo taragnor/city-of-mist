@@ -1544,7 +1544,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		// const l = localize;
 		switch (term) {
 			case "attention" :
-				return SystemModule.active.themeIncreaseName(this);
+				return SystemModule.themeIncreaseName(this);
 				// switch (system) {
 				// 	case "city-of-mist":
 				// 		return l("CityOfMist.terms.attention");
@@ -1555,7 +1555,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 				// }
 			case "fade":
-				return SystemModule.active.themeDecreaseName(this);
+				return SystemModule.themeDecreaseName(this);
 				// try {
 				// 	if (!this.themebook)
 				// 		return "";

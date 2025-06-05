@@ -432,7 +432,7 @@ export class CityDialogs {
 
 	}
 
-	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: ChatSpeakerObject} = {}) {
+	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: Foundry.ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
 		// const render = options?.disable ? (args: string[]) => {
 		// 	console.log("Trying to disable");

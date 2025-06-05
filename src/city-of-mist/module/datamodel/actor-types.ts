@@ -104,5 +104,5 @@ export const ACTORMODELS = {
 	crew: CrewSchema
 } as const;
 
-type testCharacter = SystemDataObjectFromDM<typeof CharacterSchema>;
+// type testCharacter = SystemDataObjectFromDM<typeof CharacterSchema>;
 

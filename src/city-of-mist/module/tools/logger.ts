@@ -13,20 +13,20 @@ export class Logger {
 		let messageData = {
 			speaker: speaker,
 			content: text,
-			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
+			style: CONST.CHAT_MESSAGE_STYLES.WHISPER,
 			whisper: gmIds
 		};
 		return await ChatMessage.create(messageData, {});
 	}
 
-	static async sendToChat(text:string, sender:ChatSpeakerObject= {}) {
+	static async sendToChat(text:string, sender: Foundry.ChatSpeakerObject= {}) {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
 		let messageData = {
 			speaker: speaker,
 			content: text,
-			type: CONST.CHAT_MESSAGE_TYPES.OOC
+			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 		};
 		ChatMessage.create(messageData, {});
 		return messageData;
@@ -46,11 +46,11 @@ export class Logger {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
-		let type = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_TYPES.OOC :  CONST.CHAT_MESSAGE_TYPES.WHISPER;
+		let style = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_STYLES.OOC :  CONST.CHAT_MESSAGE_STYLES.WHISPER;
 		let messageData : MessageData<Roll>= {
 			speaker: speaker,
 			content: text,
-			type,
+			style,
 			user: sender.altUser,
 			//@ts-ignore
 			isWhisper: false,
@@ -60,8 +60,8 @@ export class Logger {
 			messageData.user = sender.altUser;
 		}
 		if (whisperTarget) {
-			const recipients = game.users.contents.filter(x=> x.isGM).map(x=> x.id);
-			recipients.push(whisperTarget);
+			const recipients = game.users.contents.filter(x=> x.isGM);
+			recipients.push(game.users.get(whisperTarget)!);
 			messageData.whisper = recipients;
 		}
 		const msg = await ChatMessage.create(messageData, {});

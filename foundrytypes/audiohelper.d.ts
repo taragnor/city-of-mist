@@ -11,6 +11,7 @@ module FOUNDRY.AUDIO {
 
 	class AudioHelper {
 		static async play (options: AudioOptions, pushToAll?: SocketOptions | boolean): Promise<Sound>;
+		static async preloadSound(src: string): Promise<Sound>;
 	}
 
 	type AudioOptions = {

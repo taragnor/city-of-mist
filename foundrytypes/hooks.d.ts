@@ -19,8 +19,8 @@ declare interface HOOKS {
 	"preCreateItem": PreCreateHook<Item>;
 	"preCreateChatMessage": PreCreateHook<ChatMessage>;
 	"createChatMessage": CreateHook<ChatMessage>;
-	"preUpdateActor": UpdateHook<Actor>;
-	"preUpdateItem": UpdateHook<Item>;
+	"preUpdateActor": UpdateHook<Actor<any>>;
+	"preUpdateItem": UpdateHook<Item<any>>;
 	"preUpdateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
 	"preUpdateWall": UpdateHook<WallDocument>;
 	"deleteCombat": DeleteHook<Combat>;
@@ -28,7 +28,7 @@ declare interface HOOKS {
 	"createItem": CreateHook<Item<any>>;
 	"createToken": CreateHook<TokenDocument<any>>;
 	"createScene": CreateHook<Scene>;
-	"createCombatant": CreateHook<Combatant>;
+	"createCombatant": CreateHook<Combatant<any>>;
 	"createActiveEffect": CreateHook<ActiveEffect>;
 	"createWall": CreateHook<WallDocument>;
 	"updateToken": UpdateHook<TokenDocument<any>>;
@@ -43,12 +43,13 @@ declare interface HOOKS {
 	"updateScene": UpdateHook<Scene>;
 	"updateItem": UpdateHook<Item<any>>;
 	"updateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
-	"updateActor": UpdateHook<Actor>;
+	"updateActor": UpdateHook<Actor<any>>;
 	"updateWall": UpdateHook<WallDocument>;
 	"updateRegion": UpdateHook<RegionDocument>;
 	"updateSetting": UpdateHook<Setting<unknown>>;
 	"preUpdateSetting": UpdateHook<Setting<unknown>>;
 	"getSceneControlButtons": Function;
+	"renderActorSheet": Function;
 	"renderJournalDirectory": Function;
 	"renderCombatTracker": RenderCombatTabFn;
 	"renderApplication": Function;

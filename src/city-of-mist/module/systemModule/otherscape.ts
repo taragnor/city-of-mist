@@ -79,7 +79,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 
 	async determineEssence(actor : PC) {
 		if (!CitySettings.get("autoEssence")) return;
-		const essence = OtherScapeSystem.determineEssenceFromThemes(actor.mainThemes);
+		const essence = OtherscapeSystem.determineEssenceFromThemes(actor.mainThemes);
 		if (essence) {
 			await actor.setEssence(essence);
 		}
@@ -244,8 +244,8 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return {
 			...super.systemSettings(),
 			"autoEssence": {
-				name: localize("CityOfMist.settings.autoEssence.name"),
-				hint: localize("CityOfMist.settings.autoEssence.hint"),
+				name: localize("Otherscape.settings.autoEssence.name"),
+				hint: localize("Otherscape.settings.autoEssence.hint"),
 				scope: "client",
 				config: true,
 				type: Boolean,

@@ -178,16 +178,18 @@ Hooks.on("renderJournalDirectory", async () => {
 });
 
 Hooks.on("getSceneControlButtons", function(controls:any) {
-	let tileControls = controls.find((x:any) => x.name === "token");
-	if (game.user.isGM){
-		tileControls.tools.push({
-			icon: "fas fa-medkit",
-			name: "city-of-mist-status-tracker",
-			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
-			button: true,
-			onClick: () => StatusTrackerWindow._instance.render(true)
-		});
-	}
+	//disabling status tracker as V13 didn't like it 
+	//TODO: fix later, not sure how many people use this feature
+	// let tileControls = controls.find((x:any) => x.name === "tokens");
+	// if (game.user.isGM){
+	// 	tileControls.tools.push({
+	// 		icon: "fas fa-medkit",
+	// 		name: "city-of-mist-status-tracker",
+	// 		title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
+	// 		button: true,
+	// 		onClick: () => StatusTrackerWindow._instance.render(true)
+	// 	});
+	// }
 });
 
 Hooks.on("renderApplication", function() {

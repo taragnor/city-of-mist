@@ -1,3 +1,5 @@
+import { Theme } from "../city-item.js";
+import { localize } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { SystemModuleI } from "../systemModule/baseSystemModule.js";
 import { CoMSystem } from "../systemModule/com-system.js";
@@ -70,6 +72,17 @@ export abstract class SystemModule {
 		return retobj;
 	}
 
+	static themeDecreaseName(theme: Theme) {
+		// return "";
+		const themetype = theme.getThemeType();
+		return localize(this.allThemeTypes()[themetype].decreaseLocalization);
+	}
+
+	static themeIncreaseName(theme: Theme) {
+		const themetype = theme.getThemeType();
+		return localize(this.allThemeTypes()[themetype].decreaseLocalization);
+
+	}
 	static setActiveStyle( system: SystemModuleI) {
 		const body = $(document).find("body");
 		for (const {name} of this.systems.values()) {
