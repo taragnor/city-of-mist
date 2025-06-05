@@ -73,7 +73,6 @@ export abstract class SystemModule {
 	}
 
 	static themeDecreaseName(theme: Theme) {
-		// return "";
 		const themetype = theme.getThemeType();
 		return localize(this.allThemeTypes()[themetype].decreaseLocalization);
 	}

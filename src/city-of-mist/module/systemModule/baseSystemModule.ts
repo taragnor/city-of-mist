@@ -140,8 +140,6 @@ export interface SystemModuleI {
 	downtimeTemplate(actor: CityActor) : Promise<string>;
 	onChangeTo (): Promise<void>;
 	activate(): Promise<void>;
-	// themeIncreaseName(theme: Theme): string;
-	// themeDecreaseName(theme: Theme): string;
 	collectiveTermName(): string;
 	loadoutThemeName(): string;
 	canCreateTags(move: Move): boolean;

@@ -1811,7 +1811,7 @@ div.bio-header {
 	justify-content: flex-start;
 }
 
-div.juice-tab {
+section#juice-section {
 	display: flex;
 	flex-direction: column;
 }
