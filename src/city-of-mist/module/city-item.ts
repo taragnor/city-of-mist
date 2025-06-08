@@ -1298,6 +1298,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				} else if (typeof data == "object") {
 					({question, subtag} = data);
 				}
+				if (question == "ERROR" || !question) {
+					question = SystemModule.active.localizedThemeBookQuestions(this, `${type}-question`, letter);
+				}
 				return { letter,question, subtag};
 			}).filter( item => !item.question.includes("_DELETED_"));
 	}
@@ -1500,21 +1503,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 		let motivation = tb.system.motivation;
 		if (!motivation) {
-			switch (tb.system.subtype) {
-				case "Logos":
-					motivation= "identity";
-					break;
-				case "Mythos":
-					motivation = "mystery";
-					break;
-				case "Mist":
-					motivation = "directive";
-					break;
-				default:
-					throw new Error(`No motivation for theme ${this.name}`);
-			}
+			return SystemModule.themeIdentityName(this as Theme);
+		} else {
+			return localize (MOTIVATIONLIST[motivation]);
 		}
-		return localize (MOTIVATIONLIST[motivation]);
 	}
 
 	themeSortValue(this: Theme) : number {

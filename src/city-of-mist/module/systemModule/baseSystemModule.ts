@@ -1,3 +1,4 @@
+import { Themebook } from "../city-item.js";
 import { CityItem } from "../city-item.js";
 import { localizeS } from "../tools/handlebars-helpers.js";
 import { CityItemSheetLarge } from "../city-item-sheet.js";
@@ -41,7 +42,31 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return "";
 	}
 
-	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description") : string {
+	localizedThemeBookQuestions(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string {
+		let target: string = "";
+		switch (field) {
+			case "power-question":
+				target = `questions.power.${numOrLetter}`;
+				break;
+			case "weakness-question":
+				target = `questions.weakness.${numOrLetter}`;
+				break;
+			case "improvement-name":
+				target = `improvement.${numOrLetter}.name`;
+				break;
+			case "improvement-description":
+				target = `improvement.${numOrLetter}.name`;
+				break;
+		}
+		const loc = this.lookupLocalizationProperty(tb, target);
+		if (loc) return loc;
+		const pageRefTarget = `pageref`;
+		const pageRef = this.lookupLocalizationProperty(tb, pageRefTarget);
+		if (pageRef) return pageRef;
+		return "";
+	}
+
+	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description" | (string & {})) : string {
 		if ("systemName" in doc.system) {
 			const sysName = doc.system.systemName || "generic";
 			const locName  =this.localizationStarterName;
@@ -146,7 +171,6 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		if (!templateLoc) {
 			const msg = `No sheet header provided for ${actor.system.type}`;
 			ui.notifications.error(msg);
-			console.error(msg);
 			return `ERROR: ${msg}`;
 		}
 		return await renderTemplate(templateLoc, {actor});
@@ -174,6 +198,7 @@ export interface SystemModuleI {
 	directoryName(actor: CityActor): string;
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
+	localizedThemeBookQuestions(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
 }
 
 export type ThemeTypeInfo = {
@@ -181,4 +206,7 @@ export type ThemeTypeInfo = {
 	sortOrder: number,
 	decreaseLocalization: string,
 	increaseLocalization: string,
+	identityName: string, //identity, Mystery, Directive, etc.
 }
+
+type ThemebookField = "power-question" | "weakness-question" | "improvement-name" | "improvement-description";

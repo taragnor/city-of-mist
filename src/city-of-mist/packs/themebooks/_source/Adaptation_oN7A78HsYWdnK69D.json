@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 200000,
   "flags": {
-    "core": {
-      "sourceId": "Item.ZS85ODwzYVr4Uuku"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -111,7 +109,9 @@
       }
     },
     "localeName": "#CityOfMist.themebook.adaption.name",
-    "subtype": "Mythos"
+    "subtype": "Mythos",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Adaptation"
   },
   "ownership": {
     "default": 0,
@@ -119,13 +119,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364136407,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.ZS85ODwzYVr4Uuku",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!oN7A78HsYWdnK69D"
 }

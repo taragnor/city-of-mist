@@ -105,7 +105,8 @@
     "motivation": "identity",
     "fade_type": "crack",
     "system_compatiblity": "city-of-mist",
-    "locale_name": "#CityOfMist.themebook.tradition.name"
+    "locale_name": "#CityOfMist.themebook.tradition.name",
+    "systemName": "Tradition"
   },
   "effects": [],
   "sort": 0,
@@ -116,13 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "3.0.7",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1715984792921,
-    "modifiedTime": 1715985347406,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364297604,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!0DeYkksmQPGfBgXb"
 }

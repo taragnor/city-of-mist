@@ -158,9 +158,11 @@
 "Otherscape.terms.decay": "Decay",
 "Otherscape.terms.upgrade": "Upgrade",
 "Otherscape.terms.collective" : "Scale",
+"Otherscape.terms.crewIdentity" : "Crew Goal",
 "Otherscape.terms.scale" : "Scale",
 "Otherscape.terms.crew" : "Crew",
 "Otherscape.terms.crewRelationship" : "Crew Relationships",
+"Otherscape.terms.identity": "Identity",
 "Otherscape.terms.essence" : "Essence",
 
 "Otherscape.tooltip.createRelationshipTag": "Create Relationship Tag",
@@ -1029,6 +1031,25 @@
 "CityOfMist.notification.reloadRequired" : "Browser Window will reload shortly for all players due to setting change",
 
 "CityOfMist.logger.action.changeActiveExtra": "Changes active extra to:",
-"CityOfMist.logger.action.changeActiveCrew": "Changes active Crew Theme to:"
+"CityOfMist.logger.action.changeActiveCrew": "Changes active Crew Theme to:",
+
+"Legend.themebook.Circumstance.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Devotion.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Past.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.People.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Personality.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.SkillOrTrade.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Trait.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Duty.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Influence.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Knowledge.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Prodigious Ability.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Relic.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.UncannyBeing.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Destiny.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Dominion.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Mastery.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.Monstrosity.pageref": "See Page XXX in LitM Core book"
+
 
 }

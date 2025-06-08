@@ -11,13 +11,15 @@
 			<select name="system.subtype">
 				{{selectOptions THEMESUBTYPES localize=true selected=item.system.subtype}}
 			</select>
-			<select name="system.motivation">
-				{{selectOptions MOTIVATIONLIST localize=true selected=item.system.motivation}}
-			</select>
-			<select name="system.fade_type">
-				{{selectOptions FADE_TYPE_LIST localize=true selected=item.system.fade_type}}
-			</select>
 			{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
+			{{#if (devMode)}}
+			<div>
+				<label>
+					System Name
+				</label>
+				<input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
+			</div>
+			{{/if}}
 		</div>
 		<label class="dialog-label" for="free-content"> Allow Override </label>
 		<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable themebook of same name"> <br>

@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 1100000,
   "flags": {
-    "core": {
-      "sourceId": "Item.A10DIQmHrtwifSMS"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your abilities to seek answers to burning questions, roll+Power.",
@@ -53,12 +51,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
     "lastModifiedBy": "XObjulrAnIfZ284S",
     "compendiumSource": "Item.A10DIQmHrtwifSMS",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!3dc8uTebFu3GX7op"
 }

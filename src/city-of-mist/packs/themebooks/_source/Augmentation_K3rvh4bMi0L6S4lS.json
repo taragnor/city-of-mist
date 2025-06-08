@@ -107,7 +107,8 @@
     "motivation": "itch",
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
-    "locale_name": "#Otherscape.themebook.augmentation.name"
+    "locale_name": "#Otherscape.themebook.augmentation.name",
+    "systemName": "Augmentation"
   },
   "effects": [],
   "sort": 0,
@@ -118,13 +119,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1711932016584,
-    "modifiedTime": 1711934137415,
+    "modifiedTime": 1749364348070,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!K3rvh4bMi0L6S4lS"
 }

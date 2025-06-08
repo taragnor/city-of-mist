@@ -23,25 +23,28 @@ export class LitMSystem extends MistEngineSystem {
 				sortOrder: 1,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				identityName: "Legend.terms.quest",
 			},
 			"Adventure": {
 				localization: "Legend.terms.adventure",
 				sortOrder: 2,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				identityName: "Legend.terms.quest",
 			},
 			"Greatness": {
 				localization: "Legend.terms.greatness",
 				sortOrder: 3,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				identityName: "Legend.terms.quest",
 			}
 
 		} satisfies Record<string, ThemeTypeInfo>;
 	}
 
 	headerTable = {
-		character: "",
+		character: "systems/city-of-mist/templates/litm/pc-sheet-header.hbs",
 		threat: "",
 		crew: ""
 	}

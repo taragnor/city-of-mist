@@ -105,7 +105,8 @@
     "motivation": "motivation",
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
-    "locale_name": "#Otherscape.terms.crew"
+    "locale_name": "#Otherscape.terms.crew",
+    "systemName": "Crew"
   },
   "effects": [],
   "sort": 0,
@@ -116,13 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1712169316135,
-    "modifiedTime": 1712169496361,
+    "modifiedTime": 1749364359024,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!ayN2BXLJ2IgQyfh8"
 }

@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 1900000,
   "flags": {
-    "core": {
-      "sourceId": "Item.amaV4ctPsHDW4txq"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -111,7 +109,9 @@
       }
     },
     "localeName": "#CityOfMist.themebook.bastion.name",
-    "subtype": "Mythos"
+    "subtype": "Mythos",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Bastion"
   },
   "ownership": {
     "default": 0,
@@ -119,13 +119,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364147030,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.amaV4ctPsHDW4txq",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!mST8BN0opZNnsiJw"
 }

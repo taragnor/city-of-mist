@@ -8,7 +8,7 @@
     "description": "",
     "locked": false,
     "version": "1",
-    "free_content": false,
+    "free_content": true,
     "subtype": "Loadout",
     "power_questions": {},
     "weakness_questions": {},
@@ -16,7 +16,8 @@
     "motivation": "motivation",
     "fade_type": "fade",
     "system_compatiblity": "legend",
-    "locale_name": ""
+    "locale_name": "",
+    "systemName": "Backpack"
   },
   "effects": [],
   "sort": 100000,
@@ -27,13 +28,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1711932473939,
-    "modifiedTime": 1712593832225,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364643669,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!kUq6h7ih0qmOVNTm"
 }

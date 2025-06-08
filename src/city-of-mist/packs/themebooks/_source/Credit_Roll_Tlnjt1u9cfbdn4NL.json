@@ -52,7 +52,7 @@
       }
     ],
     "subtype": "noroll",
-    "theme_class": "",
+    "theme_class": "Logos",
     "category": "Advanced",
     "system_compatiblity": "otherscape",
     "locale_name": "#Otherscape.moves.creditRoll.name",
@@ -74,13 +74,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1712170309753,
-    "modifiedTime": 1712594125492,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364317991,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!Tlnjt1u9cfbdn4NL"
 }

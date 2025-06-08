@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 150000,
   "flags": {
-    "core": {
-      "sourceId": "Item.DVCsN3gFxYC591ns"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -110,7 +108,9 @@
         "effect_class": ""
       }
     },
-    "subtype": "Mythos"
+    "subtype": "Mythos",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Relic"
   },
   "ownership": {
     "default": 0,
@@ -118,13 +118,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669230832,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364257714,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.DVCsN3gFxYC591ns",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!b9cXJ12RlHpigpF5"
 }

@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 300000,
   "flags": {
-    "core": {
-      "sourceId": "Item.I2AVbfXVxhrQ2E8Q"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -110,7 +108,9 @@
         "effect_class": "THEME_DYN_SELECT"
       }
     },
-    "motivation": "identity"
+    "motivation": "identity",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Personality"
   },
   "ownership": {
     "default": 0,
@@ -118,13 +118,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364251159,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.I2AVbfXVxhrQ2E8Q",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!WUNJcnSqW6o8Ky0p"
 }

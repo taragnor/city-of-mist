@@ -41,25 +41,29 @@ export class OtherscapeSystem extends MistEngineSystem {
 				localization: "Otherscape.terms.loadoutTheme.name",
 				sortOrder: 4,
 				increaseLocalization: "Otherscape.terms.upgrade",
-				decreaseLocalization: "Otherscape.terms.decay"
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.crewIdentity",
 			},
 			"Noise": {
 				localization:	"Otherscape.terms.noise",
 				sortOrder: 2,
 				increaseLocalization: "Otherscape.terms.upgrade",
-				decreaseLocalization: "Otherscape.terms.decay"
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.itch",
 			},
 			"Self": {
 				localization: "Otherscape.terms.self",
 				sortOrder: 3,
 				increaseLocalization: "Otherscape.terms.upgrade",
-				decreaseLocalization: "Otherscape.terms.decay"
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.identity",
 			},
 			"Mythos-OS": {
 				localization: "Otherscape.terms.mythos",
 				sortOrder: 1,
 				increaseLocalization: "Otherscape.terms.upgrade",
-				decreaseLocalization: "Otherscape.terms.decay"
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.ritual",
 			}
 		} satisfies Record<string, ThemeTypeInfo>;
 	}

@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 112500,
   "flags": {
-    "core": {
-      "sourceId": "Item.6eIMcOSx8uqAGuFg"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -37,12 +35,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
     "lastModifiedBy": "XObjulrAnIfZ284S",
     "compendiumSource": "Item.6eIMcOSx8uqAGuFg",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!chE3bqPNCIWNndkr"
 }

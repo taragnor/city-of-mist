@@ -27,19 +27,18 @@
     "XObjulrAnIfZ284S": 3
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.ayDTXyEFfX14tn3l"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "coreVersion": "13.345",
     "createdTime": 1683271982905,
     "modifiedTime": 1712594110605,
     "lastModifiedBy": "XObjulrAnIfZ284S",
     "compendiumSource": "Item.ayDTXyEFfX14tn3l",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 1000000,

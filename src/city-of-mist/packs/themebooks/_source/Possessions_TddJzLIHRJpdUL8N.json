@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 100000,
   "flags": {
-    "core": {
-      "sourceId": "Item.5nHOn6MBy6vHzJdE"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -110,7 +108,9 @@
         "effect_class": ""
       }
     },
-    "motivation": "identity"
+    "motivation": "identity",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Possessions"
   },
   "ownership": {
     "default": 0,
@@ -118,13 +118,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364254846,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.5nHOn6MBy6vHzJdE",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!TddJzLIHRJpdUL8N"
 }

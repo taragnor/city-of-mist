@@ -7,9 +7,7 @@
   "folder": "KYLLQKGmHQGXNTgn",
   "sort": 101563,
   "flags": {
-    "core": {
-      "sourceId": "Item.fX8cinAG9vezO9yq"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -110,7 +108,9 @@
         "effect_class": "THEME_DYN_SELECT"
       }
     },
-    "motivation": "identity"
+    "motivation": "identity",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Training"
   },
   "ownership": {
     "default": 0,
@@ -118,13 +118,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669234914,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364300550,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.fX8cinAG9vezO9yq",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!av7nmMtNtyfM3EyC"
 }

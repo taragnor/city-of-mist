@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 1700000,
   "flags": {
-    "core": {
-      "sourceId": "Item.0G7i9lEKkDjBgl8e"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your abilities to avoid an incoming hit, endure harm, resist a malign influence, or hold it together, the MC (or player) will name a status with its tag and tier. Roll+Power.",
@@ -46,12 +44,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
     "lastModifiedBy": "XObjulrAnIfZ284S",
     "compendiumSource": "Item.0G7i9lEKkDjBgl8e",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!9dNDte49ybICPwNB"
 }

@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 1300000,
   "flags": {
-    "core": {
-      "sourceId": "Item.dTjH6kXA1mMvw5tO"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your abilities to overcome someone or something in a struggle for control, state what your goal is. Your opponent can describe how they respond, at their option.",
@@ -50,12 +48,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
     "lastModifiedBy": "XObjulrAnIfZ284S",
     "compendiumSource": "Item.dTjH6kXA1mMvw5tO",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!BkuL3WEsBMRYwXPr"
 }

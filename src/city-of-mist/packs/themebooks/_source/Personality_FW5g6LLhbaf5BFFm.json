@@ -105,7 +105,8 @@
     "motivation": "identity",
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
-    "locale_name": "#Otherscape.themebook.personality.name"
+    "locale_name": "#Otherscape.themebook.personality.name",
+    "systemName": "Personality"
   },
   "effects": [],
   "sort": 0,
@@ -116,13 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1711931323395,
-    "modifiedTime": 1711932794948,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364388978,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!FW5g6LLhbaf5BFFm"
 }

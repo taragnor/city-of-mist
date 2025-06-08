@@ -105,7 +105,8 @@
     "motivation": "mystery",
     "fade_type": "fade",
     "system_compatiblity": "city-of-mist",
-    "locale_name": "#CityOfMist.themebook.esoterica.name"
+    "locale_name": "#CityOfMist.themebook.esoterica.name",
+    "systemName": "Esoterica"
   },
   "effects": [],
   "sort": 0,
@@ -116,13 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "3.0.7",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1715985441977,
-    "modifiedTime": 1715985664988,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364183370,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!9hZ78zaiBAfOWD9d"
 }

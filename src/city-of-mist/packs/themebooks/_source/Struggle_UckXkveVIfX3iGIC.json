@@ -107,7 +107,9 @@
         "effect_class": ""
       }
     },
-    "motivation": "identity"
+    "motivation": "identity",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Struggle"
   },
   "ownership": {
     "default": 0,
@@ -115,13 +117,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "12.331",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669233432,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749364269245,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!UckXkveVIfX3iGIC"
 }

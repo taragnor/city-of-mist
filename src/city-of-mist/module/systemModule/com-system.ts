@@ -58,24 +58,28 @@ export class CoMSystem extends CoMTypeSystem {
 				sortOrder : 3,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crack",
+				identityName: "CityOfMist.terms.identity",
 			},
 			"Mythos": {
 				localization: "CityOfMist.terms.mythos",
 				sortOrder: 1,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.fade",
+				identityName: "CityOfMist.terms.mystery",
 			},
 			"Mist": {
 				localization: "CityOfMist.terms.mist",
 				sortOrder: 2,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.strike",
+				identityName: "CityOfMist.terms.directive",
 			},
 			"Crew": {
 				localization:"CityOfMist.themebook.crew.name",
 				sortOrder: 5,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
+				identityName: "CityOfMist.terms.identity",
 			}
 		} satisfies Record<string, ThemeTypeInfo>;
 	}
