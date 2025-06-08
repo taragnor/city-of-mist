@@ -30,10 +30,12 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "coreVersion": "12.331",
     "createdTime": 1712593953050,
     "modifiedTime": 1712593953050,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "jdcknsukMloN8yEZ",
   "sort": 0,

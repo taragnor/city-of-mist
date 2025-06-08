@@ -34,10 +34,12 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "coreVersion": "12.331",
     "createdTime": 1683273715819,
     "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": "Item.EDNVwAdu64ATXVFh",
+    "duplicateSource": null
   },
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 500000,

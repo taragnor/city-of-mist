@@ -80,7 +80,6 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			default: break;
 		}
 		if ("description" in this.system)  {
-			debugger;
 			return SystemModule.active.localizedDescription(this);
 			// return this.system.description;
 		}

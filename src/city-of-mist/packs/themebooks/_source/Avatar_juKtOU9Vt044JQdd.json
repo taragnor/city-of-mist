@@ -1,0 +1,37 @@
+{
+  "folder": "SEKv8a66l2l9Rmbl",
+  "name": "Avatar",
+  "type": "essence",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "#Otherscape.essence.generic.description",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "system_compatiblity": "otherscape",
+    "expended": false,
+    "locale_name": "",
+    "systemName": "Avatar",
+    "effect_class": ""
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749349803194,
+    "modifiedTime": 1749349803194,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "_id": "juKtOU9Vt044JQdd",
+  "sort": 0,
+  "_key": "!items!juKtOU9Vt044JQdd"
+}
