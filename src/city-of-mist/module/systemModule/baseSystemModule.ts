@@ -64,7 +64,6 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
 		Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
 		Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
-
 	}
 
 	registerItemSheets() {

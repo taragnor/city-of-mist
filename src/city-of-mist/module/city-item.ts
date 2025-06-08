@@ -1540,57 +1540,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	getThemePropertyTerm(this:Theme, term: "attention" | "fade") : string {
-		// const system = CitySettings.get("baseSystem");
-		// const l = localize;
 		switch (term) {
 			case "attention" :
 				return SystemModule.themeIncreaseName(this);
-				// switch (system) {
-				// 	case "city-of-mist":
-				// 		return l("CityOfMist.terms.attention");
-				// 	case "otherscape":
-				// 		return l("Otherscape.terms.upgrade");
-				// 	case "legend":
-				// 		return l("Legend.terms.experience");
-
-				// }
 			case "fade":
 				return SystemModule.themeDecreaseName(this);
-				// try {
-				// 	if (!this.themebook)
-				// 		return "";
-				// }
-				// catch (e) {return "ERROR";}
-				// if (!this.themebook)
-				// 	return "";
-				// switch (system) {
-				// 	case "otherscape":
-				// 		return l("Otherscape.terms.decay");
-				// 	case "city-of-mist": break;
-				// 	case "legend": break;
-				// default:
-				// 	system satisfies never;
-				// let fadetype : FadeType = "decay";
-				// const themeType = this.getThemeType();
-				// if (this.themebook.system.fade_type != "default") {
-				// 	fadetype = this.themebook.system.fade_type;
-				// } else {
-				// 	if (CitySettings.getBaseSystem() != "city-of-mist") {
-				// 		fadetype = "decay";
-				// 	}
-				// 	else {
-				// 		const CoMType = CityItem.getCoMdefaultFade(themeType);
-				// 		if (CoMType == "crew") {
-				// 			return l(FADETYPELIST["fade"]) + " / " + l(FADETYPELIST["crack"]);
-				// 		} else {
-				// 			fadetype = CoMType;
-				// 		}
-				// 	}
-				// }
-				// return l(FADETYPELIST[fadetype]);
-			// default:
-			// 	term satisfies never;
-			// 	throw new Error(`trying to get non-existent term ${term}`);
+			default: 
+				ui.notifications.error(`Unknown Term: ${term}`);
+				return "ERROR";
 		}
 	}
 
