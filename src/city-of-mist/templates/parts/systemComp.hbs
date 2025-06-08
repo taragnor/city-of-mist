@@ -3,11 +3,12 @@
 	<label>
 		{{localize "Generic.terms.compatibleWith"}}
 	</label>
-	<input list="systems" name="system.system_compatiblity" value="{{item.system.system_compatiblity}}"> </label>
-<datalist id="systems">
-	{{#each (keys TBSYSTEMLIST) as |system i|}}
-	<option value="{{system}}">
-	{{/each}}
-</datalist>
+	{{#if (or (not item.system.system_compatiblity)(recordContains TBSYSTEMLIST item.system.system_compatiblity))}}
+	<select name="system.system_compatiblity">
+		{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
+	</select>
+	{{else}}
+	<b>{{item.system.system_compatbility}}</b>
+	{{/if}}
 </div>
 {{/if}}

@@ -1,3 +1,5 @@
+import { CityItem } from "../city-item.js";
+import { localizeS } from "../tools/handlebars-helpers.js";
 import { CityItemSheetLarge } from "../city-item-sheet.js";
 import { CityItemSheetSmall } from "../city-item-sheet.js";
 import { CityCharacterSheet } from "../city-character-sheet.js";
@@ -14,6 +16,41 @@ import { Move } from "../city-item.js";
 import { CitySettings } from "../settings.js";
 
 export abstract class BaseSystemModule implements SystemModuleI {
+
+	localizedName(doc: CityActor | CityItem): string {
+		if ("locale_name" in doc.system && doc.system.locale_name) {
+			return localizeS(doc.system.locale_name).toString();
+		}
+
+		const lnName = this.lookupLocalizationProperty(doc, "name");
+		if (lnName) return lnName;
+		return doc.name;
+	}
+
+	localizedDescription(doc: CityActor | CityItem) : string {
+		if ("description" in doc.system) {
+			const description = doc.system.description;
+			if (description.startsWith("#")) return localizeS(description).toString();
+			if (!description) {
+				const lnDescription = this.lookupLocalizationProperty(doc, "description");
+				if (lnDescription) return lnDescription;
+				return description ?? "";
+			}
+			return description;
+		}
+		return "";
+	}
+
+	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description") : string {
+		if ("systemName" in doc.system) {
+			const sysName = doc.system.systemName || "generic";
+			const locName  =this.localizationStarterName;
+			const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
+			const x = localize(locStr);
+			if (x!= locStr) return x;
+		}
+		return "";
+	}
 
 	directoryName(actor: CityActor): string {
 		return actor.name;
@@ -135,6 +172,8 @@ export interface SystemModuleI {
 	canCreateTags(move: Move): boolean;
 	themeTypes(): Record<string, ThemeTypeInfo>;
 	directoryName(actor: CityActor): string;
+	localizedName(doc: CityActor | CityItem): string;
+	localizedDescription(doc: CityActor | CityItem) : string;
 }
 
 export type ThemeTypeInfo = {

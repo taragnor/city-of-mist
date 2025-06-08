@@ -335,7 +335,8 @@ export class CityDB extends DBAccessor {
 
 	static essences() : Essence [] {
 		const essences = this.allItems().filter( item =>
-			item.system.type == "essence"
+			item.system.type == "essence" &&
+			item.isCompatible()
 		) as Essence[];
 		return essences.filter(this.filterBestVersion);
 	}
@@ -346,7 +347,7 @@ export class CityDB extends DBAccessor {
 
 	static getEssenceBySystemName(name: keyof EssenceNames) : Essence | undefined {
 		return this.essences().find( item =>
-			item.systemName == name);
+			item.system.systemName == name);
 	}
 
 	static override allItems() : CityItem[] {

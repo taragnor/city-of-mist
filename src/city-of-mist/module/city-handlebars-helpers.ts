@@ -413,6 +413,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"keys": function (obj: Object) : string[] {
 			return Object.keys(obj);
+		},
+
+		"recordContains": function (rec: Record<string,string>, val : string) : boolean {
+			return rec[val] != undefined;
 		}
 
 	} //end of object holding helpers

@@ -339,15 +339,15 @@ export class CityItemSheetLarge extends CityItemSheet {
 }
 
 export class CityItemSheetSmall extends CityItemSheet {
-		/** @override */
-		static override get defaultOptions() {
-					const [width, height] = [600, 300 ];
-					return foundry.utils.mergeObject(super.defaultOptions, {
-									classes: ["city-of-mist", "sheet", "item"],
-									width,
-									height,
-									tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
-								});
-				}
+	/** @override */
+	static override get defaultOptions() {
+		const [width, height] = [600, 300 ];
+		return foundry.utils.mergeObject(super.defaultOptions, {
+			classes: ["city-of-mist", "sheet", "item"],
+			width,
+			height,
+			tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
+		});
+	}
 }
 

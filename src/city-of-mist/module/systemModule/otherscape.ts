@@ -1,3 +1,4 @@
+import { CityItemSheetSmall } from "../city-item-sheet.js";
 import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { RollDialog } from "../roll-dialog.js";
 import { MistRoll } from "../mist-roll.js";
@@ -19,14 +20,6 @@ export class OtherscapeSystem extends MistEngineSystem {
 	override get localizationStarterName() {
 		return "Otherscape" as const;
 	}
-
-	// override themeIncreaseName(_theme: Theme) {
-	// 	return localize("Otherscape.terms.upgrade");
-	// }
-
-	// override themeDecreaseName(_theme: Theme) {
-	// 	return localize("Otherscape.terms.decay");
-	// }
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
@@ -133,9 +126,14 @@ export class OtherscapeSystem extends MistEngineSystem {
 	override async activate() {
 		super.activate();
 		for (const [name, data] of Object.entries(this.systemSettings())) {
-			game.settings.register("city-of-mist", name, data)
+			game.settings.register("city-of-mist", name, data);
 		}
 	}
+
+	 override async registerItemSheets() {
+		 super.registerItemSheets();
+	Items.registerSheet("city", CityItemSheetSmall, {types: ["essence"], makeDefault: true});
+	 }
 
 	protected override async _setHooks () {
 		super._setHooks();
@@ -146,6 +144,10 @@ export class OtherscapeSystem extends MistEngineSystem {
 			//Nexus Theme Effect
 			const oldEssence = actor.essence;
 			const newEssence = await this.determineEssence(actor as PC);
+			if (newEssence == undefined) {
+				console.log(`Unable to determine essence for ${actor.name}`);
+				return;
+			}
 			if (actor.isOwner && oldEssence?.system.systemName == "Nexus" && newEssence?.systemName == "Nexus") {
 				await theme.update({ "system.nascent": false});
 			}

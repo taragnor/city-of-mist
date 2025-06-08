@@ -80,7 +80,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			default: break;
 		}
 		if ("description" in this.system)  {
-			return this.system.description;
+			debugger;
+			return SystemModule.active.localizedDescription(this);
+			// return this.system.description;
 		}
 		return ""
 	}
@@ -225,7 +227,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
-	isCompatible(system: System):  boolean {
+	isCompatible(system: System= SystemModule.active.name):  boolean {
 		const compat = this.systemCompatiblity;
 		if (compat == "any") return true;
 		return compat == system;
@@ -1052,6 +1054,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			return (this as Tag).isPowerTag() || this.isWeaknessTag();
 		}
 		return false;
+	}
+
+	get localizedName() : string {
+		return SystemModule.active.localizedName(this);
 	}
 
 	getDisplayedName() : string {
