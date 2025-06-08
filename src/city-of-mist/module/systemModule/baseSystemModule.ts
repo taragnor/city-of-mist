@@ -42,7 +42,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return "";
 	}
 
-	localizedThemeBookQuestions(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string {
+	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string {
 		let target: string = "";
 		switch (field) {
 			case "power-question":
@@ -55,11 +55,14 @@ export abstract class BaseSystemModule implements SystemModuleI {
 				target = `improvement.${numOrLetter}.name`;
 				break;
 			case "improvement-description":
-				target = `improvement.${numOrLetter}.name`;
+				target = `improvement.${numOrLetter}.description`;
 				break;
 		}
 		const loc = this.lookupLocalizationProperty(tb, target);
 		if (loc) return loc;
+		if (field == "improvement-name") {
+			return `Improvement #${numOrLetter}`;
+		}
 		const pageRefTarget = `pageref`;
 		const pageRef = this.lookupLocalizationProperty(tb, pageRefTarget);
 		if (pageRef) return pageRef;
@@ -198,7 +201,7 @@ export interface SystemModuleI {
 	directoryName(actor: CityActor): string;
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
-	localizedThemeBookQuestions(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
+	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
 }
 
 export type ThemeTypeInfo = {

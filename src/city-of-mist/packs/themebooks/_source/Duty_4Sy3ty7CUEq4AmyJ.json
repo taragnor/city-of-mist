@@ -106,7 +106,7 @@
     "fade_type": "default",
     "system_compatiblity": "legend",
     "locale_name": "",
-    "systemName": "Duty"
+    "systemName": "duty"
   },
   "effects": [],
   "sort": 100000,
@@ -123,7 +123,7 @@
     "systemId": "city-of-mist",
     "systemVersion": "3.1.4",
     "createdTime": 1749362731285,
-    "modifiedTime": 1749364624252,
+    "modifiedTime": 1749367386275,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
   },
   "_key": "!items!4Sy3ty7CUEq4AmyJ"

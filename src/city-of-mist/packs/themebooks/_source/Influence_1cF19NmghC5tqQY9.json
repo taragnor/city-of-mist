@@ -105,7 +105,7 @@
     "fade_type": "default",
     "system_compatiblity": "legend",
     "locale_name": "",
-    "systemName": "Influence"
+    "systemName": "influence"
   },
   "effects": [],
   "flags": {},
@@ -117,7 +117,7 @@
     "systemId": "city-of-mist",
     "systemVersion": "3.1.4",
     "createdTime": 1749364483430,
-    "modifiedTime": 1749364627426,
+    "modifiedTime": 1749367390097,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
   },
   "ownership": {

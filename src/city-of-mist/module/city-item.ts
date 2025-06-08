@@ -1299,7 +1299,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 					({question, subtag} = data);
 				}
 				if (question == "ERROR" || !question) {
-					question = SystemModule.active.localizedThemeBookQuestions(this, `${type}-question`, letter);
+					question = SystemModule.active.localizedThemeBookData(this, `${type}-question`, letter);
 				}
 				return { letter,question, subtag};
 			}).filter( item => !item.question.includes("_DELETED_"));
@@ -1309,18 +1309,20 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const improvementsObj = this.system.improvements;
 
 		return Object.entries(improvementsObj)
-		.flatMap( ([number, data]) => {
-			if (data == "_DELETED_") return [];
-			else return [
-				{
-					number,
-					name: data.name,
-					description: data.description,
-					uses: data.uses,
-					effect_class: data.effect_class,
-				}
-			]
-		});
+			.flatMap( ([number, data], index) => {
+				if (data == "_DELETED_") return [];
+				const name = data.name ? data.name : SystemModule.active.localizedThemeBookData(this, "improvement-name", index);
+				const description = data.description ? data.name : SystemModule.active.localizedThemeBookData(this, "improvement-description", index);
+				return [
+					{
+						number,
+						name,
+						description,
+						uses: data.uses,
+						effect_class: data.effect_class,
+					}
+				]
+			});
 	}
 
 	async GMMovePopUp(actor = this.parent) {
@@ -1501,12 +1503,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			console.error(`Couldn't get theme book for theme ${this.id}`);
 			return "ERROR";
 		}
-		let motivation = tb.system.motivation;
-		if (!motivation) {
 			return SystemModule.themeIdentityName(this as Theme);
-		} else {
-			return localize (MOTIVATIONLIST[motivation]);
-		}
+		// TODO: might need to restore custom motivations at some poiont
+		// let motivation = tb.system.motivation;
+		// if (!motivation) {
+		// 	return SystemModule.themeIdentityName(this as Theme);
+		// } else {
+		// 	return localize (MOTIVATIONLIST[motivation]);
+		// }
 	}
 
 	themeSortValue(this: Theme) : number {

@@ -105,7 +105,7 @@
     "fade_type": "default",
     "system_compatiblity": "legend",
     "locale_name": "",
-    "systemName": "Relic"
+    "systemName": "relic"
   },
   "effects": [],
   "flags": {},
@@ -117,7 +117,7 @@
     "systemId": "city-of-mist",
     "systemVersion": "3.1.4",
     "createdTime": 1749364554777,
-    "modifiedTime": 1749364634467,
+    "modifiedTime": 1749367402785,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
   },
   "ownership": {

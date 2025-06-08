@@ -64,8 +64,16 @@ export class OtherscapeSystem extends MistEngineSystem {
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.ritual",
+			},
+			"Crew-OS": {
+				localization: "Otherscape.terms.crew",
+				sortOrder: 5,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.crewIdentity",
+
 			}
-		} satisfies Record<string, ThemeTypeInfo>;
+		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
 	override async onChangeTo() : Promise<void> {
@@ -86,6 +94,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 	}
 
 	static determineEssenceFromThemes(themes: Theme[]) : Essence | undefined {
+
 		const themeTypes = themes.reduce(
 			(acc, theme) => {
 				const themeType = theme.getThemebook()!.system.subtype;
@@ -269,13 +278,7 @@ declare global {
 	interface SYSTEM_NAMES {
 		"otherscape": string;
 	}
-
-	interface ThemeTypes {
-		"Loadout": "Otherscape.terms.loadoutTheme.name";
-		"Noise": "Otherscape.terms.noise";
-		"Self": "Otherscape.terms.self";
-		"Mythos-OS": "Otherscape.terms.mythos";
-	}
+	interface ThemeTypes extends ReturnType<OtherscapeSystem["themeTypes"]> { }
 
 	interface EssenceNames {
 		Singularity: {}; // all noise

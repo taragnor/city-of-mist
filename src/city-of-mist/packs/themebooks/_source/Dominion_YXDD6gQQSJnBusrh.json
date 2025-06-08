@@ -105,7 +105,7 @@
     "fade_type": "default",
     "system_compatiblity": "legend",
     "locale_name": "",
-    "systemName": "Dominion"
+    "systemName": "dominion"
   },
   "effects": [],
   "flags": {},
@@ -117,7 +117,7 @@
     "systemId": "city-of-mist",
     "systemVersion": "3.1.4",
     "createdTime": 1749364780311,
-    "modifiedTime": 1749364805335,
+    "modifiedTime": 1749367431042,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
   },
   "ownership": {

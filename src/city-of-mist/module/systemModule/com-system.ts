@@ -81,7 +81,7 @@ export class CoMSystem extends CoMTypeSystem {
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
 				identityName: "CityOfMist.terms.identity",
 			}
-		} satisfies Record<string, ThemeTypeInfo>;
+		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
 	override async activate() {
@@ -109,12 +109,7 @@ declare global {
 		"city-of-mist": string;
 	}
 
-	interface ThemeTypes {
-		"Logos": "CityOfMist.terms.logos";
-		"Mythos": "CityOfMist.terms.mythos";
-		"Mist":  "CityOfMist.terms.mist";
-		"Crew": "CityOfMist.themebook.crew.name";
-	}
+	interface ThemeTypes extends ReturnType<CoMSystem["themeTypes"]> { }
 
 }
 

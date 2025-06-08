@@ -38,9 +38,16 @@ export class LitMSystem extends MistEngineSystem {
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				identityName: "Legend.terms.quest",
+			},
+			"Fellowship": {
+				localization: "Legend.terms.fellowship",
+				sortOrder: 10,
+				decreaseLocalization: "Legend.terms.abandon",
+				increaseLocalization: "Legend.terms.improve",
+				identityName: "Legend.terms.quest",
 			}
 
-		} satisfies Record<string, ThemeTypeInfo>;
+		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
 	headerTable = {
@@ -69,9 +76,7 @@ declare global {
 		"legend": string;
 	}
 
-	interface ThemeTypes {
-		"Origin": string;
-		"Adventure": string;
-		"Greatness" : string;
-	}
+	interface ThemeTypes extends ReturnType<LitMSystem["themeTypes"]> { }
 }
+
+
