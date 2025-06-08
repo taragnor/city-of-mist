@@ -47,20 +47,6 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return move.hasEffectClass("CREATE_TAGS");
 	}
 
-	// themeDecreaseName(theme: Theme) {
-	// 	// return "";
-	// 	const themetype = theme.getThemeType();
-	// 	return localize(this.themeTypes()[themetype].decreaseLocalization);
-	// }
-
-	// themeIncreaseName(theme: Theme) {
-	// 	// return "";
-	// 	const themetype = theme.getThemeType();
-	// 	if (!themetype) return;
-	// 	return localize(this.themeTypes()[themetype].increaseLocalization);
-	// }
-
-
 	isActive() : boolean {
 		return SystemModule.active == this;
 	}

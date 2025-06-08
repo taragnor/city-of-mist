@@ -74,14 +74,24 @@ export abstract class SystemModule {
 
 	static themeDecreaseName(theme: Theme) {
 		const themetype = theme.getThemeType();
-		return localize(this.allThemeTypes()[themetype].decreaseLocalization);
+		const thing = this.allThemeTypes()[themetype].decreaseLocalization;
+		if (thing) {
+			return localize(thing);
+		} else {
+			return "????";
+		}
 	}
 
 	static themeIncreaseName(theme: Theme) {
 		const themetype = theme.getThemeType();
-		return localize(this.allThemeTypes()[themetype].decreaseLocalization);
-
+		const thing = this.allThemeTypes()[themetype].increaseLocalization;
+		if (thing) {
+			return localize(thing);
+		} else {
+			return "????";
+		}
 	}
+
 	static setActiveStyle( system: SystemModuleI) {
 		const body = $(document).find("body");
 		for (const {name} of this.systems.values()) {

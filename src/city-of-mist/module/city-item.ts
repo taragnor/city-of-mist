@@ -1516,7 +1516,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		try {
 			const themetype =this.themebook!.system.subtype;
 			const theme = SystemModule.allThemeTypes()[themetype];
-			return theme.sortOrder;
+			return theme.sortOrder ?? 100;
 			//switch (themetype) {
 			//	case "Mythos":
 			//	case "Greatness":
