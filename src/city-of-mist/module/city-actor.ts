@@ -1189,16 +1189,17 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return prArray;
 	}
 
-	get directoryName() {
-		const mythos = this.system.mythos ? ` [${this.system.mythos}]` : "";
-		const owner_name = this.name + mythos;
-		if (this.isOwner) {
-			if (this.name != this.tokenName && this.tokenName?.length) {
-				return owner_name + ` / ${this.tokenName}`;
-			}
-			return owner_name;
-		}
-		return this.tokenName ?? this.name;
+	get directoryName() : string {
+		return SystemModule.active.directoryName(this);
+		// const mythos = this.system.mythos ? ` [${this.system.mythos}]` : "";
+		// const owner_name = this.name + mythos;
+		// if (this.isOwner) {
+		// 	if (this.name != this.tokenName && this.tokenName?.length) {
+		// 		return owner_name + ` / ${this.tokenName}`;
+		// 	}
+		// 	return owner_name;
+		// }
+		// return this.tokenName ?? this.name;
 	}
 
 	get tokenName() {

@@ -14,6 +14,11 @@ import { Move } from "../city-item.js";
 import { CitySettings } from "../settings.js";
 
 export abstract class BaseSystemModule implements SystemModuleI {
+
+	directoryName(actor: CityActor): string {
+		return actor.name;
+	}
+
 	abstract downtimeTemplate(actor: CityActor): Promise<string>;
 	abstract name: keyof SYSTEM_NAMES;
 	abstract localizationString: string;
@@ -144,6 +149,7 @@ export interface SystemModuleI {
 	loadoutThemeName(): string;
 	canCreateTags(move: Move): boolean;
 	themeTypes(): Record<string, ThemeTypeInfo>;
+	directoryName(actor: CityActor): string;
 }
 
 export type ThemeTypeInfo = {

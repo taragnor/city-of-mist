@@ -12,6 +12,19 @@ export class CoMSystem extends CoMTypeSystem {
 		return "CityOfMist" as const;
 	}
 
+	override directoryName(actor: CityActor) {
+		const mythos = actor.system.mythos ? ` [${actor.system.mythos}]` : "";
+		const owner_name = actor.name + mythos;
+		if (actor.isOwner) {
+			if (actor.name != actor.tokenName && actor.tokenName?.length) {
+				return owner_name + ` / ${actor.tokenName}`;
+			}
+			return owner_name;
+		}
+		return actor.tokenName ?? actor.name;
+
+	}
+
 	override canCreateTags(_move: Move): boolean {
 		return true;
 				//TODO: May fix this later, but given the breadth of moves that can create things, some through dynamite results, it's best to just allow it for everything.
