@@ -1134,7 +1134,27 @@
 "Legend.themebook.monstrosity.improvement.1.name" :"Fine Control",
 "Legend.themebook.monstrosity.improvement.2.name" :"Invulnerability",
 "Legend.themebook.monstrosity.improvement.3.name" :"Magical Trace",
-"Legend.themebook.monstrosity.improvement.4.name" :"Surge of Power"
+"Legend.themebook.monstrosity.improvement.4.name" :"Surge of Power",
 
+"Legend.themebook.companion.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.companion.improvement.0.name" :"Everyone's Best Firend",
+"Legend.themebook.companion.improvement.1.name" :"Here FOr You",
+"Legend.themebook.companion.improvement.2.name" :"Perfect Positioning",
+"Legend.themebook.companion.improvement.3.name" :"Reliable Ally",
+"Legend.themebook.companion.improvement.4.name" :"Retaliation",
+
+"Legend.themebook.magic.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.magic.improvement.0.name" :"Scholar of Magic",
+"Legend.themebook.magic.improvement.1.name" :"Ward Breaker",
+"Legend.themebook.magic.improvement.2.name" :"Unnerving Aura",
+"Legend.themebook.magic.improvement.3.name" :"Reputation Precedes",
+"Legend.themebook.magic.improvement.4.name" :"Inspired Ingenuity",
+
+"Legend.themebook.possessions.pageref": "See Page XXX in LitM Core book",
+"Legend.themebook.possessions.improvement.0.name" :"Durable",
+"Legend.themebook.possessions.improvement.1.name" :"Favorite Piece",
+"Legend.themebook.possessions.improvement.2.name" :"I'm Keeping This",
+"Legend.themebook.possessions.improvement.3.name" :"Just the Thing",
+"Legend.themebook.possessions.improvement.4.name" :"Quartermaster"
 
 }
