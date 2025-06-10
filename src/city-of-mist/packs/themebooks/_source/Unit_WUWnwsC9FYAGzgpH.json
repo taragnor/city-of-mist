@@ -4,8 +4,8 @@
   "type": "themebook",
   "img": "icons/svg/item-bag.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 100391,
+  "folder": "BXvixIBuJvx2z59I",
+  "sort": -100000,
   "flags": {
     "core": {}
   },
@@ -125,7 +125,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1749364307849,
+    "modifiedTime": 1749514009054,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.Cm2LHznnctGOim7B",
     "duplicateSource": null,

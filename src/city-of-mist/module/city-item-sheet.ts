@@ -42,7 +42,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		};
 		data.FADE_TYPE_LIST = FADETYPELIST;
 		data.TBSYSTEMLIST = SysChoices;
-		data.THEMESUBTYPES = SystemModule.allThemeTypes();
+		data.THEMESUBTYPES = {
+			"": "-",
+			...SystemModule.allThemeTypes()
+		};
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
 		data.movelist = CityHelpers.getMoves()

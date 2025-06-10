@@ -1,5 +1,5 @@
 {
-  "folder": "KYLLQKGmHQGXNTgn",
+  "folder": "Jb28LMLEO4u2yWqj",
   "name": "Esoterica",
   "type": "themebook",
   "_id": "9hZ78zaiBAfOWD9d",
@@ -109,7 +109,7 @@
     "systemName": "Esoterica"
   },
   "effects": [],
-  "sort": 0,
+  "sort": 218750,
   "ownership": {
     "default": 0,
     "XObjulrAnIfZ284S": 3
@@ -120,7 +120,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": 1715985441977,
-    "modifiedTime": 1749364183370,
+    "modifiedTime": 1749513898524,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,

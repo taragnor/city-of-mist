@@ -47,7 +47,8 @@
     "onSuccess": "",
     "onDynamite": "",
     "effect_class": "CHOICEHIT1 DOWNTIME",
-    "abbreviation": "DOWN"
+    "abbreviation": "DOWN",
+    "systemName": "downtime-OS"
   },
   "effects": [],
   "sort": 0,
@@ -59,11 +60,11 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
+    "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": 1711951939723,
-    "modifiedTime": 1712594125492,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749516174342,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

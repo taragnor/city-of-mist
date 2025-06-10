@@ -4,8 +4,8 @@
   "type": "themebook",
   "img": "icons/svg/mystery-man.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 100000,
+  "folder": "7ji0PqBuZO78BzmB",
+  "sort": 200000,
   "flags": {
     "core": {}
   },
@@ -121,7 +121,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1749364254846,
+    "modifiedTime": 1749513960104,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": "Item.5nHOn6MBy6vHzJdE",
     "duplicateSource": null,

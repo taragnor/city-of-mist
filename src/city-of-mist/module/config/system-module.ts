@@ -78,7 +78,7 @@ export abstract class SystemModule {
 		if (thing) {
 			return localize(thing);
 		} else {
-			return "????";
+			return "";
 		}
 	}
 
@@ -88,7 +88,7 @@ export abstract class SystemModule {
 		if (thing) {
 			return localize(thing);
 		} else {
-			return "????";
+			return "";
 		}
 	}
 
@@ -98,7 +98,7 @@ export abstract class SystemModule {
 		if (thing) {
 			return localize(thing);
 		} else {
-			return "????";
+			return "";
 		}
 	}
 
@@ -110,6 +110,12 @@ export abstract class SystemModule {
 		}
 		const newStyle =  `style-${system.name}`;
 		body.addClass(newStyle);
+	}
+
+	static isLoadoutThemeType( themeType: keyof ThemeTypes) : boolean {
+		const specials =this.allThemeTypes()[themeType].specials
+		if (!specials) return false;
+		return specials.includes("loadout");
 	}
 
 }

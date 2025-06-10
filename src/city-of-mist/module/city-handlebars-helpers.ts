@@ -417,7 +417,16 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"recordContains": function (rec: Record<string,string>, val : string) : boolean {
 			return rec[val] != undefined;
-		}
+		},
+
+		"canImprove": function (theme: Theme): boolean {
+			return theme?.canImprove() ?? false;
+		},
+
+		"hasMotivation": function (theme: Theme): boolean {
+			return theme?.canImprove() ?? false;
+		},
+
 
 	} //end of object holding helpers
 } // end of class

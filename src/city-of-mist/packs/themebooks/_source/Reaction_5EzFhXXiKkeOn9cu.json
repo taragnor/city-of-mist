@@ -1,6 +1,6 @@
 {
   "folder": "8v7jjpmGlY71tCFd",
-  "name": "Tracked Outcome",
+  "name": "Reaction",
   "type": "move",
   "img": "icons/svg/item-bag.svg",
   "system": {
@@ -12,15 +12,16 @@
     "subtype": "standard",
     "category": "Core",
     "system_compatiblity": "legend",
-    "locale_name": "#Otherscape.moves.trackedOutcome.name",
+    "locale_name": "#Legend.moves.reaction.name",
     "always": "",
-    "onMiss": "#Otherscape.moves.generic.fail",
-    "onPartial": "#Otherscape.moves.trackedOutcome.partial",
-    "onSuccess": "#Otherscape.moves.trackedOutcome.success",
+    "onMiss": "#Legend.moves.reaction.fail",
+    "onPartial": "#Legend.moves.reaction.partial",
+    "onSuccess": "#Legend.moves.reaction.success",
     "onDynamite": "",
     "effect_class": "",
     "abbreviation": "",
-    "theme_class": ""
+    "theme_class": "",
+    "systemName": "reaction"
   },
   "effects": [],
   "ownership": {
@@ -32,16 +33,16 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
+    "systemVersion": "3.1.4",
     "coreVersion": "13.345",
-    "createdTime": 1711941543757,
-    "modifiedTime": 1712594368988,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "createdTime": 1711941612037,
+    "modifiedTime": 1749516631316,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
   },
-  "_id": "jOVQYdtceqsMRvRO",
+  "_id": "5EzFhXXiKkeOn9cu",
   "sort": 0,
-  "_key": "!items!jOVQYdtceqsMRvRO"
+  "_key": "!items!5EzFhXXiKkeOn9cu"
 }

@@ -45,6 +45,14 @@ export class LitMSystem extends MistEngineSystem {
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				identityName: "Legend.terms.quest",
+			},
+			"Backpack": {
+				localization: "Legend.terms.loadoutTheme.name",
+				sortOrder: 100,
+				decreaseLocalization: "",
+				increaseLocalization: "",
+				identityName: "",
+				specials: ["loadout"],
 			}
 
 		} as const satisfies Record<string, ThemeTypeInfo>;
@@ -55,6 +63,7 @@ export class LitMSystem extends MistEngineSystem {
 		threat: "",
 		crew: ""
 	}
+
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};

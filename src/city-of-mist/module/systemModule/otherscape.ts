@@ -39,10 +39,11 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return {
 			"Loadout": {
 				localization: "Otherscape.terms.loadoutTheme.name",
-				sortOrder: 4,
+				sortOrder: 100,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.crewIdentity",
+				specials: ["loadout"],
 			},
 			"Noise": {
 				localization:	"Otherscape.terms.noise",

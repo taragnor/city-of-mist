@@ -1,0 +1,21 @@
+{
+  "type": "Item",
+  "folder": "KYLLQKGmHQGXNTgn",
+  "name": "Mist Themes",
+  "color": null,
+  "sorting": "a",
+  "_id": "BXvixIBuJvx2z59I",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!BXvixIBuJvx2z59I"
+}

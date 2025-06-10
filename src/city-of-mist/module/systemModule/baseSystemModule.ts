@@ -210,6 +210,13 @@ export type ThemeTypeInfo = {
 	decreaseLocalization: string,
 	increaseLocalization: string,
 	identityName: string, //identity, Mystery, Directive, etc.
+	specials ?: (keyof ThemeTypeSpecials)[],
+}
+
+declare global {
+	interface ThemeTypeSpecials {
+		"loadout": "";
+	}
 }
 
 type ThemebookField = "power-question" | "weakness-question" | "improvement-name" | "improvement-description";

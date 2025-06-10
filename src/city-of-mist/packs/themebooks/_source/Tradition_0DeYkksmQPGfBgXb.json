@@ -1,5 +1,5 @@
 {
-  "folder": "KYLLQKGmHQGXNTgn",
+  "folder": "7ji0PqBuZO78BzmB",
   "name": "Tradition",
   "type": "themebook",
   "_id": "0DeYkksmQPGfBgXb",
@@ -109,7 +109,7 @@
     "systemName": "Tradition"
   },
   "effects": [],
-  "sort": 0,
+  "sort": 300000,
   "ownership": {
     "default": 0,
     "XObjulrAnIfZ284S": 3
@@ -120,7 +120,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": 1715984792921,
-    "modifiedTime": 1749364297604,
+    "modifiedTime": 1749513975780,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,

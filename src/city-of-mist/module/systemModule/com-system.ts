@@ -80,6 +80,13 @@ export class CoMSystem extends CoMTypeSystem {
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
 				identityName: "CityOfMist.terms.identity",
+			},
+			"Loadout-CoM": {
+				localization: " CityOfMist.terms.loadoutTheme.name",
+				sortOrder: 100,
+				"increaseLocalization": "CityOfMist.terms.attention",
+				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
+				identityName: "",
 			}
 		} as const satisfies Record<string, ThemeTypeInfo>;
 	}

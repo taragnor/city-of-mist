@@ -51,6 +51,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		return this.effect_classes.includes(cl);
 	}
 
+	canImprove (this: Theme) : boolean {
+		return SystemModule.themeIncreaseName(this).length > 0;
+	}
+
+	hasMotivation(this: Theme) : boolean {
+		return SystemModule.themeIdentityName(this).length > 0;
+	}
+
 	isAutoDynamite() {
 		return this.hasEffectClass("AUTODYN");
 	}
@@ -1477,7 +1485,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		// return (this.themebook as Themebook).system.subtype == "Loadout";
 	}
 
-	isSystemCompatible(this: Themebook | Improvement | Move, system: System | "none") : boolean {
+	isSystemCompatible(this: Themebook | Improvement | Move, system: System | "none" = SystemModule.active.name) : boolean {
 		if (this.system.system_compatiblity == "any") return true;
 		return this.system.system_compatiblity.includes(system);
 	}
@@ -1518,22 +1526,6 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			const themetype =this.themebook!.system.subtype;
 			const theme = SystemModule.allThemeTypes()[themetype];
 			return theme.sortOrder ?? 100;
-			//switch (themetype) {
-			//	case "Mythos":
-			//	case "Greatness":
-			//		return 1;
-			//	case "Noise": case "Mist": return 2;
-			//	case "Self": case "Origin": case "Logos": return 3;
-			//	case "Extra": case "Loadout": return 4;
-			//	case "Crew" : return 5;
-			//	case "": return 99;
-			//		//@ts-ignore
-			//	case "None": return 99;
-			//	default:
-			//		themetype satisfies never;
-			//		console.warn(` Unknown Type ${themetype}`);
-			//		return 1000;
-			//}
 		} catch (e) {
 			console.log(e);
 			return 1000;

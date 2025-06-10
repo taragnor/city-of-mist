@@ -1,3 +1,4 @@
+import { SystemModule } from "./config/system-module.js";
 import { Overrideable } from "./city-item.js";
 import { Essence } from "./city-item.js";
 import { CitySettings } from "./settings.js";
@@ -101,7 +102,7 @@ export class CityDB extends DBAccessor {
 
 	static getLoadoutThemebook(): Themebook | undefined {
 		const themebooks = this.themebooks.filter( x=>
-			x.system.subtype == "Loadout"
+			SystemModule.isLoadoutThemeType(x.system.subtype)
 			&& x.isSystemCompatible(CitySettings.getBaseSystem())
 		);
 		if (themebooks.some( x=> !x.system.free_content))

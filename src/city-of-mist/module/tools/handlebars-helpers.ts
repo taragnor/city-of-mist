@@ -53,7 +53,7 @@ export function localizeS (str :string): SafeString {
 	if (!str.startsWith("#"))
 		//@ts-ignore
 		return new Handlebars.SafeString(str);
-	const localizeCode = str.substring(1);
+	const localizeCode = str.trim().substring(1);
 	const localized = game.i18n.localize(localizeCode);
 	//@ts-ignore
 	return new Handlebars.SafeString(localized);

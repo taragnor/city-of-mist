@@ -21,7 +21,8 @@
     "onDynamite": "",
     "effect_class": "",
     "abbreviation": "",
-    "theme_class": ""
+    "theme_class": "",
+    "systemName": "blaze3"
   },
   "effects": [],
   "sort": 0,
@@ -32,11 +33,11 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
+    "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": 1711942791351,
-    "modifiedTime": 1712594125492,
-    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "modifiedTime": 1749516187931,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
