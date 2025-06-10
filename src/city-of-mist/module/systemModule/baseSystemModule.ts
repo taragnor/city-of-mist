@@ -217,6 +217,7 @@ declare global {
 	interface ThemeTypeSpecials {
 		"loadout": "";
 		"crew" : "";
+		"extra": "";
 	}
 }
 

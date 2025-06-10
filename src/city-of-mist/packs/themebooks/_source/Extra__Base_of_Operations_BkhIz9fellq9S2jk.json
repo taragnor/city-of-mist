@@ -106,7 +106,7 @@
         "effect_class": ""
       }
     },
-    "subtype": "Logos",
+    "subtype": "Extra",
     "motivation": "motivation",
     "system_compatiblity": "city-of-mist",
     "systemName": "Extra:BaseofOperations"
@@ -120,7 +120,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1749364207514,
+    "modifiedTime": 1749592607529,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,

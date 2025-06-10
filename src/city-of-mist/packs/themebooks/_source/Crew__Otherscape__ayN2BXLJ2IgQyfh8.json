@@ -9,7 +9,7 @@
     "locked": false,
     "version": "1",
     "free_content": true,
-    "subtype": "Crew",
+    "subtype": "Crew-OS",
     "power_questions": {
       "A": {
         "question": "SEE OTHERSCAPE CORE BOOK P. 151",
@@ -106,7 +106,7 @@
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
     "locale_name": "#Otherscape.terms.crew",
-    "systemName": "Crew"
+    "systemName": "Crew-OS"
   },
   "effects": [],
   "sort": 0,
@@ -120,7 +120,7 @@
     "systemVersion": "3.1.4",
     "coreVersion": "13.345",
     "createdTime": 1712169316135,
-    "modifiedTime": 1749364359024,
+    "modifiedTime": 1749592284260,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
     "compendiumSource": null,
     "duplicateSource": null,

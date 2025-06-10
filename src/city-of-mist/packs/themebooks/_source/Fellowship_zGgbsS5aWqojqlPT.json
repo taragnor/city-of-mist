@@ -1,6 +1,6 @@
 {
-  "folder": "20erbq1NY0W3fiuC",
-  "name": "Relic",
+  "folder": "nw4yL57vLsI56WaN",
+  "name": "Fellowship",
   "type": "themebook",
   "img": "icons/svg/item-bag.svg",
   "system": {
@@ -8,7 +8,7 @@
     "locked": false,
     "version": "1",
     "free_content": true,
-    "subtype": "Adventure",
+    "subtype": "Fellowship",
     "power_questions": {
       "A": {
         "question": "",
@@ -105,7 +105,7 @@
     "fade_type": "default",
     "system_compatiblity": "legend",
     "locale_name": "",
-    "systemName": "relic"
+    "systemName": "fellowship"
   },
   "effects": [],
   "flags": {},
@@ -116,15 +116,15 @@
     "coreVersion": "13.345",
     "systemId": "city-of-mist",
     "systemVersion": "3.1.4",
-    "createdTime": 1749364554777,
-    "modifiedTime": 1749367402785,
+    "createdTime": 1749592252586,
+    "modifiedTime": 1749592252586,
     "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
   },
   "ownership": {
     "default": 0,
     "eZoEWX0q5xnrYPGQ": 3
   },
-  "_id": "8llzCuPskhSopdgy",
-  "sort": 300000,
-  "_key": "!items!8llzCuPskhSopdgy"
+  "_id": "zGgbsS5aWqojqlPT",
+  "sort": 0,
+  "_key": "!items!zGgbsS5aWqojqlPT"
 }
