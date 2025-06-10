@@ -55,7 +55,6 @@ export class LitMSystem extends MistEngineSystem {
 				identityName: "",
 				specials: ["loadout"],
 			}
-
 		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
@@ -64,7 +63,6 @@ export class LitMSystem extends MistEngineSystem {
 		threat: "",
 		crew: ""
 	}
-
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};

@@ -173,7 +173,8 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		const templateLoc = this.headerTable[actor.system.type];
 		if (!templateLoc) {
 			const msg = `No sheet header provided for ${actor.system.type}`;
-			ui.notifications.error(msg);
+			console.log(msg);
+			// ui.notifications.error(msg);
 			return `ERROR: ${msg}`;
 		}
 		return await renderTemplate(templateLoc, {actor});

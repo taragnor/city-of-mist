@@ -1602,6 +1602,7 @@ div.themebook-name {
 
 img.profile-img {
 	max-height: 180px !important;
+	max-width: 140px !important;
 	/* width: auto; */
 	/* height: 100% !important; */
 }
