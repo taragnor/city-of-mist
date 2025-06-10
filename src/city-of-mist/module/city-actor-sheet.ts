@@ -67,6 +67,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.juice-name').middleclick(this._juiceEdit.bind(this) );
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
 		html.find('.clue-use-button').on("click", this._useClue.bind(this));
+		html.find('.unlocked .themebook-motivation-label').on("click", this._toggleThemeType.bind(this));
 		// this.testHandlers(html);
 	}
 
@@ -512,6 +513,11 @@ export class CityActorSheet extends CitySheet {
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
+	}
+
+	async _toggleThemeType(event: JQuery.ClickEvent) {
+		const id = HTMLTools.getClosestData(event, "themeId");
+		await this.actor.getTheme(id)?.toggleThemeType();
 	}
 
 	async chooseImprovement() {

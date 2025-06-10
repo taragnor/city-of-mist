@@ -72,6 +72,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.crewIdentity",
+				specials: ["crew"],
 
 			}
 		} as const satisfies Record<string, ThemeTypeInfo>;

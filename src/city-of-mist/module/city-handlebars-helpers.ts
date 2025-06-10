@@ -415,6 +415,10 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return Object.keys(obj);
 		},
 
+		"dynThemeType": function (theme: Theme) : string {
+			return theme.getThemeType();
+		},
+
 		"recordContains": function (rec: Record<string,string>, val : string) : boolean {
 			return rec[val] != undefined;
 		},

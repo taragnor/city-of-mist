@@ -45,6 +45,7 @@ export class LitMSystem extends MistEngineSystem {
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				identityName: "Legend.terms.quest",
+				specials: ["crew"],
 			},
 			"Backpack": {
 				localization: "Legend.terms.loadoutTheme.name",

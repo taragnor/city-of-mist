@@ -16,6 +16,8 @@
 "TYPES.Item.themekit" : "Themekit",
 "TYPES.Item.essence" : "Essence",
 
+"Generic.term.varies": "Varies",
+
 "CityOfMistTracker.trackerwindow.title": "City of Mist Status Tracker",
 "CityOfMistTracker.trackerwindow.empty": "Place a token on the scene to start the tracker.",
 "CityOfMistTracker.trackerwindow.statuses": "Statuses & Tags",

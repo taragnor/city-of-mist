@@ -184,6 +184,7 @@ class Theme extends DataModel {
 			attention: new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			crack:new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			mystery: new txt(),
+			subtype: new txt<ThemeType>( {initial: ""}),
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			unspent_upgrades: new num({initial: 0, integer: true, min:0}),

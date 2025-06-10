@@ -9,7 +9,7 @@
 	<section class="sheet-body flex-vertical">
 		<div class="flex-row">
 			<select name="system.subtype">
-				{{selectOptions THEMESUBTYPES localize=true selected=item.system.subtype}}
+				{{selectOptions THEME_SUBTYPES_PLUS_VARIES localize=true selected=item.system.subtype}}
 			</select>
 			{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 			{{#if (devMode)}}

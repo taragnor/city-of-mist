@@ -64,12 +64,12 @@ export abstract class SystemModule {
 
 	/** return all theme types  as localization object*/
 
-	static allThemeTypes(): ReturnType<SystemModuleI["themeTypes"]> {
+	static allThemeTypes(): Required<Omit<ReturnType<SystemModuleI["themeTypes"]>, "">> {
 		let retobj : ReturnType<SystemModuleI["themeTypes"]>= {};
 		for (const [_k,v] of this.systems) {
 			retobj = foundry.utils.mergeObject(retobj, v.themeTypes());
 		}
-		return retobj;
+		return retobj as Required<ReturnType<SystemModuleI["themeTypes"]>>;
 	}
 
 	static themeDecreaseName(theme: Theme) {
@@ -113,7 +113,8 @@ export abstract class SystemModule {
 	}
 
 	static isLoadoutThemeType( themeType: keyof ThemeTypes) : boolean {
-		const specials =this.allThemeTypes()[themeType].specials
+		if (!themeType) return false;
+		const specials = this.allThemeTypes()[themeType].specials
 		if (!specials) return false;
 		return specials.includes("loadout");
 	}

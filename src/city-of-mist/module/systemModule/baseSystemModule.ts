@@ -96,7 +96,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return CitySettings;
 	}
 
-	abstract themeTypes(): Record<string, ThemeTypeInfo>;
+	abstract themeTypes(): Partial<Record<keyof ThemeTypes, ThemeTypeInfo>>;
 
 	loadoutThemeName(): string {
 		return localize(`${this.localizationStarterName}.terms.loadoutTheme.name`);
@@ -197,7 +197,7 @@ export interface SystemModuleI {
 	collectiveTermName(): string;
 	loadoutThemeName(): string;
 	canCreateTags(move: Move): boolean;
-	themeTypes(): Record<string, ThemeTypeInfo>;
+	themeTypes(): Partial<Record<keyof ThemeTypes, ThemeTypeInfo>>;
 	directoryName(actor: CityActor): string;
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
@@ -216,6 +216,7 @@ export type ThemeTypeInfo = {
 declare global {
 	interface ThemeTypeSpecials {
 		"loadout": "";
+		"crew" : "";
 	}
 }
 

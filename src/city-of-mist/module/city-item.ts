@@ -163,7 +163,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	/** returns true if tag or improvement is part of a theme kit
 	*/
 	isPartOfThemeKit(this: Tag | Improvement) : boolean {
-		if (this.type != "tag" && this.type != "improvement")
+		if (this.system.type != "tag" && this.system.type != "improvement")
 			return false;
 		if (!this.themebook) return false;
 		if (this.isTag() && this.isBonusTag()) return false;
@@ -171,7 +171,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	usesThemeKit(this: Theme) {
-		return this.type == "theme" && this.themebook && this.themebook.isThemeKit();
+		return this.system.type == "theme" && this.themebook && this.themebook.isThemeKit();
 	}
 
 	isStoryTag(this: Tag) {
@@ -182,11 +182,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		return this.isTag() && this.subtype == "power";
 	}
 
-	isTag() : this is Tag { return this.type == "tag"; }
-	isImprovement() : this is Improvement {return this.type == "improvement"};
-	isTheme() : this is Theme {return this.type == "theme"};
-	isThemeKit(): this is ThemeKit { return this.type == "themekit"; }
-	isThemeBook(): this is Themebook { return this.type == "themebook"; }
+	isTag() : this is Tag { return this.system.type == "tag"; }
+	isImprovement() : this is Improvement {return this.system.type == "improvement"};
+	isTheme() : this is Theme {return this.system.type == "theme"};
+	isThemeKit(): this is ThemeKit { return this.system.type == "themekit"; }
+	isThemeBook(): this is Themebook { return this.system.type == "themebook"; }
 	isExtraTheme(this: Theme): boolean { return this.system.isExtra; }
 
 	isRelationshipTag(): boolean {
@@ -297,16 +297,66 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			if (!subtype) return "Crew";
 			return subtype;
 		}
-		if ( themebook.system.subtype)
-			return themebook.system.subtype;
+		if ( themebook.system.subtype != undefined) {
+			const bookType = themebook.system.subtype;
+			if (bookType) return bookType;
+			const myType = this.system.subtype;
+			if (myType) return myType;
+			const list = SystemModule.active.themeTypes();
+			const val =  Object.keys(list).at(0) as keyof ThemeTypes;
+			if (val)
+				return val;
+		}
 		throw new Error(`Can't get theme type of ${this.name}`);
+	}
+
+	canHaveVariableThemeType(this: Theme | ThemeKit | Themebook): boolean {
+		if (this.isThemeBook()) {
+			return this.system.subtype == "";
+		}
+		if (this.isThemeKit()) {
+			if (this.system.subtype != "")
+				return false;
+			const realTB = this.getThemebook();
+			if (realTB) return realTB.canHaveVariableThemeType();
+			return this.system.subtype == "";
+		}
+		const themebook = this.getThemebook();
+		if (!themebook) {
+			throw new Error("ERROR Can't find themebook!");
+		}
+		return themebook.canHaveVariableThemeType();
+	}
+
+	async toggleThemeType(this: Theme) : Promise<void> {
+		if (!this.canHaveVariableThemeType()) return;
+		const themes = SystemModule.active.themeTypes();
+		const list = Object.keys(themes).filter (x=> {
+			const r = themes[x as keyof typeof themes]
+			if (!r) return false;
+			if (!r.increaseLocalization) return false;
+			if (!r.identityName) return false;
+			return !r.specials || !r.specials.includes("loadout");
+		});
+		const current = this.getThemeType();
+		const index = list.indexOf(current)
+		let newChoice : string;
+		if (index == -1) {
+			newChoice = list[0];
+		}
+		if (index == -1 || index + 1 >= list.length) {
+			newChoice = list[0];
+		} else {
+			newChoice = list[index + 1];
+		}
+		await this.update({"system.subtype": newChoice});
 	}
 
 	/** gets themebook or themekit from a theme or themekit
 	 */
 	getThemebook(this: Theme | ThemeKit) : Themebook  | ThemeKit |  null{
 		const actor = this.parent;
-		if (!actor && this.type != "themekit") {
+		if (!actor && this.system.type != "themekit") {
 			Debug(this);
 			return null;
 		}
@@ -371,7 +421,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	type is "power" or "weakness"
 	*/
 	getQuestion(this: Themebook, type: "power" | "weakness", letter: string) {
-		if (this.type != "themebook")
+		if (this.system.type != "themebook")
 			throw new Error("Can only be run on a themebook");
 		switch (type) {
 			case "power":
@@ -516,7 +566,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "improvement":
 				return 1;
 			default:
-				throw new Error(`Trying to get upgrade cost of ${this.type}`);
+				throw new Error(`Trying to get upgrade cost of ${this.system.type}`);
 		}
 	}
 
@@ -544,7 +594,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	get crack() {
 		if (!("crack" in this.system)) {
-			throw new Error(`Can't get crack on ${this.type}`);
+			throw new Error(`Can't get crack on ${this.system.type}`);
 		}
 		const crack = this.system?.crack;
 		return crack.reduce( (acc, v) => acc+v, 0);
@@ -1001,17 +1051,17 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 
 	isHelpHurt(this: Juice) {
-		if (this.type != "juice") return false;
+		if (this.system.type != "juice") return false;
 		const subtype = this.system?.subtype;
 		return subtype == "help" || subtype == "hurt";
 	}
 
 	isJournal() {
-		return this.type == "journal";
+		return this.system.type == "journal";
 	}
 
 	getSubtype(this: Juice) {
-		return this.type == "juice" && this.system?.subtype;
+		return this.system.type == "juice" && this.system?.subtype;
 	}
 
 	/** On juice object tell who the juice targets
@@ -1040,7 +1090,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	isHelp():  boolean{ return this.isJuice() && this.getSubtype() == "help"; }
 	isUntypedJuice() : boolean{ return this.isJuice() && !this.getSubtype();}
 	isJuice() : this is Juice{ return this.system.type == "juice";}
-	isStatus() : this is Status { return this.type == "status"; }
+	isStatus() : this is Status { return this.system.type == "status"; }
 
 	get isBuildUpImprovement() : boolean {
 		return (this.system.type == "improvement" && !this.system.theme_id);
@@ -1170,7 +1220,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		if (this.isTheme() || this.isThemeBook()) {
 			return this.parent!.items.filter( x=> x.isWeaknessTag() && x.theme == this) as Tag[];
 		}
-		console.warn(`trying to use get weaknesstags on improprer type: ${this.type}`);
+		console.warn(`trying to use get weaknesstags on improprer type: ${this.system.type}`);
 		return [];
 
 	}
@@ -1334,7 +1384,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	async GMMovePopUp(actor = this.parent) {
-		if (this.type != "gmmove" )
+		if (this.system.type != "gmmove" )
 			throw new Error("Type is not GM move");
 		const {html, options} = await (this as GMMove).prepareToRenderGMMove(actor);
 		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options) && actor) {
@@ -1524,6 +1574,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	themeSortValue(this: Theme) : number {
 		try {
 			const themetype =this.themebook!.system.subtype;
+			if (!themetype) return 100;
 			const theme = SystemModule.allThemeTypes()[themetype];
 			return theme.sortOrder ?? 100;
 		} catch (e) {

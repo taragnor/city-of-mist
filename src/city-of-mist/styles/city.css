@@ -3116,6 +3116,10 @@ input.tk-tagname-letter {
 	opacity: 55%;
 }
 
+.unlocked .themebook-motivation-label {
+	cursor: e-resize;
+}
+
 /* span.plus-minus-controls { */
 /* 	display: inline-block; */
 /* } */

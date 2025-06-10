@@ -1,3 +1,4 @@
+import { localize } from "./city.js";
 import { StatusMath } from "./status-math.js";
 import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
@@ -44,7 +45,11 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		data.TBSYSTEMLIST = SysChoices;
 		data.THEMESUBTYPES = {
 			"": "-",
-			...SystemModule.allThemeTypes()
+			...SystemModule.allThemeTypes(),
+		};
+		data.THEME_SUBTYPES_PLUS_VARIES = {
+				"": "Generic.term.varies",
+			...SystemModule.allThemeTypes(),
 		};
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
