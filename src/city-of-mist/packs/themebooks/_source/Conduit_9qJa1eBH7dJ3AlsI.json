@@ -1,0 +1,37 @@
+{
+  "folder": "SEKv8a66l2l9Rmbl",
+  "name": "Conduit",
+  "type": "essence",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "#Otherscape.essence.generic.description",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "system_compatiblity": "otherscape",
+    "expended": false,
+    "locale_name": "",
+    "systemName": "Conduit",
+    "effect_class": ""
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749349773667,
+    "modifiedTime": 1749349773667,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "_id": "9qJa1eBH7dJ3AlsI",
+  "sort": 0,
+  "_key": "!items!9qJa1eBH7dJ3AlsI"
+}

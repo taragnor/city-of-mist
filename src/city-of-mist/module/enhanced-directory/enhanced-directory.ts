@@ -18,6 +18,10 @@ export class EnhancedActorDirectory {
 		});
 
 		const oldRender = ActorDirectory.prototype._render;
+		if (!oldRender) {
+			console.warn("Error setting up active directory");
+			return;
+		}
 		ActorDirectory.prototype._render = async function (...args) {
 			// console.log("Decrypting All");
 			const promises = game.actors.contents.map( async (actor: CityActor) => {
@@ -110,14 +114,15 @@ export class EnhancedActorDirectory {
         if ( folder.folder ) includeFolder(folder.folder); // Always autoexpand parent folders
       }
 
-      // Match documents by name
-      for ( let d of this.documents ) {
-			const searchName :string = "directoryName" in d ? d.directoryName as string: d.name;
-        if ( rgx.test(SearchFilter.cleanQuery(searchName)) ) {
-          documentIds.add(d.id);
-          includeFolder(d.folder);
-        }
-      }
+		 // Match documents by name
+		 for ( let d of this.documents ) {
+			 const searchName :string = "directoryName" in d ? d.directoryName as string: d.name;
+			 if ( rgx.test(SearchFilter.cleanQuery(searchName)) ) {
+				 documentIds.add(d.id);
+				 //@ts-expect-error
+				 includeFolder(d.folder);
+			 }
+		 }
 
 		 // Match folders by name
 		 for ( let f of this.folders ) {

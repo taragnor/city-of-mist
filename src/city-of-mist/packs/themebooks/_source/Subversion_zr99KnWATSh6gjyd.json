@@ -4,12 +4,10 @@
   "type": "themebook",
   "img": "icons/svg/mystery-man.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 103125,
+  "folder": "Jb28LMLEO4u2yWqj",
+  "sort": 600000,
   "flags": {
-    "core": {
-      "sourceId": "Item.qEMYZ5P1tmJgyqPZ"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -110,7 +108,9 @@
         "effect_class": ""
       }
     },
-    "subtype": "Mythos"
+    "subtype": "Mythos",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Subversion"
   },
   "ownership": {
     "default": 0,
@@ -118,11 +118,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669234152,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749513969171,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.qEMYZ5P1tmJgyqPZ",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!zr99KnWATSh6gjyd"
 }

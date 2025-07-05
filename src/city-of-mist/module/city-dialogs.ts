@@ -1,3 +1,4 @@
+import { SystemModule } from "./config/system-module.js";
 import { StatusMath } from "./status-math.js";
 import { localize } from "./city.js";
 import { MistRoll } from "./mist-roll.js";
@@ -7,7 +8,6 @@ import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { STATUS_CATEGORIES} from "./config/status-categories.js";
 import { TAG_CATEGORIES} from "./config/tag-categories.js";
 import { CitySettings } from "./settings.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
 import { PC } from "./city-actor.js";
 import { CRollOptions } from "./mist-roll.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
@@ -108,75 +108,19 @@ export class CityDialogs {
 	}
 
 
-	static statusesAffectedByCategory(list: Status[], newCategory: StatusCategory = "none", direction: "positive" | "negative" | "both" = "both"): Status[] {
-		return list.filter( s => {
-			let addTo : StatusCategory[] = ["none"];
-			let subtractFrom : StatusCategory[] = ["none"];
-			switch (newCategory) {
-				case "none":
-					return true;
-				case "harm":
-					subtractFrom = ["shield"]
-					addTo = 	["harm"];
-					break;
-				case "hindering":
-					addTo = ["advantage", "shield"];
-					subtractFrom = [ "hindering"];
-					break;
-				case "compelling":
-					addTo = ["compelling"];
-					subtractFrom = [ "hindering", "shield"];
-					break;
-				case "weakening":
-					subtractFrom = ["advantage", "shield", "compelling", "polar"];
-					break;
-				case "advance":
-					addTo = ["progress", "polar"];
-					subtractFrom = ["polar"];
-					break;
-				case "advantage":
-					addTo = ["advantage"];
-					break;
-				case "shield":
-					addTo = ["shield"];
-					break;
-				case "restore":
-					subtractFrom= ["harm", "hindering", "compelling", "weakening"];
-					break;
-				case "set-back":
-					addTo = ["polar"];
-					subtractFrom = ["progress", "polar"];
-					break;
-				case "progress":
-				case "polar":
-					break;
-				default:
-					newCategory satisfies never;
-					ui.notifications.warn(`Unknown Category ${newCategory}`);
-					return true;
-			}
-			switch (direction) {
-				case "positive":
-					return addTo.includes(s.system.category ?? "none");
-				case "negative":
-					return subtractFrom.includes(s.system.category ?? "none");
-				case "both":
-					return addTo.includes(s.system.category ?? "none") && subtractFrom.includes(s.system.category ?? "none");
-				default:
-						throw new Error(`Bad Direction ${direction}`);
-			}
-		});
-	}
 
 	//TODO: implement this fully
 	static async mergeWithStatusDialog(targetStatus: Status,  name: string, options: StatusCreationOptions): Promise<null | { action: "add" | "subtract" | "override", name: string, tier: number, pips: number, statusId: string}> {
 		const {tier} = options;
+		name= tier > targetStatus.tier ? name : targetStatus.name;
 		const title =  game.i18n.format("MistEngine.dialog.statusMerge.label", {
 			newStatus: `${name} ${tier}`,
 			existingStatus: `${targetStatus.name} ${targetStatus.system.tier}`
 		});
 		const templateOptions = {
-			titleString: title
+			titleString: title,
+			tier,
+			name,
 		};
 		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
 		return new Promise ( (conf, _reject) => {
@@ -184,20 +128,35 @@ export class CityDialogs {
 				title,
 				content: html,
 				buttons: {
-					ok: {
-						icon: `<i class="fa-solid fa-check"></i>`,
+					add: {
+						icon: `<i class="fa-solid fa-square-plus"></i>`,
 						callback: (_html: string) => {
-							//NOTE: Placeholder values
-							const newStData = StatusMath.merge(targetStatus, tier);
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							// const newStData = StatusMath.merge(targetStatus, newTier);
 							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
-								action: "override",
-								name: newStData.tier > targetStatus.tier ? name : targetStatus.name,
-								tier: newStData.tier,
-								pips: newStData.pips ?? 0,
+								action: "add",
+								name: newName,
+								tier: newTier,
+								pips: 0,
 								statusId: targetStatus.id,
 							};
 							conf(ret);
-
+						},
+					},
+					sub: {
+						icon: `<i class="fa-solid fa-square-minus"></i>`,
+						callback: (_html: string) => {
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							const ret: Awaited<ReturnType<typeof CityDialogs.mergeWithStatusDialog>> = {
+								action: "subtract",
+								name: newName,
+								tier: newTier,
+								pips: 0,
+								statusId: targetStatus.id,
+							};
+							conf(ret);
 						},
 					},
 					cancel: {
@@ -209,55 +168,73 @@ export class CityDialogs {
 			}, {});
 			dialog.render(true);
 		});
-
 	}
 
 	//TODO: implemeent check for status dropped on other status via options.mergeWithStatus
-	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions) : Promise<null | {action: "create" | "merge", name: string, tier: number, pips:number, statusId?: string}> {
-		const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
-		// const statusList = actor.my_statuses;
-		let tier = options.tier;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, facedanger: options.faceDanger ?? false});
+	static async statusDropDialog(actor: CityActor, name : string , options: StatusCreationOptions) : Promise<null | {action: "create" | "merge" | "subtract", name: string, tier: number, pips:number, statusId?: string}> {
+		// const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
+		const statusList = actor.my_statuses;
+		const tier = options.tier;
+		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, tier, facedanger: options.faceDanger ?? false});
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog({
 				title:`Add Dropped Status: ${name}`,
 				content: html,
 				buttons: {
-					one: {
-						label: "Cancel",
-						callback: (_html: string) => conf(null)
-					},
-					two: {
+					add: {
+						icon: `<i class="fa-solid fa-square-plus"></i>`,
 						label: "Add",
 						callback: (html: string) => {
 							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
-							const newName = $(html).find(".status-name").val();
-							let pips = 0;
-							let boxes : number | undefined;
-							const facedanger = $(html).find(".face-danger").is(":checked");
-							tier -= facedanger ? 1 : 0;
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
 							if (!statusChoiceId )
 								return conf({
 									action: "create",
-									name,
-									tier,
-									pips
+									name: newName,
+									tier : newTier,
+									pips : 0,
 								});
 							return conf({
 								action:"merge",
-								name: String(newName),
+								name: newName,
 								statusId: String(statusChoiceId),
-								tier : boxes ?? tier,
-								pips
+								tier : newTier,
+								pips : 0,
 							});
 						}
+					},
+					sub:  {
+						icon: `<i class="fa-solid fa-square-minus"></i>`,
+						callback: (html: string) => {
+							const statusChoiceId = $(html).find('input[name="status-selector"]:checked').val();
+							const newName = String($(html).find(".status-name").val());
+							const newTier = Number($(html).find(`[name="tier"]`).val());
+							if (!statusChoiceId )  {
+								return conf({
+									action: "create",
+									name: newName,
+									tier : newTier,
+									pips : 0,
+								});
+							} else conf({
+								action: "subtract",
+								name: newName,
+								statusId: String(statusChoiceId),
+								tier : newTier,
+								pips : 0,
+							});
+						}
+					},
+					two: {
+						icon: `<i class="fa-solid fa-xmark"></i>`,
+						// label: "Cancel",
+						callback: (_html: string) => conf(null)
 					},
 				},
 			}, {});
 			dialog.render(true);
 		});
-
-
 	}
 
 	static async narratorDialog() : Promise<string> {
@@ -438,23 +415,24 @@ export class CityDialogs {
 	}
 
 	static async getDowntimeTemplate(actor: CityActor) : Promise <string> {
-		const templateData = {actor};
-		const system = CitySettings.getBaseSystem();
-		switch (system) {
-			case "city-of-mist":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
-			case "otherscape":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
-			case "legend":
-				return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
-			default:
-				system satisfies never;
-				throw new Error(`Can't find downtime, bad system: ${system}`);
-		}
+		return await SystemModule.active.downtimeTemplate(actor);
+		// const templateData = {actor};
+		// const system = CitySettings.getBaseSystem();
+		// switch (system) {
+		// 	case "city-of-mist":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
+		// 	case "otherscape":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		// 	case "legend":
+		// 		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		// 	default:
+		// 		system satisfies never;
+		// 		throw new Error(`Can't find downtime, bad system: ${system}`);
+		// }
 
 	}
 
-	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: ChatSpeakerObject} = {}) {
+	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: Foundry.ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
 		// const render = options?.disable ? (args: string[]) => {
 		// 	console.log("Trying to disable");
@@ -815,6 +793,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
 							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
+							const THEME_TYPES = SystemModule.themeTypes();
 							if (!Object.keys(THEME_TYPES).includes(result!)) {
 								ui.notifications.error(`Bad Theme Type ${result}`)
 								conf(null);
@@ -849,7 +828,6 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 						label: localize("CityOfMist.dialog.SHB.yes"),
 						callback: (html: string) => {
 							const themeId = $(html).find(".blaze-theme-sacrifice :selected").val() as string;
-							console.log(`Theme Id ${themeId}`);
 							conf(actor.getTheme(themeId));
 						}
 					},

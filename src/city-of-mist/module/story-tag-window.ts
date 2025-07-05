@@ -20,7 +20,8 @@ export class StoryTagDisplayContainer {
 	static instance: StoryTagDisplayContainer;
 
 	static init() {
-		Hooks.once('cityDBLoaded', () => {
+		Hooks.once('cityDBLoaded', async () => {
+			await CityHelpers.asyncwait(0.5);
 			if (CityHelpers.sceneTagWindowEnabled())  {
 				StoryTagDisplayContainer.instance = new StoryTagDisplayContainer();
 			}
@@ -29,21 +30,7 @@ export class StoryTagDisplayContainer {
 
 	constructor() {
 		this.element = HTMLTools.div(["scene-tag-window"]);
-		let width, height;
-		switch (CitySettings.sceneTagWindowPosition()) {
-			case "left":
-				width =  (-50) + $(document).find("#controls").width()!;
-				height =  50+ $(document).find("#navigation").height()!;
-				break;
-			case "right":
-				width =  (-350) + $(document).find("#ui-right").position().left;
-				height =  50+ $(document).find("#navigation").height()!;
-				break;
-			default:
-				return;
-		}
-		this.element.style.left = `${width}px`;
-		this.element.style.top = `${height}px`;
+		this.refreshPosition();
 		this.dataElement = HTMLTools.div("scene-tags-template");
 		$(this.dataElement).addClass("item-selection-context");
 		this.element.appendChild(this.dataElement);
@@ -61,7 +48,28 @@ export class StoryTagDisplayContainer {
 		Hooks.on("deleteCombatant", () =>this.refreshContents());
 	}
 
+	refreshPosition() {
+		let width, height;
+		const doc = $(document);
+		switch (CitySettings.sceneTagWindowPosition()) {
+			case "left":
+				width =  50 + doc.find("#ui-left-column-1").width()!;
+				height =  50+ doc.find("#scene-navigation-active").height()!;
+				break;
+			case "right":
+				width =  (-350) + doc.find("#ui-right").position().left;
+				height =  50+ doc.find("#navigation").height()!;
+				break;
+			default:
+				return;
+		}
+		this.element.style.left = `${width}px`;
+		this.element.style.top = `${height}px`;
+
+	}
+
 	async refreshContents() {
+		this.refreshPosition();
 		const tagsAndStatuses = await SceneTags.getSceneTagsAndStatuses();
 		if (tagsAndStatuses.length == 0 && !game.user.isGM) {
 			this.dataElement.innerHTML= "";
@@ -174,10 +182,10 @@ export class StoryTagDisplayContainer {
 	}
 
 	async _dragDropEvent(event: JQuery.DropEvent) {
-		event.stopPropagation();
+		event.stopImmediatePropagation();
 		console.debug("Standard Drag and drop");
 		const dragging = DragAndDrop.draggedElement();
-		const existingStatus = this.getStatusAt(event);
+		// const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
 		if (x == undefined) {
 			ui.notifications.error("Error with Drag and Drop");
@@ -187,19 +195,18 @@ export class StoryTagDisplayContainer {
 			x = x.actor;
 		}
 		if (x == SceneTags) {
-			await DragAndDrop.dropDraggableOnSceneTags(dragging, {mergeStatus: existingStatus});
+			await DragAndDrop.dropDraggableOnSceneTags(dragging);
 			return;
 		}
 		if (x instanceof CityActor) {
-			console.log(`existing Status: ${existingStatus?.name}`);
-			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
+			await DragAndDrop.dropDraggableOnActor(dragging, x);
 			return;
 		}
 	}
 
 	async _dropOnOtherStatus(event: JQuery.DropEvent) {
-		event.stopPropagation();
-		console.debug("Other STatus Drop");
+		event.stopImmediatePropagation();
+		console.debug("Other Status Drop");
 		const dragging = DragAndDrop.draggedElement();
 		const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
@@ -208,7 +215,7 @@ export class StoryTagDisplayContainer {
 			return;
 		}
 		if (x instanceof CityActor) {
-			console.log(`existing Status: ${existingStatus?.name}`);
+			// console.log(`existing Status: ${existingStatus?.name}`);
 			await DragAndDrop.dropDraggableOnActor(dragging, x, {mergeStatus: existingStatus});
 			return;
 		}

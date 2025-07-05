@@ -1,0 +1,130 @@
+{
+  "folder": "aLSM3zT3tZKYMoXq",
+  "name": "Mastery",
+  "type": "themebook",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Greatness",
+    "power_questions": {
+      "A": {
+        "question": "",
+        "subtag": false
+      },
+      "B": {
+        "question": "",
+        "subtag": false
+      },
+      "C": {
+        "question": "",
+        "subtag": false
+      },
+      "D": {
+        "question": "",
+        "subtag": false
+      },
+      "E": {
+        "question": "",
+        "subtag": false
+      },
+      "F": {
+        "question": "",
+        "subtag": false
+      },
+      "G": {
+        "question": "",
+        "subtag": false
+      },
+      "H": {
+        "question": "",
+        "subtag": false
+      },
+      "I": {
+        "question": "",
+        "subtag": false
+      },
+      "J": {
+        "question": "",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "",
+        "subtag": false
+      },
+      "B": {
+        "question": "",
+        "subtag": false
+      },
+      "C": {
+        "question": "",
+        "subtag": false
+      },
+      "D": {
+        "question": "",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "mystery",
+    "fade_type": "default",
+    "system_compatiblity": "legend",
+    "locale_name": "",
+    "systemName": "mastery"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749364791893,
+    "modifiedTime": 1749367435337,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "_id": "1YUUWu1PlD6t7M22",
+  "sort": 400000,
+  "_key": "!items!1YUUWu1PlD6t7M22"
+}

@@ -4,12 +4,10 @@
   "type": "themebook",
   "img": "icons/svg/item-bag.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 100391,
+  "folder": "BXvixIBuJvx2z59I",
+  "sort": -100000,
   "flags": {
-    "core": {
-      "sourceId": "Item.Cm2LHznnctGOim7B"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -114,7 +112,9 @@
       }
     },
     "subtype": "Mist",
-    "motivation": "directive"
+    "motivation": "directive",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Unit"
   },
   "ownership": {
     "default": 0,
@@ -122,11 +122,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669236443,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749514009054,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.Cm2LHznnctGOim7B",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!WUWnwsC9FYAGzgpH"
 }

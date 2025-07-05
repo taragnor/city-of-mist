@@ -4,12 +4,10 @@
   "type": "themebook",
   "img": "icons/svg/item-bag.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 2000000,
+  "folder": "BXvixIBuJvx2z59I",
+  "sort": 100000,
   "flags": {
-    "core": {
-      "sourceId": "Item.9Wdnrx6GRIh5oSk1"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -112,7 +110,9 @@
     },
     "localeName": "",
     "subtype": "Mist",
-    "motivation": "directive"
+    "motivation": "directive",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "AdvancedArt"
   },
   "ownership": {
     "default": 0,
@@ -120,11 +120,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749513996050,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.9Wdnrx6GRIh5oSk1",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!ll4esBP99oStT0TH"
 }

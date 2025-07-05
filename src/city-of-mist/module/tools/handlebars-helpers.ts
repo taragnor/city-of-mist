@@ -46,11 +46,14 @@ export class HandlebarsHelpers {
 		};
 	}
 } // end of class
-export function localizeS (string :string) {
-	if (!string.startsWith("#"))
+export function localizeS (str :string): SafeString {
+	if (str == undefined || typeof str != "string")  {
+		return "ERROR";
+	}
+	if (!str.startsWith("#"))
 		//@ts-ignore
-		return new Handlebars.SafeString(string);
-	const localizeCode = string.substring(1);
+		return new Handlebars.SafeString(str);
+	const localizeCode = str.trim().substring(1);
 	const localized = game.i18n.localize(localizeCode);
 	//@ts-ignore
 	return new Handlebars.SafeString(localized);

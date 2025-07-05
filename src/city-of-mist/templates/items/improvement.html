@@ -9,8 +9,7 @@
 			System
 		</label>
 	</div>
-	<select class="" name="system.system_compatiblity" title="System choice"> {{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-	</select>
+	{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 	<label> Uses </label>
 	<input name="system.uses.max" value="{{item.system.uses.max}}">
 	<label class="dialog-label" for="free-content"> Allow Override </label>

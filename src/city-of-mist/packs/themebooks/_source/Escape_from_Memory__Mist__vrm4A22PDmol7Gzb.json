@@ -35,7 +35,8 @@
     "abbreviation": "ESCAPE",
     "subtype": "themeclassroll",
     "theme_class": "Mist",
-    "system_compatiblity": "city-of-mist"
+    "system_compatiblity": "city-of-mist",
+    "systemName": ""
   },
   "effects": [],
   "ownership": {
@@ -43,17 +44,18 @@
     "XObjulrAnIfZ284S": 3
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.GsW4KuiWMd3lKTw4"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1683270286004,
-    "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749516092047,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.GsW4KuiWMd3lKTw4",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 1800000,

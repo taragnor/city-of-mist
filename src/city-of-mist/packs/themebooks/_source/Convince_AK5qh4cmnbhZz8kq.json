@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 2000000,
   "flags": {
-    "core": {
-      "sourceId": "Item.MH7B3CQXUNhIig8X"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your abilities to talk, threaten, or seduce someone into doing something, roll+Power.",
@@ -28,7 +26,8 @@
     "abbreviation": "CON",
     "subtype": "standard",
     "theme_class": "",
-    "system_compatiblity": "city-of-mist"
+    "system_compatiblity": "city-of-mist",
+    "systemName": ""
   },
   "ownership": {
     "default": 0,
@@ -36,11 +35,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
-    "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749516076094,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.MH7B3CQXUNhIig8X",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!AK5qh4cmnbhZz8kq"
 }

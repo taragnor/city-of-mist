@@ -1,3 +1,4 @@
+import { CRollOptions } from "./mist-roll.js";
 import { MistChatMessage } from "./mist-chat-message.js";
 import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
@@ -9,7 +10,8 @@ import { DragAndDrop } from "./dragAndDrop.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Tag } from "./city-item.js";
 import { Move } from "./city-item.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
+// import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { SystemModule } from "./config/system-module.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { localize } from "./city.js";
@@ -141,6 +143,7 @@ export class CityRoll {
 		let tags : RollModifier[]= [];
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
+				&& (x.amount <= 0 || !options.noPositiveTags)
 				&& (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId) //filter out deleted tags
 			);
 			if (options.burnTag && options.burnTag.length) {
@@ -173,12 +176,12 @@ export class CityRoll {
 			.concat(helpHurt)
 			.concat(mods)
 		;
-		if (options.themeType) {
+		for (const themeType of (options.themeTypes ?? [])) {
 			const blazetheme = options.BlazeThemeId ? actor.getTheme(options.BlazeThemeId) : undefined;
 			modifiers.push({
-				id: options.themeType,
-				name: localize(THEME_TYPES[options.themeType]) + (blazetheme ?` (${blazetheme.getDisplayedName()})` : ""),
-				amount: actor.getNumberOfThemes(options.themeType),
+				id: themeType,
+				name: localize(SystemModule.allThemeTypes()[themeType].localization) + (blazetheme ?` (${blazetheme.getDisplayedName()})` : ""),
+				amount: actor.getNumberOfThemes(themeType),
 				ownerId: null,
 				tagId: null,
 				type: "modifier",
@@ -554,37 +557,10 @@ export class CityRoll {
 		foundry.utils.mergeObject(this.#options, {
 			noTags: true,
 			noStatus: true,
-			themeType,
+			themeTypes: [themeType],
 			setRoll: 0
-		});
+		} satisfies Partial <CRollOptions>);
 
-	}
-
-	logosRoll () {
-		foundry.utils.mergeObject(this.#options, {
-			noTags: true,
-			noStatus: true,
-			logosRoll: true,
-			setRoll: 0
-		});
-	}
-
-	mythosRoll () {
-		foundry.utils.mergeObject(this.#options, {
-			noTags: true,
-			noStatus: true,
-			mythosRoll: true,
-			setRoll: 0
-		});
-	}
-
-	mistRoll () {
-		foundry.utils.mergeObject(this.#options, {
-			noTags: true,
-			noStatus: true,
-			mistRoll: true,
-			setRoll: 0
-		});
 	}
 
 	noRoll () {

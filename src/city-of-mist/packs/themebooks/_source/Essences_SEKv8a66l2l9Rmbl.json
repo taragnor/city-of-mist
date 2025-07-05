@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "qFlVVUo2eXeqRPR6",
+  "name": "Essences",
+  "color": null,
+  "sorting": "a",
+  "_id": "SEKv8a66l2l9Rmbl",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "modifiedTime": 1749347249399
+  },
+  "_key": "!folders!SEKv8a66l2l9Rmbl"
+}

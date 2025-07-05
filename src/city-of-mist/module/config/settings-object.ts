@@ -1,17 +1,19 @@
-import { CityDataMigration } from "../migration.js";
 import { refreshStyleBodyTags } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
 import { localize } from "../city.js";
+import { SystemModule } from "./system-module.js";
 
 export type System = keyof ReturnType<typeof SYSTEM_CHOICES>;
 
-export function SYSTEM_CHOICES() {
-	return {
-		"city-of-mist": localize("CityOfMist.settings.system.0"),
-		"otherscape": localize("CityOfMist.settings.system.1"),
-		"legend": localize("CityOfMist.settings.system.2"),
-	} as const;
+
+export function SYSTEM_CHOICES() : SYSTEM_NAMES {
+	return SystemModule.systemChoices();
+	// return {
+	// 	"city-of-mist": localize("CityOfMist.settings.system.0"),
+	// 	"otherscape": localize("CityOfMist.settings.system.1"),
+	// 	"legend": localize("CityOfMist.settings.system.2"),
+	// } as const;
 }
 
 export function CITY_SETTINGS() {
@@ -24,9 +26,10 @@ export function CITY_SETTINGS() {
 			type: String,
 			default: "city-of-mist",
 			choices: {
-				"city-of-mist": localize("CityOfMist.settings.system.0"),
-				"otherscape": localize("CityOfMist.settings.system.1"),
-				"legend": localize("CityOfMist.settings.system.2"),
+				...SYSTEM_CHOICES(),
+				// "city-of-mist": localize("CityOfMist.settings.system.0"),
+				// "otherscape": localize("CityOfMist.settings.system.1"),
+				// "legend": localize("CityOfMist.settings.system.2"),
 				"custom": localize("CityOfMist.settings.system.3"),
 			},
 			restricted: true,
@@ -344,7 +347,7 @@ export function DEV_SETTINGS() {
 			config: (game.settings.get('city-of-mist', "system") == "custom"),
 			type: String,
 			default: "city-of-mist",
-			choices: SYSTEM_CHOICES(),
+			choices: {...SYSTEM_CHOICES()},
 			restricted: true,
 			onChange: (newval: string) => {
 				refreshStyleBodyTags(newval as any);
@@ -398,9 +401,10 @@ export function DEV_SETTINGS() {
 			type: String,
 			default: "city-of-mist",
 			choices: {
-				"city-of-mist": localize("CityOfMist.settings.system.0"),
-				"otherscape": localize("CityOfMist.settings.system.1"),
-				"legend": localize("CityOfMist.settings.system.2"),
+				...SYSTEM_CHOICES(),
+				// "city-of-mist": localize("CityOfMist.settings.system.0"),
+				// "otherscape": localize("CityOfMist.settings.system.1"),
+				// "legend": localize("CityOfMist.settings.system.2"),
 				"none": localize("CityOfMist.settings.movesInclude.none"),
 			},
 			restricted: true,
@@ -543,12 +547,22 @@ export function delayedReload() {
 
 let isDelayedReload = false;
 
-export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof DEV_SETTINGS>);
+export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof DEV_SETTINGS> & OTHERSETTINGS);
 
- type SettingsChoicesSub<R extends Record<string, SettingConfig<any>>, K extends keyof R> = R[K]["choices"] extends Record<string, any> ? keyof R[K]["choices"] : InstanceType<R[K]["type"]>;
+ type SettingsChoicesSub<R extends Record<string, SelectSettings<any>>, K extends keyof R> = R[K]["choices"] extends Record<string, any> ? keyof R[K]["choices"] : InstanceType<R[K]["type"]>;
 
 export type SettingsChoices<K extends keyof SettingsType> = SettingsChoicesSub<SettingsType, K>;
 
 type a = SettingsChoices<"system">;
+type b = SettingsChoices<"autoEssence">;
+type k = keyof SettingsType;
 
+declare global {
+	type SelectSettings<T extends SettingConfig<any> = SettingConfig<any>> = T;
+	interface SYSTEM_NAMES {
+	}
+
+	interface OTHERSETTINGS extends Record<string & {}, SelectSettings> {
+	}
+}
 

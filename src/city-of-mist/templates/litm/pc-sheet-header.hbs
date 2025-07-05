@@ -1,0 +1,9 @@
+<div class="header-row">
+	<input type="text" class="borderless character-name" name="name" value="{{actor.name}}" title="Character Name" placeholder="Character Name" {{#if actor.system.locked}} disabled {{/if}}>
+</div>
+
+<div class="header-row">
+	<input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if actor.system.locked}} disabled {{/if}}>
+</div>
+
+

@@ -1,0 +1,130 @@
+{
+  "folder": "20erbq1NY0W3fiuC",
+  "name": "Duty",
+  "type": "themebook",
+  "_id": "4Sy3ty7CUEq4AmyJ",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "subtype": "Adventure",
+    "power_questions": {
+      "A": {
+        "question": "",
+        "subtag": false
+      },
+      "B": {
+        "question": "",
+        "subtag": false
+      },
+      "C": {
+        "question": "",
+        "subtag": false
+      },
+      "D": {
+        "question": "",
+        "subtag": false
+      },
+      "E": {
+        "question": "",
+        "subtag": false
+      },
+      "F": {
+        "question": "",
+        "subtag": false
+      },
+      "G": {
+        "question": "",
+        "subtag": false
+      },
+      "H": {
+        "question": "",
+        "subtag": false
+      },
+      "I": {
+        "question": "",
+        "subtag": false
+      },
+      "J": {
+        "question": "",
+        "subtag": false
+      }
+    },
+    "weakness_questions": {
+      "A": {
+        "question": "",
+        "subtag": false
+      },
+      "B": {
+        "question": "",
+        "subtag": false
+      },
+      "C": {
+        "question": "",
+        "subtag": false
+      },
+      "D": {
+        "question": "",
+        "subtag": false
+      }
+    },
+    "improvements": {
+      "0": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "1": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "2": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "3": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      },
+      "4": {
+        "name": "",
+        "description": "",
+        "uses": null,
+        "effect_class": ""
+      }
+    },
+    "motivation": "mystery",
+    "fade_type": "default",
+    "system_compatiblity": "legend",
+    "locale_name": "",
+    "systemName": "duty"
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749362731285,
+    "modifiedTime": 1749367386275,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_key": "!items!4Sy3ty7CUEq4AmyJ"
+}

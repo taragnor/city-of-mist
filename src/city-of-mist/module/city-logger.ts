@@ -1,3 +1,5 @@
+import { NamedStatusLike } from "./status-math.js";
+import { Status } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { CityActor } from "./city-actor.js";
 import { CityItem } from "./city-item.js";
@@ -36,6 +38,19 @@ export class CityLogger extends Logger {
 			const speaker = ChatMessage.getSpeaker({alias: actor.getDisplayedName()});
 			await Logger.sendToChat(html, speaker);
 		}
+	}
+
+	static async reportStatusSubtract(owner: CityActor,  amt:number, {name: oldname, tier: oldtier, pips:oldpips} : NamedStatusLike, newStatus: NamedStatusLike, realStatus: Status) {
+		const oldpipsstr = oldpips ? `.${oldpips}`: "";
+		const pipsstr = newStatus.pips ? `.${newStatus.pips}`: "";
+		this.modificationLog(owner, "Subtract",  realStatus , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
+	}
+
+	static async reportStatusAdd(owner: CityActor,  amt:number, {name: oldname, tier: oldtier, pips:oldpips} : NamedStatusLike, newStatus: NamedStatusLike, realStatus: Status) {
+		const oldpipsstr = oldpips ? `.${oldpips}`: "";
+		const pipsstr = newStatus.pips ? `.${newStatus.pips}`: "";
+		this.modificationLog(owner, "Merged",  realStatus , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
+
 	}
 
 }

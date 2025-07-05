@@ -240,7 +240,11 @@ h1#Theme\ Header p {
 	margin: 0;
 }
 
-button {
+.window-content form button {
+	font-family: "Rift Bold";
+}
+
+.window-app form button {
 	margin: 0 1px;
 	border: 2px solid #321c3a;
 	box-shadow: 0 0 10px rgba(255, 0, 91, 0.75),
@@ -248,7 +252,7 @@ button {
 	border-radius: 4px;
 	display: inline-block;
 	position: relative;
-	font-family: "Rift Bold";
+	/* font-family: "Rift Bold"; Caused errors with layout*/
 	font-weight: bold;
 	text-transform: uppercase;
 	background: rgb(21 21 21 / 80%);
@@ -264,7 +268,7 @@ button {
 	box-shadow: 0 0 5px var(--mythos-pink), 0 0 10px var(--mythos-pink) inset;
 }
 
-button:hover {
+.window-app form button:hover {
 	color: #fff;
 	background: #c5044b;
 	box-shadow: 0 0 5px rgba(255, 0, 91, 0.75),
@@ -1598,8 +1602,13 @@ div.themebook-name {
 
 img.profile-img {
 	max-height: 180px !important;
+	max-width: 140px !important;
 	/* width: auto; */
 	/* height: 100% !important; */
+}
+
+.essence-sheet img.profile-img {
+	max-height: 120px !important;
 }
 
 .threat-sheet img.profile-img {
@@ -1803,7 +1812,7 @@ div.bio-header {
 	justify-content: flex-start;
 }
 
-div.juice-tab {
+section#juice-section {
 	display: flex;
 	flex-direction: column;
 }
@@ -1939,6 +1948,10 @@ select.move-selector {
 
 input.effect-class {
 	width: 20%;
+}
+
+input.system-name {
+	width: 40%;
 }
 
 div.themebook-improvement-entry {
@@ -3098,6 +3111,14 @@ input.tk-tagname-letter {
 	font-weight: bold;
 	border: solid;
 	padding: 5px;
+}
+
+.shaded {
+	opacity: 55%;
+}
+
+.unlocked .themebook-motivation-label {
+	cursor: e-resize;
 }
 
 /* span.plus-minus-controls { */

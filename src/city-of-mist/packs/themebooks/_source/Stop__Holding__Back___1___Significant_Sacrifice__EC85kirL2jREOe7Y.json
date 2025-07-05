@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 100000,
   "flags": {
-    "core": {
-      "sourceId": "Item.KNwlfwxd3S3kfJD4"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your powers in a new and never-before-seen way or scale, tell the MC what you hope to achieve. The MC will tell you the sacrifice it will take from you. Then roll+Logos.",
@@ -37,10 +35,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": "Item.KNwlfwxd3S3kfJD4",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!EC85kirL2jREOe7Y"
 }

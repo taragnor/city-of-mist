@@ -7,7 +7,7 @@
 		{{localize "CityOfMist.terms.clueQuestion"}}
 	</label>
 	{{#if (not item.system.custom_tag) }}
-	<div class="question" > {{item.system.question_letter}} - {{item.system.question}} </div>
+	<div class="question" > {{item.system.question_letter}} - {{localizeS item.system.question}} </div>
 	{{else}}
 	<input type="text" class="tag-question-entry" name="system.question" value="{{item.system.question}}">
 	{{/if}}

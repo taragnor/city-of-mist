@@ -1,3 +1,5 @@
+import { Essence } from "./city-item.js";
+import { CityItem } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { CRollOptions } from "./mist-roll.js";
@@ -27,6 +29,20 @@ export class CityCharacterSheet extends CityActorSheet {
 			tabs: [{navSelector: ".tabs", contentSelector: ".sheet-body", initial: "themes"}]
 		});
 	}
+
+	override async _onDropItem(event: Event, o: any) {
+		//@ts-ignore
+		const item : CityItem = await Item.implementation.fromDropData(o);
+		switch (item.system.type) {
+			case "essence":
+				await this.actor.setEssence(item as Essence);
+				return;
+			default:
+				return super._onDropItem(event, o);
+		}
+
+	}
+
 
 	override async getData() {
 		let data = await super.getData();
@@ -197,6 +213,10 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
 		html.find(".clue-list-section .clue-name").on('click', this._clueEdit.bind(this));
 		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
+		html.find(".create-relationship-tag").click(this.createRelationshipTag.bind(this));
+		html.find('.essence-burn').on("click", this._essenceBurn.bind(this));
+		html.find('.essence-unburn').on("click", this._essenceUnburn.bind(this));
+
 	}
 
 	async _addBUImprovement (event: JQuery.Event) {
@@ -451,5 +471,23 @@ export class CityCharacterSheet extends CityActorSheet {
 			owner.sheet.render(true);
 		}
 	}
+
+	async createRelationshipTag( _ev: JQuery.ClickEvent) {
+		const owner = this.actor;
+		const retobj = await owner.createRelationshipTag();
+		if (!retobj) return;
+		const tag =  owner.getTag(retobj.id)!;
+		await this.tagDialog(tag);
+		await CityHelpers.modificationLog(owner, "Created", tag);
+	}
+
+	async _essenceBurn(_ev: JQuery.ClickEvent) {
+		await this.actor.setEssenceBurn(true);
+	}
+
+	async _essenceUnburn(_ev: JQuery.ClickEvent) {
+		await this.actor.setEssenceBurn(false);
+	}
+
 
 }

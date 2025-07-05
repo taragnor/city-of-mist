@@ -1,3 +1,6 @@
+import { SystemModule } from "./config/system-module.js";
+import { Overrideable } from "./city-item.js";
+import { Essence } from "./city-item.js";
 import { CitySettings } from "./settings.js";
 import { Improvement } from "./city-item.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -99,7 +102,7 @@ export class CityDB extends DBAccessor {
 
 	static getLoadoutThemebook(): Themebook | undefined {
 		const themebooks = this.themebooks.filter( x=>
-			x.system.subtype == "Loadout"
+			SystemModule.isLoadoutThemeType(x.system.subtype)
 			&& x.isSystemCompatible(CitySettings.getBaseSystem())
 		);
 		if (themebooks.some( x=> !x.system.free_content))
@@ -331,6 +334,44 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
+	static essences() : Essence [] {
+		const essences = this.allItems().filter( item =>
+			item.system.type == "essence" &&
+			item.isCompatible()
+		) as Essence[];
+		return essences.filter(this.filterBestVersion);
+	}
+
+	static getEssence(id: string) : Essence | undefined {
+		return this.essences().find( item => item.id == id);
+	}
+
+	static getEssenceBySystemName(name: keyof EssenceNames) : Essence | undefined {
+		return this.essences().find( item =>
+			item.system.systemName == name);
+	}
+
+	static override allItems() : CityItem[] {
+		return super.allItems() as CityItem[];
+	}
+
+	static filterBestVersion< T extends Overrideable>(item: T, _index: number, arr:  T[]) {
+		const others = arr.filter(x=> x!= item && CityDB.overrideableEqualityTest(item, x))
+		if (others.length == 0)
+		{ //if there is only one kind, use that
+			return true;
+		}
+		if (item.system.free_content && others.some( other=> !other.system.free_content)) {
+			return false;
+		}
+		return true;
+	}
+
+	static overrideableEqualityTest < T extends Overrideable> (item1: T, item2: T) {
+		if (item1.type != item2.type) return false;
+		return item1.systemName == item2.systemName;
+	}
+
 }
 
 CityDB.init();
@@ -338,3 +379,8 @@ CityDB.init();
 
 //@ts-ignore
 window.CityDB = CityDB;
+
+declare global {
+	interface EssenceNames {
+	}
+}

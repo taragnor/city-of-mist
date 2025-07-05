@@ -15,6 +15,7 @@
 				{{selectOptions MOTIVATIONLIST localize=true selected=item.system.motivation}}
 			</select>
 		</div>
+		{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
 		<label>
 			Basis Themebook
 		</label>
@@ -33,6 +34,7 @@
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="power" tagList=item.system.power_tagstk}}
 		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="weakness" tagList=item.system.weakness_tagstk}}
 		{{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
+
 	</section>
 
 </form>

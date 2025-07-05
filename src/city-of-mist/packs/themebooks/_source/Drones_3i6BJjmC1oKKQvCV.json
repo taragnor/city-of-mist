@@ -105,7 +105,8 @@
     "motivation": "itch",
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
-    "locale_name": "#Otherscape.themebook.drones.name"
+    "locale_name": "#Otherscape.themebook.drones.name",
+    "systemName": "Drones"
   },
   "effects": [],
   "sort": 0,
@@ -116,11 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1711932255637,
-    "modifiedTime": 1711932655598,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749364371013,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!3i6BJjmC1oKKQvCV"
 }

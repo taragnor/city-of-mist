@@ -1,7 +1,7 @@
 {
 	"id": "city-of-mist",
-	"title": "City of Mist",
-	"description": "Unofficial City of Mist RPG system",
+	"title": "City of Mist / Mist Engine",
+	"description": "Unofficial City of Mist RPG system as well as providing support for other Mist Engine games like Otherscape and Legend in the Mist",
 	"authors": [
 		{
 			"name": "Taragnor",
@@ -10,11 +10,11 @@
 		}
 	],
 	"url": "https://github.com/taragnor/city-of-mist/",
-	"version": "3.1.4",
+	"version": "4.0.0",
 	"compatibility": {
-		"minimum": "12",
-		"verified": "12",
-		"maximum": "12"
+		"minimum": "13",
+		"verified": "13",
+		"maximum": "13"
 	},
 	"esmodules": [
 		"module/city.js"
@@ -104,5 +104,5 @@
   ],
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/taragnor/city-of-mist/main/system.json",
-  "download": "https://github.com/taragnor/city-of-mist/releases/download/v.3.1.4/city-of-mist.zip"
+  "download": "https://github.com/taragnor/city-of-mist/releases/download/v.4.0.0/city-of-mist.zip"
 }

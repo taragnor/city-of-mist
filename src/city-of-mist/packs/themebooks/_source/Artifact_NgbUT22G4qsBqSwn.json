@@ -105,7 +105,8 @@
     "motivation": "ritual",
     "fade_type": "fade",
     "system_compatiblity": "otherscape",
-    "locale_name": "#Otherscape.themebook.artifact.name"
+    "locale_name": "#Otherscape.themebook.artifact.name",
+    "systemName": "Artifact"
   },
   "effects": [],
   "sort": 0,
@@ -116,11 +117,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1711931505096,
-    "modifiedTime": 1711932529930,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749364329129,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!NgbUT22G4qsBqSwn"
 }

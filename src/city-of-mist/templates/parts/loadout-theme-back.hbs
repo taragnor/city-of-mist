@@ -3,6 +3,7 @@
 		{{getLoadoutThemeName}}
 	</div>
 
+	{{#if (canImprove theme)}}
 	<div class="att-fade-section">
 		<div class="attention-block">
 			<div class="dots-section flex-std">
@@ -26,6 +27,7 @@
 			</div>
 		</div>
 	</div>
+	{{/if}}
 
 	<div class="improvement-section">
 		<div id="improvements-header" class="improvements-header"> {{localize 'CityOfMist.terms.improvements' }}

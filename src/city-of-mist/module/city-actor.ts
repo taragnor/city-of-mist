@@ -1,7 +1,8 @@
+import { SystemModule } from "./config/system-module.js";
+import { Essence } from "./city-item.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { CitySettings } from "./settings.js"
-import { COLLECTIVE } from "./datamodel/collective.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { Themebook } from "./city-item.js";
@@ -10,12 +11,12 @@ import { Move } from "./city-item.js";
 import { Tag } from "./city-item.js";
 import { localize } from "./city.js";
 import { CityItem } from "./city-item.js";
-import {CityDB} from "./city-db.js";
-import {SelectedTagsAndStatus} from "./selected-tags.js";
-import {CityHelpers} from "./city-helpers.js";
-import {SceneTags} from "./scene-tags.js";
-import {CityDialogs} from "./city-dialogs.js";
-import {CityLogger} from "./city-logger.js";
+import { CityDB } from "./city-db.js";
+import { SelectedTagsAndStatus } from "./selected-tags.js";
+import { CityHelpers } from "./city-helpers.js";
+import { SceneTags } from "./scene-tags.js";
+import { CityDialogs } from "./city-dialogs.js";
+import { CityLogger } from "./city-logger.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { Juice } from "./city-item.js";
 import { Improvement } from "./city-item.js";
@@ -128,8 +129,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return;
 		} else {
 			if (collective.length == 0) {
-				const system = CitySettings.getBaseSystem();
-				const col_name = localize(COLLECTIVE[system])
+				const col_name = SystemModule.active.collectiveTermName();
 				await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
 				return;
 			}
@@ -142,8 +142,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async getCollectiveStatus() : Promise<Status> {
 		let collective = this.collectiveStatus;
 		if (!collective.length) {
-			const system = CitySettings.getBaseSystem();
-			const col_name = localize(COLLECTIVE[system]);
+			// const system = CitySettings.getBaseSystem();
+			// const col_name = localize(COLLECTIVE[system]);
+				const col_name = SystemModule.active.collectiveTermName();
 			await this.createNewStatus(col_name, this.collective_size, 0, { "specialType": "collective"});
 			collective = this.collectiveStatus;
 		}
@@ -581,8 +582,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			ui.notifications.warn("Can't add another theme");
 			return null;
 		}
-		const theme  = await this.createNewItem(obj)
+		const theme  = await this.createNewItem(obj) as Theme;
 		if (theme) {
+			Hooks.callAll("themeCreated", this, theme);
 			return theme;
 		}
 		ui.notifications.error(`Trouble creating theme: ${name} from ${themebook.name}`);
@@ -1010,6 +1012,26 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return await this.createNewItem(obj) as Tag;
 	}
 
+	get relationshipTags(): Tag[] {
+		return this.items.filter( item => item.isTag() && item.isRelationshipTag()) as Tag[];
+	}
+
+	async createRelationshipTag(name = "Unnamed Tag", options: Partial<Tag["system"]> = {}) : Promise<Tag | null> {
+		const obj : DeepPartial<CityItem> = {
+			name: name.trim(),
+			type: "tag",
+			system: {
+				subtype: "relationship",
+				theme_id: "",
+				question_letter : "_",
+				question: "",
+				crispy: true,
+				...options,
+			}
+		};
+		return await this.createNewItem(obj) as Tag;
+	}
+
 	async deleteStoryTagByName(tagname: string) {
 		const tag = this.getStoryTags().find( x=> x.name == tagname);
 		if (tag)
@@ -1167,16 +1189,17 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return prArray;
 	}
 
-	get directoryName() {
-		const mythos = this.system.mythos ? ` [${this.system.mythos}]` : "";
-		const owner_name = this.name + mythos;
-		if (this.isOwner) {
-			if (this.name != this.tokenName && this.tokenName?.length) {
-				return owner_name + ` / ${this.tokenName}`;
-			}
-			return owner_name;
-		}
-		return this.tokenName ?? this.name;
+	get directoryName() : string {
+		return SystemModule.active.directoryName(this);
+		// const mythos = this.system.mythos ? ` [${this.system.mythos}]` : "";
+		// const owner_name = this.name + mythos;
+		// if (this.isOwner) {
+		// 	if (this.name != this.tokenName && this.tokenName?.length) {
+		// 		return owner_name + ` / ${this.tokenName}`;
+		// 	}
+		// 	return owner_name;
+		// }
+		// return this.tokenName ?? this.name;
 	}
 
 	get tokenName() {
@@ -1210,7 +1233,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		switch (this.type) {
 			case "crew":
 				if (this.isOwner) {
-					return game.actors.filter ( (act: CityActor) => {
+					return (game.actors.contents as CityActor[])
+						.filter ( (act: CityActor) => {
 						return act.type == "character"
 							&& act.isOwner
 							&& act.crewTheme?.parent == this;
@@ -1221,7 +1245,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
 					return [];
 				if (this.isOwner && this.getThemes().length > 0) {
-					return game.actors.filter ( (act:CityActor) => {
+					return (game.actors.contents as CityActor[])
+					.filter ( (act:CityActor) => {
 						return act.type == "character"
 							&& act.isOwner
 							&& act.activeExtra != null
@@ -1471,9 +1496,51 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async toggleLoadoutTagActivation(this: PC, loadoutTagId: string) : Promise<boolean> {
 		const theme = this.loadout;
 		if (!theme) throw new Error(`Can't find Loadout Theme`);
-		const tag =theme.tags().find( x=> x.id == loadoutTagId);
+		const tag = theme.tags().find( x=> x.id == loadoutTagId);
 		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
 		return await tag.toggleLoadoutActivation();
+	}
+
+	async setEssence(this: PC, essence: Essence) {
+		if (essence.systemName) {
+			await this.update( {"system.essence.systemName" : essence.systemName});
+		} else {
+			await this.update( {"system.essence.systemName" : essence.id});
+		}
+		return this;
+	}
+
+	async setEssenceBurn(this: PC, val : boolean, sound= true){
+		if (val && !this.system.essence.isBurned && sound) {
+			CityHelpers.playBurn();
+		}
+		await this.update( {"system.essence.isBurned": val});
+	}
+
+
+	get isEssenceBurned(): boolean {
+		switch (this.system.type) {
+			case "character":
+				return this.system.essence.isBurned;
+			case "threat":
+			case "crew":
+				break;
+			default:
+				this.system satisfies never;
+		}
+		return false;
+	}
+
+	async clearEssence(this: PC) {
+		await this.update( {"system.essence" : ""});
+		return this;
+	}
+
+	get essence() : Essence | undefined {
+		if (this.system.type != "character") return undefined;
+		const ess = CityDB.getEssenceBySystemName(this.system.essence.systemName);
+		if (ess) return ess;
+		return CityDB.getEssence(this.system.essence.systemName);
 	}
 
 
@@ -1486,7 +1553,8 @@ export type Danger = Subtype<CityActor, "threat">;
 export type Crew = Subtype<CityActor, "crew">;
 
 
-Hooks.on("updateActor", async (actor: CityActor) => {
+Hooks.on("updateActor", async (act) => {
+	const actor = act as CityActor;
 	if (actor.isDanger()) {
 		await actor.updateCollectiveStatus();
 	}

@@ -1,0 +1,21 @@
+{
+  "type": "Item",
+  "folder": "nw4yL57vLsI56WaN",
+  "name": "Origin",
+  "color": null,
+  "sorting": "a",
+  "_id": "GMm1HMbH1hrSzx1o",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!GMm1HMbH1hrSzx1o"
+}

@@ -4,8 +4,8 @@
   "type": "themebook",
   "img": "icons/svg/mystery-man.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 106250,
+  "folder": "7ji0PqBuZO78BzmB",
+  "sort": 175000,
   "flags": {},
   "system": {
     "description": "",
@@ -107,7 +107,9 @@
         "effect_class": ""
       }
     },
-    "motivation": "identity"
+    "motivation": "identity",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Struggle"
   },
   "ownership": {
     "default": 0,
@@ -115,11 +117,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669233432,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749513966841,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!UckXkveVIfX3iGIC"
 }

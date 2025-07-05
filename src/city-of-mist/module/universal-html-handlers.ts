@@ -192,28 +192,22 @@ export class HTMLHandlers {
 			console.error(`Couldn't find status ${status_id} on ${ownerId }`);
 			throw new Error("couldn't find status");
 		}
-		const {name, system: {tier, pips}} = status;
 		const ret = await HTMLHandlers.statusAddDialog(status);
 		if (!ret) return;
 		const {name: newname, tier: amt} = ret;
-		// console.log(`${name} : ${tier}`);
 		await status.addStatus(amt, {newName: newname, tier:amt});
-		await HTMLHandlers.reportStatusAdd(owner, amt,  {name, tier, pips}, status);
 	}
+
 	static async statusSubtract (event: JQuery.Event) {
 		const status_id = HTMLTools.getClosestData(event, "statusId");
 		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		const owner = CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
-		const {name, system: {tier, pips}} = status;
 		const ret  = await HTMLHandlers.statusSubtractDialog(status);
 		if (!ret) return;
 		const {name: newname, tier: amt} = ret;
-		const revised_status = await status.subtractStatus(amt, newname);
-		await HTMLHandlers.reportStatusSubtract(owner, amt,  {name, tier, pips}, status);
-		if (revised_status.system.tier <= 0)
-			owner.deleteStatus(revised_status.id);
+		await status.subtractStatus(amt, newname);
 	}
 
 	static async statusSubtractDialog(status: Status) {
@@ -225,20 +219,6 @@ export class HTMLHandlers {
 		const title = `Add Tier to Status`;
 		return await CityHelpers._statusAddSubDialog(status, title, "addition");
 	}
-
-	static async reportStatusAdd(owner: CityActor,  amt:number, {name: oldname, tier: oldtier, pips:oldpips} : {name: string, tier:number, pips:number}, status: Status) {
-		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-		CityHelpers.modificationLog(owner, "Merged",  status , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
-
-	}
-
-	static async reportStatusSubtract(owner :CityActor,  amt: number, {name: oldname, tier: oldtier, pips:oldpips}: {name: string, tier:number, pips:number}, status: Status) {
-		const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
-		const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-		CityHelpers.modificationLog(owner, "Subtract",  status , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${status.name}-${status.system.tier}${pipsstr})` );
-	}
-
 
 }
 

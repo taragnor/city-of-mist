@@ -1,7 +1,3 @@
-import { DragAndDrop } from "./dragAndDrop.js";
-import { CityActor } from "./city-actor.js";
-import { StatusCreationOptions } from "./config/statusDropTypes.js";
-import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { Clue } from "./city-item.js";
 
 import { Juice } from "./city-item.js";
@@ -55,11 +51,9 @@ export class CityActorSheet extends CitySheet {
 		html.find('.improvement-name').on("click", this._sendImprovementToChat.bind(this));
 		html.find('.improvement-edit').on("click", this._improvementEdit.bind(this));
 		html.find('.theme-reset-fade').on("click", this._resetFade.bind(this) );
-
 		html.find('.motivation-input').on("change", this._themeChangeInput.bind(this));
 		html.find('.active-extra-drop-down').on("change", this._activeExtraChange.bind(this));
 		html.find('.status-text-list-header').middleclick(this._createStatus.bind(this));
-
 		html.find('.create-clue').on("click", this._createClue.bind(this));
 		html.find('.clue-delete').on("click", this._deleteClue.bind(this));
 		html.find('.clue-journal-delete').on("click", this._deleteJournalClue.bind(this));
@@ -73,6 +67,7 @@ export class CityActorSheet extends CitySheet {
 		html.find('.juice-name').middleclick(this._juiceEdit.bind(this) );
 		html.find('.story-tags-header').middleclick(this._createStoryTag.bind(this));
 		html.find('.clue-use-button').on("click", this._useClue.bind(this));
+		html.find('.unlocked .themebook-motivation-label').on("click", this._toggleThemeType.bind(this));
 		// this.testHandlers(html);
 	}
 
@@ -107,7 +102,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 
-	async _themeChangeInput(event: Event) {
+	async _themeChangeInput(event: JQuery.ChangeEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const field = HTMLTools.getClosestData(event, "property");
 		const val =  $(event.currentTarget!).val();
@@ -120,7 +115,7 @@ export class CityActorSheet extends CitySheet {
 		await theme.setField(field, val);
 	}
 
-	async _themebookNameInput (event: Event) {
+	async _themebookNameInput (event: JQuery.ChangeEvent | JQuery.FocusOutEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const name =  $(event.currentTarget!).val();
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
@@ -132,7 +127,7 @@ export class CityActorSheet extends CitySheet {
 		await theme.update ({name});
 	}
 
-	async _createTagOrImprovement (event: Event, bonus = false) {
+	async _createTagOrImprovement (event: JQuery.ClickEvent, bonus = false) {
 		//TODO: allow for text string attachment to improvements
 		const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
 		const owner = this.getOwner(ownerId);
@@ -193,7 +188,7 @@ export class CityActorSheet extends CitySheet {
 		}
 	}
 
-	async _createBonusTag(event : Event) {
+	async _createBonusTag(event : JQuery.ClickEvent) {
 		await this._createTagOrImprovement(event, true);
 	}
 
@@ -493,6 +488,7 @@ export class CityActorSheet extends CitySheet {
 		await CityHelpers.modificationLog(owner, "Created", tag);
 	}
 
+
 	async _useClue(event: JQuery.Event) {
 		if (game.user.isGM) {
 			ui.notifications.warn("only players can use clues");
@@ -517,6 +513,11 @@ export class CityActorSheet extends CitySheet {
 		if (updateObj) {
 			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
+	}
+
+	async _toggleThemeType(event: JQuery.ClickEvent) {
+		const id = HTMLTools.getClosestData(event, "themeId");
+		await this.actor.getTheme(id)?.toggleThemeType();
 	}
 
 	async chooseImprovement() {

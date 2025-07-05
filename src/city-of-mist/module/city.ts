@@ -4,18 +4,38 @@
  */
 
 declare global {
-	interface Game {
-		city:  {
-			CityActor: typeof CityActor;
-			CityItem: typeof CityItem;
-		}
+		interface Game {
+		city: CITYDATA;
 	}
+
+	interface CITYDATA {
+		CityActor: typeof CityActor;
+		CityItem: typeof CityItem;
+		BaseSystemModule: typeof BaseSystemModule;
+		MistEngineSystem: typeof MistEngineSystem;
+		CoMTypeSystem: typeof CoMTypeSystem;
+		ActorSheets: [typeof CityCharacterSheet, typeof CityThreatSheet, typeof CityCrewSheet];
+		ItemSheets: [typeof CityItemSheet, typeof CityItemSheetSmall, typeof CityItemSheetLarge];
+	}
+
 	interface CONFIG {
 		CITYCFG: unknown
+	}
+
+	interface HOOKS {
+		"registerRulesSystemPhase": (sys : typeof SystemModule) => unknown;
 	}
 }
 
 // Import Modules
+// Note: Must initialize systemModule before BaseSystemModule or its derived classes for some reason to avoid error
+import { LitMSystem } from "./systemModule/litm-system.js";
+import { SystemModule } from "./config/system-module.js";
+import { BaseSystemModule } from "./systemModule/baseSystemModule.js";
+import { MistEngineSystem } from "./systemModule/mist-engine.js";
+import { CoMTypeSystem } from "./systemModule/com-type-system.js";
+import { OtherscapeSystem } from "./systemModule/otherscape.js";
+import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
 import { MistRoll } from "./mist-roll.js";
 import { CityDataMigration } from "./migration.js";
@@ -74,6 +94,11 @@ Hooks.once("cityDBLoaded", async function() {
 	return true;
 });
 
+Hooks.on("registerRulesSystemPhase", (sys) => {
+	sys.registerRulesSystem(new CoMSystem());
+	sys.registerRulesSystem(new OtherscapeSystem());
+	sys.registerRulesSystem(new LitMSystem());
+});
 
 function registerDataModels() {
 	CONFIG.Actor.dataModels= ACTORMODELS;
@@ -91,27 +116,33 @@ Hooks.once("init", async function() {
 	console.log(`Initializing City of Mist System`);
 	console.log(`***********************************`);
 	registerDataModels();
-
+	await SystemModule.init();
 	registerSystemSettings();
 	refreshStyleBodyTags(CitySettings.get("baseSystem"));
+	await SystemModule.active.activate();
 
 	game.city = {
 		CityActor,
-		CityItem
+		CityItem,
+		BaseSystemModule,
+		CoMTypeSystem,
+		MistEngineSystem,
+		ActorSheets: [CityCharacterSheet, CityThreatSheet, CityCrewSheet],
+		ItemSheets: [CityItemSheet, CityItemSheetLarge, CityItemSheetSmall],
 	};
 
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
 
 	// Register sheet application classes
-	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
-	Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
-	Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
-	Items.unregisterSheet("core", ItemSheet);
-	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
-	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
-	Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
+	// Actors.unregisterSheet("core", ActorSheet);
+	// Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
+	// Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
+	// Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
+	// Items.unregisterSheet("core", ItemSheet);
+	// Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
+	// Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
+	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	preloadHandlebarsTemplates();
 
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
@@ -147,16 +178,18 @@ Hooks.on("renderJournalDirectory", async () => {
 });
 
 Hooks.on("getSceneControlButtons", function(controls:any) {
-	let tileControls = controls.find((x:any) => x.name === "token");
-	if (game.user.isGM){
-		tileControls.tools.push({
-			icon: "fas fa-medkit",
-			name: "city-of-mist-status-tracker",
-			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
-			button: true,
-			onClick: () => StatusTrackerWindow._instance.render(true)
-		});
-	}
+	//disabling status tracker as V13 didn't like it 
+	//TODO: fix later, not sure how many people use this feature
+	// let tileControls = controls.find((x:any) => x.name === "tokens");
+	// if (game.user.isGM){
+	// 	tileControls.tools.push({
+	// 		icon: "fas fa-medkit",
+	// 		name: "city-of-mist-status-tracker",
+	// 		title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
+	// 		button: true,
+	// 		onClick: () => StatusTrackerWindow._instance.render(true)
+	// 	});
+	// }
 });
 
 Hooks.on("renderApplication", function() {
@@ -165,26 +198,27 @@ Hooks.on("renderApplication", function() {
 	}
 });
 
-export function refreshStyleBodyTags(system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
-	let target : string;
-	switch (system) {
-		case "city-of-mist":
-			target = "style-city-of-mist";
-			break;
-		case "otherscape":
-			target = "style-otherscape";
-			break;
-		case "legend":
-			target = "style-legend";
-			break;
-		default:
-			system satisfies never;
-			throw new Error(`Invalid choice ${system}`);
-	}
-	$(document).find("body").removeClass("style-city-of-mist");
-	$(document).find("body").removeClass("style-otherscape");
-	$(document).find("body").removeClass("style-legend");
-	$(document).find("body").addClass(target);
+export function refreshStyleBodyTags(_system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
+	//NOTE: now handled in SystemModule.activate
+	// let target : string;
+	// switch (system) {
+	// 	case "city-of-mist":
+	// 		target = "style-city-of-mist";
+	// 		break;
+	// 	case "otherscape":
+	// 		target = "style-otherscape";
+	// 		break;
+	// 	case "legend":
+	// 		target = "style-legend";
+	// 		break;
+	// 	default:
+	// 		system satisfies never;
+	// 		throw new Error(`Invalid choice ${system}`);
+	// }
+	// $(document).find("body").removeClass("style-city-of-mist");
+	// $(document).find("body").removeClass("style-otherscape");
+	// $(document).find("body").removeClass("style-legend");
+	// $(document).find("body").addClass(target);
 }
 
 

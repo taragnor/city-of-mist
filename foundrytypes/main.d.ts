@@ -1,13 +1,15 @@
 
 interface Window {
-	CONFIG : typeof CONFIG,
-	foundry: typeof foundry,
-		game: Game
+	CONFIG : typeof CONFIG;
+	foundry: FoundryStuff;
+	game: Game;
 }
 
-declare const game : Game;
+declare const CONFIG : CONFIG;
+declare const foundry: FoundryStuff;
+declare const game: Game;
 
-declare const foundry:   {
+interface FoundryStuff {
 	abstract: FoundryAbstract;
 	data: FoundryData;
 	documents: {
@@ -18,7 +20,8 @@ declare const foundry:   {
 		AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
 		Sound: typeof Sound;
 	}
-	utils: FoundryUtil
+	utils: FoundryUtil;
+	applications: foundryApps.Applications;
 
 }
 
@@ -40,9 +43,9 @@ declare interface Game {
 	packs: Collection<FoundryCompendium<any>>;
 	users: Collection<FoundryUser>;
 	system: FoundrySystem;
-	user: FoundryUser;
+	user: User;
 	scenes: SceneCollection;
-	combat?: Combat;
+	combat?: Foundry.Combat<Actor>;
 	settings: ClientSettings;
 	socket: Socket;
 	messages: Collection<ChatMessage>;
@@ -95,15 +98,6 @@ type CompendiumMetaData = {
 
 }
 
-class FoundryUser extends FoundryDocument<never>{
-	get active(): boolean;
-	targets: Set<Token<any>> & {user: FoundryUser };
-	role: number;
-	viewedScene: string;
-	get isGM(): boolean;
-	get character(): Actor<any, any, any> | null;
-
-}
 
 
 class SceneCollection extends Collection<Scene> {

@@ -23,7 +23,7 @@ export class HTMLTools {
 		if (data != null) return data;
 		else {
 			if (default_value !== undefined) {
-				console.log(`Return defautl value : ${default_value}`);
+				// console.debug(`Get Closest Data return default value : ${default_value}`);
 				return default_value;
 			}
 			throw new Error(`Couldn't find ${prop} property`);
@@ -161,6 +161,10 @@ export class HTMLTools {
 			const x = new Dialog({
 				title,
 				content: html,
+				render: async (html) => {
+					const k = Object.keys(elements).at(0);
+					$(html).find(`key-${k}`).trigger("focus");
+				},
 				close: () => reject("close"),
 				buttons: {
 					okay: {
@@ -412,8 +416,8 @@ HTMLTools.initCustomJqueryFunctions();
 
 declare global {
 	interface JQuery{
-		middleclick(handler: (e: Event | JQuery.Event) => any) :void;
-		rightclick(handler: (e: Event | JQuery.Event) => any) :void;
+		middleclick(handler: (e: JQuery.Event) => any) :void;
+		rightclick(handler: (e: JQuery.Event) => any) :void;
 		getSelected() : string | boolean | number | undefined;
 	}
 }

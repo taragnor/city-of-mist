@@ -1,0 +1,37 @@
+{
+  "folder": "SEKv8a66l2l9Rmbl",
+  "name": "Singularity",
+  "type": "essence",
+  "_id": "FQ9yHTP3uLAWLYCK",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "#Otherscape.essence.generic.description",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "system_compatiblity": "otherscape",
+    "expended": false,
+    "locale_name": "",
+    "systemName": "Singularity",
+    "effect_class": ""
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749347273783,
+    "modifiedTime": 1749349736104,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_key": "!items!FQ9yHTP3uLAWLYCK"
+}

@@ -1,3 +1,6 @@
+import { AsyncHandleBarsHelper } from "./tools/asyncHandlebarsHelper.js";
+import { SystemModule } from "./config/system-module.js";
+import { localizeS } from "./tools/handlebars-helpers.js";
 import { StatusMath } from "./status-math.js";
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
 import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
@@ -313,7 +316,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return new Handlebars.SafeString(SPECTRUM_VALUES[x]);
 		},
 		'allowTagDelete': function (tag: Tag) {
-			if (tag.system.subtype == "story") return true;
+			switch (tag.system.subtype) {
+				case "story":
+					return true;
+				case "relationship": case "power": case "weakness": case "loadout":
+					break;
+				default:
+					tag.system.subtype satisfies never;
+			}
 			if (!tag.parent) return false;
 			if (tag.parent.system.locked) return false;
 			return (tag.parent.isOwner);
@@ -391,7 +401,35 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		"statusBoxesME" : function (status: Status) : boolean[] {
 			return StatusMath.statusBoxesME(status);
-		}
+		},
+
+		"localizeS": function (txt: string) {
+			return localizeS(txt);
+		},
+
+		"themeCard": function (theme: Theme) : string {
+			return SystemModule.active.themeCardTemplateLocation(theme);
+		},
+
+		"keys": function (obj: Object) : string[] {
+			return Object.keys(obj);
+		},
+
+		"dynThemeType": function (theme: Theme) : string {
+			return theme.getThemeType();
+		},
+
+		"recordContains": function (rec: Record<string,string>, val : string) : boolean {
+			return rec[val] != undefined;
+		},
+
+		"canImprove": function (theme: Theme): boolean {
+			return theme?.canImprove() ?? false;
+		},
+
+		"hasMotivation": function (theme: Theme): boolean {
+			return theme?.canImprove() ?? false;
+		},
 
 
 	} //end of object holding helpers

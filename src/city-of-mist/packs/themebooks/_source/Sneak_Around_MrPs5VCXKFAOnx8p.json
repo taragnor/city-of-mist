@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 300000,
   "flags": {
-    "core": {
-      "sourceId": "Item.WtGSgLrmfWmrdOib"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you use your abilities to act secretly or deceptively, roll+Power.",
@@ -53,10 +51,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": "Item.WtGSgLrmfWmrdOib",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!MrPs5VCXKFAOnx8p"
 }

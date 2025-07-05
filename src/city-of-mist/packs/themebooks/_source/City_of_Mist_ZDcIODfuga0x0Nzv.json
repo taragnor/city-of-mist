@@ -4,16 +4,20 @@
   "folder": null,
   "type": "Item",
   "_id": "ZDcIODfuga0x0Nzv",
-  "sort": 200000,
+  "sort": 100000,
   "color": "#828282",
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "3.0.7",
-    "coreVersion": "11.315",
+    "coreVersion": "13.345",
     "createdTime": 1712593799177,
-    "modifiedTime": 1714998356232,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749592395553,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
+  "description": "",
   "_key": "!folders!ZDcIODfuga0x0Nzv"
 }

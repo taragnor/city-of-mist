@@ -52,7 +52,7 @@
       }
     ],
     "subtype": "noroll",
-    "theme_class": "",
+    "theme_class": "Logos",
     "category": "Advanced",
     "system_compatiblity": "otherscape",
     "locale_name": "#Otherscape.moves.creditRoll.name",
@@ -62,7 +62,8 @@
     "onSuccess": "",
     "onDynamite": "",
     "effect_class": "SESSION_END",
-    "abbreviation": ""
+    "abbreviation": "",
+    "systemName": "creditRoll"
   },
   "effects": [],
   "sort": 0,
@@ -74,11 +75,14 @@
   "flags": {},
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1712170309753,
-    "modifiedTime": 1712594125492,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749516169909,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!Tlnjt1u9cfbdn4NL"
 }

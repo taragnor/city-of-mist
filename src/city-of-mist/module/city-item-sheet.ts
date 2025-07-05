@@ -1,3 +1,4 @@
+import { localize } from "./city.js";
 import { StatusMath } from "./status-math.js";
 import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
@@ -5,7 +6,7 @@ import { SPECTRUM_VALUES } from "./datamodel/spectrum-values.js";
 import { CityDB } from "./city-db.js";
 import { SYSTEM_CHOICES } from "./config/settings-object.js";
 import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
-import { THEME_TYPES } from "./datamodel/theme-types.js";
+import { SystemModule } from "./config/system-module.js";
 import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityHelpers } from "./city-helpers.js";
@@ -42,7 +43,14 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		};
 		data.FADE_TYPE_LIST = FADETYPELIST;
 		data.TBSYSTEMLIST = SysChoices;
-		data.THEMESUBTYPES = THEME_TYPES;
+		data.THEMESUBTYPES = {
+			"": "-",
+			...SystemModule.allThemeTypes(),
+		};
+		data.THEME_SUBTYPES_PLUS_VARIES = {
+				"": "Generic.term.varies",
+			...SystemModule.allThemeTypes(),
+		};
 		data.MOTIVATIONLIST = MOTIVATIONLIST;
 		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
 		data.movelist = CityHelpers.getMoves()
@@ -75,7 +83,9 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		if (simple_item_types.indexOf(this.item.type) >= 0) {
 			template_name = "simple";
 		}
-		return `${path}/${template_name}.html`;
+		const totalPath = `${path}/${template_name}.html`;
+		console.log(totalPath);
+		return totalPath;
 	}
 
 	override _getSubmitData( updateData = {}) {
@@ -318,6 +328,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	}
 
+	focusName() {
+		$(this.element).find("[name=name]").trigger("focus");
+	}
+
 }
 
 
@@ -335,15 +349,15 @@ export class CityItemSheetLarge extends CityItemSheet {
 }
 
 export class CityItemSheetSmall extends CityItemSheet {
-		/** @override */
-		static override get defaultOptions() {
-					const [width, height] = [600, 300 ];
-					return foundry.utils.mergeObject(super.defaultOptions, {
-									classes: ["city-of-mist", "sheet", "item"],
-									width,
-									height,
-									tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
-								});
-				}
+	/** @override */
+	static override get defaultOptions() {
+		const [width, height] = [600, 300 ];
+		return foundry.utils.mergeObject(super.defaultOptions, {
+			classes: ["city-of-mist", "sheet", "item"],
+			width,
+			height,
+			tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
+		});
+	}
 }
 

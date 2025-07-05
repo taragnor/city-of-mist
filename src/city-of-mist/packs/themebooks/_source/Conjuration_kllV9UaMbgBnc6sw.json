@@ -4,8 +4,8 @@
   "type": "themebook",
   "img": "icons/svg/mystery-man.svg",
   "effects": [],
-  "folder": "KYLLQKGmHQGXNTgn",
-  "sort": 1800000,
+  "folder": "Jb28LMLEO4u2yWqj",
+  "sort": 300000,
   "flags": {},
   "system": {
     "description": "",
@@ -106,7 +106,9 @@
         "effect_class": ""
       }
     },
-    "subtype": "Mythos"
+    "subtype": "Mythos",
+    "system_compatiblity": "city-of-mist",
+    "systemName": "Conjuration"
   },
   "ownership": {
     "default": 0,
@@ -114,11 +116,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": 1711669229942,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749513880000,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!kllV9UaMbgBnc6sw"
 }

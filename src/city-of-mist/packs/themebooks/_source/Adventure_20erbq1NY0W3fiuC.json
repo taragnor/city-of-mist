@@ -1,0 +1,21 @@
+{
+  "type": "Item",
+  "folder": "nw4yL57vLsI56WaN",
+  "name": "Adventure",
+  "color": null,
+  "sorting": "a",
+  "_id": "20erbq1NY0W3fiuC",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!20erbq1NY0W3fiuC"
+}

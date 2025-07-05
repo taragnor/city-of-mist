@@ -7,6 +7,7 @@
 	{{localize "CityOfMist.misc.reduceTier"}}
 </label>
 <input type="checkbox" class="face-danger" {{#if facedanger}} checked{{/if}}>
+	{{rangePicker name="tier" value=tier min=0 max=8 step=1}}
 <hr>
 <label for="radio">
 	{{localize "CityOfMist.terms.newStatus"}}

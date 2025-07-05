@@ -208,7 +208,7 @@ div.Mythos-theme.theme-block {
 	color: var(--mythos-white);
 }
 
-div.Logos-theme.theme-block {
+div.Logos-theme .theme-block {
 	color: var(--logos-text);
 	/* height: 100%; */
 	border-radius: 1em;
@@ -218,7 +218,7 @@ div.Logos-theme.theme-block {
 	box-shadow: 0px -5px 0px 10px #a85d4ba6;
 }
 
-div.Mist-theme.theme-block {
+div.Mist-theme .theme-block {
 	/* height: 100%; */
 	color: var(--mist-text);
 	border-radius: 1em;
@@ -231,8 +231,8 @@ div.Mist-theme.theme-block {
 	box-shadow: 0px -5px 0px 10px #28475ba6;	
 }
 
-.style-city-of-mist div.Crew-theme,
-.style-city-of-mist div.Extra-theme {
+.style-city-of-mist div.Crew-theme .theme-block,
+.style-city-of-mist div.Extra-theme .theme-block{
 	/* height: 100%; */
 	color: var(--extra-text);
 	border-radius: 1em;

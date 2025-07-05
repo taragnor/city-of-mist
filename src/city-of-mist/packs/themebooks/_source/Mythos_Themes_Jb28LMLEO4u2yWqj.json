@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "KYLLQKGmHQGXNTgn",
+  "name": "Mythos Themes",
+  "color": "#c511a4",
+  "sorting": "a",
+  "_id": "Jb28LMLEO4u2yWqj",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "modifiedTime": 1749513917576
+  },
+  "_key": "!folders!Jb28LMLEO4u2yWqj"
+}

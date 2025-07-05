@@ -54,6 +54,10 @@ export class CharacterSchema extends foundry.abstract.DataModel {
 			...TagSelector(),
 			...person(),
 			...aliasable(),
+			essence: new sch( {
+				systemName: new txt<keyof EssenceNames>(), //essence system name
+				isBurned: new bool(),
+			}),
 			activeExtraId: new id(),
 			activeCrewId: new id(),
 			buildup: new arr(
@@ -100,5 +104,5 @@ export const ACTORMODELS = {
 	crew: CrewSchema
 } as const;
 
-type testCharacter = SystemDataObjectFromDM<typeof CharacterSchema>;
+// type testCharacter = SystemDataObjectFromDM<typeof CharacterSchema>;
 

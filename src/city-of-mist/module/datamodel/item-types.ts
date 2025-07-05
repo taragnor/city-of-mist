@@ -21,7 +21,6 @@ const DataModel = foundry.abstract.DataModel;
 
 const VERSION ="1" ; //TODO: import real version number
 
-
 function createdBy() {
 return 	{
 		createdBy : new arr( new obj<UniversalItemAccessor<Item>>()),
@@ -71,9 +70,15 @@ function defaultItem() {
 		description: new html(),
 		locked: new bool({initial: false}),
 		version: new txt({initial:VERSION}),
+	};
+}
+
+function systemItem() {
+	return {
 		free_content: new bool({initial: false}),
 		locale_name: new txt(),
-	}
+		systemName: new txt(),
+	};
 }
 
 function tiered() {
@@ -100,13 +105,14 @@ class Themebook extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
 			power_questions: new obj<ThemebookTagData>(),
 			weakness_questions: new obj<ThemebookTagData>(),
 			improvements: new obj<ThemebookImprovementData>(),
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType >({initial: "default"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
 		}
 	}
 }
@@ -116,6 +122,7 @@ class Themekit extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			use_tb_improvements: new bool({initial: false}),
@@ -125,8 +132,8 @@ class Themekit extends DataModel {
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"}),
-		}
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
+			}
 	}
 }
 
@@ -177,6 +184,7 @@ class Theme extends DataModel {
 			attention: new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			crack:new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			mystery: new txt(),
+			subtype: new txt<ThemeType>( {initial: ""}),
 			themebook_id: new id(),
 			themebook_name: new txt(),
 			unspent_upgrades: new num({initial: 0, integer: true, min:0}),
@@ -192,13 +200,14 @@ class Improvement extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			...expendable(),
 			theme_id: new id(),
 			choice_item: new txt(),
 			chosen: new bool({initial: false}),
 			choice_type: new txt(),
 			effect_class: new txt(),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
+			system_compatiblity: new txt<System | "any">({initial: "any"})
 		}
 	}
 }
@@ -264,6 +273,7 @@ class Move extends DataModel {
 	static override defineSchema() {
 		return {
 			...defaultItem(),
+			...systemItem(),
 			onSuccess: new txt(),
 			onDynamite: new txt(),
 			onMiss: new txt(),
@@ -275,7 +285,7 @@ class Move extends DataModel {
 			effect_class: new txt(),
 			abbreviation: new txt(),
 			category: new txt( {choices:[ "Core", "Advanced", "SHB"], initial :"Advanced"}),
-			system_compatiblity: new txt<System | "any">({initial: "city-of-mist"})
+			system_compatiblity: new txt<System | "any">({initial: "any"})
 		};
 	}
 }
@@ -296,6 +306,19 @@ class StatusDM extends DataModel {
 			specialType: new txt<"collective" | "">({initial :""}),
 			...createdBy(),
 
+		};
+	}
+}
+
+class EssenceDM extends DataModel {
+	get type() {return "essence" as const;}
+	static override defineSchema() {
+		return {
+			...defaultItem(),
+			...systemItem(),
+			effect_class: new txt(),
+			system_compatiblity: new txt<System | "any">({initial: "any"}),
+			expended: new bool(),
 		};
 	}
 }
@@ -346,6 +369,7 @@ export const ITEMMODELS = {
 	spectrum: Spectrum,
 	journal: Journal,
 	themekit: Themekit,
+	essence: EssenceDM,
 	"status": StatusDM,
 } as const;
 

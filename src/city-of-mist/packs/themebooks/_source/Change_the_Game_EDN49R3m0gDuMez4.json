@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 200000,
   "flags": {
-    "core": {
-      "sourceId": "Item.qVj5dxGahXYgNPeb"
-    }
+    "core": {}
   },
   "system": {
     "description": "",
@@ -75,7 +73,8 @@
     "abbreviation": "CHANGE",
     "subtype": "standard",
     "theme_class": "",
-    "system_compatiblity": "city-of-mist"
+    "system_compatiblity": "city-of-mist",
+    "systemName": ""
   },
   "ownership": {
     "default": 0,
@@ -83,11 +82,14 @@
   },
   "_stats": {
     "systemId": "city-of-mist",
-    "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "systemVersion": "3.1.4",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
-    "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "modifiedTime": 1749516071801,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "compendiumSource": "Item.qVj5dxGahXYgNPeb",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!EDN49R3m0gDuMez4"
 }

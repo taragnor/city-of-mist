@@ -7,7 +7,7 @@ declare interface CONFIG {
 		dataModels: Record<string, typeof foundry.abstract.DataModel>;
 		documentClass: typeof Item<any>;
 	};
-	statusEffects: readonly StatusEffectObject[];
+	statusEffects: StatusEffectObject[];
 	ActiveEffect: {
 		documentClass: typeof ActiveEffect<any, any>;
 		legacyTransferral: boolean;
@@ -45,13 +45,33 @@ declare interface CONFIG {
 		"rainstorm": WeatherEffectData;
 		"snow": WeatherEffectData;
 	}
+	Wall: {
+		doorSounds: Record<string, DoorSound>;
+
+
+	}
 }
 
-type StatusEffectObject = {
+interface StatusEffectObject {
 	id: string,
 	name: string,
 	icon: string,
 	changes ?: readonly AEChange[],
 }
 
-type WeatherEffectData = unknown;
+interface WeatherEffectData {}
+
+
+interface DoorSound {
+	close: FileNameAndPath;
+	open: FileNameAndPath;
+	close: FileNameAndPath;
+	label: LocalizationString;
+	lock: FileNameAndPath;
+	test: FileNameAndPath;
+	unlock :FileNameAndPath;
+}
+
+type FileNameAndPath = string;
+
+type LocalizationString = string;

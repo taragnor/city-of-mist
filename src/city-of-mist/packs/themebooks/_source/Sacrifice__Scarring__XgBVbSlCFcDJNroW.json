@@ -1,0 +1,46 @@
+{
+  "folder": "8v7jjpmGlY71tCFd",
+  "name": "Sacrifice (Scarring)",
+  "type": "move",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": true,
+    "listConditionals": [],
+    "subtype": "standard",
+    "theme_class": "",
+    "category": "SHB",
+    "system_compatiblity": "legend",
+    "locale_name": "#Legend.moves.sacrifice.scarring.name",
+    "always": "",
+    "onMiss": "#Legend.moves.sacrifice.fail",
+    "onPartial": "#Legend.moves.sacrifice.partial",
+    "onSuccess": "#Legend.moves.sacrifice.success",
+    "onDynamite": "",
+    "effect_class": "",
+    "abbreviation": "",
+    "systemName": "sacrificeScarring"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "city-of-mist",
+    "systemVersion": "3.1.4",
+    "createdTime": 1749515610046,
+    "modifiedTime": 1749516046709,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "_id": "XgBVbSlCFcDJNroW",
+  "sort": 200000,
+  "_key": "!items!XgBVbSlCFcDJNroW"
+}

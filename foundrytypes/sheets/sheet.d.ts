@@ -9,6 +9,7 @@ class Sheet<T extends FoundryDocument<any>> extends FormApplication {
 	_onDrop(event: DragEvent): unknown;
 	get isEditable(): boolean;
 	get template(): string;
+	_onChangeTab(event: unknown, tabs: unknown, active: unknown): void;
 
 }
 

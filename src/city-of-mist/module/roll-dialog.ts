@@ -247,6 +247,7 @@ export class RollDialog extends Dialog {
 		this.setListeners(this.html);
 		this.refreshConfirmButton();
 		this.updateModifierPopup();
+		Hooks.callAll("renderRollDialog", this);
 	}
 
 	refreshConfirmButton() {
@@ -326,7 +327,7 @@ export class RollDialog extends Dialog {
 		} else {
 			this.#options.setRoll = 0;
 		}
-		const usedWeaknessTag = this.#modifierList.some( ({item}) =>item?.isWeaknessTag && item.isWeaknessTag());
+		const usedWeaknessTag = this.#modifierList.some( ({item}) => item?.isWeaknessTag && item.isWeaknessTag());
 		if (this.#options.burnTag || usedWeaknessTag) {
 			$(html).find('#effect-slider').val(0);
 			$(html).find('.effect-slider-block').hide();
@@ -341,6 +342,7 @@ export class RollDialog extends Dialog {
 		const {power} = CityRoll.getPower(this.#options, this.#modifierList);
 		$(html).find(".roll-bonus").text(String(bonus));
 		$(html).find(".move-effect").text(String(power));
+		Hooks.callAll("updateRollDialog", this.html, this.#options, this);
 	}
 
 	updateSliderValMax(html: JQuery) {
@@ -379,3 +381,10 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 		return true;
 });
 
+declare global {
+	interface HOOKS {
+		"renderRollDialog": (dialog: RollDialog) => unknown;
+		"updateRollDialog": (html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) => unknown;
+
+	}
+}

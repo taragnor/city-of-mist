@@ -7,9 +7,7 @@
   "folder": "mdXZYTXjdSdobcIp",
   "sort": 900000,
   "flags": {
-    "core": {
-      "sourceId": "Item.A10DIQmHrtwifSMS"
-    }
+    "core": {}
   },
   "system": {
     "description": "When you reach inside to get in touch with your Mythos, you can feel the truth behind things without even knowing how.  Roll + Mythos.",
@@ -53,10 +51,13 @@
   "_stats": {
     "systemId": "city-of-mist",
     "systemVersion": "2.7.1",
-    "coreVersion": "11.315",
+    "coreVersion": "13.345",
     "createdTime": 1712594110605,
     "modifiedTime": 1712594110605,
-    "lastModifiedBy": "XObjulrAnIfZ284S"
+    "lastModifiedBy": "XObjulrAnIfZ284S",
+    "compendiumSource": "Item.A10DIQmHrtwifSMS",
+    "duplicateSource": null,
+    "exportSource": null
   },
   "_key": "!items!WieSmZGlrV8CQqe5"
 }
