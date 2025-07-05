@@ -175,13 +175,11 @@ export class DragAndDrop {
 			//@ts-ignore
 			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
 			//@ts-ignore
-			const tokens = canvas.tokens.children.flatMap( layer=> layer.children)
-			// [0].children;
+			const tokens = canvas.tokens.objects.children
 			.filter( (maybeTok : unknown) => maybeTok instanceof Token);
 			const token = tokens.find( (tok: Token<CityActor>) => {
 				//@ts-ignore
-				const {x, y, width, height} = tok;
-				// const {x, y, width, height} = tok.bounds;
+				const {x, y, width, height} = tok.bounds;
 				if (evX >= x && evX <x+width
 					&& evY >= y && evY <y+height)
 					return true;
