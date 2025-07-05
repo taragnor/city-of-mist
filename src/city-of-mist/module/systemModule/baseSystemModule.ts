@@ -132,7 +132,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	}
 
 	registerItemSheets() {
-	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
+	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "themekit", "move"], makeDefault: true});
 	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
 	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	}

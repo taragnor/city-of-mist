@@ -83,7 +83,9 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		if (simple_item_types.indexOf(this.item.type) >= 0) {
 			template_name = "simple";
 		}
-		return `${path}/${template_name}.html`;
+		const totalPath = `${path}/${template_name}.html`;
+		console.log(totalPath);
+		return totalPath;
 	}
 
 	override _getSubmitData( updateData = {}) {
