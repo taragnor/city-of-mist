@@ -17,12 +17,14 @@ export class EnhancedActorDirectory {
 			ui.actors.render(true);
 		});
 
-		const oldRender = ActorDirectory.prototype._render;
+		const oldRender = ActorDirectory.prototype.render;
 		if (!oldRender) {
 			console.warn("Error setting up active directory");
 			return;
 		}
-		ActorDirectory.prototype._render = async function (...args) {
+
+		// @ts-ignore
+		ActorDirectory.prototype.render = async function (...args) {
 			// console.log("Decrypting All");
 			const promises = game.actors.contents.map( async (actor: CityActor) => {
 				if ("decryptData" in actor && typeof actor.decryptData == "function")
@@ -94,7 +96,8 @@ export class EnhancedActorDirectory {
 			return options;
 		}
 
-		ActorDirectory.entryPartial =  "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
+		/// @ts-ignore
+		ActorDirectory._entryPartial =  "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
 
   ActorDirectory.prototype._onSearchFilter = function (this: ActorDirectory, _event: Event, query: unknown, rgx: RegExp, html: HTMLElement) {
     const isSearch = !!query;
