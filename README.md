@@ -1,7 +1,7 @@
 # City of Mist for Foundry VTT
 **Created By:** Taragnor <br>
 **Visual/CSS design by:** LorduFreeman <br>
-**Additional Code Contributions by:** Plenett/Galdormin, Ch1sKey <br> 
+**Additional Code Contributions by:** Plenett/Galdormin, Ch1sKey, 3rdDog (Paul) <br> 
 **Localizations:** 
 * *German:* Markus Raab powered by Storypunks
 * *Polish:* Red the Neko
