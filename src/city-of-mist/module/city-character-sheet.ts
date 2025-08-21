@@ -40,9 +40,7 @@ export class CityCharacterSheet extends CityActorSheet {
 			default:
 				return super._onDropItem(event, o);
 		}
-
 	}
-
 
 	override async getData() {
 		let data = await super.getData();

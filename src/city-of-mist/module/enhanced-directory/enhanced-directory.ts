@@ -157,7 +157,6 @@ export class EnhancedActorDirectory {
 	 }
   }
 
-
 		ActorDirectory._sortAlphabetical = function (a: CityActor, b: CityActor) {
 			if (a?.directoryName)
 				return a.directoryName.localeCompare(b.directoryName);
