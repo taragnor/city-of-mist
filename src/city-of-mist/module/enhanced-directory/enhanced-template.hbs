@@ -1,7 +1,7 @@
-<li class="directory-item document {{@root.documentCls}} flexrow" data-entry-id="{{this.id}}" data-document-id="{{this.id}}">
-  {{#if this.thumbnail}}
-  <img class="thumbnail" title="{{this.directoryName}}" data-src="{{this.thumbnail}}"/>
-  {{/if}}
-  <h4 class="entry-name document-name"><a>{{this.directoryName}}</a></h4>
+<li class="directory-item entry document {{ @root.documentCls }} flexrow" data-entry-id="{{ id }}"
+    data-document-id="{{ id }}">
+    {{#if thumbnail}}
+    <img class="thumbnail" title="{{directoryName}}" src="{{ thumbnail }}" alt="{{ name }}" loading="lazy">
+    {{/if}}
+    <a class="entry-name ellipsis" data-action="activateEntry">{{ directoryName }}</a>
 </li>
-
