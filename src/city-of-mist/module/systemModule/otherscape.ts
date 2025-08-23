@@ -66,6 +66,14 @@ export class OtherscapeSystem extends MistEngineSystem {
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.ritual",
 			},
+			//rewriting mythos is necessary due to a bug with older versions
+			"Mythos": {
+				localization: "Otherscape.terms.mythos",
+				sortOrder: 1,
+				increaseLocalization: "Otherscape.terms.upgrade",
+				decreaseLocalization: "Otherscape.terms.decay",
+				identityName: "Otherscape.terms.ritual",
+			},
 			"Crew-OS": {
 				localization: "Otherscape.terms.crew",
 				sortOrder: 5,
@@ -280,7 +288,7 @@ declare global {
 	interface SYSTEM_NAMES {
 		"otherscape": string;
 	}
-	interface ThemeTypes extends ReturnType<OtherscapeSystem["themeTypes"]> { }
+	interface ThemeTypes extends Omit<ReturnType<OtherscapeSystem["themeTypes"]>, "Mythos"> { }
 
 	interface EssenceNames {
 		Singularity: {}; // all noise

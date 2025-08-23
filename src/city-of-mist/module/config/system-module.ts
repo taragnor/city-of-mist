@@ -67,7 +67,11 @@ export abstract class SystemModule {
 	static allThemeTypes(): Required<Omit<ReturnType<SystemModuleI["themeTypes"]>, "">> {
 		let retobj : ReturnType<SystemModuleI["themeTypes"]>= {};
 		for (const [_k,v] of this.systems) {
+			if (v == this.active) continue;
 			retobj = foundry.utils.mergeObject(retobj, v.themeTypes());
+		}
+		if (this.active) {
+			retobj = foundry.utils.mergeObject(retobj, this.active.themeTypes());
 		}
 		return retobj as Required<ReturnType<SystemModuleI["themeTypes"]>>;
 	}
