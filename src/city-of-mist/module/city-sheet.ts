@@ -65,7 +65,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 					if(!choice) {
 						break;
 					}
-					await this.actor.createNewTheme("Unnamed Theme", tb[0], choice == "extra") ;
+					const themebookname = tb[0]?.displayedName ?? "";
+					await this.actor.createNewTheme(`Unnamed ${themebookname} Theme`, tb[0], choice == "extra") ;
 				return tb[0];
 				}
 				break;
@@ -144,8 +145,10 @@ export class CitySheet extends ActorSheet<CityActor> {
 	async _addThemeBook(_event: Event) {
 		// const themebook = await this.themeBookSelector();
 		const themebook = await CityDialogs.themeBookSelector(this.actor);
-		if (themebook)
-			await this.actor.createNewTheme("Unnamed Theme", themebook);
+		if (themebook) {
+			const themebookName = themebook.displayedName ?? "";
+			await this.actor.createNewTheme(`Unnamed ${themebookName} Theme`, themebook);
+		}
 	}
 
 	async _scrollSheet (_event: Event) {

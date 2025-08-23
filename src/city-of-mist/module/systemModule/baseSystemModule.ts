@@ -72,7 +72,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description" | (string & {})) : string {
 		if ("systemName" in doc.system) {
 			const sysName = doc.system.systemName || "generic";
-			const locName  =this.localizationStarterName;
+			const locName  = this.localizationStarterName;
 			const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
 			const x = localize(locStr);
 			if (x!= locStr) return x;
