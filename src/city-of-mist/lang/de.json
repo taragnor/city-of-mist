@@ -647,9 +647,10 @@
 
 "CityOfMist.settings.system.name": "Spielsystem",
 "CityOfMist.settings.system.hint": "Wähle die Version des CoM Systems",
-"CityOfMist.settings.system.0": "CoM Klassik",
-"CityOfMist.settings.system.1": "CoM Reloaded",
-"CityOfMist.settings.system.2": "Angepasst",
+"CityOfMist.settings.system.0": "City of Mist",
+"CityOfMist.settings.system.1": "Otherscape",
+"CityOfMist.settings.system.2": "Legend in the Mist",
+"CityOfMist.settings.system.3": "Angepasst",
 
 "CityOfMist.settings.debugMode.name": "Fehlersuchmodus",
 "CityOfMist.settings.debugMode.hint": "Schaltet den internen Javascript Debug Code an",
