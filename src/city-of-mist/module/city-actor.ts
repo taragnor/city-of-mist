@@ -921,9 +921,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async addImprovement(theme_id: string, number: number) {
 		//TODO: accomodate new effect class in improvement this may not be right spot
 		const theme =  this.getTheme(theme_id);
-		if (!theme) throw new Error(`Can't fint theme ${theme_id}`);
+		if (!theme) throw new Error(`Can't find theme ${theme_id}`);
 		const themebook =  theme.themebook;
-		if (!themebook) throw new Error(`Can't fint theme book for ${theme.name}`);
+		if (!themebook) throw new Error(`Can't find theme book for ${theme.name}`);
 		// const data = themebook.system;
 		const imp = themebook.isThemeBook()
 			? themebook.themebook_getImprovements()[number]

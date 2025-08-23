@@ -1035,6 +1035,8 @@
 "CityOfMist.logger.action.changeActiveExtra": "Changes active extra to:",
 "CityOfMist.logger.action.changeActiveCrew": "Changes active Crew Theme to:",
 
+"Otherscape.themebook.Assets.pageref": "See Otherscape Core p.197",
+
 "Legend.themebook.circumstance.pageref": "See Page 92 in LitM Core book",
 "Legend.themebook.circumstance.improvement.0.name" :"Comfortable Where I am",
 "Legend.themebook.circumstance.improvement.1.name" :"Expected Role",
@@ -1158,5 +1160,6 @@
 "Legend.themebook.possessions.improvement.2.name" :"I'm Keeping This",
 "Legend.themebook.possessions.improvement.3.name" :"Just the Thing",
 "Legend.themebook.possessions.improvement.4.name" :"Quartermaster"
+
 
 }

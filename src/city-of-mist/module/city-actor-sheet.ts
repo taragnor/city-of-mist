@@ -181,7 +181,6 @@ export class CityActorSheet extends CitySheet {
 		} else {
 			retobj = await owner.addImprovement(themeId,Number( idChoice!));
 			improvement =  owner.getImprovement(retobj.id)!;
-
 			await this.improvementDialog(improvement);
 			await CityHelpers.modificationLog(owner,  "Created", improvement);
 			return;
@@ -247,17 +246,16 @@ export class CityActorSheet extends CitySheet {
 						await	actor.deleteTheme(themeId, true);
 						break;
 					case "delete":
-
 						if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title"), localize("CityOfMist.dialog.actorSheet.deleteTheme.title"))) {
 							await	actor.deleteTheme(themeId, false);
 						}
-							break;
-							default:
-							return true;
-						}
+						break;
+					default:
+						return true;
 				}
 			}
 		}
+	}
 
 	async _burnTag (event: JQuery.Event) {
 		await HTMLHandlers.burnTag(event);
@@ -272,8 +270,6 @@ export class CityActorSheet extends CitySheet {
 		const type = HTMLTools.getClosestData( event, "type");
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor =  this.getOwner(actorId);
-		// const theme =  actor.getTheme(id)!;
-		// const themeName = theme.name;
 		switch (type) {
 			case "attention":
 				await actor.addAttention(id);

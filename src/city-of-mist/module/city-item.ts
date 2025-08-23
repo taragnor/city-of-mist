@@ -85,6 +85,17 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 					console.error(e);
 					break;
 				}
+			case "improvement": {
+				//special case here for damaged data that came from a bug where the name was getting copied as the description for themebook improvments
+				if (this.name == this.system.description) {
+					const TB = (this as Improvement).getThemebookAbsolute();
+					if (!TB) return "";
+					const improvements = TB.themebook_getImprovements();
+					const index = improvements.findIndex( imp => imp.name == this.name);
+					if (index == -1) return "";
+					return SystemModule.active.localizedThemeBookData(TB, "improvement-description", index)
+				}
+			}
 			default: break;
 		}
 		if ("description" in this.system)  {
@@ -106,8 +117,6 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		if (this.system.type != "gmmove") return [];
 		return this.parent.getGMMoves().
 			filter( tag => tag.system.superMoveId == this.id);
-
-
 	}
 
 	get subtags() : Tag[] {
@@ -352,7 +361,53 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		await this.update({"system.subtype": newChoice});
 	}
 
-	/** gets themebook or themekit from a theme or themekit
+	/** always gets an actual themebook or null */
+	getThemebookAbsolute(this: Theme | ThemeKit | Tag | Improvement | Themebook): Themebook | null {
+		if (this.isTag() || this.isImprovement()) {
+			const theme = this.theme;
+			if (!theme) return null;
+			return theme.getThemebookAbsolute();
+		}
+		if (this.isTheme() || this.isThemeKit()) {
+			const maybeTB = this.getThemebookOrTK();
+			if (!maybeTB) return null;
+			if (maybeTB.isThemeBook()) return maybeTB;
+			return maybeTB.getThemebookAbsolute();
+		}
+		if (this.isThemeBook()) return this;
+		this satisfies never;
+		return null;
+	}
+
+
+	/** gets themebook or themekit from a theme or themekit */
+	getThemebookOrTK (this: Theme | ThemeKit) : Themebook | ThemeKit | null {
+		const actor = this.parent;
+		if (!actor && this.system.type != "themekit") {
+			Debug(this);
+			return null;
+		}
+		const id = this.system.themebook_id;
+		const name = this.system.themebook_name;
+		if (!name && !id) {
+			return null;
+		}
+		try {
+			const tb = actor?.items?.find( x=> x.id == id) ??
+				CityDB.getThemebook(name, id);
+			if (!tb)  {
+				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+				return null;
+			}
+			return tb as Themebook | ThemeKit;
+		} catch (e) {
+			console.error(e);
+			return null;
+		}
+	}
+
+	/** @deprecated use getThemebookOrTK or getThemebookAbsolute instead
+	gets themebook or themekit from a theme or themekit
 	 */
 	getThemebook(this: Theme | ThemeKit) : Themebook  | ThemeKit |  null{
 		const actor = this.parent;
@@ -1200,15 +1255,18 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		return null;
 	}
 
+	/** @deprecated use getThemebookAbsolute() or getThemebookOrTK()
+	returns themebook or themekit 
+	*/
 	get themebook(): Themebook | ThemeKit | null {
 		if (this.isTag() || this.isImprovement()) {
 			if (!this.theme)
 				return null;
-			return this.theme.getThemebook();
+			return this.theme.getThemebookOrTK();
 		}
 		try {
 			if (this.isTheme() || this.isThemeKit())
-				return this.getThemebook();
+				return this.getThemebookOrTK();
 		} catch (e) {
 			console.error(e);
 			return null;
@@ -1370,7 +1428,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			.flatMap( ([number, data], index) => {
 				if (data == "_DELETED_") return [];
 				const name = data.name ? data.name : SystemModule.active.localizedThemeBookData(this, "improvement-name", index);
-				const description = data.description ? data.name : SystemModule.active.localizedThemeBookData(this, "improvement-description", index);
+				const description = data.description ? data.description : SystemModule.active.localizedThemeBookData(this, "improvement-description", index);
 				return [
 					{
 						number,
