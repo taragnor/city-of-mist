@@ -104,10 +104,9 @@ export class OtherscapeSystem extends MistEngineSystem {
 	}
 
 	static determineEssenceFromThemes(themes: Theme[]) : Essence | undefined {
-
 		const themeTypes = themes.reduce(
 			(acc, theme) => {
-				const themeType = theme.getThemebook()!.system.subtype;
+				const themeType = theme.getThemebookOrTK()!.system.subtype;
 				if (acc.includes(themeType) || !themeType) return acc;
 				acc.push(themeType);
 				return acc;

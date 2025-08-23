@@ -507,13 +507,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		} else {
 			await CityHelpers.modificationLog(this, `Theme Deleted`, theme);
 		}
-		const tb = theme.themebook;
+		const tb = theme.getThemebookOrTK();
 		if (tb && tb.isLocal) {
 			if (tb.isThemeBook()) {
 				console.log("Deleting embedded themebook");
 				await this.deleteEmbeddedById(tb.id);
 			} else if (tb.isThemeKit()) {
-				const tb2 = tb.themebook;
+				const tb2 = tb.getThemebookOrTK();
 				if (tb2 && tb2.isLocal) {
 					console.log("Deleting embedded themebook");
 					await this.deleteEmbeddedById(tb2.id);
