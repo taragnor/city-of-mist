@@ -14,9 +14,25 @@ export class StoryTagWindow extends Application {
 
 	static init() {
 		this.instance = new StoryTagWindow();
-		this.instance.render(true);
-
-
+		const location = CitySettings.sceneTagWindowPosition();
+		if (location == "hide") return;
+		Hooks.on("ready", () => {
+			let top, left;
+			const doc = $(document);
+			switch (location) {
+				case "left":
+					left =  50 + doc.find("#ui-left-column-1").width()!;
+					top =  50+ doc.find("#scene-navigation-active").height()!;
+					break;
+				case "right":
+					left =  (-350) + doc.find("#ui-right").position().left;
+					top =  50+ doc.find("#navigation").height()!;
+					break;
+		}
+			this.instance.render(true);
+			//not sure why it won't work normally but it seems to resist movement if done immediately
+			setTimeout(() => this.instance.setPosition({left, top}), 500);
+		});
 	}
 
 	override get title() {
@@ -86,7 +102,6 @@ export class StoryTagWindow extends Application {
 		const drag = new foundry.applications.ux.Draggable.implementation(this, html, false, true);
 		drag._onDragMouseMove = function _newOnDragMouseMove(event) {
 			event.preventDefault();
-
 			this.app.setPosition({
 				left: this.position.left + (event.clientX - this._initial.x),
 				top: this.position.top + (event.clientY - this._initial.y),

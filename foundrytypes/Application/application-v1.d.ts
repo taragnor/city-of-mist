@@ -14,8 +14,17 @@ class Application {
 	_getHeaderButtons() : HeaderButtons[];
 	template: string;
 	get title(): string;
+	setPosition(posData: Partial<PositionData>) : U<PositionData>;
 } ;
 
+
+interface PositionData {
+	left: number;
+	width: number;
+	top: number;
+	height: number;
+	scale: number;
+}
 
 interface HeaderButtons {
 	label: string;

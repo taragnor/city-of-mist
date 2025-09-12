@@ -133,7 +133,7 @@ namespace foundryApps {
 namespace mixin {
 
 	interface Constructor<T = {}> {
-		new (...args: any[]): T;
+		new (...args: unknown[]): T;
 	}
 
 	type Mixin<T extends Constructor<T>, G ={}> = T & Constructor<InstanceType<T> & G>;
