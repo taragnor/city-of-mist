@@ -23,9 +23,6 @@
 
 	{{/if}}
 
-	<label class="dialog-label" for="temp">
-		{{localize "CityOfMist.terms.temporary"}}
-	</label>
 	<label>
 		{{localize "CityOfMist.terms.category"}}
 	</label>
@@ -34,6 +31,9 @@
 	</select>
 
 	<hr>
+	<label class="dialog-label" for="temp">
+		{{localize "CityOfMist.terms.temporary"}}
+	</label>
 	<input id="temporary-status-checkbox" class="item-checkbox" type="checkbox" name="system.temporary" {{#if item.system.temporary}} checked {{/if}}>
 	<label class="dialog-label" for="permanent">
 		{{localize "CityOfMist.terms.permanent"}}
