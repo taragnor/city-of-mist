@@ -64,6 +64,7 @@ import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
 import {CityKeyBinds} from "./keybindings.js";
 import {ClueChatCards } from "./clue-cards.js";
+import {StoryTagWindow} from "./story-tag-application.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -149,7 +150,8 @@ Hooks.once("init", async function() {
 		EnhancedActorDirectory.init();
 	}
 	CityHandlebarsHelpers.init();
-	StoryTagDisplayContainer.init();
+	StoryTagWindow.init();
+	// StoryTagDisplayContainer.init();
 	CityKeyBinds.init();
 	TokenTooltip.init();
 });

@@ -1,7 +1,7 @@
 
 declare interface Hooks {
 	once< T extends keyof HOOKS>(hookname: T, fn: HOOKS[T]): void;
-	on <T extends keyof HOOKS>(hookname: T, fn: HOOKS[T]): void;
+	on <T extends keyof HOOKS, R extends HOOKS[T]>(hookname: T, fn: R): void;
 	callAll<T extends keyof HOOKS>(hookname:T, ...args: Parameters<HOOKS[T]>): void;
 	call<T extends keyof HOOKS>(hookname: T, ...args: Parameters<HOOKS[T]>): boolean;
 }
@@ -53,7 +53,7 @@ declare interface HOOKS {
 	"renderJournalDirectory": Function;
 	"renderCombatTracker": RenderCombatTabFn;
 	"renderApplication": Function;
-	"renderChatMessage": (msg: ChatMessage, htmlElement: JQuery<HTMLElement>, data: unknown) => Promise<unknown>;
+	"renderChatMessage": (msg: ChatMessage, htmlElement: JQuery<HTMLElement>, data: unknown) => unknown;
 	"renderSceneConfig": (app: unknown, html: JQuery, options: unknown) => unknown;
 	"renderRegionConfig": (app: ConfigApp<RegionDocument>, html: JQuery, options: unknown) => unknown;
 	"closeRegionConfig": (app: ConfigApp<RegionDocument>) => unknown,
@@ -94,7 +94,7 @@ type CombatUpdateOptions = {
 }
 
 
-type RenderCombatTabFn= (item: CombatTracker, element: JQuery<HTMLElement>, options: RenderCombatTabOptions) => Promise<unknown>;
+type RenderCombatTabFn= (item: CombatTracker, element: JQuery<HTMLElement>, options: RenderCombatTabOptions) => unknown;
 
 type RenderCombatTabOptions = {
 	combat: Combat;

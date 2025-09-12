@@ -13,12 +13,16 @@ export class HTMLHandlers {
 	/** applies basic functionality to edit, select, delete and burn tags/status to the chosen JQueryelemtn or html*/
 	static applyBasicHandlers(htmlorJQueryElement: JQuery, allowCreation = true) {
 		const html = $( htmlorJQueryElement );
-		html.find(".item-selection-context .tag .name:not(.burned-tag)").on("click", SelectedTagsAndStatus.selectTagHandler);
-		html.find(".item-selection-context .tag .name:not(.burned-tag)").rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
+		const unburnedTags = html.find(".item-selection-context .tag .name:not(.burned-tag)");
+		unburnedTags.on("click", SelectedTagsAndStatus.selectTagHandler);
+		unburnedTags.rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
-		html.find(".item-selection-context .status .name").middleclick(HTMLHandlers.statusEdit);
-		html.find(".item-selection-context .status .name").on("click", SelectedTagsAndStatus.selectStatusHandler);
-		html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		const statuses = html.find(".item-selection-context .status .name");
+		statuses.on("click", SelectedTagsAndStatus.selectStatusHandler);
+		statuses.rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
+		statuses.middleclick(HTMLHandlers.statusEdit);
+		// html.find(".item-selection-context .status .name").on("click", SelectedTagsAndStatus.selectStatusHandler);
+		// html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		html.find('.status-delete').on("click",HTMLHandlers.deleteStatus);
 		html.find('.tag-delete').on("click", HTMLHandlers.deleteTag);
 		html.find('.status-add').on("click", HTMLHandlers.statusAdd);

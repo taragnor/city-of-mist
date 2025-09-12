@@ -1,3 +1,4 @@
+//NOTE THIS IS DEPRECATED AND NO LONGER ACTIVELY CALLED
 import { Status } from "./city-item.js";
 import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
@@ -121,7 +122,9 @@ export class StoryTagDisplayContainer {
 		html.find(".combatant-block .status").on("drop", this._dropOnOtherStatus.bind(this));
 
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
+		// this.initDraggability();
 	}
+
 
 	async createStoryTag(event: JQuery.Event) {
 		//somewhat hacky code with the exception as a branch

@@ -23,13 +23,13 @@ export class StatusTracker {
 	}
 
 	static async load() {
-		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "character");
+		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.system.type == "threat" || x.system.type == "character");
 		const actors = tokenActors.map( x=> {
 			return {
 				name: x.getDisplayedName(),
 				actor: x,
 				id: x.id,
-				type: x.type,
+				type: x.system.type,
 				statuses: x.getStatuses(),
 				tags: x.getStoryTags()
 			};
@@ -41,7 +41,7 @@ export class StatusTracker {
 					name: "Scene",
 					actor: x,
 					id: x.id,
-					type: x.type,
+					type: x.system.type,
 					statuses: x.getStatuses(),
 					tags: x.getStoryTags()
 				};

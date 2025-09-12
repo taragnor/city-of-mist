@@ -23,13 +23,13 @@ import { SettingsType } from "./config/settings-object.js";
 
 
 export class CitySettings {
-	static async set<K extends keyof SettingsType>(settingField:K ,newvalue: SettingsChoices<K>) {
+	static async set<K extends keyof SettingNameSpace["city-of-mist"]>(settingField:K ,newvalue: SettingNameSpace["city-of-mist"][K]) {
 		await game.settings.set("city-of-mist", settingField, newvalue);
 	}
 
 	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K> extends (string | Boolean | number) ? SettingsChoices<K> : never;
 
-	static get<K extends keyof SettingsType>(settingName : K ) : SettingsChoices<K> {
+	static get<K extends keyof SettingNameSpace["city-of-mist"]>(settingName : K ) : SettingNameSpace["city-of-mist"][K] {
 		return game.settings.get('city-of-mist', settingName);
 	}
 

@@ -9,6 +9,12 @@ declare abstract class DataModelClass  {
 	static migrateData(source: Record<string, any>): Record<string,any>;
 	updateSource(updateObject: Record<string, unknown>);
 	toJSON(): unknown;
+	schema: SchemaData;
+}
+
+interface SchemaData {
+	fields: Record<string, FoundryDMField<unknown>>;
+
 }
 
 type SchemaReturnObject = Record<string, FoundryDMField<any>>;

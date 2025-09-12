@@ -6,7 +6,7 @@ namespace Foundry {
 	}
 
 	// class TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends FoundryDocument<never>
-	interface TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends Document<never>
+	interface TokenDocument<T extends Actor<any, any, any> = Actor> extends Document<never>
 		{
 			actorId: string;
 			actorLink: boolean;

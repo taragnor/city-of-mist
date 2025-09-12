@@ -2,8 +2,23 @@ namespace foundryApps {
 
 	interface Applications {
 		api: ApplicationsAPI
+		ux: UXStuff;
 
 	}
+
+	interface UXStuff{
+		Draggable : {
+			implementation: typeof Draggable;
+		}
+
+	}
+
+	class Draggable {
+		constructor (application: Application, element: HTMLElement | JQuery, handle: HTMLElement | false, resizeable : boolean | DraggableResizeOptions);
+		_onDragMouseMove: (event: JQuery.MouseMoveEvent) => unknown;
+	}
+
+	type DraggableResizeOptions  = Record<string, unknown>;
 
 	interface ApplicationsAPI {
 		ApplicationV2: typeof ApplicationV2;
@@ -22,14 +37,14 @@ namespace foundryApps {
 	class ApplicationV2<Configuration extends ApplicationConfiguration = ApplicationConfiguration, RenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions> {
 		constructor (options ?: Partial<Configuration>);
 
-		static RENDER_STATES = Readonly<{
-			ERROR: -3;
-			CLOSING: -2;
-			CLOSED: -1;
-			NONE: 0;
-			RENDERING: 1;
-			RENDERED: 2;
-		}>;
+		static RENDER_STATES = {
+			ERROR: -3,
+			CLOSING: -2,
+			CLOSED: -1,
+			NONE: 0,
+			RENDERING: 1,
+			RENDERED: 2,
+		} as const;
 		static emittedEvents: readonly string[];
 		static DEFAULT_OPTIONS: Configuration;
 		position: ApplicationPosition;

@@ -20,10 +20,10 @@ namespace Foundry {
 			getRollData(): TotalConvert<T>;
 			sheet: ActorSheet<Actor<T, ItemType, AEType>>;
 			statuses: Set<string>;
-			prototypeToken: PrototypeToken<typeof this>;
+			prototypeToken: PrototypeToken<this>;
 			effects: Collection<AEType>;
 			statuses: Set<string>;
-			token: TokenDocument<typeof this> | undefined;
+			token: TokenDocument<this> | undefined;
 			visible: boolean;
 			isToken: boolean;
 			permission: number;

@@ -3,13 +3,13 @@ namespace Foundry {
 		// new<Embedded extends (FoundryDocument | never) = never>(...args: unknown[]) : Document<Embedded>;
 
 		defineSchema(): Record<string, FoundryDMField<any>>;
-		create<T>(this: T, data: CreationData<T>):Promise<InstanceType<T>>;
+		create<const T extends Document<any>>(data: CreationData<T>): Promise<T>;
 
 	}
 
 
 	// class FoundryDocument <Embedded extends (FoundryDocument | never) = never> {
-	interface Document<Embedded extends (FoundryDocument | never) = never> {
+	interface Document<Embedded extends (Document | never) = never> {
 		parent: Document<any> | undefined;
 
 		update<T extends updateObj> (updateData: AllowedUpdateKeys<T>, databaseOperation ?: Partial<DatabaseUpdateOperation>): Promise<this>;
@@ -37,11 +37,14 @@ namespace Foundry {
 		migrateSystemData(sourceMaybe?: unknown): unknown;
 		updateSource(updateData: Record<string, unknown>): Promise<unknown>;
 		get folder(): Folder;
+		toJSON(): Object;
 	}
 
-	type CreationData<T extends typeof FoundryDocument> = {
-		name: string;
-	} & DeepPartial<InstanceType<T>>;
+	type CreationData<T extends Document> = 
+		DeepPartial<T>;
+		// {
+		// name: string;
+	// } & DeepPartial<InstanceType<T>>;
 
 	interface Folder {
 	};
@@ -61,6 +64,6 @@ namespace Foundry {
 
 }
 
-type FoundryDocument<Embedded extends (FoundryDocument | never) = any> = Foundry.Document<Embedded>;
+type FoundryDocument<Embedded extends (FoundryDocument | undefined) = any> = Foundry.Document<Embedded>;
 	const Document: Foundry.DocumentConstructor;
 

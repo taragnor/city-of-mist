@@ -34,6 +34,7 @@ namespace Foundry {
 		rollAll(options?: CombatOptions): Promise<this>;
 		/** call dialog to end combat */
 		endCombat(): Promise<boolean>;
+		scene: Scene;
 		/**
 		 * Update active effect durations for all actors present in this Combat encounter.
 		 */

@@ -79,9 +79,9 @@ class SetField<T> extends  ArrayFieldClass<T> {
 
 }
 
-class SchemaField<T> extends FoundryDMField<T> {
+class SchemaField<T extends Record<string, unknown>> extends FoundryDMField<T> {
 	constructor(DataSchema: T, options?: DataFieldOptions);
-	fields: FoundryDMField<any>[];
+	fields: FoundryDMField<T>[];
 
 }
 
@@ -116,6 +116,7 @@ declare interface StringFieldOptions<const T extends string> extends DataFieldOp
 	choices?: readonly T[] | Record < T, string> | (()=> T[]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type NoInfer<A>= [A][A extends any ? 0 : never]
 
 
@@ -124,5 +125,9 @@ type DeepNoArray<I>=
 	I extends Array<infer J> ? NoArray<Array<DeepNoArray<J>>> :
 	I extends object ? { [k in keyof I]: DeepNoArray<I[k]>} :
 	I;
+
+
+type AtLeastOne<const T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+
 
 

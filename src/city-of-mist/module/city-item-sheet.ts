@@ -1,4 +1,3 @@
-import { localize } from "./city.js";
 import { StatusMath } from "./status-math.js";
 import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
@@ -56,7 +55,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		data.movelist = CityHelpers.getMoves()
 			.filter( x=> x.system.category == "Core")
 			.map( x=> x.name );
-		if (this.item.type == "tag") {
+		if (this.item.system.type == "tag") {
 			data.otherTagList = this.item.parent
 				?.getTags()
 				?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId)
@@ -70,9 +69,9 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		return data;
 	}
 
-	get title() {
+	override get title() {
 		const title = localizeS(this.item.name);
-		return title;
+		return title.toString();
 	}
 
 	/** @override */
@@ -91,7 +90,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	override _getSubmitData( updateData = {}) {
 		//Verify that status format includes dashes
 		let data = super._getSubmitData(updateData);
-		if (this.item.type == "status") {
+		if (this.item.system.type == "status") {
 			data.name = CityHelpers.replaceSpaces(data.name);
 		}
 		return data;
@@ -122,7 +121,6 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	override async _onDrop(event: DragEvent) {
 		const data = TextEditor.getDragEventData(event);
-		const item = this.item;
 		// const allowed = Hooks.call("dropItemSheetData", item, this, data);
 		// if ( allowed === false ) return;
 

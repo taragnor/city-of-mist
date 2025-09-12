@@ -166,7 +166,7 @@ export class CityCharacterSheet extends CityActorSheet {
 	probably a bad named function
 	*/
 	async getOtherStatuses() : Promise<CityActor[]> {
-		let applicableTargets = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || (x.type == "character" && x.id != this.actor.id));
+		let applicableTargets = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.system.type == "threat" || (x.system.type == "character" && x.id != this.actor.id));
 		if ((await SceneTags.getSceneTagsAndStatuses()).length > 0) {
 			applicableTargets = applicableTargets
 				.concat(
@@ -174,7 +174,7 @@ export class CityCharacterSheet extends CityActorSheet {
 				);
 		}
 		const filteredTargets = applicableTargets.filter(
-			x=> x.items.find( y=> y.type == "status"));
+			x=> x.items.find( y=> y.system.type == "status"));
 		const statusblock = filteredTargets;
 		const sorted = statusblock.sort( (a,b) => {
 			if (a.is_scene_container())
@@ -211,7 +211,7 @@ export class CityCharacterSheet extends CityActorSheet {
 		html.find('.loadout-create-weakness-tag').on('click', this.#createLoadoutWeakness.bind(this));
 		html.find(".clue-list-section .clue-name").on('click', this._clueEdit.bind(this));
 		html.find(".themebook-name").rightclick(this.openThemeName.bind(this));
-		html.find(".create-relationship-tag").click(this.createRelationshipTag.bind(this));
+		html.find(".create-relationship-tag").on("click", this.createRelationshipTag.bind(this));
 		html.find('.essence-burn').on("click", this._essenceBurn.bind(this));
 		html.find('.essence-unburn').on("click", this._essenceUnburn.bind(this));
 

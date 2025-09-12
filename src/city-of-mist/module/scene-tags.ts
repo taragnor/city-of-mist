@@ -27,7 +27,7 @@ export class SceneTags {
 		});
 		await Promise.all(promises);
 		const validcontainers = Array.from(this.sceneContainers.values());
-		const invContainers = game.actors.filter( (x:CityActor)=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && !validcontainers.includes(x));
+		const invContainers = game.actors.filter( (x:CityActor)=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.system.type == "threat" && !validcontainers.includes(x));
 		if (invContainers.length) {
 			invContainers.forEach( x=> x.delete());
 			console.log("Deleting invalid containers");
@@ -37,7 +37,7 @@ export class SceneTags {
 	static async #getSceneContainer(scene: Scene): Promise<CityActor> {
 		if (!scene)
 			throw new Error("No scene Provided");
-		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
+		const cont = game.actors.find( x=> x.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME && x.system.type == "threat" && (x.system.mythos == scene.id || x.system.alias == scene.id));
 		if (cont) {
 			if (cont?.system?.mythos && (!cont.system.alias || cont.system.alias == "?????")) {
 				const alias = cont.system.mythos
@@ -51,7 +51,7 @@ export class SceneTags {
 			await CityHelpers.sleep(50);
 			return await this.#getSceneContainer(scene);
 		}
-		const newContainer = await CityActor.create( {
+		const newContainer = await CityActor.create<CityActor>( {
 			name: SceneTags.SCENE_CONTAINER_ACTOR_NAME,
 			type: "threat",
 			system: { alias: scene.id},
@@ -89,10 +89,10 @@ export class SceneTags {
 		}
 		const container = await this.#getSceneContainer(scene);
 		return container.items
-			.filter( (x: Tag)=> (x.type == "tag" || x.type == "status") && x.system.sceneId == scene.id)
+			.filter( (x: Tag)=> (x.system.type == "tag" || x.system.type == "status") && x.system.sceneId == scene.id)
 			.sort( (a: CityItem, b: CityItem) => {
-				if (a.type != b.type) {
-					if (a.type == "tag")
+				if (a.system.type != b.system.type) {
+					if (a.system.type == "tag")
 						return -1;
 					else return 1;
 				}
@@ -102,12 +102,12 @@ export class SceneTags {
 
 	static async getSceneStoryTags(scene = game.scenes.current) {
 		return (await this.getSceneTagsAndStatuses(scene))
-			.filter ((x: CityItem)=> x.type == "tag");
+			.filter ((x: CityItem)=> x.system.type == "tag");
 	}
 
 	static async getSceneStatuses(scene = game.scenes.current) {
 		return (await this.getSceneTagsAndStatuses(scene))
-			.filter ((x: CityItem)=> x.type == "status");
+			.filter ((x: CityItem)=> x.system.type == "status");
 	}
 
 	static async createSceneTag(...options: Parameters<CityActor["createStoryTag"]>) {

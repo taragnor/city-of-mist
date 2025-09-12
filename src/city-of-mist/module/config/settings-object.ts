@@ -338,13 +338,23 @@ export function CITY_SETTINGS() {
 // ***************   DEV SETTINGS  **************** *
 // **************************************************
 
+
+function showDevSettings() : boolean {
+	//@ts-ignore
+	return game.settings.get('city-of-mist', "system") == "custom";
+
+}
+
 export function DEV_SETTINGS() {
+	//@ts-ignore
+	const SHOW_DEV_SETTINGS = showDevSettings();
 	return {
 		"baseSystem": {
 			name: localize("CityOfMist.settings.baseSystem.name"),
 			hint: localize("CityOfMist.settings.baseSystem.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			//@ts-ignore
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "city-of-mist",
 			choices: {...SYSTEM_CHOICES()},
@@ -363,7 +373,8 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.tagCreationCost.name"),
 			hint: localize("CityOfMist.settings.tagCreationCost.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			//@ts-ignore
+			config: SHOW_DEV_SETTINGS,
 			type: Number,
 			default: 2,
 			choices:
@@ -380,7 +391,8 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.statusCreationCost.name"),
 			hint: localize("CityOfMist.settings.statusCreationCost.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			//@ts-ignore
+			config: SHOW_DEV_SETTINGS,
 			type: Number,
 			default: 1,
 			choices:
@@ -397,7 +409,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.movesInclude.name"),
 			hint: localize("CityOfMist.settings.movesInclude.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "city-of-mist",
 			choices: {
@@ -418,7 +430,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.statusAdditionSystem.name"),
 			hint: localize("CityOfMist.settings.statusAdditionSystem.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "classic",
 			choices: {
@@ -438,7 +450,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.loadout.name"),
 			hint: localize("CityOfMist.settings.loadout.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: Boolean,
 			default: false,
 			restricted: true,
@@ -448,7 +460,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.tagBurn.name"),
 			hint: localize("CityOfMist.settings.tagBurn.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "classic",
 			choices: {
@@ -465,7 +477,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.altPower.name"),
 			hint: localize("CityOfMist.settings.altPower.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: Boolean,
 			default: false,
 			restricted: true,
@@ -478,7 +490,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.themeStyle.name"),
 			hint: localize("CityOfMist.settings.themeStyle.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "city-of-mist",
 			choices: {
@@ -495,7 +507,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.collectiveMechanics.name"),
 			hint: localize("CityOfMist.settings.themeStyle.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "system") == "custom"),
+			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "city-of-mist",
 			choices: {
@@ -512,7 +524,7 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.debugMode.name"),
 			hint: localize("CityOfMist.settings.debugMode.hint"),
 			scope: "world",
-			config: (game.settings.get('city-of-mist', "devMode") == true),
+			config: SHOW_DEV_SETTINGS,
 			type: Boolean,
 			default: false,
 			restricted: true,
@@ -565,4 +577,17 @@ declare global {
 	interface OTHERSETTINGS extends Record<string & {}, SelectSettings> {
 	}
 }
+
+type CitySettingKeysBase = SettingsObjToSettingKeyType<SettingsType>;
+
+interface CitySettingKeys extends CitySettingKeysBase {};
+
+
+declare global {
+	interface SettingNameSpace {
+		"city-of-mist": CitySettingKeys,
+	}
+}
+
+
 

@@ -11,6 +11,7 @@ namespace Foundry {
 		walls: Collection<WallDocument>;
 		regions: Collection<RegionDocument>;
 		weather: keyof CONFIG["weatherEffects"];
+		active: boolean;
 	}
 
 	interface WallDocumentConstructor extends DocumentConstructor {

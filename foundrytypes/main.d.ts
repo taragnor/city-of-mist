@@ -20,6 +20,7 @@ interface FoundryStuff {
 		AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
 		Sound: typeof Sound;
 	}
+	canvas: FoundryCanvasTools;
 	utils: FoundryUtil;
 	applications: foundryApps.Applications;
 

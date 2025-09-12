@@ -75,7 +75,7 @@ export class StatusTrackerWindow extends Application {
 		await tracker.unburnTag(Number(indexActor), tag);
 	}
 
-	async getData() {
+	override async getData() {
 		const actors = await this.loadActorData();
 		const scene = await this.loadSceneData();
 		const combined = actors.concat(scene);

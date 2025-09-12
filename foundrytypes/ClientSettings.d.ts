@@ -4,8 +4,19 @@ declare class ClientSettings {
 	get storage(): Map<string, unknown>;
 	register<T extends typeof String | typeof Number | typeof Boolean>(namespace: string, key: string, data: SettingConfig<T> ): void;
 	registerMenu<C extends typeof FormApplication>(namespace:string, key: string, data: SettingSubmenuConfig<C>): void;
-	get<Output = unknown>(namespace: string, key: string): Output;
-	async set(namespace:string, key: string, value: unknown): Promise<void>
+	get<N extends keyof SettingNameSpace, K extends keyof SettingNameSpace[N]>(namespace:N, key: K): SettingNameSpace[N][K];
+	async set<N extends keyof SettingNameSpace, K extends keyof SettingNameSpace[N]>(namespace:N, key: K, value: SettingNameSpace[N][K]): Promise<void>
+
+}
+
+interface SettingNameSpace {
+	"core": CoreKeys;
+}
+
+interface CoreKeys {
+	"globalPlaylistVolume": number;
+	"globalAmbientVolumen" : number;
+	"globalInterfaceVolumen": number;
 
 }
 
@@ -42,4 +53,17 @@ class Setting<T extends unknown = unknown> extends FoundryDocument {
 	get key(): string;
 	get value(): Record<string, T>
 }
+
+type SettingsObjToSettingKeyType<O extends Record<string, SettingConfig<any>>> = {[k in keyof O] :
+	"choices" extends keyof O[k]
+	? keyof O[k]["choices"]
+	// ? Settings[k]["choices"][keyof Settings[k]["choices"]]
+	: Unwrap<InstanceType<O[k]["type"]>>
+};
+
+type Unwrap<T extends Boolean | String | Number> = 
+	T extends Boolean ?  boolean :
+	T extends String ? string :
+	T extends Number ? number : T;
+
 

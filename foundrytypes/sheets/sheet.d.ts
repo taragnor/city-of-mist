@@ -4,7 +4,6 @@ class Sheet<T extends FoundryDocument<any>> extends FormApplication {
 	activateListeners(html: JQuery<HTMLElement>): void;
 	get form(): HMTLFormElement;
 	async render(force: boolean):Promise<void>;
-	_state: number;
 	_getSubmitData(data: Record<string, any>): Record<string, any>;
 	_onDrop(event: DragEvent): unknown;
 	get isEditable(): boolean;
