@@ -2867,6 +2867,13 @@ span.secret {
   animation: blinker 1s step-start infinite;
 }
 
+.window-app .story-tag-window {
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	border: none;
+}
 
 .scene-tag-window {
 	/* position: absolute; */
@@ -2887,6 +2894,12 @@ span.secret {
 	border-bottom-right-radius: 1em;
 	text-align: left;
 }
+
+.scene-tag-content {
+	margin: 5px;
+
+}
+
 
 .scene-tags-block .label {
 	padding-top: 0.5rem;
@@ -2929,7 +2942,7 @@ span.secret {
 	height: auto !important;
 }
 
-.story-tag-window {
+.scene-tag-window {
 	min-height: 200px;
 	max-height: 800px;
 	max-width: 350px;

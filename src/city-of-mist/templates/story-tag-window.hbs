@@ -1,5 +1,5 @@
 <div class="story-tag-window scene-tag-window {{#if shrink}} font-shrink {{/if}}">
-	<div class="item-selection-context">
+	<div class="scene-tag-content item-selection-context">
 		<div class="scene-tags-block">
 			<div class="scene-name flex-row">
 				<span class="label name flex-wide">
@@ -26,6 +26,7 @@
 
 		{{#each combatants as |combatant|}}
 		<div class="combatant-block" data-owner-id="{{combatant.actorId}}" data-token-id="{{combatant.tokenId}}" data-scene-id="{{combatant.sceneId}}">
+
 			<div class="combatant-name flex-row">
 				<span>
 					{{#if (isGM)}}
