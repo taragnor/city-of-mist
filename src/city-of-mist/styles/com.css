@@ -364,10 +364,19 @@ button.clue-use-button:hover {
 	color: var(--logos-text);
 }
 
+.style-city-of-mist .window-app .story-tag-window {
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	border: none;
+}
+
+
 .style-city-of-mist .scene-tag-window {
-	position: absolute;
-	margin: 0.3em;
-	padding: 0.6em 1em;
+	/* position: absolute; */
+	/* margin: 0.3em; */
+	/* padding: 0.6em 1em; */
 
 	font-size: 1.1em;
 	line-height: 1.2em;
@@ -377,8 +386,8 @@ button.clue-use-button:hover {
 	/* line-height: 1.3em; */
 	/* font-family: 'PT Serif'; */
 	color: var(--logos-text);
-	background: url(../images/paperbg.webp) repeat;
-	background-size: 500%;
+	/* background: url(../images/paperbg.webp) repeat; */
+	/* background-size: 500%; */
 	border: none;
 	border-top-left-radius: 1em;
 	border-top-right-radius: 1em;

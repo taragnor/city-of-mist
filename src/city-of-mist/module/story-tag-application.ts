@@ -30,10 +30,10 @@ export class StoryTagWindow extends Application {
 
 	static override get defaultOptions() {
 		return foundry.utils.mergeObject(super.defaultOptions, {
-			classes: ["story-tag-window"],
+			classes: ["story-tag-window", "scene-tag-window"],
 			template: "systems/city-of-mist/templates/story-tag-window.hbs",
-			width: 300,
-			height: 400,
+			width: 400,
+			height: 500,
 			// tabs: []
 		});
 	}
