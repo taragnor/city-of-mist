@@ -116,7 +116,7 @@ export class StoryTagWindow extends Application {
 		}
 		this.element.show();
 		console.log("Refreshing Contents");
-		this.render(true);
+		this.render(false);
 	}
 
 
