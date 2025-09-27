@@ -116,8 +116,9 @@ export class EnhancedActorDirectory {
       if ( matchedFolderIds.has(entry.folder?._id ?? entry.folder) ) entryIds.add(entryId);
 
       // Otherwise, if we are searching by name, match the entry name.
+		 const moddedName = entry?.directoryName ?? entry.name;
 		 //@ts-ignore
-      if ( nameOnlySearch && query.test(foundry.applications.ux.SearchFilter.cleanQuery(entry.directoryName)) ) {
+      if ( nameOnlySearch && query.test(foundry.applications.ux.SearchFilter.cleanQuery(moddedName)) ) {
 		 //@ts-ignore
         entryIds.add(entryId);
 		 //@ts-ignore
