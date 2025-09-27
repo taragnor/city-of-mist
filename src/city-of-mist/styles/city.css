@@ -545,6 +545,7 @@ input.question-entry {
 	width: 80%;
 }
 
+.journal-page-content,
 .journal-entry-content,
 .actor-sheet .sheet-tabs,
 .threat-sheet .sheet-tabs,
@@ -3058,6 +3059,7 @@ span.secret {
 .journal-entry-content {
 	background-image: url(../images/paperbg.webp) !important;
 	font-family: "Typewriter", Arial !important;
+	color: var(--logos-text);
 }
 
 .journal-header {
