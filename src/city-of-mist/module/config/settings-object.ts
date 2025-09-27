@@ -1,4 +1,3 @@
-import { refreshStyleBodyTags } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { DebugTools } from "../tools/debug.js";
 import { localize } from "../city.js";
@@ -209,6 +208,16 @@ export function CITY_SETTINGS() {
 			}
 		},
 
+		"soundEffects": {
+			name: localize("CityOfMist.settings.soundEffects.name"),
+			hint: localize("CityOfMist.settings.soundEffects.hint"),
+			scope: "client",
+			config: true,
+			type: Boolean,
+			default: true,
+			restricted: false,
+		},
+
 		"clueBoxes": {
 			name: localize("CityOfMist.settings.clueBoxes.name"),
 			hint: localize("CityOfMist.settings.clueBoxes.hint"),
@@ -360,7 +369,6 @@ export function DEV_SETTINGS() {
 			choices: {...SYSTEM_CHOICES()},
 			restricted: true,
 			onChange: (newval: string) => {
-				refreshStyleBodyTags(newval as any);
 				const curr = CitySettings.get("system");
 				if (curr != newval && curr != "custom") {
 					CitySettings.set("system", "custom");

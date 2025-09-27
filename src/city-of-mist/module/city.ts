@@ -40,7 +40,6 @@ import { MistChatMessage } from "./mist-chat-message.js";
 import { MistRoll } from "./mist-roll.js";
 import { CityDataMigration } from "./migration.js";
 import { CitySettings } from "./settings.js";
-import { DEV_SETTINGS } from "./config/settings-object.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
@@ -59,7 +58,6 @@ import {} from "./tools/electron-fix.js";
 import {} from "./tools/debug.js";
 import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.js";
 import {CityHandlebarsHelpers} from "./city-handlebars-helpers.js";
-import {StoryTagDisplayContainer} from "./story-tag-window.js";
 import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
 import {CityKeyBinds} from "./keybindings.js";
@@ -119,7 +117,6 @@ Hooks.once("init", async function() {
 	registerDataModels();
 	await SystemModule.init();
 	registerSystemSettings();
-	refreshStyleBodyTags(CitySettings.get("baseSystem"));
 	await SystemModule.active.activate();
 
 	game.city = {
@@ -135,15 +132,6 @@ Hooks.once("init", async function() {
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
 
-	// Register sheet application classes
-	// Actors.unregisterSheet("core", ActorSheet);
-	// Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
-	// Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
-	// Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
-	// Items.unregisterSheet("core", ItemSheet);
-	// Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "move"], makeDefault: true});
-	// Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
-	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
 	preloadHandlebarsTemplates();
 
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
@@ -199,30 +187,6 @@ Hooks.on("renderApplication", function() {
 		StatusTrackerWindow._instance.render(false);
 	}
 });
-
-export function refreshStyleBodyTags(_system: keyof ReturnType<typeof DEV_SETTINGS>["baseSystem"]["choices"]) {
-	//NOTE: now handled in SystemModule.activate
-	// let target : string;
-	// switch (system) {
-	// 	case "city-of-mist":
-	// 		target = "style-city-of-mist";
-	// 		break;
-	// 	case "otherscape":
-	// 		target = "style-otherscape";
-	// 		break;
-	// 	case "legend":
-	// 		target = "style-legend";
-	// 		break;
-	// 	default:
-	// 		system satisfies never;
-	// 		throw new Error(`Invalid choice ${system}`);
-	// }
-	// $(document).find("body").removeClass("style-city-of-mist");
-	// $(document).find("body").removeClass("style-otherscape");
-	// $(document).find("body").removeClass("style-legend");
-	// $(document).find("body").addClass(target);
-}
-
 
 //@ts-ignore
 window.CityHelpers = CityHelpers;

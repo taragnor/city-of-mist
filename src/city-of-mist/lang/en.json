@@ -891,6 +891,8 @@
 "CityOfMist.settings.trackerSort.2": "Elevate PCs and Dangers with tags/statuses",
 "CityOfMist.settings.enhancedActorDirectory.name": "Enhanced Actor Directory",
 "CityOfMist.settings.enhancedActorDirectory.hint": "Shows only the alias name to non-owners of an actor in the directory, hiding the true name from the players (requires browser refresh)",
+"CityOfMist.settings.soundEffects.name": "Sound Effects",
+"CityOfMist.settings.soundEffects.hint": "Produce sound effects for tag selection, burning, etc.",
 "CityOfMist.settings.clueBoxes.name": "Enhanced Clue System",
 "CityOfMist.settings.clueBoxes.hint": "Clues are spawned as separate interactive chat objects (clue boxes) that the player and GM can fill out.",
 "CityOfMist.settings.clueBoxes.0": "No clue boxes",
