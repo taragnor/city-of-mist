@@ -69,7 +69,10 @@ export class EnhancedActorDirectory {
 				switch (option.name) {
 					case "SIDEBAR.CharArt":
 						option.callback = (li: any) => {
-							const actor = game.actors.get(li.data("documentId"))! as CityActor;
+							const id = li ? li.data("documentId") : undefined;
+							if (!id) return;
+
+							const actor = game.actors.get(id)! as CityActor;
 							console.log("Calling callback on ${actor.name}");
 							new ImagePopout(actor.img, {
 								title: (actor as CityActor).directoryName,
@@ -80,7 +83,9 @@ export class EnhancedActorDirectory {
 						break;
 					case "SIDEBAR.TokenArt":
 						option.callback = (li : any) => {
-							const actor = game.actors.get(li.data("documentId"))! as CityActor;
+							const id = li ? li.data("documentId") : undefined;
+							if (!id) return;
+							const actor = game.actors.get(id)! as CityActor;
 							new ImagePopout(actor.token!.img, {
 								title: actor.directoryName,
 								shareable: true,
