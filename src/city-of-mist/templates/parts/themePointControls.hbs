@@ -15,8 +15,10 @@
 				<span>
 					{{getThemePropertyName themePointType theme}}
 				</span>
+				{{#if (eq themePointType "attention")}}
 				<span>
 					{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
+					{{/if}}
 			</div>
 		</div>
 	</div>
