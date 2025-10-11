@@ -23,6 +23,7 @@ export class LitMSystem extends MistEngineSystem {
 				sortOrder: 1,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				milestoneLocalization: "Legend.terms.milestone",
 				identityName: "Legend.terms.quest",
 			},
 			"Adventure": {
@@ -30,6 +31,7 @@ export class LitMSystem extends MistEngineSystem {
 				sortOrder: 2,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				milestoneLocalization: "Legend.terms.milestone",
 				identityName: "Legend.terms.quest",
 			},
 			"Greatness": {
@@ -37,6 +39,7 @@ export class LitMSystem extends MistEngineSystem {
 				sortOrder: 3,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				milestoneLocalization: "Legend.terms.milestone",
 				identityName: "Legend.terms.quest",
 			},
 			"Fellowship": {
@@ -44,6 +47,7 @@ export class LitMSystem extends MistEngineSystem {
 				sortOrder: 10,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
+				milestoneLocalization: "Legend.terms.milestone",
 				identityName: "Legend.terms.quest",
 				specials: ["crew"],
 			},
@@ -75,6 +79,14 @@ export class LitMSystem extends MistEngineSystem {
 		await settings.set("baseSystem", "legend");
 		await settings.set("system", "legend");
 		await settings.set( "movesInclude", "legend");
+	}
+
+	gameTerms() : Record<keyof GameTerms, localizationString>{
+		return {
+			collective: "Legend.terms.collective",
+			buildUpPoints: "Legend.terms.promise",
+			evolution: "Legend.terms.fulfillment",
+		};
 	}
 
 }

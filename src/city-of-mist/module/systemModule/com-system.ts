@@ -101,6 +101,14 @@ export class CoMSystem extends CoMTypeSystem {
 		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
+	gameTerms() : Record<keyof GameTerms, localizationString>{
+		return {
+			collective: "CityOfMist.terms.colllective",
+			buildUpPoints: "CityOfMist.terms.buildup",
+			evolution: "CityOfMist.terms.MoEs",
+		};
+	}
+
 	override async activate() {
 		super.activate();
 	}
@@ -118,6 +126,7 @@ export class CoMSystem extends CoMTypeSystem {
 		await settings.set( "movesInclude", "city-of-mist");
 		await settings.set("system", "city-of-mist");
 	}
+
 }
 
 

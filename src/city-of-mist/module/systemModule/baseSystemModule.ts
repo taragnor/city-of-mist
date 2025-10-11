@@ -22,7 +22,6 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		if ("locale_name" in doc.system && doc.system.locale_name) {
 			return localizeS(doc.system.locale_name).toString();
 		}
-
 		const lnName = this.lookupLocalizationProperty(doc, "name");
 		if (lnName) return lnName;
 		return doc.name;
@@ -84,6 +83,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return actor.name;
 	}
 
+	abstract gameTerms(): Record<keyof GameTerms, localizationString>;
 	abstract downtimeTemplate(actor: CityActor): Promise<string>;
 	abstract name: keyof SYSTEM_NAMES;
 	abstract localizationString: string;
@@ -200,6 +200,7 @@ export interface SystemModuleI {
 	canCreateTags(move: Move): boolean;
 	themeTypes(): Partial<Record<keyof ThemeTypes, ThemeTypeInfo>>;
 	directoryName(actor: CityActor): string;
+	gameTerms() : Record<keyof GameTerms, localizationString>;
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
 	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
@@ -210,6 +211,7 @@ export type ThemeTypeInfo = {
 	sortOrder: number,
 	decreaseLocalization: string,
 	increaseLocalization: string,
+	milestoneLocalization?: string,
 	identityName: string, //identity, Mystery, Directive, etc.
 	specials ?: (keyof ThemeTypeSpecials)[],
 }
@@ -220,6 +222,16 @@ declare global {
 		"crew" : "";
 		"extra": "";
 	}
+
+	interface GameTerms {
+		collective: string,
+			buildUpPoints: string,
+			evolution: string,
+	}
+	type localizationString = string;
 }
+
+
+
 
 type ThemebookField = "power-question" | "weakness-question" | "improvement-name" | "improvement-description";

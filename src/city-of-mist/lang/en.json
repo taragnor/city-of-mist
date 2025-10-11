@@ -152,6 +152,7 @@
 "CityOfMist.terms.themeClassRoll": "Add Number of Themes",
 "CityOfMist.terms.colllective": "Collective",
 "CityOfMist.terms.mainTheme": "Main Theme",
+"CityOfMist.terms.buildup": "Build Up Points",
 
 "Otherscape.terms.noise": "Noise",
 "Otherscape.terms.self": "Self",
@@ -166,6 +167,8 @@
 "Otherscape.terms.crewRelationship" : "Crew Relationships",
 "Otherscape.terms.identity": "Identity",
 "Otherscape.terms.essence" : "Essence",
+"Otherscape.terms.evolutionPoints": "Evolution Points",
+"Otherscape.terms.evolution": "Moment of Evolution",
 
 "Otherscape.tooltip.createRelationshipTag": "Create Relationship Tag",
 
@@ -177,6 +180,8 @@
 "Legend.terms.abandon": "Abandon",
 "Legend.terms.quest": "Quest",
 "Legend.terms.milestone": "Milestone",
+"Legend.terms.promise": "Promise",
+"Legend.terms.fulfillment": "Moments of Fulfillment",
 
 "Legend.terms.adventure": "Adventure",
 "Legend.terms.greatness": "Greatness",

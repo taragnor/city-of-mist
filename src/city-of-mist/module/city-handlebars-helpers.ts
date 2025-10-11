@@ -431,6 +431,22 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return theme?.canImprove() ?? false;
 		},
 
+		"MomentOfEvolutionLocalized": function (): SafeString {
+			return new Handlebars.SafeString(
+				localize(SystemModule.active.gameTerms().evolution)
+			);
+		},
+		"EvolutionPointsLocalized": function (): SafeString {
+			return new Handlebars.SafeString(
+				localize(SystemModule.active.gameTerms().buildUpPoints)
+			);
+		},
+		"ColectiveTermLocalized": function (): SafeString {
+			return new Handlebars.SafeString(
+				localize(SystemModule.active.gameTerms().collective)
+			);
+		},
+
 
 	} //end of object holding helpers
 } // end of class

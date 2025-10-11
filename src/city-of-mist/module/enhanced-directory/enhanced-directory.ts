@@ -74,7 +74,6 @@ export class EnhancedActorDirectory {
 							if (!id) return;
 
 							const actor = game.actors.get(id) as CityActor;
-							console.log("Calling callback on ${actor.name}");
 							if (!actor) {return;}
 
 							new ImagePopout(actor.img, {

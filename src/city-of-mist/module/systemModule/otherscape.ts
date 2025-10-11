@@ -180,6 +180,16 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return actor.essence?.system.systemName as keyof EssenceNames;
 	}
 
+	gameTerms() : Record<keyof GameTerms, localizationString>{
+		return {
+			collective: "Otherscape.terms.scale",
+			buildUpPoints: "Otherscape.terms.evolutionPoints",
+			evolution: "Otherscape.terms.evolution",
+		};
+
+	}
+
+
 
 	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
 		await super.updateRollOptions(html, options, dialog);
@@ -196,6 +206,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 		}
 		options.themeTypes = tt;
 	}
+
 
 	override async renderRollDialog( dialog: RollDialog) {
 		await super.renderRollDialog(dialog);
