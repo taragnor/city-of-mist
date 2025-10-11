@@ -8,12 +8,15 @@
 		{{/each}}
 		<a class="theme-add-progress-point" data-type="{{themePointType}}" > <i class="fas fa-plus-square"></i></a>
 		{{#if (ne locked true)}}
-		<a class="theme-remove-progress-point"  data-type="{{themePointType}}" > <i class="fas fa-minus-square"></i></a></p>
+		<a class="theme-remove-progress-point"  data-type="{{themePointType}}"> <i class="fas fa-minus-square"></i></a>
 		{{/if}}
 		<div class="attention-label">
 			<div class="attention-text flex-std">
-				{{getThemePropertyName themePointType theme}}
-				</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
+				<span>
+					{{getThemePropertyName themePointType theme}}
+				</span>
+				<span>
+					{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
 			</div>
 		</div>
 	</div>

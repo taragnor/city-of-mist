@@ -302,6 +302,9 @@ export class CityActorSheet extends CitySheet {
 			case "crack":
 				await actor.removeFade(id);
 				break;
+			case "milestone":
+				await actor.removeMilestone(id);
+				break;
 			default:
 				throw new Error(`Unrecognized Type ${type}`);
 		}
