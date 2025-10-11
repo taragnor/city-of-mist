@@ -56,6 +56,8 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/move-create-tag-me.hbs",
 	  "systems/city-of-mist/templates/parts/relationship-tags-list-display.hbs",
 	  "systems/city-of-mist/templates/parts/systemComp.hbs",
+	  "systems/city-of-mist/templates/parts/systemComp.hbs",
+	  "systems/city-of-mist/templates/parts/themePointControls.hbs",
   ];
 
   // Load the template parts

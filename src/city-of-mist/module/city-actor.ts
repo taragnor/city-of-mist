@@ -1099,6 +1099,28 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return theme_destroyed;
 	}
 
+	async addMilestone(themeId: string, amount= 1) {
+		const theme= this.getTheme(themeId);
+		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		await theme.addMilestone(amount);
+		const trackName = SystemModule.themeThirdTrackName(theme);
+		let txt =`${theme.parent!.name}: ${trackName} added to ${theme.getDisplayedName()}`;
+		if (theme.milestone == 2) {
+			txt += "";
+		}
+		await CityHelpers.modificationLog(this, txt);
+		return false;
+	}
+
+	async removeMilestone(themeId: string, amount=1) {
+		const theme = this.getTheme(themeId);
+		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		const extra_improvements = await theme.removeMilestone(amount);
+		// let txt =`${SystemModule.themeThirdTrackName(theme)} added to ${theme.displayedName} (current: ${theme.milestone})`;
+		// await CityHelpers.modificationLog(this, txt);
+		return extra_improvements;
+	}
+
 	async removeFade (themeId:string, amount=1) {
 		const theme= this.getTheme(themeId);
 		if (!theme) throw new Error(`Can't find theme id ${themeId}`);

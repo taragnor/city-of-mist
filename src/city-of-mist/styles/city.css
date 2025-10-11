@@ -1238,14 +1238,17 @@ span.tag-symbols {
 }
 
 div.att-fade-section {
+	flex-wrap: wrap;
 	padding: 5px;
 	display: flex;
 	justify-content: space-evenly;
 }
+
 .attention-block.flex-line {
 	margin: 0 0.4em;
 	width: 50%;
 	padding-top: 0.1em;
+
 
 }
 
@@ -1256,7 +1259,7 @@ div.att-fade-section {
 
 div.dots-section {
 	padding-top: 2px;
-	max-height:20px;
+	/* max-height:20px; */
 }
 
 ul.tag-list {
@@ -1294,6 +1297,7 @@ ul.improvement-list {
 }
 
 .flex-row-center {
+	flex-direction: row;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -1337,12 +1341,15 @@ div.attention-text {
 	text-transform: uppercase;
 }
 
-div.attention-block {
+div.theme-progress-track {
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: center;
-	overflow: auto;
-	flex-shrink: 0;
+	overflow: hidden;
+	/* flex-shrink: 0; */
+	height: auto;
+	flex: 0 1 calc(50% - 1em);
+	box-sizing: border-box;
 }
 
 span.fade-text {
@@ -3054,6 +3061,7 @@ span.secret {
 
 .loadout-theme .att-fade-section {
 	margin-top: 0.75em;
+	max-width: 50%;
 }
 
 .journal-entry-content {

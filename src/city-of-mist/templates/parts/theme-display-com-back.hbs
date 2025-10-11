@@ -2,50 +2,11 @@
 	<div class="themebook-name flip-button"> {{theme.themebook.displayedName}}</div>
 
 	<div class="att-fade-section">
-		<div class="attention-block">
-			<div class="dots-section flex-std">
-				{{#each theme.system.attention as |attention rank|}}
-				{{#if (eq attention 1)}}
-				<span class="filled-circle tracker-circle"></span>
-				{{else}}
-				<span class="empty-circle tracker-circle"></span>
-				{{/if}}
-				{{/each}}
-				<a class="theme-add-attention" data-type="attention" > <i class="fas fa-plus-square"></i></a>
-				{{#if (ne locked true)}}
-				<a class="theme-remove-attention"  data-type="attention" > <i class="fas fa-minus-square"></i></a></p>
-				{{/if}}
-			</div>
-
-			<div class="attention-label">
-				<div class="attention-text flex-std">
-					{{getThemePropertyName "attention" theme}}
-					</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
-				</div>
-
-			</div>
-		</div>
-		<div class="fade-block">
-			<div class="dots-section flex-std">
-				{{#each theme.system.crack as |crack rank|}}
-				{{#if (eq crack 1)}}
-				<span class="filled-circle tracker-circle"></span>
-				{{else}}
-				<span class="empty-circle tracker-circle"></span>
-				{{/if}}
-				{{/each}}
-				<a class="theme-add-fade"  data-type="crack" > <i class="fas fa-plus-square"></i></a>
-				{{#if (gt theme.system.unspent_upgrades 0)}}
-				<a class="theme-reset-fade"  data-type="crack" title="Reset Fade"> <i class="fas fa-undo"></i></a>
-				{{/if}}
-				{{#if (ne locked true)}}
-				<a class="theme-remove-fade"  data-type="crack" > <i class="fas fa-minus-square"></i></a></p>
-				{{/if}}
-			</div>
-			<div class="fade-text flex-std">
-				{{getThemePropertyName "fade" theme}}
-			</div>
-		</div>
+		{{> "systems/city-of-mist/templates/parts/themePointControls.hbs" theme=theme locked=locked themePointType="attention" }}
+		{{> "systems/city-of-mist/templates/parts/themePointControls.hbs" theme=theme locked=locked themePointType="crack" }}
+		{{#if (useMilestoneTrack theme)}}
+		{{> "systems/city-of-mist/templates/parts/themePointControls.hbs" theme=theme locked=locked themePointType="milestone" }}
+		{{/if}}
 	</div>
 
 	<div class="improvement-section">

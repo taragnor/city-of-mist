@@ -44,6 +44,8 @@ export class CityActorSheet extends CitySheet {
 		html.find('.theme-create-improvement').on("click", this._createTagOrImprovement.bind(this) );
 		html.find('.imp-delete').on("click", this._deleteImprovement.bind(this) );
 		html.find('.theme-delete').on("click", this._deleteTheme.bind(this) );
+		html.find('.theme-add-progress-point').on("click", this._addAttentionOrFade.bind(this));
+		html.find('.theme-remove-progress-point').on("click", this._removeAttentionOrFade.bind(this));
 		html.find('.theme-add-attention').on("click", this._addAttentionOrFade.bind(this));
 		html.find('.theme-remove-attention').on("click", this._removeAttentionOrFade.bind(this) );
 		html.find('.theme-add-fade').on("click", this._addAttentionOrFade.bind(this));
@@ -274,8 +276,12 @@ export class CityActorSheet extends CitySheet {
 			case "attention":
 				await actor.addAttention(id);
 				break;
+			case "fade":
 			case "crack":
 				await actor.addFade(id);
+				break;
+			case "milestone":
+				await actor.addMilestone(id);
 				break;
 			default:
 				throw new Error(`Unrecognized Type ${type}`);
@@ -292,6 +298,7 @@ export class CityActorSheet extends CitySheet {
 			case "attention":
 				await actor.removeAttention(id);
 				break;
+			case "fade":
 			case "crack":
 				await actor.removeFade(id);
 				break;
@@ -544,5 +551,6 @@ export class CityActorSheet extends CitySheet {
 	async CJDialog(obj: Clue| Juice) : Promise<Clue | Juice> {
 		return await CityHelpers.itemDialog(obj) as Juice;
 	}
+
 
 }

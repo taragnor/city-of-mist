@@ -1,0 +1,20 @@
+<div class="theme-progress-track"> <div class="dots-section flex-std">
+		{{#each (getThemeProgress theme themePointType) as |attention rank|}}
+		{{#if (eq attention 1)}}
+		<span class="filled-circle tracker-circle"></span>
+		{{else}}
+		<span class="empty-circle tracker-circle"></span>
+		{{/if}}
+		{{/each}}
+		<a class="theme-add-progress-point" data-type="{{themePointType}}" > <i class="fas fa-plus-square"></i></a>
+		{{#if (ne locked true)}}
+		<a class="theme-remove-progress-point"  data-type="{{themePointType}}" > <i class="fas fa-minus-square"></i></a></p>
+		{{/if}}
+		<div class="attention-label">
+			<div class="attention-text flex-std">
+				{{getThemePropertyName themePointType theme}}
+				</span>{{#if (ne theme.system.unspent_upgrades 0)}}<span class="unspent-upgrades"> (+{{theme.system.unspent_upgrades}})</span>{{/if}}
+			</div>
+		</div>
+	</div>
+</div>

@@ -183,6 +183,7 @@ class Theme extends DataModel {
 			improvements: new obj<{}>(),
 			attention: new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			crack:new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
+			milestone: new arr(new num({initial: 0, choices: [0, 1]}), {initial: [0,0,0]}),
 			mystery: new txt(),
 			subtype: new txt<ThemeType>( {initial: ""}),
 			themebook_id: new id(),

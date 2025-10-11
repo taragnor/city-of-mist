@@ -76,7 +76,7 @@ export abstract class SystemModule {
 		return retobj as Required<ReturnType<SystemModuleI["themeTypes"]>>;
 	}
 
-	static themeDecreaseName(theme: Theme) {
+	static themeDecreaseName(theme: Theme) : string{
 		const themetype = theme.getThemeType();
 		const thing = this.allThemeTypes()[themetype].decreaseLocalization;
 		if (thing) {
@@ -86,9 +86,19 @@ export abstract class SystemModule {
 		}
 	}
 
-	static themeIncreaseName(theme: Theme) {
+	static themeIncreaseName(theme: Theme): string {
 		const themetype = theme.getThemeType();
 		const thing = this.allThemeTypes()[themetype].increaseLocalization;
+		if (thing) {
+			return localize(thing);
+		} else {
+			return "";
+		}
+	}
+
+	static themeThirdTrackName(theme: Theme) : string {
+		const themetype = theme.getThemeType();
+		const thing = this.allThemeTypes()[themetype].milestoneLocalization ?? undefined;
 		if (thing) {
 			return localize(thing);
 		} else {

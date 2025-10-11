@@ -659,6 +659,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		return this.crack;
 	}
 
+	get milestone() {
+		if (!("crack" in this.system)) {
+			throw new Error(`Can't get crack on ${this.system.type}`);
+		}
+		const milestones = this.system?.crack;
+		return milestones.reduce( (acc, v) => acc+v, 0);
+	}
+
 	get powerTags() : Tag[] {
 		if (!this.parent) return [];
 		if (this.system.type == "theme" || this.system.type == "themekit") {
@@ -708,6 +716,28 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const newArr = moddata[0];
 		await this.update( {system: {crack: newArr}});
 		return !!moddata[1];
+	}
+
+	async addMilestone(this: Theme, amount=1) {
+		const arr = this.system.milestone;
+		const trackName = SystemModule.themeThirdTrackName(this);
+		const moddata = CityHelpers.modArray(arr, amount)
+		const newArr = moddata[0];
+		await this.update( {system: {milestone: newArr}});
+		await CityHelpers.modificationLog(this.parent!, `${trackName} Gained `, this, `Current ${this.milestone}`);
+		return !!moddata[1];
+	}
+
+	async removeMilestone(this: Theme, amount=-1) {
+		const arr = this.system.milestone;
+		const trackName = SystemModule.themeThirdTrackName(this);
+		if (arr[0] == 0) return false; //Can't remove if there's no crack
+		const moddata = CityHelpers.modArray(arr, -amount)
+		const newArr = moddata[0];
+		await this.update( {system: {milestone: newArr}});
+		await CityHelpers.modificationLog(this.parent!, `${trackName} Removed `, this, `Current ${this.milestone}`);
+		return !!moddata[1];
+
 	}
 
 	async resetFade(this: Theme) {
@@ -1641,13 +1671,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
-	getThemePropertyTerm(this:Theme, term: "attention" | "fade") : string {
+	getThemePropertyTerm(this:Theme, term: "attention" | "fade" | "milestone") : string {
 		switch (term) {
 			case "attention" :
 				return SystemModule.themeIncreaseName(this);
 			case "fade":
 				return SystemModule.themeDecreaseName(this);
-			default: 
+			case "milestone":
+				return SystemModule.themeThirdTrackName(this);
+			default:
 				ui.notifications.error(`Unknown Term: ${term}`);
 				return "ERROR";
 		}

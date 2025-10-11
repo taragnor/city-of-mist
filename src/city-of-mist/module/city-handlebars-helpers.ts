@@ -259,9 +259,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return true;
 		},
 
-		'getThemePropertyName': function (term: "attention" | "fade", theme: Theme) {
+		'getThemePropertyName': function (term: "attention" | "fade" | "crack" | "milestone", theme: Theme) {
 			switch (term) {
+				case "crack":
+					return new Handlebars.SafeString(theme.getThemePropertyTerm("fade"));
 				case "attention":
+				case "milestone":
 				case "fade":
 					return new Handlebars.SafeString(theme.getThemePropertyTerm(term));
 				default:
@@ -446,6 +449,21 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				localize(SystemModule.active.gameTerms().collective)
 			);
 		},
+		"useMilestoneTrack": function (theme: Theme): boolean {
+			return (theme.getThemePropertyTerm("milestone").length > 0);
+		},
+		"getThemeProgress": function (theme: Theme, property: "crack" | "attention" | "milestone") {
+			switch (property) {
+				case "crack":
+					return theme.system.crack;
+				case "attention":
+					return theme.system.attention;
+				case "milestone":
+					return theme.system.milestone;
+				default:
+					throw new Error(`Bad property value ${property}`);
+			}
+		}
 
 
 	} //end of object holding helpers
