@@ -13,7 +13,7 @@
 	"version": "4.0.3",
 	"compatibility": {
 		"minimum": "13",
-		"verified": "13",
+		"verified": "13.350",
 		"maximum": "13"
 	},
 	"esmodules": [

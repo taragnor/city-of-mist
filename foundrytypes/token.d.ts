@@ -85,6 +85,7 @@ class PrototypeToken<Act extends Actor<any, any>> {
 		rotation: number,
 		tint?: unknown
 	};
+	img: string;
 	width: number;
 	get parent(): Act;
 }
