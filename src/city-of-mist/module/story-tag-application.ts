@@ -115,7 +115,7 @@ export class StoryTagWindow extends Application {
 			return;;
 		}
 		this.element.show();
-		console.log("Refreshing Contents");
+		// console.log("Refreshing Contents");
 		this.render(false);
 	}
 
@@ -124,9 +124,9 @@ export class StoryTagWindow extends Application {
 		const data = super.getData();
 		const tagsAndStatuses = await SceneTags.getSceneTagsAndStatuses();
 		const combat = game.combats.find( comb => comb.scene == game.scenes.current) || game.combat;
-		const combatants = !combat ? [] :  (combat.combatants.contents as Combatant<CityActor>[])
+		const combatants = (combat ? (combat.combatants.contents as Combatant<CityActor>[]) : [])
 			.filter(combatant => {
-				if (!combatant.actor) return false;
+				if (!combatant.actor || !combatant.token) return false;
 				if (CityHelpers.sceneTagWindowFilterEmpty())
 					return combatant.actor.storyTagsAndStatuses.length > 0;
 				else return true;
@@ -295,9 +295,19 @@ export class StoryTagWindow extends Application {
 			return;
 		}
 	}
-
-
 }
+
+Hooks.on("deleteToken", async (tok) => {
+	const actor = tok.actor;
+	//fix for tokens delted that have combatants not being removed from story tag tracker
+	if (!actor) {return;}
+	if (game.user.isGM && game.combat) {
+		const combatant = game.combat?.getCombatantByToken(tok)
+		if (combatant) {
+			await combatant.delete();
+		}
+	}
+});
 
 //@ts-ignore
 window.StoryTagWindow = StoryTagWindow;

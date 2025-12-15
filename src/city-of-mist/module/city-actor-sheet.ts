@@ -555,5 +555,4 @@ export class CityActorSheet extends CitySheet {
 		return await CityHelpers.itemDialog(obj) as Juice;
 	}
 
-
 }

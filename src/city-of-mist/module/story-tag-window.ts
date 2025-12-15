@@ -45,8 +45,8 @@ export class StoryTagDisplayContainer {
 		Hooks.on("deleteActor", ()=> this.refreshContents() );
 		Hooks.on("updateSceneTags", async () => this.refreshContents() );
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
-		Hooks.on("createCombatant", () =>this.refreshContents() );
-		Hooks.on("deleteCombatant", () =>this.refreshContents());
+		Hooks.on("createCombatant", () => this.refreshContents() );
+		Hooks.on("deleteCombatant", () => this.refreshContents());
 	}
 
 	refreshPosition() {
@@ -55,18 +55,17 @@ export class StoryTagDisplayContainer {
 		switch (CitySettings.sceneTagWindowPosition()) {
 			case "left":
 				width =  50 + doc.find("#ui-left-column-1").width()!;
-				height =  50+ doc.find("#scene-navigation-active").height()!;
+				height =  50 + doc.find("#scene-navigation-active").height()!;
 				break;
 			case "right":
 				width =  (-350) + doc.find("#ui-right").position().left;
-				height =  50+ doc.find("#navigation").height()!;
+				height =  50 + doc.find("#navigation").height()!;
 				break;
 			default:
 				return;
 		}
 		this.element.style.left = `${width}px`;
 		this.element.style.top = `${height}px`;
-
 	}
 
 	async refreshContents() {
@@ -76,26 +75,30 @@ export class StoryTagDisplayContainer {
 			this.dataElement.innerHTML= "";
 			return false;
 		}
-		const combatants = !game.combat ? [] : (game.combat.combatants.contents as Combatant<CityActor>[])
-			.filter(combatant => {
-				if (!combatant.actor) return false;
-				if (CityHelpers.sceneTagWindowFilterEmpty())
-					return combatant.actor.storyTagsAndStatuses.length > 0;
-				else return true;
-			}
-			);
+		debugger;
+		const combatants = (
+			game.combat
+			? (game.combat.combatants.contents as Combatant<CityActor>[])
+			: []
+		).filter(combatant => {
+			if (!combatant.actor || !combatant.token) return false;
+			if (CityHelpers.sceneTagWindowFilterEmpty())
+				return combatant.actor.storyTagsAndStatuses.length > 0;
+			else return true;
+		}
+		);
 		const combatActors = combatants.map( x=> x.actor!);
 		const showcasedActors = (game.actors.contents as CityActor[])
 			.filter( actor => !combatActors.includes(actor)
 				&& actor.items.contents.some( item=> item.isShowcased)
 			);
-		const combatActorsSize= combatActors.reduce ( (acc, x) => {
+		const combatActorsSize = combatActors.reduce ( (acc, x) => {
 			return acc + 2 + x.storyTagsAndStatuses.length;
 		}, 3);
 		const showcasedActorsSize = showcasedActors.reduce ( (acc, x) => {
 			return acc + 2 + x.storyTagsAndStatuses
-			.filter ( item => item.isShowcased)
-			.length;
+				.filter ( item => item.isShowcased)
+				.length;
 		}, 3);
 		const shrink = (combatActorsSize + showcasedActorsSize) > 50;
 		const templateData = {
