@@ -1,12 +1,12 @@
 <form class="{{cssClass}} threat-sheet flexcol {{#if actor.system.locked}} locked item-selection-context {{else}} unlocked item-edit-context {{/if}}" autocomplete="off" data-owner-id="{{actor.id}}" data-owner-class="actor" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor" data-token-id="{{actor.tokenId}}" data-scene-id="{{actor.sceneId}}">
-	<header class="sheet-header">
+	<header class="sheet-header no-overflow">
 		<div class="image-block">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
 		</div>
 		<div class="character-basic-info">
 			{{> "systems/city-of-mist/templates/parts/threat-sheet-header.html" locked=actor.system.locked sheetowner=actor actor=actor items=items}}
 		</div>
-		<div class="flex-col no-overflow">
+		<div class="lock-container flex-col no-overflow">
 			<div class="lock-button">
 				{{> "systems/city-of-mist/templates/parts/lock-button.html" actor=actor}}
 			</div>

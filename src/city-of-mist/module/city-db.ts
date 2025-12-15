@@ -293,7 +293,7 @@ export class CityDB extends DBAccessor {
 
 	static async onTokenDelete(token: TokenDocument<Danger>) {
 		await this.onTokenUpdate(token, {}, {});
-		if (token.actor) {
+		if (token.actor && token.actorLink) {
 			if (token.actor.hasEntranceMoves() && !token.hidden)
 				token.actor.undoEntranceMoves(token);
 		}

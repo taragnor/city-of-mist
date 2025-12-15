@@ -710,8 +710,19 @@ input.improvement-description {
 	max-width: 55%;
 }
 
+.lock-container {
+	min-width: 0;
+}
+
+
+.threat-sheet .character-basic-info {
+	min-width: 55%;
+	max-width: 70%;
+}
+
 .character-basic-info {
-	min-width: 70%;
+	min-width: 65%;
+	/* min-width: 70%; */
 	/* max-width: 70%; */
 }
 
@@ -1596,6 +1607,12 @@ div.themebook-name {
 	margin-right: 0;
 }
 
+.sheet .threat-sheet header.sheet-header {
+	flex-shrink: 5;
+	overflow-x: hidden;
+	flex-wrap: nowrap;
+}
+
 .sheet header.sheet-header {
 	flex: none;
 	display: flex;
@@ -1632,6 +1649,7 @@ form.editable.actor-sheet {
 
 .no-overflow {
 	overflow-y: hidden !important;
+	overflow-wrap: false;
 }
 
 .lock-button {

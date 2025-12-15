@@ -24,7 +24,9 @@ export class HTMLHandlers {
 		// html.find(".item-selection-context .status .name").on("click", SelectedTagsAndStatus.selectStatusHandler);
 		// html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		html.find('.status-delete').on("click",HTMLHandlers.deleteStatus);
+		html.find('.status-delete').rightclick(ev => HTMLHandlers.deleteStatus(ev, true));
 		html.find('.tag-delete').on("click", HTMLHandlers.deleteTag);
+		html.find('.tag-delete').rightclick( ev => HTMLHandlers.deleteTag(ev, true));
 		html.find('.status-add').on("click", HTMLHandlers.statusAdd);
 		html.find('.status-subtract').on("click", HTMLHandlers.statusSubtract);
 		html.find('.tag-burn').on("click", HTMLHandlers.burnTag);
@@ -73,7 +75,7 @@ export class HTMLHandlers {
 		return false;
 	}
 
-	static async deleteTag (event: JQuery.Event) {
+	static async deleteTag (event: JQuery.Event, autoDelete = false) {
 		const tagId = HTMLTools.getClosestData(event, "tagId");
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
@@ -88,7 +90,7 @@ export class HTMLHandlers {
 			ui.notifications.warn("Can't delete a tag with subtags, must delete the subtag first");
 			return;
 		}
-		if (!await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
+		if (!autoDelete && !await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
 			return;
 		const removeImprovement =
 			tag.isWeaknessTag()

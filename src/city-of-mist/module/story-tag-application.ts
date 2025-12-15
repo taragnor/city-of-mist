@@ -92,7 +92,6 @@ export class StoryTagWindow extends Application {
 		html.find(".scene-tags-block").on("drop", this._dragDropEvent.bind(this));
 		html.find(".combatant-block").on("drop", this._dragDropEvent.bind(this));
 		html.find(".combatant-block .status").on("drop", this._dropOnOtherStatus.bind(this));
-
 		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
 		this.initDraggability();
 	}
