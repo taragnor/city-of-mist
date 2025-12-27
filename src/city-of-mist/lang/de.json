@@ -458,6 +458,20 @@
 "Otherscape.moves.mitigate.partial" : "Gib PWR Kraft aus, um die Konsequenzen abzumildern.",
 "Otherscape.moves.mitigate.success" : "Gib PWR+1 Kraft aus um die Konsequenzen abzumildern oder reflexartig Effekte zu benutzen.",
 
+"Otherscape.moves.blazeOfGlory.significant.name": "Mit Glanz und Gloria untergehen (significant)",
+"Otherscape.moves.blazeOfGlory.significant.fail": "Der Moment wendet sich gegen dich oder du verfehlst was du erreichen wolltest. Verbrenne alle Merkmale eines Themas (das du vor dem Wurf ausgewählt hast).",
+"Otherscape.moves.blazeOfGlory.significant.partial": "Du erreichst, was du wolltest. Verbrenne alle Merkmale eines Themas (das du vor dem Wurf ausgewählt hast). ",
+"Otherscape.moves.blazeOfGlory.significant.success": "Du erreichst, was du wolltest. Verbrenne zwei Merkmale eines Themas.",
+
+"Otherscape.moves.blazeOfGlory.noReturn.name": "Mit Glanz und Gloria untergehen (Unumkehrbar)",
+"Otherscape.moves.blazeOfGlory.noReturn.fail": "Der Moment wendet sich gegen dich oder du verfehlst was du erreichen wolltest. Ersetze ein Thema (das du vor dem Würfeln ausgewählt hast)",
+"Otherscape.moves.blazeOfGlory.noReturn.partial": "Du erreichst, was du wolltest. Ersetze ein Thema (das du vor dem Würfeln ausgewählt hast)",
+"Otherscape.moves.blazeOfGlory.noReturn.success": "Du erreichst, was du wolltest. Verbrenne alle Merkmale eines Themas (das du vor dem Wurf ausgewählt hast).",
+
+"Otherscape.moves.blazeOfGlory.ultimate.name": "Mit Glanz und Gloria untergehen (Ultimativ)",
+"Otherscape.moves.blazeOfGlory.ultimate.fail": "Der Moment wendet sich gegen dich oder du verfehlst was du erreichen wolltest. Erhalte einen Rang-6 Status, der nicht abgemildert werden kann.",
+"Otherscape.moves.blazeOfGlory.ultimate.partial": "Du erreichst, was du wolltest. Erhalte einen Rang-6 Status, der nicht abgemildert werden kann.",
+"Otherscape.moves.blazeOfGlory.ultimate.success": "Du erreichst, was du wolltest. Ersetze ein Thema (das du vor dem Würfeln ausgewählt hast)",
 
 
 "CityOfMist.generic.narration": "Erzählung",
