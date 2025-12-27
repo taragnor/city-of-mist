@@ -442,40 +442,23 @@
 
 "CityOfMist.gmmove.hideName" : "Name des Zug verbergen",
 "CityOfMist.gmmove.header" : "Kopfzeile des Zug",
-  
-"CityOfMist.reloaded.moves.stunt.name": "Stunt",
-"CityOfMist.reloaded.moves.stunt.partial": "Du bist erfolgreich, aber die SL wählt eine Komplikation:",
-"CityOfMist.reloaded.moves.stunt.success": "Du bist erfolgreich",
-"CityOfMist.reloaded.moves.stunt.0": "Teilerfolg oder fehlerbehaftete Ausführung",
-"CityOfMist.reloaded.moves.stunt.1": "Nebeneffekt, Kosten oder Opfer",
-"CityOfMist.reloaded.moves.stunt.2": "Einer neuen Gefahr aussetzen",
-"CityOfMist.reloaded.moves.stunt.3": "Wahl zwischen den oben Genannten",
 
-"CityOfMist.reloaded.moves.discover.name": "Entdecken",
-"CityOfMist.reloaded.moves.discover.partial": "Erhalte PWR Hinweise. Die Spielleitung wählt eine Komplikation:",
-"CityOfMist.reloaded.moves.discover.success": "Erhalte PWR Hinweise",
-"CityOfMist.reloaded.moves.discover.0": "Dein Ziel macht etwas überdich bekannt",
-"CityOfMist.reloaded.moves.discover.1": "Bruchstückhafte oder ungenaue Information",
-"CityOfMist.reloaded.moves.discover.2": "Nebeneffekt, Kosten oder Opfer",
-"CityOfMist.reloaded.moves.discover.3": "Einer neuen Gefahr aussetzen",
-"CityOfMist.reloaded.moves.discover.4": "Wahl zwischen den oben Genannten",
+"Otherscape.moves.quickOutcome.name" : "Schneller Konflikt ",
+"Otherscape.moves.quickOutcome.fail" : "Etwas funktioniert nicht so wie beabsichtigt und es gibt nachteilige Konsequenzen.",
+"Otherscape.moves.quickOutcome.partial" : "Die Aktion gelingt oder nützt dem SC but es gibt trotzdem einige Konsequenzen.",
+"Otherscape.moves.quickOutcome.success" : "Die Aktion gelingt wie beachsichtigt oder besser. Es gibt keine Konsequenzen. Der Spielende kann wählen Konsequenzen zu erleiden für einen noch größeren Effekt.",
 
-"CityOfMist.reloaded.moves.resist.name": "Resist",
-"CityOfMist.reloaded.moves.resist.fail": "Du erleitest den vollen Zustand.",
-"CityOfMist.reloaded.moves.resist.partial": "Reduziere den Zustand um PWR/2 Boxen",
-"CityOfMist.reloaded.moves.resist.success": "Reduziere den Zustand um PWR Boxen",
+"Otherscape.moves.trackedOutcome.name" : "Ausgespielter Konflikt",
+"Otherscape.moves.generic.fail" : "Du erleidest eine Konsequenz.",
+"Otherscape.moves.trackedOutcome.partial" : "Erleide eine Konsequenz und wähle Effekte in Summe der Kraft PWR (Otherscape Page 90).",
+"Otherscape.moves.trackedOutcome.success" : "Wähle Effekte gleich deiner Kraft (PWR) (otherscape Page 90).",
 
-"CityOfMist.reloaded.moves.buff.name": "Buff/Debuff",
-"CityOfMist.reloaded.moves.buff.partial": "Für jeden Punkt Kraft PWR füge eine Merkmal oder eine Zustandsbox hinzu oder entferne es bzw. sie. Merkmale, die auf diese Weise erzeugt wurden, sind offensichtlich, einmalig zu nutzen und betreffen nur eine Person (oder einen vergleichbaren Bereich).",
-"CityOfMist.reloaded.moves.buff.success": "Für jeden Punkt Kraft PWRM2 füge einen Merkmal oder eine Zustandsbox hinzu oder entferne es bzw. sie. Merkmale, die auf diese Weise erzeugt wurden, sind offensichtlich, einmalig zu nutzen und betreffen nur eine Person (oder einen vergleichbaren Bereich). Du kannst die Punkte auch benutzen, um die folgenden Optionen zu wählen:",
+"Otherscape.moves.mitigate.name" : "Konsequenzen Abmildern",
+"Otherscape.moves.mitigate.fail" : "Du erleidest die volle Konsequenz",
+"Otherscape.moves.mitigate.partial" : "Gib PWR Kraft aus, um die Konsequenzen abzumildern.",
+"Otherscape.moves.mitigate.success" : "Gib PWR+1 Kraft aus um die Konsequenzen abzumildern oder reflexartig Effekte zu benutzen.",
 
-"CityOfMist.reloaded.moves.conflict.name": "Konflikt",
-"CityOfMist.reloaded.moves.conflict.partial": "Teile einen Zustand von PWR Boxen zu und wähle eine der Optionen:",
-"CityOfMist.reloaded.moves.conflict.success": "Teile einen Zustand von PWR Boxen zu und wähle zwei der Optionen:",
-"CityOfMist.reloaded.moves.conflict.0": "Vermeide einen Gegenschlag",
-"CityOfMist.reloaded.moves.conflict.1": "Füge weitere PWR Boxen dem Zustand hizu",
-"CityOfMist.reloaded.moves.conflict.2": "Erreiche ein taktisches Ziel (wie in Stunt)",
-"CityOfMist.reloaded.moves.conflict.3": "Gib PWR/2 als De/buff aus",
+
 
 "CityOfMist.generic.narration": "Erzählung",
 
