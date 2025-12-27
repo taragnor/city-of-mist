@@ -154,6 +154,51 @@
 "CityOfMist.terms.mainTheme": "Hauptthema",
 "CityOfMist.terms.buildup": "Aufbaupunkte",
 
+"Otherscape.terms.noise": "Rauschen",
+"Otherscape.terms.self": "Ego",
+"Otherscape.terms.ritual": "Ritual",
+"Otherscape.terms.itch": "Tick",
+"Otherscape.terms.decay": "Verfall",
+"Otherscape.terms.upgrade": "Upgrade",
+"Otherscape.terms.collective" : "Kollektive",
+"Otherscape.terms.crewIdentity" : "Team Ziel",
+"Otherscape.terms.scale" : "Größe",
+"Otherscape.terms.crew" : "Team",
+"Otherscape.terms.crewRelationship" : "Team-Beziehungen",
+"Otherscape.terms.identity": "Identität",
+"Otherscape.terms.essence" : "Essenz",
+"Otherscape.terms.evolutionPoints": "Entwicklungspunkte",
+"Otherscape.terms.evolution": "Entwicklungssprünge",
+
+"Otherscape.tooltip.createRelationshipTag": "Beziehungs-Merkmal erstellen",
+
+"Legend.terms.motivation": "Motivation",
+"Legend.terms.experience": "Erfahrung",
+"Legend.terms.collective": "Größe",
+
+"Legend.terms.improve": "Verbessern",
+"Legend.terms.abandon": "Aufgeben",
+"Legend.terms.quest": "Streben",
+"Legend.terms.milestone": "Milenstein",
+"Legend.terms.promise": "Versprechen",
+"Legend.terms.fulfillment": "Moment der Erfüllung",
+
+"Legend.terms.adventure": "Abenteuer",
+"Legend.terms.greatness": "Großartig",
+"Legend.terms.origin": "Ursprung",
+
+"Legend.moves.outcome.fail": "Der Erzähler entscheidet sich für eine geschichtliche Entwicklung die dem Helden entgegenläuft oder vergibt oder entfernt ein Merkmal oder einen Status in der Art, die den Helden behindert.",
+"Legend.moves.outcome.partial": "Die Aktion verweiklicht sich wie angenommen, oder sogar besser, erreicht das angestrebte Ziel oder überkommt das Hnderniss. Der Erzähler kann dir ein nützliches Markmal oder Status verleihen. \n Der Erzähler entscheidet sich für eine geschichtliche Entwicklung die dem Helden entgegenläuft oder vergibt oder entfernt ein Merkmal oder einen Status in der Art, die den Helden behindert.",
+"Legend.moves.outcome.success": "Die Aktion verweiklicht sich wie angenommen, oder sogar besser, erreicht das angestrebte Ziel oder überkommt das Hnderniss. Der Erzähler kann dir ein nützliches Markmal oder Status verleihen. \n Du kannst dein Glück weiter herrausfordern: \n Akzeptiere eine Konsequenz für einen Großartigen Erfolg (Schnell) oder für +1 Kraft zum Ausgeben (Ausgespielt).",
+
+"Legend.moves.reaction.name": "Reaktion",
+"Legend.moves.quickOutcome.name": "Schneller Konflikt",
+"Legend.moves.detailedOutcome.name": "Ausgespielter Konflikt",
+
+"Legend.moves.reaction.fail": "Du erleidest die Konsequenzen unverändert",
+"Legend.moves.reaction.partial": "Du hast erfolg und kannst Karft nur ausgeben um die Konsequenzen abzumildern.",
+"Legend.moves.reaction.success": "Du hast Erfolg und kannst +1 zusätzliche Kraft und für jeglichen Effekt ausgeben.", 
+
 "CityOfMist.characterSheet.useClue.tooltip": "Sende die Hinweiskarte an den Chat",
 "CityOfMist.characterSheet.useClue.button": "Benutzen",
 
