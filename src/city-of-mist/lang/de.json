@@ -199,6 +199,22 @@
 "Legend.moves.reaction.partial": "Du hast erfolg und kannst Karft nur ausgeben um die Konsequenzen abzumildern.",
 "Legend.moves.reaction.success": "Du hast Erfolg und kannst +1 zusätzliche Kraft und für jeglichen Effekt ausgeben.", 
 
+"Legend.moves.sacrifice.fail": "Es ist alles Vergebens... \n Du erleidest die vollen Konsequenzen deines Opfers und nichts kommt dabei herraus oder die Dinge gehen schrecklich schief. Der Erzähler kann weitere Konsequenzen hinzufügen.",
+"Legend.moves.sacrifice.partial": "Es ist Schicksal! \n Du hast Erfolg,a ber erleidest die Konsequenzen deines Opfers.",
+"Legend.moves.sacrifice.success": "Es ist ein Wunder! \n Du hast Erfolg und die Konsequenzen werden um eine Stufe abgeschwächt."
+
+"Legend.moves.sacrifice.painful.name": "Sac"Sacrifice S",
+"Legend.moves.sacrifice.painful.consequences": "Scratch all tags in a relevant theme (only one tag if lessened)",
+"Legend.moves.sacrifice.painful.successful": "Achieve something unlikely or that would normally take much longer or require much more resources \n Match the Might of a Challenge one level higher or lower than you have in this situation for the duration of a scene.",
+
+"Legend.moves.sacrifice.scarring.name": "Opfer (Vernarbend)Sacrifice (Scarring)",
+"Legend.moves.sacrifice.scarring.consequences": "Replace a relevant theme",
+"Legend.moves.sacrifice.scarring.successful": "Achieve something extraordinary. \n Match the Might of a Challenge two levels higher or lower than you have in this situation for the duration of a scene.",
+
+"Legend.moves.sacrifice.grave.name": "Opfer (Einschneidend)",
+"Legend.moves.sacrifice.grave.consequences": "Take a tier-6 status without lessening",
+"Legend.moves.sacrifice.grave.successful": "Achieve something impossible. \n Save someone from certain death or bring them back from the dead (if the moment allows for it).",
+  
 "CityOfMist.characterSheet.useClue.tooltip": "Sende die Hinweiskarte an den Chat",
 "CityOfMist.characterSheet.useClue.button": "Benutzen",
 
