@@ -290,6 +290,7 @@
 "MistEngine.status.category.progress.name": "Fortschritt",
 "MistEngine.status.category.polar.name": "Gegensatz",
 
+  
 "MistEngine.effects.none.name": "-",
 
 "CityOfMist.terms.loadoutTheme.name": "Ausrüstungs-Thema",
@@ -352,6 +353,29 @@
 "CityOfMist.moves.HWAYG.8": "(Mega!) Extremer Kollateralschaden: Alles und jede rund um das Ziel erleidet einen Zustand ähnlich des Hauptzustands, dessen Stufe der Kraft entspricht. Das schließt deine Verbündeten mit ein, wenn sie sich in der Nähe aufhalten.",
 "CityOfMist.moves.HWAYG.9": "(Mega!) Kontrolliere den Konflikt: Erhalte 2 Momentum und Zugang zu den Effektverbesserungen von Das Blatt wenden.",
 
+"CityOfMist.moves.investigate.name": "Nachforschungen",
+"CityOfMist.moves.investigate.partial": "Du erhältst PWR Hinweise. Du kannst deine Hinweise ausgeben, um der SL Fragen über den Gegenstand deiner Ermittlungen oder anderen Spieler:innen relevante Fragen über ihre Charaktere zu stellen. Sie müssen dir entweder eine ehrliche Antwort oder einen konkreten Hinweis geben. Sie können eine Komplikation wählen:",
+"CityOfMist.moves.investigate.success": "Du erhältst PWR Hinweise. Du kannst deine Hinweise ausgeben, um der SL Fragen über den Gegenstand deiner Ermittlungen oder anderen Spieler:innen relevante Fragen über ihre Charaktere zu stellen. Sie müssen dir entweder eine ehrliche Antwort oder einen konkreten Hinweis geben.",
+"CityOfMist.moves.investigate.dynamite": "Du erhältst PWR Hinweise. Du findest eine Schlüsselinformation. Die SL wird dir die wichtigste Information einer Szene verraten, die man über Nachforschungen finden kann. Anschließend kannst du deine Hinweise nutzen, um wie gewohnt weiterführende oder andere Fragen zu stellen.",
+"CityOfMist.moves.investigate.0": "Deine Nachforschungen bringen dich in Gefahr.",
+"CityOfMist.moves.investigate.1": "Die Hinweise sind uneindeutig, unvollständig oder zum Teil unwahr.",
+"CityOfMist.moves.investigate.2": "Die befragte Person kann dir auch eine Frage stellen. Du antwortest zu den gleichen Bedingungen.",
+
+"CityOfMist.moves.LBTM.name": "Hinter den Nebel schauen", 
+  
+"CityOfMist.moves.sneak.name": "Heimlichkeit",
+"CityOfMist.moves.sneak.partial": "Bei einem Erfolg fallen alle, die du täuschen willst, darauf herein. Die SL wählt eine Komplikation:",
+"CityOfMist.moves.sneak.success": "Bei einem Erfolg fallen alle, die du täuschen willst, darauf herein.",
+"CityOfMist.moves.sneak.dynamite": "Du haust dein Ziel mit deinen heimlichen oder irreführenden Taten völlig übers Ohr, sodass du dich für den Rest der Szene frei bewegen oder deiner Handlung nachgehen kannst, ohne von diesem Ziel bemerkt zu werden, solange du es auf dieselbe Art tust, mit der du 12+ erreicht hast.",
+"CityOfMist.moves.sneak.0": "Eine unwichtige Person hat dich bemerkt, aber das macht sie irgendwie doch wichtig, oder?",
+"CityOfMist.moves.sneak.1": "Jemand bekommt eine Ahnung davon, dass etwas nicht ganz stimmt (jemand riecht deinen Duft, während du ihm nachstellst, jemand beobachtet, wie du eine Botschaft flüsterst, ohne sie zu hören).",
+"CityOfMist.moves.sneak.2": "Du musst etwas Wichtiges aufgeben – sonst wirst du entdeckt.",
+
+"CityOfMist.moves.TTR.name": "Ein Risiko eingehen",
+"CityOfMist.moves.TTR.partial": "Die Spielleitung wird dich vor eine schwere Wahl stellen.",
+"CityOfMist.moves.TTR.success": "Du schaffst es irgendwie.",
+"CityOfMist.moves.TTR.dynamite": "Das Manöver ist ein spektakulärer Erfolg und du kannst die Situation sogar zu deinem Vorteil nutzen. Du erhältst 2 Momentum, mit denen du Effektverbesserungen von Das Blatt wenden kaufen kannst.",
+  
 "CityOfMist.moves.SHB.significant.name": "Jetzt reicht's (Signifikant)",
 "CityOfMist.moves.SHB.significant.fail": "ETWAS SCHRECKLICHES PASSIERT. Zusätzlich markierst du Schwund/Bruch auf einem Thema und brennst alle seine Stärken aus.",
 "CityOfMist.moves.SHB.significant.partial": "Du erreichst genau das, was du zu erreichen gehofft hast. Du markierst Verblassen/Bruch auf einem Thema und brennst alle seine Stärken aus.",
@@ -407,37 +431,18 @@
 
 "CityOfMist.moves.escapeFromMemory.name": "Aus dem Gedächtnis verschwinden",
 
+  
 "CityOfMist.moves.performanceReview.name": "Leistungsbewertung",
 "CityOfMist.moves.performanceReview.always": "<p>Wenn du für die erfolgreiche Erfüllung einer Aufgabe, die dir mit einer Verordnung zugeteilt wurde, Anerkennung von deinen Vorgesetzten erhältst, markiere Aufmerksamkeit auf diesem Thema. Du kannst auch Bruch auf einem deiner Logos Themen markieren, um eine anstehende Beförderung zu darzustellen. </p><br><p> Wenn du von deinen Vorgesetzten vorgeworfen bekommst bei einer dir als Verordnung zugeteilten Aufgabe versagt zu haben oder eine Linie überschritten zu haben, die von einer Verordnung vorgegeben wird, markiere einen 1 Erfolg auf dem Thema der Verordnung. (2 Erfolge wenn dein Fehlverhalten besonders schwer gewesen ist, nach Einschätzung deiner Vorgesetzten). </p><br><p> Wenn die Verordnung aufgelöst ist, oder deine Vorgesetzten dich einer anderen zuordnen, dann wähle zusammen mit der SL eine neue Verordnung für dieses Thema aus.</p>",
 
 "CityOfMist.moves.hardchoiceGK.name": "Eine schwierige Entscheidung treffen (Gatekeeper)",
 "CityOfMist.moves.hardchoiceGK.always": "<p>Wenn bei der Verfolgung deiner Verordnung es geboten ist, dass du auf eine bestimmte Weise handelst oder sprichst und du tust es nicht und es bemerkt wird, dann wird dies Teil deiner Leistungsbewertung werden. </p><br><p> Wenn deine Identität verlangt, dass du auf eine bestimmte Weise handelst oder sprichst, du es aber nicht tust, markierst du Bruch auf dem Thema der Identität.</p><br><p> Wenn du etwas opferst, was du aufrichtig begehrst, um deiner Identität gerecht zu werden, markierst du Aufmerksamkeit auf dem Thema der Identität.</p>",
 
-"CityOfMist.moves.LBTM.name": "Hinter den Nebel schauen",
-
-"CityOfMist.moves.investigate.name": "Nachforschungen",
-"CityOfMist.moves.investigate.partial": "Du erhältst PWR Hinweise. Du kannst deine Hinweise ausgeben, um der SL Fragen über den Gegenstand deiner Ermittlungen oder anderen Spieler:innen relevante Fragen über ihre Charaktere zu stellen. Sie müssen dir entweder eine ehrliche Antwort oder einen konkreten Hinweis geben. Sie können eine Komplikation wählen:",
-"CityOfMist.moves.investigate.success": "Du erhältst PWR Hinweise. Du kannst deine Hinweise ausgeben, um der SL Fragen über den Gegenstand deiner Ermittlungen oder anderen Spieler:innen relevante Fragen über ihre Charaktere zu stellen. Sie müssen dir entweder eine ehrliche Antwort oder einen konkreten Hinweis geben.",
-"CityOfMist.moves.investigate.dynamite": "Du erhältst PWR Hinweise. Du findest eine Schlüsselinformation. Die SL wird dir die wichtigste Information einer Szene verraten, die man über Nachforschungen finden kann. Anschließend kannst du deine Hinweise nutzen, um wie gewohnt weiterführende oder andere Fragen zu stellen.",
-"CityOfMist.moves.investigate.0": "Deine Nachforschungen bringen dich in Gefahr.",
-"CityOfMist.moves.investigate.1": "Die Hinweise sind uneindeutig, unvollständig oder zum Teil unwahr.",
-"CityOfMist.moves.investigate.2": "Die befragte Person kann dir auch eine Frage stellen. Du antwortest zu den gleichen Bedingungen.",
-
 "CityOfMist.moves.lookBeyond.name": "Hinter den Nebel blicken",
 
-"CityOfMist.moves.sneak.name": "Heimlichkeit",
-"CityOfMist.moves.sneak.partial": "Bei einem Erfolg fallen alle, die du täuschen willst, darauf herein. Die SL wählt eine Komplikation:",
-"CityOfMist.moves.sneak.success": "Bei einem Erfolg fallen alle, die du täuschen willst, darauf herein.",
-"CityOfMist.moves.sneak.dynamite": "Du haust dein Ziel mit deinen heimlichen oder irreführenden Taten völlig übers Ohr, sodass du dich für den Rest der Szene frei bewegen oder deiner Handlung nachgehen kannst, ohne von diesem Ziel bemerkt zu werden, solange du es auf dieselbe Art tust, mit der du 12+ erreicht hast.",
-"CityOfMist.moves.sneak.0": "Eine unwichtige Person hat dich bemerkt, aber das macht sie irgendwie doch wichtig, oder?",
-"CityOfMist.moves.sneak.1": "Jemand bekommt eine Ahnung davon, dass etwas nicht ganz stimmt (jemand riecht deinen Duft, während du ihm nachstellst, jemand beobachtet, wie du eine Botschaft flüsterst, ohne sie zu hören).",
-"CityOfMist.moves.sneak.2": "Du musst etwas Wichtiges aufgeben – sonst wirst du entdeckt.",
-
-"CityOfMist.moves.TTR.name": "Ein Risiko eingehen",
-"CityOfMist.moves.TTR.partial": "Die Spielleitung wird dich vor eine schwere Wahl stellen.",
-"CityOfMist.moves.TTR.success": "Du schaffst es irgendwie.",
-"CityOfMist.moves.TTR.dynamite": "Das Manöver ist ein spektakulärer Erfolg und du kannst die Situation sogar zu deinem Vorteil nutzen. Du erhältst 2 Momentum, mit denen du Effektverbesserungen von Das Blatt wenden kaufen kannst.",
-
+"CityOfMist.gmmove.hideName" : "Name des Zug verbergen",
+"CityOfMist.gmmove.header" : "Kopfzeile des Zug",
+  
 "CityOfMist.reloaded.moves.stunt.name": "Stunt",
 "CityOfMist.reloaded.moves.stunt.partial": "Du bist erfolgreich, aber die SL wählt eine Komplikation:",
 "CityOfMist.reloaded.moves.stunt.success": "Du bist erfolgreich",
