@@ -14,7 +14,10 @@
 "TYPES.Item.gmmove": "SL-Aktion",
 "TYPES.Item.spectrum": "Bedrohungsspektrum",
 "TYPES.Item.themekit" : "Themenset",
-
+"TYPES.Item.essence" : "Essenz",
+  
+"Generic.term.varies": "Varianzen",
+  
 "CityOfMistTracker.trackerwindow.title": "City of Mist Zustandszähler",
 "CityOfMistTracker.trackerwindow.empty": "Lege einen Figur/Token auf der Szene ab um den Tracker zu starten.",
 "CityOfMistTracker.trackerwindow.statuses": "Zustände & Marker",
@@ -32,6 +35,8 @@
 "CityOfMistTracker.trackerwindow.tag.storytag": "Geschichten-Marker",
 "CityOfMistTracker.trackerwindow.tag.burned": "Stärke verbrennen",
 
+"Generic.terms.compatibleWith": "Kompatibel mit",
+
 "CityOfMist.terms.name": "Name",
 "CityOfMist.terms.description": "Beschreibung",
 "CityOfMist.terms.alias": "Alias / Figuren Name",
@@ -43,6 +48,7 @@
 "CityOfMist.terms.crack": "Bruch",
 "CityOfMist.terms.fade": "Verblassen",
 "CityOfMist.terms.strike": "Treffer",
+"CityOfMist.terms.crew-fade": "Bruch/Verblassen",
 "CityOfMist.terms.mystery": "Mysterium",
 "CityOfMist.terms.identity": "Identität",
 "CityOfMist.terms.directive": "Direktive",
@@ -138,7 +144,14 @@
 "CityOfMist.terms.always": "Immer",
 "CityOfMist.terms.miss": "Misserfolg",
 "CityOfMist.terms.GM": "SL",
+"CityOfMist.terms.Tier": "Rang",
 "CityOfMist.terms.maxTier": "Max Rang",
+"CityOfMist.terms.nascent" : "Neu entstehend",
+"CityOfMist.terms.any" : "Irgendeins",
+"CityOfMist.terms.themeClassRoll": "Addiere Anzahl der Themen",
+"CityOfMist.terms.colllective": "Kollektive",
+"CityOfMist.terms.mainTheme": "Hauptthema",
+"CityOfMist.terms.buildup": "Aufbaupunkte",
 
 "CityOfMist.characterSheet.useClue.tooltip": "Sende die Hinweiskarte an den Chat",
 "CityOfMist.characterSheet.useClue.button": "Benutzen",
