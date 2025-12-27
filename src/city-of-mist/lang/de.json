@@ -196,8 +196,8 @@
 "Legend.moves.detailedOutcome.name": "Ausgespielter Konflikt",
 
 "Legend.moves.reaction.fail": "Du erleidest die Konsequenzen unverändert",
-"Legend.moves.reaction.partial": "Du hast erfolg und kannst Karft nur ausgeben um die Konsequenzen abzumildern.",
-"Legend.moves.reaction.success": "Du hast Erfolg und kannst +1 zusätzliche Kraft und für jeglichen Effekt ausgeben.", 
+"Legend.moves.reaction.partial": "Du hast erfolg und kannst PWR Karft nur ausgeben um die Konsequenzen abzumildern.",
+"Legend.moves.reaction.success": "Du hast Erfolg und kannst PWR+1 Kraft und für jeglichen Effekt ausgeben.", 
 
 "Legend.moves.sacrifice.fail": "Es ist alles Vergebens... \n Du erleidest die vollen Konsequenzen deines Opfers und nichts kommt dabei herraus oder die Dinge gehen schrecklich schief. Der Erzähler kann weitere Konsequenzen hinzufügen.",
 "Legend.moves.sacrifice.partial": "Es ist Schicksal! \n Du hast Erfolg,a ber erleidest die Konsequenzen deines Opfers.",
