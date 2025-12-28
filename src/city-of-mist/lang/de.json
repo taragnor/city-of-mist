@@ -559,6 +559,12 @@
 "CityOfMist.themebook.adaption.imp.3.name": "Kreativschub",
 "CityOfMist.themebook.adaption.imp.4.name": "Spezialisierung",
 "CityOfMist.themebook.advancedart.name": "Höhere Kunst",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.bastion.name": "Bastion",
 "CityOfMist.themebook.bastion.reference": "CoM Spieler:innen-Handbuch, S. 86-89",
 "CityOfMist.themebook.bastion.imp.0.name": "Unzerstörbar",
@@ -567,6 +573,12 @@
 "CityOfMist.themebook.bastion.imp.3.name": "Sorry, war das deine Knarre?",
 "CityOfMist.themebook.bastion.imp.4.name": "Umgeleitete Aggression",
 "CityOfMist.themebook.conjuration.name": "Beschwörung",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.crew.name": "Team",
 "CityOfMist.themebook.crew.reference": "CoM Spieler:innen-Handbuch, S. 145-148",
 "CityOfMist.themebook.crew.imp.0.name": "Eingespieltes Team",
@@ -589,6 +601,12 @@
 "CityOfMist.themebook.definingrelationship.imp.3.name": "Rücken an Rücken",
 "CityOfMist.themebook.definingrelationship.imp.4.name": "Wer ist der Boss?",
 "CityOfMist.themebook.destiny.name": "Bestimmung",
+
+  
+  
+  
+  
+ 
 "CityOfMist.themebook.divination.name": "Erkenntnis",
 "CityOfMist.themebook.divination.reference": "CoM Spieler:innen-Handbuch, S. 90-93",
 "CityOfMist.themebook.divination.imp.0.name": "Offenes Buch",
@@ -597,6 +615,19 @@
 "CityOfMist.themebook.divination.imp.3.name": "Prophetie",
 "CityOfMist.themebook.divination.imp.4.name": "Wissen ist Macht",
 "CityOfMist.themebook.enclave.name": "Enklave",
+
+
+
+
+
+  
+"CityOfMist.themebook.esoterica.name": "Esoterica",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.expression.name": "Manifestation",
 "CityOfMist.themebook.expression.reference": "CoM Spieler:innen-Handbuch, S. 94-97",
 "CityOfMist.themebook.expression.imp.0.name": "Feuer und Flamme",
@@ -626,6 +657,12 @@
 "CityOfMist.themebook.extra.ride.imp.3.name": "Treues Ross",
 "CityOfMist.themebook.extra.ride.imp.4.name": "Flucht",
 "CityOfMist.themebook.familiar.name": "Vertrauter",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.mission.name": "Mission",
 "CityOfMist.themebook.mission.reference": "CoM Spieler:innen-Handbuch, S. 114-117",
 "CityOfMist.themebook.mission.imp.0.name": "Mit Ansage",
@@ -669,7 +706,19 @@
 "CityOfMist.themebook.routine.imp.3.name": "Warum ich das mache",
 "CityOfMist.themebook.routine.imp.4.name": "Gut darin werden",
 "CityOfMist.themebook.shrouding.name": "Verschleiern",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.struggle.name": "Innere Zerrissenheit",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.subversion.name": "Subversion",
 "CityOfMist.themebook.subversion.reference": "CoM Spieler:innen-Handbuch, S. 106-109",
 "CityOfMist.themebook.subversion.imp.0.name": "Nacht und Nebel",
@@ -677,6 +726,13 @@
 "CityOfMist.themebook.subversion.imp.2.name": "Pirschjäger",
 "CityOfMist.themebook.subversion.imp.3.name": "Vergesslich",
 "CityOfMist.themebook.subversion.imp.4.name": "An die Kehle springen",
+"CityOfMist.themebook.tradition.name": "Tradition",
+
+
+
+
+
+  
 "CityOfMist.themebook.training.name": "Training",
 "CityOfMist.themebook.training.reference": "CoM Spieler:innen-Handbuch, S. 134-137",
 "CityOfMist.themebook.training.imp.0.name": "Expert:innenrat",
@@ -685,6 +741,12 @@
 "CityOfMist.themebook.training.imp.3.name": "Jetzt gilt‘s!",
 "CityOfMist.themebook.training.imp.4.name": "Gut darin werden",
 "CityOfMist.themebook.turf.name": "Revier",
+
+  
+  
+  
+  
+  
 "CityOfMist.themebook.unit.name": "Einheit",
 
 "CityOfMist.themekit.html.inherit_improvements_checkbox": "Beinhaltet die Verbesserungen des zugrundeliegenden Themenbuchs",
