@@ -1000,14 +1000,23 @@
 "CityOfMist.settings.handleTempItems.choice1": "Verbrenne temporäre/leicht entzündliche Stärken",
 "CityOfMist.settings.handleTempItems.choice2": "Verbrenne temporäre/leicht entzündliche Stärken und lösche Zustände",
 
+"CityOfMist.settings.autofail.name": "Automatischer Erfolg/Fehlschlag",
+"CityOfMist.settings.autofail.hint": "Doppel 1 und Doppel 6 sind ein automatischer Fehlaschlag bzw. Erfolg.",
+
+"Otherscape.settings.autoEssence.name": "Automatisch Essenz festlegen",
+"Otherscape.settings.autoEssence.hint": "Automatisches bestimmen der Essenz, wenn möglich (Funktioniert nicht für Avatar und Sprachrohr).",
+
+
 "CityOfMist.keybinds.narration.name": "Erzählerbox",
-"CityOfMist.keybinds.narration.help": "Benutze sie um Szenen zu beschreiben (benutzt die spezielle Merkmal- und Zustand-Schreibweise der SL-Aktionen)",
-
+"CityOfMist.keybinds.narration.hint": "Benutze sie um Szenen zu beschreiben (benutzt die spezielle Merkmal- und Zustand-Schreibweise der SL-Aktionen)",
 "CityOfMist.keybinds.sessionEnd.name": "Sitzungsende",
-"CityOfMist.keybinds.sessionEnd.help": "Löst die Aktion am Ende der Spielsitzung für alle Spieler:innen aus und setzt Rückblende und andere sitzungsabhängigen Ressourcen zurück.",
+"CityOfMist.keybinds.sessionEnd.hint": "Löst die Aktion am Ende der Spielsitzung für alle Spieler:innen aus und setzt Rückblende und andere sitzungsabhängigen Ressourcen zurück.",
 
-"CityOfMist.keybinds.startDowntime.help": "Löst die Auswahl zur Drehpause für alle Spieler:innen aus und ermöglicht der SL, aus den Drehpausen-Aktionen der in der aktuellen Szene befindlichen sichtbaren und unsichtbaren Spielfiguren zu wählen.",
 "CityOfMist.keybinds.startDowntime.name": "Drehpause beginnen",
+"CityOfMist.keybinds.startDowntime.hint": "Löst die Auswahl zur Drehpause für alle Spieler:innen aus und ermöglicht der SL, aus den Drehpausen-Aktionen der in der aktuellen Szene befindlichen sichtbaren und unsichtbaren Spielfiguren zu wählen.",
+
+"CityOfMist.keybinds.storyTagHider.name" : "Verstecken/Anzeigen des Szenen-Marker Fenster",
+"CityOfMist.keybinds.storyTagHider.hint" : "Drüke die Schnellwahltaste um das Szenen-Marker Fenster anzuzeigen oder zu verstecken.",
 
 "CityOfMist.tooltip.createStory": "Neuen Geschichten-Marker erstellen",
 "CityOfMist.tooltip.createStatus": "Neuen Zustand erstellen",
