@@ -920,11 +920,11 @@
 "CityOfMist.settings.gmmoveheaders.downtime": "Währende der Drehpause, $name",
 "CityOfMist.settings.gmmoveheaders.entrance": "Wenn $name die Szene betritt,",
 
-"CityOfMist.settings.sceneTagWindow.name": "Scene Tags",
-"CityOfMist.settings.sceneTagWindow.hint": "Displays scene tags and statuses on the main screen (may cause screen clutter)",
-"CityOfMist.settings.sceneTagWindow.choice0": "No Scene Tag Window",
-"CityOfMist.settings.sceneTagWindow.choice1": "Include combatants with at least one tag or status",
-"CityOfMist.settings.sceneTagWindow.choice2": "Include all combatants on combat tracker",
+"CityOfMist.settings.sceneTagWindow.name": "Szenenmerkmale",
+"CityOfMist.settings.sceneTagWindow.hint": "Merkamle und Status der Szene auf dem Bildschirm darstellen (Zusätzliches Element auf dem Bildschirm)",
+"CityOfMist.settings.sceneTagWindow.choice0": "Kein Szenemerkmal-Fenster",
+"CityOfMist.settings.sceneTagWindow.choice1": "Zeige nur die im Begegnungs-Tracker gelisteten an, die  mit mind. einem Status oder Merkmal an.",
+"CityOfMist.settings.sceneTagWindow.choice2": "Zeige alle an, die im Begegnungs-Tracker gelistet sind.",
   
 "CityOfMist.settings.sceneTagWindow.name": "Szenen-Marker",
 "CityOfMist.settings.sceneTagWindow.hint": "Zeigt Szenen-Marker und Zustände auf dem Bildschirm an (kann zu einem überfüllten Bildschirm führen).",
