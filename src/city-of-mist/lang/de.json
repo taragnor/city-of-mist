@@ -749,6 +749,29 @@
   
 "CityOfMist.themebook.unit.name": "Einheit",
 
+
+
+
+
+
+
+"Otherscape.themebook.affiliation.name": "Zugehörigkeit",
+"Otherscape.themebook.artifact.name": "Artifakt",
+"Otherscape.themebook.assets.name": "Besitztümer",
+"Otherscape.themebook.augmentation.name": "Augmentierung",
+"Otherscape.themebook.companion.name": "Begleiter:in",
+"Otherscape.themebook.cuttingEdge.name": "Innovation",
+"Otherscape.themebook.cyberspace.name": "Cyberspace",
+"Otherscape.themebook.drones.name": "Dronen",
+"Otherscape.themebook.esoterica.name": "Esoterika",
+"Otherscape.themebook.expertise.name": "Expertise",
+"Otherscape.themebook.exposure.name": "Exposition",
+"Otherscape.themebook.horizon.name": "Horizont",
+"Otherscape.themebook.loadout.name": "Ausrüstung",
+"Otherscape.themebook.personality.name": "Persönlichkeit",
+"Otherscape.themebook.troubledPast.name": "Bewegte VErgangenheit",
+
+  
 "CityOfMist.themekit.html.inherit_improvements_checkbox": "Beinhaltet die Verbesserungen des zugrundeliegenden Themenbuchs",
 
 "CityOfMist.chatmessage.clue.use":"benutzt einen Hinweis.",
