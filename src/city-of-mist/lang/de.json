@@ -540,8 +540,13 @@
 "CityOfMist.message.attentionAwarded": "+1 Aufmerksamkeit",
 "CityOfMist.message.attentionManual": "Aufmerksamkeit muss manuell hinzugefügt werden.",
 "CityOfMist.message.burns-on-use": "Wird bei Benutzung ausgebrannt",
-"CityOfMist.message.noExtraSelected": "Kein Extra-Thema ausgewählt",
+"CityOfMist.message.noExtraSelected": "Kein Extra-Thema ausgewählt (erstelle eine Zusatz-Thema Spielfigur und gib den Spielenden Besitzrechte, um sie hier anzuzeigen)",
+"CityOfMist.message.noCrewSelected": "Kein Team-Thema ausgewählt (erstelle eine Team Spielfigur und gib den Spielenden Besitzrechte, um sie hier anzuzeigen)",
+"CityOfMist.message.noThemeSelected": "Kein Thema (entweder hier den Thema hinzufügen Knopf klicken oder ein Themenbuch oder Themenkit per Drag and Drop hinzufügen.)",
+"CityOfMist.message.levelUpAvailable": "Themen Aufstieg verfügbar",
 
+"Otherscape.message.noEssenceSelected": "Keine Essenz ausgewählt",
+  
 "CityOfMist.misc.newMoE": "Entwicklungssprünge",
 "CityOfMist.misc.reduceTier": "Stufe des Zustands um 1 reduzieren",
 "CityOfMist.misc.subtagOf": "Untermarker von",
