@@ -920,17 +920,12 @@
 "CityOfMist.settings.gmmoveheaders.downtime": "Währende der Drehpause, $name",
 "CityOfMist.settings.gmmoveheaders.entrance": "Wenn $name die Szene betritt,",
 
-"CityOfMist.settings.sceneTagWindow.name": "Szenenmerkmale",
-"CityOfMist.settings.sceneTagWindow.hint": "Merkamle und Status der Szene auf dem Bildschirm darstellen (Zusätzliches Element auf dem Bildschirm)",
-"CityOfMist.settings.sceneTagWindow.choice0": "Kein Szenemerkmal-Fenster",
-"CityOfMist.settings.sceneTagWindow.choice1": "Zeige nur die im Begegnungs-Tracker gelisteten an, die  mit mind. einem Status oder Merkmal an.",
-"CityOfMist.settings.sceneTagWindow.choice2": "Zeige alle an, die im Begegnungs-Tracker gelistet sind.",
-  
 "CityOfMist.settings.sceneTagWindow.name": "Szenen-Marker",
 "CityOfMist.settings.sceneTagWindow.hint": "Zeigt Szenen-Marker und Zustände auf dem Bildschirm an (kann zu einem überfüllten Bildschirm führen).",
 "CityOfMist.settings.sceneTagWindow.choice0": "Kein Szenen-Marker-Fenster",
 "CityOfMist.settings.sceneTagWindow.choice1": "Zeige Konfliktteilnehmer mit mindestens einem Merkmal oder Zustand an",
 "CityOfMist.settings.sceneTagWindow.choice2": "Zeige alle Konfliktteilnehmer:innen in Begegnung an",
+
 "CityOfMist.settings.sceneTagWindowPosition.name": "Szenen-Marker",
 "CityOfMist.settings.sceneTagWindowPosition.hint": "Position auf dem Bildschirm an dem das Szenen-Marker-fenster angezeigt wird",
 "CityOfMist.settings.sceneTagWindowPosition.choice0": "Links",
@@ -940,15 +935,12 @@
 "CityOfMist.settings.devMode.name": "Entwickler Modus",
 "CityOfMist.settings.devMode.hint": "Legt etliche, interne Variablen des Spielsystems offen (nur für erfahrene Benutzer)",
 
+  
 "CityOfMist.settings.statusAdditionSystem.name": "Hinzufügen eines Zustands",
 "CityOfMist.settings.statusAdditionSystem.hint": "Wähle das System, wie ein Zustand hinzugefügt wird",
 "CityOfMist.settings.statusAdditionSystem.0": "Hinzufügen wie bei CoM Klassik",
 "CityOfMist.settings.statusAdditionSystem.1": "Stufenbasiert kommutativ",
 "CityOfMist.settings.statusAdditionSystem.2": "CoM Reloaded (Boxen)",
-"CityOfMist.settings.statusSubtractionSystem.name": "Abziehen eines Zustands",
-"CityOfMist.settings.statusSubtractionSystem.hint": "Wähle das System, wie ein Zustand abgezogen wird",
-"CityOfMist.settings.statusSubtractionSystem.0": "Abziehen wie bei CoM Klassik",
-"CityOfMist.settings.statusSubtractionSystem.1": "CoM Reloaded (Boxen)",
 
 "CityOfMist.settings.altPower.name": "Alternative Kraft Hausregel",
 "CityOfMist.settings.altPower.hint": "Kraft wirkt sich nur auf den Würfelwurf aus. Der Effekt der Aktion startet mit 2 und kann mit Abzügen modifiziert werden.",
@@ -960,6 +952,45 @@
 "CityOfMist.settings.system.2": "Legend in the Mist",
 "CityOfMist.settings.system.3": "Angepasst",
 
+"CityOfMist.settings.movesInclude.name": "Grundlegende Aktionen enthalten",
+"CityOfMist.settings.movesInclude.hint": "Wähle welche grundlegenden Aktionen enthalten sein sollen. Nützlich für Entwickler, die Spielzüge für ihre Spiele anpassen wollen.",
+"CityOfMist.settings.movesInclude.none": "Lade zu Beginn keine Spielzüge.",
+
+"CityOfMist.settings.baseSystem.name": "Basis System",
+"CityOfMist.settings.baseSystem.hint": "Das Basis System aus dem die Regelgrundlage bezogen wird.",
+
+"CityOfMist.settings.tagCreationCost.name": "Merkmal Erstellungskosten",
+"CityOfMist.settings.tagCreationCost.hint": "Anzahl an Kraft die benötigt wird, ein neues Merkmal zu erstellen. (Nur Mist Engine)",
+
+"CityOfMist.settings.statusCreationCost.name": "Status Erstellungskosten",
+"CityOfMist.settings.statusCreationCost.hint": "Anzahl an Kraft die benötigt wird, einen neuen Status zu erstellen. (Nur Mist Engine)",
+
+"CityOfMist.settings.loadout.name": "Aktiviere das Ausrüstungs-Thema",
+"CityOfMist.settings.loadout.hint": "Zeige eine Ausrüstungs-Thema auf dem Charakterbogen an.",
+
+"CityOfMist.settings.statusDisplay.name": "Status Anzeige",
+"CityOfMist.settings.statusDisplay.hint": "Wie werden Status in der Statusanzeige angezeigt.",
+"CityOfMist.settings.statusDisplay.0": "Nur Stufe",
+"CityOfMist.settings.statusDisplay.1": "Stufe + Pips (Nur City of Mist)",
+"CityOfMist.settings.statusDisplay.2": "Stufe + Kästchen (Nur Otherscape and LitM)",
+
+
+
+"CityOfMist.settings.tagBurn.name": "Merkmal verbrennen Mechanik",
+"CityOfMist.settings.tagBurn.hint": "Legt fest wie sich das verbrennen von Merkmalen auswirkt.",
+"CityOfMist.settings.tagBurn.0": "City of Mist Stil",
+"CityOfMist.settings.tagBurn.1": "Mist Engine Stil",
+
+"CityOfMist.settings.themeStyle.name": "Themakarten Stil",
+"CityOfMist.settings.themeStyle.hint": "Legt das Layout der Themankarten fest.",
+"CityOfMist.settings.themeStyle.0": "City of Mist Stil",
+"CityOfMist.settings.themeStyle.1": "Mist Engine Stil",
+
+"CityOfMist.settings.collectiveMechanics.name": "Kollektiven/Größen MechaniK",
+"CityOfMist.settings.collectiveMechanics.hint": "Lege fest wie die Regeln Größe/Kollektiven behandeln.",
+  
+
+  
 "CityOfMist.settings.debugMode.name": "Fehlersuchmodus",
 "CityOfMist.settings.debugMode.hint": "Schaltet den internen Javascript Debug Code an",
 
