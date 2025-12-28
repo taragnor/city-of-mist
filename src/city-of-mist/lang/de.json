@@ -1032,4 +1032,13 @@
 "CityOfMist.error.themeKitTagEdit": "Themenset-Marker kann nicht bearbeitet werden",
 "CityOfMist.error.dontOwnTag": "Du bist nicht Besitzer des Merkmals und kannst es daher nicht bearbeiten",
 "CityOfMist.error.MCEditOnly": "Nur die Spielleitung kann es bearbeiten."
+
+"General.error.LOTagNotLoaded": "Ausrüstungs-merkmale müssen ausgerüstet sein, bevor sie benutzt werden können.",
+"General.error.LinkedTagError": "Kann nicht ausgewählt werden, da du bereits ein anderes Merkmal oder Status ausgewählt hast, dass zu dessen Erstellung benutzt wurde.",
+"General.error.LinkedTagError2": "Kann nicht ausgewählt werden, da du bereits ein ein anderes ausgewählt hast, das durch dieses erstellt wurde.",
+
+"CityOfMist.notification.reloadRequired" : "Das Browser Fenster wird für alle Spielenden neu geladen werden, um den Einstellungswechsel durchzuführen.",
+
+"CityOfMist.logger.action.changeActiveExtra": "Ändert das aktive Zusätzliche Thema auf:",
+"CityOfMist.logger.action.changeActiveCrew": "Ändert das aktive Team Thema auf:",
 }
