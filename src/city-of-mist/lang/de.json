@@ -473,7 +473,26 @@
 "Otherscape.moves.blazeOfGlory.ultimate.partial": "Du erreichst, was du wolltest. Erhalte einen Stufe 6 Status, der nicht abgemildert werden kann.",
 "Otherscape.moves.blazeOfGlory.ultimate.success": "Du erreichst, was du wolltest. Ersetze ein Thema (das du vor dem Würfeln ausgewählt hast)",
 
+"Otherscape.moves.downtime.name": "Drehpausen",
+"Otherscape.moves.downtime.always": "Jede Spieler:in in während diesser Aktion 3 Kraft ausgeben (ohne zu würfeln) oder ein Upgrade Kästchen bei einem Thema markeiren. Alternativ kann eine Spieler:inn die Vorteile der Drehpause verfallen lassen und Ihre Aktion als Spielenden Aktion ausführen.",
+"Otherscape.moves.downtime.0": "Heilen und Erholen (Wiederherstellen): Wiederherstellen verbrannter Stärken während der Drehpause kostet nur 1 Kraft pro Merkmal statt 2.",
+"Otherscape.moves.downtime.1": "Vorbereiten (Verleihen, Erschaffen, Verbessern, Ausrüstung) : Erhaltene Ausrüstungs-Merkmale werden dem Ausrüstungs-Thema hinzugefügt, müssen aber auch wie sonst ausgerüstet werden. Alternativ können auch Teile oder die gesamte Kraft genutzt werden um sich dieses mal besser auszurüsten.",
+"Otherscape.moves.downtime.2": "Freizeit (Verleihen, Stören): Verbringe Zeit mit einem oder mehreren ausgewählten Charakteren. Erstelle einen Geschichten-Marker um das darzustellen.",
+"Otherscape.moves.downtime.3": "Recherche und Ermittlungen (Entdecken): Informationen sammeln.",
+"Otherscape.moves.downtime.4": "Zeit mit einem Thema verbringen: Markiere ein Upgrade Kästchen.",
 
+"Otherscape.moves.creditRoll.name": "Abspann",
+"Otherscape.moves.creditRoll.always": "Am Ende der Sitzung, wenn der imaginäre Abspann läuft, nehmt euch etwas Zeit über das erlebte in dieser Sitzung zu sprechen.",
+"Otherscape.moves.creditRoll.0": "Was hat das Team erreicht? In welche neue Schwierigkeiten sind sie geraden?",
+"Otherscape.moves.creditRoll.1": "Was waren die Höhepunkte der Sitzung?",
+"Otherscape.moves.creditRoll.2": "Im Einzelnen, was war das wichtigste das jedem Charakter pssiert ist?",
+"Otherscape.moves.creditRoll.3": "Haben die Charaktere Verfall markiert, ein Thema ersetzt oder einen Entwicklungssprung erlebt?",
+"Otherscape.moves.creditRoll.4": "Did anyone Go Out In A Blaze? What was the outcome and the Consequences?",
+"Otherscape.moves.creditRoll.5": "If you’re playing a series, each PC has one relationship tag with another PC. First, any such burned tags are restored. Then, go around the table; ask each player whether any of their PC’s relationships with the other PCs changed. If so, they can revise their relationship tags with other PCs to reflect that.",
+"Otherscape.moves.creditRoll.6": "Recover one crew theme power tag for each member in the crew",
+"Otherscape.moves.creditRoll.7": "You may also ask the MC to add any story tags that represent resources you gained access to this session to your loadout theme.",
+
+  
 "CityOfMist.generic.narration": "Erzählung",
 
 "CityOfMist.command.submit": "Absenden",
