@@ -543,7 +543,7 @@
 "CityOfMist.message.noExtraSelected": "Kein Extra-Thema ausgewählt (erstelle eine Zusatz-Thema Spielfigur und gib den Spielenden Besitzrechte, um sie hier anzuzeigen)",
 "CityOfMist.message.noCrewSelected": "Kein Team-Thema ausgewählt (erstelle eine Team Spielfigur und gib den Spielenden Besitzrechte, um sie hier anzuzeigen)",
 "CityOfMist.message.noThemeSelected": "Kein Thema (entweder hier den Thema hinzufügen Knopf klicken oder ein Themenbuch oder Themenkit per Drag and Drop hinzufügen.)",
-"CityOfMist.message.levelUpAvailable": "Themen Aufstieg verfügbar",
+"CityOfMist.message.levelUpAvailable": "Themen Verbesserung verfügbar",
 
 "Otherscape.message.noEssenceSelected": "Keine Essenz ausgewählt",
   
@@ -906,6 +906,26 @@
 "CityOfMist.settings.tagReview.name": "SL Merkmal-Überprüfung",
 "CityOfMist.settings.tagReview.hint": "Bevor ein Würfelwurf ausgeführt wird muss die SL die ausgewählten Merkmale und Zustände prüfen.",
 
+"CityOfMist.settings.flashyLevelUp.name": "Blinkender Verbesserungsindikator",
+"CityOfMist.settings.flashyLevelUp.hint": "Fügt einen blinkenden indikator hinzu, wenn ein Thema verbessert werden kann.",
+
+"CityOfMist.settings.gmmoveheaders.name": "Gefahrenspielzug Kennzeichnung",
+"CityOfMist.settings.gmmoveheaders.hint": "Füge automatisch eine Kennzeichung als Indikator des Typs an den Anfang des Gefahrenspielzugs hinzu (hart, weich,...). Automatically Apply an identifier to the start of each danger's move based on its type (soft, hard, etc)",
+"CityOfMist.settings.gmmoveheaders.choice0": "Keine",
+"CityOfMist.settings.gmmoveheaders.choice1": "Symbol",
+"CityOfMist.settings.gmmoveheaders.choice2": "Text",
+"CityOfMist.settings.gmmoveheaders.soft": "Als weicher Spielzug, $name",
+"CityOfMist.settings.gmmoveheaders.hard": "Als harter Spielzug, $name",
+"CityOfMist.settings.gmmoveheaders.intrusion": "Als Einmischung, $name",
+"CityOfMist.settings.gmmoveheaders.downtime": "Währende der Drehpause, $name",
+"CityOfMist.settings.gmmoveheaders.entrance": "Wenn $name die Szene betritt,",
+
+"CityOfMist.settings.sceneTagWindow.name": "Scene Tags",
+"CityOfMist.settings.sceneTagWindow.hint": "Displays scene tags and statuses on the main screen (may cause screen clutter)",
+"CityOfMist.settings.sceneTagWindow.choice0": "No Scene Tag Window",
+"CityOfMist.settings.sceneTagWindow.choice1": "Include combatants with at least one tag or status",
+"CityOfMist.settings.sceneTagWindow.choice2": "Include all combatants on combat tracker",
+  
 "CityOfMist.settings.sceneTagWindow.name": "Szenen-Marker",
 "CityOfMist.settings.sceneTagWindow.hint": "Zeigt Szenen-Marker und Zustände auf dem Bildschirm an (kann zu einem überfüllten Bildschirm führen).",
 "CityOfMist.settings.sceneTagWindow.choice0": "Kein Szenen-Marker-Fenster",
