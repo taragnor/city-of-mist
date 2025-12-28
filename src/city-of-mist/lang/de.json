@@ -776,6 +776,12 @@
 
 "CityOfMist.chatmessage.clue.use":"benutzt einen Hinweis.",
 
+"MistEngine.dialog.statusMerge.label": "Führe {newStatus} mit Status {existingStatus} zusammen",
+
+"Otherscape.dialog.addMythos": "Addiere Mythos als Kraft",
+"Otherscape.dialog.addSelf": "Addiere Ego als Kraft",
+"Otherscape.dialog.addNoise": "Addiere Rauschen als Kraft",
+  
 "CityOfMist.dialog.roll.waitForMC": "Auf Zustimmung der SL warten",
 "CityOfMist.dialog.roll.title": "Würfeln",
 "CityOfMist.dialog.roll.rollBonus": "Würfle Bonus:",
@@ -785,7 +791,10 @@
 "CityOfMist.dialog.roll.takePenalty": "Abzug hinnehmen für erhöhten Effekt",
 "CityOfMist.dialog.roll.burnTag": "Stärke verbrennen",
 "CityOfMist.dialog.roll.dontBurn": "nicht ausbrennen",
-
+  
+"CityOfMist.dialog.postClue.title": "Hinweis posten",
+"CityOfMist.dialog.postClue.text": "Einen Hinweis erschaffen (1 Kraft)?",
+  
 "CityOfMist.dialog.downtime.title": "Aktionen in der Drehpause",
 "CityOfMist.dialog.downtime.unburn": "Deine nächste Tätigkeit vorbereiten. Beschreibe den anderen Spieler:innen, wie du dich vorbereitest. Stelle alle deine ausgebrannten Stärken wieder her.",
 "CityOfMist.dialog.downtime.juice": "Deine nächste Tätigkeit vorbereiten. Beschreibe den anderen Spieler:innen, wie du dich vorbereitest. Erhalte 3 Punkte Momentum mit einer Methode, die zu deiner Beschreibung passt. Diese kannst du für die unter Das Blatt wenden beschriebenen Effektverbesserungen einsetzen.",
@@ -793,6 +802,7 @@
 "CityOfMist.dialog.downtimeconfirm.title": "Drehpause bestätigen",
 "CityOfMist.dialog.downtimeconfirm.body": "Möchtest du den Beginn der Drehpause für alle Spieler:innen beginnen lassen?",
 
+  
 "CityOfMist.dialog.pcdowntime.title": "Drehpause für",
 
 "CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title": "Verbesserung gewähren?",
@@ -815,6 +825,7 @@
 "CityOfMist.dialog.tag.counterExamples": "Beispiele, bei denen die Stärke oder Schwäche nicht anwendbar ist",
 "CityOfMist.dialog.tag.restrictions": "Generelle Beschränkungen der Nutzung des Stärke oder Schwäche",
 
+  
 "CityOfMist.dialog.SHB.warning0": "Bist du sicher, dass du 'Jetzt reicht's' nutzen willst?",
 "CityOfMist.dialog.SHB.warning1":"Die Folgen können SCHWERWIEGEND sein!",
 "CityOfMist.dialog.SHB.source":"Quelle deiner Kraft",
@@ -823,13 +834,10 @@
 "CityOfMist.dialog.SHB.mistPower":"Sich des Nebels bedienen (Gatekeeper)",
 "CityOfMist.dialog.SHB.yes": "Auf geht's!",
 "CityOfMist.dialog.SHB.no":"Warte, ich habe meine Meinung geändert.",
-
-"CityOfMist.dialog.statusAdd.CoMClassic": "Wähle Zustands-Stufe zum Hinzuzufügen oder Abziehen.",
-"CityOfMist.dialog.statusAdd.CoMReloaded": "Wähle eine Anzahl an Boxen zum Hinzufügen oder Abziehen.",
-"CityOfMist.dialog.statusDrop.CoMReloaded": "Wähle eine Anzahl an Boxen zum Abziehen.",
-
-"CityOfMist.dialog.endOfSession.name": "Sitzungsende",
-"CityOfMist.dialog.endOfSession.query": "Aktionen am Ende der Spielsitzung",
+"CityOfMist.dialog.statusAdd.CoMClassic": "Wähle Status Stufe zum addieren/abziehen",
+"CityOfMist.dialog.downtime.query": "Wähle die Charaktäre für die Drehpause aus",
+"CityOfMist.dialog.endOfSession.query": "Den Ende der Spielsitzung Spielzug ausführen?",
+"CityOfMist.dialog.endOfSession.name": "Ende der Spielsitzung",
 
 "CityOfMist.dialog.spendHelpHurt.Initial": "Freund/Feind ausgeben",
 "CityOfMist.dialog.spendHelpHurt.spendHelp": "Freund-",
@@ -858,11 +866,9 @@
 "CityOfMist.settings.maxWeaknessTags.name": "Maximum Schwäche",
 "CityOfMist.settings.maxWeaknessTags.hint": "Maximale Anzahl von Schwächen für eine Aktion",
 
+  
 "CityOfMist.settings.maxRollCap.name": "Wurfbegrenzung",
 "CityOfMist.settings.maxRollCap.hint": "Lege einen maximalen Bonus fest der auf einen Wurf angerechnet wird (das verändert nicht die Kraft für die Bestimmung des Effekts der Aktion)",
-
-"CityOfMist.settings.commutativeStatusAddition.name": "Kumulatives hinzufügen eines Zustands",
-"CityOfMist.settings.commutativeStatusAddition.hint": "Addiere immer den kleineren zum größeren Zustand, so dass eine kleiner Zustand nicht verloren geht in der Wirkung",
 
 "CityOfMist.settings.monologueAttention.name": "Aufmerksamkeitsbonus für Monolog",
 "CityOfMist.settings.monologueAttention.hint": "Belohnt das am wenigsten entwickelte Thema desjenigen mit Aufmerksamkeit, der den Anfangsmonolog gehalten hat",
@@ -875,30 +881,28 @@
 "CityOfMist.settings.autoAwardWeaknessImp.name": "Automatische Verbesserung bei Schwächen",
 "CityOfMist.settings.autoAwardWeaknessImp.hint": "Wenn man 2 oder mehr Schwächen einem Thema hinzufügt, bekommt man automatisch eine Bonusverbesserung auf diesem Thema. Wenn deaktiviert wird stattdessen ein Fragedialog erscheinen.",
 
+  
 "CityOfMist.settings.execEntranceMoves.name": "Bedrohung betritt Szene Aktion",
 "CityOfMist.settings.execEntranceMoves.hint": "Aktiviere die Automatisierung für 'Betritt die Szene' Aktionen von Gefahren. Wird ausgelöst, wenn die Spielfigur aufgedeckt oder erstellt wird. Wird entfernt, wenn sie unsichtbar gestellt oder entfernt wird.",
 "CityOfMist.settings.execEntranceMoves.0": "Keine Automatisierung",
 "CityOfMist.settings.execEntranceMoves.1": "Nutzereingabe anfordern",
 "CityOfMist.settings.execEntranceMoves.2": "Automatisch aktivieren",
-
 "CityOfMist.settings.tokenToolTip.name": "Spielfigur Kurzinfos",
 "CityOfMist.settings.tokenToolTip.hint": "Anzeigen von Geschichten-Markern und Zuständen, wenn man mit dem Cursor über der Spielfigur schwebt.",
-
 "CityOfMist.settings.trackerSort.name": "Sortierungsmethode für Zustände und Merkmalen",
 "CityOfMist.settings.trackerSort.hint": "Wähle, wie der Tracker SC und Gefahren anzeigt",
 "CityOfMist.settings.trackerSort.0": "Ausschließlich alphabetisch",
 "CityOfMist.settings.trackerSort.1": "SC zuerst",
 "CityOfMist.settings.trackerSort.2": "Hebe SC und Bedrohungen mit Merkmalen und Zuständen hervor",
-
 "CityOfMist.settings.enhancedActorDirectory.name": "Verbessertes Akteur Verzeichnis",
 "CityOfMist.settings.enhancedActorDirectory.hint": "Zeigt Nicht-Besitzern nur den Alias Namen eines Aktuers im Verzeichnis an und versteckt so den richtigen Namen vor den Spieler:innen (benötigt ein Refresh [F5] des Browser).",
-
+"CityOfMist.settings.soundEffects.name": "Toneffekte",
+"CityOfMist.settings.soundEffects.hint": "Erzeuge Toneffekte für Merkmalsauswahl, verbrennen, usw.",
 "CityOfMist.settings.clueBoxes.name": "Verbessertes Hinweis System",
 "CityOfMist.settings.clueBoxes.hint": "Hinweise werden als eigene interaktive Chatobjekte (Hinweisboxen) angezeigt, die die Spieler:in und die SL ausfüllen können.",
 "CityOfMist.settings.clueBoxes.0": "Keine Hinweis Boxen",
 "CityOfMist.settings.clueBoxes.1": "Geflüsterte Hinweis Boxen",
 "CityOfMist.settings.clueBoxes.2": "Öffentliche Hinweis Boxen",
-
 "CityOfMist.settings.tagReview.name": "SL Merkmal-Überprüfung",
 "CityOfMist.settings.tagReview.hint": "Bevor ein Würfelwurf ausgeführt wird muss die SL die ausgewählten Merkmale und Zustände prüfen.",
 
