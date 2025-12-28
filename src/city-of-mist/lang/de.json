@@ -1041,4 +1041,21 @@
 
 "CityOfMist.logger.action.changeActiveExtra": "Ändert das aktive Zusätzliche Thema auf:",
 "CityOfMist.logger.action.changeActiveCrew": "Ändert das aktive Team Thema auf:",
+
+"Otherscape.themebook.Assets.pageref": "See Otherscape Core p.196",
+"Otherscape.themebook.Affiliation.pageref": "See Otherscape Core p.216",
+"Otherscape.themebook.Artifact.pageref": "See Otherscape Core p.220",
+"Otherscape.themebook.Augmentation.pageref": "See Otherscape Core p.236",
+"Otherscape.themebook.Companion.pageref": "See Otherscape Core p.224",
+"Otherscape.themebook.Crew-OS.pageref": "SEE OTHERSCAPE CORE BOOK P. 151",
+"Otherscape.themebook.CuttingEdge.pageref": "See Otherscape Core p.248",
+"Otherscape.themebook.Cyberspace.pageref": "See Otherscape Core p.240",
+"Otherscape.themebook.Drones.pageref": "See Otherscape Core p.244",
+"Otherscape.themebook.Esoterica.pageref": "See Otherscape Core p.228",
+"Otherscape.themebook.Expertise.pageref": "See Otherscape Core p.204",
+"Otherscape.themebook.Exposure.pageref": "See Otherscape Core p.232",
+"Otherscape.themebook.Horizon.pageref": "See Otherscape Core p.208",
+"Otherscape.themebook.Horizon.Loadout": "See Otherscape Core p.208",
+"Otherscape.themebook.Personality.Loadout": "See Otherscape Core p.212",
+"Otherscape.themebook.TroubledPast.Loadout": "See Otherscape Core p.200",
 }
