@@ -58,7 +58,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 				break;
 		}
 		const loc = this.lookupLocalizationProperty(tb, target);
-		if (loc) return loc;
+		if (loc) {return loc;}
 		if (field == "improvement-name") {
 			return `Improvement #${numOrLetter}`;
 		}
@@ -69,13 +69,24 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	}
 
 	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description" | (string & {})) : string {
-		if ("systemName" in doc.system) {
-			const sysName = doc.system.systemName || "generic";
-			const locName  = this.localizationStarterName;
-			const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
-			const x = localize(locStr);
-			if (x!= locStr) return x;
+		let sysName = "";
+		switch (true) {
+			case "systemName" in doc
+					&& doc.systemName.length > 0:
+				sysName = doc.systemName;
+				break;
+			case ("systemName" in doc.system
+				&& typeof doc.system.systemName == "string"
+				&& doc.system.systemName.length > 0):
+				sysName = doc.system.systemName;
+				break;
+			default:
+				sysName = "generic";
 		}
+		const locName  = this.localizationStarterName;
+		const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
+		const x = localize(locStr);
+		if (x!= locStr) {return x;}
 		return "";
 	}
 
