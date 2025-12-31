@@ -1,11 +1,10 @@
 import { EffectClass } from "./config/effect-classes.js";
 import { SystemModule } from "./config/system-module.js";
 import { StatusMath } from "./status-math.js";
-import { StatusCreationOptions } from "./config/statusDropTypes.js"
+import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { FadeType } from "./datamodel/fade-types.js";
 
-import { MOTIVATIONLIST } from "./datamodel/motivation-types.js";
 import { System } from "./config/settings-object.js";
 import { ListConditionalItem } from "./datamodel/item-types.js";
 import { RollResultType } from "./city-roll.js";
@@ -16,11 +15,11 @@ import { CityDB } from "./city-db.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import { CityActor } from "./city-actor.js";
 import { ClueChatCards } from "./clue-cards.js";
-import {SelectedTagsAndStatus} from "./selected-tags.js";
-import {CityDialogs} from "./city-dialogs.js";
-import {CityHelpers} from "./city-helpers.js";
-import {TagAndStatusCleanupSessionM} from "./city-sessions.js";
-import {CitySockets} from "./city-sockets.js";
+import { SelectedTagsAndStatus } from "./selected-tags.js";
+import { CityDialogs } from "./city-dialogs.js";
+import { CityHelpers } from "./city-helpers.js";
+import { TagAndStatusCleanupSessionM } from "./city-sessions.js";
+import { CitySockets } from "./city-sockets.js";
 import { CityLogger } from "./city-logger.js";
 import { CitySettings } from "./settings.js";
 
@@ -28,11 +27,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	declare parent: CityActor | undefined;
 
-	async getCrack(this: Theme) {
+	getCrack(this: Theme) {
 		return this.system.crack.reduce( (acc, i) => acc+i, 0);
 	}
 
-	async getAttention(this: Theme) {
+	getAttention(this: Theme) {
 		return this.system.attention.reduce( (acc, i) => acc+i, 0);
 	}
 
@@ -64,17 +63,19 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 
-	get description() {
-		switch (this.system.type) {
-			case "tag":
+	get description() :string {
+		switch (true) {
+			case this.isTag():
 				try {
-					if (this.themebook && this.themebook.isThemeKit()) {
+					const TBOrTK = this.getThemebookOrTK();
+					if (TBOrTK && TBOrTK.isThemeKit()) {
 						const x = this.subtype;
 						switch (x) {
 							case "power":
-							case "weakness":
-								const tags = this.themebook.themekit_getTags(x);
+							case "weakness": {
+								const tags = TBOrTK.themekit_getTags(x);
 								return tags.find(x=> x.tagname == this.name)?.description ?? "";
+							}
 							default:
 									return this.system.description;
 						}
@@ -83,26 +84,28 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 					}
 				} catch (e) {
 					console.error(e);
-					break;
 				}
-			case "improvement": {
+				break;
+			case this.isImprovement(): {
 				//special case here for damaged data that came from a bug where the name was getting copied as the description for themebook improvments
 				if (this.name == this.system.description) {
 					const TB = (this as Improvement).getThemebookAbsolute();
-					if (!TB) return "";
+					if (!TB) {return "";}
 					const improvements = TB.themebook_getImprovements();
 					const index = improvements.findIndex( imp => imp.name == this.name);
-					if (index == -1) return "";
-					return SystemModule.active.localizedThemeBookData(TB, "improvement-description", index)
+					if (index == -1) {return "";}
+					return SystemModule.active.localizedThemeBookData(TB, "improvement-description", index);
 				}
 			}
-			default: break;
+				break;
+			default:
+				break;
 		}
 		if ("description" in this.system)  {
 			return SystemModule.active.localizedDescription(this);
 			// return this.system.description;
 		}
-		return ""
+		return "";
 	}
 
 	get effect_classes() : string[] {
@@ -113,22 +116,22 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get submoves() : GMMove[] {
-		if (!this.parent) return [];
-		if (this.system.type != "gmmove") return [];
+		if (!this.parent) {return [];}
+		if (this.system.type != "gmmove") {return [];}
 		return this.parent.getGMMoves().
 			filter( tag => tag.system.superMoveId == this.id);
 	}
 
 	get subtags() : Tag[] {
-		if (!this.parent) return [];
-		if (this.system.type != "tag") return [];
+		if (!this.parent) {return [];}
+		if (this.system.type != "tag") {return [];}
 		return this.parent.getTags().
 			filter( tag => tag.system.parentId == this.id);
 	}
 
 	get baseTags(): Tag[] {
-		if (!this.parent) return [];
-		if (this.system.type != "theme") return [];
+		if (!this.parent) {return [];}
+		if (this.system.type != "theme") {return [];}
 		return this.parent.getTags(this.id)
 			.filter( x=> !x.system.parentId);
 
@@ -150,20 +153,22 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get subtype(): string {
-		switch (this.system.type) {
-			case "themebook": return this.system.subtype;
-			case "themekit": {
+		switch (true) {
+			case this.isThemeBook(): return this.system.subtype;
+			case this.isThemeKit(): {
 				let themebook : Themebook | null = null;
 				try {
-					themebook = this.themebook as Themebook | null;
-				} catch(e) {
+					themebook = this.getThemebookOrTK() as Themebook | null;
+				} catch (e) {
+					console.log(e);
 				}
 				return themebook?.subtype ?? this.system.subtype;
 
 			}
-			case "status" :return "";
-			case "tag": return this.system.subtype;
-			default: if ("subtype" in this.system) return this.system.subtype;
+			case this.isStatus() :return "";
+			case this.isTag() : return this.system.subtype;
+			default:
+				if ("subtype" in this.system) {return this.system.subtype;}
 		}
 		return "";
 	}
@@ -173,14 +178,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	*/
 	isPartOfThemeKit(this: Tag | Improvement) : boolean {
 		if (this.system.type != "tag" && this.system.type != "improvement")
-			return false;
-		if (!this.themebook) return false;
-		if (this.isTag() && this.isBonusTag()) return false;
-		return this.themebook.isThemeKit();
+			{return false;}
+		const TBOrTK = this.getThemebookOrTK();
+		if (!TBOrTK) {return false;}
+		if (this.isTag() && this.isBonusTag()) {return false;}
+		return TBOrTK.isThemeKit();
 	}
 
 	usesThemeKit(this: Theme) {
-		return this.system.type == "theme" && this.themebook && this.themebook.isThemeKit();
+		return this.system.type == "theme" && this.getThemebookOrTK() && this.getThemebookOrTK()?.isThemeKit();
 	}
 
 	isStoryTag(this: Tag) {
@@ -192,11 +198,16 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	isTag() : this is Tag { return this.system.type == "tag"; }
-	isImprovement() : this is Improvement {return this.system.type == "improvement"};
-	isTheme() : this is Theme {return this.system.type == "theme"};
+	isImprovement() : this is Improvement {return this.system.type == "improvement";};
+	isTheme() : this is Theme {return this.system.type == "theme";};
 	isThemeKit(): this is ThemeKit { return this.system.type == "themekit"; }
 	isThemeBook(): this is Themebook { return this.system.type == "themebook"; }
 	isExtraTheme(this: Theme): boolean { return this.system.isExtra; }
+	isMove() : this is Move { return this.system.type == "move";}
+	isGMMove() : this is GMMove { return this.system.type == "gmmove";}
+	isClue() : this is Clue { return this.system.type == "clue";}
+	isSpectrum() : this is Juice { return this.system.type == "spectrum"; }
+	isEssence() : this is Essence { return this.system.type == "essence"; }
 
 	isRelationshipTag(): boolean {
 		return this.system.type == "tag" && this.system.subtype == "relationship";
@@ -209,24 +220,25 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "move":
 				return this.system.system_compatiblity;
 			case "themekit": {
-				const tb = this.themebook;
-				if (tb) return tb.systemCompatiblity;
+				const tb = (this as ThemeKit).getThemebookOrTK();
+				if (tb) {return tb.systemCompatiblity;}
 				return this.system.system_compatiblity;
 			}
 			case "tag": {
-				const tb = this.themebook;
-				if (tb) return tb.systemCompatiblity;
+				const tb = (this as Tag).getThemebookOrTK();
+				if (tb) {return tb.systemCompatiblity;}
 				return "any";
 			}
 			case "improvement": {
-				const tb = this.themebook;
-				if (tb) return tb.systemCompatiblity;
+				const tb = (this as Improvement).getThemebookOrTK();
+				if (tb) {return tb.systemCompatiblity;}
 				return this.system.system_compatiblity;
 			}
-			case "theme":
-				const tb = this.themebook;
-				if (tb) return tb.systemCompatiblity;
+			case "theme": {
+				const tb = (this as Theme).getThemebookOrTK();
+				if (tb) {return tb.systemCompatiblity;}
 				return "any";
+			}
 			case "clue":
 			case "juice":
 				return "any"; // technically this should only be CoM but I'm including it for potential mixed rules customs
@@ -238,14 +250,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "essence":
 				return this.system.system_compatiblity;
 			default:
-				this.system satisfies never
+				this.system satisfies never;
 				return "any";
 		}
 	}
 
 	isCompatible(system: System= SystemModule.active.name):  boolean {
 		const compat = this.systemCompatiblity;
-		if (compat == "any") return true;
+		if (compat == "any") {return true;}
 		return compat == system;
 	}
 
@@ -253,9 +265,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const move = CityHelpers.getMoveById(move_id);
 		const moveAbbr = move ? move.system.abbreviation : "NULL_MOVE";
 		if (!this.system.effect_class)
-			return false;
+			{return false;}
 		if ( this.hasEffectClass(`ALWAYS_DYN_${moveAbbr}`) )
-			return true;
+			{return true;}
 		const theme = (this.parent as CityActor)?.getTheme(this.system.theme_id);
 		if (theme) {
 			const hasThemeTagActivated = SelectedTagsAndStatus
@@ -272,49 +284,49 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 	}
 
-	isWeaknessTag() {
-		return this.type == "tag" && this.subtype == "weakness";
+	isWeaknessTag() : boolean {
+		return this.isTag() && this.subtype == "weakness";
 	}
 
 	getActivatedEffect(this: Move | Improvement) {
 		// console.log(`Getting Activated Efect for ${this.name}`);
 		if (this.system.effect_class.includes("DYN"))
-			return {dynamite: true};
+			{return {dynamite: true};}
 		return {};
 	}
 
 	getChoiceType(this: Improvement | Move) {
 		if (this.system.effect_class?.includes("THEME_DYN_SELECT"))
-			return "core_move";
+			{return "core_move";}
 		if (this.system.effect_class?.includes("THEME_TAG_SELECT"))
-			return "theme_tag";
-		else return "";
+			{return "theme_tag";}
+		else {return "";}
 	}
 
 	getThemeType (this: Theme | ThemeKit): Exclude<ThemeType, ""> {
 		// return logos/mythos
-		const themebook = this.getThemebook();
+		const themebook = this.getThemebookOrTK();
 		if (themebook == null) {
 			console.log(`Can't find themebook for theme ${this.name}`);
 			throw new Error("ERROR Can't find themebook!");
 		}
 		if (themebook.isThemeKit()) {
-			if (themebook.themebook) {
+			if (themebook.getThemebookOrTK()) {
 				return themebook.getThemeType();
 			}
 			const subtype =  themebook.system.subtype;
-			if (!subtype) return "Crew";
+			if (!subtype) {return "Crew";}
 			return subtype;
 		}
 		if ( themebook.system.subtype != undefined) {
 			const bookType = themebook.system.subtype;
-			if (bookType) return bookType;
+			if (bookType) {return bookType;}
 			const myType = this.system.subtype;
-			if (myType) return myType;
+			if (myType) {return myType;}
 			const list = SystemModule.active.themeTypes();
 			const val =  Object.keys(list).at(0) as keyof ThemeTypes;
 			if (val)
-				return val;
+				{return val;}
 		}
 		throw new Error(`Can't get theme type of ${this.name}`);
 	}
@@ -325,12 +337,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		}
 		if (this.isThemeKit()) {
 			if (this.system.subtype != "")
-				return false;
-			const realTB = this.getThemebook();
-			if (realTB) return realTB.canHaveVariableThemeType();
+				{return false;}
+			const realTB = this.getThemebookOrTK();
+			if (realTB) {return realTB.canHaveVariableThemeType();}
 			return this.system.subtype == "";
 		}
-		const themebook = this.getThemebook();
+			const themebook = this.getThemebookOrTK();
 		if (!themebook) {
 			throw new Error("ERROR Can't find themebook!");
 		}
@@ -338,17 +350,17 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	async toggleThemeType(this: Theme) : Promise<void> {
-		if (!this.canHaveVariableThemeType()) return;
+		if (!this.canHaveVariableThemeType()) {return;}
 		const themes = SystemModule.active.themeTypes();
 		const list = Object.keys(themes).filter (x=> {
-			const r = themes[x as keyof typeof themes]
-			if (!r) return false;
-			if (!r.increaseLocalization) return false;
-			if (!r.identityName) return false;
+			const r = themes[x as keyof typeof themes];
+			if (!r) {return false;}
+			if (!r.increaseLocalization) {return false;}
+			if (!r.identityName) {return false;}
 			return !r.specials || !r.specials.includes("loadout");
 		});
 		const current = this.getThemeType();
-		const index = list.indexOf(current)
+		const index = list.indexOf(current);
 		let newChoice : string;
 		if (index == -1) {
 			newChoice = list[0];
@@ -365,23 +377,28 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	getThemebookAbsolute(this: Theme | ThemeKit | Tag | Improvement | Themebook): Themebook | null {
 		if (this.isTag() || this.isImprovement()) {
 			const theme = this.theme;
-			if (!theme) return null;
+			if (!theme) {return null;}
 			return theme.getThemebookAbsolute();
 		}
 		if (this.isTheme() || this.isThemeKit()) {
 			const maybeTB = this.getThemebookOrTK();
-			if (!maybeTB) return null;
-			if (maybeTB.isThemeBook()) return maybeTB;
+			if (!maybeTB) {return null;}
+			if (maybeTB.isThemeBook()) {return maybeTB;}
 			return maybeTB.getThemebookAbsolute();
 		}
-		if (this.isThemeBook()) return this;
+		if (this.isThemeBook()) {return this;}
 		this satisfies never;
 		return null;
 	}
 
 
 	/** gets themebook or themekit from a theme or themekit */
-	getThemebookOrTK (this: Theme | ThemeKit) : Themebook | ThemeKit | null {
+	getThemebookOrTK (this: Tag | Improvement | Theme | ThemeKit) : Themebook | ThemeKit | null {
+		if (this.isTag() || this.isImprovement()) {
+			const theme = this.theme;
+			if (!theme) {return null;}
+			return theme.getThemebookOrTK();
+		}
 		const actor = this.parent;
 		if (!actor && this.system.type != "themekit") {
 			Debug(this);
@@ -396,7 +413,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			const tb = actor?.items?.find( x=> x.id == id) ??
 				CityDB.getThemebook(name, id);
 			if (!tb)  {
-				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`);
 				return null;
 			}
 			return tb as Themebook | ThemeKit;
@@ -424,7 +441,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			const tb = actor?.items?.find( x=> x.id == id) ??
 				CityDB.getThemebook(name, id);
 			if (!tb)  {
-				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`)
+				console.error(`Can't find themebook for ${this.system.themebook_id} on ${this.name}`);
 				return null;
 			}
 			return tb as Themebook | ThemeKit;
@@ -442,12 +459,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	tags(this: Theme) : Tag[] {
-		if (!this.parent) return [];
+		if (!this.parent) {return [];}
 		return this.parent.items.filter( x => x.system.type == "tag" && x.system.theme_id == this.id) as Tag[];
 	}
 
 	improvements ( this: Theme) : Improvement[] {
-		if (!this.parent) return [];
+		if (!this.parent) {return [];}
 		return this.parent.items.filter( x => x.system.type == "improvement" && x.system.theme_id == this.id) as Improvement[];
 	}
 
@@ -468,7 +485,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const unspent = this.system.unspent_upgrades;
 		const devel =  powertags.length - Math.max(0, weaktags.length-1) + improvements.length + unspent + attention;
 		if (Number.isNaN(devel))
-			throw new Error("NAN");
+			{throw new Error("NAN");}
 		return devel;
 	}
 
@@ -477,13 +494,13 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	*/
 	getQuestion(this: Themebook, type: "power" | "weakness", letter: string) {
 		if (this.system.type != "themebook")
-			throw new Error("Can only be run on a themebook");
+			{throw new Error("Can only be run on a themebook");}
 		switch (type) {
 			case "power":
 				break;
 			case "weakness":
 				break;
-			default: throw new Error(`bad type: ${type}`);
+			default: throw new Error(`bad type: ${type as string}`);
 
 		}
 		const system = this.system[`${type}_questions`][letter];
@@ -544,7 +561,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	*/
 	async addImprovement(this: ThemeKit) {
 		if (!this.isThemeKit())
-			throw new Error("trying to add tag to non-theme kit");
+			{throw new Error("trying to add tag to non-theme kit");}
 		const imps = Array.from( Object.values(this.system.improvements));
 		const description = "";
 		imps.push( {
@@ -569,7 +586,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "power": {
 				const tags= Array.from(Object.values(this.system.power_tagstk));
 				tags.splice(index, 1);
-				tags.sort( (a,b) => a.letter!.localeCompare(b.letter!));
+				tags.sort( (a,b) => a.letter.localeCompare(b.letter));
 				const tagsObj = Object.assign({}, tags);
 				await this.update( {"system.power_tagstk":tagsObj});
 				console.log(tagsObj);
@@ -578,17 +595,18 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "weakness": {
 				const tags = Array.from(Object.values(this.system.weakness_tagstk));
 				tags.splice(index, 1);
-				tags.sort( (a,b) => a.letter!.localeCompare(b.letter!));
+				tags.sort( (a,b) => a.letter.localeCompare(b.letter));
 				const tagsObj = Object.assign({}, tags);
 				await this.update( {"system.weakness_tagstk":tagsObj});
 				break;
 			}
-			case "improvement":
+			case "improvement": {
 				const improvements = Array.from(Object.values(this.system.improvements));
 				improvements.splice(index, 1);
 				const impObj = Object.assign({}, improvements);
 				await this.update( {"system.improvements":impObj});
 				break;
+			}
 		}
 		// tags.splice(index, 1);
 		// if ("letter" in tags[0]) {
@@ -668,15 +686,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get powerTags() : Tag[] {
-		if (!this.parent) return [];
+		if (!this.parent) {return [];}
 		if (this.system.type == "theme" || this.system.type == "themekit") {
 			return this.parent
 				.getTags(this.id, "power")
 				.sort( (a,b) => {
-					if (a.isBonusTag() && !b.isBonusTag()) return 1;
+					if (a.isBonusTag() && !b.isBonusTag()) {return 1;}
 					if (b.isBonusTag() && !a.isBonusTag())
-						return -1;
-					return a.system.question_letter.localeCompare(b.system.question_letter)
+						{return -1;}
+					return a.system.question_letter.localeCompare(b.system.question_letter);
 				});
 		}
 		return [];
@@ -702,7 +720,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async addFade(this: Theme, amount = 1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.system.crack;
-		const moddata = CityHelpers.modArray(arr, amount)
+		const moddata = CityHelpers.modArray(arr, amount);
 		const newArr = moddata[0];
 		await this.update( {system: {crack: newArr}});
 		return !!moddata[1];
@@ -711,8 +729,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async removeFade(this: Theme, amount=-1) {
 		//Proboably doesn't work for non 1 values
 		const arr = this.system.crack;
-		if (arr[0] == 0) return false; //Can't remove if there's no crack
-		const moddata = CityHelpers.modArray(arr, -amount)
+		if (arr[0] == 0) {return false;} //Can't remove if there's no crack
+		const moddata = CityHelpers.modArray(arr, -amount);
 		const newArr = moddata[0];
 		await this.update( {system: {crack: newArr}});
 		return !!moddata[1];
@@ -721,7 +739,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async addMilestone(this: Theme, amount=1) {
 		const arr = this.system.milestone;
 		const trackName = SystemModule.themeThirdTrackName(this);
-		const moddata = CityHelpers.modArray(arr, amount)
+		const moddata = CityHelpers.modArray(arr, amount);
 		const newArr = moddata[0];
 		await this.update( {system: {milestone: newArr}});
 		await CityHelpers.modificationLog(this.parent!, `${trackName} Gained `, this, `Current ${this.milestone}`);
@@ -731,8 +749,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async removeMilestone(this: Theme, amount=-1) {
 		const arr = this.system.milestone;
 		const trackName = SystemModule.themeThirdTrackName(this);
-		if (arr[0] == 0) return false; //Can't remove if there's no crack
-		const moddata = CityHelpers.modArray(arr, -amount)
+		if (arr[0] == 0) {return false;} //Can't remove if there's no crack
+		const moddata = CityHelpers.modArray(arr, -amount);
 		const newArr = moddata[0];
 		await this.update( {system: {milestone: newArr}});
 		await CityHelpers.modificationLog(this.parent!, `${trackName} Removed `, this, `Current ${this.milestone}`);
@@ -760,9 +778,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			unspent_upgrades++;
 		}
 		else if (extra_upgrades > 0)
-			nascent = false;
+			{nascent = false;}
 		await this.update( {system: {attention: newArr, unspent_upgrades, nascent}});
-		await CityHelpers.modificationLog(this.parent!, `Attention Gained `, this, `Current ${await this.getAttention()}`);
+		await CityHelpers.modificationLog(this.parent!, `Attention Gained `, this, `Current ${this.getAttention()}`);
 		return extra_upgrades;
 	}
 
@@ -779,9 +797,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			unspent_upgrades--;
 		}
 		else if (extra_upgrades > 0)
-			nascent = false;
+			{nascent = false;}
 		await this.update( {system: {attention: newArr, unspent_upgrades, nascent}});
-		await CityHelpers.modificationLog(this.parent!,  `Attention removed`, this, `Current ${await this.getAttention()}`);
+		await CityHelpers.modificationLog(this.parent!,  `Attention removed`, this, `Current ${this.getAttention()}`);
 		return extra_upgrades;
 	}
 
@@ -801,12 +819,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			await this.update({"system.burn_state": state});
 			await this.update({"system.burned": state >0});
 			if (state == 3)
-				CityHelpers.playBurn();
+				{void CityHelpers.playBurn();}
 		} else  {
 			const session = new TagAndStatusCleanupSessionM("burn", this.id, this.parent.id, this.parent.tokenId, state != 0);
 			await CitySockets.execSession(session);
 			if (state == 3)
-				CityHelpers.playBurn();
+				{void CityHelpers.playBurn();}
 			await CityHelpers.playBurn();
 		}
 	}
@@ -825,7 +843,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	getImprovements(this: Theme) {
-		if (!this.parent) return [];
+		if (!this.parent) {return [];}
 		return this.parent.getImprovements(this.id);
 	}
 
@@ -836,33 +854,33 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async decrementImprovementUses(this: Improvement) {
 		const uses = this.getImprovementUses();
 		if (uses <= 0)
-			throw new Error(`Trying to Decrement 0 uses on ${this.name}`);
+			{throw new Error(`Trying to Decrement 0 uses on ${this.name}`);}
 		if (uses > 999)
-			return;
+			{return;}
 		const newUses = uses-1;
 		await this.update( {"system.uses.current": newUses});
 		if (newUses <= 0)
-			await this.update( {"system.uses.expended": true});
+			{await this.update( {"system.uses.expended": true});}
 	}
 
 	async refreshImprovementUses(this: Improvement) {
 		const uses = this.getImprovementUses();
 		if (uses > 999)
-			return false;
+			{return false;}
 		if (this.getImprovementUses() == this.system?.uses?.max)
-			return false;
+			{return false;}
 		await this.update( {"system.uses.current": this.system?.uses?.max});
 		await this.update( {"system.uses.expended": false});
 		return true;
 	}
 
 	get tier() : number {
-		if (this.system.type != "status") return 0;
+		if (this.system.type != "status") {return 0;}
 		return this.system.tier;
 	}
 
 	get pips() : number {
-		if (this.system.type != "status") return 0;
+		if (this.system.type != "status") {return 0;}
 		return this.system.pips;
 	}
 
@@ -890,7 +908,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	/**shows status tier and pips potentially as a string*/
 	get tierString() {
 		if (this.system.type != 'status')
-			return "";
+			{return "";}
 		const displaySetting = CitySettings.get("statusDisplay");
 		const system = CitySettings.get("statusAdditionSystem");
 		switch (displaySetting) {
@@ -899,15 +917,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				break;
 			case "tier+pips":
 				if (system == "mist-engine")
-					break;
+					{break;}
 				return new Handlebars.SafeString(`${this.system.tier}.${this.system.pips}`);
-			case "tier+circles":
+			case "tier+circles": {
 				if (system != "mist-engine")
-					break;
+					{break;}
 				let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
-				let arr = [];
+				const arr = [];
 				while (pips > 0) {
-					arr.push( pips & 1? 1: 0)
+					arr.push( pips & 1? 1: 0);
 					pips = pips >> 1;
 				}
 				const dots = arr.map(
@@ -916,18 +934,19 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 					:'<span class="empty-circle-status tracker-circle"></span>'
 				).join("");
 				return new Handlebars.SafeString(`<span class="dotStatus">${this.system.tier} ${dots} </span>`);
+			}
 		}
 		return new Handlebars.SafeString(String(this.system.tier));
 	}
 
 	get pipString() {
 		if (this.system.type != 'status')
-			return "";
+			{return "";}
 		if (CitySettings.isOtherscapeStatuses()) {
 			let pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
-			let arr = [];
+			const arr = [];
 			while (pips > 0) {
-				arr.push( pips & 1? 1: 0)
+				arr.push( pips & 1? 1: 0);
 				pips = pips >> 1;
 			}
 			return arr.map(
@@ -956,9 +975,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	works only for City of Mist style status and not Otherscape which has the potential for disjoint checked boxes
 	*/
 	get boxesChecked(): number {
-		if (this.system.type != "status") return 0;
-		let {tier, pips} = this.system;
-		if (tier <= 0) return 0;
+		if (this.system.type != "status") {return 0;}
+		let {tier} = this.system;
+		const {pips} = this.system;
+		if (tier <= 0) {return 0;}
 		let total = 1;
 		while (--tier >= 1) {
 			total += tier;
@@ -982,7 +1002,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		while (boxes >= tier) {
 			boxes -= Math.max(1, tier++);
 		}
-		let pips = boxes;
+		const pips = boxes;
 		await this.update( {
 			"system.pips": pips,
 			"system.tier": tier
@@ -993,7 +1013,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const pips = this.system.pips + (this.system.tier > 0 ? 1 << (this.system.tier-1) : 0);
  		while (pips & (1 << tier - 1)) {
 			tier++;
-			if (tier > 10) throw new Error("Overflow");
+			if (tier > 10) {throw new Error("Overflow");}
 		}
 		const newpips = pips + (1 << tier - 1);
 		return await this.refreshStatus_otherscape(newpips, newname);
@@ -1013,12 +1033,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async decUnspentUpgrades(this: Theme) {
 		const newval = this.system.unspent_upgrades-1;
 		if (newval < 0)
-			console.warn (`Possible Error: Theme ${this.name} lowered to ${newval} upgrade points`);
+			{console.warn (`Possible Error: Theme ${this.name} lowered to ${newval} upgrade points`);}
 		return await this.update( {"system.unspent_upgrades" : newval});
 	}
 
 	async setField (field: string, val: unknown) {
-		let system : Record<string, unknown> = {};
+		const system : Record<string, unknown> = {};
 		system[field] = val;
 		return await this.update({system});
 	}
@@ -1027,15 +1047,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const numRes = CityItem.convertTextResultToNumeric(result);
 		const sys = movedata.system;
 		let html = "";
-		html += localizeS(sys.always);
+		html += localizeS(sys.always).toString();
 		if (numRes == 2)
-			html += localizeS(sys.onSuccess);
+			{html += localizeS(sys.onSuccess).toString();}
 		if (numRes == 3)
-			html += localizeS(sys.onDynamite);
+			{html += localizeS(sys.onDynamite).toString();}
 		if (numRes == 1)
-			html += localizeS(sys.onPartial);
+			{html += localizeS(sys.onPartial).toString();}
 		if (numRes == 0)
-			html += localizeS(sys.onMiss);
+			{html += localizeS(sys.onMiss).toString();}
 		return CityItem.substitutePower(html, power);
 	}
 
@@ -1055,7 +1075,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const lists =  movedata.system.listConditionals;
 		const filterList = lists.filter( x=> CityItem.meetsCondition(x.condition, result));
 		return filterList.map (x=> {
-			const localizedText = `${localizeS(x.text)}`;
+			const localizedText = `${localizeS(x.text).toString()}`;
 			const origText = x.text;
 			const text = CityItem.substitutePower(localizedText, power);
 			const cost = x.cost; //change for some moves
@@ -1073,20 +1093,20 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "Failure": resstr = "MIS"; break;
 			default:
 				result satisfies never;
-				throw new Error(`Unknown Result ${result}`);
+				throw new Error(`Unknown Result ${result as string}`);
 		}
 		//TODO: replace wtih regex
-		let str = "CHOICE"+resstr;
+		const str = "CHOICE"+resstr;
 		if (effectClass.includes(str + "1") )
-			return 1;
+			{return 1;}
 		if (effectClass.includes(str + "2") )
-			return 2;
+			{return 2;}
 		if (effectClass.includes(str + "3") )
-			return 3;
+			{return 3;}
 		if (effectClass.includes(str + "4") )
-			return 4;
+			{return 4;}
 		if (effectClass.includes(str + "PWR") )
-			return power;
+			{return power;}
 		return Infinity;
 	}
 
@@ -1096,7 +1116,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "Success": return 2;
 			case "Partial": return 1;
 			case "Failure": return 0;
-			default: throw new Error(`Unknown Result ${result}`);
+			default: throw new Error(`Unknown Result ${result as string}`);
 		}
 	}
 
@@ -1112,7 +1132,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "Miss": return numRes == 0;
 			default:
 				cond satisfies never;
-				throw new Error(`Unkonwn Condition ${cond}`);
+				throw new Error(`Unkonwn Condition ${cond as string}`);
 		}
 	}
 
@@ -1130,13 +1150,13 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			return await this.update( {"system.version" : version});
 		}
 		if (this.versionIsLessThan(version))
-			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
+			{console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);}
 
 	}
 
 
 	isHelpHurt(this: Juice) {
-		if (this.system.type != "juice") return false;
+		if (this.system.type != "juice") {return false;}
 		const subtype = this.system?.subtype;
 		return subtype == "help" || subtype == "hurt";
 	}
@@ -1154,8 +1174,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	getTarget(this: Juice): CityActor | null {
 		const targetId = this.system?.targetCharacterId;
 		if (targetId)
-			return game.actors.get(targetId) as CityActor;
-		else return null;
+			{return game.actors.get(targetId) as CityActor;}
+		else {return null;}
 	}
 
 	/** Returns true if actorId matches the target of the juice object
@@ -1167,8 +1187,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	getTargetName(this: Juice) {
 		const target = this.getTarget();
 		if (target)
-			return target.name;
-		else return "";
+			{return target.name;}
+		else {return "";}
 	}
 
 	isHurt() : boolean{ return this.isJuice() && this.getSubtype() == "hurt"; }
@@ -1183,15 +1203,15 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	isTemporary(this: Status | Tag) {
 		if (this.system.temporary)
-			return true;
+			{return true;}
 		if (this.system.type == "tag")
-			return (this as Tag).system.crispy;
+			{return (this as Tag).system.crispy;}
 		return false;
 	}
 
 	isPermanent(this: Status | Tag) : boolean {
 		if (this.system.permanent)
-			return true;
+			{return true;}
 		if (this.system.type == "tag") {
 			return (this as Tag).isPowerTag() || this.isWeaknessTag();
 		}
@@ -1206,23 +1226,27 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		switch (this.system.type) {
 			case "journal":
 				return `${this.system.question}`;
-			case "juice":
+			case "juice": {
 				const juice= this as Juice;
 				if (!juice.isHelpHurt())
-					return juice.name;
+				{return juice.name;}
 				if (juice.isHelp()) {
 					return `Help ${juice.getTargetName()} (${juice.parent!.name})`;
 				}
 				if (juice.isHurt())
-					return `Hurt ${juice.getTargetName()} (${juice.parent!.name})`;
+				{return `Hurt ${juice.getTargetName()} (${juice.parent!.name})`;}
 				throw new Error("Something odd happened?");
-			case "improvement":
+			}
+			case "improvement": {
 				let x = localizeS(this.name);
-				if (this.system?.locale_name)
+				if (this.system?.locale_name) {
 					x = localizeS(this.system.locale_name);
-				if (this.system.choice_item)
-					return `${x} (${this.system.choice_item})`;
-				else return x as string; //tehcincally a SafeString conversion but it should stil lwork fine
+				}
+				if (this.system.choice_item) {
+					return `${x.toString()} (${this.system.choice_item})`;
+				}
+				else {return x as string;} //tehcincally a SafeString conversion but it should stil lwork fine
+			}
 			case "theme":
 				if (CitySettings.get("themeStyle") == "mist-engine") {
 					return this.headerTag[0]?.getDisplayedName() ?? this.name;
@@ -1230,9 +1254,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				break;
 			default:
 				if ("locale_name" in this.system && this.system.locale_name)
-					return localizeS(this.system.locale_name).toString();
+				{return localizeS(this.system.locale_name).toString();}
 				else
-					return this.name.toString();
+				{return this.name.toString();}
 		}
 		return this.name;
 	}
@@ -1248,7 +1272,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async spend(this: Clue | Juice, amount = 1 ) {
 		const curr = this.getAmount();
 		if (amount > curr)
-			console.error("${this.name}: Trying to spend more ${this.type} (${amount}) than you have ${curr}");
+			{console.error("${this.name}: Trying to spend more ${this.type} (${amount}) than you have ${curr}");}
 		const obj = await this.update( {"system.amount": curr - amount});
 		if (curr - amount <= 0) {
 			return await this.delete();
@@ -1277,9 +1301,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	get theme(): Theme | null {
 		if (this.isTag() || this.isImprovement()) {
-			if (!this.parent) return null;
-			const theme = (this.parent as CityActor).getTheme(this.system.theme_id);
-			if (!theme) return null;
+			if (!this.parent) {return null;}
+			const theme = (this.parent).getTheme(this.system.theme_id);
+			if (!theme) {return null;}
 			return theme;
 		}
 		return null;
@@ -1291,12 +1315,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	get themebook(): Themebook | ThemeKit | null {
 		if (this.isTag() || this.isImprovement()) {
 			if (!this.theme)
-				return null;
+				{return null;}
 			return this.theme.getThemebookOrTK();
 		}
 		try {
 			if (this.isTheme() || this.isThemeKit())
-				return this.getThemebookOrTK();
+				{return this.getThemebookOrTK();}
 		} catch (e) {
 			console.error(e);
 			return null;
@@ -1316,7 +1340,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async reloadImprovementFromCompendium(this:Improvement) {
 		const themeId = this.system.theme_id;
 		const owner = this.parent as CityActor;
-		if (!owner) return;
+		if (!owner) {return;}
 		let max_uses: number = 0, description, effect_class;
 		if (themeId) {
 			const theme =  owner.getTheme(themeId);
@@ -1325,17 +1349,17 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				await this.delete();
 				return null;
 			}
-			const themebook =  theme.getThemebook();
-			if (!themebook ) throw new Error("Couldn't find Themebook");
+			const themebook =  theme.getThemebookOrTK();
+			if (!themebook ) {throw new Error("Couldn't find Themebook");}
 			if ( themebook.system.type =="themekit" ) {
 				throw new Error(`Expecting Themebook for improvement ${this.name} but found Themekit instead`);
 			}
 			const impobj = themebook.system.improvements;
 			for (const ind in impobj) {
 				const item = impobj[ind];
-				if (item == "_DELETED_") continue;
+				if (item == "_DELETED_") {continue;}
 				if (item.name == this.name) {
-					let imp = item;
+					const imp = item;
 					max_uses = imp.uses ?? 0;
 					description = imp.description;
 					effect_class = imp.effect_class;
@@ -1345,13 +1369,13 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		} else {
 			const BUList = await CityHelpers.getBuildUpImprovements();
 			const imp = BUList.find ( x => x.name == this.name);
-			if (!imp) throw new Error(`Can't find MoE ${this.name}`);
+			if (!imp) {throw new Error(`Can't find MoE ${this.name}`);}
 			description = imp.system.description;
 			max_uses = imp.system.uses.max;
 			effect_class = imp.system.effect_class;
 		}
 		if (!description)
-			throw new Error(`Can't find improvement ${this.name}`);
+			{throw new Error(`Can't find improvement ${this.name}`);}
 		const curruses = this.system.uses.current;
 		const updateObj : RecursivePartial<CityItem> = {
 			system: {
@@ -1369,8 +1393,9 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	async spendClue(this:Clue) {
-		if (this.getAmount() <= 0)
-			throw new Error("Can't spend clue with no amount")
+		if (this.getAmount() <= 0) {
+			throw new Error("Can't spend clue with no amount");
+		}
 		if (CitySettings.useClueBoxes()) {
 			await ClueChatCards.postClue( {
 				actorId: this.parent?.id ?? "",
@@ -1391,10 +1416,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	type: "power" || "weakness"
 	 */
 	themekit_getTags(this: ThemeKit, type : "power" | "weakness" | "bonus" = "power") {
-		if (type == "bonus") return [];
+		if (type == "bonus") {return [];}
 		const tags = this.system[`${type}_tagstk`];
 		if (!tags)
-			return [];
+			{return [];}
 		return tags
 			.filter( x=> x.tagname != "")
 			.map( (x, i)=> ({
@@ -1407,16 +1432,16 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	themekit_getImprovements(this: ThemeKit) {
 		const imps = this.system.improvements;
 		if (!imps)
-			return [];
+			{return [];}
 		const arr= Array.from(Object.values(imps));
 		let baseImps: typeof arr=  [];
 		if (this.system.use_tb_improvements) {
 			console.log("Using TB imnprovements");
-			if (!this.themebook) {
+			if (!this.getThemebookOrTK()) {
 				console.warn(`No themebook found for themekit ${this.name}`);
 				return [];
 			}
-			baseImps = (this.themebook as Themebook).themebook_getImprovements() as typeof arr;
+			baseImps = (this.getThemebookOrTK() as Themebook).themebook_getImprovements() as typeof arr;
 		}
 		const retImps = baseImps
 			.concat(arr)
@@ -1433,7 +1458,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	*/
 	themebook_getTagQuestions (this: Themebook, type : "power" | "weakness"= "power") {
 		const questionObj = this.system[`${type}_questions`];
-		if (!questionObj) return [];
+		if (!questionObj) {return [];}
 		return Object.entries(questionObj)
 			.map( ([letter, data]) => {
 				let question = "ERROR";
@@ -1456,7 +1481,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 		return Object.entries(improvementsObj)
 			.flatMap( ([number, data], index) => {
-				if (data == "_DELETED_") return [];
+				if (data == "_DELETED_") {return [];}
 				const name = data.name ? data.name : SystemModule.active.localizedThemeBookData(this, "improvement-name", index);
 				const description = data.description ? data.description : SystemModule.active.localizedThemeBookData(this, "improvement-description", index);
 				return [
@@ -1467,16 +1492,16 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 						uses: data.uses,
 						effect_class: data.effect_class,
 					}
-				]
+				];
 			});
 	}
 
 	async GMMovePopUp(actor = this.parent) {
 		if (this.system.type != "gmmove" )
-			throw new Error("Type is not GM move");
+			{throw new Error("Type is not GM move");}
 		const {html, options} = await (this as GMMove).prepareToRenderGMMove(actor);
 		if (await CityDialogs.GMMoveTextBox(this.displayedName, html, options) && actor) {
-			actor.executeGMMove(this as GMMove, actor);
+			await actor.executeGMMove(this as GMMove, actor);
 		}
 	}
 
@@ -1484,7 +1509,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	 **/
 	async prepareToRenderGMMove(this: GMMove, actor = this.parent) {
 		//TODO: X substitution
-		if (! actor) throw new Error(`No parent for GMMove ${this.name}`);
+		if (! actor) {throw new Error(`No parent for GMMove ${this.name}`);}
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
 		const {taglist, statuslist} = this.formatGMMoveText(actor as Danger);
 		const options = { token: null ,
@@ -1499,7 +1524,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	formatGMMoveText(this: GMMove, actor: Danger, options = {showPrivate: false}) {
 		const text = CityHelpers.newlineSubstitution(this.system.description);
 		if (!actor)
-			throw new Error(`No actor provided on move ${this.name}`);
+			{throw new Error(`No actor provided on move ${this.name}`);}
 		let collectiveSize = actor?.system?.collectiveSize ?? 0;
 		collectiveSize = Number(collectiveSize);
 		if (Number.isNaN(collectiveSize)) {
@@ -1520,10 +1545,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				"pr0": actor.pronouns[0] ?? "",
 				"pr1": actor.pronouns[1] ?? "",
 				"pr2": actor.pronouns[2] ?? "",
-			}
+			};
 			html = CityHelpers.nameSubstitution(html, nameSubstitutions);
 		}
-		let statuslist = neostatuslist.concat(extrastatuslist)
+		const statuslist = neostatuslist.concat(extrastatuslist)
 		.map( x=> {
 			const numTier :number = Number.isNaN(Number(x.tier))  ? -999 : Number(x.tier);
 			return {
@@ -1542,7 +1567,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get moveHeader() {
-		if (this.system.type != "gmmove") return "";
+		if (this.system.type != "gmmove") {return "";}
 		switch (this.system.header) {
 			case "text": return "text";
 			case "symbols": return "symbols";
@@ -1586,10 +1611,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				icon = `<i class="fa-solid fa-door-open"></i>`;
 				break;
 			}
-			default: console.error(`Unknown subtype: ${this.system.subtype}`);
+			default: console.error(`Unknown subtype: ${this.system.subtype as string}`);
 
 		}
-		const symbol = `<span title="${local}"> ${icon}</span>`
+		const symbol = `<span title="${local}"> ${icon}</span>`;
 		return symbol + " " + text;
 	}
 
@@ -1613,7 +1638,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "entrance":
 				local = localize("CityOfMist.settings.gmmoveheaders.entrance");
 				return local + " " + text;
-			default: console.error(`Unknown subtype: ${this.system.subtype}`);
+			default: console.error(`Unknown subtype: ${this.system.subtype as string}`);
 		}
 		return text;
 	}
@@ -1624,7 +1649,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	isSystemCompatible(this: Themebook | Improvement | Move, system: System | "none" = SystemModule.active.name) : boolean {
-		if (this.system.system_compatiblity == "any") return true;
+		if (this.system.system_compatiblity == "any") {return true;}
 		return this.system.system_compatiblity.includes(system);
 	}
 
@@ -1640,11 +1665,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	get motivationName() : string {
-		if (this.system.type != "theme") {
+		if (!this.isTheme()) {
 			console.error(`Can't get motivation from ${this.system.type}`);
 			return "ERROR";
 		}
-		let tb = this.themebook;
+		const tb = this.getThemebookOrTK();
 		if (!tb)  {
 			console.error(`Couldn't get theme book for theme ${this.id}`);
 			return "ERROR";
@@ -1661,8 +1686,8 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 
 	themeSortValue(this: Theme) : number {
 		try {
-			const themetype =this.themebook!.system.subtype;
-			if (!themetype) return 100;
+			const themetype =this.getThemebookOrTK()!.system.subtype;
+			if (!themetype) {return 100;}
 			const theme = SystemModule.allThemeTypes()[themetype];
 			return theme.sortOrder ?? 100;
 		} catch (e) {
@@ -1680,7 +1705,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			case "milestone":
 				return SystemModule.themeThirdTrackName(this);
 			default:
-				ui.notifications.error(`Unknown Term: ${term}`);
+				ui.notifications.error(`Unknown Term: ${term as string}`);
 				return "ERROR";
 		}
 	}
@@ -1718,12 +1743,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	}
 
 	hasCustomThemebook(this: Theme): boolean {
-		const tbOrTk = this.themebook;
-		if (!tbOrTk) return false;
+		const tbOrTk = this.getThemebookOrTK();
+		if (!tbOrTk) {return false;}
 		switch (tbOrTk.system.type) {
 			case "themekit": {
-				const tb = (tbOrTk as ThemeKit).themebook;
-				if (!tb) return false;
+				const tb = (tbOrTk as ThemeKit).getThemebookOrTK();
+				if (!tb) {return false;}
 				return tb.isLocal;
 			}
 			case "themebook": {

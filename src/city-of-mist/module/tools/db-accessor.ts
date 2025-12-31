@@ -10,7 +10,7 @@ export class DBAccessor {
 	 static comp_actors : Actor<any>[] = [];
 	static comp_items : Item<any>[] = [];
 
-	static async init() {
+	static init() {
 		Hooks.once("ready", async () => {
 			//@ts-ignore
 			if (typeof Babele !== "undefined") {
@@ -154,7 +154,7 @@ export class DBAccessor {
 		}
 	}
 
-	static namesort<T extends {name: string}>(a:T,b:T) {
+	static namesort<T extends {name: string}>(this: void, a:T,b:T) {
 		return a.name.localeCompare(b.name);
 	}
 

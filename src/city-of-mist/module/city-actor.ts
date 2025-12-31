@@ -2,7 +2,7 @@ import { SystemModule } from "./config/system-module.js";
 import { Essence } from "./city-item.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
-import { CitySettings } from "./settings.js"
+import { CitySettings } from "./settings.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import { Themebook } from "./city-item.js";
@@ -43,7 +43,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	possibleExtraThemeSources() : CityActor[] {
-		const nonGMOwners = game.users.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"))
+		const nonGMOwners = game.users.filter( x=> !x.isGM && this.testUserPermission(x, "OWNER"));
 		return (game.actors.contents as CityActor[]).filter( actor => nonGMOwners.some( user => actor.testUserPermission(user, "OWNER") && actor.system.type != "crew"));
 	}
 
@@ -61,12 +61,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get activeCrew(): Theme | undefined {
-		if (this.system.type != "character") return undefined;
+		if (this.system.type != "character") {return undefined;}
 		const crewThemes = this.crewThemes;
 		const activeId = this.system.activeCrewId;
 		const theme = crewThemes.find( x=> x.id == activeId);
-		if (theme) return theme;
-		if (crewThemes.length == 0) return undefined;
+		if (theme) {return theme;}
+		if (crewThemes.length == 0) {return undefined;}
 		return crewThemes[0];
 	}
 
@@ -86,7 +86,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.items.filter( x=> x.isTheme()) as Theme[];
 			default:
 				themeType satisfies never;
-				console.error(`Unknown themetype ${themeType}`);
+				console.error(`Unknown themetype ${themeType as string}`);
 				return [];
 		}
 	}
@@ -122,10 +122,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async updateCollectiveStatus(this: Danger): Promise<void> {
-		let collective = this.collectiveStatus;
-		let useCollective = CitySettings.get("collectiveMechanics");
+		const collective = this.collectiveStatus;
+		const useCollective = CitySettings.get("collectiveMechanics");
 		if (this.collective_size == 0 || useCollective == "city-of-mist") {
-			collective.forEach( status=> status.delete());
+			const promises = collective.map( status=> status.delete());
+			await Promise.allSettled(promises);
 			return;
 		} else {
 			if (collective.length == 0) {
@@ -156,13 +157,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get my_spectrums() {
-		return this.items.filter( x=> x.type == "spectrum");
+		return this.items.filter( x=> x.isSpectrum());
 	}
 
 	get collective_size() {
 		if (this.system.type == "threat") {
 			const size = Number(this.system.collectiveSize ?? 0);
-			if (Number.isNaN(size)) return 0;
+			if (Number.isNaN(size)) {return 0;}
 			return size;
 		}
 		return 0;
@@ -174,7 +175,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 
 	is_character(): this is PC {
-		return this.type == "character";
+		return this.system.type == "character";
+	}
+
+	isPC() : this is PC {
+		return this.system.type == "character";
 	}
 
 	is_scene_container() {
@@ -182,11 +187,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	is_danger_or_extra() {
-		return this.type ==  "threat";
+		return this.system.type ==  "threat";
 	}
 
 	is_crew_theme() {
-		return this.type ==  "crew";
+		return this.system.type ==  "crew";
 	}
 
 	get helpPoints(): Juice[]  {
@@ -228,10 +233,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	override get visible() {
-		if (this.type == "threat" && this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
-			return false;
+		if (this.system.type == "threat" && this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
+			{return false;}
 		else
-			return super.visible;
+			{return super.visible;}
 	}
 
 	/** Gets amount of juice for a given provided actor id.
@@ -244,7 +249,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			case "help": arr = this.helpPoints; break;
 			case "hurt" : arr = this.hurtPoints; break;
 			default:
-				throw new Error(`Bad request: ${whichOne}, must use either "help" or "hurt"`);
+				throw new Error(`Bad request: ${whichOne as string}, must use either "help" or "hurt"`);
 		}
 		return arr
 			.filter( juice => juice.targets(targetCharacterId))
@@ -252,25 +257,25 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getGMMoves(depth = 0) : GMMove[] {
-		if (depth > 2) return [];
-		if (this.type != "threat")
-			return [];
+		if (depth > 2) {return [];}
+		if (this.isDanger())
+			{return [];}
 		const GMMoves : GMMove[] = this.items.filter( x => x.system.type == "gmmove") as GMMove[];
 		const attached = this.getAttachedTemplates().map( x=> x?.getGMMoves(depth+1)  ?? []).flat();
 		return GMMoves.concat(attached);
 	}
 
 	getSpectrums(depth = 0) : Spectrum[] {
-		if (depth > 2) return [];
-		if (this.type != "threat")
-			return [];
+		if (depth > 2) {return [];}
+		if (this.isDanger())
+			{return [];}
 		const mySpectrums : Spectrum[] = this.items.filter( x=> x.system.type == "spectrum") as Spectrum[];
 		const templateSpectrums = this.getAttachedTemplates()
 			.map( x=> x?.getSpectrums(depth+1) ?? [])
 			.flat();
 		for (const spec of templateSpectrums) {
 			if (!mySpectrums.find( x=> x.name == spec.name))
-				mySpectrums.push(spec);
+				{mySpectrums.push(spec);}
 		}
 		return mySpectrums;
 
@@ -292,7 +297,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getAttachedTemplates() : Danger[] {
-		if (this.system.type != "threat") return [];
+		if (this.system.type != "threat") {return [];}
 		return (this.system.template_ids ?? [])
 			.map( id =>  CityHelpers.getDangerTemplate(id)
 				?? CityDB.getActorById(id) as Danger)
@@ -314,7 +319,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return await this.update( {"system.version" : version});
 		}
 		if (version < this.system.version)
-			console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);
+			{console.warn (`Failed attempt to downgrade version of ${this.name} to ${version}`);}
 
 	}
 
@@ -322,14 +327,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	@return {CityItem}
 	 */
 	getTheme(id: string): Theme | undefined {
-		return this.items.find(x => x.type == "theme" && x.id == id) as Theme;
+		return this.items.find(x => x.isTheme() && x.id == id) as Theme;
 	}
 
 	/** returns the tag for a given id
 	@return {CityItem}
 	 */
 	getTag(id: string): Tag  | undefined {
-		return this.items.find(x => x.type == "tag" && x.id == id) as Tag | undefined;
+		return this.items.find(x => x.isTag() && x.id == id) as Tag | undefined;
 	}
 
 	/** returns the item for a given id
@@ -350,45 +355,45 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getSelectable(id: string) :Tag | Status | undefined{
-		return this.items.find(x => (x.type == "tag" || x.type == "status") && x.id == id) as Tag | Status | undefined;
+		return this.items.find(x => (x.isTag() || x.isStatus()) && x.id == id) as Tag | Status | undefined;
 	}
 
 	getStatus(id: string): Status | undefined {
-		return this.items.find(x => x.type == "status" && x.id == id) as Status;
+		return this.items.find(x => x.isStatus() && x.id == id) as Status;
 	}
 
 	getStatuses() : Status[] {
 		return this.items
-			.filter(x => x.type == "status")
+			.filter(item => item.isStatus())
 			.sort(CityDB.namesort) as Status[];
 	}
 
 	getClue(id: string): Clue | undefined {
-		return this.items.find(x => x.type == "clue" && x.id == id) as Clue | undefined;
+		return this.items.find(x => x.isClue() && x.id == id) as Clue | undefined;
 	}
 
 	getJournalClue(id: string) : ClueJournal | undefined{
-		return this.items.find(x => x.type == "journal" && x.id == id) as ClueJournal | undefined;
+		return this.items.find(x => x.isJournal() && x.id == id) as ClueJournal | undefined;
 	}
 
 	getJuice(id: string) : Juice | undefined {
-		return this.items.find(x => x.type == "juice" && x.id == id) as Juice | undefined;
+		return this.items.find(x => x.isJuice() && x.id == id) as Juice | undefined;
 	}
 
 	getGMMove(id: string): GMMove | undefined {
-		return this.getGMMoves().find(x => x.type == "gmmove" && x.id == id) as GMMove | undefined;
+		return this.getGMMoves().find(x => x.isGMMove() && x.id == id);
 	}
 
 	getImprovement(id: string) : Improvement | undefined {
-		return this.items.find(x => x.type == "improvement" && x.id == id) as Improvement | undefined;
+		return this.items.find(x => x.isImprovement() && x.id == id) as Improvement | undefined;
 	}
 
-	async getSpectrum(id: string) {
-		return this.items.find(x => x.type == "spectrum" && x.id == id);
+	getSpectrum(id: string) {
+		return this.items.find(x => x.isSpectrum() && x.id == id);
 	}
 
 	hasStatus(name: string): Status | undefined {
-		return this.items.find( x => x.type == "status" && x.name == name)as Status | undefined;
+		return this.items.find( x => x.isStatus() && x.name == name)as Status | undefined;
 	}
 
 	isNewCharacter() : boolean {
@@ -400,7 +405,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			return x.system.type == "tag" && (themeId == null || x.system.theme_id == themeId) && (subtype == null || x.system.subtype == subtype);
 		});
 		if (! tags.filter)
-			throw new Error("non array returned");
+			{throw new Error("non array returned");}
 		return tags as Tag[];
 	}
 
@@ -411,7 +416,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	 */
 	async deleteTag(tagId :string, options: {removeImprovement?: boolean;} = {}) {
 		const tag  =  this.getTag(tagId);
-		if (!tag) return;
+		if (!tag) {return;}
 		let afterMsg = "";
 		if (tag.theme != null && !tag.isBonusTag()) {
 			const theme = tag.theme;
@@ -442,13 +447,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async deleteStatusByName(name: string) {
 		const status = this.getStatuses().find (x=> x.name == name);
 		if (status)
-			await this.deleteStatus(status.id);
+			{await this.deleteStatus(status.id);}
 	}
 
 	async deleteGMMove(id: string) {
 		const move = this.getGMMove(id);
-		if (!move) throw new Error(`Can't delte bad id ${id}`);
-		move.submoves.forEach( x=> this.deleteGMMove(x.id));
+		if (!move) {throw new Error(`Can't delte bad id ${id}`);}
+		const promises = move.submoves.map( x=> this.deleteGMMove(x.id));
+		await Promise.allSettled(promises);
 		return await this.deleteEmbeddedById(id);
 
 	}
@@ -467,16 +473,16 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async spendJuice (id: string, amount =1) {
 		const juice = this.items.find( x=> x.system.type =="juice"  &&x.id == id) as Juice | undefined;
-		if (!juice) throw new Error(`Can't find juice ${id}`);
+		if (!juice) {throw new Error(`Can't find juice ${id}`);}
 		await juice.spend(amount);
 		if (juice.getAmount() <= 0)
-			await this.deleteJuice(id);
+			{await this.deleteJuice(id);}
 	}
 
 	async deleteImprovement(impId: string) {
 		const imp  = this.getImprovement(impId);
 		if (!imp)
-			throw new Error(`Improvement ${impId} not found`);
+			{throw new Error(`Improvement ${impId} not found`);}
 		if (imp.system.theme_id && imp.system.theme_id.length > 0) {
 			const theme =  this.getTheme(imp.system.theme_id);
 			if (!theme) {
@@ -499,7 +505,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async deleteTheme(themeId: string, awardBU = true) {
 		const theme = this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme ${themeId}`);}
 		if (awardBU && this.system.type == "character") {
 			const BUV = theme.getBuildUpValue();
 			await (this as PC).incBuildUp(BUV);
@@ -527,7 +533,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async deleteThemeKit(themeKitId: string) {
-		if (!themeKitId) return;
+		if (!themeKitId) {return;}
 		console.log("Deleting Theme Kit");
 		await this.deleteEmbeddedById(themeKitId);
 	}
@@ -540,7 +546,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	 */
 	getAllImprovements(): Improvement[] {
 		if (!this.is_character())
-			return this.getImprovements();
+			{return this.getImprovements();}
 		const base = this.getImprovements();
 		const crewImprovements = this.getCrewThemes()
 			.flatMap( x=> x.getImprovements());
@@ -552,21 +558,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get activeExtra(): Theme | undefined {
-		if (this.system.type != "character") return undefined;
+		if (this.system.type != "character") {return undefined;}
 		const id = this.system.activeExtraId ;
 		const list = this.allLinkedExtraThemes;
 		if (id) {
 			const theme = list.find( theme => theme.id == id);
-			if (theme) return theme;
+			if (theme) {return theme;}
 		}
-		if( list.length > 0) return list[0];
+		if( list.length > 0) {return list[0];}
 		return undefined;
 	}
 
 	getCrewThemes(): Theme[] {
 		return (game.actors.contents as CityActor[])
 			.filter( actor => actor.system.type=="crew" && actor.isOwner)
-			.flatMap( actor=> actor.getThemes())
+			.flatMap( actor=> actor.getThemes());
 	}
 
 	async createNewTheme(name: string, themebook: Themebook | ThemeKit, isExtra: boolean = false ) {
@@ -618,7 +624,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			.map (x => x.getActivatedEffect());
 	}
 
-	async createNewItem(obj: Record<string, any>) {
+	async createNewItem(obj: object) {
 		return (await this.createEmbeddedDocuments("Item", [obj]))[0];
 	}
 
@@ -633,7 +639,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async createClue(metaSource= "", clueData: Partial<Clue["system"]> = {}) {
 		const existing =  this.items.find( x=> x.system.type == "clue" && x.system.metaSource == metaSource) as Clue | undefined;
 		if (metaSource && existing) {
-			existing.update({"system.amount": existing.system.amount+1});
+			await existing.update({"system.amount": existing.system.amount+1});
 			return true;
 		}
 		const obj = await this.createNewClue({metaSource, ...clueData});
@@ -641,7 +647,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const updateObj = await CityHelpers.itemDialog(clue);
 		if (updateObj) {
 			const partialstr = clue.system.partial ? ", partial": "";
-			CityHelpers.modificationLog(this, "Created", clue, `${clue.system.amount}${partialstr}` );
+			await CityHelpers.modificationLog(this, "Created", clue, `${clue.system.amount}${partialstr}` );
 			return true;
 		} else  {
 			await this.deleteClue(obj.id);
@@ -679,14 +685,14 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			name: "Unnamed Journal",
 			type: "journal",
 			system: {question, answer}
-		}
+		};
 		if (!this.clueJournal.find( x=> x.system.question == question && x.system.answer == answer))
-			return await this.createNewItem(obj);
-		else return null;
+			{return await this.createNewItem(obj);}
+		else {return null;}
 	}
 
 	getThemeKit(id: string) {
-		return this.items.find( x=> x.id == id && x.type =="themekit");
+		return this.items.find( x=> x.id == id && x.isThemeKit());
 	}
 
 
@@ -727,7 +733,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		for (const theme of themes) {
 			const theme_type = theme.getThemeType();
 			if (target_type == theme_type)
-				count++;
+				{count++;}
 		}
 		return count;
 	}
@@ -768,13 +774,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (!theme) {
 			throw new Error(`Couldn't get Theme for id ${theme_id} on ${this.name}`);
 		}
-		const themebook = theme.themebook;
+		const themebook = theme.getThemebookOrTK();
 		if (options?.crispy == undefined)
-			if (this.type != "character" && temp_subtype != "weakness") {
+			{if (this.isPC() && temp_subtype != "weakness") {
 				options.crispy = true;
 			} else {
 				options.crispy = false;
-			}
+			}}
 		let tag: Tag, upgrades;
 		if (!themebook) {
 			throw new Error("Couldn't find Themebook!");
@@ -793,15 +799,15 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		let afterMsg = "";
 		if (upgrades > 0)
-			afterMsg = localize("CityOfMist.log.theme.addImp" );
+			{afterMsg = localize("CityOfMist.log.theme.addImp" );}
 		else if (upgrades < 0)
-			afterMsg = localize("CityOfMist.log.theme.remImp" );
+			{afterMsg = localize("CityOfMist.log.theme.remImp" );}
 		await CityLogger.modificationLog(this, "Created",  tag, afterMsg);
 
 	}
 
 	async _addTagFromThemeBook(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string | null, options : {awardImprovement?: boolean, crispy?: boolean}) : Promise<[Tag,number]> {
-		const themebook = theme.themebook!;
+		const themebook = theme.getThemebookOrTK()!;
 		if (themebook.system.type == "themekit") {throw new Error("Themekit detected?");
 		}
 		let custom_tag = false;
@@ -840,7 +846,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				question = "???";
 				break;
 			default:
-				throw new Error(`Unrecognized Tag Type ${temp_subtype}`);
+				throw new Error(`Unrecognized Tag Type ${temp_subtype as string}`);
 		}
 		const obj = {
 			name: "Unnamed Tag",
@@ -859,11 +865,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async _addTagFromThemekit(theme: Theme, temp_subtype:"power" | "weakness" | "bonus", question_letter: string | null, options: {awardImprovement ?: boolean, crispy?:boolean},): Promise<[Tag, number]> {
-		const themebook = theme.themebook!;
-		if (themebook.system.type != "themekit") {
+		const themebook = theme.getThemebookOrTK()!;
+		if (!themebook.isThemeKit()) {
 			throw new Error("Not a themekit!");
 		}
-		const tagdata = (themebook as ThemeKit)
+		const tagdata = themebook
 		.themekit_getTags(temp_subtype)
 		.find( x=> x.letter == question_letter);
 		if (!tagdata && temp_subtype != "bonus") {
@@ -899,7 +905,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				question = "???";
 				break;
 			default:
-				throw new Error(`Unknown tag subtype ${temp_subtype}`);
+				throw new Error(`Unknown tag subtype ${temp_subtype as string}`);
 		}
 		const obj = {
 			name: tagname ?? "Unnamed Tag",
@@ -921,16 +927,16 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async addImprovement(theme_id: string, number: number) {
 		//TODO: accomodate new effect class in improvement this may not be right spot
 		const theme =  this.getTheme(theme_id);
-		if (!theme) throw new Error(`Can't find theme ${theme_id}`);
-		const themebook =  theme.themebook;
-		if (!themebook) throw new Error(`Can't find theme book for ${theme.name}`);
+		if (!theme) {throw new Error(`Can't find theme ${theme_id}`);}
+		const themebook =  theme.getThemebookOrTK();
+		if (!themebook) {throw new Error(`Can't find theme book for ${theme.name}`);}
 		// const data = themebook.system;
 		const imp = themebook.isThemeBook()
 			? themebook.themebook_getImprovements()[number]
 			: themebook.themekit_getImprovements()[number];
 		console.log(imp);
 		if (!imp)
-			throw new Error(`improvement number ${number} not found in theme ${theme_id}`);
+			{throw new Error(`improvement number ${number} not found in theme ${theme_id}`);}
 		const obj = {
 			name: imp.name,
 			type: "improvement",
@@ -992,7 +998,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		name = name.trim();
 		if (preventDuplicates) {
 			if (this.getStoryTags().some( x=> x.name == name))
-				return null;
+				{return null;}
 		}
 		const temporary = options?.temporary ?? !(game.user.isGM);
 		const obj : DeepPartial<CityItem> = {
@@ -1035,16 +1041,16 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async deleteStoryTagByName(tagname: string) {
 		const tag = this.getStoryTags().find( x=> x.name == tagname);
 		if (tag)
-			return await this.deleteTag(tag.id);
+			{return await this.deleteTag(tag.id);}
 	}
 
 	async burnTag(id: string, state = 1) {
 		const tag =  this.getTag(id);
 		if (!tag)
-			throw new Error(`Can't find tag ${id} to burn`);
+			{throw new Error(`Can't find tag ${id} to burn`);}
 		const interval = 0.4;
 		if (state > 0) {
-			CityHelpers.playBurn();
+			void CityHelpers.playBurn();
 			let level = 3;
 			while (level  > 0 ) {
 				await tag.burnTag( level-- );
@@ -1061,7 +1067,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async addAttention(themeId: string, amount=1) {
 		const theme =  this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		const extra_improvements = await theme.addAttention(amount);
 		if (this.isNewCharacter()) {
 			console.log("Character finalized");
@@ -1072,36 +1078,36 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async removeAttention(themeId: string, amount=1) {
 		const theme = this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		const extra_improvements = await theme.removeAttention(amount);
 		return extra_improvements;
 	}
 
 	async addFade(themeId: string, amount=1) {
 		const theme= this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		if (theme.crack == 2) {
 			if (! await HTMLTools.confirmBox(
 				localize("CityOfMist.dialog.actorSheet.addFade.title"),
 				localize("CityOfMist.dialog.actorSheet.addFade.body")
-			)) return false;
+			)) {return false;}
 		}
 		const theme_destroyed = await theme.addFade(amount);
 		if (theme_destroyed) {
 			await this.deleteTheme(themeId, true);
 		}
-		let txt =`Crack/Fade added to ${theme.displayedName}`
+		let txt =`Crack/Fade added to ${theme.displayedName}`;
 		if (theme_destroyed)
-			txt += " ---- Theme Destroyed!";
+			{txt += " ---- Theme Destroyed!";}
 		else
-			txt += ` (Current ${await theme.getCrack()})`;
+			{txt += ` (Current ${theme.getCrack()})`;}
 		await CityHelpers.modificationLog(this, txt);
 		return theme_destroyed;
 	}
 
 	async addMilestone(themeId: string, amount= 1) {
 		const theme= this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		await theme.addMilestone(amount);
 		const trackName = SystemModule.themeThirdTrackName(theme);
 		let txt =`${theme.parent!.name}: ${trackName} added to ${theme.getDisplayedName()}`;
@@ -1114,7 +1120,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async removeMilestone(themeId: string, amount=1) {
 		const theme = this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		const extra_improvements = await theme.removeMilestone(amount);
 		// let txt =`${SystemModule.themeThirdTrackName(theme)} added to ${theme.displayedName} (current: ${theme.milestone})`;
 		// await CityHelpers.modificationLog(this, txt);
@@ -1123,17 +1129,17 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async removeFade (themeId:string, amount=1) {
 		const theme= this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		await theme.removeFade(amount);
 		let txt =`${theme.parent!.name}: Crack/Fade removed from ${theme.getDisplayedName()}`;
-		txt += ` (Current ${await theme.getCrack()})`;
+		txt += ` (Current ${theme.getCrack()})`;
 		await CityHelpers.modificationLog(this, txt);
 		return false;
 	}
 
 	async resetFade (themeId: string) {
 		const theme= this.getTheme(themeId);
-		if (!theme) throw new Error(`Can't find theme id ${themeId}`);
+		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		await theme.resetFade();
 	}
 
@@ -1142,7 +1148,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	isExtra() {
-		return this.type == "threat";
+		return this.isDanger();
 	}
 
 	async toggleLockState() {
@@ -1163,10 +1169,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async grantAttentionForWeaknessTag(id: string) {
 		const tag =  this.getSelectable(id);
-		if (!tag) throw new Error(`Can't find selectable ${id}`);
-		if (tag.system.type != "tag") return;
+		if (!tag) {throw new Error(`Can't find selectable ${id}`);}
+		if (tag.system.type != "tag") {return;}
 		const theme =  this.getTheme(tag.system.theme_id);
-		if (!theme) throw new Error(`Can't get theme for ${tag.name}`);
+		if (!theme) {throw new Error(`Can't get theme for ${tag.name}`);}
 		await theme.addAttention();
 	}
 
@@ -1179,13 +1185,13 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get pronouns() : string[] {
-		if (this.system.type == "crew") return [];
+		if (this.system.type == "crew") {return [];}
 		const prString = this.system.pronouns;
-		if (!prString) return [];
+		if (!prString) {return [];}
 		const prArray = prString
 			.split("/")
 			.map ( str => {
-				if (!str) return "";
+				if (!str) {return "";}
 				return str.trim().toLowerCase();
 			});
 		return CityActor._derivePronouns(prArray);
@@ -1195,7 +1201,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	 */
 	static _derivePronouns(prArray: string[]): string[] {
 		if (!prArray[0])
-			return [];
+			{return [];}
 		const subtable = {
 			"he": ["him", "his"],
 			"she": ["her" , "hers"],
@@ -1204,10 +1210,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		} as Record<string, string[]>;
 		const first = prArray[0];
 		const subtableEntry : string[] = subtable[first];
-		if (!subtableEntry) return prArray;
+		if (!subtableEntry) {return prArray;}
 		for (let i = 1; i <= subtableEntry.length; i++)
-			if (!prArray[i])
-				prArray[i] = subtableEntry[i-1];
+			{if (!prArray[i]) {
+				prArray[i] = subtableEntry[i-1];}
+			}
 		return prArray;
 	}
 
@@ -1230,17 +1237,17 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	getDisplayedName() {
 		if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
-			return "Scene";
+			{return "Scene";}
 		if (this.isToken && this.token)
-			return this.token.name;
+			{return this.token.name;}
 		const controlled = () => {
 			const tokens = this.getActiveTokens();
 			const controlled = tokens.find(tok => tok.controlled);
 			if (controlled)
-				return controlled.name;
+				{return controlled.name;}
 			const owned = canvas?.tokens?.ownedTokens?.find(tok => tok.actor == this);
 			if (owned)
-				return owned.name;
+				{return owned.name;}
 			return null;
 		};
 		return this?.token?.name
@@ -1252,28 +1259,28 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getDependencies(): CityActor[] {
-		switch (this.type) {
+		switch (this.system.type) {
 			case "crew":
 				if (this.isOwner) {
 					return (game.actors.contents as CityActor[])
 						.filter ( (act: CityActor) => {
-						return act.type == "character"
+						return act.isPC()
 							&& act.isOwner
 							&& act.crewTheme?.parent == this;
-					}) as CityActor[];
+					});
 				}
 				break;
 			case "threat":
 				if (this.name == SceneTags.SCENE_CONTAINER_ACTOR_NAME)
-					return [];
+					{return [];}
 				if (this.isOwner && this.getThemes().length > 0) {
 					return (game.actors.contents as CityActor[])
 					.filter ( (act:CityActor) => {
-						return act.type == "character"
+						return act.isPC()
 							&& act.isOwner
 							&& act.activeExtra != null
 							&& this.mainThemes.includes(act.activeExtra);
-					}) as CityActor[];
+					});
 				}
 				break;
 			case "character":
@@ -1298,7 +1305,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async sessionEnd () {
-		let items = [];
+		const items = [];
 		const improvements : Improvement[] = [
 			this.crewThemes.flatMap( theme=> theme.improvements()),
 			this.allLinkedExtraThemes.flatMap(theme=> theme.improvements()),
@@ -1306,7 +1313,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		].flat();
 		for (const imp of improvements) {
 			if (await imp.refreshImprovementUses())
-				items.push(imp.name);
+				{items.push(imp.name);}
 		}
 		if (this.system.type == "character" && !(this as PC).hasFlashbackAvailable()) {
 			await this.refreshFlashback();
@@ -1317,7 +1324,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async moveCrewSelector(this: PC, amount: number) {
 		const crewTheme = this.activeCrew;
-		if (!crewTheme) return;
+		if (!crewTheme) {return;}
 		const list = this.crewThemes;
 		const ind = list.findIndex( x=> x.id == crewTheme.id);
 		const newIndex = (ind + amount) % list.length;
@@ -1332,7 +1339,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async moveExtraSelector(this:PC, amount: number) {
 		const activeExtra = this.activeExtra;
-		if (!activeExtra) return;
+		if (!activeExtra) {return;}
 		const list = this.allLinkedExtraThemes;
 		const ind = list.findIndex( x=> x.id == activeExtra.id);
 		const newIndex = (ind + amount) % list.length;
@@ -1351,9 +1358,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async executeEntranceMoves(token : TokenDocument<Danger>) {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		if (!CityHelpers.entranceMovesEnabled())
-			return;
+			{return;}
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
 		if (CityHelpers.autoExecEntranceMoves()
@@ -1375,15 +1382,15 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async undoGMMove(this: Danger, move: GMMove) {
 		const {taglist, statuslist} = move.formatGMMoveText(this);
 		for (const {name: tagname} of taglist)
-			await this.deleteStoryTagByName(tagname);
+			{await this.deleteStoryTagByName(tagname);}
 		for (const {name} of statuslist)
-			await this.deleteStatusByName(name);
+			{await this.deleteStatusByName(name);}
 	}
 
 	async addOrCreateStatus (name2: string, options: StatusCreationOptions) : Promise<Status> {
 		const pips = options.pips ?? 0;
 		const tier2 = options.tier;
-		let status = this.hasStatus(name2);
+		const status = this.hasStatus(name2);
 		if (status) {
 			return await status.addStatus(tier2, options);
 		} else {
@@ -1392,15 +1399,15 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async undoEntranceMoves (this: Danger, token: TokenDocument<Danger>) {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		if (!CityHelpers.entranceMovesEnabled())
-			return;
+			{return;}
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
 		if (CityHelpers.autoExecEntranceMoves()
 			|| await HTMLTools.confirmBox(`Undo Enter Scene Moves for ${token.name}`, `Undo Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
-				this.undoGMMove(move);
+				await this.undoGMMove(move);
 			}
 		}
 	}
@@ -1417,7 +1424,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	hasTemplate(this: Danger, id: string) {
 		if (!this?.system?.template_ids)
-			return false;
+			{return false;}
 		return this.system.template_ids.includes(id);
 	}
 
@@ -1429,7 +1436,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const rolltype = move.system.subtype;
 		switch (rolltype) {
 			case "themeclassroll":
-				if (this.getNumberOfThemes(move.system.theme_class) == 0) return false;
+				if (this.getNumberOfThemes(move.system.theme_class) == 0) {return false;}
 				break;
 			case "noroll":
 			case "standard":
@@ -1438,21 +1445,23 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 				break;
 			default:
 				rolltype satisfies never;
-				throw new Error(`Unknown Move Type ${rolltype}`);
+				throw new Error(`Unknown Move Type ${rolltype as string}`);
 		}
 		if (move.system.abbreviation == "FLASH" && !this.hasFlashbackAvailable())
-			return false;
+			{return false;}
 		if (move.hasEffectClass("MIST") && this.getNumberOfThemes("Mist") <=0)
-			return false;
+			{return false;}
 		if (move.hasEffectClass("MYTHOS") && this.getNumberOfThemes("Mythos") <=0)
-			return false;
+			{return false;}
 		return true;
 	}
 
 	purgeInvalidItems() {
-		//@ts-ignore
-		const invalid:  string[] = Array.from(this.items.invalidDocumentIds)
-		//@ts-ignore
+		//@ts-expect-error invalid doc stuff which isn't a part of foundry types
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		const invalid:  string[] = Array.from(this.items.invalidDocumentIds);
+		//@ts-expect-error invalid doc stuff which isn't a part of foundry types
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 		invalid.forEach( id=> this.items.getInvalid(id).delete());
 	}
 
@@ -1465,8 +1474,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			themebook_id: themebook.id,
 			themebook_name: themebook.name,
 			unspent_upgrades: 0,
-			nascent: false
-		}
+			nascent: false,
+		};
 		const obj = {
 			name: "__LOADOUT__",
 			type: "theme",
@@ -1478,7 +1487,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async createLoadoutTag(this: PC) {
 		const theme = this.loadout;
-		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		if (!theme) {throw new Error(`Can't find Loadout Theme`);}
 		const obj = {
 			name: "Unnamed Loadout Tag",
 			type: "tag",
@@ -1496,10 +1505,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async createLoadoutWeakness(this: PC, masterTagId: string) {
 		const theme = this.loadout;
-		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		if (!theme) {throw new Error(`Can't find Loadout Theme`);}
 		const masterTag = this.loadout.tags().find(x=> x.id == masterTagId);
 		if (!masterTag)
-			throw new Error(`Can't find Master Tag: ${masterTagId}`);
+			{throw new Error(`Can't find Master Tag: ${masterTagId}`);}
 		const obj = {
 			name: "Unnamed Weakness Tag",
 			type: "tag",
@@ -1517,9 +1526,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async toggleLoadoutTagActivation(this: PC, loadoutTagId: string) : Promise<boolean> {
 		const theme = this.loadout;
-		if (!theme) throw new Error(`Can't find Loadout Theme`);
+		if (!theme) {throw new Error(`Can't find Loadout Theme`);}
 		const tag = theme.tags().find( x=> x.id == loadoutTagId);
-		if (!tag) throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);
+		if (!tag) {throw new Error(`No such tag exists on loadout theme with Id ${loadoutTagId}`);}
 		return await tag.toggleLoadoutActivation();
 	}
 
@@ -1534,7 +1543,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	async setEssenceBurn(this: PC, val : boolean, sound= true){
 		if (val && !this.system.essence.isBurned && sound) {
-			CityHelpers.playBurn();
+			void CityHelpers.playBurn();
 		}
 		await this.update( {"system.essence.isBurned": val});
 	}
@@ -1559,9 +1568,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	get essence() : Essence | undefined {
-		if (this.system.type != "character") return undefined;
+		if (this.system.type != "character") {return undefined;}
 		const ess = CityDB.getEssenceBySystemName(this.system.essence.systemName);
-		if (ess) return ess;
+		if (ess) {return ess;}
 		return CityDB.getEssence(this.system.essence.systemName);
 	}
 
