@@ -546,7 +546,7 @@ export class CityHelpers {
 	}
 
 	static async startDowntime() {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		await this.PCDowntime();
 		await this.promptDowntimeMovesList();
 	}
@@ -573,7 +573,7 @@ export class CityHelpers {
 	}
 
 	static async promptDowntimeMovesList() {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		const tokens = TokenTools.getActiveSceneTokenActors();
 		const actorWithMovesList = tokens
 			.filter(actor => actor.is_danger_or_extra())
@@ -585,7 +585,9 @@ export class CityHelpers {
 			)
 			.filter(({movelist}) => movelist.length > 0)
 			.flat(1);
-		await CityDialogs.downtimeGMMoveDialog(actorWithMovesList);
+		if (actorWithMovesList.length > 0) {
+			await CityDialogs.downtimeGMMoveDialog(actorWithMovesList);
+		}
 	}
 
 	static async downtimeActionChoice(choice: string, actor: CityActor) {
