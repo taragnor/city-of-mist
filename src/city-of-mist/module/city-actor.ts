@@ -258,9 +258,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	getGMMoves(depth = 0) : GMMove[] {
 		if (depth > 2) {return [];}
-		if (this.isDanger())
-			{return [];}
-		const GMMoves : GMMove[] = this.items.filter( x => x.system.type == "gmmove") as GMMove[];
+		if (!this.isDanger()) {return [];}
+		const GMMoves : GMMove[] = this.items
+			.filter( x => x.isGMMove()) as GMMove[];
 		const attached = this.getAttachedTemplates().map( x=> x?.getGMMoves(depth+1)  ?? []).flat();
 		return GMMoves.concat(attached);
 	}
@@ -279,17 +279,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		return mySpectrums;
 
-		//OLD CODE
-		// return this.items.filter( x => x.type == "spectrum")
-		// 	.concat(
-		// 		this.getAttachedTemplates()
-		// 		.map( x=> x?.getSpectrums(depth+1)) ?? []
-		// 	).flat()
-		// 	.reduce( (a,spec) => {
-		// 		if (!a.some( a=> a.name == spec.name))
-		// 			a.push(spec);
-		// 		return a;
-		// 	}, []);
 	}
 
 	ownsMove(move_id: string) {

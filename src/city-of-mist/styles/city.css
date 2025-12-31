@@ -3085,6 +3085,15 @@ span.secret {
 	color: var(--logos-text);
 }
 
+.journal-entry-content .journal-page-content * {
+	color: var(--logos-text);
+}
+
+.journal-page-header * {
+	color: var(--logos-text);
+}
+
+
 .journal-header {
 	font-family: "Rift Bold", Arial !important;
 }
