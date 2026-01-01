@@ -1738,6 +1738,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		});
 	}
 
+	isBeingDeleted(): boolean {
+		return this.getFlag("city-of-mist", "pendingDelete") == true;
+	}
+
 	static numIndexToLetter(index: number): string {
 		return "ABCDEFGHIJKLM".at(index)!;
 	}

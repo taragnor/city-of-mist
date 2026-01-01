@@ -495,6 +495,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	async deleteTheme(themeId: string, awardBU = true) {
 		const theme = this.getTheme(themeId);
 		if (!theme) {throw new Error(`Can't find theme ${themeId}`);}
+		await theme.setFlag("city-of-mist", "pendingDelete", true);
 		if (awardBU && this.system.type == "character") {
 			const BUV = theme.getBuildUpValue();
 			await (this as PC).incBuildUp(BUV);
@@ -693,6 +694,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	getThemes() : Theme[]{
 		return this.items.filter( x=> x.isTheme()
+			&&	!x.isBeingDeleted()
 			&& !x.isExtraTheme()
 			&& x != this.loadout) as Theme[];
 	}
@@ -716,13 +718,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	// }
 
 	getNumberOfThemes(target_type: ThemeType) {
-		// const themes = this.items.filter(x => x.type == "theme") as Theme[];
 		const themes = this.getThemes();
 		let count = 0;
 		for (const theme of themes) {
-			const theme_type = theme.getThemeType();
-			if (target_type == theme_type)
-				{count++;}
+				if (theme.isBeingDeleted()) {continue;}
+				const theme_type = theme.getThemeType();
+				if (target_type == theme_type) {++count;}
 		}
 		return count;
 	}

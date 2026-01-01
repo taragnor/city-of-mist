@@ -160,10 +160,10 @@ export class CitySheet extends ActorSheet<CityActor> {
 		return await HTMLTools.confirmBox(loc_title as string, text, options);
 	}
 
-	themeDeleteChoicePrompt(themename: string) {
+	themeDeleteChoicePrompt(themename: string): Promise<"delete" | "replace" | null> {
 		return new Promise( (conf, _rej) => {
 			const options = {};
-			let dialog = new Dialog({
+			const dialog = new Dialog({
 				title: `Destroy ${themename}`,
 				content: `Destroy ${themename}`,
 				buttons: {

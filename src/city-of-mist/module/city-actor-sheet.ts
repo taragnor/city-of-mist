@@ -241,20 +241,22 @@ export class CityActorSheet extends CitySheet {
 				await CityHelpers.modificationLog(actor, "Deleted", theme);
 			}
 		} else {
-			let ret;
-			if (ret = await this.themeDeleteChoicePrompt(themeName)) {
-				switch (ret) {
-					case "replace":
-						await	actor.deleteTheme(themeId, true);
-						break;
-					case "delete":
-						if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title"), localize("CityOfMist.dialog.actorSheet.deleteTheme.title"))) {
-							await	actor.deleteTheme(themeId, false);
-						}
-						break;
-					default:
-						return true;
-				}
+			const choice = await this.themeDeleteChoicePrompt(themeName);
+			switch (choice) {
+				case "replace":
+					await	actor.deleteTheme(themeId, true);
+					break;
+				case "delete":
+					if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title"), localize("CityOfMist.dialog.actorSheet.deleteTheme.title"))) {
+						await	actor.deleteTheme(themeId, false);
+						await this.render(false);
+					}
+					break;
+				case null:
+					return;
+				default:
+					choice satisfies never;
+					return;
 			}
 		}
 	}
