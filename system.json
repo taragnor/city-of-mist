@@ -78,7 +78,7 @@
       "name": "themebook",
       "label": "CoM Data",
       "system": "city-of-mist",
-      "path": "packs/themebooks.db",
+      "path": "packs/themebooks",
       "type": "Item",
       "private": false,
       "flags": {}
@@ -87,7 +87,7 @@
       "name": "sampleDangers",
       "label": "Sample Dangers",
       "system": "city-of-mist",
-      "path": "packs/sampledangers.db",
+      "path": "packs/sampledangers",
       "type": "Actor",
       "private": false,
       "flags": {}
@@ -96,8 +96,17 @@
       "name": "macro",
       "label": "Macros",
       "system": "city-of-mist",
-      "path": "packs/macro.db",
+      "path": "packs/macro",
       "type": "Macro",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "journal",
+      "label": "CoM/Mist System Documentation",
+      "system": "city-of-mist",
+      "path": "packs/documentation",
+      "type": "JournalEntry",
       "private": false,
       "flags": {}
     }
