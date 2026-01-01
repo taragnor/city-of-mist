@@ -1182,7 +1182,9 @@
 "Legend.themebook.possessions.improvement.1.name" :"Favorite Piece",
 "Legend.themebook.possessions.improvement.2.name" :"I'm Keeping This",
 "Legend.themebook.possessions.improvement.3.name" :"Just the Thing",
-"Legend.themebook.possessions.improvement.4.name" :"Quartermaster"
+"Legend.themebook.possessions.improvement.4.name" :"Quartermaster",
+
+"General.info.openDocumentation": "Open Documentation"
 
 
 }

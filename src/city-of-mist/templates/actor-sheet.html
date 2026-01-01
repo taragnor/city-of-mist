@@ -6,26 +6,33 @@
 		<div class="character-basic-info">
 			{{{sheetHeader}}}
 		</div>
-		<div class="lock-button">
-			{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
+		<div class="flex-row">
+			<div class="lock-button">
+				{{> "systems/city-of-mist/templates/parts/lock-button.html" data=data actor=actor}}
+			</div>
+			<div>
+				<a class="open-tutorial" title="{{localize 'General.info.openDocumentation'}}">
+					<i class="fa-solid fa-circle-info"></i>
+				</a>
+			</div>
 		</div>
 	</header>
 	<nav class="sheet-tabs tabs" data-group="primary">
 		<a class="item" data-tab="themes">
-			{{localize 'CityOfMist.terms.tags' }} / {{localize 'CityOfMist.terms.themes' }}
+		{{localize 'CityOfMist.terms.tags' }} / {{localize 'CityOfMist.terms.themes' }}
 		</a>
 		{{#if (isCoM)}}
 		<a class="item" data-tab="juice">
-			{{localize 'CityOfMist.terms.juice' }} /
-			{{localize 'CityOfMist.terms.help' }} /
-			{{localize 'CityOfMist.terms.hurt' }}
+		{{localize 'CityOfMist.terms.juice' }} /
+		{{localize 'CityOfMist.terms.help' }} /
+		{{localize 'CityOfMist.terms.hurt' }}
 		</a>
 		<a class="item" data-tab="clues">
-			{{localize 'CityOfMist.terms.clues' }}
+		{{localize 'CityOfMist.terms.clues' }}
 		</a>
 		{{/if}}
 		<a class="item" data-tab="bio">
-			{{localize 'CityOfMist.terms.bio' }}
+		{{localize 'CityOfMist.terms.bio' }}
 		</a>
 	</nav>
 

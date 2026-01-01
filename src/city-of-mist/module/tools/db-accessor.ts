@@ -134,7 +134,7 @@ export class DBAccessor {
 		return this.getElementById(id, "Actor");
 	}
 
-	static async getCompendiumDataByType(type : "Item" | "Actor"): Promise<(Actor<any> | Item<any>)[]> {
+	static async getCompendiumDataByType(type : "Item" | "Actor" | "JournalEntry"): Promise<(Actor<any> | Item<any> | JournalEntry)[]> {
 		const pack_finder = ((e: FoundryCompendium<any>) => e.documentName == type);
 		const packs = game.packs.filter(pack_finder);
 		let compendium_content : FoundryDocument[]= [];

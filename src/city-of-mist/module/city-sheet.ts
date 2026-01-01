@@ -36,6 +36,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));
 		html.find(".edit-themebook").on("click", this._editThemeBook.bind(this));
 		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
+		html.find(".open-tutorial").on ("click" , this._openTutorial.bind(this));
 		html.scroll(this._scrollSheet.bind(this));
 		DragAndDrop.addDragFunctionality( html);
 		html.on("drop", this._dragDropEvent.bind(this));
@@ -219,6 +220,10 @@ export class CitySheet extends ActorSheet<CityActor> {
 			flipElement.addClass("flipped");
 		}
 		this.flipped[cardId] = !this.flipped[cardId];
+	}
+
+	protected _openTutorial(_ev: JQuery.ClickEvent) {
+		CityDB.openTutorial();
 	}
 
 }

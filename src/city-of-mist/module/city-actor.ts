@@ -699,24 +699,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			&& x != this.loadout) as Theme[];
 	}
 
-	// get activeExtraTheme(): Theme | undefined {
-	// 	if (this.system.type != "character") return undefined;
-	// 	const extraId = this.system.activeExtraId;
-	// 	let theme= this.localExtraThemes().find( x=> x.id == extraId);
-	// 	if (theme) return theme;
-	// 	const filterList = game.actors.filter( (actor: CityActor) =>
-	// 		actor.isExtra() && actor.isOwner
-	// 		&& extraId == actor.id
-	// 	);
-	// 	if (filterList.length == 0)
-	// 		return undefined;
-	// 	const activeExtra = filterList[0];
-	// 	if (activeExtra  == null) return undefined;
-	// 	const activeTheme = activeExtra.items.find( x=> x.type  == "theme");
-	// 	return activeTheme;
-
-	// }
-
 	getNumberOfThemes(target_type: ThemeType) {
 		const themes = this.getThemes();
 		let count = 0;

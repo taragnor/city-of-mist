@@ -26,10 +26,12 @@ export class CityDB extends DBAccessor {
 	static _loaded = false;
 	static _allThemebooks : Themebook[] =[];
 	static _systemThemebooks : Themebook[] =[];
+	static _systemTutorial: U<JournalEntry>;
 
 	static override async loadPacks() {
 		await super.loadPacks();
 		try {
+			await this.loadTutorial();
 			this.loadThemebooks();
 			this.loadMoves();
 			this.refreshDangerTemplates();
@@ -39,6 +41,14 @@ export class CityDB extends DBAccessor {
 			console.error(`Error Loading Packs - potentially try a browser reload \n ${e}`);
 			setTimeout( () => this.loadPacks(), 5000);
 			throw e;
+		}
+	}
+
+	static async loadTutorial() {
+		const arr = await this.getCompendiumDataByType("JournalEntry") as JournalEntry[];
+		this._systemTutorial = arr.find( x=> x.name == "System Tutorial");
+		if (!this._systemTutorial) {
+			console.warn("Couldn't locate system tutorial document");
 		}
 	}
 
@@ -347,6 +357,16 @@ export class CityDB extends DBAccessor {
 	static overrideableEqualityTest < T extends Overrideable> (item1: T, item2: T) {
 		if (item1.system.type != item2.system.type) {return false;}
 		return item1.systemName == item2.systemName;
+	}
+
+	static openTutorial() {
+		if (!this._systemTutorial) {
+			ui.notifications.warn("System Tutorial not found");
+			return;
+		}
+		//@ts-expect-error the JournalEntry class is pooorly defined in foundry types
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		this._systemTutorial.sheet.render(true);
 	}
 
 }
