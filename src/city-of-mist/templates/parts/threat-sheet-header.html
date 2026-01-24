@@ -15,19 +15,8 @@
 <div class="header-row">
 	<input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }} " title="{{localize 'CityOfMist.terms.short_desc' }} " {{#if actor.system.locked}} disabled {{/if}}>
 </div>
+
 {{#if actor.system.locked}}
-<div class="header-row">
-	<div class="spectrum-list">
-		<b>
-			{{localize 'CityOfMist.terms.spectrums' }}
-		</b>
-		{{#each actor.spectrums as |spectrum id|}}
-		<div class="spectrum-short-label">
-			{{spectrum.name}} {{spectrumConvert spectrum.system.maxTier}}
-		</div>
-		{{/each}}
-	</div>
-</div>
 <div class="header-row">
 	<label class="dialog-label" for="name">
 		{{#if usingCollective}}
@@ -44,8 +33,6 @@
 	<input type="radio" name="system.collectiveSize" value=5 {{#if (eq 5 actor.system.collectiveSize)}} checked {{/if}}  >5 </input>
 	<input type="radio" name="system.collectiveSize" value=6 {{#if (eq 6 actor.system.collectiveSize)}} checked {{/if}}  >6 </input>
 </div>
-
-
 {{/if}}
 
 

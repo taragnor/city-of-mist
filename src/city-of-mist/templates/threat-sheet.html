@@ -26,14 +26,14 @@
 		</div>
 		</div>
 	</header>
-	{{#if (and (not actor.system.locked) (isGM))}}
+	{{#if (isGM)}}
 	<section class="threat-spectrums">
 		<div class="spectrum-section-label">
 			{{localize 'CityOfMist.terms.spectrums' }}
 			{{#if (not actor.system.locked)}}
 			<a class="create-spectrum" data-actor-id={{actor.id}}> <i class="fas fa-plus-square"></i></a>
+			{{/if}}
 		</div>
-		{{/if}}
 		<div class="spectrum-list">
 			{{#each actor.my_spectrums as |spectrum id|}}
 			{{> "systems/city-of-mist/templates/parts/spectrum-display.html" spectrum=spectrum owner=../actor locked=../actor.system.locked sheetowner=actor }}
