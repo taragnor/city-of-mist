@@ -31,7 +31,7 @@ export class StoryTagWindow extends Application {
 		}
 			this.instance.render(true);
 			//not sure why it won't work normally but it seems to resist movement if done immediately
-			setTimeout(() => this.instance.setPosition({left, top}), 500);
+			setTimeout(() => this.instance.setPosition({left, top}), 1200);
 		});
 	}
 

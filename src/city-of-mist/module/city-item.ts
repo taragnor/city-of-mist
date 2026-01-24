@@ -206,7 +206,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 	isMove() : this is Move { return this.system.type == "move";}
 	isGMMove() : this is GMMove { return this.system.type == "gmmove";}
 	isClue() : this is Clue { return this.system.type == "clue";}
-	isSpectrum() : this is Juice { return this.system.type == "spectrum"; }
+	isSpectrum() : this is Spectrum { return this.system.type == "spectrum"; }
 	isEssence() : this is Essence { return this.system.type == "essence"; }
 
 	isRelationshipTag(): boolean {
