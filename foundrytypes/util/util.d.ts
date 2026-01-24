@@ -1,11 +1,15 @@
 interface FoundryUtil {
 		// getProperty<T extends unknown>(doc: {}, keystring: string): T,
-		getProperty<T extends {}, const S extends string>(doc: T, keystring: S): GetProperty<T,S>,
+		getProperty<T extends object, const S extends string>(doc: T, keystring: S): GetProperty<T,S>,
 			/**
 			 * Return whether a target version (v1) is more advanced than some other reference version (v0).
 			 * Supports either numeric or string version comparison with version parts separated by periods.
 			 */
 			isNewerVersion(v1: string | number, v0: string | number): boolean,
+
+	fromUuid(uuid: string, options ?: object): Promise<FoundryDocument>;
+
+	buildUuid(args: unknown) : string;
 
 		/**
 		 * Wrap a callback in a throttled timeout.
@@ -87,6 +91,7 @@ type MergeOptions = {
 	 *                                                    deletion keys are present in the other object.
 	 */
 	performDeletions?: boolean,
+
 }
 
 type Split<S extends string, D extends string> = 

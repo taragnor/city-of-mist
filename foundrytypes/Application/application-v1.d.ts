@@ -1,7 +1,8 @@
 class Application {
+	constructor (options?: ApplicationV1Options);
 	get element(): JQuery<HTMLElement>;
 	render(force: boolean, options: Record<string, unknown> = {}) : this;
-	static get defaultOptions() : SheetOptions;
+	static get defaultOptions() : ApplicationV1Options;
 	activateListeners(html: JQuery<HTMLElement>): void;
 	async getData(options : Record<string, unknown> = {}): Promise<Record<string, unknown>>;
 	appId: number;
@@ -31,4 +32,12 @@ interface HeaderButtons {
 	class: string;
 	icon: string;
 	onclick: () => void;
+}
+
+interface ApplicationV1Options {
+	submitOnChange?: boolean;
+	submitOnClose ?: boolean;
+	closeOnSubmit ?: boolean;
+	editable?: boolean;
+	template?: string;
 }

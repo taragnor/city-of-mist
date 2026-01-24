@@ -15,7 +15,9 @@ namespace Foundry {
 		user?: FoundryUser;
 		author: FoundryUser;
 		content: string;
+		whisper: unknown[];
 		rolls: R[];
+		style: (typeof CONST.CHAT_MESSAGE_TYPES)[ keyof (typeof CONST.CHAT_MESSAGE_TYPES)];
 		_preCreate: (data: Partial<ChatMessage>, metaData: unknwon, user: FoundryUser)=> void;
 	}
 
@@ -43,13 +45,13 @@ namespace Foundry {
 
 	}
 
-	type MessageOptions = Record<string, any>;
+	type MessageOptions = Record<string, unknown>;
 
 	type ChatSpeakerObject = {
-		scene?: Option<string>,
-		actor?: Option<string>,
-		token?: Option<string>,
-		alias?: Option<string>,
+		scene?: Scene,
+		actor?: Actor,
+		token?: TokenDocument,
+		alias?: string,
 	}
 
 
@@ -61,4 +63,5 @@ namespace Foundry {
 const ChatMessage : Foundry.ChatMessageConstructor;
 type ChatMessage<R extends Roll = Roll> = Foundry.ChatMessage<R>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface MessageData<R extends Roll = Roll> extends Foundry.MessageData<R> {}

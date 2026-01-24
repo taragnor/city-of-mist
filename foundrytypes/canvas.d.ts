@@ -9,7 +9,15 @@ class Canvas {
 	animatePan(data: {x: number, y: number, scale:number, duration?: number, speed: number}): Promise<Animation>;
 	get tokens(): TokenLayer;
 	get stage(): Stage;
+	dimensions: CanvasDimensions;
+	get ready(): boolean;
+	fog: FogManager;
 
+}
+
+interface FogManager {
+	/** reset fog of war*/
+	reset() : Promise<void>;
 }
 
 type Animation = unknown;
@@ -17,6 +25,8 @@ type Animation = unknown;
 class TokenLayer {
 	get ownedTokens(): Token[];
 	get controlled(): Token[];
+	getMaxSort(): number;
+	activate() : unknown;
 }
 
 class Stage {
@@ -80,4 +90,12 @@ type SquareGridCoordinates = {
 type HexagonalGridCoordinates = {
 	i: number,
 	q: number,
+}
+
+interface CanvasDimensions {
+	rect: {
+		contains(x: number, y: number) : boolean;
+	}
+
+
 }

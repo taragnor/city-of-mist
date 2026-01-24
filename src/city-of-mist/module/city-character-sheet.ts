@@ -31,7 +31,8 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	override async _onDropItem(event: Event, o: any) {
-		//@ts-ignore
+		//@ts-expect-error using undefined fn not in foundrytypes
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 		const item : CityItem = await Item.implementation.fromDropData(o);
 		switch (item.system.type) {
 			case "essence":
@@ -43,12 +44,13 @@ export class CityCharacterSheet extends CityActorSheet {
 	}
 
 	override async getData() {
-		let data = await super.getData();
+		const data = await super.getData();
 		let loadoutTheme = this.actor.loadout;
 		if (!loadoutTheme && this.actor.isOwner) {
 			loadoutTheme= await this.actor.createLoadoutTheme();
-			if (!loadoutTheme)
+			if (!loadoutTheme) {
 				throw new Error("Can't create loadout theme");
+			}
 		}
 
 		data.LOADOUT = loadoutTheme;

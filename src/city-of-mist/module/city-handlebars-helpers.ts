@@ -1,4 +1,3 @@
-import { AsyncHandleBarsHelper } from "./tools/asyncHandlebarsHelper.js";
 import { SystemModule } from "./config/system-module.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { StatusMath } from "./status-math.js";
@@ -28,8 +27,10 @@ import {CitySettings} from "./settings.js";
 
 export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
-	static override getObject = function () {
+	static override getObject() {
+		//is this function needed?
 		return {
+			...super.getObject(),
 			...this._cityhelpers,
 			...HandlebarsHelpers.getObject()
 		};
@@ -53,7 +54,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			});
 		},
 		'hasGMMoveOfType': function (actor: CityActor, subtype: GMMove["system"]["subtype"]) {
-			return actor.gmmoves.some(x=> x.type == "gmmove" && x.system.subtype == subtype && !x.system.superMoveId );
+			return actor.gmmoves.some(x=> x.isGMMove() && x.system.subtype == subtype && !x.system.superMoveId );
 		},
 
 		"displayAlias": (actor: CityActor) => {
@@ -82,19 +83,19 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		"PCList": (_actor: CityActor) => {
-			return game.actors.filter( x => x.type == "character" && x.permission > 0);
+			return (game.actors.contents as CityActor[]).filter( x => x.isPC() && x.permission > 0);
 		},
 
 		"getHelpFor": (targetactor: CityActor) => {
-			return game.actors.filter( x => x.type == "character" &&
-				x.items.find(i => i.isHelp() && i.getTarget() == targetactor)
+			return (game.actors.contents as CityActor[]).filter( x => x.isPC() &&
+				x.items.find(i => i.isJuice() && i.isHelp() && i.getTarget() == targetactor)
 			).map( x => x.items
-				.filter ( i => i.isHelp() && i.getTarget() == targetactor)
+				.filter ( i => i.isJuice() && i.isHelp() && i.getTarget() == targetactor)
 				.map( i => {
 					return {
 						owner: x,
 						id: i.id,
-						amount : i.system.amount
+						amount : "amount" in i.system ? i.system.amount : 0,
 					};
 				})
 			).flat();
@@ -130,16 +131,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			if (tagowner?.documentName == "Scene") {
 				return -1;
 			}
-			try {
 				if (! (tagowner instanceof CityActor)) {
 					throw new Error("Tag owner is not an actor");
 				}
 				const tag = tagowner.items.find(x=> x.id == tagId) as Tag;
 				return SelectedTagsAndStatus.getDefaultTagDirection(tag, tagowner);
-			} catch (e){
-				throw e;
-
-			}
 		},
 
 		'hasActivatedItem': function (tag: Tag) {
@@ -164,7 +160,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		'showcasePossible': function (tagOrStatus: Tag | Status) {
-			if (!CityHelpers.sceneTagWindowEnabled()) return false;
+			if (!CityHelpers.sceneTagWindowEnabled()) {return false;}
 			const isTokenActor = !!tagOrStatus?.parent?.token;
 			switch (tagOrStatus.system.type) {
 				case "status":
@@ -177,7 +173,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 		'shouldBurn': function (rollModifierType: RollModifier) {
 			const modifier = rollModifierType;
-			if (!modifier?.ownerId) return false;
+			if (!modifier?.ownerId) {return false;}
 			try {
 				const {ownerId, id, tokenId} = modifier;
 				const item = (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id);
@@ -191,7 +187,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		'grantsAttention': function (rollModifierType: RollModifier) {
 			const modifier = rollModifierType;
 			if (modifier?.strikeout)
-				return false;
+				{return false;}
 			return modifier?.type == "tag"
 				&& modifier?.amount < 0
 				&& modifier?.subtype == "weakness";
@@ -199,25 +195,25 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'autoAttention': function () {
 			if (CitySettings.awardAttentionForWeakness())
-				return true;
+				{return true;}
 			return false;
 		},
 
 		'getTBQuestion': function(tb: Themebook, letter: string, type: "power" | "weakness") {
 			if (!type || typeof type != "string") {
-				console.error(`Must provide type, type provided ${type}`);
+				console.error(`Must provide type, type provided ${type as string}`);
 				return "ERROR";
 			}
 			if (type != "power" && type != "weakness") {
-				console.error(`type provided must be power or weakness, given: ${type}`);
+				console.error(`type provided must be power or weakness, given: ${type as string}`);
 				return "ERROR";
 			}
 
 			try {
-				if (!tb) throw new Error("No themebook provided");
+				if (!tb) {throw new Error("No themebook provided");}
 				return tb.getQuestion(type, letter);
 			}  catch (e) {
-				console.log(`Can't get question for ${this?.themebook?.name} ${type} ${letter}`);
+				console.log(`Can't get question for ${tb?.name} ${type} ${letter}`);
 				console.error(e);
 				return "ERROR";
 			}
@@ -244,15 +240,15 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		'eqStr': function (a: unknown, b:unknown) {
-			if (!a) a = "";
-			if (!b) b = "";
-			if (typeof a != "string") a = String(a);
-			if (typeof b != "string") b = String(b);
+			if (!a) {a = "";}
+			if (!b) {b = "";}
+			if (typeof a != "string") {a = String(a);}
+			if (typeof b != "string") {b = String(b);}
 			return a == b;
 		},
 
 		'canTakeLoadoutWeakness': function (tag: Tag) {
-			if (tag.system.subtype != "loadout") return false;
+			if (tag.system.subtype != "loadout") {return false;}
 			if (tag.parent!.loadout!.tags().some( x=> x.system.parentId == tag.id)) {
 				return false;
 			}
@@ -268,7 +264,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				case "fade":
 					return new Handlebars.SafeString(theme.getThemePropertyTerm(term));
 				default:
-					throw new Error(`Unknown Theme Term ${term}`);
+					throw new Error(`Unknown Theme Term ${term as string}`);
 			}
 		},
 
@@ -281,14 +277,14 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					return str == style;
 				default:
 					str satisfies never;
-					ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str}`);
+					ui.notifications.error(`invalid type passed to themeDisplayis Helper ${str as string}`);
 					return false;
 			}
 		},
 
 		'isThemeKit': function (theme: Theme) {
-			if (theme.themebook) {
-				return theme.themebook!.isThemeKit();
+			if (theme.getThemebookOrTK()) {
+				return theme.getThemebookOrTK()!.isThemeKit();
 			}
 			return false;
 
@@ -304,7 +300,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			if (flipState) {
 				return new Handlebars.SafeString("flipped");
 			}
-			else return "";
+			else {return "";}
 		},
 
 		'isCoM' : function () {
@@ -327,8 +323,8 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				default:
 					tag.system.subtype satisfies never;
 			}
-			if (!tag.parent) return false;
-			if (tag.parent.system.locked) return false;
+			if (!tag.parent) {return false;}
+			if (tag.parent.system.locked) {return false;}
 			return (tag.parent.isOwner);
 		},
 
@@ -337,13 +333,13 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 		},
 
 		'allowThemeSwitch' : function (theme: Theme, sheetowner: CityActor): boolean {
-			if (sheetowner.system.type != "character") return false;
-			if (!theme.parent) return false;
+			if (sheetowner.system.type != "character") {return false;}
+			if (!theme.parent) {return false;}
 			switch (theme.parent.system.type) {
 				case "crew":
 					return sheetowner.getCrewThemes().length > 1;
 				case "character":
-					if (!theme.isExtraTheme()) return false;
+					if (!theme.isExtraTheme()) {return false;}
 					return sheetowner.allLinkedExtraThemes.length > 1;
 				case "threat":
 					return sheetowner.allLinkedExtraThemes.length > 1;
@@ -355,7 +351,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 
 		'flashyLevelUp': function (theme: Theme) : boolean {
 			if (!CitySettings.get("flashyLevelUp"))
-				return false;
+				{return false;}
 			return theme.system.unspent_upgrades > 0;
 		},
 
@@ -395,6 +391,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 					case "string":
 					case "number":
 						str += String(arg);
+						break;
 					default:
 						break;
 				}
@@ -414,7 +411,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return SystemModule.active.themeCardTemplateLocation(theme);
 		},
 
-		"keys": function (obj: Object) : string[] {
+		"keys": function (obj: object) : string[] {
 			return Object.keys(obj);
 		},
 
@@ -461,12 +458,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				case "milestone":
 					return theme.system.milestone;
 				default:
-					throw new Error(`Bad property value ${property}`);
+					throw new Error(`Bad property value ${property as string}`);
 			}
 		}
 
 
-	} //end of object holding helpers
+	}; //end of object holding helpers
 } // end of class
 
 

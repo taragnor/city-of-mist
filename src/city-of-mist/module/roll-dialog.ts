@@ -1,5 +1,5 @@
 import { MistRoll } from "./mist-roll.js";
-import { Tag } from "./city-item.js";
+import { Clue, Tag } from "./city-item.js";
 import { Status } from "./city-item.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
 import { ReviewStatus } from "./ReviewableModifierList.js";
@@ -60,7 +60,7 @@ export class RollDialog extends Dialog {
 				}
 			},
 			default: "one"
-		}
+		};
 		super( consObject, {height: 300});
 		this.roll = roll;
 		this.move_id = moveId;
@@ -101,15 +101,16 @@ export class RollDialog extends Dialog {
 			event.stopPropagation();
 			return;
 		} else {
-			//@ts-ignore
-			return super._onKeyDown(event);
+			//@ts-expect-errora onkey down not defined yet in foundry types dialog
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			return super._onKeyDown(event) as unknown;
 		}
 	}
 
 
 	static async create (roll: CityRoll, moveId: string, actor: CityActor) {
 		if (this._instance)
-			this._instance.close();
+			{this._instance.close();}
 		const dialog = new RollDialog(roll, moveId, actor);
 		this._instance = dialog;
 		const ret =  await dialog.getResult();
@@ -117,7 +118,7 @@ export class RollDialog extends Dialog {
 		return ret;
 	}
 
-	setPromise( res: (value: unknown) => void, rej: (reason?:unknown) => any) {
+	setPromise( res: (value: unknown) => void, rej: (reason?:unknown) => unknown) {
 		this.#resolve = res;
 		this.#reject = rej;
 	}
@@ -136,35 +137,36 @@ export class RollDialog extends Dialog {
 
 	/**handler function when it recieves juice
 	*/
-	juiceSessionHandlerFn(ownerId: string, direction: number, amount: number) {
+	async juiceSessionHandlerFn(ownerId: string, direction: number, amount: number) {
 		{
-			const html = this.html
+			const html = this.html;
 			const owner = CityHelpers.getOwner(ownerId);
 			// const type = (direction > 0)
 			// 	? localize("CityOfMist.terms.help")
 			// 	: localize("CityOfMist.terms.hurt");
 			this.#pendingJuice = this.#pendingJuice.filter( x=> x!= owner);
-			this.activateHelpHurt(owner as CityActor, amount, direction, this.actor.id);
+			await this.activateHelpHurt(owner as CityActor, amount, direction, this.actor.id);
 			this.updateModifierPopup(html);
-			this.refreshHTML();
+			await this.refreshHTML();
 		}
 
 	}
 
 	spawnJuiceSession() {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.#juiceSession = new JuiceMasterSession( this.juiceSessionHandlerFn.bind(this), this.actor.id, this.move_id);
-		this.#juiceSession.addNotifyHandler("pending", (dataObj : {type: string, ownerId: string}) => {
+		this.#juiceSession.addNotifyHandler("pending", async (dataObj : {type: string, ownerId: string}) => {
 			const {type, ownerId} = dataObj;
 			const owner = CityHelpers.getOwner(ownerId) as CityActor;
-			CityHelpers.playPing();
+			await CityHelpers.playPing();
 			this.#pendingJuice.push(owner);
 			if (type == "hurt") {
 				//TODO: program lock on button
 			};
 			this.updateModifierPopup(this.element);
-			this.refreshHTML();
+			await this.refreshHTML();
 		});
-		CitySockets.execSession(this.#juiceSession);
+		void CitySockets.execSession(this.#juiceSession);
 	}
 
 	setListeners(html: string | JQuery) {
@@ -185,11 +187,11 @@ export class RollDialog extends Dialog {
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id, this.actor);
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
-		reviewSession.addNotifyHandler( "tagUpdate", ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:ReviewStatus} ) => {
+		reviewSession.addNotifyHandler( "tagUpdate", async ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:ReviewStatus} ) => {
 			const targetTag = this.#modifierList.find(x => x.item.id == itemId)!;
 			targetTag.review = changeType;
 			this.updateModifierPopup(html);
-			this.refreshHTML();
+			await this.refreshHTML();
 		});
 		const finalModifiers = CitySockets.execSession(reviewSession);
 		const newList = await finalModifiers as ReviewableModifierList;
@@ -202,14 +204,14 @@ export class RollDialog extends Dialog {
 		this.spawnJuiceSession();
 		this.updateModifierPopup($(html));
 		if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
-			this.spawnGMReview();
+			await this.spawnGMReview();
 		} else {
 			this.#modifierList.approveAll();
 		}
 		await this.refreshHTML();
 	}
 
-	async onClose() {
+	onClose() {
 		this.terminateSessions();
 		this.#resolve(null);
 	}
@@ -223,13 +225,13 @@ export class RollDialog extends Dialog {
 	}
 
 	async refreshHTML() {
-		let activated = this.#modifierList.toValidActivatedTagForm()!;
+		const activated = this.#modifierList.toValidActivatedTagForm()!;
 		const tagListReviewForm = this.#modifierList.slice();
 		const burnableTags = activated
 			.filter(x => x.amount > 0 && x.type == "tag" && !x.crispy && x.subtype != "weakness" );
 		const actor =this.actor;
 		const dynamite = this.#options.dynamiteAllowed ?? actor.getActivatedImprovementEffects(this.move_id).some(x => x?.dynamite);
-		let power = this.#power; //placeholder
+		const power = this.#power; //placeholder
 		const altPower = CityHelpers.altPowerEnabled();
 		const templateData = {
 			burnableTags,
@@ -241,7 +243,7 @@ export class RollDialog extends Dialog {
 			altPower,
 			sliderVal : this.#options.powerModifier ?? 0,
 		};
-		const templateHTML = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
+		const templateHTML = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/roll-dialog.html", templateData);
 		this.html.empty();
 		this.html.html(templateHTML);
 		this.setListeners(this.html);
@@ -267,23 +269,23 @@ export class RollDialog extends Dialog {
 		}
 	}
 
-	addReviewableItem(item: Tag | Status, amount: number) {
+	async addReviewableItem(item: Tag | Status, amount: number) {
 		if (this.#tagReviewSession) {
 			this.#modifierList.addReviewable(item, amount, "pending");
-			this.#tagReviewSession.updateList(this.#modifierList);
+			await this.#tagReviewSession.updateList(this.#modifierList);
 		} else {
 			if (!game.user.isGM && CityHelpers.gmReviewEnabled() ) {
 				this.#modifierList.addReviewable(item, amount, "pending");
-				this.spawnGMReview();
+				await this.spawnGMReview();
 				this.refreshConfirmButton();
 			} else {
 				this.#modifierList.addReviewable(item, amount, "approved");
 			}
 		}
-		this.refreshHTML();
+		await this.refreshHTML();
 	}
 
-	activateHelpHurt( owner: CityActor, amount: number, direction: number, targetCharacterId: string) {
+	async activateHelpHurt( owner: CityActor, amount: number, direction: number, targetCharacterId: string) {
 		let  arr;
 		if ( direction > 0) {
 			// subtype = "help";
@@ -301,26 +303,26 @@ export class RollDialog extends Dialog {
 				console.log("Amount is 0 or less returning");
 				return;
 			}
-			let targetAmt = Math.min (amount , item.system.amount);
+			const targetAmt = Math.min (amount , item.system.amount);
 			amount -= targetAmt;
 			const usedAmount = targetAmt * direction;
 			this.#modifierList.addReviewable(item, usedAmount, "pending");
 			if (this.#tagReviewSession) {
-				this.#tagReviewSession.updateList(this.#modifierList);
+				void this.#tagReviewSession.updateList(this.#modifierList);
 			} else if (! ( !game.user.isGM && CityHelpers.gmReviewEnabled() ) ) {
-				this.#modifierList.approveAll()
+				this.#modifierList.approveAll();
 			} else {
-				this.spawnGMReview();
+				void this.spawnGMReview();
 			}
 		});
 		this.refreshConfirmButton();
-		this.refreshHTML();
+		await this.refreshHTML();
 	}
 
 	updateModifierPopup(html = this.html) {
 		this.updateSliderValMax(html);
-		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val());
-		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked");
+		this.#options.modifier = Number($(html).find("#roll-modifier-amt").val() ?? 0);
+		this.#options.dynamiteAllowed= $(html).find("#roll-dynamite-allowed").prop("checked") as boolean;
 		this.#options.burnTag = $(html).find("#roll-burn-tag option:selected").val() as string ?? "";
 		if (!CitySettings.isOtherscapeBurn()) {
 			this.#options.setRoll = this.#options.burnTag.length ? 7 : 0;
@@ -351,18 +353,18 @@ export class RollDialog extends Dialog {
 			$(html).find("#help-slider-container").hide();
 			return;
 		}
-		const clue = game.actors.find( x =>
-			x.type == "character"
+		const clue = (game.actors.contents as CityActor[]).find( x =>
+			x.isPC()
 			&& x.items.find( i => i.id == itemId)
 		)!.items
 			.find(i => i.id == itemId);
-		const amount = clue.system.amount;
+		const amount = (clue as Clue).system.amount;
 		$(html).find("#help-slider").prop("max", amount);
 		$(html).find(".slidervalue").html("1");
 		if (amount)
-			$(html).find("#help-slider-container").show().prop("max", amount);
+			{$(html).find("#help-slider-container").show().prop("max", amount);}
 		else
-			$(html).find("#help-slider-container").hide();
+			{$(html).find("#help-slider-container").hide();}
 		const value = $(html).find("#help-slider").val();
 		$(html).find(".slidervalue").html(String(value));
 	}
@@ -374,11 +376,11 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 	if (dialog) {
 		const baseAmt = selectedTagOrStatus.isStatus() ? selectedTagOrStatus.system.tier : 1;
 		const amt = selectedTagOrStatus.isJuice() ? amountUsed : baseAmt;
-		dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
+		void dialog.addReviewableItem(selectedTagOrStatus, direction * amt);
 		return false;
 	}
 	else
-		return true;
+		{return true;}
 });
 
 declare global {

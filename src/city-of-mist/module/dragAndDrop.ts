@@ -143,7 +143,7 @@ export class DragAndDrop {
 		}
 	}
 
-	static async addDragFunctionality(html: JQuery) {
+	static addDragFunctionality(html: JQuery) {
 		html.find('.draggable').on("dragstart", DragAndDrop.dragStart);
 		html.find('.draggable').on("dragend", DragAndDrop.dragEnd);
 	}

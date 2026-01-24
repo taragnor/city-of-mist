@@ -2,8 +2,15 @@
 declare interface Hooks {
 	once< T extends keyof HOOKS>(hookname: T, fn: HOOKS[T]): void;
 	on <T extends keyof HOOKS, R extends HOOKS[T]>(hookname: T, fn: R): void;
+	/** @deprecated */
+	on <T extends keyof DEPRECATED_HOOKS, R extends DEPRECATED_HOOKS[T]>(hookname: T, fn: R): void;
 	callAll<T extends keyof HOOKS>(hookname:T, ...args: Parameters<HOOKS[T]>): void;
 	call<T extends keyof HOOKS>(hookname: T, ...args: Parameters<HOOKS[T]>): boolean;
+}
+
+declare interface DEPRECATED_HOOKS {
+	/** deprecated */
+	"renderChatMessage": (msg: ChatMessage, htmlElement: JQuery<HTMLElement>, data: unknown) => unknown;
 }
 
 declare interface HOOKS {
@@ -19,59 +26,65 @@ declare interface HOOKS {
 	"preCreateItem": PreCreateHook<Item>;
 	"preCreateChatMessage": PreCreateHook<ChatMessage>;
 	"createChatMessage": CreateHook<ChatMessage>;
-	"preUpdateActor": UpdateHook<Actor<any>>;
-	"preUpdateItem": UpdateHook<Item<any>>;
+	"preUpdateActor": UpdateHook<Actor>;
+	"preUpdateItem": UpdateHook<Item>;
 	"preUpdateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
 	"preUpdateWall": UpdateHook<WallDocument>;
 	"deleteCombat": DeleteHook<Combat>;
-	"createActor": CreateHook<Actor<any,any>>;
-	"createItem": CreateHook<Item<any>>;
-	"createToken": CreateHook<TokenDocument<any>>;
+	"createActor": CreateHook<Actor>;
+	"createItem": CreateHook<Item>;
+	"createToken": CreateHook<TokenDocument>;
 	"createScene": CreateHook<Scene>;
-	"createCombatant": CreateHook<Combatant<any>>;
+	"createCombatant": CreateHook<Combatant>;
 	"createActiveEffect": CreateHook<ActiveEffect>;
 	"createWall": CreateHook<WallDocument>;
-	"updateToken": UpdateHook<TokenDocument<any>>;
-	"deleteToken": DeleteHook<TokenDocument<any>>;
-	"deleteActor": DeleteHook<Actor<any>>;
+	"updateToken": UpdateHook<TokenDocument>;
+	"moveToken": MoveTokenHook<TokenDocument>;
+	"refreshToken": (token: Token, stuff: unknown) => unknown;
+	"deleteToken": DeleteHook<TokenDocument>;
+	"deleteActor": DeleteHook<Actor>;
 	"deleteCombatant": DeleteHook<Combatant>;
-	"deleteItem": DeleteHook<Item<any>>;
+	"deleteItem": DeleteHook<Item>;
 	"deleteScene": DeleteHook<Scene>;
 	"deleteActiveEffect": DeleteHook<ActiveEffect>;
 	"deleteWall": DeleteHook<WallDocument>;
 	"preDeleteActiveEffect": PreDeleteHook<ActiveEffect>;
 	"updateScene": UpdateHook<Scene>;
-	"updateItem": UpdateHook<Item<any>>;
-	"updateCombat": UpdateHook<Combat, {advanceTime: number, direction?:number, type: string}>;
-	"updateActor": UpdateHook<Actor<any>>;
+	"updateItem": UpdateHook<Item>;
+	"updateCombat": UpdateHook<Combat, {advanceTime?: number, direction?:number, type?: string}>;
+	"updateActor": UpdateHook<Actor>;
 	"updateWall": UpdateHook<WallDocument>;
 	"updateRegion": UpdateHook<RegionDocument>;
 	"updateSetting": UpdateHook<Setting<unknown>>;
 	"preUpdateSetting": UpdateHook<Setting<unknown>>;
-	"getSceneControlButtons": Function;
-	"renderActorSheet": Function;
-	"renderJournalDirectory": Function;
+	"getSceneControlButtons": (...args : unknown[]) => unknown;
+	"renderActorSheet": (...args : unknown[]) => unknown;
+	"renderJournalDirectory": (...args : unknown[]) => unknown;
 	"renderCombatTracker": RenderCombatTabFn;
-	"renderApplication": Function;
-	"renderChatMessage": (msg: ChatMessage, htmlElement: JQuery<HTMLElement>, data: unknown) => unknown;
+	"renderApplication": (...args : unknown[]) => unknown;
+	"renderChatMessageHTML": (msg: ChatMessage, htmlElement: HTMLElement, data: unknown) => unknown;
 	"renderSceneConfig": (app: unknown, html: JQuery, options: unknown) => unknown;
 	"renderRegionConfig": (app: ConfigApp<RegionDocument>, html: JQuery, options: unknown) => unknown;
 	"closeRegionConfig": (app: ConfigApp<RegionDocument>) => unknown,
-	"canvasReady": Function;
-	"canvasInit": Function;
-	"hoverToken" : (token: Token<any>, hover:boolean) => unknown;
+	"canvasReady": (...args : unknown[]) => unknown;
+	"canvasInit": (...args : unknown[]) => unknown;
+	"hoverToken" : (token: Token, hover:boolean) => unknown;
 	/**hook boolean value is true on connect, false on disconnect*/
 	"userConnected": (user: FoundryUser, isConnectionEvent : boolean) => unknown;
-	"controlToken": (token: Token, unknownBool: boolean) => unknown;
+	/** selected is true for the token selected and false for a token unselected*/
+	"controlToken": (token: Token, selected: boolean) => unknown;
+	"renderHandlebarsApplication": (app: foundryApps.ApplicationV2, html: HTMLElement, data: Record< string, unknown>, renderOptions: Record<string, unknown>) => unknown;
 };
 
 type PreCreateHook<T extends FoundryDocument> = (document: T, documentData: {name:string, type:string} & Record<string, unknown>, metaData: Record<string, unknown>, id:string) => unknown;
 
-type CreateHook<T extends FoundryDocument> = (item: T, metaData: Record<string, unknown>, id: string) => unknown | Promise<unknown>;
+type CreateHook<T extends FoundryDocument> = (item: T, metaData: Record<string, unknown>, id: string) => unknown;
 
-type ApplyAEHookFn = (actor: Actor<any,any>, change: AEChange , current: any , delta: any, changes: Record<string, any>) => unknown;
+type ApplyAEHookFn = (actor: Actor, change: AEChange , current: unknown , delta: object, changes: Record<string, unknown>) => unknown;
 
-type UpdateHook<T extends FoundryDocument, Diff = {}> = (updatedItem: T, changes: DeepPartial<T>, diff: DiffObject & Diff, userId: string) => unknown;
+type UpdateHook<T extends FoundryDocument, Diff = object> = (updatedItem: T, changes: DeepPartial<T>, diff: DiffObject & Diff, userId: string) => unknown;
+
+type MoveTokenHook< T extends FoundryDocument> = (updatedItem: T , otherstuff:unknown) => unknown;
 
 type DeleteHook<T extends FoundryDocument> = (deletedItem: T, something: Record<string, unknown>, id: string) => unknown;
 
@@ -94,7 +107,7 @@ type CombatUpdateOptions = {
 }
 
 
-type RenderCombatTabFn= (item: CombatTracker, element: JQuery<HTMLElement>, options: RenderCombatTabOptions) => unknown;
+type RenderCombatTabFn= (item: CombatTracker, element: JQuery<HTMLElement> | HTMLElement, options: RenderCombatTabOptions) => unknown;
 
 type RenderCombatTabOptions = {
 	combat: Combat;

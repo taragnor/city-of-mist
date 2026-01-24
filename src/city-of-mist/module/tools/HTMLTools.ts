@@ -9,18 +9,20 @@ export class HTMLTools {
 	/** gets a data property by starting at the elementa nd working upwards up the HTML tree. If there is a default_value it will use that if it doesn't find twhat it's looking for, otherwise it will throw*/
 	static getClosestData<T extends string | number | null = string> ( eventOrJQObj: JQuery<HTMLElement> | Event | JQuery.Event, prop: string, default_value?: T): T {
 		const target = ("currentTarget" in eventOrJQObj) ? eventOrJQObj.currentTarget : eventOrJQObj;
+		if (!target) {
+			throw new Error("No target");
+		}
 		const convert = function (string :string) {
 			return Array.from(string).map(x => {
-				if (x === x.toLowerCase()) return x;
-				else return "-" + x.toLowerCase();
+				if (x === x.toLowerCase()) {return x;}
+				else {return "-" + x.toLowerCase();}
 			}).join("");
 		};
 		if (prop === undefined)
-			throw new Error("Property name is undefined");
+			{throw new Error("Property name is undefined");}
 		const cssprop = convert(prop);
-		//@ts-ignore
-		const data = $(target).closest(`[data-${cssprop}]`).data(prop);
-		if (data != null) return data;
+		const data = $(target).closest(`[data-${cssprop}]`).data(prop) as T;
+		if (data != null) {return data;}
 		else {
 			if (default_value !== undefined) {
 				// console.debug(`Get Closest Data return default value : ${default_value}`);
@@ -34,7 +36,7 @@ export class HTMLTools {
 		try {
 			const x = HTMLTools.getClosestData( eventOrJQObj, prop, default_value);
 			return x;
-		} catch (e)  {
+		} catch   {
 			return null;
 		}
 
@@ -42,21 +44,21 @@ export class HTMLTools {
 
 	static convertForm(str: string) {
 		return Array.from(str).map(x => {
-			if (x === x.toLowerCase()) return x;
-			else return "-" + x.toLowerCase();
+			if (x === x.toLowerCase()) {return x;}
+			else {return "-" + x.toLowerCase();}
 		}).join("");
 	}
 
-	static async editItemWindow(item: Item<any>) {
-		item.sheet.render(true);
+	static async editItemWindow(item: Item<unknown>) {
+		await item.sheet.render(true);
 		return await new Promise ( (keep, _brk) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
 				if (isOpen)
-					setTimeout( checker, 500);
+					{setTimeout( checker, 500);}
 				else
-					keep(item);
-			}
+					{keep(item);}
+			};
 			setTimeout(checker, 1000);
 		});
 	}
@@ -70,35 +72,43 @@ export class HTMLTools {
 	@param {string} text starting with a # will localize
 	@param {{ defaultYes ?: boolean, onClose ?: "reject" | "yes" | "no"}} options
 	*/
-	static async confirmBox(title: string, text: string, options : Record<string, unknown> = {}) : Promise<boolean> {
+
+	static async confirmBox(title: string, text: string, options : ConfirmBoxOptions = {}) : Promise<boolean> {
 		const templateData = {text : localizeS(text)};
-		const html = await renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
+		const html = await foundry.applications.handlebars.renderTemplate(`systems/${game.system.id}/module/tools/confirmation-dialog.hbs`, templateData);
 		return await new Promise( (conf, reject) => {
 			Dialog.confirm({
-				title : localizeS(title) as string,
+				title : localizeS(title).toString(),
 				content: html,
-				yes: conf.bind(null, true),
-				no: conf.bind(null, false),
+				yes: () => conf(true),
+				no: () => conf(false),
 				defaultYes: !!options?.defaultYes,
-				close: () => {
-					switch (options?.onClose ?? "false") {
-						case "false":
-							conf(false);
-						case "true":
-							conf(true);
-						case "error":
-							reject("close");
-						default:
-							const msg = (`Unknown Option in options.onClose: ${options.onClose}`)
-							console.warn(msg);
-							reject(msg);
+				rejectClose: true,
+			}).catch( () => {
+				switch (options?.onClose ?? "false") {
+					case "false":
+						conf(false);
+						break;
+					case "true":
+						conf(true);
+						break;
+					case "reject":
+						// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+						reject("close");
+						break;
+					default: {
+						const msg = (`Unknown Option in options.onClose: ${options.onClose}`);
+						console.warn(msg);
+						// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+						reject(msg);
+						break;
 					}
-				},
+				}
 			});
 		});
 	}
 
-	static writeHTMLSelector( dataKey: string, initial: string | number, choices: Required<DDElement<any>>["choices"], label ="", localize= false) : string {
+	static writeHTMLSelector( dataKey: string, initial: string | number, choices: Required<DDElement>["choices"], label ="", localize= false) : string {
 		if (Array.isArray(choices)) {
 			choices = Object.fromEntries(
 				choices.map( x=> [String(x),String(x)])
@@ -161,15 +171,16 @@ export class HTMLTools {
 			const x = new Dialog({
 				title,
 				content: html,
-				render: async (html) => {
+				render: (html) => {
 					const k = Object.keys(elements).at(0);
 					$(html).find(`key-${k}`).trigger("focus");
 				},
+				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
 				close: () => reject("close"),
 				buttons: {
 					okay: {
 						label: "OK",
-						callback: (html: string) => {
+						callback: (_html: string) => {
 							const ret = Object.entries(elements)
 								.map( ([k, v]) => {
 									if (v.choices) {
@@ -182,18 +193,19 @@ export class HTMLTools {
 									}
 									switch (typeof v.initial) {
 										case "string":
-											const str = String($(`.key-${k} input`).val());
-											return [k, str];
+											{ const str = String($(`.key-${k} input`).val());
+											return [k, str]; }
 										case "number":
-											const num = Number($(`.key-${k} input`).val());
-											return [k, num];
+											{ const num = Number($(`.key-${k} input`).val());
+											return [k, num]; }
 										case "boolean":
-											const checked = $(`.key-${k} input`).is(":checked");
-											return [k, checked];
+											{ const checked = $(`.key-${k} input`).is(":checked");
+											return [k, checked]; }
 										default:
-											throw new Error(`Unknown Tyep ${v.initial}`);
+											throw new Error(`Unknown Tyep ${v.initial as string}`);
 									}
 								});
+							// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 							conf( Object.fromEntries(ret));
 						}
 					}
@@ -222,7 +234,7 @@ export class HTMLTools {
 		//List is in form of {id, data: [rows], description}
 		const options = {};
 		const templateData = {list};
-		const html = await renderTemplate(`systems/${game.system.id}/module/tools/singleChoiceBox.hbs`, templateData);
+		const html = await foundry.applications.handlebars.renderTemplate(`systems/${game.system.id}/module/tools/singleChoiceBox.hbs`, templateData);
 		return await new Promise( (conf, _reject) => {
 			const dialog = new Dialog({
 				title: `${headerText}`,
@@ -232,7 +244,7 @@ export class HTMLTools {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
 						callback: (htm : string) => {
-							let selection :string[] = [];
+							const selection :string[] = [];
 							$(htm).find(".single-choice-box").find("input:checked").each(function() {
 								selection.push($(this).val() as string);
 							});
@@ -266,7 +278,7 @@ export class HTMLTools {
 	static async multiChoiceBox(list: {id: string, data: string[], description: string}[], headerText: string): Promise<null | string[]> {
 		const options = {};
 		const templateData = {list};
-		const html = await renderTemplate(`systems/${game.system.id}/module/tools/multiChoiceBox.hbs`, templateData);
+		const html = await foundry.applications.handlebars.renderTemplate(`systems/${game.system.id}/module/tools/multiChoiceBox.hbs`, templateData);
 		return await new Promise( (conf, _reject) => {
 			const dialog = new Dialog({
 				title: `${headerText}`,
@@ -276,7 +288,7 @@ export class HTMLTools {
 						icon: `<i class="fas fa-check"></i>`,
 						label: "Confirm",
 						callback: (htm : string) => {
-							let selection: string[] = [];
+							const selection: string[] = [];
 							$(htm).find(".multi-choice-box").find("input:checked").each(function() {
 								selection.push($(this).val() as string);
 							});
@@ -312,12 +324,12 @@ export class HTMLTools {
 			};
 		});
 		const ret =  await this.multiChoiceBox(list, title);
-		if (ret) return ret; else return [];
+		if (ret) {return ret;} else {return [];}
 	}
 
 	static div(cssClass : string | string[]) : HTMLDivElement {
 		if (typeof cssClass == "string")
-			cssClass = [cssClass];
+			{cssClass = [cssClass];}
 		const div = document.createElement('div');
 		for (const cl of cssClass) {
 			div.classList.add(cl);
@@ -329,24 +341,24 @@ export class HTMLTools {
 // **************   EventHandlers  *************** *
 // **************************************************
 
-	static middleClick (handler: Function) {
-		return function (event: MouseEvent) {
+	static middleClick (handler: (event: JQuery.ClickEvent) => unknown ) {
+		return function (event: JQuery.ClickEvent) {
 			if (event.which == 2) {
 				event.preventDefault();
 				event.stopPropagation();
 				return handler(event);
 			}
-		}
+		};
 	}
 
-	static rightClick (handler: Function) {
-		return function (event: MouseEvent) {
+	static rightClick (handler: (event: JQuery.ClickEvent) => unknown) {
+		return function (event: JQuery.ClickEvent) {
 			if (event.which == 3) {
 				event.preventDefault();
 				event.stopPropagation();
 				return handler(event);
 			}
-		}
+		};
 	}
 
 	static getElementValue(element: JQuery<HTMLElement>): string | boolean | number | undefined {
@@ -365,7 +377,7 @@ export class HTMLTools {
         // If it's a multiple select box
         if (element.prop('multiple')) {
             const selectedValues: string[] = [];
-            element.find('option:selected').each((i, option) => {
+            element.find('option:selected').each((_i, option) => {
                 selectedValues.push($(option).val() as string);
             });
             return selectedValues.join(', '); // Join multiple selections with a comma
@@ -392,22 +404,26 @@ export class HTMLTools {
     return undefined;
 }
 
-	static initCustomJqueryFunctions() {
-		if (!jQuery.fn.middleclick) {
-			jQuery.fn.middleclick = function (handler) {
-				this.mousedown(HTMLTools.middleClick(handler));
-			}
-		}
-		if (!jQuery.fn.rightclick) {
-			jQuery.fn.rightclick = function (handler) {
-				this.mousedown(HTMLTools.rightClick(handler));
-			}
-		}
-		if (!jQuery.fn.getSelected)
-			jQuery.fn.getSelected = function () {
-			return HTMLTools.getElementValue(this);
-		}
+static initCustomJqueryFunctions() {
+	if (!jQuery.fn.middleclick) {
+		jQuery.fn.middleclick = function (handler) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+			this.mousedown(HTMLTools.middleClick(handler));
+		};
 	}
+	if (!jQuery.fn.rightclick) {
+		jQuery.fn.rightclick = function (handler) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+			this.mousedown(HTMLTools.rightClick(handler));
+		};
+	}
+	if (!jQuery.fn.getSelected) {
+		jQuery.fn.getSelected = function () {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			return HTMLTools.getElementValue(this);
+		};
+	}
+}
 } // end of class
 
 // Jquery Addons
@@ -416,16 +432,16 @@ HTMLTools.initCustomJqueryFunctions();
 
 declare global {
 	interface JQuery{
-		middleclick(handler: (e: JQuery.Event) => any) :void;
-		rightclick(handler: (e: JQuery.Event) => any) :void;
+		middleclick(handler: (e: JQuery.Event) => unknown) :void;
+		rightclick(handler: (e: JQuery.Event) => unknown) :void;
 		getSelected() : string | boolean | number | undefined;
 	}
 }
 
 
-export type DDData = Record< string, DDElement<any>>;
+export type DDData = Record< string, DDElement>;
 
-type DDElement<T extends string | number | boolean> = {
+type DDElement<T extends string | number | boolean = string | number | boolean> = {
 	label: string,
 	/**decides whether to localize the label*/
 	localize?: boolean,
@@ -436,4 +452,9 @@ type DDElement<T extends string | number | boolean> = {
 
 
 
+
+type ConfirmBoxOptions = {
+	defaultYes ?: boolean, 
+	onClose ?: "reject" | "true" | "false"
+};
 

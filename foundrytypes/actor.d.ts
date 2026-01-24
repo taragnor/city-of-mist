@@ -20,7 +20,7 @@ namespace Foundry {
 			getRollData(): TotalConvert<T>;
 			sheet: ActorSheet<Actor<T, ItemType, AEType>>;
 			statuses: Set<string>;
-			prototypeToken: PrototypeToken<this>;
+			prototypeToken: PrototypeToken<typeof this>;
 			effects: Collection<AEType>;
 			statuses: Set<string>;
 			token: TokenDocument<this> | undefined;
@@ -29,6 +29,9 @@ namespace Foundry {
 			permission: number;
 			uuid: string;
 			img: string;
+			isToken: boolean;
+			get inCompendium(): boolean;
+			getTokenDocument(extraData: Record<string, any>, sceneData : {parent: Scene}) : Promise<TokenDocument<Actor<T, ItemType, AEType>>>;
 			_dependentTokens:WeakMap<Scene, WeakSet<TokenDocument<typeof Actor<T, ItemType, AEType>>>> ;
 			/** Retrieve an iterator over all effects that can apply to the actor.
   The effect might exist on the Actor, or it might exist on one of the Actor's Items.
@@ -55,8 +58,10 @@ namespace Foundry {
 
 	type SchemaConvert<F> = F extends FoundryDMField<infer T>
 		? T extends typeof DataModelClass ? SystemDataObjectFromDM<T>
+		: T extends string ? T
 		: T extends object ? {[K in keyof T] : SchemaConvert<T[K]>} : T
 		:F;
+		// :never;
 
 	//Components to help with converting
 

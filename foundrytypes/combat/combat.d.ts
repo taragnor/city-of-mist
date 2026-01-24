@@ -19,6 +19,7 @@ namespace Foundry {
 			tokenId: string,
 			turn: 0
 		}
+		scene: Scene;
 		started: boolean;
 		combatants: Collection<Combatant<T>>;
 		turns: CType[];
@@ -34,7 +35,7 @@ namespace Foundry {
 		rollAll(options?: CombatOptions): Promise<this>;
 		/** call dialog to end combat */
 		endCombat(): Promise<boolean>;
-		scene: Scene;
+		scene: Scene["id"];
 		/**
 		 * Update active effect durations for all actors present in this Combat encounter.
 		 */

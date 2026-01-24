@@ -5,7 +5,7 @@ declare interface FoundryDataFields {
 	BooleanField: typeof BooleanFieldClass;
 	ColorField: typeof ColorFieldClass;
 	EmbeddedDataField: typeof EmbeddedDataField;
-	// EmbeddedCollectionField: any;
+	EmbeddedCollectionField: typeof EmbeddedCollectionField;
 	// EmbeddedCollectionDeltaField: any;
 	//EmbeddedDocumentField: any
 	//DocumentOwnershipField: any
@@ -56,7 +56,7 @@ class ColorFieldClass extends FoundryDMField<string> {
 class JSONField extends StringFieldClass {
 }
 
-class DocumentIdField extends StringFieldClass {
+class DocumentIdField extends StringFieldClass<Foundry.Document["id"]> {
 }
 
 declare class StringFieldClass<const T extends string= string> extends FoundryDMField<T> {
@@ -83,6 +83,10 @@ class SchemaField<T extends Record<string, unknown>> extends FoundryDMField<T> {
 	constructor(DataSchema: T, options?: DataFieldOptions);
 	fields: FoundryDMField<T>[];
 
+}
+
+class EmbeddedCollectionField<T extends ConstrutorOf<Item>> extends FoundryDMField<Collection<InstanceType<T>>> {
+	constructor(itemType: T, options ?: DataFieldOptions);
 }
 
 interface FilePathFieldOptions extends StringFieldOptions<string> {
@@ -116,6 +120,7 @@ declare interface StringFieldOptions<const T extends string> extends DataFieldOp
 	choices?: readonly T[] | Record < T, string> | (()=> T[]);
 }
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type NoInfer<A>= [A][A extends any ? 0 : never]
 
@@ -123,11 +128,13 @@ type NoInfer<A>= [A][A extends any ? 0 : never]
 type NoArray<I>= I extends Array<infer T> ? Record<number, T> : I;
 type DeepNoArray<I>=
 	I extends Array<infer J> ? NoArray<Array<DeepNoArray<J>>> :
+	I extends string ? I :
 	I extends object ? { [k in keyof I]: DeepNoArray<I[k]>} :
 	I;
 
 
 type AtLeastOne<const T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
+type ConstructorOf<T> = new (...args: any[]) => T;
 
 

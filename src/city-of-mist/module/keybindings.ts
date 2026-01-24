@@ -1,6 +1,6 @@
-import { StoryTagDisplayContainer } from "./story-tag-window.js";
 
 import { CityHelpers } from "./city-helpers.js";
+import {StoryTagWindow} from "./story-tag-application.js";
 
 function localize( str: string)  {
 	return game.i18n.localize(str);
@@ -24,7 +24,7 @@ export class CityKeyBinds {
 			editable: [
 				{ key: "KeyN", modifiers: ["Alt"]}
 			],
-			onDown: () => {CityHelpers.narratorDialog()},
+			onDown: () => {void CityHelpers.narratorDialog();},
 			onUp: () => {},
 			restricted: true,// GM only?
 			reservedModifiers: [],
@@ -40,7 +40,7 @@ export class CityKeyBinds {
 			editable: [
 				{ key: "KeyD", modifiers: ["Alt"]}
 			],
-			onDown: () => {CityHelpers.startDowntime()},
+			onDown: () => {void CityHelpers.startDowntime();},
 			onUp: () => {},
 			restricted: true,// GM only?
 			reservedModifiers: [],
@@ -57,7 +57,7 @@ export class CityKeyBinds {
 			editable: [
 				{ key: "KeyE", modifiers: ["Alt"]}
 			],
-			onDown: () => {CityHelpers.sessionEnd()},
+			onDown: () => {void CityHelpers.sessionEnd();},
 			onUp: () => {},
 			restricted: true,// GM only?
 			reservedModifiers: [],
@@ -74,7 +74,7 @@ export class CityKeyBinds {
 			editable: [
 				{ key: "KeyS", modifiers: ["Alt"]}
 			],
-			onDown: () => {StoryTagDisplayContainer.toggleVisibility()},
+			onDown: () => {void StoryTagWindow.toggleVisibility();},
 			onUp: () => {},
 			restricted: false,// GM only?
 			reservedModifiers: [],

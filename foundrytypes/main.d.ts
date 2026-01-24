@@ -11,9 +11,13 @@ declare const game: Game;
 
 interface FoundryStuff {
 	abstract: FoundryAbstract;
+	appv1: AppV1Stuff;
 	data: FoundryData;
 	documents: {
-		BaseCombat: typeof BaseCombat;
+
+		BaseCombat: Foundry.DocumentConstructor;
+		BaseActor: Foundry.DocumentConstructor;
+		BaseItem: Foundry.DocumentConstructor;
 	}
 	/** audio doesn't exist in v11 */
 	audio: {
@@ -23,14 +27,16 @@ interface FoundryStuff {
 	canvas: FoundryCanvasTools;
 	utils: FoundryUtil;
 	applications: foundryApps.Applications;
+}
 
+interface AppV1Stuff {
+	sheets: {
+		ItemSheet: typeof ItemSheet,
+		ActorSheet: typeof ActorSheet,
+	}
 }
 
 
-
-class BaseCombat {
-	static defineSchema() : SchemaReturnObject
-}
 
 declare const Hooks: Hooks;
 
@@ -38,9 +44,9 @@ declare const CONFIG : CONFIG;
 
 
 declare interface Game {
-	actors: Collection<Actor<any, any>>;
+	actors: Collection<Actor>;
 	i18n: Localization;
-	items: Collection<Item<any>>;
+	items: Collection<Item>;
 	packs: Collection<FoundryCompendium<any>>;
 	users: Collection<FoundryUser>;
 	system: FoundrySystem;
@@ -49,9 +55,10 @@ declare interface Game {
 	combat?: Foundry.Combat<Actor>;
 	settings: ClientSettings;
 	socket: Socket;
+	canvas: Canvas;
 	messages: Collection<ChatMessage>;
 	keybindings: Keybindings;
-	combats: Collection<Combat>;
+	combats: CombatCollection<Combat>;
 	journal: Collection<JournalEntry>;
 	world: World;
 	get paused(): boolean;
@@ -84,7 +91,13 @@ class Collection<T> extends Map<string, T> {
 	get(id: string) : T | undefined;
 	getName(name: string): T | undefined;
 	find (fn : (item: T) => boolean): T | undefined;
+	fromCompendium (item: T) : T;
 }
+
+class CombatCollection<T extends Combat> extends Collection<T> {
+	viewed: T | undefined;
+}
+
 
 class FoundryCompendium<T extends FoundryDocument> extends FoundryDocument<never> {
 	find(condition: (x:T) => boolean): T;
@@ -104,7 +117,6 @@ type CompendiumMetaData = {
 class SceneCollection extends Collection<Scene> {
 	get active(): Scene;
 	get current(): Scene;
-
 }
 
 

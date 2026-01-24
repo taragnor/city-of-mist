@@ -10,14 +10,14 @@ function default_template() {
 		gmnotes: new html(),
 		crewThemes: new arr(new id()),
 		version: new txt({initial:VERSION})
-	}
+	};
 }
 
 function themeHolder() {
 	return {
 		finalized: new bool({initial: false}),
 		mythos: new txt(),
-	}
+	};
 }
 
 function TagSelector() { //this entire thing may be defunct
@@ -25,14 +25,14 @@ function TagSelector() { //this entire thing may be defunct
 		selectedTags: new arr(new id()),
 		selectedMove: new id(),
 		selectedMoveGroup: new txt({initial: "Core"}),
-	}
+	};
 }
 
 function aliasable() {
 	return {
 		alias: new txt({initial:"?????"}),
 		useAlias: new bool({initial:true}),
-	}
+	};
 }
 
 
@@ -42,7 +42,7 @@ function person() {
 		age: new num(),
 		residence: new txt(),
 		pronouns: new txt(),
-	}
+	};
 }
 
 export class CharacterSchema extends foundry.abstract.DataModel {
@@ -83,8 +83,7 @@ export class ThreatSchema extends foundry.abstract.DataModel {
 			is_template: new bool({initial: false}),
 			template_ids: new arr(new id(), {initial: []}),
 			collectiveSize: new num({initial: 0})
-		}
-
+		};
 	}
 }
 
@@ -94,7 +93,7 @@ export class CrewSchema extends foundry.abstract.DataModel {
 		return {
 			...default_template(),
 			...themeHolder(),
-		}
+		};
 	}
 }
 

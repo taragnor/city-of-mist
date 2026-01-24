@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Themebook } from "./city-item.js";
 import { ThemeKit } from "./city-item.js";
 import { CityItem } from "./city-item.js";
@@ -18,8 +19,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	override async getData(): Promise<SheetData> {
 		await CityDB.waitUntilLoaded();
-		let data = await super.getData();
-
+		const data = await super.getData();
 		data.items = this.actor.items.contents.map(x=>x);
 		data.sheetHeader = await window.SystemModule.active.sheetHeader(this.actor);
 
@@ -29,7 +29,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	/** @override */
 	override activateListeners(html : JQuery<HTMLElement>) {
 		super.activateListeners(html);
-		if (!this.options.editable) return;
+		if (!this.options.editable) {return;}
 
 		html.find(".item-create-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".add-theme").on("click", this._addThemeBook.bind(this));
@@ -37,29 +37,32 @@ export class CitySheet extends ActorSheet<CityActor> {
 		html.find(".edit-themebook").on("click", this._editThemeBook.bind(this));
 		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
 		html.find(".open-tutorial").on ("click" , this._openTutorial.bind(this));
-		html.scroll(this._scrollSheet.bind(this));
+		html.on("scroll", (ev) => this._scrollSheet(ev));
+		// html.scroll(this._scrollSheet.bind(this));
 		DragAndDrop.addDragFunctionality( html);
 		html.on("drop", this._dragDropEvent.bind(this));
 		html.find('.flip-button').on("click", this.#flipCard.bind(this));
 
 		//Restore Scroll positon
 		if (this.scrollTop)
-			html.scrollTop(this.scrollTop);
+			{html.scrollTop(this.scrollTop);}
 	}
 
 	/* -------------------------------------------- */
 
-	override async _onDropItem(_event: Event, o: any) {
-		//@ts-ignore
+	override async _onDropItem(_event: Event, o: object) {
+		//@ts-expect-error using unknwon function not in foundrytypes
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 		const item : CityItem = await Item.implementation.fromDropData(o);
 		switch (item.system.type) {
-			case "themekit":
+			case "themekit": {
 				const choice = await this.getCreationLocation();
-				if (!choice) break;
+				if (!choice) {break;}
 				await this.actor.addThemeKit(item as ThemeKit, choice == "extra");
 
 				break;
-			case "themebook":
+			}
+			case "themebook": {
 				const tb : Themebook[] = await super._onDropItem(_event, o) as unknown as Themebook[];
 				if (tb && tb[0] && tb[0] instanceof CityItem) {
 					const choice = await this.getCreationLocation();
@@ -71,6 +74,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 				return tb[0];
 				}
 				break;
+			}
 			default:
 				console.log(`Unsupported Drop Type: ${item.system.type}`);
 				break;
@@ -78,8 +82,9 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async getCreationLocation() {
-		if (this.actor.type != "character")
+		if (this.actor.isPC()) {
 			return "main";
+		}
 		const choices = [
 			{ id: "main", data: [localize("CityOfMist.terms.mainTheme")]},
 			{ id: "extra", data: [localize("CityOfMist.terms.extra" )]},
@@ -108,14 +113,14 @@ export class CitySheet extends ActorSheet<CityActor> {
 		// const TKId = HTMLTools.getClosestData(event, "tkId");
 		const owner = this.getOwner(ownerId);
 		const theme = owner.getTheme(themeId)!;
-		const tk = theme.themebook;
-		if (!tk) throw new Error(`Can't find Themekit for ${theme.displayedName}`);
+		const tk = theme.getThemebookOrTK();
+		if (!tk) {throw new Error(`Can't find Themekit for ${theme.displayedName}`);}
 		if (!tk.isThemeKit()) {
 			ui.notifications.error("THeme kit isn't a theme kit");
 			return;
 		}
 		// const tk = this.actor.getThemeKit(TKId);
-		if (this.actor.type != "character" && !game.user.isGM) {
+		if (this.actor.isPC() && !game.user.isGM) {
 			const msg = localize("CityOfMist.error.MCEditOnly");
 			ui.notifications.warn(msg);
 			return;
@@ -129,15 +134,16 @@ export class CitySheet extends ActorSheet<CityActor> {
 		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const owner = this.getOwner(ownerId);
 		const theme = owner.getTheme(themeId)!;
-		const tkOrTB = theme.themebook;
-		if (!tkOrTB) return;
+		const tkOrTB = theme.getThemebookOrTK();
+		if (!tkOrTB) {return;}
 		switch (tkOrTB.system.type) {
 			case "themebook":
 				return CityDialogs.itemEditDialog(tkOrTB);
-			case "themekit":
-				const tb = tkOrTB.themebook;
-				if (!tb) return;
+			case "themekit": {
+				const tb = (tkOrTB as ThemeKit).getThemebookOrTK();
+				if (!tb) {return;}
 				return CityDialogs.itemEditDialog(tb);
+			}
 			default:
 				tkOrTB.system satisfies never;
 		}
@@ -152,13 +158,13 @@ export class CitySheet extends ActorSheet<CityActor> {
 		}
 	}
 
-	async _scrollSheet (_event: Event) {
+	_scrollSheet (_event: JQuery.ScrollEvent) {
 		this.scrollTop = $(".actor-sheet").scrollTop() ?? 0;
 	}
 
 	async confirmBox(title: string, text: string, options: Record<string, unknown> = {}) {
 		const loc_title = localizeS(title);
-		return await HTMLTools.confirmBox(loc_title as string, text, options);
+		return await HTMLTools.confirmBox(loc_title.toString(), text, options);
 	}
 
 	themeDeleteChoicePrompt(themename: string): Promise<"delete" | "replace" | null> {
@@ -198,7 +204,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 			return;
 		}
 		const actor= this.actor;
-		DragAndDrop.dropDraggableOnActor(dragging, actor);
+		await DragAndDrop.dropDraggableOnActor(dragging, actor);
 	}
 
 	/** returns the owner of the given id, tokenId and sceneId
@@ -206,13 +212,13 @@ export class CitySheet extends ActorSheet<CityActor> {
 	*/
 	getOwner(id: string, tokenId?: string, sceneId?: string): CityActor {
 		if (!id || id == this.actor.id)
-			return this.actor;
-		else return CityHelpers.getOwner(id, tokenId, sceneId) as CityActor;
+			{return this.actor;}
+		else {return CityHelpers.getOwner(id, tokenId, sceneId) as CityActor;}
 	}
 
-	async #flipCard(event: JQuery.ClickEvent) {
+	#flipCard(event: JQuery.ClickEvent) {
 		const cardId = Number(HTMLTools.getClosestData(event, "cardId"));
-		if (Number.isNaN(cardId)) throw new Error("Coudlkn't get card Id to flip!");
+		if (Number.isNaN(cardId)) {throw new Error("Coudlkn't get card Id to flip!");}
 		const flipElement = $(event.currentTarget).closest(".flip-card-inner");
 		if (flipElement.hasClass("flipped")) {
 			flipElement.removeClass("flipped");

@@ -1,9 +1,25 @@
 namespace foundryApps {
 
+	interface Apps {
+		FilePicker: {
+			implementation: typeof FilePicker;
+		}
+	}
+
 	interface Applications {
 		api: ApplicationsAPI
 		ux: UXStuff;
+		handlebars: {
+			renderTemplate(templatePath: string, templateData: Record<string|number, unknown>): Promise<string>;
+		}
+		sidebar: foundryApps.Sidebar
+		apps: foundryApps.Apps;
+	}
 
+	interface Sidebar {
+		tabs: {
+			ActorDirectory: typeof ActorDirectory
+		}
 	}
 
 	interface UXStuff{
@@ -58,6 +74,8 @@ namespace foundryApps {
 		maximize(): Promise<void>;
 		bringToFront(): void;
 		changeTab(tab: string, group: string, options?: Partial<ChangeTabOptions> = {}): void
+
+		get document(): FoundryDocument;
 	}
 
 	interface ChangeTabOptions {

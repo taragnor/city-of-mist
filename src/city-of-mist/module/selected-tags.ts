@@ -19,7 +19,7 @@ export type ShorthandNotation = {
 	id: string,
 	ownerId: string ,
 	tokenId?: string ,
-	type: CityItem["type"] | "modifier",
+	type: CityItem["system"]["type"] | "modifier",
 	amount: number;
 };
 
@@ -29,7 +29,7 @@ export type ActivatedTagFormat = {
 	amount: number,
 	ownerId: string,
 	tagId: string,
-	type: CityItem["type"] | "modifier",
+	type: CityItem["system"]["type"] | "modifier",
 	description: string,
 	subtype: string,
 	strikeout: boolean,
@@ -60,8 +60,8 @@ export class SelectedTagsAndStatus {
 			}
 		} else {
 			if (this.activateSelectedItem(tagOrStatus, direction))
-				return direction;
-			else return null ;
+				{return direction;}
+			else {return null ;}
 		}
 	}
 
@@ -74,10 +74,10 @@ export class SelectedTagsAndStatus {
 		const x = tagOrStatus;
 		const tagOwner = tagOrStatus?.parent;
 		const tokenId = tagOwner?.token?.id ?? "";
-		const tag = x.type == "tag" ? tagOrStatus : null;
+		const tag = x.isTag() ? tagOrStatus : null;
 		let subtype : string = tag ? (tag as Tag).system.subtype : "";
-		subtype = tagOrStatus.type == "juice" && direction>0 ? "help": subtype;
-		subtype = tagOrStatus.type == "juice" && direction<0 ? "hurt": subtype;
+		subtype = tagOrStatus.isJuice() && direction>0 ? "help": subtype;
+		subtype = tagOrStatus.isJuice() && direction<0 ? "hurt": subtype;
 		const base_amount = tagOrStatus.isStatus() ? tagOrStatus.system.tier : 1;
 		const amount = direction * base_amount * Math.abs(amountUsed);
 		const crispy = ((tagOrStatus as Tag).system?.crispy || (tagOrStatus as Status).system?.temporary) ?? false;
@@ -87,14 +87,14 @@ export class SelectedTagsAndStatus {
 			amount,
 			ownerId: tagOwner?.id ?? "" ,
 			tagId: tag ? x.id : "",
-			type: (tagOrStatus.system.type == "status" && tagOrStatus.system.specialType == "collective") ? "modifier" :  x.type,
+			type: (tagOrStatus.system.type == "status" && tagOrStatus.system.specialType == "collective") ? "modifier" :  x.system.type,
 			description: tag ? tag.system.description : "",
 			subtype,
 			strikeout: false,
 			review: "pending",
 			tokenId,
 			crispy
-		}
+		};
 	}
 
 	static activateSelectedItem(tagOrStatus: Tag | Status, direction = 1, amountUsed = 1) {
@@ -116,19 +116,20 @@ export class SelectedTagsAndStatus {
 			.filter( ({id, ownerId, tokenId, type}) => {
 				try {
 					const owner: CityActor = CityHelpers.getOwner(ownerId, tokenId) as CityActor ;
-					if (!owner) return false;
+					if (!owner) {return false;}
 					if (tokenId) {
 						const found = game.scenes
 							.find( (scene: Scene) => scene.tokens.contents
 								.some( token => token.id == tokenId)
 							);
 						if (!found)
-							return false;
+							{return false;}
 					}
 					const tagsAndStatuses : (Tag | Status)[] = (owner.getTags() as (Tag | Status)[]).concat(owner.getStatuses());
 					return tagsAndStatuses.some( x=> x.id == id && !x.isBurned());
 				} catch (e) {
 					console.warn(`Couldn't verify ${type} tag on ${id}`);
+					Debug(e);
 					return false;
 				}
 			});
@@ -151,7 +152,7 @@ export class SelectedTagsAndStatus {
 			id: tag.id,
 			ownerId: tag.parent?.id ?? "",
 			tokenId: tag?.parent?.token?.id  ?? "",
-			type: tag.type,
+			type: tag?.system?.type,
 			amount: 1,
 		};
 	}
@@ -162,10 +163,10 @@ export class SelectedTagsAndStatus {
 			switch (subtype) {
 				case "power": return 1;
 				case "story":
-					if (tagowner.type == "character")
-						return 1;
+					if (tagowner?.system?.type == "character")
+						{return 1;}
 					break;
-				case null: throw new Error(`Resolution Error subtype ${subtype}, tag name: ${tag?.name}, owner: ${tagowner}`);
+				case null: throw new Error(`Resolution Error subtype ${subtype as string}, tag name: ${tag?.name}, owner: ${tagowner.name}`);
 				case "loadout":
 					return 1;
 				case "weakness":
@@ -202,31 +203,31 @@ export class SelectedTagsAndStatus {
 		const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		const owner = CityHelpers.getOwner(tagownerId, tokenId, sceneId ) as CityActor;
 		if (!owner)
-			throw new Error(`Owner not found for tagId ${id}, token: ${tokenId}`);
+			{throw new Error(`Owner not found for tagId ${id}, token: ${tokenId}`);}
 		const tag =  owner.getTag(id);
 		if (!tag) {
 			throw new Error(`Tag ${id} not found for owner ${owner.name} (sceneId: ${sceneId}, token: ${tokenId})`);
 		}
 		let direction = this.getDefaultTagDirection(tag, owner);
 		if (invert)
-			direction *= -1;
+			{direction *= -1;}
 		if (!this.checkValidityForSelect(tag, direction)) {
 			return;
 		}
 		const activated = this.toggleSelectedItem(tag, direction);
 
-		if (activated === null) return;
+		if (activated === null) {return;}
 		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
 		if (activated != 0) {
-			CityHelpers.playTagOn();
+			await CityHelpers.playTagOn();
 			if (activated > 0)
-				html.addClass("positive-selected");
+				{html.addClass("positive-selected");}
 			else
-				html.addClass("negative-selected");
+				{html.addClass("negative-selected");}
 		} else {
-			CityHelpers.playTagOff();
+			await CityHelpers.playTagOff();
 		}
 	}
 
@@ -235,20 +236,20 @@ export class SelectedTagsAndStatus {
 		if (item.system.type == "tag"
 			&& item.system.subtype == "loadout"
 			&& !item.system.activated_loadout) {
-			const msg = localize ("General.error.LOTagNotLoaded")
+			const msg = localize ("General.error.LOTagNotLoaded");
 			ui.notifications.notify(msg);
 			return false;
 		}
 		if ( direction > 0 && item.creators.some( creator => selected.includes(creator) )
 		) {
-			const msg = localize ("General.error.LinkedTagError")
+			const msg = localize ("General.error.LinkedTagError");
 			ui.notifications.notify(msg);
 			return false;
 		}
 		if (direction > 0 && selected
 			.some( selItem => selItem.creators.includes(item))
 		) {
-			const msg = localize ("General.error.LinkedTagError2")
+			const msg = localize ("General.error.LinkedTagError2");
 			ui.notifications.notify(msg);
 			return false;
 		}
@@ -269,10 +270,10 @@ export class SelectedTagsAndStatus {
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		if (!tagownerId || tagownerId.length <0)
-			console.warn(`No ID for status owner : ${tagownerId}`);
+			{console.warn(`No ID for status owner : ${tagownerId}`);}
 		let direction = -1;
 		if (invert)
-			direction *= -1;
+			{direction *= -1;}
 		const owner =  CityHelpers.getOwner(tagownerId, tokenId, sceneId ) as CityActor;
 		const status = owner.getStatus(id);
 		if (!status) {
@@ -282,17 +283,16 @@ export class SelectedTagsAndStatus {
 		if (!this.checkValidityForSelect(status, direction)) {
 			return;
 		}
-		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction)
-		if (activated === null) return;
-		//@ts-ignore
-		const html = $(event.currentTarget!);
+		const activated = SelectedTagsAndStatus.toggleSelectedItem(status, direction);
+		if (activated === null) {return;}
+		const html = $(event.currentTarget);
 		html.removeClass("positive-selected");
 		html.removeClass("negative-selected");
 		if (activated != 0) {
 			if (activated > 0)
-				html.addClass("positive-selected");
+				{html.addClass("positive-selected");}
 			else
-				html.addClass("negative-selected");
+				{html.addClass("negative-selected");}
 			await CityHelpers.playTagOn();
 		}
 		else {
@@ -302,12 +302,12 @@ export class SelectedTagsAndStatus {
 
 	static getActivatedDirection(tagId: string, tokenId?: string) {
 		const amount = SelectedTagsAndStatus.getPlayerActivatedTagsAndStatus().find(x => x.id == tagId && x.tokenId == tokenId)?.amount ?? 0;
-		if (amount > 0) return 1;
-		if (amount < 0) return -1;
+		if (amount > 0) {return 1;}
+		if (amount < 0) {return -1;}
 		return 0;
 	}
 
 }
 
-//@ts-ignore
+//@ts-expect-error adding to global scope
 window.SelectedTagsAndStatus = SelectedTagsAndStatus;

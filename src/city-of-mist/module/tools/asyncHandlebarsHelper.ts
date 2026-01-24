@@ -1,10 +1,10 @@
 import { CityHelpers } from "../city-helpers.js";
 
 let idNum = 0;
-export function AsyncHandleBarsHelper(promise: Promise<string>):  string {
+export function AsyncHandleBarsHelper(promise: Promise<string>):  SafeString {
 	const element_id = `temp-prefix-${idNum++}`;
 	let item_html : string | undefined = undefined;
-	promise.then( async (data) => {
+	void promise.then( async (data) => {
 		item_html = data;
 		const WAITAMT = 0.01;
 		let totalWait = 0;
@@ -22,6 +22,6 @@ export function AsyncHandleBarsHelper(promise: Promise<string>):  string {
 	if(item_html){//cache resolved immediately
 		return item_html;
 	}
-	return new Handlebars.SafeString('<span id="' + element_id + '">Loading..</span>') as string;
+	return new Handlebars.SafeString('<span id="' + element_id + '">Loading..</span>');
 }
 

@@ -13,6 +13,7 @@ namespace Foundry {
 		viewedScene: string;
 		get isGM(): boolean;
 		get character(): Actor<any, any, any> | null;
+		can(permission: keyof FoundryPermission): boolean;
 	}
 
 }
@@ -20,3 +21,7 @@ namespace Foundry {
 const User : Foundry.FoundryUserConstructor;
 type User = Foundry.FoundryUser;
 type FoundryUser = Foundry.FoundryUser;
+
+interface FoundryPermission {
+	"TOKEN_CREATE" : unknown;
+}

@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access							this.value = content.substring(0 */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { DDData } from "./tools/HTMLTools.js";
 import { SystemModule } from "./config/system-module.js";
-import { StatusMath } from "./status-math.js";
 import { localize } from "./city.js";
-import { MistRoll } from "./mist-roll.js";
+import { CreatedStatusData, CreatedTagData, MistRoll } from "./mist-roll.js";
 import { Status } from "./city-item.js";
-import { StatusCategory } from "./config/status-categories.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { STATUS_CATEGORIES} from "./config/status-categories.js";
 import { TAG_CATEGORIES} from "./config/tag-categories.js";
-import { CitySettings } from "./settings.js";
 import { PC } from "./city-actor.js";
 import { CRollOptions } from "./mist-roll.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
-import { RollModifier } from "./mist-roll.js";
 import { GMMove } from "./city-item.js";
 import { Improvement } from "./city-item.js";
 import { Theme } from "./city-item.js";
@@ -20,7 +21,7 @@ import { TagReviewSlaveSession } from "./city-sessions.js";
 import { ReviewableModifierList } from "./ReviewableModifierList.js";
 import { JuiceSlaveSession } from "./city-sessions.js";
 import { ThemeKit } from "./city-item.js";
-import { CityItem } from "./city-item.js"
+import { CityItem } from "./city-item.js";
 import { Themebook } from "./city-item.js";
 import { CityActor } from "./city-actor.js";
 import { CityDB } from "./city-db.js";
@@ -35,27 +36,27 @@ export class CityDialogs {
 	static async themeBookSelector(actor: CityActor): Promise<null | Themebook | ThemeKit> {
 		const all_themebooks : Themebook[] = CityDB.themebooks;
 		const actorThemes = actor.getThemes();
-		const actorThemebooks = actorThemes.map( theme => theme.themebook);
+		const actorThemebooks = actorThemes.map( theme => theme.getThemebookOrTK());
 		const sorted = all_themebooks.sort( (a, b) => {
 			if (a.displayedName < b.displayedName)
-				return -1;
+				{return -1;}
 			if (a.displayedName > b.displayedName)
-				return 1;
+				{return 1;}
 			if (a.system.free_content && !b.system.free_content)
-				return 1;
+				{return 1;}
 			if (b.system.free_content && !a.system.free_content)
-				return -1;
+				{return -1;}
 			return 0;
 		});
 		const remduplicates = sorted.reduce( (acc, x) => {
 			if (!acc.find( item => item.name == x.name))
-				acc.push(x);
+				{acc.push(x);}
 			return acc;
 		}, [] as Themebook[]);
 		const themebooks = remduplicates.filter( x => !actorThemebooks.find( tb => tb && tb.name == x.name && !tb.name.includes("Crew")));
 		const templateData = {actor: actor, data: actor.system, themebooks};
 		const title = "Select Themebook";
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/themebook-selector-dialog.html", templateData);
 		return new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -78,8 +79,8 @@ export class CityDialogs {
 							else {
 								const tk = await this.createThemeKitDialog(actor);
 								if (tk)
-									conf(tk);
-								else conf(null);
+									{conf(tk);}
+								else {conf(null);}
 							}
 						},
 					},
@@ -100,7 +101,7 @@ export class CityDialogs {
 	static async createThemeKitDialog(actor: CityActor): Promise<ThemeKit | null> {
 		const tk = await actor.createNewThemeKit() as ThemeKit;
 		const ret = await this.itemEditDialog(tk);
-		if (ret) return ret;
+		if (ret) {return ret;}
 		else {
 			await actor.deleteThemeKit(tk.id);
 			return null;
@@ -122,7 +123,7 @@ export class CityDialogs {
 			tier,
 			name,
 		};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/merge-status-dialog.hbs", templateOptions);
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog( {
 				title,
@@ -175,7 +176,7 @@ export class CityDialogs {
 		// const statusList = this.statusesAffectedByCategory(actor.my_statuses, options.category ?? "none", "both");
 		const statusList = actor.my_statuses;
 		const tier = options.tier;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, tier, facedanger: options.faceDanger ?? false});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/status-drop-dialog.hbs", {actor, statusList, options, name, tier, facedanger: options.faceDanger ?? false});
 		return new Promise ( (conf, _reject) => {
 			const dialog = new Dialog({
 				title:`Add Dropped Status: ${name}`,
@@ -189,12 +190,12 @@ export class CityDialogs {
 							const newName = String($(html).find(".status-name").val());
 							const newTier = Number($(html).find(`[name="tier"]`).val());
 							if (!statusChoiceId )
-								return conf({
+								{return conf({
 									action: "create",
 									name: newName,
 									tier : newTier,
 									pips : 0,
-								});
+								});}
 							return conf({
 								action:"merge",
 								name: newName,
@@ -217,13 +218,13 @@ export class CityDialogs {
 									tier : newTier,
 									pips : 0,
 								});
-							} else conf({
+							} else {conf({
 								action: "subtract",
 								name: newName,
 								statusId: String(statusChoiceId),
 								tier : newTier,
 								pips : 0,
-							});
+							});}
 						}
 					},
 					two: {
@@ -239,35 +240,39 @@ export class CityDialogs {
 
 	static async narratorDialog() : Promise<string> {
 		if (game.user.role != 4)
-			return "";
+			{return "";}
 		if (!game.user.isGM)
-			return "";
+			{return "";}
 		// support function
-		const getCaret = function getCaret(el : HTMLInputElement) {
+		const getCaret = function getCaret(el : HTMLInputElement) : number {
 			if (el.selectionStart) {
 				return el.selectionStart;
-				//@ts-ignore
+				//@ts-expect-error document selection isn't properly defined
 			} else if (document.selection) {
 				el.focus();
-				//@ts-ignore
-				let r = document.selection.createRange();
+				//@ts-expect-error document selection isn't properly defined
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				const r = document.selection.createRange();
 				if (r == null) {
 					return 0;
 				}
-				//@ts-ignore
-				let re = el.createTextRange(), rc = re.duplicate();
+				//@ts-expect-error iwhat is all this stuff?
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				const re = el.createTextRange(), rc = re.duplicate();
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 				re.moveToBookmark(r.getBookmark());
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 				rc.setEndPoint('EndToStart', re);
-				return rc.text.length;
+				return rc.text.length as number;
 			}
 			return 0;
 		};
 		let html : string = "";
 		html += `<textarea class="narrator-text"></textarea>`;
-		const submit = async function (html: string) {
+		const submit = function (html: string) {
 			const text= $(html).find(".narrator-text").val();
 			return text as string;
-		}
+		};
 		const options = {width: 900, height: 800};
 		return await new Promise( (conf, _reject) => {
 		const dialog = new Dialog({
@@ -283,18 +288,19 @@ export class CityDialogs {
 
 				$(html).find(".narrator-text").on("keypress", function (event) {
 					if (event.keyCode == 13) { //enter key
-						//@ts-ignore
+						//@ts-expect-error ????
 						const content = this.value;
-						//@ts-ignore
+						//@ts-expect-error ????
 						const caret = getCaret(this); //bug here that splits string poorly
 						event.preventDefault();
 						if (event.shiftKey)  {
-							//@ts-ignore
+							//@ts-expect-error more weird stuff
+							// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 							this.value = content.substring(0, caret ) + "\n" + content.substring(caret, content.length);
 							event.stopPropagation();
 						} else {
 							event.stopPropagation();
-							//@ts-ignore
+							//@ts-expect-error more weird stuff
 							const defaultChoice = dialog.data.buttons.one;
 							return dialog.submit(defaultChoice);
 						}
@@ -305,8 +311,8 @@ export class CityDialogs {
 				one: {
 					icon: '<i class="fas fa-check"></i>',
 					label: "Add",
-					callback: async (html : string) => {
-						const x = await submit(html);
+					callback: (html : string) => {
+						const x = submit(html);
 						conf(x);
 					}
 				},
@@ -318,7 +324,7 @@ export class CityDialogs {
 			}
 		}, options);
 			if (!$(document).find(".narrator-text").length)
-				dialog.render(true);
+				{dialog.render(true);}
 		});
 	}
 
@@ -327,8 +333,8 @@ export class CityDialogs {
 	*/
 	static async downtimeGMMoveSelector(moveAndOwnerList: {moveId: string, moveOwnerId: string}[]) {
 		if (moveAndOwnerList.length == 0)
-			return;
-		let ownerList = new Array();
+			{return;}
+		const ownerList = [];
 		const ownerMap = moveAndOwnerList.reduce ( ( map, {moveId, moveOwnerId}) => {
 			if (map.has(moveOwnerId)) {
 				map.get(moveOwnerId)!.push(moveId);
@@ -342,9 +348,9 @@ export class CityDialogs {
 			const moves = moveIdList.map( moveId=>
 				owner.gmmoves.find( x=> x.id == moveId)
 			);
-			let movehtmls = [];
+			const movehtmls = [];
 			for (const move of moves) {
-				if (!move) continue;
+				if (!move) {continue;}
 				const {html} = await move.prepareToRenderGMMove();
 				movehtmls.push(html);
 			}
@@ -355,8 +361,8 @@ export class CityDialogs {
 		}
 		const templateData = {
 			owners: ownerList
-		}
-		await renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
+		};
+		await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
 		//SEEMINGLY INCOMPLETE
 		//return new Promise( (conf, _rej) => {
 		//	const options = {};
@@ -387,7 +393,7 @@ export class CityDialogs {
 	}
 
 	static async downtimePCSelector(actor: CityActor): Promise<null | string> {
-		if (!actor) throw new Error("Actor is undefined");
+		if (!actor) {throw new Error("Actor is undefined");}
 		const html = await this.getDowntimeTemplate(actor);
 		return new Promise( (conf, _rej)  =>  {
 			const options = {};
@@ -397,7 +403,7 @@ export class CityDialogs {
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
-						callback: async(html : string) => {
+						callback: (html : string) => {
 							const choice = $(html).find(`input[name="downtime-action"]:checked`).val() as string ;//TODO
 							conf(choice);
 						}
@@ -405,7 +411,7 @@ export class CityDialogs {
 					two: {
 						icon: '<i class="fas fa-times"></i>',
 						label: localize("CityOfMist.command.cancel"),
-						callback: async () => conf(null)
+						callback: () => conf(null)
 					}
 				},
 			}, options);
@@ -439,25 +445,25 @@ export class CityDialogs {
 		// 	$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		// } : () => 0;
 
-		let sender = options?.speaker ?? {};
-		if (!sender?.alias && sender.actor) {
-			sender.alias = sender.actor.getDisplayedName();
+		const sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor && sender.actor instanceof CityActor) {
+			sender.alias = sender?.actor?.getDisplayedName();
 		}
 		return new Promise( (conf, _rej) => {
 			const options = {};
-			let dialog = new Dialog({
+			const dialog = new Dialog({
 				title: `${title}`,
 				content: text,
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: label,
-						callback: async() => conf(true),
+						callback: () => conf(true),
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
 						label: localize("CityOfMist.command.cancel"),
-						callback: async () => conf(null)
+						callback: () => conf(null)
 					}
 				},
 				default: "two",
@@ -472,7 +478,7 @@ export class CityDialogs {
 			...rollOptions};
 		let dynamiteAllowed = rollOptions.dynamiteAllowed;
 		const title = `Make Roll`;
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/roll-modification-dialog.html", templateData);
 		return await  new Promise ( (conf, _reject) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -485,17 +491,17 @@ export class CityDialogs {
 						callback: (html: string) => {
 							const modifier = Number($(html).find("#roll-modifier-amt").val());
 							if (modifier != 0)
-								(rollOptions.modifiers as RollModifier[]).push ( {
+								{(rollOptions.modifiers).push ( {
 									id: "MC Edit" + Math.random(),
 									name: localize("CityOfMist.terms.MCEdit"),
 									amount: modifier,
 									ownerId: null,
 									tagId: null,
 									type: "modifier"
-								});
+								});}
 							dynamiteAllowed = $(html).find("#roll-dynamite-allowed").prop("checked");
 							const moveChoice = $(html).find("select.move-select").find(":selected").val();
-							console.log(`moveCHoice: ${moveChoice}`);
+							console.log(`moveCHoice: ${moveChoice as string}`);
 							if (rollOptions.moveId != moveChoice) {
 								rollOptions.moveId = String(moveChoice);
 							}
@@ -530,7 +536,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 			return Promise.reject(warning);
 		}
 		if (myCharacter.system.type != "character")
-			return Promise.reject("Given a non-chracter");
+			{return Promise.reject("Given a non-chracter");}
 		if (!myCharacter.hasHelpFor(actorId) && !myCharacter.hasHurtFor(actorId)) {
 			return Promise.reject( "No Juice for you");
 		}
@@ -539,10 +545,10 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 			move:  CityHelpers.getMoveById(moveId),
 			actor: CityDB.getActorById(actorId),
 		};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-initial.hbs", templateData);
 		return await new Promise( (conf, reject) => {
 			const options ={};
-			let buttons : Record<string, ButtonOptions> = {
+			const buttons : Record<string, ButtonOptions> = {
 				none: {
 					icon: '<i class="fas fa-times"></i>',
 					label: localize("CityOfMist.command.cancel"),
@@ -576,7 +582,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		await session.getTimeExtension(10 * 60);
 		const myCharacter = game.user.character as CityActor | undefined;
 		if (!myCharacter) {
-			throw new Error(`No character for: ${game.user}`);
+			throw new Error(`No character for: ${game.user.name}`);
 		}
 		console.log("Sending notify");
 		await session.notify("pending", {
@@ -587,7 +593,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		const templateData = {
 			HHMax
 		};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-selector.hbs", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/get-help-hurt-selector.hbs", templateData);
 		return await new Promise ( (conf, reject) => {
 			const options = {};
 			if (HHMax <= 0) {
@@ -632,15 +638,15 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 	static async itemEditDialog<T extends CityItem>(item : T) : Promise<T> {
-		item.sheet.render(true);
+		await item.sheet.render(true);
 		return await new Promise ( (conf, _rej) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
 				if (isOpen)
-					setTimeout( checker, 500);
+					{setTimeout( checker, 500);}
 				else
-					conf(item);
-			}
+					{conf(item);}
+			};
 			setTimeout(checker, 1000);
 		});
 	}
@@ -650,7 +656,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	subtype: "power" || "weakness"
 	*/
 	static async improvementOrTagChoiceList(actor: CityActor, theme: Theme, itemtype : "improvement" | "tag" = "tag", subtype: "power" | "weakness" = "power") {
-		if (!theme) throw new Error("No theme provided");
+		if (!theme) {throw new Error("No theme provided");}
 		const list = await this._listGenFunction(actor, theme, itemtype, subtype);
 		if (list.some(x=> x._id == undefined)) {
 			console.log(list);
@@ -664,7 +670,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		} else if (itemtype == "improvement") {
 			currList =  actor.getImprovements(themeId);
 		} else {
-			throw new Error(`Unknown itemType: ${itemtype}`);
+			throw new Error(`Unknown itemType: ${itemtype as string}`);
 		}
 		let filterlist = [];
 		//TODO: filter bug not filtering power tags correctly for theme kit
@@ -684,11 +690,11 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				});
 			});
 			// filterlist = filterlist.filter( x=> x.orig_obj != "_DELETED_");
-		} else throw new Error(`Unknown Type ${itemtype}`);
+		} else {throw new Error(`Unknown Type ${itemtype as string}`);}
 		const inputList = filterlist
 			.map( x => {
 				const letterPart = "subtype" in x && x?._id ? `${x._id}. ` :"";
-				const name = letterPart + localizeS(x.name.trim());
+				const name = letterPart + localizeS(x.name.trim()).toString();
 				const data = [name];
 				return {
 					id: String(x._id), data, description: localizeS(x.description).toString(),
@@ -702,8 +708,8 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	type : "tag" || "improvement"
 	subtype: "power" || "weakness" || null
 	*/
-	static async _listGenFunction(_actor: CityActor, theme: Theme, type: "tag" | "improvement", subtype?: "power" | "weakness") {
-		const themebook = theme.themebook!;
+	static _listGenFunction(_actor: CityActor, theme: Theme, type: "tag" | "improvement", subtype?: "power" | "weakness") {
+		const themebook = theme.getThemebookOrTK()!;
 		let list = [];
 		switch (type) 	 {
 			case "tag": {
@@ -742,27 +748,28 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				break;
 			}
 			default:
-				throw new Error(`Unknown Type ${type}`);
+				throw new Error(`Unknown Type ${type as string}`);
 		}
 		return list;
 	}
 
 
 	static async downtimeGMMoveDialog(actorWithMovesList: {movelist: GMMove[], actor: CityActor}[]) : Promise<boolean> {
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/downtime-GM-moves.hbs", {list : actorWithMovesList});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/downtime-GM-moves.hbs", {list : actorWithMovesList});
 		return await new Promise( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog( {
 				title: localize("CityOfMist.dialog.downtime.title"),
 				content: html,
 				render: (html) => {
+					// eslint-disable-next-line @typescript-eslint/no-misused-promises
 					$(html).find('.gmmove-select').on("click", async (event) => {
 						const move_id = HTMLTools.getClosestData(event, "moveId");
 						const ownerId = HTMLTools.getClosestData(event, "ownerId");
 						const tokenId = HTMLTools.getClosestData(event, "tokenId");
 						const owner =  CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 						const move =  owner.getGMMove(move_id);
-						if (!move) return;
+						if (!move) {return;}
 						await move.GMMovePopUp(owner);
 					});
 				},
@@ -770,7 +777,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: "Close",
-						callback: async (_html: string) => {
+						callback: (_html: string) => {
 							conf(true);
 						}
 					},
@@ -782,7 +789,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 
 	static async SHBDialog (actor: PC): Promise<CRollOptions["newtype"] | null> {
 		const title = "You sure about this?";
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/SHB-dialog.html", {actor});
 		return new Promise ( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -795,7 +802,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
 							const THEME_TYPES = SystemModule.themeTypes();
 							if (!Object.keys(THEME_TYPES).includes(result!)) {
-								ui.notifications.error(`Bad Theme Type ${result}`)
+								ui.notifications.error(`Bad Theme Type ${result}`);
 								conf(null);
 							}
 							conf(result);
@@ -817,7 +824,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		const ACTOR_THEMES = Object.fromEntries(actor.getThemes()
 		.map( theme => [theme.id, theme.displayedName])
 	);
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/Blaze-Dialog.hbs", {actor, ACTOR_THEMES});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/Blaze-Dialog.hbs", {actor, ACTOR_THEMES});
 		return new Promise ( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog({
@@ -845,8 +852,8 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 
-	static async getTagCreationData(presets: Record<string,any> = {}) {
-		const data = {
+	static async getTagCreationData(presets: DDData = {}) : Promise<Omit<CreatedTagData, "type" | "options">> {
+		const data : DDData= {
 			name: {
 				initial: "Unnamed Tag",
 				label: "CityOfMist.terms.tag",
@@ -866,15 +873,15 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		};
 		for (const [k,v] of Object.entries(presets)) {
 			if (k in data) {
-				data[k as keyof typeof data] = v;
+				const key = k;
+				data[key] = v;
 			}
 		}
-
-		return  await HTMLTools.dynamicDialog(data);
+		return  await HTMLTools.dynamicDialog(data) as Omit<CreatedTagData, "type" | "options">;
 	}
 
-	static async getStatusData(presets: Record<string,any> = {}) {
-		const data = {
+	static async getStatusData(presets: DDData= {}) : Promise<Omit<CreatedStatusData, "type" | "options">> {
+		const data : DDData= {
 			name: {
 				initial: "Unnamed Status",
 				label: "CityOfMist.terms.statusName",
@@ -899,10 +906,10 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		};
 		for (const [k,v] of Object.entries(presets)) {
 			if (k in data) {
-				data[k as keyof typeof data] = v;
+				data[k] = v;
 			}
 		}
-		return  await HTMLTools.dynamicDialog(data);
+		return  await HTMLTools.dynamicDialog(data) as Omit<CreatedStatusData, "type" | "options">;
 	}
 
 } //end of class

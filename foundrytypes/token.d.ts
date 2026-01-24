@@ -26,6 +26,8 @@ namespace Foundry {
 			img: string
 			visible: boolean;
 			hidden: boolean;
+			position: Position;
+			move(waypoints: TokenMoveWaypoint | TokenMoveWaypoint[], optionsObj?: TokenMovementOptions);
 		}
 
 	type SightObject = Record < string, any>;
@@ -33,11 +35,26 @@ namespace Foundry {
 declare const TokenDocument : Foundry.TokenDocumentConstructor;
 type TokenDocument<T extends Actor<any, any, any> = Actor<any>> = Foundry.TokenDocument<T>;
 
+interface TokenMoveWaypoint {
+	x: number;
+	y:number;
+	action: "displace" | ({} & string);
+}
+
+
+interface Position {
+	x: number;
+	y: number;
+	elevation: number;
+	width: number;
+	height: number;
+	shape: unknown;
+}
 
 
 //this is canvas stuff so I've ignored it for now
-class Token<Act extends Actor<any, any> = Actor<any,any,any>> extends PlaceableObject {
-	get actor(): Act;
+class Token<Act extends Actor = Actor<any,any,any>> extends PlaceableObject {
+	get actor(): U<Act>;
 	document: TokenDocument<Act>;
 	get scene(): Scene;
 	id: string;
@@ -51,6 +68,8 @@ class Token<Act extends Actor<any, any> = Actor<any,any,any>> extends PlaceableO
 	get worldTransform(): {a: number, b:number, c: number, d: number, tx: number, ty: number, array: null | unknown[]};
 	get w():number;
 	get h():number;
+	static create<A extends Actor>(td: TokenDocument<A>,parendData: {parent: Scene}): Promise<Token<A>>;
+
 }
 
 
@@ -85,7 +104,6 @@ class PrototypeToken<Act extends Actor<any, any>> {
 		rotation: number,
 		tint?: unknown
 	};
-	img: string;
 	width: number;
 	get parent(): Act;
 }

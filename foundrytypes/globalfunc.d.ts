@@ -2,6 +2,7 @@
 declare function mergeObject<A extends object,B extends object>( a: A, b: B) : B&A;
 
 
+/** @deprecated deprecated in Foundry v13+, use foundry.applications.handlebars.renderTemplate instead */
 declare function renderTemplate(templatePath: string, templateData: Record<string|number, any>): Promise<string>;
 
 declare function deepClone<T>(cloneSource: T) : T;

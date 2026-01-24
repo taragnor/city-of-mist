@@ -46,6 +46,7 @@ export class CityDB extends DBAccessor {
 
 	static async loadTutorial() {
 		const arr = await this.getCompendiumDataByType("JournalEntry") as JournalEntry[];
+		//@ts-expect-error bad foundry types
 		this._systemTutorial = arr.find( x=> x.name == "System Tutorial");
 		if (!this._systemTutorial) {
 			console.warn("Couldn't locate system tutorial document");

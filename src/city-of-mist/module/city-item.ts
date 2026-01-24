@@ -23,7 +23,7 @@ import { CitySockets } from "./city-sockets.js";
 import { CityLogger } from "./city-logger.js";
 import { CitySettings } from "./settings.js";
 
-export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
+export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<CityActor, CityItem>> {
 
 	declare parent: CityActor | undefined;
 
@@ -661,7 +661,10 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 		const BUGenerated = this.getBuildUpValue();
 		const tagdata = this.tags();
 		const impdata = this.improvements();
-		const manifest = await renderTemplate("systems/city-of-mist/templates/theme-destruction.html", { BUGenerated, owner: this.parent, theme: this, tags: tagdata, improvements: impdata, BUImpGained} );
+		const templateData = {
+			BUGenerated, owner: this.parent, theme: this, tags: tagdata, improvements: impdata, BUImpGained
+		};
+		const manifest = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/theme-destruction.html", templateData );
 		return manifest.replaceAll("\n", "");
 	}
 
@@ -1245,7 +1248,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 				if (this.system.choice_item) {
 					return `${x.toString()} (${this.system.choice_item})`;
 				}
-				else {return x as string;} //tehcincally a SafeString conversion but it should stil lwork fine
+				else {return x.toString();} //tehcincally a SafeString conversion but it should stil lwork fine
 			}
 			case "theme":
 				if (CitySettings.get("themeStyle") == "mist-engine") {
@@ -1405,7 +1408,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 			});
 		} else {
 			const templateData = {actor: this.parent, clue: this};
-			const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-use-no-card.hbs", templateData);
+			const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/parts/clue-use-no-card.hbs", templateData);
 			await CityLogger.sendToChat2(html, {actor: this.parent?.id});
 
 		}
@@ -1510,7 +1513,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor> {
 	async prepareToRenderGMMove(this: GMMove, actor = this.parent) {
 		//TODO: X substitution
 		if (! actor) {throw new Error(`No parent for GMMove ${this.name}`);}
-		const html = await renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/parts/gmmove-part.hbs" , { actor, move: this});
 		const {taglist, statuslist} = this.formatGMMoveText(actor as Danger);
 		const options = { token: null ,
 			speaker: {

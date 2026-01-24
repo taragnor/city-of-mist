@@ -1,12 +1,11 @@
-class JournalEntry {
-	name: string;
+class JournalEntry extends FoundryDocument {
 	pages: Collection<JournalEntryPage>;
 }
 
-class JournalEntryPage implements Foundry.Document {
+class JournalEntryPage extends FoundryDocument {
 	parent: JournalEntry;
 	type: 'text' | Exclude<string, 'text'>;
-	system: object;
+	system: {};
 	title: {level: number, show: boolean};
 	text: {content: string, markdown: undefined | unknown, format: number};
 }

@@ -12,27 +12,27 @@ export class HandlebarsHelpers {
 		}
 	}
 
-	static getObject() {
+	static getObject() : Record< string, (...args: unknown[]) => unknown>{
 		return  {
-			'noteq': (a:any, b:any) => {
+			'noteq': (a:unknown, b:unknown) => {
 				return (a !== b);
 			},
-			'neq': (a : any, b : any) => {
+			'neq': (a : unknown, b : unknown) => {
 				return (a !== b);
 			},
 
 			// Not helper
-			'not': (a : any) => {
+			'not': (a : unknown) => {
 				return a ? false : true;
 			},
-			'and': (a : any, b : any) => {
+			'and': (a : unknown, b : unknown) => {
 				return a && b;
 			},
-			'or': (a : any, b : any) => {
+			'or': (a : unknown, b : unknown) => {
 				return a || b;
 			},
 			//concat handler
-			'cat': (a : any, b : any) => {
+			'cat': (a : string, b :string) => {
 				return a + b;
 			},
 
@@ -42,20 +42,17 @@ export class HandlebarsHelpers {
 			"localizeS": (string: string) => {
 				return localizeS(string);
 			},
-
 		};
 	}
 } // end of class
 export function localizeS (str :string): SafeString {
 	if (str == undefined || typeof str != "string")  {
-		return "ERROR";
+		return new Handlebars.SafeString("ERROR");
 	}
 	if (!str.startsWith("#"))
-		//@ts-ignore
-		return new Handlebars.SafeString(str);
+		{return new Handlebars.SafeString(str);}
 	const localizeCode = str.trim().substring(1);
 	const localized = game.i18n.localize(localizeCode);
-	//@ts-ignore
 	return new Handlebars.SafeString(localized);
 }
 

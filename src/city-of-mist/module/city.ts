@@ -39,7 +39,6 @@ import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
 import { MistRoll } from "./mist-roll.js";
 import { CityDataMigration } from "./migration.js";
-import { CitySettings } from "./settings.js";
 import { ACTORMODELS } from "./datamodel/actor-types.js";
 import { ITEMMODELS } from "./datamodel/item-types.js";
 import {TokenTooltip} from "./token-tooltip/token-tooltip.js";
@@ -78,17 +77,16 @@ export function localize(str: string) {
 	return game.i18n.localize(str);
 }
 
-Hooks.on('renderChatMessage', (app, html, data) => CityRoll.diceModListeners(app, html, data));
-Hooks.on('renderChatMessage', (app, html, data) => CityRoll.showEditButton(app, html, data));
-Hooks.on('renderChatMessage', (_app, html, _data) => DragAndDrop.addDragFunctionality(html));
-Hooks.on('renderChatMessage', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, html, data));
-Hooks.on('ready', async () => {
+Hooks.on('renderChatMessageHTML', (app, html, data) => CityRoll.diceModListeners(app, $(html), data));
+Hooks.on('renderChatMessageHTML', (app, html, data) => CityRoll.showEditButton(app, $(html), data));
+Hooks.on('renderChatMessageHTML', (_app, html, _data) => DragAndDrop.addDragFunctionality($(html)));
+Hooks.on('renderChatMessageHTML', (app, html, data) => ClueChatCards.clueEditButtonHandlers(app, $(html), data));
+Hooks.on('ready', () => {
 	CitySockets.init();
-	// window.CitySockets = CitySockets;
 });
 
 
-Hooks.once("cityDBLoaded", async function() {
+Hooks.once("cityDBLoaded", function() {
 	CityHelpers.applyColorization();
 	return true;
 });
@@ -103,7 +101,7 @@ function registerDataModels() {
 	CONFIG.Actor.dataModels= ACTORMODELS;
 	CONFIG.Item.dataModels= ITEMMODELS;
 	CONFIG.Dice.rolls = [MistRoll];
-	//@ts-ignore
+	//@ts-expect-error not in foundry types
 	CONFIG.ChatMessage.documentClass = MistChatMessage;
 }
 
@@ -116,7 +114,7 @@ Hooks.once("init", async function() {
 	console.log(`***********************************`);
 	registerDataModels();
 	await SystemModule.init();
-	registerSystemSettings();
+	await registerSystemSettings();
 	await SystemModule.active.activate();
 
 	game.city = {
@@ -132,7 +130,7 @@ Hooks.once("init", async function() {
 	CONFIG.Item.documentClass = CityItem;
 	CONFIG.Actor.documentClass = CityActor;
 
-	preloadHandlebarsTemplates();
+	await preloadHandlebarsTemplates();
 
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
 		EnhancedActorDirectory.init();
@@ -150,11 +148,14 @@ Hooks.on("cityDBLoaded", async () => {
 
 
 //Support for TaragnorSecurity module if installed
-//@ts-ignore
+//@ts-expect-error not defined types, external module
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 Hooks.on("encryptionPreEnable", (taragnorSec: any) => {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 	taragnorSec.setEncryptable(CityActor,
 		[CityCharacterSheet, CityThreatSheet, CityCrewSheet],
 		["system.gmnotes", "system.mythos"]);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 	taragnorSec.setEncryptable(CityItem,
 		[CityItemSheetLarge],
 		["system.description"]);
@@ -162,12 +163,12 @@ Hooks.on("encryptionPreEnable", (taragnorSec: any) => {
 });
 
 /* City of Mist Status Tracker */
-Hooks.on("renderJournalDirectory", async () => {
+Hooks.on("renderJournalDirectory", () => {
 	StatusTrackerWindow.init();
 	// window.statusTrackerWindow = new StatusTrackerWindow();
 });
 
-Hooks.on("getSceneControlButtons", function(controls:any) {
+// Hooks.on("getSceneControlButtons", function(controls:any) {
 	//disabling status tracker as V13 didn't like it 
 	//TODO: fix later, not sure how many people use this feature
 	// let tileControls = controls.find((x:any) => x.name === "tokens");
@@ -180,7 +181,7 @@ Hooks.on("getSceneControlButtons", function(controls:any) {
 	// 		onClick: () => StatusTrackerWindow._instance.render(true)
 	// 	});
 	// }
-});
+// });
 
 Hooks.on("renderApplication", function() {
 	if (StatusTrackerWindow._instance) {
@@ -188,5 +189,5 @@ Hooks.on("renderApplication", function() {
 	}
 });
 
-//@ts-ignore
+//@ts-expect-error adding to global scope
 window.CityHelpers = CityHelpers;

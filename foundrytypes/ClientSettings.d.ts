@@ -49,7 +49,7 @@ interface SettingSubmenuConfig<C extends typeof FormApplication> {
 	restricted: boolean
 }
 
-class Setting<T extends unknown = unknown> extends FoundryDocument {
+class Setting<T = unknown> extends FoundryDocument {
 	get key(): string;
 	get value(): Record<string, T>
 }

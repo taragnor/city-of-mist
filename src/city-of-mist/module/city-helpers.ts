@@ -54,21 +54,21 @@ export class CityHelpers {
 		return await this.asyncwait(sec);
 	}
 
-	static async getUserId() {
+	static getUserId() {
 		if (game.user.id != null)
-			return game.user.id;
+			{return game.user.id;}
 		else
-			throw new Error("Unknown User");
+			{throw new Error("Unknown User");}
 	}
 
-	static async cacheSounds() {
+	static cacheSounds() {
 		console.log("Caching sounds");
 		const lowVolume = 0.001;
-		this.playSound("lock.mp3", lowVolume);
-		this.playSound("burn-tag.mp3", lowVolume);
-		this.playSound("button-on.mp3", lowVolume);
-		this.playSound("button-off.mp3", lowVolume);
-		this.playSound("beep.wav", lowVolume);
+		void this.playSound("lock.mp3", lowVolume);
+		void this.playSound("burn-tag.mp3", lowVolume);
+		void this.playSound("button-on.mp3", lowVolume);
+		void this.playSound("button-off.mp3", lowVolume);
+		void this.playSound("beep.wav", lowVolume);
 	}
 
 	static async playLockOpen() {
@@ -107,9 +107,9 @@ export class CityHelpers {
 
 	static async playLoadoutToggle(state: boolean) {
 		if (state)
-			await this.playTagOn();
+			{await this.playTagOn();}
 		else
-			await this.playTagOff();
+			{await this.playTagOff();}
 	}
 
 	static async playSound(filename: string, volume = 1.0) {
@@ -128,10 +128,10 @@ export class CityHelpers {
 	*/
 	static getOwner(ownerId : string, tokenId?: string, sceneId?: string) : CityActor | CityItem {
 		if (!ownerId)
-			throw new Error(`No owner Id provided to CityHelpers.getOwner`);
+			{throw new Error(`No owner Id provided to CityHelpers.getOwner`);}
 	 if (!tokenId) {
 			const actorOrItem = CityHelpers.findAllById(ownerId) ;
-			if (!actorOrItem) throw new Error (`Can't find owner for ownerId ${ownerId}`);
+			if (!actorOrItem) {throw new Error (`Can't find owner for ownerId ${ownerId}`);}
 			return actorOrItem  as CityActor | CityItem;
 		} else {
 			const scene = game.scenes.find (x=> x.id == sceneId) ??
@@ -139,11 +139,11 @@ export class CityHelpers {
 					token=> token.id == tokenId && !token.isLinked)
 				);
 			if (!scene)
-				return this.getOwner(ownerId);
+				{return this.getOwner(ownerId);}
 			if (!tokenId)
-				throw new Error(` No Token Id provided`);
+				{throw new Error(` No Token Id provided`);}
 			const token = scene.tokens.get(tokenId);
-			if (!token) throw new Error("Can't find token");
+			if (!token) {throw new Error("Can't find token");}
 			return token.actor as CityActor;
 			// const sceneTokenActors = this.getSceneTokenActors(scene);
 			// return sceneTokenActors.find( x=> x?.token?.id == tokenId);
@@ -178,13 +178,13 @@ export class CityHelpers {
 		return TokenTools.getActiveUnlinkedSceneTokens();
 	}
 
-	static async getBuildUpImprovements() {
+	static getBuildUpImprovements() {
 		return CityDB.getBuildUpImprovements();
 	}
 
 	static async narratorDialog() {
 		const text = await CityDialogs.narratorDialog();
-		if (!text) return;
+		if (!text) {return;}
 		const {html :modified_html, taglist, statuslist} = CityHelpers.unifiedSubstitution(text);
 		await this.processTextTagsStatuses(taglist, statuslist, null);
 		await CityHelpers.sendNarratedMessage(modified_html);
@@ -202,9 +202,9 @@ export class CityHelpers {
 			}
 			if (options.autoApply) {
 				if (actor)
-					await actor.createStoryTag(tagname.trim(), true, options);
+					{await actor.createStoryTag(tagname.trim(), true, options);}
 				else
-					await SceneTags.createSceneTag(tagname.trim(), true, options);
+					{await SceneTags.createSceneTag(tagname.trim(), true, options);}
 			}
 		}
 
@@ -215,9 +215,9 @@ export class CityHelpers {
 			}
 			if (options.autoApply) {
 				if (actor)
-					await actor.addOrCreateStatus(name.trim(), {...options, tier});
+					{await actor.addOrCreateStatus(name.trim(), {...options, tier});}
 				else
-					await SceneTags.createSceneStatus(name.trim(), {...options, tier, pips:0 });
+					{await SceneTags.createSceneStatus(name.trim(), {...options, tier, pips:0 });}
 			}
 		}
 	}
@@ -225,7 +225,7 @@ export class CityHelpers {
 
 
 	static parseTags(text: string) {
-		let retarr = [];
+		const retarr = [];
 		const regex = /\[([^\]]*)\]/gm;
 		let match = regex.exec(text);
 		while (match != null){
@@ -246,10 +246,10 @@ export class CityHelpers {
 		let match = regex.exec(text);
 		//TODO: FIX THIS
 		while (match != null) {
-			let replacetext = match[1];
-			let lowerify = replacetext.toLowerCase();
+			const replacetext = match[1];
+			const lowerify = replacetext.toLowerCase();
 			if (!replaceObj[lowerify]) {
-				console.warn(`String ${replacetext} not found in replacement Object`)
+				console.warn(`String ${replacetext} not found in replacement Object`);
 				text = text.replace('$' + replacetext, '?????');
 				match = regex.exec(text);
 				continue;
@@ -298,7 +298,7 @@ export class CityHelpers {
 			const parts2 = rest.split("}");
 			const inner = parts2.shift();
 			const after = parts2.join("}");
-			text = `${before} <span class="secret">${inner}</span> ${after}`
+			text = `${before} <span class="secret">${inner}</span> ${after}`;
 		}
 		return text.trim();
 	}
@@ -307,18 +307,18 @@ export class CityHelpers {
 	static unifiedSubstitution(text :string, status_mod = 0) {
 		const regex= /\[([ \w,]*:)?([\p{Letter}\d\- ]+)\]/gmu;
 		let match = regex.exec(text);
-		let taglist = [];
-		let statuslist = [];
+		const taglist = [];
+		const statuslist = [];
 		let loop = 0;
 		while (match != null) {
-			if ( loop ++ > 1000 ) break;
-			let options = CityHelpers.parseOptions(match[1]);
+			if ( loop ++ > 1000 ) {break;}
+			const options = CityHelpers.parseOptions(match[1]);
 			const name = match[2].trim();
 			if (CityHelpers.isStatusParseable(name)) {
 				const formatted_statusname = CityHelpers.replaceSpaces(name.substring(0, name.length-2));
-				let tierstr = name.at(-1)!;
+				const tierstr = name.at(-1)!;
 				let tier : number = Number(tierstr);
-				if (Number.isNaN(tier)) tier = 0;
+				if (Number.isNaN(tier)) {tier = 0;}
 				if (!options.ignoreCollective) {
 					tier = Number(tier) + status_mod;
 				}
@@ -351,7 +351,7 @@ export class CityHelpers {
 
 	static parseOptions(optionString: string) : GMMoveOptions{
 		if (! optionString?.length)
-			return {};
+			{return {};}
 		optionString = optionString.trim().substring(0,optionString.length-1); //shave off the colon
 		const splitString = optionString.split(",")
 			.map( option => {
@@ -380,7 +380,7 @@ export class CityHelpers {
 	static isStatusParseable(name : string) {
 		const secondToLast = name.at(-2);
 		if ( secondToLast != " " && secondToLast != "-")
-			return false;
+			{return false;}
 		const lastval = name.at(-1);
 		const number_test = !Number.isNaN(Number(lastval));
 		return number_test || lastval == "X";
@@ -388,7 +388,7 @@ export class CityHelpers {
 
 	static autoAddstatusClassSubstitution (text: string) {
 		const regex = /\|\|([^|]+)\|\|/gm;
-		let statuslist = [];
+		const statuslist = [];
 		let match = regex.exec(text);
 		while (match != null) {
 			const statusname = match[1];
@@ -400,7 +400,7 @@ export class CityHelpers {
 		}
 		const statuslistMod = statuslist.map( x=> {
 			const regex = /(\D+)-(\d+)/gm;
-			let match = regex.exec(x);
+			const match = regex.exec(x);
 			while (match != null) {
 				const name = match[1];
 				const tier = Number(match[2]);
@@ -434,25 +434,25 @@ export class CityHelpers {
 		return text.replaceAll(" ", "-");
 	}
 
-	static async parseStatusString (str : string)  {
+	static parseStatusString (str : string)  {
 		const last = str.substring(str.length-1);
 		const tier = Number(last);
 		if (Number.isNaN(tier))
-			throw new Error(`Malformed status ${str}`);
+			{throw new Error(`Malformed status ${str}`);}
 		const name = str.substring(0, str.length-2);
 		return {name, tier};
 	}
 
 	static async sendNarratedMessage(text : string) {
 		const templateData = {text};
-		const html = await renderTemplate("systems/city-of-mist/templates/narration-box.html", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/narration-box.html", templateData);
 		const speaker = { alias:"Narration" };
 		const messageData = {
 			speaker: speaker,
 			content: html,
 			style: CONST.CHAT_MESSAGE_STYLES.OOC,
-		}
-		ChatMessage.create(messageData, {})
+		};
+		await ChatMessage.create(messageData, {});
 		// CONFIG.ChatMessage.documentClass.create(messageData, {})
 	}
 
@@ -460,16 +460,17 @@ export class CityHelpers {
 		return await CityDialogs.itemEditDialog(item);
 	}
 
-	static async refreshTokenActorsInScene(scene :Scene) {
+	static refreshTokenActorsInScene(scene :Scene) {
 		const scenetokens = scene.tokens;
 		const characterActors = scenetokens
-			.filter( x => x.isLinked &&
-				x.actor != undefined &&
-				x.actor.type == "character"
+			.filter( x => x.isLinked
+				&& x.actor != undefined
+				&& x.actor instanceof CityActor
+				&& x.actor.isPC()
 			)
 			.map (x => x.actor!);
 		for (const dep of characterActors) {
-			const state = dep.sheet._state
+			const state = dep.sheet._state;
 			if (state > 0) {
 				CityHelpers.refreshSheet(dep as CityActor);
 			}
@@ -482,7 +483,7 @@ export class CityHelpers {
 	}
 
 	static async ensureTokenLinked(_scene: Scene, token: TokenDocument<CityActor>) {
-		if (token.actorLink) return;
+		if (token.actorLink) {return;}
 		await token.update ({ actorLink: true });
 		return true;
 	}
@@ -495,27 +496,29 @@ export class CityHelpers {
 		let improvements = 0;
 		let breaker = 0;
 		while (amount > 0) {
-			if (breaker++ > 100) throw new Error("Endless Loop");
+			if (breaker++ > 100) {throw new Error("Endless Loop");}
 			array = array.map ( (i) => {
 				if (i == 0 && amount > 0) {
 					amount--;
 					return 1;
-				} else return i;
+				} else {return i;}
 			});
 			if (array[arrlen - 1] == 1) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				array = new Array(arrlen).fill(0);
 				improvements++;
 			}
 		}
 		while (amount < 0) {
-			if (breaker++ > 100) throw new Error("Endless Loop");
+			if (breaker++ > 100) {throw new Error("Endless Loop");}
 			array = array.reverse().map ( (i) => {
 				if (i == 1 && amount < 0) {
 					amount++;
 					return 0;
-				} else return i;
+				} else {return i;}
 			});
 			if (array[arrlen-1] == 0 && amount < 0) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				array = new Array(arrlen).fill(1);
 				improvements--;
 			}
@@ -525,12 +528,12 @@ export class CityHelpers {
 	}
 
 
-	static middleClick (handler : Function) { return HTMLTools.middleClick(handler); }
-	static rightClick (handler: Function) { return HTMLTools.rightClick(handler); }
+	static middleClick (handler : (ev: JQuery.ClickEvent) => unknown) { return HTMLTools.middleClick(handler); }
+	static rightClick (handler: (ev: JQuery.ClickEvent) => unknown) { return HTMLTools.rightClick(handler); }
 
 
 	static async sessionEnd() {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		const eos = localize("CityOfMist.dialog.endOfSession.name");
 		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
 		if	(await HTMLTools.confirmBox(eos, eosQuery)) {
@@ -540,8 +543,8 @@ export class CityHelpers {
 				throw new Error("Can't find Session end move");
 			}
 			await CityRoll.execMove(move.id, null);
-			for (let actor of game.actors)
-				await (actor as CityActor).sessionEnd();
+			for (const actor of game.actors)
+				{await (actor as CityActor).sessionEnd();}
 		}
 	}
 
@@ -555,7 +558,7 @@ export class CityHelpers {
 		const PCList = await this.selectPCsForDowntime();
 		if (PCList.length > 0 ) {
 			const s = new DowntimeSessionM(PCList);
-			CitySockets.execSession(s);
+			await CitySockets.execSession(s);
 		}
 	}
 
@@ -593,11 +596,11 @@ export class CityHelpers {
 	static async downtimeActionChoice(choice: string, actor: CityActor) {
 		let moveText = DOWNTIME_CHOICES[choice];
 		if (!moveText) {
-				ui.notifications.warn(`Unknown Downtime Action ${choice}`)
+				ui.notifications.warn(`Unknown Downtime Action ${choice}`);
 				return;
 		}
 		moveText = localize(moveText);
-		const html = await renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
 		const messageOptions = {};
 		const messageData : MessageData = {
 			// speaker: ChatMessage.getSpeaker(),
@@ -629,16 +632,18 @@ export class CityHelpers {
 	static async centerOnActorToken( actor: CityActor) {
 		let position = null;
 		if (actor.isToken) {
-			//@ts-ignore
+			//@ts-expect-error not in foundry types
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 			position = actor.parent._object.center;
 		} else {
 			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
 			if (!token)
-				return;
+				{return;}
 			position = token.center;
 		}
 		if (position)
-			await canvas.animatePan (position);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			{await canvas.animatePan (position);}
 	}
 
 	static entranceMovesEnabled() {
@@ -666,7 +671,7 @@ export class CityHelpers {
 			pips -= Math.max(tier++, 1);
 		}
 		if (tier == 0)
-			pips = 0;
+			{pips = 0;}
 		return {pips, tier};
 
 	}
@@ -685,7 +690,7 @@ export class CityHelpers {
 
 	static async _statusAddSubDialog(status: Status, title: string,_type : "addition" | "subtraction"  = "addition") : Promise<null | {name: string, tier: number}> {
 		const templateData = {status, data: status.system};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/status-addition-dialog.html", templateData);
 		return new Promise ( (conf, _reject) => {
 			const options ={};
 			const returnfn = function (html: string, tier: number) {
@@ -693,7 +698,7 @@ export class CityHelpers {
 					name: $(html).find(".status-name-input").val() as string,
 					tier
 				});
-			}
+			};
 			const dialog = new Dialog({
 				title:`${title}`,
 				content: html,
@@ -736,30 +741,31 @@ export class CityHelpers {
 
 	static async sendToChatBox(title: string, text: string, options: {label?: string, disable?: boolean, speaker?: Foundry.ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
-		const render = options?.disable ? (...args: any) => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const render = options?.disable ? (...args: any[]) => {
 			console.log("Trying to disable");
 			$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
 		} : () => 0;
 
-		let sender = options?.speaker ?? {};
-		if (!sender?.alias && sender.actor) {
-			sender.alias = sender.actor.getDisplayedName();
+		const sender = options?.speaker ?? {};
+		if (!sender?.alias && sender.actor && sender.actor instanceof CityActor) {
+			sender.alias = sender?.actor?.getDisplayedName();
 		}
 		return new Promise( (conf, _rej) => {
 			const options = {};
-			let dialog = new Dialog({
+			const dialog = new Dialog({
 				title: `${title}`,
 				content: text,
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
 						label: label,
-						callback: async() => conf(CityHelpers.sendToChat(text, sender)),
+						callback: () => conf(CityHelpers.sendToChat(text, sender)),
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
 						label: localize("CityOfMist.command.cancel"),
-						callback: async () => conf(null)
+						callback: () => conf(null)
 					}
 				},
 				default: "two",
@@ -770,12 +776,12 @@ export class CityHelpers {
 	}
 
 	static async GMMoveTextBox(title: string, text: string, options = {}) {
-		CityDialogs.GMMoveTextBox(title, text, options);
+		await CityDialogs.GMMoveTextBox(title, text, options);
 	}
 
 	static gmReviewEnabled() {
 		if (!game.users.contents.some( x=> x.isGM && x.active))
-			return false;
+			{return false;}
 		return game.settings.get('city-of-mist', "tagReview") ?? false;
 	}
 
@@ -796,9 +802,9 @@ export class CityHelpers {
 	static async toggleTokensCombatState(tokens : Token<CityActor>[]) {
 		for (const token of tokens) {
 			if (token.inCombat)
-				await this.removeTokensFromCombat([token]);
+				{await this.removeTokensFromCombat([token]);}
 			else
-				await this.addTokensToCombat([token]);
+				{await this.addTokensToCombat([token]);}
 		}
 	}
 
@@ -810,7 +816,7 @@ export class CityHelpers {
           sceneId: t.scene.id,
           actorId: t.document.actorId,
           hidden: t.document.hidden
-        }
+        };
       });
       return combat.createEmbeddedDocuments("Combatant", createData);
 	}
@@ -819,23 +825,23 @@ export class CityHelpers {
 		const combat = await this.getOrCreateCombat();
 		const tokenIds = new Set(tokens.map(t => t.id));
 		const combatantIds = combat.combatants.contents.reduce((ids, c) => {
-			if (tokenIds.has(c.tokenId)) ids.push(c.id);
+			if (tokenIds.has(c.tokenId)) {ids.push(c.id);}
 			return ids;
 		}, [] as string[]);
 		return combat.deleteEmbeddedDocuments("Combatant", combatantIds);
 	}
 
 	static async getOrCreateCombat() {
-		//@ts-ignore
-		let combat: Combat<CityActor> = game.combats.viewed;
+		let combat: U<Combat<CityActor>> = game.combats.viewed as U<Combat<CityActor>>;
 		if ( !combat ) {
 			if ( game.user.isGM ) {
-				//@ts-ignore
-				const cls = getDocumentClass("Combat");
+				//@ts-expect-error calling missing foundry function
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+				const cls : typeof Combat<CityActor> = getDocumentClass("Combat");
 				const state = false;
-				combat = await cls.create({scene: canvas.scene.id, active: true}, {render: !state});
+				//@ts-expect-error passing ID of scene to combat constructor (seems to work)
+				combat = await cls.create<Combat<CityActor>>({scene: canvas.scene.id, active: true}, {render: !state});
 			} else {
-				//@ts-ignore
 				ui.notifications.warn("COMBAT.NoneActive", {localize: true});
 				throw new Error("No combat active");
 			}
@@ -846,7 +852,7 @@ export class CityHelpers {
 	static async toggleCombat(event: JQuery.Event) {
 		const tokenId = HTMLTools.getClosestData(event, "tokenId");
 		if (!tokenId)
-			throw new Error("No token ID given");
+			{throw new Error("No token ID given");}
 		// const sceneId = HTMLTools.getClosestData(event, "sceneId");
 		// const token = game.scenes.active.tokens.get(tokenId);
 		const token = game.scenes.contents
@@ -854,12 +860,12 @@ export class CityHelpers {
 			.find(tokens => tokens.get(tokenId))!
 			.get(tokenId);
 		if (!token)
-			throw new Error( `Can't find token id ${tokenId}`);
+			{throw new Error( `Can't find token id ${tokenId}`);}
 		await CityHelpers.toggleTokensCombatState([token.object as Token<CityActor>]);
 		if (token.inCombat)
-			await CityHelpers.playTagOn();
+			{await CityHelpers.playTagOn();}
 		else
-			await CityHelpers.playTagOff()
+			{await CityHelpers.playTagOff();}
 	}
 
 	static async resetVersion() {

@@ -1,10 +1,11 @@
 class Dialog {
-	static confirm(options: ConfirmDialogOptions);
+	static confirm(options: ConfirmDialogOptions): Promise<unknown>;
 	constructor(options : DialogOptions, secondaryOptions: Record<string, any>);
 	async render(force : boolean) : void;
 	element: JQuery;
 	close(): void;
 	submit(data: unknown) : void;
+	data: { content: string };
 
 }
 
@@ -14,7 +15,11 @@ interface ConfirmDialogOptions {
 	yes: (html: string) => void;
 	no: (html: string) => void;
 	defaultYes?:boolean;
-	close ?: (html:string) => void;
+	// close ?: (html:string) => void;
+	/** rejects promise if the thing is closed, default false*/
+	rejectClose?: boolean; //k
+
+
 
 }
 
@@ -38,6 +43,6 @@ interface ButtonOptionsI {
 
 	icon?: string;
 	label?: string;
-	callback?: (html: string) => void;
+	callback?: (html: string) => unknown;
 
 }

@@ -1149,7 +1149,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getLinkedTokens() {
-		return this.getActiveTokens().filter (x=> !x.actor.token);
+		return this.getActiveTokens().filter (x=> !x.actor?.token);
 	}
 
 	get displayedName() {
@@ -1384,7 +1384,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	async addTemplate(this: Danger, id :string) {
+	async addTemplate(this: Danger, id :Danger["id"]) {
 		this.system.template_ids.push(id);
 		return await this.update({ "system.template_ids": this.system.template_ids});
 	}
@@ -1394,7 +1394,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return await this.update({ "system.template_ids": templates});
 	}
 
-	hasTemplate(this: Danger, id: string) {
+	hasTemplate(this: Danger, id: Danger["id"]) {
 		if (!this?.system?.template_ids)
 			{return false;}
 		return this.system.template_ids.includes(id);

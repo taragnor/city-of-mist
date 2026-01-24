@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Clue } from "./city-item.js";
 
 import { Juice } from "./city-item.js";
-import { Status } from "./city-item.js"
+import { Status } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { Improvement } from "./city-item.js";
 import { Tag } from "./city-item.js";
@@ -33,7 +34,7 @@ export class CityActorSheet extends CitySheet {
 	/** @override */
 	override activateListeners(html: JQuery<HTMLElement>) {
 		super.activateListeners(html);
-		if (!this.options.editable) return;
+		if (!this.options.editable) {return;}
 		//Everything below here is only needed if the sheet is editable
 		HTMLHandlers.applyBasicHandlers(html);
 		html.find('.theme-name-input').on("change", this._themebookNameInput.bind(this));
@@ -74,16 +75,16 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	override async getData() {
-		let data = await super.getData();
+		const data = await super.getData();
 		data.storyTags = this.getStoryTags();
-		const object =  {
+		const textOptions =  {
 			secrets: this.actor.isOwner,
 			async: true,
 			relativeTo: this.actor
 		};
-		data.gmnotes = await TextEditor.enrichHTML(this.actor.system.gmnotes, object);
-		data.description = await TextEditor.enrichHTML(this.actor.system.description, object)
-		data.biography = await TextEditor.enrichHTML(this.actor.system.biography, object)
+		data.gmnotes = await TextEditor.enrichHTML(this.actor.system.gmnotes, textOptions);
+		data.description = await TextEditor.enrichHTML(this.actor.system.description, textOptions);
+		data.biography = await TextEditor.enrichHTML(this.actor.system.biography, textOptions);
 		return data;
 	}
 
@@ -99,7 +100,7 @@ export class CityActorSheet extends CitySheet {
 
 	/** override */
 	override get template() {
-		if ( !game.user.isGM && this.actor.limited ) return "systems/city-of-mist/templates/limited-actor.html";
+		if ( !game.user.isGM && this.actor.limited ) {return "systems/city-of-mist/templates/limited-actor.html";}
 		return this.options.template;
 	}
 
@@ -107,7 +108,7 @@ export class CityActorSheet extends CitySheet {
 	async _themeChangeInput(event: JQuery.ChangeEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const field = HTMLTools.getClosestData(event, "property");
-		const val =  $(event.currentTarget!).val();
+		const val =  $(event.currentTarget).val() as unknown;
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
@@ -119,7 +120,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _themebookNameInput (event: JQuery.ChangeEvent | JQuery.FocusOutEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
-		const name =  $(event.currentTarget!).val();
+		const name =  $(event.currentTarget).val() as unknown;
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
@@ -131,10 +132,10 @@ export class CityActorSheet extends CitySheet {
 
 	async _createTagOrImprovement (event: JQuery.ClickEvent, bonus = false) {
 		//TODO: allow for text string attachment to improvements
-		const ownerId = HTMLTools.getClosestData(event, "ownerId") as string;
+		const ownerId = HTMLTools.getClosestData(event, "ownerId");
 		const owner = this.getOwner(ownerId);
-		const themeId = HTMLTools.getClosestData(event, "themeId") as string;
-		const itemtype = HTMLTools.getClosestData(event, "itemType") as string;
+		const themeId = HTMLTools.getClosestData(event, "themeId");
+		const itemtype = HTMLTools.getClosestData(event, "itemType");
 		const subtype = HTMLTools.getClosestData(event, "subType", null) as string  | null;
 		if (itemtype != "tag" && itemtype != "improvement") {
 			throw new Error(`Bad Item type: ${itemtype}`);
@@ -150,7 +151,7 @@ export class CityActorSheet extends CitySheet {
 		if (!bonus) {
 			idChoice  = await CityDialogs.improvementOrTagChoiceList(owner, theme, itemtype, subtype ? subtype : undefined );
 			if (idChoice == null)
-				return;
+				{return;}
 		}
 		let retobj = null;
 		let improvement;
@@ -198,11 +199,11 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _deleteImprovement (event : JQuery.Event) {
-		const actorId = HTMLTools.getClosestData(event, "ownerId") as string;
+		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const impId = HTMLTools.getClosestData(event, "impId");
 		if (!impId)
-			throw new Error("No improvement Id");
+			{throw new Error("No improvement Id");}
 		const imp =  actor.getImprovement(impId)!;
 		const impName = imp.name;
 		if (await this.confirmBox("Confirm Delete", `Delete ${impName}`)) {
@@ -225,7 +226,7 @@ export class CityActorSheet extends CitySheet {
 		const owner = this.getOwner(actorId);
 		const imp = owner.getImprovement(id)!;
 		if (!imp.system.chosen)
-			await imp.reloadImprovementFromCompendium();
+			{await imp.reloadImprovementFromCompendium();}
 		await this.improvementDialog(imp);
 	}
 
@@ -319,7 +320,7 @@ export class CityActorSheet extends CitySheet {
 		const theme =  actor.getTheme(id)!;
 		const themename = theme.name;
 		if (await HTMLTools.confirmBox("Reset Fade", `spend an improvement to reset Fade/Crack on theme: ${themename}`)) {
-			actor.resetFade(id);
+			await actor.resetFade(id);
 			await CityHelpers.modificationLog(actor, `Spent Theme Upgrade to Reset Fade`, theme);
 		}
 	}
@@ -329,9 +330,9 @@ export class CityActorSheet extends CitySheet {
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const imp =  actor.getImprovement(impId)!;
-		const impName = imp.name
+		const impName = imp.name;
 		const templateData = {improvement: imp, data: imp.system};
-		const html = await renderTemplate("systems/city-of-mist/templates/improvement-chat-description.html", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/improvement-chat-description.html", templateData);
 		const uses = imp.getImprovementUses();
 		const uses_str = (uses < 9999) ? `(uses left ${uses})` : "";
 		const disable = (uses <= 0);
@@ -340,37 +341,37 @@ export class CityActorSheet extends CitySheet {
 			disable,
 			speaker: {actor: this.actor, alias: this.actor.getDisplayedName() }
 		};
-		if (await this.sendToChatBox(localizeS(impName) as string, html, options)) {
+		if (await this.sendToChatBox(localizeS(impName).toString(), html, options)) {
 			if (uses < 9999)
-				await imp.decrementImprovementUses();
+				{await imp.decrementImprovementUses();}
 		}
 	}
 
 	async _activeExtraChange(_event: JQuery.Event) {
 		if (this.actor.system.type != "character")
-			return;
+			{return;}
 		const elem = $(this.form).find('.active-extra-drop-down');
 		const val = elem.val();
 		if (val == undefined)
-			throw new Error("value is undefined!");
+			{throw new Error("value is undefined!");}
 		if (this.actor.system.activeExtraId != val) {
 			await this.actor.setExtraThemeId(String(val));
 			const extra = game.actors.find(x => x.id == val);
 			// const name  = extra ? extra.name : "None";
 			if (extra)
-				await CityHelpers.modificationLog(this.actor, `Activated Extra ${extra.name}`);
+				{await CityHelpers.modificationLog(this.actor, `Activated Extra ${extra.name}`);}
 			else
-				await CityHelpers.modificationLog(this.actor, `deactivated extra Theme`);
+				{await CityHelpers.modificationLog(this.actor, `deactivated extra Theme`);}
 		}
 	}
 
 	async _createStatus (_event: JQuery.Event) {
 		const owner = this.actor;
-		const obj = await this.actor.createNewStatus("Unnamed Status")
+		const obj = await this.actor.createNewStatus("Unnamed Status");
 		const status =  owner.getStatus(obj.id)!;
-		const updateObj = await this.statusDialog(status) as Status;
+		const updateObj = await this.statusDialog(status);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
+			await CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
 			await owner.deleteStatus(obj.id);
 		}
@@ -388,7 +389,7 @@ export class CityActorSheet extends CitySheet {
 		const updateObj = await this.CJDialog(clue);
 		if (updateObj) {
 			const partialstr = clue.system.partial ? ", partial": "";
-			CityHelpers.modificationLog(owner, "Created", clue, `${clue.system.amount}${partialstr}` );
+			await CityHelpers.modificationLog(owner, "Created", clue, `${clue.system.amount}${partialstr}` );
 		} else  {
 			await owner.deleteClue(obj.id);
 		}
@@ -401,14 +402,14 @@ export class CityActorSheet extends CitySheet {
 		const owner =  this.getOwner(actorId);
 		const clue =  owner.getClue(clue_id)!;
 		await owner.deleteClue(clue_id);
-		CityHelpers.modificationLog(owner, "Removed", clue );
+		await CityHelpers.modificationLog(owner, "Removed", clue );
 		// }
 	}
 
 	async _deleteJournalClue (event: JQuery.Event) {
 		const clue_id = HTMLTools.getClosestData(event, "clueId");
 		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const owner =  this.getOwner(actorId)!;
+		const owner =  this.getOwner(actorId);
 		// const clue =  owner.getJournalClue(clue_id);
 		await owner.deleteClue(clue_id);
 		// CityHelpers.modificationLog(owner, "Removed", clue );
@@ -433,7 +434,7 @@ export class CityActorSheet extends CitySheet {
 		const juice =  owner.getJuice(obj.id)!;
 		const updateObj = await this.CJDialog( juice);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Created", juice, `${juice.system.amount}` );
+			await CityHelpers.modificationLog(owner, "Created", juice, `${juice.system.amount}` );
 		} else  {
 			await owner.deleteJuice(obj.id);
 		}
@@ -445,8 +446,7 @@ export class CityActorSheet extends CitySheet {
 		const owner = this.getOwner(actorId);
 		const juice = owner.getJuice(juice_id);
 		await owner.deleteJuice(juice_id);
-		CityHelpers.modificationLog(owner, "Removed", juice);
-		// }
+		await CityHelpers.modificationLog(owner, "Removed", juice);
 	}
 
 	async _statusAdd (event: JQuery.Event) {
@@ -470,7 +470,7 @@ export class CityActorSheet extends CitySheet {
 		if (updateObj)  {
 			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
 			const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-			CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
+			await CityHelpers.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
 		}
 	}
 
@@ -483,14 +483,14 @@ export class CityActorSheet extends CitySheet {
 		const oldamount = juice.system.amount;
 		const updateObj = await this.CJDialog(juice);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
+			await CityHelpers.modificationLog(owner, "Edited", juice, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 
 	async _createStoryTag(_event: JQuery.Event) {
 		const owner = this.actor;
 		const retobj = await owner.createStoryTag();
-		if (!retobj) return;
+		if (!retobj) {return;}
 		const tag =  owner.getTag(retobj.id)!;
 		await this.tagDialog(tag);
 		await CityHelpers.modificationLog(owner, "Created", tag);
@@ -507,7 +507,7 @@ export class CityActorSheet extends CitySheet {
 		const owner =  this.getOwner(actorId);
 		const clue = owner.getClue(clue_id)!;
 		if (await this.confirmBox("Use Clue", "Use Clue?"))
-			await clue.spendClue();
+			{await clue.spendClue();}
 	}
 
 	async _clueEdit (event: JQuery.Event) {
@@ -519,7 +519,7 @@ export class CityActorSheet extends CitySheet {
 		const oldamount = clue.system.amount;
 		const updateObj = await this.CJDialog(clue);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
+			await CityHelpers.modificationLog(owner, "Edited", clue, `${oldname} (${oldamount}) edited --> ${updateObj.name} (${updateObj.system.amount})` );
 		}
 	}
 
@@ -531,7 +531,7 @@ export class CityActorSheet extends CitySheet {
 	async chooseImprovement() {
 		const choiceList = ["Reset Fade", "Add New Tag", "Add Improvement"];
 		const inputList = choiceList.map( x => {
-			const data = [x]
+			const data = [x];
 			return {
 				id: x, data
 			};

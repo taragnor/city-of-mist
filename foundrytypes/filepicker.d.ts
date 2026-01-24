@@ -1,9 +1,19 @@
 class FilePicker extends Application {
+	constructor (options: PickerOptions);
 	static FILE_TYPES = ['image', 'audio', 'video', 'text', 'imagevideo', 'font', 'folder', 'any'] as const;
 
 	static async browse(source: FPSources, path: string, options: BrowseOptions = {}): Promise<BrowseReturn>;
 	static async createDirectory(source: FPSources, path: string);
 
+	browse(): Promise<FilePicker>;
+	target: string; //path
+	result: U<BrowseReturn>;
+
+}
+
+interface PickerOptions {
+	type?: FILE_TYPES;
+	callback ?: (path: string, fp: FilePicker) => unknown;
 }
 
 interface BrowseReturn {

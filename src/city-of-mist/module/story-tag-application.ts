@@ -15,7 +15,7 @@ export class StoryTagWindow extends Application {
 	static init() {
 		this.instance = new StoryTagWindow();
 		const location = CitySettings.sceneTagWindowPosition();
-		if (location == "hide") return;
+		if (location == "hide") {return;}
 		Hooks.on("ready", () => {
 			let top, left;
 			const doc = $(document);
@@ -73,7 +73,7 @@ export class StoryTagWindow extends Application {
 		Hooks.on("createActor", ()=> this.refreshContents() );
 		Hooks.on("deleteItem", ()=> this.refreshContents() );
 		Hooks.on("deleteActor", ()=> this.refreshContents() );
-		Hooks.on("updateSceneTags", async () => this.refreshContents() );
+		Hooks.on("updateSceneTags", () => this.refreshContents() );
 		Hooks.on("TagOrStatusSelected", ()=> {this.refreshContents(); return true;} );
 		Hooks.on("TagOrStatusSelectChange", ()=> this.refreshContents() );
 		Hooks.on("createCombatant", () =>this.refreshContents() );
@@ -83,16 +83,16 @@ export class StoryTagWindow extends Application {
 
 	override activateListeners(html: JQuery) {
 		HTMLHandlers.applyBasicHandlers(html, false);
-		html.find(".create-story-tag").on("click", this.createStoryTag );
-		html.find(".create-status").on("click", this.createStatus );
-		html.find(".combatant-name").on("click", this.centerOnToken );
-		html.find(".combatant-name").rightclick( this.openSheet );
-		html.find(".scene-tags-block").on("drop", this._dragDropEvent.bind(this));
-		html.find(".scene-tags-block .status").on("drop", this._dragDropEvent.bind(this));
-		html.find(".scene-tags-block").on("drop", this._dragDropEvent.bind(this));
-		html.find(".combatant-block").on("drop", this._dragDropEvent.bind(this));
-		html.find(".combatant-block .status").on("drop", this._dropOnOtherStatus.bind(this));
-		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
+		html.find(".create-story-tag").on("click", (ev) => void this.createStoryTag(ev) );
+		html.find(".create-status").on("click", (ev) => void this.createStatus(ev) );
+		html.find(".combatant-name").on("click", (ev) => void this.centerOnToken(ev) );
+		html.find(".combatant-name").rightclick( (ev) => void this.openSheet(ev) );
+		html.find(".scene-tags-block").on("drop", (ev) => void this._dragDropEvent(ev));
+		html.find(".scene-tags-block .status").on("drop", (ev) => void this._dragDropEvent(ev));
+		html.find(".scene-tags-block").on("drop", ev => void this._dragDropEvent(ev));
+		html.find(".combatant-block").on("drop", ev => void this._dragDropEvent(ev));
+		html.find(".combatant-block .status").on("drop", ev=> void this._dropOnOtherStatus(ev));
+		$(this.element).find(".toggle-combat").on("click", ev => void CityHelpers.toggleCombat(ev));
 		this.initDraggability();
 	}
 
@@ -101,11 +101,14 @@ export class StoryTagWindow extends Application {
 		const drag = new foundry.applications.ux.Draggable.implementation(this, html, false, true);
 		drag._onDragMouseMove = function _newOnDragMouseMove(event) {
 			event.preventDefault();
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 			this.app.setPosition({
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 				left: this.position.left + (event.clientX - this._initial.x),
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 				top: this.position.top + (event.clientY - this._initial.y),
 			});
-		}
+		};
 	}
 
 	refreshContents() {
@@ -120,15 +123,15 @@ export class StoryTagWindow extends Application {
 
 
 	override async getData()  {
-		const data = super.getData();
+		const data = await super.getData();
 		const tagsAndStatuses = await SceneTags.getSceneTagsAndStatuses();
 		const combat = game.combats.find( comb => comb.scene == game.scenes.current) || game.combat;
 		const combatants = (combat ? (combat.combatants.contents as Combatant<CityActor>[]) : [])
 			.filter(combatant => {
-				if (!combatant.actor || !combatant.token) return false;
+				if (!combatant.actor || !combatant.token) {return false;}
 				if (CityHelpers.sceneTagWindowFilterEmpty())
-					return combatant.actor.storyTagsAndStatuses.length > 0;
-				else return true;
+					{return combatant.actor.storyTagsAndStatuses.length > 0;}
+				else {return true;}
 			}
 			);
 		const combatActors = combatants.map( x=> x.actor!);
@@ -179,12 +182,12 @@ export class StoryTagWindow extends Application {
 		const statusId = String(HTMLTools.getClosestDataNT(event, "statusId", ""));
 		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", ""));
 		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", ""));
-		if (!statusId || !ownerId) return undefined;
+		if (!statusId || !ownerId) {return undefined;}
 		const owner = CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
 		return owner.items.get(statusId) as Status | undefined;
 	}
 
-	async toggleVisibility() {
+	toggleVisibility() {
 		const element = $(this.element);
 		if ( element.css('visibility') == 'hidden' ) {
 			element.css('visibility','visible');
@@ -193,11 +196,11 @@ export class StoryTagWindow extends Application {
 		}
 	}
 
-	static async toggleVisibility() {
+	static toggleVisibility() {
 		this.instance.toggleVisibility();
 	}
 
-	async createStoryTag(event: JQuery.Event) {
+	async createStoryTag(event: JQuery.ClickEvent) {
 		//somewhat hacky code with the exception as a branch
 		try {
 			const ownerId = HTMLTools.getClosestData(event, "ownerId");
@@ -212,14 +215,14 @@ export class StoryTagWindow extends Application {
 		return await HTMLHandlers.createStoryTag(event);
 	}
 
-	async createStatus (event: JQuery.Event) {
+	async createStatus (this: void, event: JQuery.ClickEvent) {
 		//somewhat hacky code with the exception as a branch
 		try {
 			const ownerId = HTMLTools.getClosestData(event, "ownerId");
 			const tokenId = HTMLTools.getClosestData(event, "tokenId");
 			const sceneId = HTMLTools.getClosestData(event, "sceneId");
 			CityHelpers.getOwner(ownerId, tokenId, sceneId);
-		} catch(e) {
+		} catch {
 			return await SceneTags.createSceneStatus();
 		}
 		return await HTMLHandlers.createStatus(event);
@@ -229,12 +232,12 @@ export class StoryTagWindow extends Application {
 		// const ownerId = HTMLTools.getClosestDataNT(event, "ownerId");
 		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId") as string;
 		// const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
-		if (!tokenId)  return;
+		if (!tokenId)  {return;}
 		const token = game.scenes.current.tokens.get(tokenId)?.object;
-		if (!token || !token.actor.isOwner) return;
+		if (!token || !token.actor?.isOwner) {return;}
 		if (token.center)
 			//@ts-ignore
-			await canvas.animatePan (token.center);
+			{await canvas.animatePan (token.center);}
 	}
 
 	async _dragDropEvent(event: JQuery.DropEvent) {
@@ -265,7 +268,7 @@ export class StoryTagWindow extends Application {
 		console.debug("Other Status Drop");
 		const dragging = DragAndDrop.draggedElement();
 		const existingStatus = this.getStatusAt(event);
-		let x = this.getTokenAt(event);
+		const x = this.getTokenAt(event);
 		if (x == SceneTags) {
 			await DragAndDrop.dropDraggableOnSceneTags(dragging, {mergeStatus: existingStatus});
 			return;
@@ -282,14 +285,14 @@ export class StoryTagWindow extends Application {
 		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId"));
 		// const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
 		if (tokenId)  {
-			const token = game.scenes.current.tokens.get(tokenId)
+			const token = game.scenes.current.tokens.get(tokenId);
 			if (token && token.actor && token.actor.isOwner)
-				token.actor.sheet.render(true);
+				{await token.actor.sheet.render(true);}
 			return;
 		} else if (ownerId) {
 			const actor = game.actors.get(ownerId);
 			if (actor && actor.isOwner) {
-				actor.sheet.render(true);
+				await actor.sheet.render(true);
 			}
 			return;
 		}
@@ -301,12 +304,12 @@ Hooks.on("deleteToken", async (tok) => {
 	//fix for tokens delted that have combatants not being removed from story tag tracker
 	if (!actor) {return;}
 	if (game.user.isGM && game.combat) {
-		const combatant = game.combat?.getCombatantByToken(tok)
+		const combatant = game.combat?.getCombatantByToken(tok);
 		if (combatant) {
 			await combatant.delete();
 		}
 	}
 });
 
-//@ts-ignore
+//@ts-expect-error adding to glopbal scope
 window.StoryTagWindow = StoryTagWindow;

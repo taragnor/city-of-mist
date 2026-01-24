@@ -24,7 +24,7 @@ const VERSION ="1" ; //TODO: import real version number
 function createdBy() {
 return 	{
 		createdBy : new arr( new obj<UniversalItemAccessor<Item>>()),
-	}
+	};
 }
 
 type ThemebookTagData = Record<string, ("_DELETED_" | {
@@ -85,8 +85,7 @@ function tiered() {
 	return {
 		tier: new num({initial: 0, integer:true}),
 		pips: new num({initial: 0, integer:true}),
-
-	}
+	};
 }
 
 function expendable() {
@@ -96,12 +95,11 @@ function expendable() {
 			max: new num({initial: 0, integer: true, min:0}),
 			expended: new bool({initial: false}),
 		})
-	}
-
+	};
 }
 
 class Themebook extends DataModel {
-	get type() {return "themebook" as const}
+	get type() {return "themebook" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -113,12 +111,12 @@ class Themebook extends DataModel {
 			motivation: new txt<Motivation>({initial: "mystery"}),
 			fade_type: new txt<FadeType >({initial: "default"}),
 			system_compatiblity: new txt<System | "any">({initial: "any"}),
-		}
+		};
 	}
 }
 
 class Themekit extends DataModel {
-	get type() {return "themekit" as const}
+	get type() {return "themekit" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -133,12 +131,12 @@ class Themekit extends DataModel {
 			fade_type: new txt<FadeType>({initial: "default"}),
 			subtype: new txt<ThemeType>( {initial: "Logos"}),
 			system_compatiblity: new txt<System | "any">({initial: "any"}),
-			}
+			};
 	}
 }
 
 class TagDM extends DataModel {
-	get type() {return "tag" as const}
+	get type() {return "tag" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -170,17 +168,17 @@ class TagDM extends DataModel {
 			restriction2:new txt(),
 			sceneId: new id(),
 			...createdBy()
-		}
+		};
 	}
 }
 
 class Theme extends DataModel {
-	get type() {return "theme" as const}
+	get type() {return "theme" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
 			tags: new arr(new id()),
-			improvements: new obj<{}>(),
+			improvements: new obj(),
 			attention: new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			crack:new arr(new num({initial: 0, choices: [0,1]}), {initial: [0,0,0]}),
 			milestone: new arr(new num({initial: 0, choices: [0, 1]}), {initial: [0,0,0]}),
@@ -192,12 +190,12 @@ class Theme extends DataModel {
 			img: new txt(),
 			nascent: new bool({initial: false}),
 			isExtra: new bool({initial: false}),
-		}
+		};
 	}
 }
 
 class Improvement extends DataModel {
-	get type() {return "improvement" as const}
+	get type() {return "improvement" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -209,7 +207,7 @@ class Improvement extends DataModel {
 			choice_type: new txt(),
 			effect_class: new txt(),
 			system_compatiblity: new txt<System | "any">({initial: "any"})
-		}
+		};
 	}
 }
 
@@ -219,11 +217,12 @@ class Spectrum extends DataModel {
 	static override defineSchema() {
 		return {
 			maxTier: new num({initial: 1, min: 1, integer: true, max: 999})
-		}
+		};
 	}
 
 	static override migrateData(source?: any) {
-		let data = super.migrateData(source);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		const data = super.migrateData(source);
 		if ("max_tier" in data && data.max_tier && !data.maxTier) {
 			const x = Number(data.max_tier);
 			if (Number.isNaN(x) ) {
@@ -240,7 +239,7 @@ class Spectrum extends DataModel {
 }
 
 class Clue extends DataModel {
-	get type() {return "clue" as const}
+	get type() {return "clue" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -250,7 +249,7 @@ class Clue extends DataModel {
 			partial: new bool({initial: false}),
 			metaSource: new txt(),
 			tagsUsed: new arr(new id(), {initial: []}),
-		}
+		};
 	}
 }
 
@@ -265,7 +264,7 @@ class Juice extends DataModel {
 			tagsUsed: new arr(new id(), {initial: []}),
 			subtype: new txt( {initial: undefined, choices:["help", "hurt", ""]} ),
 			targetCharacterId: new id(),
-		}
+		};
 	}
 }
 
@@ -325,7 +324,7 @@ class EssenceDM extends DataModel {
 }
 
 class GMMove extends DataModel {
-	get type() {return "gmmove" as const}
+	get type() {return "gmmove" as const;}
 	static override defineSchema() {
 		return {
 			...defaultItem(),
@@ -335,10 +334,11 @@ class GMMove extends DataModel {
 			hideName: new bool({initial: false}),
 			header: new txt({choices: ["default", "none", "symbols", "text"], initial: "default"}),
 			superMoveId: new id(),
-		}
+		};
 	}
 
 	static override migrateData(source?: any) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		const data = super.migrateData(source);
 		if (data.subtype as string == "Soft") {
 			data.subtype = "soft";
@@ -348,15 +348,14 @@ class GMMove extends DataModel {
 }
 
 class Journal extends DataModel {
-	get type() {return "journal" as const}
+	get type() {return "journal" as const;}
 	static override defineSchema() {
 		return {
 			answer: new txt(),
 			question: new txt()
-		}
+		};
 	}
 }
-
 
 export const ITEMMODELS = {
 	move: Move,
