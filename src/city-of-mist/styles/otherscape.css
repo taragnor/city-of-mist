@@ -1,31 +1,186 @@
+:root {
+	--green-OS-text: rgb(65, 183, 161);
+	--green-OS-textShadow:  0 0 2px #51eeff, 0 0 4px #007bbf;
+	--self-Header: #03060b;
+
+}
+
+.style-otherscape .window-app form button,
+.style-otherscape input{
+	color: var(--green-OS-text);
+}
+
+.style-otherscape button {
+	text-shadow: var(--green-OS-textShadow);
+}
+
+
+
+.style-otherscape {
+	font-family: "Orbitron";
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--green-OS-text);
+	/* color: #51eeff; */
+	/* text-shadow: 0 0 3px #51eeff, 0 0 6px #007bbf; */
+}
+
+@font-face {
+	font-family: "Rajdhani",
+	src: url("/fonts/Rajdhani-Regular.ttf") format("truetype");
+	font-style: normal;
+	letter-spacing: 0.1em;
+}
+
+@font-face {
+	font-family: "Orbitron";
+	src: url("/fonts/Orbitron-Regular.ttf") format("truetype");
+	font-style: normal;
+	letter-spacing: 0.1em;
+}
+
+.style-otherscape .mist-engine-theme-block .theme-title .main-tag .tag-name-block .fas {
+	font-size: 0.5em;
+}
+
+.style-otherscape .fas {
+	text-shadow: none !important;
+}
+
+.style-otherscape .mist-engine-theme-block .theme-title .main-tag .tag-name-block {
+	font-family: "Orbitron";
+}
+
+.style-otherscape .app.window-app.story-tag-window {
+	background-image: url(../images/OS-BG.webp);
+	background-size: cover;
+}
+
+.style-otherscape div.Noise-theme .theme-block {
+	color: var(--green-OS-text);
+}
+
+/* .style-otherscape .app.window-app.story-tag-window, */
+
+.style-otherscape .gmmove-text,
+.style-otherscape div.Noise-theme .theme-block,
+.holo-glass {
+	background: rgba(30, 80, 140, 0.35);
+	backdrop-filter: blur(6px);
+	/* border-radius: 12px; */
+	/* border: 1px solid rgba(120, 200, 255, 0.5); */
+	/* box-shadow: 0 0 15px rgba(120, 200, 255, 0.4); */
+}
+
+.style-otherscape .app.window-app .window-content {
+	color: var(--green-OS-text);
+}
+
+.style-otherscape .window-app:not(.story-tag-window) .window-content {
+	background-image: url(../images/OS-BG.webp);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.style-otherscape div.Self-theme .theme-block,
+.self-bg {
+	backdrop-filter: blur(6px);
+	background: rgba(80, 160, 255, 0.4);
+	/* background: linear-gradient( */
+	/* 135deg, */
+	/* #0b1d33, */
+	/* #102a4a */
+	/* ); */
+	/* border: 1px solid rgba(100, 180, 255, 0.4); */
+	/* border-radius: 10px; */
+	/* padding: 0.6em 1em; */
+	/* box-shadow: */
+	/* 0 0 12px rgba(80, 160, 255, 0.25), */
+	/* inset 0 0 10px rgba(255, 255, 255, 0.05); */
+
+}
+
+.style-otherscape .scene-tag-window,
+.style-otherscape .app.window-app.story-tag-window .window-title,
+.style-otherscape .scene-tags-block .label {
+	font-family: "Orbitron";
+	text-transform: uppercase;
+	color: var(--green-OS-text);
+}
+
+.style-otherscape .combatant-name {
+	padding-bottom: 2rem;
+}
+
+.style-otherscape .combatant-name span.name {
+	font-family: "Rajdhani";
+	font-size: 19px;
+	/* letter-spacing: 0.1em; */
+	text-transform: uppercase;
+	color: var(--green-OS-text);
+	text-shadow: 0 0 6px #51eeff, 0 0 12px #007bbf;
+}
+
+div.Noise-theme .mist-engine-theme-block .theme-title .main-tag .tag-name-block {
+	font-size: 1.7em;
+	font-family: "Orbitron";
+	line-height: 1em;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
 div.Noise-theme .theme-block {
 	/* height: 100%; */
-	color: var(--mist-text);
+	font-family: "Orbitron";
+	text-shadow: var(--green-OS-textShadow);
+	color: var(--green-OS-text);
+	/* color: var(--mist-text); */
 	border-radius: 1em;
 	border-bottom: 1em solid var(--mist-blue);
 	border-top: 2em solid var(--mist-blue);
-	background-image: url(../images/mistcardbg.webp);
+	/* background-image: url(../images/mistcardbg.webp); */
 	background-color: black;
 	background-position: center;
 	background-size: cover;
 	box-shadow: 0px -5px 0px 10px #28475ba6;	
 }
 
-div.Self-theme .theme-block {
-	color: var(--logos-text);
-	/* height: 100%; */
+.style-otherscape div.Self-theme .theme-block {
+	color: var(--green-OS-text);
+	/* color: var(--logos-text); */
+	text-shadow: var(--green-OS-textShadow);
 	border-radius: 1em;
-	border-bottom: 1em solid var(--logos-orange);
-	border-top: 2em solid var(--logos-orange);
-	background-image: url(../images/themecardbg.webp);
+	border-bottom: 1em solid var(--self-Header);
+	border-top: 2em solid var(--self-Header);
+	/* border-bottom: 1em solid var(--logos-orange); */
+	/* border-top: 2em solid var(--logos-orange); */
+	/* background-image: url(../images/themecardbg.webp); */
 	box-shadow: 0px -5px 0px 10px #a85d4ba6;
+}
+
+.style-otherscape div.Loadout-theme.theme-block,
+.style-otherscape div.Crew-OS-theme.theme-block,
+.style-otherscape div.Extra-theme.theme-block {
+	/* height: 100%; */
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+	border-radius: 1em;
+	border-bottom: 1em solid var(--extra-grey);
+	border-top: 2em solid var(--extra-grey);
+	/* background-image: url(../images/extracardbg.webp); */
+	background-image: none;
+	background-color: black;
+	background-position: center;
+	background-size: cover;
+	box-shadow: 0px -5px 0px 10px #686358a6;
+	background: rgba(30, 80, 140, 0.35);
+	backdrop-filter: blur(6px);
 }
 
 div.Mythos-theme .theme-block {
 div.Mythos-OS-theme .theme-block {
-	/* height: auto; */
-	/* height: 100%; */
-	color: var(--mythos-text);
+	/* color: var(--mythos-text); */
+	color: var(--green-OS-text);
 	border-radius: 1em;
 	border-bottom: 1em solid var(--mythos-pink);
 	border-top: 2em solid var(--mythos-pink);
@@ -36,19 +191,19 @@ div.Mythos-OS-theme .theme-block {
 	box-shadow: 0px -5px 0px 10px #502c5da6;
 }
 
-div.Crew-OS-theme .theme-block,
-.style-otherscape div.Extra-theme {
-	/* height: 100%; */
-	color: var(--extra-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--extra-grey);
-	border-top: 2em solid var(--extra-grey);
-	background-image: url(../images/extracardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #686358a6;
-}
+/* div.Crew-OS-theme .theme-block, */
+/* .style-otherscape div.Extra-theme { */
+/* 	/1* height: 100%; *1/ */
+/* 	color: var(--extra-text); */
+/* 	border-radius: 1em; */
+/* 	border-bottom: 1em solid var(--extra-grey); */
+/* 	border-top: 2em solid var(--extra-grey); */
+/* 	background-image: url(../images/extracardbg.webp); */
+/* 	background-color: black; */
+/* 	background-position: center; */
+/* 	background-size: cover; */
+/* 	box-shadow: 0px -5px 0px 10px #686358a6; */
+/* } */
 
 .style-otherscape .Mythos-theme .theme-name {
 	text-shadow: 0px 0px 10px var(--mythos-bright),
@@ -92,3 +247,9 @@ div.Crew-OS-theme .theme-block,
 	opacity: 75%;
 }
 
+
+.style-otherscape .gmmove-text {
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+	background-image: none;
+}

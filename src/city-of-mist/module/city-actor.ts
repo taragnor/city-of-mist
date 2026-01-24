@@ -748,7 +748,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		const themebook = theme.getThemebookOrTK();
 		if (options?.crispy == undefined)
-			{if (this.isPC() && temp_subtype != "weakness") {
+			{if (!this.isPC() && temp_subtype != "weakness") {
 				options.crispy = true;
 			} else {
 				options.crispy = false;

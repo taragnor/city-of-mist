@@ -1511,15 +1511,15 @@ span.improvement-name {
 span.themebook-name {
 	white-space: nowrap;
 	display: inline-block;
-	max-width: 170px;
-	width: 170px;
+	max-width: 160px;
+	width: 160px;
 	overflow: hidden;
-
 }
 
 div.themebook-name {
 	flex-wrap: nowrap;
-	word-wrap: normal;
+	word-wrap: nowrap;
+	white-space: nowrap;
 	font-style: italic;
 	font-family: Rubik;
 	/* height: auto; */
