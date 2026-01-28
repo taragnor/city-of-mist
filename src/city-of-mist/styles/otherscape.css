@@ -1,7 +1,19 @@
 :root {
 	--green-OS-text: rgb(65, 183, 161);
 	--green-OS-textShadow:  0 0 2px #51eeff, 0 0 4px #007bbf;
-	--self-Header: #03060b;
+	--self-border: #8B3A3A;
+	--self-background: rgba(139, 58, 58, 0.25);
+	/* --self-Header: #03060b; */
+
+	--mythos-border: #4B2A5A;
+	--mythos-background: rgba(75, 42, 90, 0.25);
+
+	--noise-border: #A3DAF7;
+	/* --noise-background: rgba(30, 80, 140, 0.35); */
+	--noise-background: rgba(163, 218, 247, 0.25);
+
+	--misc-border: #6FAED9;
+	--misc-background: rgb(111, 174, 217, 0.25);
 
 }
 
@@ -14,6 +26,51 @@
 	text-shadow: var(--green-OS-textShadow);
 }
 
+.style-otherscape .yellow-highlight,
+.style-otherscape .item-selection-context .tag .positive-selected,
+.style-otherscape .item-selection-context .status .positive-selected,
+.style-otherscape .positive-selected .tag,
+.style-otherscape .positive-selected .status {
+	background-image: linear-gradient(
+	to right,
+	var(--tag-yellow),
+	var(--tag-yellow-light),
+	var(--tag-yellow)
+	);
+}
+
+.style-otherscape .status-box,
+.style-otherscape .story-tag-box,
+.style-otherscape .empty-box {
+	font-family: "Orbitron";
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+	background-image: none;
+	background: var(--misc-background);
+	border-bottom: 1em solid var(--misc-border);
+	border-top: 1em solid var(--misc-border);
+	backdrop-filter: blur(6px);
+}
+
+.style-otherscape #build-up-section .tracker-circle {
+	border: 4px solid var(--misc-border);
+}
+
+.style-otherscape .journal-entry-content {
+	color: var(--green-OS-text);
+	background-image: none !important;
+	background: var(--noise-background);
+	backdrop-filter: blur(6px);
+}
+
+.journal-page-header *,
+.journal-entry-content .journal-page-content * {
+	color: var(--green-OS-text);
+}
+
+span.empty-circle {
+
+}
 
 
 .style-otherscape {
@@ -65,7 +122,7 @@
 .style-otherscape .gmmove-text,
 .style-otherscape div.Noise-theme .theme-block,
 .holo-glass {
-	background: rgba(30, 80, 140, 0.35);
+	background: var(--noise-background);
 	backdrop-filter: blur(6px);
 	/* border-radius: 12px; */
 	/* border: 1px solid rgba(120, 200, 255, 0.5); */
@@ -85,12 +142,8 @@
 .style-otherscape div.Self-theme .theme-block,
 .self-bg {
 	backdrop-filter: blur(6px);
-	background: rgba(80, 160, 255, 0.4);
-	/* background: linear-gradient( */
-	/* 135deg, */
-	/* #0b1d33, */
-	/* #102a4a */
-	/* ); */
+	background: var(--self-background);
+	/* background: rgba(80, 160, 255, 0.4); */
 	/* border: 1px solid rgba(100, 180, 255, 0.4); */
 	/* border-radius: 10px; */
 	/* padding: 0.6em 1em; */
@@ -136,8 +189,10 @@ div.Noise-theme .theme-block {
 	color: var(--green-OS-text);
 	/* color: var(--mist-text); */
 	border-radius: 1em;
-	border-bottom: 1em solid var(--mist-blue);
-	border-top: 2em solid var(--mist-blue);
+	border-bottom: 1em solid var(--noise-border);
+	border-top: 2em solid var(--noise-border);
+	/* border-bottom: 1em solid var(--mist-blue); */
+	/* border-top: 2em solid var(--mist-blue); */
 	/* background-image: url(../images/mistcardbg.webp); */
 	background-color: black;
 	background-position: center;
@@ -150,8 +205,8 @@ div.Noise-theme .theme-block {
 	/* color: var(--logos-text); */
 	text-shadow: var(--green-OS-textShadow);
 	border-radius: 1em;
-	border-bottom: 1em solid var(--self-Header);
-	border-top: 2em solid var(--self-Header);
+	border-bottom: 1em solid var(--self-border);
+	border-top: 2em solid var(--self-border);
 	/* border-bottom: 1em solid var(--logos-orange); */
 	/* border-top: 2em solid var(--logos-orange); */
 	/* background-image: url(../images/themecardbg.webp); */
@@ -165,30 +220,37 @@ div.Noise-theme .theme-block {
 	color: var(--green-OS-text);
 	text-shadow: var(--green-OS-textShadow);
 	border-radius: 1em;
-	border-bottom: 1em solid var(--extra-grey);
-	border-top: 2em solid var(--extra-grey);
+	border-bottom: 1em solid var(--misc-border);
+	border-top: 2em solid var(--misc-border);
+	/* border-bottom: 1em solid var(--extra-grey); */
+	/* border-top: 2em solid var(--extra-grey); */
 	/* background-image: url(../images/extracardbg.webp); */
 	background-image: none;
-	background-color: black;
+	background-color: var(--misc-background);
+	/* background-color: black; */
 	background-position: center;
 	background-size: cover;
 	box-shadow: 0px -5px 0px 10px #686358a6;
-	background: rgba(30, 80, 140, 0.35);
 	backdrop-filter: blur(6px);
 }
 
-div.Mythos-theme .theme-block {
-div.Mythos-OS-theme .theme-block {
+.style-otherscape div.Mythos-theme .theme-block,
+.style-otherscape div.Mythos-OS-theme .theme-block {
 	/* color: var(--mythos-text); */
 	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
 	border-radius: 1em;
-	border-bottom: 1em solid var(--mythos-pink);
-	border-top: 2em solid var(--mythos-pink);
-	background-image: url(../images/mythoscardbg.webp);
-	background-color: black;
+	border-bottom: 1em solid var(--mythos-border);
+	border-top: 2em solid var(--mythos-border);
+	/* border-bottom: 1em solid var(--mythos-pink); */
+	/* border-top: 2em solid var(--mythos-pink); */
+	/* background-image: url(../images/mythoscardbg.webp); */
+	background-image: none;
+	background-color: var(--mythos-background);
 	background-position: center;
 	background-size: 125%;
 	box-shadow: 0px -5px 0px 10px #502c5da6;
+	backdrop-filter: blur(6px);
 }
 
 /* div.Crew-OS-theme .theme-block, */

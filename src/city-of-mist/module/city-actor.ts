@@ -173,7 +173,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.getSpectrums();
 	}
 
-
 	is_character(): this is PC {
 		return this.system.type == "character";
 	}
