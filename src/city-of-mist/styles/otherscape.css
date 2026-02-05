@@ -18,7 +18,8 @@
 }
 
 .style-otherscape .window-app form button,
-.style-otherscape input{
+.style-otherscape input,
+.style-otherscape textarea {
 	color: var(--green-OS-text);
 }
 
