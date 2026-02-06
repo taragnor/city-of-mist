@@ -82,7 +82,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	}
 
 	async getCreationLocation() {
-		if (this.actor.isPC()) {
+		if (!this.actor.isPC()) {
 			return "main";
 		}
 		const choices = [
