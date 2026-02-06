@@ -17,6 +17,10 @@
 
 }
 
+.style-otherscape .tag .positive-selected {
+	color: black;
+}
+
 .style-otherscape .window-app form button,
 .style-otherscape input,
 .style-otherscape textarea {
