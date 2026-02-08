@@ -21,7 +21,7 @@ export class ClueChatCards {
 			{console.warn("No metasource for clue");}
 		if (!actor)
 			{throw new Error(`Couldnt find actor Id ${templateData?.actorId}`);}
-		const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		await CityLogger.sendToChat2(html, {actor: actor.id});
 	}
 
@@ -30,18 +30,18 @@ export class ClueChatCards {
 	static async updateClue (html: JQuery<HTMLElement>, newdata ={}) {
 		if (ClueChatCards.CLUE_LOCK) {return;}
 		ClueChatCards.CLUE_LOCK = true;
-		const messageId = html.data("messageId");
+		const messageId = html.data("messageId") as ChatMessage["id"];
 		const message = game.messages.get(messageId);
-		const question = $(html).find(".clue-reveal").data("question");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const method = $(html).find(".clue-reveal").data("method");
-		const source = $(html).find(".clue-reveal").data("source");
-		const metaSource = $(html).find(".clue-reveal").data("metaSource");
-		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
+		const question = $(html).find(".clue-reveal").data("question") as string;
+		const actorId = $(html).find(".clue-reveal").data("actorId") as Actor["id"];
+		const method = $(html).find(".clue-reveal").data("method") as string;
+		const source = $(html).find(".clue-reveal").data("source") as string;
+		const metaSource = $(html).find(".clue-reveal").data("metaSource") as string;
+		const partial_clue = $(html).find(".clue-reveal").data("partialClue") as boolean;
 		const	templateData = {question, method, source, actorId, partial_clue, metaSource, messageId, ...newdata};
 		if (!metaSource)
 			{console.warn("No metasource for clue");}
-		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
+		const new_html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		const user = message?.user;
 		try {
 			if (!message) {
@@ -60,42 +60,42 @@ export class ClueChatCards {
 		ClueChatCards.CLUE_LOCK = false;
 	}
 
-	static async clueEditButtonHandlers(_app: unknown, html: JQuery<HTMLElement>, _data: unknown) {
+	static clueEditButtonHandlers(_app: unknown, html: JQuery<HTMLElement>, _data: unknown) {
 		if ($(html).find(".clue-reveal").length == 0)
 			{return true;}
 		$(html).find(".question-part .submit-button").on ( "click",
 			() => {
-				this.clue_submitQuestion(html);
+				void this.clue_submitQuestion(html);
 			});
 		$(html).find(".partial-clue").on ("change",
 			() => {
-				this.clue_partialClueCheckbox(html);
+				void this.clue_partialClueCheckbox(html);
 			});
 		$(html).find(".question-part .bank-button").on ("click",
 			() => {
-				this.clue_bankClue(html);
+				void this.clue_bankClue(html);
 			});
 		$(html).find(".answer-part .submit-button").on ("click",
 			() => {
-				this.clue_submitAnswer(html);
+				void this.clue_submitAnswer(html);
 			});
 		$(html).find(".answer-part .edit-button").on ("click",
 			() => {
-				this.clue_editAnswer(html);
+				void this.clue_editAnswer(html);
 			});
 		$(html).find(".answer-part .refund-button").on ("click",
 			() => {
-				this.clue_refundClue(html);
+				void this.clue_refundClue(html);
 			});
 		$(html).find(".answer-part .add-to-journal-button").on ("click",
 			() => {
-				this.clue_addToJournal(html);
+				void this.clue_addToJournal(html);
 			});
 		if (game.user.isGM) {
 			$(html).find(".player-only").hide();
 		} else {
 			$(html).find(".gm-only").hide();
-			const actorId = $(html).find(".clue-reveal").data("actorId");
+			const actorId = $(html).find(".clue-reveal").data("actorId") as Actor["id"];
 			const actor = game.actors.find( x=> x.id == actorId);
 			if ( actor && !actor.isOwner) {
 				$(html).find(".player-only").hide();
@@ -106,12 +106,12 @@ export class ClueChatCards {
 	}
 
 	static async clue_bankClue(html: JQuery<HTMLElement>) {
-		const messageId = html.data("messageId");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
+		const messageId = html.data("messageId") as ChatMessage["id"];
+		const actorId = $(html).find(".clue-reveal").data("actorId") as Actor["id"];
 		const huge_method = $(html).find(".clue-reveal").data("method") as string;
-		const source = $(html).find(".clue-reveal").data("source");
-		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
-		const metaSource = $(html).find(".clue-reveal").data("metaSource");
+		const source = $(html).find(".clue-reveal").data("source") as string;
+		const partial_clue = $(html).find(".clue-reveal").data("partialClue") as boolean;
+		const metaSource = $(html).find(".clue-reveal").data("metaSource") as string;
 		const actor = CityDB.findById(actorId, "Actor") as CityActor;
 		if (!actor ) {throw new Error(`Couldn't find Actor ${actorId}`);}
 		const [name, method]   = huge_method.split(":").map (x=> x.trim());
@@ -120,7 +120,7 @@ export class ClueChatCards {
 		if (!message) {
 			throw new Error("Can't find message");
 		}
-		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
+		const new_html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", {banked:true});
 		const msg = await  message.update( {content: new_html});
 		await ui.chat.updateMessage( msg, false);
 		await actor.createClue(metaSource, clueData);
@@ -132,15 +132,15 @@ export class ClueChatCards {
 	}
 
 	static async clue_editAnswer(html: JQuery<HTMLElement>) {
-		const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".clue-reveal").data("answer");
+		const question = $(html).find(".clue-reveal").data("question") as string;
+		const answer = $(html).find(".clue-reveal").data("answer") as string;
 		await this.updateClue( html, {question, partial_answer_text: answer});
 	}
 
 	static async clue_addToJournal(html: JQuery<HTMLElement> ) {
-		const question = $(html).find(".clue-reveal").data("question");
-		const answer = $(html).find(".clue-reveal").data("answer");
-		const actorId = $(html).find(".clue-reveal").data("actorId");
+		const question = $(html).find(".clue-reveal").data("question") as string;
+		const answer = $(html).find(".clue-reveal").data("answer") as string;
+		const actorId = $(html).find(".clue-reveal").data("actorId") as Actor["id"];
 		const actor = CityDB.findById(actorId, "Actor") as CityActor;
 		if (await actor.addClueJournal(question, answer))
 			{await CityHelpers.playWriteJournal();}
@@ -149,7 +149,7 @@ export class ClueChatCards {
 	static async clue_partialClueCheckbox(html: JQuery<HTMLElement>) {
 		if (!game.user.isGM) {return;}
 		const partial_clue = $(html).find(".partial-clue").is(":checked");
-		const answer = $(html).find(".clue-reveal").data("answer");
+		const answer = $(html).find(".clue-reveal").data("answer") as string;
 		const partial_answer_text = $(html).find(".answer-part .answer-input").val();
 		if (this.clickLock) {return;} //this handler seems to fire multiple times for some reason
 		this.clickLock = true;
