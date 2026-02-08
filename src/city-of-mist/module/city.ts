@@ -106,7 +106,7 @@ function registerDataModels() {
 }
 
 
-Hooks.once("ready", async ()=> CityHelpers.cacheSounds());
+Hooks.once("ready", () => CityHelpers.cacheSounds());
 
 Hooks.once("init", async function() {
 	console.log(`***********************************`);
