@@ -131,7 +131,7 @@ export class CityRoll {
 		}
 		const allModifiers = this.#selectedList
 			.filter (x => {
-				const tag = (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId);
+				const tag = x.ownerId && x.tagId ? (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId): null;
 				if (tag != null) {
 					if (tag.isBurned())
 						{console.log(`Excluding ${tag.name}, value: ${tag.system.burned}`);}
@@ -143,8 +143,9 @@ export class CityRoll {
 		if (!options.noTags) {
 			tags = allModifiers.filter( x=> x.type == "tag"
 				&& (x.amount <= 0 || !options.noPositiveTags)
+				&& x.ownerId && x.tagId
 				&& (CityHelpers.getOwner(x.ownerId, x.tokenId) as CityActor).getTag(x.tagId) //filter out deleted tags
-			);
+			) as typeof tags;
 			if (options.burnTag && options.burnTag.length) {
 				if (!CitySettings.isOtherscapeBurn()) {
 					tags = tags.filter(x => x.tagId == options.burnTag);
@@ -163,7 +164,7 @@ export class CityRoll {
 			const min = nstatus.reduce( (acc, x) => Math.min(acc, x.amount), Infinity);
 			const statusMax = pstatus.find( x=> x.amount == max);
 			const statusMin = nstatus.find( x=> x.amount == min);
-			usedStatus = status.filter (x => x == statusMax || x == statusMin);
+			usedStatus = status.filter (x => x == statusMax || x == statusMin) as typeof usedStatus;
 		}
 		let helpHurt : ActivatedTagFormat[] = [];
 		if (!options.noHelpHurt) {
@@ -172,8 +173,8 @@ export class CityRoll {
 		const mods= allModifiers.filter ( x=> x.type == "modifier");
 		const modifiers = tags
 			.concat(usedStatus)
-			.concat(helpHurt)
-			.concat(mods)
+			.concat(helpHurt as typeof tags)
+			.concat(mods as typeof tags)
 		;
 		for (const themeType of (options.themeTypes ?? [])) {
 			const blazetheme = options.BlazeThemeId ? actor.getTheme(options.BlazeThemeId) : undefined;
@@ -816,7 +817,7 @@ export class CityRoll {
 		if (!game.user.isGM) {return;}
 		event.preventDefault();
 		const modifierId = HTMLTools.getClosestData(event, "modifierId");
-		const messageId  = HTMLTools.getClosestData(event, "messageId");
+		const messageId  = HTMLTools.getClosestData<ChatMessage["id"]>(event, "messageId");
 		const message = game.messages.get(messageId) as MistChatMessage;
 		message.rolls.forEach( roll => {
 			const modifier = (roll.options.modifiers)
@@ -830,7 +831,7 @@ export class CityRoll {
 
 	static async _checkOption (event: JQuery.ClickEvent) {
 		event.preventDefault();
-		const messageId  = HTMLTools.getClosestData(event, "messageId");
+		const messageId  = HTMLTools.getClosestData<ChatMessage["id"]>(event, "messageId");
 		const message = game.messages.get(messageId)! as MistChatMessage;
 		const roll = message.rolls[0];
 		const {power} = CityRoll.getPower(roll.options);
@@ -889,7 +890,7 @@ export class CityRoll {
 	static async _editRoll (event: JQuery.ClickEvent) {
 		if (!game.user.isGM)
 			{return true;}
-		const messageId  = HTMLTools.getClosestData(event, "messageId");
+		const messageId  = HTMLTools.getClosestData<ChatMessage["id"]>(event, "messageId");
 		const message = game.messages.get(messageId)! as MistChatMessage;
 		const roll = message.rolls[0];
 		const rollOptions = roll.options;
@@ -926,7 +927,7 @@ export class CityRoll {
 		}
 	}
 
-	static async _updateMessage (messageId: string, newRoll : MistRoll | null = null) {
+	static async _updateMessage (messageId: ChatMessage["id"], newRoll : MistRoll | null = null) {
 		if (newRoll && !game.user.isGM)
 			{console.warn("Trying to update roll as non-GM");}
 		const message = game.messages.get(messageId)! as MistChatMessage;

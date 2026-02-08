@@ -19,6 +19,7 @@ import { DowntimeSessionM } from "./city-sessions.js";
 import { CitySockets } from "./city-sockets.js";
 
 
+
 export class CityHelpers {
 
 	static get dangerTemplates() { return CityDB.dangerTemplates; }
@@ -126,7 +127,7 @@ export class CityHelpers {
 	@param  {string | undefined } sceneId
 	@return {CityActor}
 	*/
-	static getOwner(ownerId : string, tokenId?: string, sceneId?: string) : CityActor | CityItem {
+	static getOwner(ownerId : FoundryDocument["id"], tokenId?: TokenDocument["id"], sceneId?: Scene["id"]) : CityActor | CityItem {
 		if (!ownerId)
 			{throw new Error(`No owner Id provided to CityHelpers.getOwner`);}
 	 if (!tokenId) {
@@ -636,14 +637,16 @@ export class CityHelpers {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 			position = actor.parent._object.center;
 		} else {
-			const token = actor.getLinkedTokens().filter( x => x.scene == game.scenes.active)[0];
+			const token = actor.getLinkedTokens()
+				.map (x=> x._object)
+				.filter( x => x.scene == game.scenes.active)[0];
 			if (!token)
-				{return;}
+			{return;}
 			position = token.center;
 		}
 		if (position)
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			{await canvas.animatePan (position);}
+		{await canvas.animatePan (position);}
 	}
 
 	static entranceMovesEnabled() {
@@ -738,6 +741,19 @@ export class CityHelpers {
 		});
 	}
 
+	static getActorFromChatSpeaker( speaker: Foundry.ChatSpeakerObject) : U<CityActor> {
+		if (speaker.scene && speaker.token && speaker.actor) {
+			const scene = game.scenes.get(speaker.scene);
+			const token = scene?.tokens.get(speaker.token);
+			return token?.actor as CityActor;
+		}
+		if (speaker.actor) {
+				const actor = CityDB.getActor(speaker.actor) as CityActor;
+			return actor;
+		}
+		return undefined;
+	}
+
 
 	static async sendToChatBox(title: string, text: string, options: {label?: string, disable?: boolean, speaker?: Foundry.ChatSpeakerObject} = {}) {
 		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
@@ -748,8 +764,9 @@ export class CityHelpers {
 		} : () => 0;
 
 		const sender = options?.speaker ?? {};
-		if (!sender?.alias && sender.actor && sender.actor instanceof CityActor) {
-			sender.alias = sender?.actor?.getDisplayedName();
+		const actor = CityHelpers.getActorFromChatSpeaker(sender);
+		if (actor) {
+			sender.alias =actor.getDisplayedName();
 		}
 		return new Promise( (conf, _rej) => {
 			const options = {};
@@ -850,7 +867,7 @@ export class CityHelpers {
 	}
 
 	static async toggleCombat(event: JQuery.Event) {
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const tokenId = HTMLTools.getClosestData<TokenDocument["id"]>(event, "tokenId");
 		if (!tokenId)
 			{throw new Error("No token ID given");}
 		// const sceneId = HTMLTools.getClosestData(event, "sceneId");

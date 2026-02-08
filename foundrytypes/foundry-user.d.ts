@@ -7,6 +7,7 @@ namespace Foundry {
 	// class FoundryUser extends FoundryDocument<never>{
 
 	interface FoundryUser extends Document<never>{
+		id: Branded<Document["id"], "UserId">;
 		get active(): boolean;
 		targets: Set<Token<any>> & {user: FoundryUser };
 		role: number;

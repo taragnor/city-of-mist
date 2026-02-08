@@ -7,12 +7,12 @@ namespace Foundry {
 	// class Combatant<T extends Actor<any, any> = Actor<any,any>> extends FoundryDocument<never> {
 	interface Combatant<T extends Actor<any, any> = Actor<any,any>> extends Document<never> {
 		parent?: Combat<T>;
-		actorId: string;
+		actorId: T["id"];
 		defeated: boolean;
 		name: string;
 		hidden: boolean;
-		sceneId: string;
-		tokenId: string;
+		sceneId: Scene["id"];
+		tokenId: TokenDocument<T>["id"];
 		img: string;
 		actor: T  | undefined;
 		combat: Combat<T>;
@@ -27,3 +27,5 @@ namespace Foundry {
 
 declare const Combatant: Foundry.CombatantConstructor;
 type Combatant<T extends Actor<any, any> = Actor<any,any>> = Foundry.Combatant<T>;
+
+

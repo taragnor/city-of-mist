@@ -2,7 +2,7 @@
 	<input type="text" class="borderless danger-name" name="name" value="{{actor.name}}" title="Danger Name" placeholder="Danger Name" {{#if actor.system.locked}} disabled {{/if}}>
 	<div class="separator-icon"> &diams;</div>
 	{{#if actor.isToken}}
-	<input class="alias-input alias-input-unlinked-token borderless" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}" title="{{localize 'CityOfMist.terms.alias' }} " placeholder="{{localize 'CityOfMist.terms.alias' }} ">
+	<input class="alias-input alias-input-unlinked-token borderless" type="text" value="{{actor.token.name}}" data-active-token="{{actor.token}}" name="token.name" title="{{localize 'CityOfMist.terms.alias' }} " placeholder="{{localize 'CityOfMist.terms.alias' }} ">
 	{{else}}
 	<input class="alias-input alias-input-prototype borderless" type="text" name="token.name" value="{{actor.prototypeToken.name}}" title="Alias / Token Name" placeholder="Alias / Token Name">
 	{{/if}}

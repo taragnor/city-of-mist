@@ -84,11 +84,11 @@ declare class Items {
 		types: string[], makeDefault: boolean}) : void;
 }
 
-class Collection<T> extends Map<string, T> {
+class Collection<T extends FoundryDocument> extends Map<T["id"], T> {
 	contents: T[];
 	filter(fn: (item: T) => boolean) : T[];
 	[Symbol.iterator]() : Iterator<T>;
-	get(id: string) : T | undefined;
+	get(id: T["id"]) : T | undefined;
 	getName(name: string): T | undefined;
 	find (fn : (item: T) => boolean): T | undefined;
 	fromCompendium (item: T) : T;
@@ -129,4 +129,10 @@ interface FoundrySystem {
 }
 
 
+type U<T> = T| undefined;
 
+type N<T> = T | undefined;
+
+type UN<T> = T | undefined | null;
+
+ActorSheet

@@ -9,6 +9,7 @@ namespace Foundry {
 
 	// class Scene extends FoundryDocument<never> {
 	interface Scene extends Document<never> {
+		id: Branded<Document["id"], "SceneId">;
 		tokens: Collection<TokenDocument<Actor<any>>>;
 		dimensions: {distance:number, sceneRect: SceneRect };
 		walls: Collection<WallDocument>;
@@ -101,6 +102,7 @@ namespace Foundry {
 
 	// declare class RegionDocument extends DocumentConstructor {
 	interface RegionDocument extends Document<never> {
+		id: Branded<Document["id"], "regionId">;
 		parent: Scene;
 		tokens: Set<TokenDocument<Actor<any>>>;
 		behaviors: Collection<RegionBehavior>;

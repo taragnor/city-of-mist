@@ -1,6 +1,6 @@
-import { Status } from "../city-item.js";
+import { CityItem, Status } from "../city-item.js";
 import { HTMLTools } from "../tools/HTMLTools.js";
-import { SelectedTagsAndStatus } from "../selected-tags.js"
+import { SelectedTagsAndStatus } from "../selected-tags.js";
 import { Tag } from "../city-item.js";
 import { Theme } from "../city-item.js";
 import { localize } from "../city.js";
@@ -31,7 +31,7 @@ export class TagReviewDialog extends EnhancedDialog {
 		this.#session = session;
 
 		const move= CityHelpers.getMoveById(moveId);
-		if (!move) throw new Error(`Can't make session move Id ${moveId} doesn't exist`);
+		if (!move) {throw new Error(`Can't make session move Id ${moveId} doesn't exist`);}
 		this.#move= move;
 		this.#actor = actor;
 		session.setDialog(this);
@@ -93,7 +93,7 @@ export class TagReviewDialog extends EnhancedDialog {
 			actor: this.#actor,
 			suggestions: this.getSuggestedList()
 		};
-		const html = await renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
+		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/dialogs/tag-review.hbs", templateData);
 		this.setHTML(html);
 		this.setListeners(html);
 	}
@@ -108,12 +108,12 @@ export class TagReviewDialog extends EnhancedDialog {
 			.map( (ptag: Tag)=> ptag.theme! )
 			.reduce( (arr, theme) => {
 				if (!arr.includes(theme))
-					arr.push(theme);
+					{arr.push(theme);}
 				return arr;
 			}, [] as Theme[])
 			.map ( theme=> actor.items.filter(x=> x.isWeaknessTag() && x.theme == theme))
 			.flat(1)
-			.filter( tag => !items.includes(tag))
+			.filter( tag => !items.includes(tag));
 
 		const statuses = this.#actor.my_statuses
 			.filter( status => !items.includes(status));
@@ -122,13 +122,13 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	setReviewList(reviewList: ReviewableModifierList) {
 		this.#reviewList = reviewList;
-		this.refreshHTML();
+		void this.refreshHTML();
 	}
 
 	addReviewableItem(item: Status | Tag, amount: number) {
 		this.#reviewList.addReviewable( item, amount, "approved");
-		this.#session.updateList(this.#reviewList);
-		this.refreshHTML();
+		void this.#session.updateList(this.#reviewList);
+		void this.refreshHTML();
 	}
 
 
@@ -150,7 +150,7 @@ export class TagReviewDialog extends EnhancedDialog {
 			(event: JQuery.Event) => {
 				const tagId = HTMLTools.getClosestData(event, "itemId");
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Can't find ID");
+				if (!tagId || !ownerId) {throw new Error("Can't find ID");}
 					this.#session.approveTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId)!.review = "approved";
 				this.refreshHTML();
@@ -159,30 +159,30 @@ export class TagReviewDialog extends EnhancedDialog {
 			(event: JQuery.Event) => {
 				const tagId = HTMLTools.getClosestData(event, "itemId");
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Can't find ID");
-				this.#session.requestClarification(tagId, ownerId);
+				if (!tagId || !ownerId) {throw new Error("Can't find ID");}
+				void this.#session.requestClarification(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId)!.review = "challenged";
-				this.refreshHTML();
+				void this.refreshHTML();
 			});
 		$(html).find(".item-control.rejected").on("click",
 			(event:JQuery.Event) => {
 				const tagId = HTMLTools.getClosestData(event, "itemId");
 				const ownerId = HTMLTools.getClosestData(event, "ownerId");
-				if (!tagId || !ownerId) throw new Error("Can't find ID");
-				this.#session.rejectTag(tagId, ownerId);
+				if (!tagId || !ownerId) {throw new Error("Can't find ID");}
+				void this.#session.rejectTag(tagId, ownerId);
 				this.#reviewList.find(x => x.item.id == tagId)!.review = "rejected";
-				this.refreshHTML();
+				void this.refreshHTML();
 			});
 	}
 
 	override close() {
 		super.close();
 		if (this == TagReviewDialog._instance)
-			TagReviewDialog._instance = null;
+			{TagReviewDialog._instance = null;}
 	}
 
 	override onRender(_html: string) {
-		this.refreshHTML();
+		void this.refreshHTML();
 	}
 
 	static async create(reviewList: ReviewableModifierList, moveId: string, session: TagReviewSlaveSession, actor: CityActor) :Promise< {tagList: ReviewableModifierList, state: string}> {
@@ -197,21 +197,21 @@ export class TagReviewDialog extends EnhancedDialog {
 	}
 
 	async flipTag(event: Event) {
-		const tagId = HTMLTools.getClosestData(event, "tagId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const tagId = HTMLTools.getClosestData<CityItem["id"]>(event, "tagId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const tag =  owner.getTag(tagId);
 		if (!tag)
-			throw new Error(`Can't find tag ${tagId} in ${owner.name}`);
-		CityHelpers.playTagOff();
+			{throw new Error(`Can't find tag ${tagId} in ${owner.name}`);}
+		void CityHelpers.playTagOff();
 		await this.flipItem(tag);
 	}
 
 	async flipStatus(event : Event) {
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		await this.flipItem(status);
@@ -219,8 +219,8 @@ export class TagReviewDialog extends EnhancedDialog {
 
 	async flipItem(item: Tag | Status) {
 		this.#reviewList.flipAmount(item.id);
-		this.#session.updateList(this.#reviewList);
-		this.refreshHTML();
+		await this.#session.updateList(this.#reviewList);
+		await this.refreshHTML();
 	}
 
 }
@@ -234,5 +234,5 @@ Hooks.on("preTagOrStatusSelected", (selectedTagOrStatus, direction, amountUsed) 
 		return false;
 	}
 	else
-		return true;
+		{return true;}
 });

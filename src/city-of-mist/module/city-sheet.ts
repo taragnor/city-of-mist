@@ -50,7 +50,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	/* -------------------------------------------- */
 
-	override async _onDropItem(_event: Event, o: object) {
+	override async _onDropItem(_event: JQuery.Event, o: object) {
 		//@ts-expect-error using unknwon function not in foundrytypes
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 		const item : CityItem = await Item.implementation.fromDropData(o);
@@ -108,8 +108,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	async _editThemeKit(event: Event) {
 		event.stopImmediatePropagation();
-		const themeId = HTMLTools.getClosestData(event, "themeId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const themeId = HTMLTools.getClosestData<CityItem["id"]>(event, "themeId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		// const TKId = HTMLTools.getClosestData(event, "tkId");
 		const owner = this.getOwner(ownerId);
 		const theme = owner.getTheme(themeId)!;
@@ -130,8 +130,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 
 	async _editThemeBook(event: JQuery.Event) {
 		event.stopPropagation();
-		const themeId = HTMLTools.getClosestData(event, "themeId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const themeId = HTMLTools.getClosestData<CityItem["id"]>(event, "themeId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner = this.getOwner(ownerId);
 		const theme = owner.getTheme(themeId)!;
 		const tkOrTB = theme.getThemebookOrTK();
@@ -210,7 +210,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 	/** returns the owner of the given id, tokenId and sceneId
 	@return {CityActor}
 	*/
-	getOwner(id: string, tokenId?: string, sceneId?: string): CityActor {
+	getOwner(id: CityActor["id"], tokenId?: Token["id"], sceneId?: Scene["id"]): CityActor {
 		if (!id || id == this.actor.id)
 			{return this.actor;}
 		else {return CityHelpers.getOwner(id, tokenId, sceneId) as CityActor;}

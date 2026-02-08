@@ -18,9 +18,9 @@ export class ClueChatCards {
 		const actor = CityDB.getActorById(templateData.actorId);
 		// const	templateData= {actorId, metaSource, method};
 		if (!templateData.metaSource)
-			console.warn("No metasource for clue");
+			{console.warn("No metasource for clue");}
 		if (!actor)
-			throw new Error(`Couldnt find actor Id ${templateData?.actorId}`);
+			{throw new Error(`Couldnt find actor Id ${templateData?.actorId}`);}
 		const html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		await CityLogger.sendToChat2(html, {actor: actor.id});
 	}
@@ -28,7 +28,7 @@ export class ClueChatCards {
 	static CLUE_LOCK = false;
 
 	static async updateClue (html: JQuery<HTMLElement>, newdata ={}) {
-		if (ClueChatCards.CLUE_LOCK) return;
+		if (ClueChatCards.CLUE_LOCK) {return;}
 		ClueChatCards.CLUE_LOCK = true;
 		const messageId = html.data("messageId");
 		const message = game.messages.get(messageId);
@@ -40,7 +40,7 @@ export class ClueChatCards {
 		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
 		const	templateData = {question, method, source, actorId, partial_clue, metaSource, messageId, ...newdata};
 		if (!metaSource)
-			console.warn("No metasource for clue");
+			{console.warn("No metasource for clue");}
 		const new_html = await renderTemplate("systems/city-of-mist/templates/parts/clue-reveal.hbs", templateData);
 		const user = message?.user;
 		try {
@@ -49,11 +49,11 @@ export class ClueChatCards {
 			}
 			await message.delete();
 			const actor = CityDB.getActorById(actorId) as CityActor;
-			let whisperTarget = "";
+			let whisperTarget : U<FoundryUser["id"]>;
 			if (CitySettings.whisperClues()) {
 				whisperTarget = message.user!.id;
 			}
-			await CityLogger.sendToChat2(new_html, {actor: actor.id, token: "", alias:actor ? actor.getDisplayedName() : "clue", altUser: user}, whisperTarget);
+			await CityLogger.sendToChat2(new_html, {actor: actor.id, token: "", alias:actor ? actor.getDisplayedName() : "clue", altUser: user}, whisperTarget ? whisperTarget : undefined);
 		} catch (err) {
 			console.error(err);
 		}
@@ -62,7 +62,7 @@ export class ClueChatCards {
 
 	static async clueEditButtonHandlers(_app: unknown, html: JQuery<HTMLElement>, _data: unknown) {
 		if ($(html).find(".clue-reveal").length == 0)
-			return true;
+			{return true;}
 		$(html).find(".question-part .submit-button").on ( "click",
 			() => {
 				this.clue_submitQuestion(html);
@@ -108,12 +108,12 @@ export class ClueChatCards {
 	static async clue_bankClue(html: JQuery<HTMLElement>) {
 		const messageId = html.data("messageId");
 		const actorId = $(html).find(".clue-reveal").data("actorId");
-		const huge_method = $(html).find(".clue-reveal").data("method") as String;
+		const huge_method = $(html).find(".clue-reveal").data("method") as string;
 		const source = $(html).find(".clue-reveal").data("source");
 		const partial_clue = $(html).find(".clue-reveal").data("partialClue");
 		const metaSource = $(html).find(".clue-reveal").data("metaSource");
 		const actor = CityDB.findById(actorId, "Actor") as CityActor;
-		if (!actor ) throw new Error(`Couldn't find Actor ${actorId}`);
+		if (!actor ) {throw new Error(`Couldn't find Actor ${actorId}`);}
 		const [name, method]   = huge_method.split(":").map (x=> x.trim());
 		const clueData = {partial: partial_clue, name, method, source};
 		const message = game.messages.get(messageId);
@@ -143,15 +143,15 @@ export class ClueChatCards {
 		const actorId = $(html).find(".clue-reveal").data("actorId");
 		const actor = CityDB.findById(actorId, "Actor") as CityActor;
 		if (await actor.addClueJournal(question, answer))
-			await CityHelpers.playWriteJournal();
+			{await CityHelpers.playWriteJournal();}
 	}
 
 	static async clue_partialClueCheckbox(html: JQuery<HTMLElement>) {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		const partial_clue = $(html).find(".partial-clue").is(":checked");
 		const answer = $(html).find(".clue-reveal").data("answer");
 		const partial_answer_text = $(html).find(".answer-part .answer-input").val();
-		if (this.clickLock) return; //this handler seems to fire multiple times for some reason
+		if (this.clickLock) {return;} //this handler seems to fire multiple times for some reason
 		this.clickLock = true;
 		if (answer) {
 			await this.updateClue(html, {answer, partial_clue});

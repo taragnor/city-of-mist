@@ -56,7 +56,7 @@ class ColorFieldClass extends FoundryDMField<string> {
 class JSONField extends StringFieldClass {
 }
 
-class DocumentIdField extends StringFieldClass<Foundry.Document["id"]> {
+class DocumentIdField<T extends Foundry.Document> extends StringFieldClass<T["id"]> {
 }
 
 declare class StringFieldClass<const T extends string= string> extends FoundryDMField<T> {

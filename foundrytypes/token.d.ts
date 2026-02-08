@@ -57,7 +57,7 @@ class Token<Act extends Actor = Actor<any,any,any>> extends PlaceableObject {
 	get actor(): U<Act>;
 	document: TokenDocument<Act>;
 	get scene(): Scene;
-	id: string;
+	id: TokenDocument["id"];
 	x: number;
 	y: number;
 	scene: Scene;

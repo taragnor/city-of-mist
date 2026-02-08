@@ -13,6 +13,7 @@ interface ItemConstructor extends DocumentConstructor {
 interface Item<T extends SchemaDict = any, in ActorType extends Actor<any, this, any> = Actor<any,this,any>, in AEType extends ActiveEffect<ActorType, this> = ActiveEffect<ActorType, this>> extends Document<AEType>{
 	parent: ActorType | undefined;
 	img: string;
+	id: Branded<Document["id"], "ItemId">;
 
 	/** @deprecated use system.type instead, as this will not promote TS narrowing */
 	type: keyof T;

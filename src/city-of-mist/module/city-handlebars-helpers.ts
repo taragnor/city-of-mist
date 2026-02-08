@@ -3,7 +3,7 @@ import { localizeS } from "./tools/handlebars-helpers.js";
 import { StatusMath } from "./status-math.js";
 import { MIST_ENGINE_EFFECTS } from "./config/mist-engine-effects.js";
 import { MIST_ENGINE_EFFECTS_LIST } from "./config/mist-engine-effects.js";
-import { Move } from "./city-item.js";
+import { CityItem, Move } from "./city-item.js";
 import { MistRoll } from "./mist-roll.js";
 import { CityRoll } from "./city-roll.js";
 import { Improvement } from "./city-item.js";
@@ -112,7 +112,7 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return SelectedTagsAndStatus.getActivatedDirection(tagId, tokenId);
 		},
 
-		'defaultTagDirection': function (_tagName: string, tagOwnerId: string, tagId: string, tokenId: string | null =null) {
+		'defaultTagDirection': function (_tagName: string, tagOwnerId: CityActor["id"], tagId: CityItem["id"], tokenId: Token["id"] | null =null) {
 			if (typeof tokenId == "object") {
 				tokenId = null;
 				//Fix for handlebars overcall with arguments

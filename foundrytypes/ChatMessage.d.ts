@@ -11,6 +11,7 @@ namespace Foundry {
 
 	// declare class ChatMessage<R extends Roll = Roll> extends FoundryDocument {
 	interface ChatMessage<R extends Roll = Roll> extends Document<never> {
+		id: Branded<Document["id"], "ChatMessageId">;
 		/**deprecated as of V12, use author instead*/
 		user?: FoundryUser;
 		author: FoundryUser;
@@ -48,13 +49,11 @@ namespace Foundry {
 	type MessageOptions = Record<string, unknown>;
 
 	type ChatSpeakerObject = {
-		scene?: Scene,
-		actor?: Actor,
-		token?: TokenDocument,
-		alias?: string,
+		scene?: UN<Scene["id"]>,
+		actor?: UN<Actor["id"]>,
+		token?: UN<TokenDocument["id"]>,
+		alias?: UN<string>,
 	}
-
-
 
 	type ChatLog = unknown;
 

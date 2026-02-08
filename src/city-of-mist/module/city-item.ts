@@ -1175,7 +1175,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 	/** On juice object tell who the juice targets
 	*/
 	getTarget(this: Juice): CityActor | null {
-		const targetId = this.system?.targetCharacterId;
+		const targetId = this.system?.targetCharacterId as CityActor["id"];
 		if (targetId)
 			{return game.actors.get(targetId) as CityActor;}
 		else {return null;}
@@ -1370,7 +1370,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 				}
 			}
 		} else {
-			const BUList = await CityHelpers.getBuildUpImprovements();
+			const BUList = CityHelpers.getBuildUpImprovements();
 			const imp = BUList.find ( x => x.name == this.name);
 			if (!imp) {throw new Error(`Can't find MoE ${this.name}`);}
 			description = imp.system.description;
@@ -1517,7 +1517,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		const {taglist, statuslist} = this.formatGMMoveText(actor as Danger);
 		const options = { token: null ,
 			speaker: {
-				actor:actor,
+				actor:actor.id,
 				alias: actor.getDisplayedName()
 			}
 		};

@@ -432,8 +432,8 @@ HTMLTools.initCustomJqueryFunctions();
 
 declare global {
 	interface JQuery{
-		middleclick(handler: (e: JQuery.Event) => unknown) :void;
-		rightclick(handler: (e: JQuery.Event) => unknown) :void;
+		middleclick(handler: (e: JQuery.ClickEvent) => unknown) :void;
+		rightclick(handler: (e: JQuery.ClickEvent) => unknown) :void;
 		getSelected() : string | boolean | number | undefined;
 	}
 }

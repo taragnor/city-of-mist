@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Clue } from "./city-item.js";
+import { CityItem, Clue } from "./city-item.js";
 
 import { Juice } from "./city-item.js";
 import { Status } from "./city-item.js";
@@ -14,6 +14,7 @@ import {CityHelpers} from "./city-helpers.js";
 import { CitySheet } from "./city-sheet.js";
 import {HTMLHandlers} from "./universal-html-handlers.js";
 import {CitySettings} from "./settings.js";
+import {CityActor} from "./city-actor.js";
 
 
 export class CityActorSheet extends CitySheet {
@@ -109,7 +110,7 @@ export class CityActorSheet extends CitySheet {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const field = HTMLTools.getClosestData(event, "property");
 		const val =  $(event.currentTarget).val() as unknown;
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
 		if (!theme) {
@@ -121,7 +122,7 @@ export class CityActorSheet extends CitySheet {
 	async _themebookNameInput (event: JQuery.ChangeEvent | JQuery.FocusOutEvent) {
 		const id = HTMLTools.getClosestData(event, "themeId");
 		const name =  $(event.currentTarget).val() as unknown;
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const theme = actor.getTheme(id);
 		if (!theme) {
@@ -132,7 +133,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _createTagOrImprovement (event: JQuery.ClickEvent, bonus = false) {
 		//TODO: allow for text string attachment to improvements
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner = this.getOwner(ownerId);
 		const themeId = HTMLTools.getClosestData(event, "themeId");
 		const itemtype = HTMLTools.getClosestData(event, "itemType");
@@ -199,7 +200,7 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _deleteImprovement (event : JQuery.Event) {
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const impId = HTMLTools.getClosestData(event, "impId");
 		if (!impId)
@@ -221,8 +222,8 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _improvementEdit(event: JQuery.Event) {
-		const id = HTMLTools.getClosestData(event, "impId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const id = HTMLTools.getClosestData<CityItem["id"]>(event, "impId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner = this.getOwner(actorId);
 		const imp = owner.getImprovement(id)!;
 		if (!imp.system.chosen)
@@ -231,8 +232,8 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _deleteTheme(event: JQuery.Event) {
-		const themeId = HTMLTools.getClosestData( event, "themeId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const themeId = HTMLTools.getClosestData<CityItem["id"]>( event, "themeId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor =  this.getOwner(actorId);
 		const theme =  actor.getTheme(themeId)!;
 		const themeName = theme.name;
@@ -271,9 +272,9 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _addAttentionOrFade (event: JQuery.Event) {
-		const id = HTMLTools.getClosestData( event, "themeId");
+		const id = HTMLTools.getClosestData<CityItem["id"]>( event, "themeId");
 		const type = HTMLTools.getClosestData( event, "type");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor =  this.getOwner(actorId);
 		switch (type) {
 			case "attention":
@@ -292,9 +293,9 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _removeAttentionOrFade (event: JQuery.Event) {
-		const id = HTMLTools.getClosestData( event, "themeId");
+		const id = HTMLTools.getClosestData<CityItem["id"]>( event, "themeId");
 		const type = HTMLTools.getClosestData( event, "type");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor =  this.getOwner(actorId);
 		// const theme =  actor.getTheme(id)!;
 		switch (type) {
@@ -315,7 +316,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _resetFade (event: JQuery.Event) {
 		const id = HTMLTools.getClosestData( event, "themeId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor =  this.getOwner(actorId);
 		const theme =  actor.getTheme(id)!;
 		const themename = theme.name;
@@ -327,7 +328,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _sendImprovementToChat(event: JQuery.Event) {
 		const impId = HTMLTools.getClosestData( event, "impId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const actor = this.getOwner(actorId);
 		const imp =  actor.getImprovement(impId)!;
 		const impName = imp.name;
@@ -398,7 +399,7 @@ export class CityActorSheet extends CitySheet {
 	async _deleteClue (event: JQuery.Event) {
 		event.stopPropagation();
 		const clue_id = HTMLTools.getClosestData(event, "clueId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner =  this.getOwner(actorId);
 		const clue =  owner.getClue(clue_id)!;
 		await owner.deleteClue(clue_id);
@@ -408,7 +409,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _deleteJournalClue (event: JQuery.Event) {
 		const clue_id = HTMLTools.getClosestData(event, "clueId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner =  this.getOwner(actorId);
 		// const clue =  owner.getJournalClue(clue_id);
 		await owner.deleteClue(clue_id);
@@ -442,7 +443,7 @@ export class CityActorSheet extends CitySheet {
 
 	async _deleteJuice (event: JQuery.Event) {
 		const juice_id = HTMLTools.getClosestData(event, "juiceId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner = this.getOwner(actorId);
 		const juice = owner.getJuice(juice_id);
 		await owner.deleteJuice(juice_id);
@@ -459,8 +460,8 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _statusEdit (event: JQuery.Event) {
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner =  this.getOwner(ownerId);
 		const status =  owner.getStatus(status_id)!;
 		const oldtier = status.system.tier;
@@ -475,8 +476,8 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _juiceEdit (event: JQuery.Event) {
-		const juice_id = HTMLTools.getClosestData(event, "juiceId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const juice_id = HTMLTools.getClosestData<CityItem["id"]>(event, "juiceId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner = this.getOwner(ownerId);
 		const juice =  owner.getJuice(juice_id)!;
 		const oldname = juice.name;
@@ -502,8 +503,8 @@ export class CityActorSheet extends CitySheet {
 			ui.notifications.warn("only players can use clues");
 			return;
 		}
-		const clue_id = HTMLTools.getClosestData(event, "clueId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
+		const clue_id = HTMLTools.getClosestData<CityItem["id"]>(event, "clueId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner =  this.getOwner(actorId);
 		const clue = owner.getClue(clue_id)!;
 		if (await this.confirmBox("Use Clue", "Use Clue?"))
@@ -511,8 +512,8 @@ export class CityActorSheet extends CitySheet {
 	}
 
 	async _clueEdit (event: JQuery.Event) {
-		const clue_id = HTMLTools.getClosestData(event, "clueId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
+		const clue_id = HTMLTools.getClosestData<CityItem["id"]>(event, "clueId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const owner =  this.getOwner(ownerId);
 		const clue =  owner.getClue(clue_id)!;
 		const oldname = clue.name;

@@ -137,7 +137,7 @@ export class RollDialog extends Dialog {
 
 	/**handler function when it recieves juice
 	*/
-	async juiceSessionHandlerFn(ownerId: string, direction: number, amount: number) {
+	async juiceSessionHandlerFn(ownerId: CityActor["id"], direction: number, amount: number) {
 		{
 			const html = this.html;
 			const owner = CityHelpers.getOwner(ownerId);
@@ -155,7 +155,7 @@ export class RollDialog extends Dialog {
 	spawnJuiceSession() {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.#juiceSession = new JuiceMasterSession( this.juiceSessionHandlerFn.bind(this), this.actor.id, this.move_id);
-		this.#juiceSession.addNotifyHandler("pending", async (dataObj : {type: string, ownerId: string}) => {
+		this.#juiceSession.addNotifyHandler("pending", async (dataObj : {type: string, ownerId: CityActor["id"]}) => {
 			const {type, ownerId} = dataObj;
 			const owner = CityHelpers.getOwner(ownerId) as CityActor;
 			await CityHelpers.playPing();
@@ -187,7 +187,7 @@ export class RollDialog extends Dialog {
 		this.#tagReviewSession = new TagReviewMasterSession( tagList, this.move_id, this.actor);
 		this.#tagReviewSession.setDialog(this);
 		const reviewSession = this.#tagReviewSession;
-		reviewSession.addNotifyHandler( "tagUpdate", async ( { itemId, ownerId, changeType}: {itemId: string, ownerId: string, changeType:ReviewStatus} ) => {
+		reviewSession.addNotifyHandler( "tagUpdate", async ( { itemId, ownerId, changeType}: {itemId: string, ownerId: CityActor["id"], changeType:ReviewStatus} ) => {
 			const targetTag = this.#modifierList.find(x => x.item.id == itemId)!;
 			targetTag.review = changeType;
 			this.updateModifierPopup(html);

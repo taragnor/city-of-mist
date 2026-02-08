@@ -7,6 +7,6 @@ class TextEditor {
 
 interface TextEditorOptions {
 	secrets: boolean;
-	async: boolean;
-	relativeTo: Actor;
+		async: boolean;
+	relativeTo: Actor<any>;
 }

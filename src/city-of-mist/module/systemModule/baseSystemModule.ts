@@ -23,17 +23,17 @@ export abstract class BaseSystemModule implements SystemModuleI {
 			return localizeS(doc.system.locale_name).toString();
 		}
 		const lnName = this.lookupLocalizationProperty(doc, "name");
-		if (lnName) return lnName;
+		if (lnName) {return lnName;}
 		return doc.name;
 	}
 
 	localizedDescription(doc: CityActor | CityItem) : string {
 		if ("description" in doc.system) {
 			const description = doc.system.description;
-			if (description.startsWith("#")) return localizeS(description).toString();
+			if (description.startsWith("#")) {return localizeS(description).toString();}
 			if (!description) {
 				const lnDescription = this.lookupLocalizationProperty(doc, "description");
-				if (lnDescription) return lnDescription;
+				if (lnDescription) {return lnDescription;}
 				return description ?? "";
 			}
 			return description;
@@ -64,7 +64,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		}
 		const pageRefTarget = `pageref`;
 		const pageRef = this.lookupLocalizationProperty(tb, pageRefTarget);
-		if (pageRef) return pageRef;
+		if (pageRef) {return pageRef;}
 		return "";
 	}
 

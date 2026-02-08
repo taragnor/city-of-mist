@@ -1,16 +1,17 @@
 import { CitySettings } from "./settings.js";
 import { CityRoll } from "./city-roll.js";
-import { Move } from "./city-item.js";
+import { CityItem, Move } from "./city-item.js";
 import { CityDB } from "./city-db.js";
 import { ThemeType } from "./datamodel/theme-types.js";
 import { TagCreationOptions } from "./config/statusDropTypes.js";
 import { ActivatedTagFormat } from "./selected-tags.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { OtherEffect } from "./config/mist-engine-effects.js";
+import {CityActor} from "./city-actor.js";
 
 
 export type MRollOptions = CRollOptions & {
-	actorId?: string,
+	actorId?: CityActor["id"],
 	modifiers :RollModifier[],
 	tags: RollModifier[],
 	moveId :string;
@@ -26,13 +27,13 @@ export type RollModifier = {
 	id:string,
 	name: string,
 	amount: number,
-	ownerId: string | null,
-	tagId: string | null,
+	ownerId: CityActor["id"] | null,
+	tagId: CityItem["id"] | null,
 	type: ActivatedTagFormat["type"],
 	strikeout?: boolean,
 	subtype ?: string;
 	description ?: string;
-	tokenId ?: string;
+	tokenId ?: TokenDocument["id"];
 }
 
 type ExtraFeat = OtherEffect ;

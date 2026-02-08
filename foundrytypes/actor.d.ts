@@ -15,6 +15,7 @@ namespace Foundry {
 
 			/** @deprecated use system.type instead, as this will not promote TS narrowing */
 			type: keyof T;
+			id: Branded<Document["id"], "ActorId">;
 			system: TotalConvert<T>;
 			items: Collection<ItemType>;
 			getRollData(): TotalConvert<T>;
@@ -40,6 +41,9 @@ namespace Foundry {
 			allApplicableEffects() : Generator<AEType>
 			getActiveTokens(linked?: boolean, document?: boolean) : Token<Actor<T, ItemType, AEType>>[];
 			async toggleStatusEffect(statusId: string, options: ToggleStatusOptions = {}): Promise<AEType | boolean | undefined>;
+
+			/**refreshes list of status effects, and also applies status effect, is part of actorupdate loop */
+			protected applyActiveEffects();
 
 			// Get a list of all effects that are actually applied to the actor.
 			appliedEffects: AEType[];

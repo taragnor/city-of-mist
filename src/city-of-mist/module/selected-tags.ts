@@ -17,8 +17,8 @@ declare global {
 
 export type ShorthandNotation = {
 	id: string,
-	ownerId: string ,
-	tokenId?: string ,
+	ownerId: U<CityActor["id"]> ,
+	tokenId?: Token["id"] ,
 	type: CityItem["system"]["type"] | "modifier",
 	amount: number;
 };
@@ -27,14 +27,14 @@ export type ActivatedTagFormat = {
 	name: string,
 	id: string,
 	amount: number,
-	ownerId: string,
-	tagId: string,
+	ownerId: U<CityActor["id"]>,
+	tagId: U<CityItem["id"]>,
 	type: CityItem["system"]["type"] | "modifier",
 	description: string,
 	subtype: string,
 	strikeout: boolean,
 	review: "pending" ,
-	tokenId: string,
+	tokenId: TokenDocument["id"],
 	crispy: boolean
 };
 export class SelectedTagsAndStatus {
@@ -85,14 +85,14 @@ export class SelectedTagsAndStatus {
 			name: x.displayedName,
 			id: x.id,
 			amount,
-			ownerId: tagOwner?.id ?? "" ,
-			tagId: tag ? x.id : "",
+			ownerId: tagOwner?.id ?? undefined ,
+			tagId: tag ? x.id : undefined,
 			type: (tagOrStatus.system.type == "status" && tagOrStatus.system.specialType == "collective") ? "modifier" :  x.system.type,
 			description: tag ? tag.system.description : "",
 			subtype,
 			strikeout: false,
 			review: "pending",
-			tokenId,
+			tokenId: tokenId as Token["id"],
 			crispy
 		};
 	}
@@ -115,7 +115,7 @@ export class SelectedTagsAndStatus {
 		return this._playerActivatedStuff
 			.filter( ({id, ownerId, tokenId, type}) => {
 				try {
-					const owner: CityActor = CityHelpers.getOwner(ownerId, tokenId) as CityActor ;
+					const owner: CityActor = CityHelpers.getOwner(ownerId as CityActor["id"], tokenId) as CityActor ;
 					if (!owner) {return false;}
 					if (tokenId) {
 						const found = game.scenes
@@ -144,14 +144,14 @@ export class SelectedTagsAndStatus {
 	}
 
 	static resolveTagAndStatusShorthand( {id, ownerId, tokenId}: ShorthandNotation | ActivatedTagFormat): Tag | Status {
-		return (CityHelpers.getOwner(ownerId, tokenId) as CityActor).getItem(id) as Tag | Status;
+		return (CityHelpers.getOwner(ownerId as Actor["id"], tokenId) as CityActor).getItem(id) as Tag | Status;
 	}
 
 	static fullTagOrStatusToShorthand(tag: ReviewableItem["item"]): ShorthandNotation {
 		return {
 			id: tag.id,
-			ownerId: tag.parent?.id ?? "",
-			tokenId: tag?.parent?.token?.id  ?? "",
+			ownerId: tag.parent?.id ?? undefined,
+			tokenId: tag?.parent?.token?.id  ?? undefined,
 			type: tag?.system?.type,
 			amount: 1,
 		};
@@ -198,9 +198,9 @@ export class SelectedTagsAndStatus {
 
 	static async _selectTagHandler(event: JQuery.ClickEvent , invert = false ) {
 		const id = HTMLTools.getClosestData(event, "tagId");
-		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
-		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		const tagownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 		const owner = CityHelpers.getOwner(tagownerId, tokenId, sceneId ) as CityActor;
 		if (!owner)
 			{throw new Error(`Owner not found for tagId ${id}, token: ${tokenId}`);}
@@ -265,10 +265,10 @@ export class SelectedTagsAndStatus {
 	}
 
 	static async _statusSelect (event: JQuery.ClickEvent, invert = false) {
-		const id = HTMLTools.getClosestData(event, "statusId");
-		const tagownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
-		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		const id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const tagownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 		if (!tagownerId || tagownerId.length <0)
 			{console.warn(`No ID for status owner : ${tagownerId}`);}
 		let direction = -1;

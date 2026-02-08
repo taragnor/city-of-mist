@@ -1,4 +1,4 @@
-import { Status } from "./city-item.js";
+import { CityItem, Status } from "./city-item.js";
 import { localize } from "./city.js";
 import { HTMLTools } from "./tools/HTMLTools.js";
 import {CityHelpers} from "./city-helpers.js";
@@ -43,15 +43,15 @@ export class HTMLHandlers {
 	static async createStatus(event: JQuery.Event) {
 		event.stopPropagation();
 		event.preventDefault();
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
-		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 		const owner =  CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
-		const obj = await owner.createNewStatus("Unnamed Status")
+		const obj = await owner.createNewStatus("Unnamed Status");
 		const status =  owner.getStatus(obj.id)!;
 		const updateObj = await CityDialogs.itemEditDialog(status);
 		if (updateObj) {
-			CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
+			await CityHelpers.modificationLog(owner, "Created", updateObj, `tier  ${updateObj.system.tier}`);
 		} else {
 			await owner.deleteStatus(obj.id);
 		}
@@ -60,25 +60,25 @@ export class HTMLHandlers {
 	static async createStoryTag(event: JQuery.Event) {
 		event.stopPropagation();
 		event.preventDefault();
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
-		const sceneId = HTMLTools.getClosestData(event, "sceneId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+		const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 		const owner =  CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
 		const retobj = await owner.createStoryTag();
-		if (!retobj) return false;
+		if (!retobj) {return false;}
 		const tag =  owner.getTag(retobj.id)!;
 		const updateObj =	await CityDialogs.itemEditDialog(tag);
 		if (updateObj)
-			await CityHelpers.modificationLog(owner, "Created", tag);
+			{await CityHelpers.modificationLog(owner, "Created", tag);}
 		else
-			await owner.deleteTag(retobj.id);
+			{await owner.deleteTag(retobj.id);}
 		return false;
 	}
 
 	static async deleteTag (event: JQuery.Event, autoDelete = false) {
-		const tagId = HTMLTools.getClosestData(event, "tagId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const tagId = HTMLTools.getClosestData<CityItem["id"]>(event, "tagId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const actor =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const tag =  actor.getTag(tagId)!;
 		if (!tag.isOwner) {
@@ -91,7 +91,7 @@ export class HTMLHandlers {
 			return;
 		}
 		if (!autoDelete && !await HTMLTools.confirmBox("Confirm Delete", `Delete Tag ${tagName}`))
-			return;
+			{return;}
 		const removeImprovement =
 			tag.isWeaknessTag()
 			&& tag.theme!.weaknessTags.length >= 2
@@ -108,8 +108,8 @@ export class HTMLHandlers {
 
 	static async tagEdit(event: JQuery.Event) {
 		const id = HTMLTools.getClosestData(event, "tagId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const tag =  owner.getTag(id)!;
 		if (!tag.isOwner) {
@@ -126,9 +126,9 @@ export class HTMLHandlers {
 	}
 
 	static async statusEdit (event: JQuery.Event) {
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		if (!status.isOwner) {
@@ -142,14 +142,14 @@ export class HTMLHandlers {
 		if (updateObj)  {
 			const oldpipsstr =+ oldpips ? `.${oldpips}`: "";
 			const pipsstr =+ status.system.pips ? `.${status.system.pips}`: "";
-			CityLogger.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
+			await CityLogger.modificationLog(owner, "Edited", status ,`${oldname}-${oldtier}${oldpipsstr} edited --> ${status.name}-${status.system.tier}${pipsstr})` );
 		}
 	}
 
 	static async deleteStatus (event: JQuery.Event, autodelete = false) {
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		if (!status.isOwner) {
@@ -157,41 +157,41 @@ export class HTMLHandlers {
 			return;
 		}
 		if ( autodelete || (await HTMLTools.confirmBox("Delete Status", `Delete ${status.name}`)) ) {
-			CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
+			await CityHelpers.modificationLog(owner, "Deleted", status, `tier ${status.system.tier}`);
 			await owner.deleteStatus(status_id);
 		}
 	}
 
 	static async burnTag (event: JQuery.Event) {
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const actor =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const id = HTMLTools.getClosestData( event, "tagId");
 		const tag =  actor.getTag(id)!;
 		const tagname = tag.name;
 		if (!await HTMLTools.confirmBox(`Burn ${tagname}`, `Confirm Burn ${tagname}`))
-			return;
+			{return;}
 		await actor.burnTag(id);
-		CityHelpers.modificationLog(actor, "Burned", tag);
+		await CityHelpers.modificationLog(actor, "Burned", tag);
 	}
 
 	static async unburnTag (event: JQuery.Event) {
 		const id = HTMLTools.getClosestData( event, "tagId");
-		const actorId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const actor = CityHelpers.getOwner(actorId, tokenId) as CityActor;
 		const tag = actor.getTag(id);
 		if (await HTMLTools.confirmBox("Unburn Tag", `unburning ${tag?.name}`)) {
 			await actor.burnTag(id, 0);
 		}
-		CityHelpers.modificationLog(actor, `Unburned`, tag);
+		await CityHelpers.modificationLog(actor, `Unburned`, tag);
 	}
 
 	static async statusAdd (event: JQuery.Event) {
 		//adds a second status to existing
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const owner =  CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		if (!status) {
@@ -199,19 +199,19 @@ export class HTMLHandlers {
 			throw new Error("couldn't find status");
 		}
 		const ret = await HTMLHandlers.statusAddDialog(status);
-		if (!ret) return;
+		if (!ret) {return;}
 		const {name: newname, tier: amt} = ret;
 		await status.addStatus(amt, {newName: newname, tier:amt});
 	}
 
 	static async statusSubtract (event: JQuery.Event) {
-		const status_id = HTMLTools.getClosestData(event, "statusId");
-		const ownerId = HTMLTools.getClosestData(event, "ownerId");
-		const tokenId = HTMLTools.getClosestData(event, "tokenId");
+		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
+		const ownerId = HTMLTools.getClosestData<FoundryDocument["id"]>(event, "ownerId");
+		const tokenId = HTMLTools.getClosestData<FoundryDocument["id"]>(event, "tokenId");
 		const owner = CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 		const status =  owner.getStatus(status_id)!;
 		const ret  = await HTMLHandlers.statusSubtractDialog(status);
-		if (!ret) return;
+		if (!ret) {return;}
 		const {name: newname, tier: amt} = ret;
 		await status.subtractStatus(amt, newname);
 	}

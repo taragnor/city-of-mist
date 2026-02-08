@@ -162,12 +162,12 @@ export class StoryTagWindow extends Application {
 
 
 	getTokenAt(event: JQuery.Event) : Token<CityActor> | CityActor |  typeof SceneTags | undefined {
-		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
+		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", "")) as CityActor["id"];
 		if (ownerId.length < 1) {
 			return SceneTags;
 		}
-		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", ""));
-		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", ""));
+		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", "")) as Token["id"];
+		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", "")) as Scene["id"];
 		const x = CityHelpers.getOwner(ownerId, tokenId, sceneId);
 		if (x instanceof CityActor) {
 			return x;
@@ -178,10 +178,10 @@ export class StoryTagWindow extends Application {
 	}
 
 	getStatusAt(event: JQuery.Event) : Status | undefined {
-		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", ""));
-		const statusId = String(HTMLTools.getClosestDataNT(event, "statusId", ""));
-		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", ""));
-		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", ""));
+		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId", "")) as Actor["id"];
+		const statusId = String(HTMLTools.getClosestDataNT(event, "statusId", "")) as Item["id"];
+		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId", "")) as Token["id"];
+		const sceneId = String(HTMLTools.getClosestDataNT(event, "sceneId", "")) as Scene["id"];
 		if (!statusId || !ownerId) {return undefined;}
 		const owner = CityHelpers.getOwner(ownerId, tokenId, sceneId) as CityActor;
 		return owner.items.get(statusId) as Status | undefined;
@@ -203,9 +203,9 @@ export class StoryTagWindow extends Application {
 	async createStoryTag(event: JQuery.ClickEvent) {
 		//somewhat hacky code with the exception as a branch
 		try {
-			const ownerId = HTMLTools.getClosestData(event, "ownerId");
-			const tokenId = HTMLTools.getClosestData(event, "tokenId");
-			const sceneId = HTMLTools.getClosestData(event, "sceneId");
+			const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+			const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+			const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 			CityHelpers.getOwner(ownerId, tokenId, sceneId);
 		} catch(e) {
 			console.log("Creating story Tag");
@@ -218,9 +218,9 @@ export class StoryTagWindow extends Application {
 	async createStatus (this: void, event: JQuery.ClickEvent) {
 		//somewhat hacky code with the exception as a branch
 		try {
-			const ownerId = HTMLTools.getClosestData(event, "ownerId");
-			const tokenId = HTMLTools.getClosestData(event, "tokenId");
-			const sceneId = HTMLTools.getClosestData(event, "sceneId");
+			const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
+			const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
+			const sceneId = HTMLTools.getClosestData<Scene["id"]>(event, "sceneId");
 			CityHelpers.getOwner(ownerId, tokenId, sceneId);
 		} catch {
 			return await SceneTags.createSceneStatus();
@@ -230,13 +230,13 @@ export class StoryTagWindow extends Application {
 
 	async centerOnToken(event: JQuery.Event) {
 		// const ownerId = HTMLTools.getClosestDataNT(event, "ownerId");
-		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId") as string;
+		const tokenId = HTMLTools.getClosestDataNT(event, "tokenId") as Token["id"];
 		// const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
 		if (!tokenId)  {return;}
 		const token = game.scenes.current.tokens.get(tokenId)?.object;
 		if (!token || !token.actor?.isOwner) {return;}
 		if (token.center)
-			//@ts-ignore
+			//@ts-expect-error animate Pan not yet iun foundry types
 			{await canvas.animatePan (token.center);}
 	}
 
@@ -281,8 +281,8 @@ export class StoryTagWindow extends Application {
 	}
 
 	async openSheet(event: JQuery.Event) {
-		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId"));
-		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId"));
+		const ownerId = String(HTMLTools.getClosestDataNT(event, "ownerId")) as CityActor["id"];
+		const tokenId = String(HTMLTools.getClosestDataNT(event, "tokenId")) as Token["id"];
 		// const sceneId = HTMLTools.getClosestDataNT(event, "sceneId");
 		if (tokenId)  {
 			const token = game.scenes.current.tokens.get(tokenId);

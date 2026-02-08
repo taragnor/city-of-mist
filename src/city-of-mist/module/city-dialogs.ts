@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access							this.value = content.substring(0 */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { DDData } from "./tools/HTMLTools.js";
 import { SystemModule } from "./config/system-module.js";
@@ -331,7 +330,7 @@ export class CityDialogs {
 
 	/** List takes a [ { moveId:string , moveOwnerId: string} ]
 	*/
-	static async downtimeGMMoveSelector(moveAndOwnerList: {moveId: string, moveOwnerId: string}[]) {
+	static async downtimeGMMoveSelector(moveAndOwnerList: {moveId: CityItem["id"], moveOwnerId: CityActor["id"]}[]) {
 		if (moveAndOwnerList.length == 0)
 			{return;}
 		const ownerList = [];
@@ -342,7 +341,7 @@ export class CityDialogs {
 				map.set(moveOwnerId, [moveId]);
 			}
 			return map;
-		}, new Map() as Map<string, string[]>);
+		}, new Map() as Map<CityActor["id"], string[]>);
 		for (const [ownerId, moveIdList] of ownerMap.entries()) {
 			const owner = CityHelpers.getOwner(ownerId) as CityActor;
 			const moves = moveIdList.map( moveId=>
@@ -363,33 +362,6 @@ export class CityDialogs {
 			owners: ownerList
 		};
 		await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/gm-move-chooser.hbs`, templateData);
-		//SEEMINGLY INCOMPLETE
-		//return new Promise( (conf, _rej) => {
-		//	const options = {};
-		//	const dialog = new Dialog({
-		//		title: `${title}`,
-		//		content: text,
-		//		buttons: {
-		//			one: {
-		//				icon: '<i class="fas fa-check"></i>',
-		//				label: label,
-		//				callback: async() => {
-		//					//TODO: let choice = getCheckedMoveIdsChoice();
-		//					conf(choice);
-		//				}
-		//			},
-		//			two: {
-		//				icon: '<i class="fas fa-times"></i>',
-		//				label: localize("CityOfMist.command.cancel"),
-		//				callback: async () => conf(null)
-		//			}
-		//		},
-		//		default: "two",
-		//		render
-
-		//}, options);
-
-		//});
 	}
 
 	static async downtimePCSelector(actor: CityActor): Promise<null | string> {
@@ -446,8 +418,9 @@ export class CityDialogs {
 		// } : () => 0;
 
 		const sender = options?.speaker ?? {};
-		if (!sender?.alias && sender.actor && sender.actor instanceof CityActor) {
-			sender.alias = sender?.actor?.getDisplayedName();
+		const actor = CityHelpers.getActorFromChatSpeaker(sender);
+		if (actor) {
+			sender.alias = actor.getDisplayedName();
 		}
 		return new Promise( (conf, _rej) => {
 			const options = {};
@@ -558,13 +531,13 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 			if (myCharacter.hasHelpFor(actorId)) {
 				buttons.help = {
 					label: localize("CityOfMist.terms.help"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("help", dataObj, session)),
+					callback: async () => void conf(await CityDialogs.chooseHelpHurt("help", dataObj, session)),
 				};
 			}
 			if (myCharacter.hasHurtFor(actorId)) {
 				buttons.hurt = {
 					label: localize("CityOfMist.terms.hurt"),
-					callback: async () => conf(await CityDialogs.chooseHelpHurt("hurt", dataObj, session)),
+					callback: async () => void conf(await CityDialogs.chooseHelpHurt("hurt", dataObj, session)),
 				};
 			}
 			const dialog = new Dialog({
@@ -657,7 +630,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	*/
 	static async improvementOrTagChoiceList(actor: CityActor, theme: Theme, itemtype : "improvement" | "tag" = "tag", subtype: "power" | "weakness" = "power") {
 		if (!theme) {throw new Error("No theme provided");}
-		const list = await this._listGenFunction(actor, theme, itemtype, subtype);
+		const list = this._listGenFunction(actor, theme, itemtype, subtype);
 		if (list.some(x=> x._id == undefined)) {
 			console.log(list);
 			throw new Error("Undefined Id in list");
@@ -764,9 +737,9 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				render: (html) => {
 					// eslint-disable-next-line @typescript-eslint/no-misused-promises
 					$(html).find('.gmmove-select').on("click", async (event) => {
-						const move_id = HTMLTools.getClosestData(event, "moveId");
-						const ownerId = HTMLTools.getClosestData(event, "ownerId");
-						const tokenId = HTMLTools.getClosestData(event, "tokenId");
+						const move_id = HTMLTools.getClosestData<CityItem["id"]>(event, "moveId");
+						const ownerId = HTMLTools.getClosestData<FoundryDocument["id"]>(event, "ownerId");
+						const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 						const owner =  CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 						const move =  owner.getGMMove(move_id);
 						if (!move) {return;}

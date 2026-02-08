@@ -8,8 +8,11 @@ namespace Foundry {
 
 	// declare class ActiveEffect<A extends Actor<any,I>= any, I extends Item<any, A>=any> extends FoundryDocument<never>  {
 	interface ActiveEffect<A extends Actor<any,I>= any, I extends Item<any, A>=any> extends Document<never>  {
-		/** returns if effect is active, by default is !disabled && !isSuppressed() */
-		get active(): boolean
+		/** returns if effect is active, by default is !disabled && !isSuppressed(), not checked again until actor gets updated or refreshed in some way */
+		get active(): boolean;
+
+		/** override this to supress the effect generally*/
+		get isSuppressed(): boolean;
 
 		statuses: Set<CONFIG["statusEffects"][number]["id"]>
 		disabled: boolean;
@@ -17,6 +20,7 @@ namespace Foundry {
 		isSuppressed(): boolean;
 		parent:A | I;
 		origin: Option<unknown>;
+		apply (actor: Actor,  change: AEChange): Record<string, unknown>;
 		icon: string;
 		changes: AEChange[];
 		description: string;
@@ -41,7 +45,8 @@ namespace Foundry {
 	type AEChange = {
 		key: string; //keys to one of the system values
 		mode: (typeof CONST)["ACTIVE_EFFECT_MODES"][keyof (typeof CONST)["ACTIVE_EFFECT_MODES"]];
-		priority?: number;
+		/** note that lower priority happens first*/
+		priority ?: number;
 		value: string;
 	};
 

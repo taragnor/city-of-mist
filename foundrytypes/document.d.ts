@@ -8,8 +8,9 @@ namespace Foundry {
 	}
 
 
-	type Branded<T, Name extends string> = T & { __brand: Name, };
-
+	// type Branded<T, Name extends string> = T & { __brand: Name, };
+	type Branded<Base, X extends string> =
+	Base & { [K in `__${X}`]: symbol };
 	// class FoundryDocument <Embedded extends (FoundryDocument | never) = never> {
 	interface Document<Embedded extends (Document | never) = never> {
 		parent: Document<unknown> | undefined;

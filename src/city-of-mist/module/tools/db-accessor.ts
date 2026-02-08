@@ -7,8 +7,8 @@ declare global {
 
 
 export class DBAccessor {
-	 static comp_actors : Actor<any>[] = [];
-	static comp_items : Item<any>[] = [];
+	static comp_actors : Actor[] = [];
+	static comp_items : Item[] = [];
 
 	static init() {
 		Hooks.once("ready", async () => {
@@ -85,7 +85,7 @@ export class DBAccessor {
 				throw new Error(`Unsupported Type ${type}`);
 		}
 		if (retarr.length == 0)
-			return null;
+			{return null;}
 		return retarr[0] as (T extends "Actor" ? Actor<any> : Item<any>);
 	}
 
@@ -134,18 +134,18 @@ export class DBAccessor {
 		return this.getElementById(id, "Actor");
 	}
 
-	static async getCompendiumDataByType(type : "Item" | "Actor" | "JournalEntry"): Promise<(Actor<any> | Item<any> | JournalEntry)[]> {
-		const pack_finder = ((e: FoundryCompendium<any>) => e.documentName == type);
+	static async getCompendiumDataByType(type : "Item" | "Actor" | "JournalEntry"): Promise<(Actor | Item | JournalEntry)[]> {
+		const pack_finder = ((e: FoundryCompendium<FoundryDocument>) => e.documentName == type);
 		const packs = game.packs.filter(pack_finder);
 		let compendium_content : FoundryDocument[]= [];
 		for (const pack of packs) {
 			const packContent = (await pack.getDocuments()) as FoundryDocument[];
 			compendium_content = compendium_content.concat(packContent);
 		}
-		return compendium_content as unknown as (Actor<any> | Item<any>)[];
+		return compendium_content as unknown as (Actor | Item)[];
 	}
 
-	static async onUpdateCompendium(compendium: FoundryCompendium<any>) {
+	static async onUpdateCompendium(compendium: FoundryCompendium<FoundryDocument>) {
 		console.debug("Updating Compendium");
 		switch (compendium.documentName) {
 			case "Actor": case "Item":
@@ -158,7 +158,7 @@ export class DBAccessor {
 		return a.name.localeCompare(b.name);
 	}
 
-	static findItem<T extends Item<any>> ({actor, itemId}: UniversalItemAccessor<T>): T | undefined {
+	static findItem<T extends Item> ({actor, itemId}: UniversalItemAccessor<T>): T | undefined {
 		if (actor) {
 			const foundActor = this.findActor(actor);
 			if (!foundActor) {
@@ -174,14 +174,14 @@ export class DBAccessor {
 	}
 
 	static findToken<X extends UniversalTokenAccessor<any> | undefined>(acc: X) : X extends UniversalTokenAccessor<infer R> ? R | undefined : undefined  {
-		if (!acc) return undefined as any;
+		if (!acc) {return undefined as any;}
 			const {scene, tokenId} = acc;
 		if (scene != null) {
 			const sc = game.scenes.get(scene);
 			if (!sc)  {
 				throw new Error(`Scene Id ${scene} doesn't exist`);
 			}
-			const tok = sc.tokens.get(tokenId!);
+			const tok = sc.tokens.get(tokenId);
 			if (!tok) {
 				throw new Error(`Token Id ${tokenId} doesn't exist`);
 			}
@@ -192,7 +192,7 @@ export class DBAccessor {
 		}
 		const sc = game.scenes.find(x=> x.tokens.get(tokenId) != null);
 		if (!sc)
-		throw new Error(`Couldn't find tokenId ${tokenId} on any scene`);
+		{throw new Error(`Couldn't find tokenId ${tokenId} on any scene`);}
 		const tok = sc.tokens.get(tokenId)!;
 		if (!tok.actor) {
 			throw new Error(`No actor on Token Id ${tokenId}`);
@@ -203,7 +203,7 @@ export class DBAccessor {
 	static findActor<T extends Actor<any>>(accessor: UniversalActorAccessor<T>) : T | undefined {
 		if (accessor.token != undefined) {
 			const token =  this.findToken(accessor.token);
-			return token?.actor as T | undefined;
+			return token?.actor;
 		}
 		return this.getActorById(accessor.actorId) as unknown as T;
 	}
@@ -212,7 +212,7 @@ export class DBAccessor {
 		return {
 			actor: (item.parent) ? this.getUniversalActorAccessor(item.parent): undefined,
 			itemId: item.id,
-		}
+		};
 	}
 
 	static getUniversalActorAccessor<T extends Actor<any>> (actor: T) : UniversalActorAccessor<T> {
@@ -223,22 +223,22 @@ export class DBAccessor {
 			};
 		}
 		for (const comb of game.combat?.combatants ?? [])
-		if (comb.actor == actor && comb.token.actorLink) {
+		{if (comb.actor == actor && comb.token.actorLink) {
 			return  {
 				actorId: actor.id,
-				token: this.getUniversalTokenAccessor(comb.token),
+				token: this.getUniversalTokenAccessor(comb.token) as UniversalTokenAccessor<TokenDocument<typeof actor>>,
 			};
-		}
+		}}
 		return {
 			actorId: actor.id,
 			token: undefined
-		}
+		};
 	}
 
 	static getUniversalTokenAccessor<T extends Token<any>>(tok: T) : UniversalTokenAccessor<T["document"]> ;
 	static getUniversalTokenAccessor<T extends TokenDocument<any>>(tok: T) : UniversalTokenAccessor<T>;
 	static getUniversalTokenAccessor(tok: Token<any> | TokenDocument<any>) : UniversalTokenAccessor<any> {
-		if (tok instanceof Token) tok = tok.document;
+		if (tok instanceof Token) {tok = tok.document;}
 		return {
 			scene: tok.parent.id,
 			tokenId: tok.id,
@@ -247,7 +247,7 @@ export class DBAccessor {
 
 	static accessorEq<T extends UniversalTokenAccessor<any> | UniversalItemAccessor<any> | UniversalActorAccessor<any>> ( a: T, b: T) : boolean {
 		if ("tokenId" in a && "tokenId" in b) {
-			return a.tokenId == b.tokenId
+			return a.tokenId == b.tokenId;
 		}
 		if ("actorId" in a && "actorId" in b) {
 			return a.actorId == b.actorId && a.token?.tokenId == a.token?.tokenId;
@@ -261,19 +261,19 @@ export class DBAccessor {
 } //End of class
 
 
-export type UniversalTokenAccessor<_T extends TokenDocument<any>> = {
-	scene: string,
-	tokenId : string,
+export type UniversalTokenAccessor<T extends TokenDocument> = {
+	scene: Scene["id"],
+	tokenId : T["id"],
 };
 
-export type UniversalActorAccessor<T extends Actor<any, any, any>> = {
-	token ?: UniversalTokenAccessor<TokenDocument<T>>,
-	actorId : string,
+export type UniversalActorAccessor<A extends Actor> = {
+	token ?: UniversalTokenAccessor<TokenDocument<A>>,
+	actorId : A["id"],
 }
 
-export type UniversalItemAccessor<I extends Item<any>> = {
+export type UniversalItemAccessor<I extends Item> = {
 	actor?: UniversalActorAccessor<Actor<any, I>>,
-	itemId: string,
+	itemId: I["id"],
 }
 
 

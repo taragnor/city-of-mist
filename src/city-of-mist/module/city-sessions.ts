@@ -77,7 +77,7 @@ export class JuiceSlaveSession extends SlaveSession {
 				juiceOwnerId: actorId,
 			};
 		} catch (err) {
-			const msg=  "error in request";
+			const msg=  `error in request: ${err instanceof Error ? err.message : ""}`;
 			console.log(msg);
 			throw new Error(msg);
 		}
@@ -89,7 +89,7 @@ export class JuiceSlaveSession extends SlaveSession {
 		super.onDestroy();
 		try {
 			if (this.dialog)
-				this.dialog.close();
+				{this.dialog.close();}
 		} catch (e) {
 			console.error(e);
 		}
@@ -116,7 +116,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		super();
 		this.tagList = reviewableTagList;
 		if (moveId == undefined)
-			throw new Error("no move Id given");
+			{throw new Error("no move Id given");}
 		this.moveId = moveId;
 		this.dialog = null;
 		this.actor =actor;
@@ -140,7 +140,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		this.registerSubscribers(gms);
 		// console.log(`GMs detected :${gms.length}`);
 		if (gms.length == 0)
-			return this.tagList;
+			{return this.tagList;}
 		let state = "pending";
 
 		while (state != "approved") {
@@ -148,7 +148,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 				const sendObj = this.sendObject;
 				const results = await this.request("tagReview", sendObj);
 				const result = results[0]?.value as {state: string, tagList: SendableItem[]};
-				if (!result) throw new Error("Empty result");
+				if (!result) {throw new Error("Empty result");}
 				// console.log(`Result Recieved: ${result?.state}`);
 				state = result?.state;
 				const returnTagList = ReviewableModifierList.fromSendableForm(result.tagList);
@@ -168,7 +168,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 			moveId: this.moveId,
 			actorId: this.actor.id,
 			tokenId: this.actor.tokenId,
-		}
+		};
 	}
 
 	async updateList(reviewableList: ReviewableModifierList) {
@@ -183,7 +183,7 @@ state: string (status of tag (REjected, Accepted, pending, etc),
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
-			this.dialog.setReviewList(reviewableList);
+			{this.dialog.setReviewList(reviewableList);}
 	}
 
 
@@ -235,10 +235,10 @@ export class TagReviewSlaveSession extends SlaveSession {
 		const {tagList} = sendObj;
 		const reviewableList = ReviewableModifierList.fromSendableForm(tagList);
 		if (this.dialog)
-			this.dialog.setReviewList(reviewableList);
+			{this.dialog.setReviewList(reviewableList);}
 	}
 
-	async onReviewRequest( dataObj:  {actorId: string, tokenId:string, moveId: string, tagList: SendableItem[]}) {
+	async onReviewRequest( dataObj:  {actorId: CityActor["id"], tokenId:Token["id"], moveId:CityItem["id"], tagList: SendableItem[]}) {
 		const {actorId, tokenId} = dataObj;
 		const tagList = ReviewableModifierList.fromSendableForm(dataObj.tagList);
 		const moveId = dataObj.moveId;
@@ -282,7 +282,7 @@ export class TagReviewSlaveSession extends SlaveSession {
 		super.onDestroy();
 		try {
 			if (this.dialog)
-				this.dialog.close();
+				{this.dialog.close();}
 		} catch (e) {
 			console.error(e);
 		}
@@ -330,8 +330,8 @@ export class JuiceSpendingSessionS extends SlaveSession {
 		this.setRequestHandler("spendJuice", this.onSpendRequest.bind(this));
 	}
 
-	async onSpendRequest(data: {juiceId: string, ownerId: string, amount: number},_meta: unknown) {
-		const{juiceId, ownerId, amount} = data
+	async onSpendRequest(data: {juiceId: CityItem["id"], ownerId: CityActor["id"], amount: number},_meta: unknown) {
+		const{juiceId, ownerId, amount} = data;
 		const actor = game.actors.get(ownerId) as CityActor;
 		if (actor) {
 			const juice =  actor.getJuice(juiceId)!;
@@ -384,7 +384,7 @@ export class TagAndStatusCleanupSessionS extends SlaveSession {
 		this.setRequestHandler("cleanupTagStatus", this.onCleanupRequest.bind(this));
 	}
 
-	async onCleanupRequest(data: {itemId: string, ownerId: string, tokenId: string, commandString:string, burnState:number}, _meta: unknown) {
+	async onCleanupRequest(data: {itemId: CityItem["id"], ownerId: CityActor["id"], tokenId: Token["id"], commandString:string, burnState:number}, _meta: unknown) {
 		const {itemId, ownerId, tokenId, commandString, burnState} = data;
 		const actor = CityHelpers.getOwner(ownerId, tokenId) as CityActor;
 		const item = actor.items.find( x => x.id == itemId) as CityItem;
@@ -428,7 +428,7 @@ export class DowntimeSessionM extends MasterSession {
 		});
 		this.data
 			.filter(x => !x.owner)
-			.forEach (x => { ui.notifications.warn(` ${x.actor.name} doesn't have an active owner`)});
+			.forEach (x => { ui.notifications.warn(` ${x.actor.name} doesn't have an active owner`);});
 		this.data = this.data.filter(x=> x.owner);
 		this.users = [...new Set(this.data.map( x=> x.owner!))];
 	}
@@ -442,7 +442,7 @@ export class DowntimeSessionM extends MasterSession {
 	}
 
 	override async start() {
-		if (this.users.length == 0) return [];
+		if (this.users.length == 0) {return [];}
 		this.registerSubscribers(this.users);
 		const actors = this.users
 			.flatMap( user=> this.data.filter( x=> x.owner == user))
@@ -461,8 +461,8 @@ export class DowntimeSessionS extends SlaveSession {
 		this.setRequestHandler("downtime", this.onDowntimeRequest.bind(this));
 	}
 
-	async onDowntimeRequest(actorIdList: string[], _meta: unknown) {
-		let replyObj : {actorId: string, downtimeAction: string | null}[] = actorIdList.map( id => ({
+	async onDowntimeRequest(actorIdList: CityActor["id"][], _meta: unknown) {
+		const replyObj : {actorId: string, downtimeAction: string | null}[] = actorIdList.map( id => ({
 			actorId:id,
 			downtimeAction: null
 		}));
@@ -471,7 +471,7 @@ export class DowntimeSessionS extends SlaveSession {
 			.filter(actor => actor.isOwner);
 		for (const actor of actorList) {
 			const choice = await CityDialogs.downtimePCSelector(actor);
-			if (!choice) continue;
+			if (!choice) {continue;}
 			await CityHelpers.downtimeActionChoice(choice, actor);
 			replyObj.find( x=> x.actorId == actor.id)!.downtimeAction = choice;
 		}

@@ -10,7 +10,7 @@ export class Logger {
 		const gmIds = game.users.filter( x=> x.role == CONST.USER_ROLES.GAMEMASTER);
 		// const speaker = ChatMessage.getSpeaker({actor});
 		const speaker = ChatMessage.getSpeaker({alias: actor.getDisplayedName()});
-		let messageData = {
+		const messageData = {
 			speaker: speaker,
 			content: text,
 			style: CONST.CHAT_MESSAGE_STYLES.WHISPER,
@@ -23,12 +23,12 @@ export class Logger {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
-		let messageData = {
+		const messageData = {
 			speaker: speaker,
 			content: text,
 			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 		};
-		ChatMessage.create(messageData, {});
+		await ChatMessage.create(messageData, {});
 		return messageData;
 	}
 
@@ -42,18 +42,16 @@ export class Logger {
 	@param {string=] sender.altUser set an alternate user for the message sender
 	@param {string=} whisperTarget contains target of whisper
 	*/
-	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget?: string) {
+	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget?: U<FoundryUser["id"]>) {
 		// const speaker = ChatMessage.getSpeaker(sender);
 		const alias = sender?.alias;
 		const speaker = ChatMessage.getSpeaker({alias});
-		let style = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_STYLES.OOC :  CONST.CHAT_MESSAGE_STYLES.WHISPER;
-		let messageData : MessageData<Roll>= {
+		const style = (whisperTarget == undefined) ? CONST.CHAT_MESSAGE_STYLES.OOC :  CONST.CHAT_MESSAGE_STYLES.WHISPER;
+		const messageData : MessageData<Roll>= {
 			speaker: speaker,
 			content: text,
 			style,
 			user: sender.altUser,
-			//@ts-ignore
-			isWhisper: false,
 			whisper: undefined
 		} satisfies MessageData<Roll>;
 		if (sender.altUser) {

@@ -1147,8 +1147,12 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		await theme.addAttention();
 	}
 
-	getLinkedTokens() {
-		return this.getActiveTokens().filter (x=> !x.actor?.token);
+	getLinkedTokens() : TokenDocument<this>[] {
+		if (this.token) {return [this.token];}
+		const actives = this.getActiveTokens()
+			.filter (x=> !x.actor?.token)
+			.map ( x=> "document" in x ?  x.document: x);
+		return actives as TokenDocument<this>[];
 	}
 
 	get displayedName() {
