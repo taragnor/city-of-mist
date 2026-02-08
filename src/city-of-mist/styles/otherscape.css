@@ -44,6 +44,23 @@
 	);
 }
 
+.style-otherscape #pause figcaption {
+	font-family: "Orbitron";
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+	font-size: 2.0em;
+}
+
+.style-otherscape #settings button,
+.style-otherscape .button,
+.style-otherscape .directory .action-buttons button {
+	font-family: "Orbitron";
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+	box-shadow: 0 0 10px var(--noise-background);
+	border: 2px solid var(--noise-border);
+}
+
 .style-otherscape .status-box,
 .style-otherscape .story-tag-box,
 .style-otherscape .empty-box {
@@ -73,10 +90,6 @@
 	color: var(--green-OS-text);
 }
 
-span.empty-circle {
-
-}
-
 
 .style-otherscape {
 	font-family: "Orbitron";
@@ -88,7 +101,7 @@ span.empty-circle {
 }
 
 @font-face {
-	font-family: "Rajdhani",
+	font-family: "Rajdhani";
 	src: url("/fonts/Rajdhani-Regular.ttf") format("truetype");
 	font-style: normal;
 	letter-spacing: 0.1em;
@@ -295,9 +308,6 @@ div.Noise-theme .theme-block {
 	/* border-bottom: 1em solid var(--mist-blue); */
 	/* border-top: 2em solid var(--mist-blue); */
 	background-image: url(../images/mistcardbg.webp);
-}
-
-.essence-block .name {
 }
 
 .essence-block .description {
