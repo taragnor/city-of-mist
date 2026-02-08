@@ -9,14 +9,14 @@ export class CityLogger extends Logger {
 
 	static async logToChat(actor: CityActor, action: string, object: CityActor | CityItem | null = null, aftermsg : string | string[] = "") {
 		if (action != undefined) {
-			const object_part = object ? `${object.type} ${object.getDisplayedName()}` : "";
+			const object_part = object ? `${object?.system?.type} ${object.getDisplayedName()}` : "";
 			const afterMsgString = Array.isArray(aftermsg) ? aftermsg.join(" ,") : aftermsg;
 			const after_message = afterMsgString ? `(${afterMsgString})` : "";
-			const message = await renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
+			const message = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/modification-log-post.hbs", {object_part, after_message, actor, action});
 			try { return await this.gmMessage(message, actor);}
 			catch (e) {console.error(e);}
 		} else {
-			console.warn(`Deprecated usage of modification Log: ${actor}`);
+			console.warn(`Deprecated usage of modification Log: ${actor.name}`);
 			try {return await this.gmMessage("Deprecated Use of Modification Log: ", actor);}
 			catch (e) {console.error(e);}
 		}
@@ -24,7 +24,7 @@ export class CityLogger extends Logger {
 
 	static async modificationLog(...args : Parameters<typeof CityLogger["logToChat"]>) {
 		if (!CitySettings.get("loggedActions"))
-			return;
+			{return;}
 		try { return await this.logToChat(...args); }
 		catch (e) {
 			console.error(e);
@@ -43,13 +43,13 @@ export class CityLogger extends Logger {
 	static async reportStatusSubtract(owner: CityActor,  amt:number, {name: oldname, tier: oldtier, pips:oldpips} : NamedStatusLike, newStatus: NamedStatusLike, realStatus: Status) {
 		const oldpipsstr = oldpips ? `.${oldpips}`: "";
 		const pipsstr = newStatus.pips ? `.${newStatus.pips}`: "";
-		this.modificationLog(owner, "Subtract",  realStatus , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
+		await this.modificationLog(owner, "Subtract",  realStatus , `${oldname}-${oldtier}${oldpipsstr} subtracted by tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
 	}
 
 	static async reportStatusAdd(owner: CityActor,  amt:number, {name: oldname, tier: oldtier, pips:oldpips} : NamedStatusLike, newStatus: NamedStatusLike, realStatus: Status) {
 		const oldpipsstr = oldpips ? `.${oldpips}`: "";
 		const pipsstr = newStatus.pips ? `.${newStatus.pips}`: "";
-		this.modificationLog(owner, "Merged",  realStatus , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
+		await this.modificationLog(owner, "Merged",  realStatus , `${oldname}-${oldtier}${oldpipsstr} added with tier ${amt} status (new status ${newStatus.name}-${newStatus.tier}${pipsstr})` );
 
 	}
 

@@ -1,4 +1,4 @@
-import { Status } from "./city-item.js";
+import { CityItem, Status } from "./city-item.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
 import { HTMLHandlers } from "./universal-html-handlers.js";
@@ -32,20 +32,21 @@ export class DragAndDrop {
 	}
 
 	static async dropDraggableOnSceneTags (draggable: JQuery, dragOptions: DragAndDropOptions = {}) {
-		if (!game.user.isGM) return;
+		if (!game.user.isGM) {return;}
 		const draggableType = DragAndDrop.getDraggableType(draggable);
 		const options : StatusCreationOptions | TagCreationOptions = {
 			...(draggable.data("options") ?? {})
-		}; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
+		} as StatusCreationOptions | TagCreationOptions; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
 		switch ( draggableType ) {
-			case "status":
-				const name = draggable.data("name") ?? "name unknown";
+			case "status": {
+				const name = String(draggable.data("name") ?? "name unknown");
 				const statusOptions = options as StatusCreationOptions;
 				if (dragOptions.mergeStatus) {
 					statusOptions.mergeWithStatus = dragOptions.mergeStatus;
 				}
 				await SceneTags.statusDrop(name, statusOptions);
 				break;
+			}
 			case "tag":
 					await SceneTags.createSceneTag(draggable.text(), true, options as TagCreationOptions);
 				break;
@@ -59,13 +60,13 @@ export class DragAndDrop {
 	}
 
 	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor, dragOptions: DragAndDropOptions = {}) {
-		if (!actor.isOwner) return;
+		if (!actor.isOwner) {return;}
 		const options : StatusCreationOptions | TagCreationOptions = {
 			...(draggable.data("options") ?? {})
-		}; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
+		} as StatusCreationOptions | TagCreationOptions; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
 
 		const draggableType = DragAndDrop.getDraggableType(draggable);
-		const name = draggable.data("name") ?? "name unknown";
+		const name = String(draggable.data("name") ?? "name unknown");
 		switch (draggableType) {
 			case "status":{
 				const statusOptions = options as StatusCreationOptions;
@@ -76,21 +77,22 @@ export class DragAndDrop {
 				break;
 			}
 			case "tag": {
-				this.dropTagOnActor(name, actor, options as TagCreationOptions);
+				await this.dropTagOnActor(name, actor, options as TagCreationOptions);
 				break;
 			}
-			case "gmmove":
-				const move_id= draggable.data("moveId");
-				const owner_id = draggable.data("ownerId");
+			case "gmmove": {
+				const move_id= draggable.data("moveId") as Item["id"];
+				const owner_id = draggable.data("ownerId") as Actor["id"];
 				if (owner_id == actor.id)
-					return; // can't add a move on actor that already has it
+					{return;} // can't add a move on actor that already has it
 				const owner = CityDB.getActorById(owner_id) as CityActor;
 				const move = owner.getGMMove(move_id);
 				if (!move)
-					throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);
+					{throw new Error(`Couldn't find move Id ${move_id} in ${owner_id}`);}
 				await actor.createNewGMMove(move.name, move.system);
 				//TODO: make draggable GM moves
 				break;
+			}
 			case "threat":
 
 				break;
@@ -103,7 +105,7 @@ export class DragAndDrop {
 	static async statusDrop(actor: CityActor, name: string, options: StatusCreationOptions) {
 		const tier = options.tier;
 		if (!tier || tier < 0)
-			throw new Error(`Tier is not valid ${tier}`);
+			{throw new Error(`Tier is not valid ${tier}`);}
 		const retval = await ( options.mergeWithStatus
 			? CityDialogs.mergeWithStatusDialog(options.mergeWithStatus, name, options)
 			: CityDialogs.statusDropDialog(actor, name, {...options, tier}));
@@ -130,7 +132,7 @@ export class DragAndDrop {
 				return origStatus;
 			}
 			case "override": {
-				const status =   actor.getStatus(retval.statusId!)!;
+				const status =   actor.getStatus(retval.statusId)!;
 				const origName = status.name;
 				const {name} = retval;
 				await status.update( {name, system: {...retval}});
@@ -150,13 +152,13 @@ export class DragAndDrop {
 
 	static async dragStart(event: JQuery.DragStartEvent) {
 		event.stopPropagation();
-		$(event.currentTarget!).addClass("dragging");
+		$(event.currentTarget).addClass("dragging");
 		return true;
 	}
 
 	static async dragEnd(event: JQuery.DragEndEvent) {
 		event.stopPropagation();
-		$(event.currentTarget!).removeClass("dragging");
+		$(event.currentTarget).removeClass("dragging");
 		return true;
 	}
 
@@ -173,7 +175,7 @@ export class DragAndDrop {
 			event.preventDefault();
 			const {clientX:x,clientY :y} = event;
 			//@ts-ignore
-			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y})
+			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y});
 			//@ts-ignore
 			const tokens = canvas.tokens.objects.children
 			.filter( (maybeTok : unknown) => maybeTok instanceof Token);
@@ -182,14 +184,14 @@ export class DragAndDrop {
 				const {x, y, width, height} = tok.bounds;
 				if (evX >= x && evX <x+width
 					&& evY >= y && evY <y+height)
-					return true;
+					{return true;}
 				return false;
 			});
-			if (!token) return;
+			if (!token) {return;}
 			const actor = token.document.actor;
 			DragAndDrop.dropDraggableOnActor(dragged, actor);
 
-		}
+		};
 	}
 
 	static htmlDraggableStatus(name: string, options: GMMoveOptions & StatusCreationOptions) {

@@ -75,6 +75,17 @@ export class CitySheet extends ActorSheet<CityActor> {
 				}
 				break;
 			}
+			case "tag": {
+				await this.actor.createStoryTag(item.name, true);
+				break;
+			}
+			case "status": {
+				const creationOptions = {
+					tier: item.tier,
+				};
+				await DragAndDrop.statusDrop(this.actor, item.name, creationOptions);
+				break;
+			}
 			default:
 				console.log(`Unsupported Drop Type: ${item.system.type}`);
 				break;
