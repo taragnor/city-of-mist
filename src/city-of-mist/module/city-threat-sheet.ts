@@ -63,6 +63,9 @@ export class CityThreatSheet extends CityActorSheet {
 		const tokenCheck = foundry.utils.expandObject(data) as { token ?: {name?: string}};
 		if (tokenCheck?.token?.name) {
 			const newName = tokenCheck.token.name;
+			if (!this.actor.token && this.actor.prototypeToken.name != newName ) {
+				void this.actor.update({"prototypeToken.name": newName});
+			}
 			for (const tok of this.actor.getLinkedTokens()) {
 				if (tok.name == newName) { continue;}
 				console.debug(`Re-aliasing: ${newName}`);
@@ -87,12 +90,15 @@ export class CityThreatSheet extends CityActorSheet {
 
 	async _changeunlinkedtokenName (event: JQuery.ChangeEvent | JQuery.FocusOutEvent) {
 		console.debug(`Alias change (unlinked)`);
-		const val =  $(event.currentTarget).val() as string;
-		if (val) {
+		const newName =  $(event.currentTarget).val() as string;
+		if (!this.actor.token && this.actor.prototypeToken.name != newName ) {
+			await this.actor.update({"prototypeToken.name": newName});
+		}
+		if (newName) {
 			const token = this.actor.token;
-			if (token && token.name != val) {
-				console.debug(`Re-aliasing: ${val}`);
-				await token.update({name: val});
+			if (token && token.name != newName) {
+				console.debug(`Re-aliasing: ${newName}`);
+				await token.update({name: newName});
 				await this.render(false);
 			}
 		}
