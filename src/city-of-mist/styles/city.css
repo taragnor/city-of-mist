@@ -1666,8 +1666,10 @@ form.editable.actor-sheet {
 }
 
 .red-highlight,
-.item-selection-context .tag .negative-selected,
-.item-selection-context .status .negative-selected,
+.tag .negative-selected,
+.status .negative-selected,
+/* .item-selection-context .tag .negative-selected, */
+/* .item-selection-context .status .negative-selected, */
 .negative-selected .tag,
 .negative-selected .status {
 	font-weight: bold;
@@ -1687,8 +1689,10 @@ form.editable.actor-sheet {
 }
 
 .yellow-highlight,
-.item-selection-context .tag .positive-selected,
-.item-selection-context .status .positive-selected,
+.tag .positive-selected,
+.status .positive-selected,
+/* .item-selection-context .tag .positive-selected, */
+/* .item-selection-context .status .positive-selected, */
 .positive-selected .tag,
 .positive-selected .status {
 	margin: 0 -0.4em;
