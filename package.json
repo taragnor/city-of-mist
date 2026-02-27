@@ -14,11 +14,11 @@
   "author": "taragnor",
   "license": "",
   "devDependencies": {
-    "@types/jquery": "^3.5.29",
+    "@types/jquery": ">=3.5.29",
     "copyfiles": "^2.4.1",
-    "typescript": "^5.3.3",
-    "@typescript-eslint/parser": "^8.41.0",
-    "eslint": "^9.34.0",
-    "typescript-eslint": "^8.41.0"
+    "typescript": ">=5.3.3",
+    "@typescript-eslint/parser": ">=8.41.0",
+    "eslint": ">=9.34.0",
+    "typescript-eslint": ">=8.41.0"
   }
 }

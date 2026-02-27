@@ -22,6 +22,63 @@
 	color: black;
 }
 
+.style-otherscape .sidebar-tab {
+	background: url(../images/OS-BG.webp) center/cover repeat;
+	font-family: "Orbitron";
+}
+
+.style-otherscape .chat-sidebar {
+	background: url(../images/OS-BG.webp) center/cover repeat;
+	font-family: "Orbitron";
+}
+
+
+.style-otherscape .city-roll div.actor-name {
+	color: var(--self-border);
+}
+
+button.ui-control[aria-pressed=true],
+a.ui-control[aria-pressed=true],
+li.ui-control[aria-pressed=true],
+.placeable-hud .control-icon[aria-pressed=true],
+.placeable-hud input[aria-pressed=true] {
+	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
+}
+
+.style-otherscape .move-name,
+.style-otherscape .move-text {
+	color: var(--logos-orange);
+}
+
+.style-otherscape div.roll-total {
+	font-family: "Rajdhani";
+	color: var(--green-OS-text);
+}
+
+.style-otherscape .roll-modifiers {
+	font-family: "Rajdhani";
+	color: var(--green-OS-text);
+	font-size: 1.0em;
+}
+
+.style-otherscape .chat-message {
+	background-color: var(--mythos-background);
+	margin: 0.3em;
+	padding: 0.6em 1em;
+	font-size: 1.1em;
+	line-height: 1.2em;
+	font-family: "Orbitron";
+	/* color: var(--logos-text); */
+	color: var(--green-OS-text);
+	/* text-shadow: var(--green-OS-textShadow); */
+	background-image: none;
+	/* background-size: 500%; */
+	border: none;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+}
+
 .style-otherscape .window-app form button,
 .style-otherscape input,
 .style-otherscape textarea {
