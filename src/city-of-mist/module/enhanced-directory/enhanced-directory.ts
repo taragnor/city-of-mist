@@ -8,9 +8,105 @@ declare global {
 }
 
 import { CityActor } from "../city-actor.js";
+import {CityItem} from "../city-item.js";
 
+export class EnhancedDirectory {
+	static init() {
+		try {
+			EnhancedActorDirectory.init();
+			EnhancedItemDirectory.init();
+		} catch (e) {
+			throw e;
+		}
+		console.log("Enhanced directory applied");
+	}
 
-export class EnhancedActorDirectory {
+}
+
+class EnhancedItemDirectory {
+	static init() {
+		//@ts-ignore
+		const _getEntryContextOptionsOldCity = ItemDirectory.prototype._getEntryContextOptions;
+
+		Object.defineProperty(ItemSheet.prototype, 'title', {
+			get: function() { return this.actor.directoryName; }
+		});
+
+		//Default Value if it hasn't been defined
+		Object.defineProperty(Item.prototype, 'directoryName', {
+			get: function() { return this.name; }
+		});
+
+		Hooks.on("updateItem", async (item, diff) => {
+			//NOTE: There's probably a better way to just re-render the actor instead of drawing the whole sidebar, but I don't know what that is right now
+			if ("decryptData" in item && typeof item.decryptData == "function") {
+				await item.decryptData();
+			}
+			//@ts-ignore
+			if (diff?.system?.tier) {
+				//@ts-ignore
+				ui.items.render(true);
+				return true;
+			}
+		});
+
+		//@ts-ignore
+		ItemDirectory.prototype._getEntryContextOptions = function() {
+			const options = _getEntryContextOptionsOldCity.call(this);
+			for (let option of options) {
+				switch (option.name) {
+					case "SIDEBAR.CharArt":
+						option.callback = (htmlE: HTMLElement) => {
+							const li = $(htmlE);
+							const id = li ? li.data("documentId") : undefined;
+							if (!id) return;
+
+							const item = game.items.get(id) as CityItem;
+							if (!item) {return;}
+
+							new ImagePopout(item.img, {
+								title: item.directoryName,
+								// shareable: true,
+								uuid: item.uuid
+							}).render(true);
+						}
+						break;
+					case "SIDEBAR.TokenArt":
+						option.callback = (htmlE : HTMLElement) => {
+							const li = $(htmlE);
+							const id = li ? li.data("documentId") : undefined;
+							if (!id) return;
+							const item = game.items.get(id) as CityItem;
+							if (!item) {return;}
+							new ImagePopout(item.img, {
+								title: item.directoryName,
+								shareable: true,
+								uuid: item.uuid
+							}).render(true);
+						}
+						break;
+					default:
+						break;
+				}
+			}
+			// Debug(options);
+			return options;
+		}
+
+		//@ts-ignore
+		ItemDirectory._entryPartial =  "systems/city-of-mist/module/enhanced-directory/enhanced-template.hbs";
+
+		//@ts-ignore
+		ItemDirectory._sortAlphabetical = function (this: void, a: CityItem, b: CityItem) {
+			if (a?.directoryName && b?.directoryName)
+				return a.directoryName.localeCompare(b.directoryName);
+			else return a.name.localeCompare(b.name);
+		}
+
+	}
+}
+
+class EnhancedActorDirectory {
 
 	static init () {
 		Hooks.on( "encryptionEnable", async () => {
@@ -173,7 +269,6 @@ export class EnhancedActorDirectory {
 			else return a.name.localeCompare(b.name);
 		}
 
-		console.log("Enhanced directory applied");
 	}
 
 } //end of class

@@ -1,7 +1,6 @@
 import { CityItem, Status } from "./city-item.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { StatusCreationOptions } from "./config/statusDropTypes.js";
-import { HTMLHandlers } from "./universal-html-handlers.js";
 import { CityDialogs } from "./city-dialogs.js";
 import { SceneTags } from "./scene-tags.js";
 import { GMMoveOptions } from "./datamodel/item-types.js";
@@ -14,13 +13,22 @@ export class DragAndDrop {
 
 	static init() { }
 
-	static draggedElement(): JQuery {
+	static async draggedElement(event: JQuery.DropEvent): Promise<JQuery<HTMLElement> | CityItem> {
 		const dragging = $(document).find(".dragging");
-		if (dragging.length != 1) {
-			console.warn ("Something went wrong with dragging");
-			throw new Error("Something went wrong with Dragging");
+		if (dragging.length == 1) {
+			return dragging;
 		}
-		return dragging;
+		const itemObject = TextEditor.getDragEventData(event.originalEvent!);
+		if (itemObject && itemObject.type == "Item") {
+			//@ts-expect-error using unknwon function not in foundrytypes
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+			const item : CityItem = await Item.implementation.fromDropData(itemObject);
+			return item;
+		}
+		Debug(itemObject ?? "No Item Object");
+		Debug(event);
+		console.warn ("Something went wrong with dragging");
+		throw new Error("Something went wrong with Dragging");
 	}
 
 	static async dropTagOnActor(textTag: string, actor: CityActor, options : TagCreationOptions = {}) {
@@ -31,8 +39,37 @@ export class DragAndDrop {
 		return draggable.data("draggableType") as "status" | "tag" | "gmmove" | "threat";
 	}
 
-	static async dropDraggableOnSceneTags (draggable: JQuery, dragOptions: DragAndDropOptions = {}) {
+	static async dropDraggableOnSceneTags (draggable: JQuery | CityItem, dragOptions: DragAndDropOptions = {}) {
 		if (!game.user.isGM) {return;}
+		if (draggable instanceof CityItem) {
+			return this._dropItemDropTypeDraggableOnSceneTags(draggable, dragOptions);
+		}
+		return this._dropBasicTypeDraggableOnSceneTags(draggable, dragOptions);
+	}
+
+	static async _dropItemDropTypeDraggableOnSceneTags(item: CityItem, dragOptions: DragAndDropOptions = {}) {
+		const draggableType = item.system.type;
+		switch (draggableType) {
+			case "status": {
+				const statusOptions : StatusCreationOptions = {
+					tier: item.tier,
+					mergeWithStatus : dragOptions.mergeStatus,
+				};
+				await SceneTags.statusDrop(item.name, statusOptions);
+				break;
+			}
+			case "tag": {
+				await SceneTags.createSceneTag(item.name, true, dragOptions as TagCreationOptions);
+				break;
+			}
+			default:
+				Debug(item);
+				throw new Error(`Type ${item.system.type} is not supported for dragging here`);
+		}
+
+	}
+
+	static async _dropBasicTypeDraggableOnSceneTags (draggable: JQuery, dragOptions: DragAndDropOptions = {}) {
 		const draggableType = DragAndDrop.getDraggableType(draggable);
 		const options : StatusCreationOptions | TagCreationOptions = {
 			...(draggable.data("options") ?? {})
@@ -59,8 +96,11 @@ export class DragAndDrop {
 		}
 	}
 
-	static async dropDraggableOnActor(draggable: JQuery, actor: CityActor, dragOptions: DragAndDropOptions = {}) {
+	static async dropDraggableOnActor(draggable: JQuery | CityItem, actor: CityActor, dragOptions: DragAndDropOptions = {}) {
 		if (!actor.isOwner) {return;}
+		if (draggable instanceof CityItem) {
+			return this._dropItemDraggableOnActor(draggable, actor, dragOptions);
+		}
 		const options : StatusCreationOptions | TagCreationOptions = {
 			...(draggable.data("options") ?? {})
 		} as StatusCreationOptions | TagCreationOptions; //copy is required because JQuery makes a cache of the data and will read phantom data in other places
@@ -99,6 +139,23 @@ export class DragAndDrop {
 			default:
 				draggableType satisfies never;
 				console.warn(`Unknown draggableType: ${draggableType}`);
+		}
+	}
+
+	static async _dropItemDraggableOnActor(item: CityItem, actor: CityActor, dragOptions: DragAndDropOptions) {
+		switch (item.system.type) {
+			case "tag":
+				await this.dropTagOnActor(item.name, actor, dragOptions as TagCreationOptions);
+				break;
+			case "status":
+				const statusOptions = {
+					mergeStatus: dragOptions.mergeStatus,
+					tier: item.tier,
+				}
+				await this.statusDrop(actor, item.name, statusOptions);
+				break;
+			default:
+				throw new Error(`Unknown draggableType: ${item.system.type}`);
 		}
 	}
 

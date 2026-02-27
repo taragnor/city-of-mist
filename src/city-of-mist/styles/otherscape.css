@@ -17,6 +17,20 @@
 
 }
 
+@font-face {
+	font-family: "Rajdhani";
+	src: url("../fonts/Rajdhani-Regular.ttf") format("truetype");
+	font-style: normal;
+	letter-spacing: 0.1em;
+}
+
+@font-face {
+	font-family: "Orbitron";
+	src: url("../fonts/Orbitron-Regular.ttf") format("truetype");
+	font-style: normal;
+	letter-spacing: 0.1em;
+}
+
 .style-otherscape .tag .positive-selected {
 /* .style-otherscape .item-selection-context .tag .positive-selected { */
 	color: black;
@@ -46,6 +60,10 @@ li.ui-control[aria-pressed=true],
 	text-shadow: var(--green-OS-textShadow);
 }
 
+.style-otherscape .move-name {
+	text-transform: uppercase;
+}
+
 .style-otherscape .move-name,
 .style-otherscape .move-text {
 	color: var(--logos-orange);
@@ -54,11 +72,13 @@ li.ui-control[aria-pressed=true],
 .style-otherscape div.roll-total {
 	font-family: "Rajdhani";
 	color: var(--green-OS-text);
+	text-transform: uppercase;
 }
 
 .style-otherscape .roll-modifiers {
 	font-family: "Rajdhani";
 	color: var(--green-OS-text);
+	text-transform: uppercase;
 	font-size: 1.0em;
 }
 
@@ -68,8 +88,9 @@ li.ui-control[aria-pressed=true],
 	padding: 0.6em 1em;
 	font-size: 1.1em;
 	line-height: 1.2em;
-	font-family: "Orbitron";
+	font-family: "Rajdhani";
 	/* color: var(--logos-text); */
+	text-transform: none;
 	color: var(--green-OS-text);
 	/* text-shadow: var(--green-OS-textShadow); */
 	background-image: none;
@@ -158,19 +179,6 @@ li.ui-control[aria-pressed=true],
 	/* text-shadow: 0 0 3px #51eeff, 0 0 6px #007bbf; */
 }
 
-@font-face {
-	font-family: "Rajdhani";
-	src: url("/fonts/Rajdhani-Regular.ttf") format("truetype");
-	font-style: normal;
-	letter-spacing: 0.1em;
-}
-
-@font-face {
-	font-family: "Orbitron";
-	src: url("/fonts/Orbitron-Regular.ttf") format("truetype");
-	font-style: normal;
-	letter-spacing: 0.1em;
-}
 
 .style-otherscape .mist-engine-theme-block .theme-title .main-tag .tag-name-block .fas {
 	font-size: 0.5em;

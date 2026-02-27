@@ -55,7 +55,7 @@ import { registerSystemSettings } from "./settings.js";
 import { StatusTrackerWindow } from "./city-status-tracker/city-status-tracker.js";
 import {} from "./tools/electron-fix.js";
 import {} from "./tools/debug.js";
-import {EnhancedActorDirectory} from "./enhanced-directory/enhanced-directory.js";
+import {EnhancedDirectory} from "./enhanced-directory/enhanced-directory.js";
 import {CityHandlebarsHelpers} from "./city-handlebars-helpers.js";
 import {CitySockets} from "./city-sockets.js";
 import {DragAndDrop} from "./dragAndDrop.js";
@@ -133,7 +133,7 @@ Hooks.once("init", async function() {
 	await preloadHandlebarsTemplates();
 
 	if (game.settings.get("city-of-mist", "enhancedActorDirectory")) {
-		EnhancedActorDirectory.init();
+		EnhancedDirectory.init();
 	}
 	CityHandlebarsHelpers.init();
 	StoryTagWindow.init();

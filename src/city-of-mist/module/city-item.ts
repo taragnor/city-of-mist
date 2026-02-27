@@ -1268,6 +1268,18 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		return this.getDisplayedName();
 	}
 
+	get directoryName() : string {
+		switch(this.system.type) {
+			case "tag":
+				return this.name;
+			case "status":
+				return `${this.displayedName}-${this.tier}`;
+			default:
+				return this.name;
+		}
+
+	}
+
 	get isLocal() : boolean {
 		return this.parent instanceof CityActor;
 	}

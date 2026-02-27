@@ -243,7 +243,7 @@ export class StoryTagWindow extends Application {
 	async _dragDropEvent(event: JQuery.DropEvent) {
 		event.stopImmediatePropagation();
 		console.debug("Standard Drag and drop");
-		const dragging = DragAndDrop.draggedElement();
+		const dragging = await DragAndDrop.draggedElement(event);
 		// const existingStatus = this.getStatusAt(event);
 		let x = this.getTokenAt(event);
 		if (x == undefined) {
@@ -266,7 +266,7 @@ export class StoryTagWindow extends Application {
 	async _dropOnOtherStatus(event: JQuery.DropEvent) {
 		event.stopImmediatePropagation();
 		console.debug("Other Status Drop");
-		const dragging = DragAndDrop.draggedElement();
+		const dragging = await DragAndDrop.draggedElement(event);
 		const existingStatus = this.getStatusAt(event);
 		const x = this.getTokenAt(event);
 		if (x == SceneTags) {
