@@ -398,3 +398,27 @@ div.Noise-theme .theme-block {
 	text-shadow: var(--green-OS-textShadow);
 	background-image: none;
 }
+
+.style-otherscape .narration-box {
+	font-family: "Rajdhani";
+	text-shadow: 0px 2px 2px var(--green-OS-textShadow),
+	0px 1px 4px var(--mythos-pink);
+	color: var(--green-OS-text);
+	height: 100%;
+	font-size: 0.9em;
+	border-style: solid;
+	padding: 5px;
+	border: 1px;
+	transition-duration: 0.2s;
+	height: 100%;
+	border-radius: 1em;
+	/* border-bottom: 1em solid var(--mythos-pink); */
+	border-top: 2em solid var(--self-border);
+	border-bottom: 1em solid var(--self-border);
+	background-image: url(../images/OS-BG.webp);
+	/* background-color: black; */
+	background-position: center;
+	background-size: 100%;
+	/* box-shadow: 0px -5px 0px 10px #502c5da6; */
+}
+
