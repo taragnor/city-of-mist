@@ -76,8 +76,10 @@ li.ui-control[aria-pressed=true],
 }
 
 .style-otherscape .roll-modifiers {
-	font-family: "Rajdhani";
+	font-family: "Orbitron";
+	/* font-family: "Rajdhani"; */
 	color: var(--green-OS-text);
+	text-shadow: var(--green-OS-textShadow);
 	text-transform: uppercase;
 	font-size: 1.0em;
 }
