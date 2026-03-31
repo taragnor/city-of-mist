@@ -460,4 +460,12 @@ button {
   fill: var(--green-OS-text);
 }
 
+.style-otherscape, body.game .app option {
+  background-color: rgb(48, 40, 49);
+  color: white;
+}
 
+.style-otherscape input {
+  background-color: rgb(48, 40, 49);
+  color: var(--green-OS-text);
+}

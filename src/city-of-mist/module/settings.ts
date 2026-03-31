@@ -1,5 +1,4 @@
 import { SystemModule } from "./config/system-module.js";
-import { localize } from "./city.js";
 import { SettingsChoices } from "./config/settings-object.js";
 
 export type BaseSystem = ReturnType<typeof CitySettings["getBaseSystem"]>;
@@ -79,8 +78,8 @@ export class CitySettings {
 				return system;
 			default:
 				system satisfies never;
-				console.warn(`Unknown System :${system}`);
-				return "classic"
+				console.warn(`Unknown System :${system as string}`);
+				return "classic";
 		}
 	}
 
@@ -98,7 +97,7 @@ export class CitySettings {
 				return "mist-engine";
 			default:
 				system satisfies never;
-				console.warn(`Unknown System :${system}`);
+				console.warn(`Unknown System :${system as string}`);
 				return "classic";
 		}
 	}
@@ -245,16 +244,16 @@ export class CitySettings {
 // Example Getter
 // game.settings.get('city-of-mist', "weaknessCap");
 
-function delayedReload() {
-	if (!isDelayedReload) {
-		const msg = localize("CityOfMist.notification.reloadRequired" );
-		ui.notifications.notify(msg);
-		setTimeout(() =>  window.location.reload(), 4000);
-	}
-	isDelayedReload= true;
-}
+// function delayedReload() {
+// 	if (!isDelayedReload) {
+// 		const msg = localize("CityOfMist.notification.reloadRequired" );
+// 		ui.notifications.notify(msg);
+// 		setTimeout(() =>  window.location.reload(), 4000);
+// 	}
+// 	isDelayedReload= true;
+// }
 
-let isDelayedReload = false;
+// let isDelayedReload = false;
 
 
 async function forceDarkTheme() {
