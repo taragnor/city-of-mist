@@ -297,7 +297,7 @@ export class CityDB extends DBAccessor {
 			{await token.actor.undoEntranceMoves(token);}
 		if (game.scenes.active != token.parent)
 			{return;}
-		await CityHelpers.refreshTokenActorsInScene(token.parent);
+		CityHelpers.refreshTokenActorsInScene(token.parent);
 		return true;
 	}
 
@@ -318,7 +318,7 @@ export class CityDB extends DBAccessor {
 
 	static async onSceneUpdate(scene: Scene, changes: {active?:boolean}) {
 		if (!changes.active) {return;}
-		await CityHelpers.refreshTokenActorsInScene(scene);
+		CityHelpers.refreshTokenActorsInScene(scene);
 		return true;
 	}
 

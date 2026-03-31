@@ -422,3 +422,42 @@ div.Noise-theme .theme-block {
 	/* box-shadow: 0px -5px 0px 10px #502c5da6; */
 }
 
+.style-otherscape div.Mythos-theme textarea.motivation-input {
+  color: var(--green-OS-text);
+}
+
+.style-otherscape #settings button,
+.style-otherscape .directory .action-buttons button {
+  font-size: 1.1em;
+}
+
+.style-otherscape .directory,
+.style-otherscape .settings-sidebar,
+.settings-sidebar .info > div * {
+  color: var(--green-OS-text);
+}
+
+/* fix for light theme */
+.style-otherscape h1,
+.style-otherscape h2,
+.style-otherscape h3,
+.style-otherscape h4 {
+  color: var(--noise-border);
+}
+
+.style-otherscape .combat-sidebar .combat-tracker .combatant {
+  color: var(--green-OS-text);
+}
+
+.style-otherscape .hint {
+	text-transform: none;
+}
+
+
+a.button,
+button {
+  color: var(--green-OS-text);
+  fill: var(--green-OS-text);
+}
+
+
