@@ -10,7 +10,7 @@ export abstract class SystemModule {
 
 	static baseClasses = [CoMTypeSystem, MistEngineSystem];
 
-	static systems= new Map<keyof SYSTEM_NAMES, SystemModuleI>();
+	static systems = new Map<keyof SYSTEM_NAMES, SystemModuleI>();
 
 	static systemChoices() : SYSTEM_NAMES {
 		const obj : Partial<SYSTEM_NAMES> = {};
@@ -23,7 +23,7 @@ export abstract class SystemModule {
 	static get active(): SystemModuleI {
 		const system = CitySettings.getBaseSystem();
 		const sys = this.systems.get(system);
-		if (sys) return sys;
+		if (sys) {return sys;}
 		ui.notifications.error("No system module, defaulting to CoM");
 		return new CoMSystem();
 	}
@@ -67,7 +67,7 @@ export abstract class SystemModule {
 	static allThemeTypes(): Required<Omit<ReturnType<SystemModuleI["themeTypes"]>, "">> {
 		let retobj : ReturnType<SystemModuleI["themeTypes"]>= {};
 		for (const [_k,v] of this.systems) {
-			if (v == this.active) continue;
+			if (v == this.active) {continue;}
 			retobj = foundry.utils.mergeObject(retobj, v.themeTypes());
 		}
 		if (this.active) {
@@ -127,9 +127,9 @@ export abstract class SystemModule {
 	}
 
 	static isLoadoutThemeType( themeType: keyof ThemeTypes) : boolean {
-		if (!themeType) return false;
-		const specials = this.allThemeTypes()[themeType].specials
-		if (!specials) return false;
+		if (!themeType) {return false;}
+		const specials = this.allThemeTypes()[themeType].specials;
+		if (!specials) {return false;}
 		return specials.includes("loadout");
 	}
 

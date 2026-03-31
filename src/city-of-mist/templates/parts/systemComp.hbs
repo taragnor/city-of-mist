@@ -1,14 +1,21 @@
 {{#if (devMode)}}
 <div>
-	<label>
-		{{localize "Generic.terms.compatibleWith"}}
-	</label>
-	{{#if (or (not item.system.system_compatiblity)(recordContains TBSYSTEMLIST item.system.system_compatiblity))}}
-	<select name="system.system_compatiblity">
-		{{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
-	</select>
-	{{else}}
-	<b>{{item.system.system_compatbility}}</b>
-	{{/if}}
+  <label>
+    {{localize "Generic.terms.compatibleWith"}}
+  </label>
+  {{#if (or (not item.system.system_compatiblity)(recordContains TBSYSTEMLIST item.system.system_compatiblity))}}
+  <select name="system.system_compatiblity">
+    {{selectOptions TBSYSTEMLIST localize=true selected=item.system.system_compatiblity}}
+  </select>
+  {{else}}
+  <b>{{item.system.system_compatbility}}</b>
+  {{/if}}
 </div>
+<div>
+  <label> {{localize "Generic.terms.sourcebook"}}</label>
+  <select name="system.sourceBook">
+    {{selectOptions SOURCEBOOKS localize=true selected=item.system.sourceBook}}
+  </select>
+</div>
+
 {{/if}}

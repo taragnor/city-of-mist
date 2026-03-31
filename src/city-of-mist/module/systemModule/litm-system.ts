@@ -1,5 +1,5 @@
 import { CitySettings } from "../settings.js";
-import { CityActor, PC } from "../city-actor.js";
+import { CityActor } from "../city-actor.js";
 import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { localize } from "../city.js";
 import { MistEngineSystem } from "./mist-engine.js";
@@ -7,6 +7,12 @@ import { MistEngineSystem } from "./mist-engine.js";
 const PATH = "systems/city-of-mist";
 
 export class LitMSystem extends MistEngineSystem {
+
+  override sourceBooks() {
+    return {
+      "LegendCore" : "Legend.sourcebooks.LegendCore",
+    } as const;
+  }
 
 	 get localizationStarterName() {
 		return "Legend" as const;
@@ -66,11 +72,11 @@ export class LitMSystem extends MistEngineSystem {
 		character: "systems/city-of-mist/templates/litm/pc-sheet-header.hbs",
 		threat: "",
 		crew: ""
-	}
+	};
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
-		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		return await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
 	}
 
 	override async onChangeTo() : Promise<void> {
@@ -96,7 +102,11 @@ declare global {
 		"legend": string;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 	interface ThemeTypes extends ReturnType<LitMSystem["themeTypes"]> { }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface SourceBooks extends ReturnType<LitMSystem["sourceBooks"]>{ }
 }
 
 

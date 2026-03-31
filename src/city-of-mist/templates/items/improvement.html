@@ -11,30 +11,28 @@
       <input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
     </div>
     {{/if}}
-	</header>
-	<div>
-		<label>
-			System
-		</label>
-	</div>
-	{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
-	<label> Uses </label>
-	<input name="system.uses.max" value="{{item.system.uses.max}}">
-	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}}> <br>
-	<label class="dialog-label" for="Flags"> Special Flags </label>
-	<input type="text" name="system.effect_class" value="{{item.system.effect_class}}">
-	<label>
-		{{localize "CityOfMist.terms.description"}}
-	</label>
+  </header>
+  <div>
+    {{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST SOURCEBOOKS=SOURCEBOOKS}}
+  </div>
+
+  <label> Uses </label>
+  <input name="system.uses.max" value="{{item.system.uses.max}}">
+  <label class="dialog-label" for="free-content"> Allow Override </label>
+  <input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}}> <br>
+  <label class="dialog-label" for="Flags"> Special Flags </label>
+  <input type="text" name="system.effect_class" value="{{item.system.effect_class}}">
+  <label>
+    {{localize "CityOfMist.terms.description"}}
+  </label>
   <textarea type="text" name="system.description" placeholder="{{item.description}}">{{item.system.description}}</textarea>
-	{{else}}
-	<div class="improvement-name-send"> Description </div>
-	<div>{{item.description}}</div>
-	<hr>
-	<label>
-		{{localize "CityOfMist.terms.choice"}}
-	</label>
+  {{else}}
+  <div class="improvement-name-send"> Description </div>
+  <div>{{item.description}}</div>
+  <hr>
+  <label>
+    {{localize "CityOfMist.terms.choice"}}
+  </label>
 
 	{{#if (eq item.system.choice_type "core_move")}}
 	<select name="system.choice_item">

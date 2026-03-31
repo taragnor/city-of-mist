@@ -18,6 +18,12 @@ export class OtherscapeSystem extends MistEngineSystem {
 
 	protected override themeCardTemplate = "systems/city-of-mist/templates/otherscape/theme-card.hbs";
 
+  override sourceBooks() {
+    return {
+      "OtherscapeCore" : "Otherscape.sourcebooks.OtherscapeCore",
+    } as const;
+  }
+
 	override get localizationStarterName() {
 		return "Otherscape" as const;
 	}
@@ -325,5 +331,7 @@ declare global {
 				restricted: false
 		}
 	}
+
+  interface SourceBooks extends ReturnType<OtherscapeSystem["sourceBooks"]>{ }
 }
 

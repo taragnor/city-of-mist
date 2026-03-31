@@ -8,6 +8,13 @@ const PATH = "systems/city-of-mist";
 
 export class CoMSystem extends CoMTypeSystem {
 
+  override sourceBooks() {
+    return {
+    "CityOfMistCore" : "CityOfMist.sourcebooks.CityOfMistCore",
+    "shadows" : "CityOfMist.sourcebooks.shadowsAndShowdowns"
+    } as const;
+  }
+
 	override get localizationStarterName() {
 		return "CityOfMist" as const;
 	}
@@ -31,22 +38,9 @@ export class CoMSystem extends CoMTypeSystem {
 	}
 
 
-	// 	return localize("CityOfMist.terms.attention");
-	// }
-
-	// override themeDecreaseName(theme: Theme) {
-	// 	if (theme.themebook)
-	// 		return theme.themebook.system.fade_type;
-	// 	const defFade =  CityItem.getCoMdefaultFade(theme.getThemeType());
-	// 	if (defFade == "crew")  {
-	// 		return localize(FADETYPELIST["fade"]) + " / " + localize(FADETYPELIST["crack"]);
-	// 	}
-	// 	return localize(FADETYPELIST[defFade]);
-	// }
-
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
-		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
+		return await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
 	}
 	get name() {return  "city-of-mist" as const;}
 	get localizationString() {return localize("CityOfMist.settings.system.0");}
@@ -110,7 +104,7 @@ export class CoMSystem extends CoMTypeSystem {
 	}
 
 	override async activate() {
-		super.activate();
+		await super.activate();
 	}
 
 	headerTable = {
@@ -135,8 +129,10 @@ declare global {
 		"city-of-mist": string;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 	interface ThemeTypes extends ReturnType<CoMSystem["themeTypes"]> { }
 
+  interface SourceBooks extends ReturnType<CoMSystem["sourceBooks"]>{ }
 }
 
 

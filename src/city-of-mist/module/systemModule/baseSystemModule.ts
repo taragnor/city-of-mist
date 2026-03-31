@@ -18,6 +18,8 @@ import { CitySettings } from "../settings.js";
 
 export abstract class BaseSystemModule implements SystemModuleI {
 
+  abstract sourceBooks(): Record<string, string>;
+
 	localizedName(doc: CityActor | CityItem): string {
 		if ("locale_name" in doc.system && doc.system.locale_name) {
 			return localizeS(doc.system.locale_name).toString();
@@ -69,7 +71,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	}
 
 	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description" | (string & {})) : string {
-		let sysName = "generic";
+		let sysName :string;
 		switch (true) {
 			case "systemName" in doc
 					&& doc.systemName.length > 0:
@@ -81,13 +83,16 @@ export abstract class BaseSystemModule implements SystemModuleI {
 				sysName = doc.system.systemName;
 				break;
 			default:
-        //keeps name at generic
+        sysName = doc.name;
+        //keeps name at null
         break;
 		}
-		const locName  = this.localizationStarterName;
-    return this.tryLocalize( `${locName}.${doc.system.type}.${sysName}.${property}`)
-    ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
-    ?? "";
+    return this.tryLocalize(doc, sysName, property) ?? "";
+		// const locName  = this.localizationStarterName;
+    // ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
+    // return this.tryLocalize( `${locName}.${doc.system.type}.${sysName}.${property}`)
+    // ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
+    // ?? "";
 		// const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
 		// const test1 = localize(locStr);
 		// if (test1!= locStr) {return test1;}
@@ -97,9 +102,38 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		// return "";
 	}
 
-  tryLocalize(locStr: string) : string | null {
-		const x = localize(locStr);
-		if (x!= locStr) {return x;}
+  tryLocalize(doc: CityItem | CityActor, systemName: string, property: string ) : string  | null{
+    if ("system_compatiblity" in doc.system) {
+      const sys = doc.system.system_compatiblity;
+      const sourceAddendum = (doc.system.sourceBook != "" && !doc.system.sourceBook.includes("Core")) ? `${doc.system.sourceBook}` : "";
+      const ItemType = sourceAddendum ? `${doc.system.type}.${sourceAddendum}`: doc.system.type;
+      switch(sys) {
+        case "any":
+          for (const [_name, sysChoice] of SystemModule.systems.entries()) {
+            const newLocName = sysChoice.localizationStarterName;
+            const test2= this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}`)
+              ?? this._tryLocalize(`${newLocName}.${ItemType}.generic.${property}`);
+            if (test2) {return test2;}
+          }
+          break;
+        default: {
+          const sysChoice = SystemModule.systems.get(sys);
+          if (!sysChoice) {break;}
+          const newLocName = sysChoice.localizationStarterName;
+          return this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}`)
+            ?? this._tryLocalize(`${newLocName}.${ItemType}.generic.${property}`);
+        }
+      }
+    }
+    const locName  = this.localizationStarterName;
+    return this._tryLocalize( `${locName}.${doc.system.type}.${systemName}.${property}`)
+      ?? this._tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
+      ?? null;
+  }
+
+  protected _tryLocalize(locStr: string) : string | null {
+    const x = localize(locStr);
+    if (x!= locStr) {return x;}
     return null;
   }
 
@@ -201,7 +235,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 			// ui.notifications.error(msg);
 			return `ERROR: ${msg}`;
 		}
-		return await renderTemplate(templateLoc, {actor});
+		return await foundry.applications.handlebars.renderTemplate(templateLoc, {actor});
 	}
 
 	systemSettings() {return {};
@@ -228,6 +262,7 @@ export interface SystemModuleI {
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
 	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
+  sourceBooks(): Readonly<Record<string, string>>;
 }
 
 export type ThemeTypeInfo = {
@@ -247,6 +282,9 @@ declare global {
 		"extra": "";
 	}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface SourceBooks { }
+
 	interface GameTerms {
 		collective: string,
 			buildUpPoints: string,
@@ -259,3 +297,6 @@ declare global {
 
 
 type ThemebookField = "power-question" | "weakness-question" | "improvement-name" | "improvement-description";
+
+
+

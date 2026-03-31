@@ -78,6 +78,7 @@ function systemItem() {
 		free_content: new bool({initial: false}),
 		locale_name: new txt(),
 		systemName: new txt(),
+    sourceBook: new txt<keyof SourceBooks | "">({initial: ""}),
 	};
 }
 

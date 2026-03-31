@@ -30,44 +30,50 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	/* -------------------------------------------- */
 
-	override async getData() {
-		await CityDB.waitUntilLoaded();
-		let data = await super.getData();
-		const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
-			"any":  "CityOfMist.terms.any",
-		} as const;
-		data.CONST = {
-			TAG_CATEGORIES,
-			STATUS_CATEGORIES,
-		};
-		data.FADE_TYPE_LIST = FADETYPELIST;
-		data.TBSYSTEMLIST = SysChoices;
-		data.THEMESUBTYPES = {
-			"": "-",
-			...SystemModule.allThemeTypes(),
-		};
-		data.THEME_SUBTYPES_PLUS_VARIES = {
-				"": "Generic.term.varies",
-			...SystemModule.allThemeTypes(),
-		};
-		data.MOTIVATIONLIST = MOTIVATIONLIST;
-		data.SPECTRUM_VALUES= SPECTRUM_VALUES;
-		data.movelist = CityHelpers.getMoves()
-			.filter( x=> x.system.category == "Core")
-			.map( x=> x.name );
-		if (this.item.system.type == "tag") {
-			data.otherTagList = this.item.parent
-				?.getTags()
-				?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId)
-		}
-		if (this.item.isThemeKit()) {
-			const baseTbs = this.item.parent
-				? this.item.parent.items.filter( x=> x.isThemeBook())
-				: [];
-			data.themebooks = baseTbs.concat(CityDB.themebooks);
-		}
-		return data;
-	}
+  override async getData() {
+    await CityDB.waitUntilLoaded();
+    let data = await super.getData();
+    const sourcebooks = Array.from(SystemModule.systems.entries())
+      .map ( ([_k,v]) => v)
+      .filter(sys => "systemCompatiblity" in this.item ? this.item.systemCompatiblity == sys.name || this.item.systemCompatiblity == "any" : true)
+      .map( sys => sys.sourceBooks())
+      .reduce( (acc, entry) => ({ ...acc, ...entry}), {});
+    const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
+      "any":  "CityOfMist.terms.any",
+    } as const;
+    data.CONST = {
+      TAG_CATEGORIES,
+      STATUS_CATEGORIES,
+    };
+    data.FADE_TYPE_LIST = FADETYPELIST;
+    data.TBSYSTEMLIST = SysChoices;
+    data.SOURCEBOOKS = {"" : "-", ...sourcebooks};
+    data.THEMESUBTYPES = {
+      "": "-",
+      ...SystemModule.allThemeTypes(),
+    };
+    data.THEME_SUBTYPES_PLUS_VARIES = {
+      "": "Generic.term.varies",
+      ...SystemModule.allThemeTypes(),
+    };
+    data.MOTIVATIONLIST = MOTIVATIONLIST;
+    data.SPECTRUM_VALUES= SPECTRUM_VALUES;
+    data.movelist = CityHelpers.getMoves()
+      .filter( x=> x.system.category == "Core")
+      .map( x=> x.name );
+    if (this.item.system.type == "tag") {
+      data.otherTagList = this.item.parent
+        ?.getTags()
+        ?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId);
+    }
+    if (this.item.isThemeKit()) {
+      const baseTbs = this.item.parent
+        ? this.item.parent.items.filter( x=> x.isThemeBook())
+        : [];
+      data.themebooks = baseTbs.concat(CityDB.themebooks);
+    }
+    return data;
+  }
 
 	override get title() {
 		const title = localizeS(this.item.name);

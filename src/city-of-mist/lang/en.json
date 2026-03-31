@@ -36,6 +36,7 @@
 "CityOfMistTracker.trackerwindow.tag.burned": "Burn tag",
 
 "Generic.terms.compatibleWith": "Compatible With",
+"Generic.terms.sourcebook": "Sourcebook",
 
 "CityOfMist.terms.name": "Name",
 "CityOfMist.terms.description": "Description",
@@ -300,6 +301,16 @@
 "CityOfMist.characterSheet.useClue.tooltip": "Post Clue Card to Chat",
 "CityOfMist.characterSheet.useClue.button": "Use",
 
+"CityOfMist.improvement.impName.name": "",
+
+
+"CityOfMist.sourcebooks.CityOfMistCore" : "City of Mist Core Rules",
+"CityOfMist.sourcebooks.shadowsAndShowdowns" : "Shadows and Showdowns",
+
+"Otherscape.sourcebooks.OtherscapeCore" : "Otherscape Core Rules",
+
+"Legend.sourcebooks.LegendCore": "Legend in the Mist Core Rules",
+
 "CityOfMist.moves.genericFail": "MC Hard Move.",
 
 "CityOfMist.moves.CTG.name":"Change the Game",
@@ -510,6 +521,60 @@
 "Otherscape.essence.Singularity.name": "Singularity",
 "Otherscape.essence.Singularity.description": "See Otherscape page 134-136.",
 
+"CityOfMist.improvement.shadows.generic.description": "See Shadows and Showdowns page 53-56",
+
+"CityOfMist.improvement.shadows.DeepMistDiver.name": "Deep Mist Diver",
+"CityOfMist.improvement.shadows.InTouch.name": "In Touch",
+"CityOfMist.improvement.shadows.SeeThroughTheMask.name": "See Through The Mask",
+"CityOfMist.improvement.shadows.ShroudingResistance.name": "Shrouding Resistance",
+"CityOfMist.improvement.shadows.SteadfastMotion.name": "SteadfastMotion",
+"CityOfMist.improvement.shadows.SteadfastMythos.name": "Steadfast Mythos",
+"CityOfMist.improvement.shadows.AceUpTheSleeve.name": "Ace Up The Sleeve",
+"CityOfMist.improvement.shadows.CouldHaveBeenMuchWorse.name": "Could Have Been Much Worse",
+"CityOfMist.improvement.shadows.Daredevil.name": "Daredevil",
+"CityOfMist.improvement.shadows.GetTheDrop.name": "Get The Drop",
+"CityOfMist.improvement.shadows.ThinkFast.name": "Think Fast",
+"CityOfMist.improvement.shadows.MilkingIt.name": "Milking It",
+"CityOfMist.improvement.shadows.QuickLearner.name": "Quick Learner",
+"CityOfMist.improvement.shadows.ScarsOfPastMistakes.name": "Scars of Past Mistakes",
+"CityOfMist.improvement.shadows.SlowAndSteady.name": "Slow And Steady",
+"CityOfMist.improvement.shadows.LevelUpYourGame.name": "Level Up Your Game",
+"CityOfMist.improvement.shadows.TheHarderYouFall.name": "The Harder You Fall",
+"CityOfMist.improvement.shadows.ItWasARainyNight.name": "It Was A Rainy Night",
+"CityOfMist.improvement.shadows.MakeTime.name": "Make Time",
+"CityOfMist.improvement.shadows.MonologueMonster.name": "Monologue Monster",
+"CityOfMist.improvement.shadows.CherryPicker.name": "CherryPicker",
+"CityOfMist.improvement.shadows.CrowdControl.name": "Crowd Control",
+"CityOfMist.improvement.shadows.DoggedSonOfAGun.name": "Dogged Son Of A Gun",
+"CityOfMist.improvement.shadows.Heartpiercer.name": "Heartpiercer",
+"CityOfMist.improvement.shadows.Iconoclast.name": "Iconoclast",
+"CityOfMist.improvement.shadows.ShieldMaiden.name": "ShieldMaiden",
+"CityOfMist.improvement.shadows.SneakAttack.name": "Sneak Attack",
+"CityOfMist.improvement.shadows.BigKahuna.name": "Big Kahuna",
+"CityOfMist.improvement.shadows.GoodOldReliable.name": "Good Old Reliable",
+"CityOfMist.improvement.shadows.LongMemory.name": "Long Memory",
+"CityOfMist.improvement.shadows.AHelpingWisp.name": "A Helping Wisp",
+"CityOfMist.improvement.shadows.JobSecurity.name": "Job Security",
+"CityOfMist.improvement.shadows.VeilRecalibration.name": "Veil Recalibration",
+"CityOfMist.improvement.shadows.BadAttitude.name": "Bad Attitude",
+"CityOfMist.improvement.shadows.CautiousExamination.name": "Cautious Examination",
+"CityOfMist.improvement.shadows.OldDog.name": "Old Dog",
+"CityOfMist.improvement.shadows.QuickDeduction.name": "Quick Deduction",
+"CityOfMist.improvement.shadows.WhoWatchesTheWatchmen.name": "Who Watches the Watchmen?",
+"CityOfMist.improvement.shadows.AsIfByMagic.name": "As If By Magic",
+"CityOfMist.improvement.shadows.DrawOnTheRootsOfLegend.name": "Draw On The Roots Of Legend",
+"CityOfMist.improvement.shadows.NotEvenHoldingBack.name": "Not Even Holding Back",
+"CityOfMist.improvement.shadows.RevisitTheForgottenPlace.name": "Revisit The Forgotten Place",
+"CityOfMist.improvement.shadows.CommonSense.name": "Common Sense",
+"CityOfMist.improvement.shadows.IKnowWhoIAm.name": "I know who I am",
+"CityOfMist.improvement.shadows.Survivor.name": "Survivor",
+"CityOfMist.improvement.shadows.DoubleAgent.name": "Double Agent",
+"CityOfMist.improvement.shadows.FreedomOfChoice.name": "FreedomOfChoice",
+"CityOfMist.improvement.shadows.GameOfLife.name": "Game Of Life",
+"CityOfMist.improvement.shadows.Legendarium.name": "Legendarium",
+"CityOfMist.improvement.shadows.UnwaveringFlameOfTheTrueSelf.name": "Unwavering Flame of the True Self",
+
+
 "Otherscape.improvement.generic.description": "See Otherscape Core book p.140-141",
 
 "Otherscape.improvement.BackpackBeast.name": "Backpack Beast",
@@ -537,7 +602,26 @@
 "Legend.improvement.BeReforged.name": "Be Reforged",
 "Legend.improvement.ShakeTheFoundations.name": "Shake The Foundations of Magic",
 "Legend.improvement.SpeakWordsEternal.name": "Speak Words Eternal",
-"Legend.improvement.UnearthLostTruths.name": "UnearthLostTruths",
+"Legend.improvement.UnearthLostTruths.name": "Unearth Lost Truths",
+
+"Legend.improvement.BeyondLuck.name": "Beyond Luck",
+"Legend.improvement.CannyOne.name": "Canny One",
+"Legend.improvement.DarkHorse.name": "Dark Horse",
+"Legend.improvement.DiligentDrudge.name": "Diligent Drudge",
+"Legend.improvement.FumblingMaster.name": "Fumbling Master",
+"Legend.improvement.JackOfManyLives.name": "Jack of Many Lives",
+"Legend.improvement.LargerThanLife.name": "Larger Than Life",
+"Legend.improvement.LoyalCompanion.name": "Loyal Companion",
+"Legend.improvement.LuckyBastard.name": "Lucky Bastard",
+"Legend.improvement.MagusMagnificent.name": "Magus Magnificent",
+"Legend.improvement.MasterOfCraft.name": "Master of Craft",
+"Legend.improvement.MasterOfLittleThings.name": "Master of The Little Things",
+"Legend.improvement.NineLives.name": "Nine Lives",
+"Legend.improvement.OldHand.name": "Old Hand",
+"Legend.improvement.PillarOfWisdom.name": "Pillar of Wisdom",
+"Legend.improvement.TheBearer.name": "The Bearer",
+"Legend.improvement.TheCommonHero.name": "The Common Hero",
+"Legend.improvement.Virtuoso.name": "Virtuoso",
 
 
 
