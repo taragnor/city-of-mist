@@ -1,18 +1,19 @@
-import js from "@eslint/js";
 import tseslint from "typescript-eslint";
+// import js from "@eslint/js";
 
 export default [
-	js.configs.recommended,
+	// js.configs.recommended,
 	...tseslint.configs.recommended, // TS plugin's recommended rules
 	...tseslint.configs.recommendedTypeChecked, // 👈 enables typed rules
 	{
 		languageOptions: {
 			parserOptions: {
 				project: "./tsconfig.json", // 👈 tell ESLint where your tsconfig is
-				tsconfigRootDir: import.meta.dirname, // needed if config not in same dir
+				// tsconfigRootDir: import.meta.dirname, // needed if config not in same dir
 			},
 		},
 		rules: {
+      "no-fallthrough": ["warn"],
 			"@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/no-explicit-any": "warn",
@@ -29,6 +30,7 @@ export default [
 			// "indent": ["error", 2],
 			"@typescript-eslint/no-namespace": "off",
 			"@typescript-eslint/restrict-plus-operands": "error",
+      "no-case-declarations": "error",
 			"@typescript-eslint/restrict-template-expressions": [
 				"error",
 				{

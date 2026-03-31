@@ -192,7 +192,7 @@ export class SelectedTagsAndStatus {
 		return await SelectedTagsAndStatus._selectTagHandler(event, true);
 	}
 
-	static async selectTagHandler(event: JQuery.ClickEvent) {
+	static async selectTagHandler(this: void, event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, false);
 	}
 

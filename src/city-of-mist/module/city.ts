@@ -114,7 +114,7 @@ Hooks.once("init", async function() {
 	console.log(`***********************************`);
 	registerDataModels();
 	await SystemModule.init();
-	await registerSystemSettings();
+	registerSystemSettings();
 	await SystemModule.active.activate();
 
 	game.city = {

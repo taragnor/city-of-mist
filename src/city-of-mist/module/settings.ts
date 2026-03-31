@@ -4,7 +4,7 @@ import { SettingsChoices } from "./config/settings-object.js";
 
 export type BaseSystem = ReturnType<typeof CitySettings["getBaseSystem"]>;
 
-export async function registerSystemSettings() {
+export function registerSystemSettings() {
 	// Hooks.once("ready", ()=> CitySettings.refreshSystem());
 	console.log("Registering Settings");
 
@@ -14,6 +14,7 @@ export async function registerSystemSettings() {
 	for (const [name, data] of Object.entries(DEV_SETTINGS())) {
 		game.settings.register<any>("city-of-mist", name, data);
 	}
+
 }
 
 import { DEV_SETTINGS } from "./config/settings-object.js";
@@ -255,3 +256,18 @@ function delayedReload() {
 
 let isDelayedReload = false;
 
+
+async function forceDarkTheme() {
+  //@ts-expect-error uiConfig isn't defined
+  const uiConfig = game.settings.get("core","uiConfig") as unknown as {colorScheme: {applications: string, interface: string}};
+  const scheme = uiConfig.colorScheme;
+  if (scheme.applications == "light"  || scheme.interface == "light") {
+    scheme.applications= "dark";
+    scheme.interface= "dark";
+    //@ts-expect-error uiConfig isn't defined
+    await game.settings.set("core", "uiConfig", uiConfig);
+  }
+
+}
+
+Hooks.on("ready", () => forceDarkTheme());
