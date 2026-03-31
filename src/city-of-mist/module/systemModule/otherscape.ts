@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { CityItemSheetSmall } from "../city-item-sheet.js";
 import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { RollDialog } from "../roll-dialog.js";
@@ -23,7 +24,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 
 	override async downtimeTemplate(actor: CityActor): Promise<string> {
 		const templateData ={actor};
-		return await renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
+		return await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
 	}
 
 	get name(){ return "otherscape" as const;}
@@ -32,8 +33,9 @@ export class OtherscapeSystem extends MistEngineSystem {
 	headerTable = {
 		character: "systems/city-of-mist/templates/otherscape/pc-sheet-header.hbs",
 		threat: "",
-		crew: ""
-	}
+		crew: "",
+	};
+
 
 	override themeTypes() {
 		return {
@@ -95,7 +97,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 	}
 
 	async determineEssence(actor : PC) {
-		if (!CitySettings.get("autoEssence")) return;
+		if (!CitySettings.get("autoEssence")) {return;}
 		const essence = OtherscapeSystem.determineEssenceFromThemes(actor.mainThemes);
 		if (essence) {
 			await actor.setEssence(essence);
@@ -107,12 +109,12 @@ export class OtherscapeSystem extends MistEngineSystem {
 		const themeTypes = themes.reduce(
 			(acc, theme) => {
 				const themeType = theme.getThemebookOrTK()!.system.subtype;
-				if (acc.includes(themeType) || !themeType) return acc;
+				if (acc.includes(themeType) || !themeType) {return acc;}
 				acc.push(themeType);
 				return acc;
 			}
 			, [] as Themebook["system"]["subtype"][] );
-		let essence : Essence | undefined = undefined;
+		const essence : Essence | undefined = undefined;
 		switch (themeTypes.length) {
 			case 0: return;
 			case 1:
@@ -124,6 +126,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 					case "Mythos":
 						return; //can't defuined essence
 				}
+        break;
 			case 2:
 				switch (true) {
 					case !themeTypes.includes("Mythos"): {
@@ -146,23 +149,23 @@ export class OtherscapeSystem extends MistEngineSystem {
 	}
 
 	override async activate() {
-		super.activate();
+		await super.activate();
 		for (const [name, data] of Object.entries(this.systemSettings())) {
 			game.settings.register("city-of-mist", name, data);
 		}
 	}
 
-	 override async registerItemSheets() {
-		 super.registerItemSheets();
-	Items.registerSheet("city", CityItemSheetSmall, {types: ["essence"], makeDefault: true});
-	 }
+  override registerItemSheets() {
+    super.registerItemSheets();
+    Items.registerSheet("city", CityItemSheetSmall, {types: ["essence"], makeDefault: true});
+  }
 
 	protected override async _setHooks () {
-		super._setHooks();
+		await super._setHooks();
 		Hooks.on("themeCreated", async (actor, theme) => {
-			if (!this.isActive()) return;
-			if (actor.system.type != "character") return;
-			if (actor.mainThemes.length < 4) return;
+			if (!this.isActive()) {return;}
+			if (actor.system.type != "character") {return;}
+			if (actor.mainThemes.length < 4) {return;}
 			//Nexus Theme Effect
 			const oldEssence = actor.essence;
 			const newEssence = await this.determineEssence(actor as PC);
@@ -194,9 +197,9 @@ export class OtherscapeSystem extends MistEngineSystem {
 	override async updateRollOptions( html: JQuery, options: Partial<MistRoll["options"]>, dialog: RollDialog) {
 		await super.updateRollOptions(html, options, dialog);
 		const essence = this.getEssence(dialog.actor);
-		const self = $(html).find("#add-self").prop("checked");
-		const mythos = $(html).find("#add-mythos").prop("checked")
-			const noise = $(html).find("#add-noise").prop("checked")
+		const self = $(html).find("#add-self").prop("checked") as boolean;
+		const mythos = $(html).find("#add-mythos").prop("checked") as boolean;
+			const noise = $(html).find("#add-noise").prop("checked")as boolean;
 		const tt : MistRoll["options"]["themeTypes"] = [] ;
 		if (self) { tt.push("Self");}
 		if (mythos) { tt.push("Mythos");}
@@ -212,8 +215,8 @@ export class OtherscapeSystem extends MistEngineSystem {
 		await super.renderRollDialog(dialog);
 		const essence = this.getEssence(dialog.actor);
 		const move = CityDB.getMoveById(dialog.move_id);
-		if (!move) return;
-		if (move.system.category == "SHB") return;
+		if (!move) {return;}
+		if (move.system.category == "SHB") {return;}
 		const selfLoc = localize("Otherscape.dialog.addSelf");
 		const mythosLoc = localize("Otherscape.dialog.addMythos");
 		const noiseLoc = localize("Otherscape.dialog.addNoise");

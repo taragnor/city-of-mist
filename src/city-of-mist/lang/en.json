@@ -510,6 +510,37 @@
 "Otherscape.essence.Singularity.name": "Singularity",
 "Otherscape.essence.Singularity.description": "See Otherscape page 134-136.",
 
+"Otherscape.improvement.generic.description": "See Otherscape Core book p.140-141",
+
+"Otherscape.improvement.BackpackBeast.name": "Backpack Beast",
+"Otherscape.improvement.BackupClones.name": "Backup Clones",
+"Otherscape.improvement.CustomizableGear.name": "Customizable Gear",
+"Otherscape.improvement.ExperiencedEfficiency.name": "Experienced Efficiency",
+"Otherscape.improvement.GodSlayer.name": "God-Slayer",
+"Otherscape.improvement.Interfacer.name": "Interfacer",
+"Otherscape.improvement.LargerThanLife.name": "Larger Than Life",
+"Otherscape.improvement.LevelUpYourGame.name": "Level Up Your Game",
+"Otherscape.improvement.NotMyFirstRodeo.name": "Not My First Rodeo",
+"Otherscape.improvement.SawThatComing.name": "Saw That Coming",
+"Otherscape.improvement.SlowAndSteady.name": "Slow & Steady",
+"Otherscape.improvement.SourceSensitive.name": "Source-Sensitive",
+"Otherscape.improvement.TheHarderYouFall.name": "The Harder You Fall",
+"Otherscape.improvement.WillpowerOverChance.name": "Willpower Over Chance",
+"Otherscape.improvement.NewEssence.name": "Create A New Type of Essence",
+"Otherscape.improvement.ExtraBroadTag.name": "Create another Broad Power Tag",
+"Otherscape.improvement.RideOff.name": "Ride Off Into The Sunset",
+"Otherscape.improvement.SunderTheCosmology.name": "Sunder the Cosmology",
+"Otherscape.improvement.TotalReconstitution.name": "Total Reconstitution",
+
+"Legend.improvement.generic.description": "See Legend in the Mist Core book page 193-195",
+"Legend.improvement.ArriveAtJourneysEnd.name": "Arrive at Journey's End",
+"Legend.improvement.BeReforged.name": "Be Reforged",
+"Legend.improvement.ShakeTheFoundations.name": "Shake The Foundations of Magic",
+"Legend.improvement.SpeakWordsEternal.name": "Speak Words Eternal",
+"Legend.improvement.UnearthLostTruths.name": "UnearthLostTruths",
+
+
+
 "CityOfMist.generic.narration": "Narration",
 
 "CityOfMist.command.submit": "Submit",

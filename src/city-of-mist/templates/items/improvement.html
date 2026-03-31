@@ -1,8 +1,16 @@
 <form class="{{cssClass}} improvement-sheet" autocomplete="off" data-owner-id="{{item.id}}" data-sheet-owner-id="{{item.id}}" data-owner-class="item">
-	{{#if (not item.system.chosen)}}
-	<header class="sheet-header">
-		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		<input name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+  {{#if (not item.system.chosen)}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <input name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+    {{#if (devMode)}}
+    <div>
+      <label>
+        System Name ({{item.localizedName}})
+      </label>
+      <input class="system-name" type="text" class="tag-name" name="system.systemName" value="{{item.system.systemName}}">
+    </div>
+    {{/if}}
 	</header>
 	<div>
 		<label>
@@ -19,7 +27,7 @@
 	<label>
 		{{localize "CityOfMist.terms.description"}}
 	</label>
-	<textarea type="text" name="system.description">{{item.system.description}}</textarea>
+  <textarea type="text" name="system.description" placeholder="{{item.description}}">{{item.system.description}}</textarea>
 	{{else}}
 	<div class="improvement-name-send"> Description </div>
 	<div>{{item.description}}</div>

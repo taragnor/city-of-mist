@@ -69,7 +69,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	}
 
 	protected lookupLocalizationProperty(doc: CityItem | CityActor, property: "name" | "description" | (string & {})) : string {
-		let sysName = "";
+		let sysName = "generic";
 		switch (true) {
 			case "systemName" in doc
 					&& doc.systemName.length > 0:
@@ -81,14 +81,27 @@ export abstract class BaseSystemModule implements SystemModuleI {
 				sysName = doc.system.systemName;
 				break;
 			default:
-				sysName = "generic";
+        //keeps name at generic
+        break;
 		}
 		const locName  = this.localizationStarterName;
-		const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
+    return this.tryLocalize( `${locName}.${doc.system.type}.${sysName}.${property}`)
+    ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
+    ?? "";
+		// const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
+		// const test1 = localize(locStr);
+		// if (test1!= locStr) {return test1;}
+		// const genericStr =`${locName}.${doc.system.type}.generic.${property}`;
+		// const test2 = localize(genericStr);
+		// if (test2!= locStr) {return test2;}
+		// return "";
+	}
+
+  tryLocalize(locStr: string) : string | null {
 		const x = localize(locStr);
 		if (x!= locStr) {return x;}
-		return "";
-	}
+    return null;
+  }
 
 	directoryName(actor: CityActor): string {
 		return actor.name;
