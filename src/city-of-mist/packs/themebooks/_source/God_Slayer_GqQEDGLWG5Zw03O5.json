@@ -1,0 +1,43 @@
+{
+  "folder": "KramtZpxe3dIYoZb",
+  "name": "God-Slayer",
+  "type": "improvement",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": false,
+    "uses": {
+      "current": 0,
+      "max": 0,
+      "expended": false
+    },
+    "theme_id": null,
+    "chosen": false,
+    "system_compatiblity": "otherscape",
+    "effect_class": "VETERAN",
+    "systemName": "GodSlayer",
+    "sourceBook": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": "Item.HdF6Qr0GFcXxZJWt",
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "createdTime": 1774990906018,
+    "modifiedTime": 1774990906018,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_id": "GqQEDGLWG5Zw03O5",
+  "_key": "!items!GqQEDGLWG5Zw03O5"
+}

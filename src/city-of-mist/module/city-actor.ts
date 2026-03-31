@@ -935,19 +935,21 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	async addBuildUpImprovement(this: PC, impId: string): Promise<Improvement> {
-		const improvements = await CityHelpers.getBuildUpImprovements();
+		const improvements = CityHelpers.getBuildUpImprovements();
 		const imp = improvements.find(x=> x.id == impId);
 		if (imp == undefined) {
 			throw new Error(`Couldn't find improvement ID:${impId}`);
 		}
 		const obj = {
-			name: imp.name,
+			name: imp.localizedName,
 			type: "improvement",
 			system: {
-				description: imp.system.description,
+				description: imp.description,
 				theme_id: "",
 				effect_class: imp.system.effect_class,
 				chosen: true,
+        system_compatiblity: imp.system.system_compatiblity,
+        sourceBook: imp.system.sourceBook,
 				uses: {
 					max: imp.system?.uses?.max ?? 0,
 					current: imp.system?.uses?.max ?? 0

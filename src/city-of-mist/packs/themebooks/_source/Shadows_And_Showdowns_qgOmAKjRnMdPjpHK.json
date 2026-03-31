@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "s47vGIGtyXE1QUAS",
+  "name": "Shadows And Showdowns",
+  "color": "#12b4ca",
+  "sorting": "a",
+  "_id": "qgOmAKjRnMdPjpHK",
+  "description": "",
+  "sort": 100000,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "modifiedTime": 1774990931162
+  },
+  "_key": "!folders!qgOmAKjRnMdPjpHK"
+}

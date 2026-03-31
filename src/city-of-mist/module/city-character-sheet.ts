@@ -221,13 +221,13 @@ export class CityCharacterSheet extends CityActorSheet {
 
 	async _addBUImprovement (event: JQuery.Event) {
 		event.stopImmediatePropagation();
-		const list = await CityHelpers.getBuildUpImprovements();
+		const list = CityHelpers.getBuildUpImprovements();
 		const choiceList = list
 			.map ( x => {
 				return {
 					id: x.id,
-					data: [x.name],
-					description: x.system.description
+					data: [x.localizedName],
+					description: x.description
 					//TODO: wierd format probably need to change some stuff since its not x.system
 				};
 			});

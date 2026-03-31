@@ -1,0 +1,23 @@
+{
+  "type": "Item",
+  "folder": "IKfjXivWld44DiUd",
+  "name": "Quintessences",
+  "color": "#9d0606",
+  "sorting": "a",
+  "_id": "96sGmbV6seB4OpQY",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "createdTime": 1774990919079,
+    "modifiedTime": 1774990919079,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_key": "!folders!96sGmbV6seB4OpQY"
+}

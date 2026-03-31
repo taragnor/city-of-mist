@@ -1,0 +1,43 @@
+{
+  "folder": "qgOmAKjRnMdPjpHK",
+  "name": "Cherry Picker",
+  "type": "improvement",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": false,
+    "uses": {
+      "current": 0,
+      "max": 0,
+      "expended": false
+    },
+    "theme_id": null,
+    "chosen": false,
+    "system_compatiblity": "city-of-mist",
+    "systemName": "CherryPicker",
+    "effect_class": "VETERAN",
+    "sourceBook": "shadows"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": "Item.GTzqm9flro6c1nQs",
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "createdTime": 1774990931025,
+    "modifiedTime": 1774990931025,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_id": "JNOShoFJMw83aP15",
+  "_key": "!items!JNOShoFJMw83aP15"
+}

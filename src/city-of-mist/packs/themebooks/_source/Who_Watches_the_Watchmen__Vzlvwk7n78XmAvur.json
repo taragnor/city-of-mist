@@ -1,0 +1,43 @@
+{
+  "folder": "qgOmAKjRnMdPjpHK",
+  "name": "Who Watches the Watchmen?",
+  "type": "improvement",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "",
+    "locked": false,
+    "version": "1",
+    "free_content": false,
+    "uses": {
+      "current": 0,
+      "max": 0,
+      "expended": false
+    },
+    "theme_id": null,
+    "chosen": false,
+    "system_compatiblity": "city-of-mist",
+    "systemName": "WhoWatchesTheWatchmen",
+    "effect_class": "VETERAN",
+    "sourceBook": "shadows"
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "eZoEWX0q5xnrYPGQ": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": "Item.vxgCsz0CwJ6wUxZp",
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "createdTime": 1774990931025,
+    "modifiedTime": 1774990931025,
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ"
+  },
+  "_id": "Vzlvwk7n78XmAvur",
+  "_key": "!items!Vzlvwk7n78XmAvur"
+}

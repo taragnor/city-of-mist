@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "qFlVVUo2eXeqRPR6",
+  "name": "Evolutions",
+  "color": "#930b0b",
+  "sorting": "a",
+  "_id": "ix02IhzBh23fwc4q",
+  "description": "",
+  "sort": 50000,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "modifiedTime": 1774990906093
+  },
+  "_key": "!folders!ix02IhzBh23fwc4q"
+}

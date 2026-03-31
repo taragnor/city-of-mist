@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "PFySPLjoTko2I636",
+  "name": "Moments of Fulfillment",
+  "color": "#97177b",
+  "sorting": "a",
+  "_id": "IKfjXivWld44DiUd",
+  "description": "",
+  "sort": -100000,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "city-of-mist",
+    "systemVersion": "4.2.2",
+    "lastModifiedBy": "eZoEWX0q5xnrYPGQ",
+    "modifiedTime": 1774990919218
+  },
+  "_key": "!folders!IKfjXivWld44DiUd"
+}
