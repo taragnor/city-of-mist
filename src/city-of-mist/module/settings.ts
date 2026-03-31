@@ -239,23 +239,6 @@ export class CitySettings {
 
 }
 
-
-
-// Example Getter
-// game.settings.get('city-of-mist', "weaknessCap");
-
-// function delayedReload() {
-// 	if (!isDelayedReload) {
-// 		const msg = localize("CityOfMist.notification.reloadRequired" );
-// 		ui.notifications.notify(msg);
-// 		setTimeout(() =>  window.location.reload(), 4000);
-// 	}
-// 	isDelayedReload= true;
-// }
-
-// let isDelayedReload = false;
-
-
 async function forceDarkTheme() {
   //@ts-expect-error uiConfig isn't defined
   const uiConfig = game.settings.get("core","uiConfig") as unknown as {colorScheme: {applications: string, interface: string}};
