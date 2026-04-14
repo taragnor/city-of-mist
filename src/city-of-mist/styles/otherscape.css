@@ -431,6 +431,10 @@ div.Noise-theme .theme-block {
   font-size: 1.1em;
 }
 
+.whisper-to {
+  color: var(--self-border);
+}
+
 .style-otherscape .directory,
 .style-otherscape .settings-sidebar,
 .settings-sidebar .info > div * {
@@ -447,6 +451,10 @@ div.Noise-theme .theme-block {
 
 .style-otherscape .combat-sidebar .combat-tracker .combatant {
   color: var(--green-OS-text);
+}
+
+.style-otherscape div.city-die-tooltip {
+  color: unset;
 }
 
 .style-otherscape .hint {
