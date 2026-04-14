@@ -156,8 +156,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.getStoryTags();
 	}
 
-	get my_spectrums() {
-		return this.items.filter( x=> x.isSpectrum());
+	get my_spectrums() : Spectrum[] {
+		return this.items
+      .filter( x=> x.isSpectrum()) as Spectrum[];
 	}
 
 	get collective_size() {
@@ -169,7 +170,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return 0;
 	}
 
-	get spectrums() {
+	get spectrums() : Spectrum[] {
+    if (!this.isDanger()) {
+      return [];
+    }
 		return this.getSpectrums();
 	}
 
@@ -264,11 +268,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return GMMoves.concat(attached);
 	}
 
-	getSpectrums(depth = 0) : Spectrum[] {
+	getSpectrums(this: Danger, depth = 0) : Spectrum[] {
 		if (depth > 2) {return [];}
-		if (this.isDanger())
-			{return [];}
-		const mySpectrums : Spectrum[] = this.items.filter( x=> x.system.type == "spectrum") as Spectrum[];
+		// const mySpectrums : Spectrum[] = this.items.filter( x=> x.isSpectrum()) as Spectrum[];
+		const mySpectrums = this.my_spectrums;
 		const templateSpectrums = this.getAttachedTemplates()
 			.map( x=> x?.getSpectrums(depth+1) ?? [])
 			.flat();

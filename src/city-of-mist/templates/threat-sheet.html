@@ -26,7 +26,7 @@
 		</div>
 		</div>
 	</header>
-	{{#if (isGM)}}
+	{{#if (and (isGM) (not actor.system.locked))}}
 	<section class="threat-spectrums">
 		<div class="spectrum-section-label">
 			{{localize 'CityOfMist.terms.spectrums' }}
