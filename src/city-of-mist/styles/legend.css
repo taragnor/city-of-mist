@@ -24,7 +24,6 @@
     color: var(--litm-font-color-dark);
   }
 
-  input.character-name,
   .app h1,
   .app h2,
   .app h3,
@@ -37,6 +36,13 @@
   .app.window-app.story-tag-window .window-title,
   .scene-tags-block .label {
     font-family: var(--litm-font-header);
+  }
+
+  .character-basic-info {
+    flex-shrink: 1;
+    flex-grow: 1;
+    min-width: 50%;
+    max-width: 70%;
   }
 
   div.themebook-name {
@@ -52,11 +58,16 @@
   background-color: var(--litm-light-green-border);
 }
 
+  input.character-name,
   .mist-engine-theme-block .theme-title .main-tag .tag-name-block,
   .window-app:not(.story-tag-window) .window-content,
   .mist-engine-theme-block .theme-title .main-tag .tag-name-block  .scene-tag-window,
   .sidebar-tab {
     font-family: var(--litm-font-body);
+  }
+
+  input.character-name {
+    color: #d3d3d3;
   }
 
   .mist-engine-theme-block .theme-title .main-tag .tag-name-block span.flex-tag-name {

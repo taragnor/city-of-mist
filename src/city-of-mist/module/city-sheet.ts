@@ -35,6 +35,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		html.find(".add-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));
 		html.find(".edit-themebook").on("click", this._editThemeBook.bind(this));
+		html.find('.lock-button').on("click", this._toggleLockState.bind(this));
 		html.find('.sheet-lock-button').on("click", this._toggleLockState.bind(this));
 		html.find(".open-tutorial").on ("click" , this._openTutorial.bind(this));
 		html.on("scroll", (ev) => this._scrollSheet(ev));
@@ -110,9 +111,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 		}
 	}
 
-	async _toggleLockState(_event: Event) {
-		// const actorId = HTMLTools.getClosestData(event, "ownerId");
-		// const actor = await this.getOwner(actorId);
+	async _toggleLockState(event: JQuery.Event) {
+    event.stopPropagation();
 		const actor = this.actor;
 		await actor.toggleLockState();
 	}
