@@ -1,115 +1,112 @@
 :root {
-	--green-OS-text: rgb(65, 183, 161);
-	--green-OS-textShadow:  0 0 2px #51eeff, 0 0 4px #007bbf;
-	--self-border: #8B3A3A;
-	--self-background: rgba(139, 58, 58, 0.25);
-	/* --self-Header: #03060b; */
+  --green-OS-text: rgb(65, 183, 161);
+  --green-OS-textShadow:  0 0 2px #51eeff, 0 0 4px #007bbf;
+  --self-border: #8B3A3A;
+  --self-background: rgba(139, 58, 58, 0.25);
+  /* --self-Header: #03060b; */
 
-	--mythos-border: #4B2A5A;
-	--mythos-background: rgba(75, 42, 90, 0.25);
+  --mythos-border: #4B2A5A;
+  --mythos-background: rgba(75, 42, 90, 0.25);
 
-	--noise-border: #A3DAF7;
-	/* --noise-background: rgba(30, 80, 140, 0.35); */
-	--noise-background: rgba(163, 218, 247, 0.25);
+  --noise-border: #A3DAF7;
+  /* --noise-background: rgba(30, 80, 140, 0.35); */
+  --noise-background: rgba(163, 218, 247, 0.25);
 
-	--misc-border: #6FAED9;
-	--misc-background: rgb(111, 174, 217, 0.25);
+  --misc-border: #6FAED9;
+  --misc-background: rgb(111, 174, 217, 0.25);
 
 }
 
 @font-face {
-	font-family: "Rajdhani";
-	src: url("../fonts/Rajdhani-Regular.ttf") format("truetype");
-	font-style: normal;
-	letter-spacing: 0.1em;
+  font-family: "Rajdhani";
+  src: url("../fonts/Rajdhani-Regular.ttf") format("truetype");
+  font-style: normal;
+  letter-spacing: 0.1em;
 }
 
 @font-face {
-	font-family: "Orbitron";
-	src: url("../fonts/Orbitron-Regular.ttf") format("truetype");
-	font-style: normal;
-	letter-spacing: 0.1em;
+  font-family: "Orbitron";
+  src: url("../fonts/Orbitron-Regular.ttf") format("truetype");
+  font-style: normal;
+  letter-spacing: 0.1em;
 }
 
 .style-otherscape .tag .positive-selected {
-/* .style-otherscape .item-selection-context .tag .positive-selected { */
-	color: black;
+  /* .style-otherscape .item-selection-context .tag .positive-selected { */
+  color: black;
 }
 
 .style-otherscape .sidebar-tab {
-	background: url(../images/OS-BG.webp) center/cover repeat;
-	font-family: "Orbitron";
+  background: url(../images/OS-BG.webp) center/cover repeat;
+  font-family: "Orbitron";
 }
 
 .style-otherscape .chat-sidebar {
-	background: url(../images/OS-BG.webp) center/cover repeat;
-	font-family: "Orbitron";
+  background: url(../images/OS-BG.webp) center/cover repeat;
+  font-family: "Orbitron";
 }
 
 
 .style-otherscape .city-roll div.actor-name {
-	color: var(--self-border);
+  color: var(--self-border);
 }
 
-button.ui-control[aria-pressed=true],
-a.ui-control[aria-pressed=true],
-li.ui-control[aria-pressed=true],
-.placeable-hud .control-icon[aria-pressed=true],
-.placeable-hud input[aria-pressed=true] {
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
+.style-otherscape button.ui-control[aria-pressed=true],
+.style-otherscape a.ui-control[aria-pressed=true],
+.style-otherscape li.ui-control[aria-pressed=true],
+.style-otherscape .placeable-hud .control-icon[aria-pressed=true],
+.style-otherscape .placeable-hud input[aria-pressed=true] {
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
 }
 
 .style-otherscape .move-name {
-	text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .style-otherscape .move-name,
 .style-otherscape .move-text {
-	color: var(--logos-orange);
+  color: var(--logos-orange);
 }
 
 .style-otherscape div.roll-total {
-	font-family: "Rajdhani";
-	color: var(--green-OS-text);
-	text-transform: uppercase;
+  font-family: "Rajdhani";
+  color: var(--green-OS-text);
+  text-transform: uppercase;
 }
 
 .style-otherscape .roll-modifiers {
-	font-family: "Orbitron";
-	/* font-family: "Rajdhani"; */
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	text-transform: uppercase;
-	font-size: 1.0em;
+  font-family: "Orbitron";
+  /* font-family: "Rajdhani"; */
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  text-transform: uppercase;
+  font-size: 1.0em;
 }
 
 .style-otherscape .chat-message {
-	background-color: var(--mythos-background);
-	margin: 0.3em;
-	padding: 0.6em 1em;
-	font-size: 1.1em;
-	line-height: 1.2em;
-	font-family: "Rajdhani";
-	/* color: var(--logos-text); */
-	text-transform: none;
-	color: var(--green-OS-text);
-	/* text-shadow: var(--green-OS-textShadow); */
-	background-image: none;
-	/* background-size: 500%; */
-	border: none;
-	border-top-left-radius: 1em;
-	border-top-right-radius: 1em;
+  background-color: var(--mythos-background);
+  margin: 0.3em;
+  padding: 0.6em 1em;
+  font-size: 1.1em;
+  line-height: 1.2em;
+  font-family: "Rajdhani";
+  text-transform: none;
+  color: var(--green-OS-text);
+  background-image: none;
+  border: none;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
 }
 
 .style-otherscape .window-app form button,
 .style-otherscape input,
 .style-otherscape textarea {
-	color: var(--green-OS-text);
+  color: var(--green-OS-text);
 }
 
 .style-otherscape button {
-	text-shadow: var(--green-OS-textShadow);
+  text-shadow: var(--green-OS-textShadow);
 }
 
 .style-otherscape .yellow-highlight,
@@ -117,309 +114,259 @@ li.ui-control[aria-pressed=true],
 .style-otherscape .item-selection-context .status .positive-selected,
 .style-otherscape .positive-selected .tag,
 .style-otherscape .positive-selected .status {
-	background-image: linear-gradient(
-	to right,
-	var(--tag-yellow),
-	var(--tag-yellow-light),
-	var(--tag-yellow)
-	);
+  background-image: linear-gradient(
+  to right,
+  var(--tag-yellow),
+  var(--tag-yellow-light),
+  var(--tag-yellow)
+  );
 }
 
 .style-otherscape #pause figcaption {
-	font-family: "Orbitron";
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	font-size: 2.0em;
+  font-family: "Orbitron";
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  font-size: 2.0em;
 }
 
 .style-otherscape #settings button,
 .style-otherscape .button,
 .style-otherscape .directory .action-buttons button {
-	font-family: "Orbitron";
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	box-shadow: 0 0 10px var(--noise-background);
-	border: 2px solid var(--noise-border);
+  font-family: "Orbitron";
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  box-shadow: 0 0 10px var(--noise-background);
+  border: 2px solid var(--noise-border);
 }
 
 .style-otherscape .status-box,
 .style-otherscape .story-tag-box,
 .style-otherscape .empty-box {
-	font-family: "Orbitron";
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	background-image: none;
-	background: var(--misc-background);
-	border-bottom: 1em solid var(--misc-border);
-	border-top: 1em solid var(--misc-border);
-	backdrop-filter: blur(6px);
+  font-family: "Orbitron";
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  background-image: none;
+  background: var(--misc-background);
+  border-bottom: 1em solid var(--misc-border);
+  border-top: 1em solid var(--misc-border);
+  backdrop-filter: blur(6px);
 }
 
 .style-otherscape #build-up-section .tracker-circle {
-	border: 4px solid var(--misc-border);
+  border: 4px solid var(--misc-border);
 }
 
 .style-otherscape .journal-entry-content {
-	color: var(--green-OS-text);
-	background-image: none !important;
-	background: var(--noise-background);
-	backdrop-filter: blur(6px);
+  color: var(--green-OS-text);
+  background-image: none !important;
+  background: var(--noise-background);
+  backdrop-filter: blur(6px);
 }
 
 .journal-page-header *,
 .journal-entry-content .journal-page-content * {
-	color: var(--green-OS-text);
+  color: var(--green-OS-text);
 }
 
 
 .style-otherscape {
-	font-family: "Orbitron";
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--green-OS-text);
-	/* color: #51eeff; */
-	/* text-shadow: 0 0 3px #51eeff, 0 0 6px #007bbf; */
+  font-family: "Orbitron";
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-OS-text);
 }
 
 
 .style-otherscape .mist-engine-theme-block .theme-title .main-tag .tag-name-block .fas {
-	font-size: 0.5em;
+  font-size: 0.5em;
 }
 
 .style-otherscape .fas {
-	text-shadow: none !important;
+  text-shadow: none !important;
 }
 
 .style-otherscape .mist-engine-theme-block .theme-title .main-tag .tag-name-block {
-	font-family: "Orbitron";
+  font-family: "Orbitron";
 }
 
 .style-otherscape .app.window-app.story-tag-window {
-	background-image: url(../images/OS-BG.webp);
-	background-size: cover;
+  background-image: url(../images/OS-BG.webp);
+  background-size: cover;
 }
 
 .style-otherscape div.Noise-theme .theme-block {
-	color: var(--green-OS-text);
+  color: var(--green-OS-text);
 }
-
-/* .style-otherscape .app.window-app.story-tag-window, */
 
 .style-otherscape .gmmove-text,
 .style-otherscape div.Noise-theme .theme-block,
 .holo-glass {
-	background: var(--noise-background);
-	backdrop-filter: blur(6px);
-	/* border-radius: 12px; */
-	/* border: 1px solid rgba(120, 200, 255, 0.5); */
-	/* box-shadow: 0 0 15px rgba(120, 200, 255, 0.4); */
+  background: var(--noise-background);
+  backdrop-filter: blur(6px);
 }
 
 .style-otherscape .app.window-app .window-content {
-	color: var(--green-OS-text);
+  color: var(--green-OS-text);
 }
 
 .style-otherscape .window-app:not(.story-tag-window) .window-content {
-	background-image: url(../images/OS-BG.webp);
-	background-size: cover;
-	background-repeat: no-repeat;
+  background-image: url(../images/OS-BG.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .style-otherscape div.Self-theme .theme-block,
 .self-bg {
-	backdrop-filter: blur(6px);
-	background: var(--self-background);
-	/* background: rgba(80, 160, 255, 0.4); */
-	/* border: 1px solid rgba(100, 180, 255, 0.4); */
-	/* border-radius: 10px; */
-	/* padding: 0.6em 1em; */
-	/* box-shadow: */
-	/* 0 0 12px rgba(80, 160, 255, 0.25), */
-	/* inset 0 0 10px rgba(255, 255, 255, 0.05); */
-
+  backdrop-filter: blur(6px);
+  background: var(--self-background);
 }
 
 .style-otherscape .scene-tag-window,
 .style-otherscape .app.window-app.story-tag-window .window-title,
 .style-otherscape .scene-tags-block .label {
-	font-family: "Orbitron";
-	text-transform: uppercase;
-	color: var(--green-OS-text);
+  font-family: "Orbitron";
+  text-transform: uppercase;
+  color: var(--green-OS-text);
 }
 
 .style-otherscape .combatant-name {
-	padding-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 
 .style-otherscape .combatant-name span.name {
-	font-family: "Rajdhani";
-	font-size: 19px;
-	/* letter-spacing: 0.1em; */
-	text-transform: uppercase;
-	color: var(--green-OS-text);
-	text-shadow: 0 0 6px #51eeff, 0 0 12px #007bbf;
+  font-family: "Rajdhani";
+  font-size: 19px;
+  text-transform: uppercase;
+  color: var(--green-OS-text);
+  text-shadow: 0 0 6px #51eeff, 0 0 12px #007bbf;
 }
 
 div.Noise-theme .mist-engine-theme-block .theme-title .main-tag .tag-name-block {
-	font-size: 1.7em;
-	font-family: "Orbitron";
-	line-height: 1em;
-	text-transform: uppercase;
-	font-weight: 700;
+  font-size: 1.7em;
+  font-family: "Orbitron";
+  line-height: 1em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 div.Noise-theme .theme-block {
-	/* height: 100%; */
-	font-family: "Orbitron";
-	text-shadow: var(--green-OS-textShadow);
-	color: var(--green-OS-text);
-	/* color: var(--mist-text); */
-	border-radius: 1em;
-	border-bottom: 1em solid var(--noise-border);
-	border-top: 2em solid var(--noise-border);
-	/* border-bottom: 1em solid var(--mist-blue); */
-	/* border-top: 2em solid var(--mist-blue); */
-	/* background-image: url(../images/mistcardbg.webp); */
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #28475ba6;	
+  font-family: "Orbitron";
+  text-shadow: var(--green-OS-textShadow);
+  color: var(--green-OS-text);
+  border-radius: 1em;
+  border-bottom: 1em solid var(--noise-border);
+  border-top: 2em solid var(--noise-border);
+  background-color: black;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0px -5px 0px 10px #28475ba6;	
 }
 
 .style-otherscape div.Self-theme .theme-block {
-	color: var(--green-OS-text);
-	/* color: var(--logos-text); */
-	text-shadow: var(--green-OS-textShadow);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--self-border);
-	border-top: 2em solid var(--self-border);
-	/* border-bottom: 1em solid var(--logos-orange); */
-	/* border-top: 2em solid var(--logos-orange); */
-	/* background-image: url(../images/themecardbg.webp); */
-	box-shadow: 0px -5px 0px 10px #a85d4ba6;
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  border-radius: 1em;
+  border-bottom: 1em solid var(--self-border);
+  border-top: 2em solid var(--self-border);
+  box-shadow: 0px -5px 0px 10px #a85d4ba6;
 }
 
 .style-otherscape div.Loadout-theme.theme-block,
 .style-otherscape div.Crew-OS-theme.theme-block,
 .style-otherscape div.Extra-theme.theme-block {
-	/* height: 100%; */
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--misc-border);
-	border-top: 2em solid var(--misc-border);
-	/* border-bottom: 1em solid var(--extra-grey); */
-	/* border-top: 2em solid var(--extra-grey); */
-	/* background-image: url(../images/extracardbg.webp); */
-	background-image: none;
-	background-color: var(--misc-background);
-	/* background-color: black; */
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #686358a6;
-	backdrop-filter: blur(6px);
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  border-radius: 1em;
+  border-bottom: 1em solid var(--misc-border);
+  border-top: 2em solid var(--misc-border);
+  background-image: none;
+  background-color: var(--misc-background);
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0px -5px 0px 10px #686358a6;
+  backdrop-filter: blur(6px);
 }
 
 .style-otherscape div.Mythos-theme .theme-block,
 .style-otherscape div.Mythos-OS-theme .theme-block {
-	/* color: var(--mythos-text); */
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--mythos-border);
-	border-top: 2em solid var(--mythos-border);
-	/* border-bottom: 1em solid var(--mythos-pink); */
-	/* border-top: 2em solid var(--mythos-pink); */
-	/* background-image: url(../images/mythoscardbg.webp); */
-	background-image: none;
-	background-color: var(--mythos-background);
-	background-position: center;
-	background-size: 125%;
-	box-shadow: 0px -5px 0px 10px #502c5da6;
-	backdrop-filter: blur(6px);
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  border-radius: 1em;
+  border-bottom: 1em solid var(--mythos-border);
+  border-top: 2em solid var(--mythos-border);
+  background-image: none;
+  background-color: var(--mythos-background);
+  background-position: center;
+  background-size: 125%;
+  box-shadow: 0px -5px 0px 10px #502c5da6;
+  backdrop-filter: blur(6px);
 }
 
-/* div.Crew-OS-theme .theme-block, */
-/* .style-otherscape div.Extra-theme { */
-/* 	/1* height: 100%; *1/ */
-/* 	color: var(--extra-text); */
-/* 	border-radius: 1em; */
-/* 	border-bottom: 1em solid var(--extra-grey); */
-/* 	border-top: 2em solid var(--extra-grey); */
-/* 	background-image: url(../images/extracardbg.webp); */
-/* 	background-color: black; */
-/* 	background-position: center; */
-/* 	background-size: cover; */
-/* 	box-shadow: 0px -5px 0px 10px #686358a6; */
-/* } */
-
 .style-otherscape .Mythos-theme .theme-name {
-	text-shadow: 0px 0px 10px var(--mythos-bright),
-	0px 1px 12px var(--mythos-pink);
-	color: var(--mythos-white);
+  text-shadow: 0px 0px 10px var(--mythos-bright),
+  0px 1px 12px var(--mythos-pink);
+  color: var(--mythos-white);
 }
 
 .essence-block .burn-box {
-	max-width: 10%;
+  max-width: 10%;
 }
 
 .essence-block label {
-	font-family: "Rift Bold";
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 15px;
+  font-family: "Rift Bold";
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 15px;
 }
 
 .essence-block {
-	padding:5px;
-	border-radius: 1em;
-	/* border-bottom: 1em solid var(--mist-blue); */
-	/* border-top: 2em solid var(--mist-blue); */
-	background-image: url(../images/mistcardbg.webp);
+  padding:5px;
+  border-radius: 1em;
+  background-image: url(../images/mistcardbg.webp);
 }
 
 .essence-block .description {
-	margin-right: 5px;
-	margin-left: 5px;
-	font-size: smaller;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: smaller;
 }
 
 .essence-block .burned {
-	color: red !important;
+  color: red !important;
 }
 
 .essence-block .shaded {
-	opacity: 75%;
+  opacity: 75%;
 }
 
 
 .style-otherscape .gmmove-text {
-	color: var(--green-OS-text);
-	text-shadow: var(--green-OS-textShadow);
-	background-image: none;
+  color: var(--green-OS-text);
+  text-shadow: var(--green-OS-textShadow);
+  background-image: none;
 }
 
 .style-otherscape .narration-box {
-	font-family: "Rajdhani";
-	text-shadow: 0px 2px 2px var(--green-OS-textShadow),
-	0px 1px 4px var(--mythos-pink);
-	color: var(--green-OS-text);
-	height: 100%;
-	font-size: 0.9em;
-	border-style: solid;
-	padding: 5px;
-	border: 1px;
-	transition-duration: 0.2s;
-	height: 100%;
-	border-radius: 1em;
-	/* border-bottom: 1em solid var(--mythos-pink); */
-	border-top: 2em solid var(--self-border);
-	border-bottom: 1em solid var(--self-border);
-	background-image: url(../images/OS-BG.webp);
-	/* background-color: black; */
-	background-position: center;
-	background-size: 100%;
-	/* box-shadow: 0px -5px 0px 10px #502c5da6; */
+  font-family: "Rajdhani";
+  text-shadow: 0px 2px 2px var(--green-OS-textShadow),
+  0px 1px 4px var(--mythos-pink);
+  color: var(--green-OS-text);
+  height: 100%;
+  font-size: 0.9em;
+  border-style: solid;
+  padding: 5px;
+  border: 1px;
+  transition-duration: 0.2s;
+  height: 100%;
+  border-radius: 1em;
+  /* border-bottom: 1em solid var(--mythos-pink); */
+  border-top: 2em solid var(--self-border);
+  border-bottom: 1em solid var(--self-border);
+  background-image: url(../images/OS-BG.webp);
+  /* background-color: black; */
+  background-position: center;
+  background-size: 100%;
+  /* box-shadow: 0px -5px 0px 10px #502c5da6; */
 }
 
 .style-otherscape div.Mythos-theme textarea.motivation-input {
@@ -458,12 +405,12 @@ div.Noise-theme .theme-block {
 }
 
 .style-otherscape .hint {
-	text-transform: none;
+  text-transform: none;
 }
 
 
-a.button,
-button {
+.style-otherscape a.button,
+.style-otherscape button {
   color: var(--green-OS-text);
   fill: var(--green-OS-text);
 }
