@@ -24,6 +24,7 @@
     color: var(--litm-font-color-dark);
   }
 
+  input.character-name,
   .app h1,
   .app h2,
   .app h3,
@@ -38,11 +39,18 @@
     font-family: var(--litm-font-header);
   }
 
+  div.themebook-name {
+    font-size: 1.0em;
+    text-transform: uppercase;
+  }
 
   .theme-title .tag-symbols{
     display:none;
   }
 
+.sheet .tabs .item.active {
+  background-color: var(--litm-light-green-border);
+}
 
   .mist-engine-theme-block .theme-title .main-tag .tag-name-block,
   .window-app:not(.story-tag-window) .window-content,
@@ -88,13 +96,14 @@
   div.Greatness-theme .theme-block,
   div.Origin-theme .theme-block,
   div.Fellowship-theme .theme-block,
+  .story-tag-box,
   .chat-message,
   .theme-block,
   .sidebar-tab,
   .chat-sidebar,
   .app.window-app.story-tag-window {
     background:
-    url('/images/paper-noise.png'),
+    url('../images/paper-noise.webp'),
     radial-gradient(circle at 50% 40%,
     #f6eddc 0%,
     #e8d8b5 60%,
@@ -172,5 +181,21 @@
 
     cursor: pointer;
   }
+
+  .window-app:not(.story-tag-window) .window-content { background-image: url(../images/paperbg.webp);
+    background:
+    url('../images/paper-noise.webp'),
+    radial-gradient(circle at 50% 40%,
+    #f6eddc 0%,
+    #e8d8b5 60%,
+    #d6c19a 100%
+    );
+
+    background-blend-mode: normal;
+    background-size: 600px 600px, cover;
+  }
+
 }
+
+
 
