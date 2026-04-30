@@ -163,11 +163,67 @@
   backdrop-filter: blur(6px);
 }
 
-.journal-page-header *,
-.journal-entry-content .journal-page-content * {
-  color: var(--green-OS-text);
-}
 
+.style-otherscape {
+  .character-basic-info {
+    flex-shrink: 1;
+    flex-grow: 1;
+    min-width: 40%;
+    max-width: 70%;
+  }
+
+  .journal-page-header *,
+  .journal-entry-content .journal-page-content * {
+    color: var(--green-OS-text);
+  }
+
+  .essence-block .burn-box {
+    max-width: 10%;
+  }
+
+  .essence-block label {
+    font-family: "Rift Bold";
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 15px;
+  }
+
+  .essence-block {
+    padding:5px;
+    border-radius: 1em;
+    background-image: url(../images/mistcardbg.webp);
+  }
+
+  .essence-block .description {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: smaller;
+  }
+
+  .header-right-side {
+    flex-shrink: 1;
+    max-width: 10%;
+  }
+
+  .header-right-side * {
+    flex-shrink:2;
+    min-width: 0;
+  }
+
+
+  .essence-block .burned {
+    color: red !important;
+  }
+
+  .essence-block .shaded {
+    opacity: 75%;
+  }
+
+  .whisper-to {
+    color: var(--self-border);
+  }
+
+}
 
 .style-otherscape {
   font-family: "Orbitron";
@@ -308,37 +364,6 @@ div.Noise-theme .theme-block {
   color: var(--mythos-white);
 }
 
-.essence-block .burn-box {
-  max-width: 10%;
-}
-
-.essence-block label {
-  font-family: "Rift Bold";
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 15px;
-}
-
-.essence-block {
-  padding:5px;
-  border-radius: 1em;
-  background-image: url(../images/mistcardbg.webp);
-}
-
-.essence-block .description {
-  margin-right: 5px;
-  margin-left: 5px;
-  font-size: smaller;
-}
-
-.essence-block .burned {
-  color: red !important;
-}
-
-.essence-block .shaded {
-  opacity: 75%;
-}
-
 
 .style-otherscape .gmmove-text {
   color: var(--green-OS-text);
@@ -378,9 +403,6 @@ div.Noise-theme .theme-block {
   font-size: 1.1em;
 }
 
-.whisper-to {
-  color: var(--self-border);
-}
 
 .style-otherscape .directory,
 .style-otherscape .settings-sidebar,

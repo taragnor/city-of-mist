@@ -1,9 +1,9 @@
 <div class="header-row">
-	<input type="text" class="borderless character-name" name="name" value="{{actor.name}}" title="Character Name" placeholder="Character Name" {{#if actor.system.locked}} disabled {{/if}}>
+  <input type="text" class="borderless character-name" name="name" value="{{actor.name}}" title="Character Name" placeholder="Character Name" {{#if actor.system.locked}} disabled {{/if}}>
 </div>
 
-{{#if actor.essence}}
 <div class="essence-block">
+  {{#if actor.essence}}
   <div class="flexrow">
     <div class="{{#if actor.isEssenceBurned}} burned shaded {{/if}}">
       <div class="name"> {{actor.essence.localizedName}}
@@ -27,11 +27,11 @@
   <div class="no-essence">
     {{localize "Otherscape.message.noEssenceSelected"}}
   </div>
+  {{/if}}
 </div>
-{{/if}}
 
 <div class="header-row">
-	<input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if actor.system.locked}} disabled {{/if}}>
+  <input type="text" class="borderless short-description" name="system.short_description" value="{{actor.system.short_description}}" placeholder="{{localize 'CityOfMist.terms.short_desc' }}" title=" {{localize 'CityOfMist.terms.short_desc' }}" {{#if actor.system.locked}} disabled {{/if}}>
 </div>
 
 

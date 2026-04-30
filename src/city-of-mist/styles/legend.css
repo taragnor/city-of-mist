@@ -41,7 +41,7 @@
   .character-basic-info {
     flex-shrink: 1;
     flex-grow: 1;
-    min-width: 50%;
+    min-width: 40%;
     max-width: 70%;
   }
 
