@@ -1,51 +1,176 @@
-div.Origin-theme .theme-block {
-	/* height: 100%; */
-	color: var(--mist-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--mist-blue);
-	border-top: 2em solid var(--mist-blue);
-	background-image: url(../images/mistcardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #28475ba6;	
+:root {
+  --litm-font-header: 'MedievalSharp', serif;
+  --litm-font-body: 'IM Fell DW Pica', serif;
+  --litm-font-color-dark: black;
+  --litm-light-green-border: #6f8a5e;
+  --litm-orange-brown-border: #a06a3c;
 }
 
-div.Adventure-theme .theme-block {
-	color: var(--logos-text);
-	/* height: 100%; */
-	border-radius: 1em;
-	border-bottom: 1em solid var(--logos-orange);
-	border-top: 2em solid var(--logos-orange);
-	background-image: url(../images/themecardbg.webp);
-	box-shadow: 0px -5px 0px 10px #a85d4ba6;
+@font-face {
+  font-family: 'MedievalSharp';
+  src: url('../fonts/MedievalSharp-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-div.Greatness-theme .theme-block {
-	/* height: auto; */
-	/* height: 100%; */
-	color: var(--mythos-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--mythos-pink);
-	border-top: 2em solid var(--mythos-pink);
-	background-image: url(../images/mythoscardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: 125%;
-	box-shadow: 0px -5px 0px 10px #502c5da6;
+@font-face {
+  font-family: 'IM Fell DW Pica';
+  src: url('../fonts/IMFellDWPica-Regular.ttf') format('truetype');
 }
 
-div.Fellowship-theme .theme-block,
-.style-legend div.Extra-theme {
-	/* height: 100%; */
-	color: var(--extra-text);
-	border-radius: 1em;
-	border-bottom: 1em solid var(--extra-grey);
-	border-top: 2em solid var(--extra-grey);
-	background-image: url(../images/extracardbg.webp);
-	background-color: black;
-	background-position: center;
-	background-size: cover;
-	box-shadow: 0px -5px 0px 10px #686358a6;
+.style-legend {
+
+  .directory {
+    color: var(--litm-font-color-dark);
+  }
+
+  .app h1,
+  .app h2,
+  .app h3,
+  .app h4,
+  .app h5,
+  .app h6,
+  .story-tags-header,
+  div.themebook-name,
+  div.theme-book,
+  .app.window-app.story-tag-window .window-title,
+  .scene-tags-block .label {
+    font-family: var(--litm-font-header);
+  }
+
+
+  .theme-title .tag-symbols{
+    display:none;
+  }
+
+
+  .mist-engine-theme-block .theme-title .main-tag .tag-name-block,
+  .window-app:not(.story-tag-window) .window-content,
+  .mist-engine-theme-block .theme-title .main-tag .tag-name-block  .scene-tag-window,
+  .sidebar-tab {
+    font-family: var(--litm-font-body);
+  }
+
+  .mist-engine-theme-block .theme-title .main-tag .tag-name-block span.flex-tag-name {
+    text-transform: uppercase;
+    text-overflow: initial;
+  }
+
+  .mist-engine-theme-block .theme-title .main-tag .tag-name-block {
+    overflow-wrap: break-word;
+  }
+
+  .mist-engine-theme-block .theme-title .main-tag .flex-tag-name {
+    font-size: 1.0em;
+    line-height: 1.1em;
+    min-width: 0;
+    overflow-x: hidden;
+    flex-shrink: 4;
+    overflow-wrap: break-word;
+  }
+
+  .chat-sidebar {
+    font-family: var(--litm-font-body);
+  }
+
+
+  .city-roll div.actor-name {
+    color: var(--self-border);
+  }
+
+  .sheet-lock-button {
+    padding: 0em;
+    color: var(--litm-font-color-dark);
+    fill: var(--litm-font-color-dark);
+  }
+
+  div.Adventure-theme .theme-block,
+  div.Greatness-theme .theme-block,
+  div.Origin-theme .theme-block,
+  div.Fellowship-theme .theme-block,
+  .chat-message,
+  .theme-block,
+  .sidebar-tab,
+  .chat-sidebar,
+  .app.window-app.story-tag-window {
+    background:
+    url('/images/paper-noise.png'),
+    radial-gradient(circle at 50% 40%,
+    #f6eddc 0%,
+    #e8d8b5 60%,
+    #d6c19a 100%
+    );
+
+    background-blend-mode: multiply;
+    background-size: 200px 200px, cover;
+  }
+
+  div.Origin-theme .theme-block,
+  div.Fellowship-theme .theme-block {
+    border-bottom: 1em solid var(--litm-light-green-border);
+    border-top: 2em solid var(--litm-light-green-border);
+    box-shadow:
+    0 0 3px rgba(111, 138, 94, 0.4);
+  }
+
+  div.Loadout-theme.theme-block {
+    border-bottom: 1em solid var(--litm-orange-brown-border);
+    border-top: 2em solid var(--litm-orange-brown-border);
+    box-shadow:
+    0 0 3px rgba(111, 138, 94, 0.4);
+
+  }
+
+  div.Adventure-theme .theme-block {
+    border-top: 2em solid transparent;
+    border-bottom: 1em solid transparent;
+
+    border-image: linear-gradient(
+    to right,
+    #b77a78,
+    #6f4a33
+    ) 1;
+  }
+
+  div.Greatness-theme .theme-block {
+    border-top: 2em solid transparent;
+    border-bottom: 1em solid transparent;
+
+    border-image: linear-gradient(
+    to right,
+    #2F2BE2,
+    #8A2BE2
+    /* #0000EE, */
+    /* purple */
+    ) 1;
+  }
+
+  .lock-button,
+  .window-app form button,
+  #settings button,
+  .directory .action-buttons button {
+    font-family: var(--litm-font-header);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    padding: 0.5em 1.2em;
+
+    color: #2f2416;
+
+    background:
+    linear-gradient(
+    to bottom,
+    #f2e6c9 0%,
+    #e2d2a8 100%
+    );
+
+    border: 1px solid rgba(80, 60, 30, 0.5);
+    border-radius: 3px;
+
+    box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    0 2px 2px rgba(0,0,0,0.15);
+
+    cursor: pointer;
+  }
 }
 
