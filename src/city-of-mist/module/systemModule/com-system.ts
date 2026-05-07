@@ -2,11 +2,12 @@ import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { localize } from "../city.js";
 import {CityActor} from "../city-actor.js";
 import { Move } from "../city-item.js";
-import { CoMTypeSystem } from "./com-type-system.js";
+import {CoMBasedSystem} from "./com-type-system.js";
+import {SystemModule} from "../config/system-module.js";
 
 const PATH = "systems/city-of-mist";
 
-export class CoMSystem extends CoMTypeSystem {
+export class CoMSystem extends CoMBasedSystem {
 
   override sourceBooks() {
     return {
@@ -70,7 +71,7 @@ export class CoMSystem extends CoMTypeSystem {
 			},
 			"Crew": {
 				localization:"CityOfMist.themebook.crew.name",
-				sortOrder: 5,
+				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
 				identityName: "CityOfMist.terms.identity",
@@ -78,7 +79,7 @@ export class CoMSystem extends CoMTypeSystem {
 			},
 			"Loadout-CoM": {
 				localization: " CityOfMist.terms.loadoutTheme.name",
-				sortOrder: 100,
+				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
 				identityName: "",
@@ -88,7 +89,7 @@ export class CoMSystem extends CoMTypeSystem {
 				localization: "CityOfMist.terms.extra",
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
-				sortOrder: 5,
+				sortOrder: SystemModule.SORT_ORDER.EXTRA_THEME,
 				identityName: "CityOfMist.terms.identity",
 				specials: ["extra"],
 			}
@@ -111,14 +112,16 @@ export class CoMSystem extends CoMTypeSystem {
 		character: "systems/city-of-mist/templates/parts/character-sheet-header.html",
 		threat: "",
 		crew: ""
-	}
+	};
 
 	override async onChangeTo() : Promise<void> {
 		await super.onChangeTo();
 		const settings = this.settings;
-		await settings.set("baseSystem", "city-of-mist");
-		await settings.set( "movesInclude", "city-of-mist");
-		await settings.set("system", "city-of-mist");
+    const name = this.name;
+		await settings.set("baseSystem", name);
+		await settings.set( "movesInclude", name);
+		await settings.set("system", name);
+		await settings.set("visualStyle", name);
 	}
 
 }
@@ -132,6 +135,7 @@ declare global {
 	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 	interface ThemeTypes extends ReturnType<CoMSystem["themeTypes"]> { }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface SourceBooks extends ReturnType<CoMSystem["sourceBooks"]>{ }
 }
 

@@ -11,6 +11,7 @@ import { Essence } from "../city-item.js";
 import { CityActor, PC } from "../city-actor.js";
 import { Theme } from "../city-item.js";
 import { MistEngineSystem } from "./mist-engine.js";
+import {SystemModule} from "../config/system-module.js";
 
 const PATH = "systems/city-of-mist";
 
@@ -47,7 +48,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return {
 			"Loadout": {
 				localization: "Otherscape.terms.loadoutTheme.name",
-				sortOrder: 100,
+				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.crewIdentity",
@@ -84,7 +85,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 			},
 			"Crew-OS": {
 				localization: "Otherscape.terms.crew",
-				sortOrder: 5,
+				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.crewIdentity",
@@ -97,9 +98,11 @@ export class OtherscapeSystem extends MistEngineSystem {
 	override async onChangeTo() : Promise<void> {
 		await super.onChangeTo();
 		const settings = CitySettings;
-		await settings.set("baseSystem", "otherscape");
-		await settings.set("system", "otherscape");
-		await settings.set( "movesInclude", "otherscape");
+    const name = this.name;
+		await settings.set("baseSystem",name);
+		await settings.set("system",name);
+		await settings.set( "movesInclude",name);
+		await settings.set("visualStyle",name);
 	}
 
 	async determineEssence(actor : PC) {

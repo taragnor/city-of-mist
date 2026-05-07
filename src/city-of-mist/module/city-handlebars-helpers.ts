@@ -287,7 +287,6 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 				return theme.getThemebookOrTK()!.isThemeKit();
 			}
 			return false;
-
 		},
 
 		'setFlipped': function (actor: CityActor, cardNum: number) {

@@ -43,6 +43,10 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return "";
 	}
 
+  get cssStyleClass(): string {
+    return this.name;
+  }
+
 	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string {
 		let target: string = "";
 		switch (field) {
@@ -88,18 +92,6 @@ export abstract class BaseSystemModule implements SystemModuleI {
         break;
 		}
     return this.tryLocalize(doc, sysName, property) ?? "";
-		// const locName  = this.localizationStarterName;
-    // ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
-    // return this.tryLocalize( `${locName}.${doc.system.type}.${sysName}.${property}`)
-    // ?? this.tryLocalize(`${locName}.${doc.system.type}.generic.${property}`)
-    // ?? "";
-		// const locStr =`${locName}.${doc.system.type}.${sysName}.${property}`;
-		// const test1 = localize(locStr);
-		// if (test1!= locStr) {return test1;}
-		// const genericStr =`${locName}.${doc.system.type}.generic.${property}`;
-		// const test2 = localize(genericStr);
-		// if (test2!= locStr) {return test2;}
-		// return "";
 	}
 
   tryLocalize(doc: CityItem | CityActor, systemName: string, property: string ) : string  | null{
@@ -204,7 +196,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		this.loadTemplates();
 		this.registerSheets();
 		await this._setHooks();
-		SystemModule.setActiveStyle(this);
+		// SystemModule.setActiveStyle(this);
 	}
 
 	protected async _setHooks(): Promise<void> {
@@ -241,13 +233,13 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	systemSettings() {return {};
 	};
 
-
 };
 
 export interface SystemModuleI {
 	name: keyof SYSTEM_NAMES;
 	localizationString: string;
 	localizationStarterName: string;
+  cssStyleClass: string;
 	sheetHeader( actor: CityActor): Promise<string> ;
 	themeCardTemplateLocation(theme: Theme): string;
 	downtimeTemplate(actor: CityActor) : Promise<string>;

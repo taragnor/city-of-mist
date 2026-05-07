@@ -5,14 +5,12 @@ import { SystemModule } from "./system-module.js";
 
 export type System = keyof ReturnType<typeof SYSTEM_CHOICES>;
 
+export function STYLE_CHOICES() : STYLE_NAMES {
+	return SystemModule.styleChoices();
+}
 
 export function SYSTEM_CHOICES() : SYSTEM_NAMES {
 	return SystemModule.systemChoices();
-	// return {
-	// 	"city-of-mist": localize("CityOfMist.settings.system.0"),
-	// 	"otherscape": localize("CityOfMist.settings.system.1"),
-	// 	"legend": localize("CityOfMist.settings.system.2"),
-	// } as const;
 }
 
 export function CITY_SETTINGS() {
@@ -26,17 +24,33 @@ export function CITY_SETTINGS() {
 			default: "city-of-mist",
 			choices: {
 				...SYSTEM_CHOICES(),
-				// "city-of-mist": localize("CityOfMist.settings.system.0"),
-				// "otherscape": localize("CityOfMist.settings.system.1"),
-				// "legend": localize("CityOfMist.settings.system.2"),
 				"custom": localize("CityOfMist.settings.system.3"),
 			},
 			restricted: true,
-			onChange: (newSystem: string) => {
-				CitySettings.refreshSystem(newSystem as System);
+			onChange: async (newSystem: string) => {
+				await CitySettings.refreshSystem(newSystem as System);
 				delayedReload();
 			},
 		},
+
+		"visualStyle": {
+			name: localize("CityOfMist.settings.visualStyle.name"),
+			hint: localize("CityOfMist.settings.visualStyle.hint"),
+			scope: "world",
+			config: true,
+			type: String,
+			default: "base",
+			choices: {
+				...STYLE_CHOICES(),
+				"custom": localize("CityOfMist.settings.visualStyle.custom"),
+				"base": localize("CityOfMist.settings.system.base"),
+			},
+			restricted: true,
+			onChange: (newSystem: keyof STYLE_NAMES) => {
+        SystemModule.setActiveStyle(newSystem);
+			},
+		},
+
 		"gritMode": {
 			name: localize("CityOfMist.settings.gritMode.name"),
 			hint: localize("CityOfMist.settings.gritMode.hint"),
@@ -349,29 +363,26 @@ export function CITY_SETTINGS() {
 
 
 function showDevSettings() : boolean {
-	//@ts-ignore
 	return game.settings.get('city-of-mist', "system") == "custom";
 
 }
 
 export function DEV_SETTINGS() {
-	//@ts-ignore
 	const SHOW_DEV_SETTINGS = showDevSettings();
 	return {
 		"baseSystem": {
 			name: localize("CityOfMist.settings.baseSystem.name"),
 			hint: localize("CityOfMist.settings.baseSystem.hint"),
 			scope: "world",
-			//@ts-ignore
 			config: SHOW_DEV_SETTINGS,
 			type: String,
 			default: "city-of-mist",
 			choices: {...SYSTEM_CHOICES()},
 			restricted: true,
-			onChange: (newval: string) => {
+			onChange: async (newval: string) => {
 				const curr = CitySettings.get("system");
 				if (curr != newval && curr != "custom") {
-					CitySettings.set("system", "custom");
+					await CitySettings.set("system", "custom");
 					delayedReload();
 				}
 			}
@@ -381,7 +392,6 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.tagCreationCost.name"),
 			hint: localize("CityOfMist.settings.tagCreationCost.hint"),
 			scope: "world",
-			//@ts-ignore
 			config: SHOW_DEV_SETTINGS,
 			type: Number,
 			default: 2,
@@ -399,7 +409,6 @@ export function DEV_SETTINGS() {
 			name: localize("CityOfMist.settings.statusCreationCost.name"),
 			hint: localize("CityOfMist.settings.statusCreationCost.hint"),
 			scope: "world",
-			//@ts-ignore
 			config: SHOW_DEV_SETTINGS,
 			type: Number,
 			default: 1,
@@ -428,8 +437,8 @@ export function DEV_SETTINGS() {
 				"none": localize("CityOfMist.settings.movesInclude.none"),
 			},
 			restricted: true,
-			onChange: () => {
-				CitySettings.set("system", "custom");
+			onChange: async () => {
+				await CitySettings.set("system", "custom");
 				delayedReload();
 			}
 		},
@@ -448,8 +457,8 @@ export function DEV_SETTINGS() {
 
 			},
 			restricted: true,
-			onChange: (_newval:string) => {
-				game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval:string) => {
+				await game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
 
@@ -476,8 +485,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.tagBurn.1"),
 			},
 			restricted: true,
-			onChange: () => {
-				game.settings.set('city-of-mist', "system", "custom");
+			onChange: async () => {
+				await game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
 
@@ -489,8 +498,8 @@ export function DEV_SETTINGS() {
 			type: Boolean,
 			default: false,
 			restricted: true,
-			onChange: () => {
-				game.settings.set('city-of-mist', "system", "custom");
+			onChange: async () => {
+				await game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
 
@@ -506,8 +515,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.themeStyle.1"),
 			},
 			restricted: true,
-			onChange: () => {
-				game.settings.set('city-of-mist', "system", "custom");
+			onChange: async () => {
+				await game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
 
@@ -523,8 +532,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.themeStyle.1"),
 			},
 			restricted: true,
-			onChange: () => {
-				game.settings.set('city-of-mist', "system", "custom");
+			onChange: async () => {
+				await game.settings.set('city-of-mist', "system", "custom");
 			}
 		},
 
@@ -573,21 +582,30 @@ export type SettingsType = (ReturnType<typeof CITY_SETTINGS> & ReturnType<typeof
 
 export type SettingsChoices<K extends keyof SettingsType> = SettingsChoicesSub<SettingsType, K>;
 
-type a = SettingsChoices<"system">;
-type b = SettingsChoices<"autoEssence">;
-type k = keyof SettingsType;
+// type a = SettingsChoices<"system">;
+// type b = SettingsChoices<"autoEssence">;
+// type k = keyof SettingsType;
 
 declare global {
 	type SelectSettings<T extends SettingConfig<any> = SettingConfig<any>> = T;
-	interface SYSTEM_NAMES {
-	}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface STYLE_NAMES extends SYSTEM_NAMES {
+    "custom" : string;
+    "base": string;
+  }
+
+	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+	interface SYSTEM_NAMES { }
+
+	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 	interface OTHERSETTINGS extends Record<string & {}, SelectSettings> {
 	}
 }
 
 type CitySettingKeysBase = SettingsObjToSettingKeyType<SettingsType>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CitySettingKeys extends CitySettingKeysBase {};
 
 

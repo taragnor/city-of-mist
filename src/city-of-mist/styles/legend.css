@@ -18,6 +18,25 @@
   src: url('../fonts/IMFellDWPica-Regular.ttf') format('truetype');
 }
 
+.style-legend,
+  .style-base {
+  div.Adventure-theme .theme-block,
+  div.Greatness-theme .theme-block,
+  div.Origin-theme .theme-block,
+  div.Fellowship-theme .theme-block {
+    background:
+    url('../images/paper-noise.webp'),
+    radial-gradient(circle at 50% 40%,
+    #f6eddc 0%,
+    #e8d8b5 60%,
+    #d6c19a 100%
+    );
+
+    background-blend-mode: multiply;
+    background-size: 200px 200px, cover;
+  }
+}
+
 .style-legend {
 
   .directory {
@@ -92,7 +111,6 @@
     font-family: var(--litm-font-body);
   }
 
-
   .city-roll div.actor-name {
     color: var(--self-border);
   }
@@ -103,13 +121,13 @@
     fill: var(--litm-font-color-dark);
   }
 
+  /* .theme-block, */
   div.Adventure-theme .theme-block,
   div.Greatness-theme .theme-block,
   div.Origin-theme .theme-block,
   div.Fellowship-theme .theme-block,
   .story-tag-box,
   .chat-message,
-  .theme-block,
   .sidebar-tab,
   .chat-sidebar,
   .app.window-app.story-tag-window {

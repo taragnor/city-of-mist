@@ -1701,7 +1701,7 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 
 	themeSortValue(this: Theme) : number {
 		try {
-			const themetype =this.getThemebookOrTK()!.system.subtype;
+			const themetype =this.getThemeType();
 			if (!themetype) {return 100;}
 			const theme = SystemModule.allThemeTypes()[themetype];
 			return theme.sortOrder ?? 100;
@@ -1710,6 +1710,11 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 			return 1000;
 		}
 	}
+
+  get sortOrder() : number {
+    if (this.isTheme()) {return this.themeSortValue();}
+    return 0;
+  }
 
 	getThemePropertyTerm(this:Theme, term: "attention" | "fade" | "milestone") : string {
 		switch (term) {

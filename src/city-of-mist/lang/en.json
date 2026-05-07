@@ -1061,12 +1061,18 @@
 "CityOfMist.settings.altPower.name": "Alternate Power House Rule",
 "CityOfMist.settings.altPower.hint": "Roll power just impacts the die roll. For move effect, base effect is set to 2 and can be modified via a penalty.",
 
+"CityOfMist.settings.visualStyle.name": "Visual Style",
+"CityOfMist.settings.visualStyle.hint": "Choose which visual style you'd like.",
+"CityOfMist.settings.visualStyle.custom": "External Style (requires Module)",
+"CityOfMist.settings.visualStyle.base": "Base Style",
+
 "CityOfMist.settings.system.name": "Game System",
 "CityOfMist.settings.system.hint": "Choose version of CoM system (this will overwrite settings and set the system defaults for the chosen system)",
 "CityOfMist.settings.system.0": "City of Mist",
 "CityOfMist.settings.system.1": "Otherscape",
 "CityOfMist.settings.system.2": "Legend in the Mist",
 "CityOfMist.settings.system.3": "Custom",
+"CityOfMist.settings.system.base": "Default",
 
 "CityOfMist.settings.movesInclude.name": "Core Moves Included",
 "CityOfMist.settings.movesInclude.hint": "Choose which core moves to include, useful for developers who want to customize the moves for their games",

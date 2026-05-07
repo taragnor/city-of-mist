@@ -13,7 +13,7 @@ declare global {
 		CityItem: typeof CityItem;
 		BaseSystemModule: typeof BaseSystemModule;
 		MistEngineSystem: typeof MistEngineSystem;
-		CoMTypeSystem: typeof CoMTypeSystem;
+		CoMBasedSystem: typeof CoMBasedSystem;
 		ActorSheets: [typeof CityCharacterSheet, typeof CityThreatSheet, typeof CityCrewSheet];
 		ItemSheets: [typeof CityItemSheet, typeof CityItemSheetSmall, typeof CityItemSheetLarge];
 	}
@@ -33,7 +33,7 @@ import { LitMSystem } from "./systemModule/litm-system.js";
 import { SystemModule } from "./config/system-module.js";
 import { BaseSystemModule } from "./systemModule/baseSystemModule.js";
 import { MistEngineSystem } from "./systemModule/mist-engine.js";
-import { CoMTypeSystem } from "./systemModule/com-type-system.js";
+import { CoMBasedSystem} from "./systemModule/com-type-system.js";
 import { OtherscapeSystem } from "./systemModule/otherscape.js";
 import { CoMSystem } from "./systemModule/com-system.js";
 import { MistChatMessage } from "./mist-chat-message.js";
@@ -106,14 +106,17 @@ function registerDataModels() {
 }
 
 
-Hooks.once("ready", () => CityHelpers.cacheSounds());
+Hooks.once("ready", () => {
+  SystemModule.setActiveStyle();
+  CityHelpers.cacheSounds();
+});
 
 Hooks.once("init", async function() {
 	console.log(`***********************************`);
 	console.log(`Initializing City of Mist System`);
 	console.log(`***********************************`);
 	registerDataModels();
-	await SystemModule.init();
+	SystemModule.init();
 	registerSystemSettings();
 	await SystemModule.active.activate();
 
@@ -121,7 +124,7 @@ Hooks.once("init", async function() {
 		CityActor,
 		CityItem,
 		BaseSystemModule,
-		CoMTypeSystem,
+		CoMBasedSystem,
 		MistEngineSystem,
 		ActorSheets: [CityCharacterSheet, CityThreatSheet, CityCrewSheet],
 		ItemSheets: [CityItemSheet, CityItemSheetLarge, CityItemSheetSmall],

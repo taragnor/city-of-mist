@@ -3,14 +3,28 @@ import { localize } from "../city.js";
 import { CitySettings } from "../settings.js";
 import { SystemModuleI } from "../systemModule/baseSystemModule.js";
 import { CoMSystem } from "../systemModule/com-system.js";
-import { CoMTypeSystem } from "../systemModule/com-type-system.js";
 import { MistEngineSystem } from "../systemModule/mist-engine.js";
+import { CoMBasedSystem } from "../systemModule/com-type-system.js";
 
 export abstract class SystemModule {
 
-	static baseClasses = [CoMTypeSystem, MistEngineSystem];
+  static SORT_ORDER  = {
+    EXTRA_THEME: 5,
+    CREW_THEME: 10,
+    LOADOUT: 100,
+  } as const;
+
+	static baseClasses = [CoMBasedSystem, MistEngineSystem];
 
 	static systems = new Map<keyof SYSTEM_NAMES, SystemModuleI>();
+
+  static styleChoices() : STYLE_NAMES  {
+		const obj : Partial<SYSTEM_NAMES> = {};
+		for (const v of this.systems.values()) {
+			obj[v.name]= v.localizationString;
+		}
+		return obj as STYLE_NAMES;
+  }
 
 	static systemChoices() : SYSTEM_NAMES {
 		const obj : Partial<SYSTEM_NAMES> = {};
@@ -34,7 +48,7 @@ export abstract class SystemModule {
 		console.log(`Rules System Registered: ${system.name}`);
 	}
 
-	static async init() {
+	static init() {
 		window.SystemModule = this;
 		try {
 			Hooks.callAll("registerRulesSystemPhase", this);
@@ -66,6 +80,7 @@ export abstract class SystemModule {
 
 	static allThemeTypes(): Required<Omit<ReturnType<SystemModuleI["themeTypes"]>, "">> {
 		let retobj : ReturnType<SystemModuleI["themeTypes"]>= {};
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		for (const [_k,v] of this.systems) {
 			if (v == this.active) {continue;}
 			retobj = foundry.utils.mergeObject(retobj, v.themeTypes());
@@ -116,15 +131,27 @@ export abstract class SystemModule {
 		}
 	}
 
-	static setActiveStyle( system: SystemModuleI) {
-		const body = $(document).find("body");
-		for (const {name} of this.systems.values()) {
-			const style =  `style-${name}`;
-			body.removeClass(style);
-		}
-		const newStyle =  `style-${system.name}`;
-		body.addClass(newStyle);
-	}
+  static setActiveStyle( system ?: keyof STYLE_NAMES) {
+    if (!system) {
+      system = CitySettings.get("visualStyle");
+      if (!system) {throw new Error("No Style found");}
+    }
+    if (system == "base") {
+      system = this.active.name;
+    }
+    const realSys = this.systems.get(system as string as keyof SYSTEM_NAMES);
+    const body = $(document).find("body");
+    //clears old styles
+    [
+      ...Array.from(this.systems.values()),
+      "custom",
+      "base",
+    ] .map (x => typeof x ==  "string" ? x : x.cssStyleClass)
+      .map (name=> `style-${name}`)
+      .forEach( styleClass => body.removeClass(styleClass));
+    const newStyle =  `style-${realSys != undefined? realSys.cssStyleClass : system}`;
+    body.addClass(newStyle);
+  }
 
 	static isLoadoutThemeType( themeType: keyof ThemeTypes) : boolean {
 		if (!themeType) {return false;}
@@ -134,8 +161,6 @@ export abstract class SystemModule {
 	}
 
 }
-
-
 
 declare global {
 	interface Window {

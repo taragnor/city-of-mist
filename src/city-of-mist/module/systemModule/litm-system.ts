@@ -3,6 +3,7 @@ import { CityActor } from "../city-actor.js";
 import { ThemeTypeInfo } from "./baseSystemModule.js";
 import { localize } from "../city.js";
 import { MistEngineSystem } from "./mist-engine.js";
+import {SystemModule} from "../config/system-module.js";
 
 const PATH = "systems/city-of-mist";
 
@@ -26,7 +27,7 @@ export class LitMSystem extends MistEngineSystem {
 		return {
 			"Origin": {
 				localization: "Legend.terms.origin",
-				sortOrder: 1,
+				sortOrder: 3,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				milestoneLocalization: "Legend.terms.milestone",
@@ -42,7 +43,7 @@ export class LitMSystem extends MistEngineSystem {
 			},
 			"Greatness": {
 				localization: "Legend.terms.greatness",
-				sortOrder: 3,
+				sortOrder: 1,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				milestoneLocalization: "Legend.terms.milestone",
@@ -50,7 +51,7 @@ export class LitMSystem extends MistEngineSystem {
 			},
 			"Fellowship": {
 				localization: "Legend.terms.fellowship",
-				sortOrder: 10,
+				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
 				milestoneLocalization: "Legend.terms.milestone",
@@ -59,7 +60,7 @@ export class LitMSystem extends MistEngineSystem {
 			},
 			"Backpack": {
 				localization: "Legend.terms.loadoutTheme.name",
-				sortOrder: 100,
+				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				decreaseLocalization: "",
 				increaseLocalization: "",
 				identityName: "",
@@ -79,13 +80,15 @@ export class LitMSystem extends MistEngineSystem {
 		return await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-otherscape.hbs`, templateData);
 	}
 
-	override async onChangeTo() : Promise<void> {
-		await super.onChangeTo();
-		const settings = CitySettings;
-		await settings.set("baseSystem", "legend");
-		await settings.set("system", "legend");
-		await settings.set( "movesInclude", "legend");
-	}
+  override async onChangeTo() : Promise<void> {
+    await super.onChangeTo();
+    const name = this.name;
+    const settings = CitySettings;
+    await settings.set("baseSystem",name);
+    await settings.set("system",name);
+    await settings.set( "movesInclude",name);
+    await settings.set("visualStyle", name);
+  }
 
 	gameTerms() : Record<keyof GameTerms, localizationString>{
 		return {
@@ -108,5 +111,4 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface SourceBooks extends ReturnType<LitMSystem["sourceBooks"]>{ }
 }
-
 
