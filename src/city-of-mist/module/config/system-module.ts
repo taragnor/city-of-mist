@@ -15,7 +15,7 @@ export abstract class SystemModule {
   } as const;
 
 	static baseClasses = [CoMBasedSystem, MistEngineSystem];
-
+  static styles  = new Map<keyof STYLE_NAMES, StyleObject>;
 	static systems = new Map<keyof SYSTEM_NAMES, SystemModuleI>();
 
   static styleChoices() : STYLE_NAMES  {
@@ -139,11 +139,11 @@ export abstract class SystemModule {
     if (system == "base") {
       system = this.active.name;
     }
-    const realSys = this.systems.get(system as string as keyof SYSTEM_NAMES);
+    const realSys = this.styles.get(system as string as keyof SYSTEM_NAMES);
     const body = $(document).find("body");
     //clears old styles
     [
-      ...Array.from(this.systems.values()),
+      ...Array.from(this.styles.values()),
       "custom",
       "base",
     ] .map (x => typeof x ==  "string" ? x : x.cssStyleClass)
@@ -160,6 +160,23 @@ export abstract class SystemModule {
 		return specials.includes("loadout");
 	}
 
+  static loadStyles() {
+    for (const style of this.systems.values()) {
+      this.styles.set(style.name, style);
+    }
+    Hooks.callAll("loadStyles", this);
+    Hooks.callAll("stylesLoaded");
+  }
+
+  static registerStyle(styleName: string, cssStyleClass ?: string, localizationString ?: string) {
+    const styleObject: StyleObject = {
+      cssStyleClass: cssStyleClass ?? styleName,
+      name: styleName,
+      localizationString: localizationString || styleName,
+    };
+    this.styles.set(styleName as keyof STYLE_NAMES, styleObject);
+  }
+
 }
 
 declare global {
@@ -169,4 +186,26 @@ declare global {
 
 }
 
+Hooks.on("ready", async () => {
+  SystemModule.loadStyles();
+});
+
+
 window.SystemModule = SystemModule;
+
+declare global{
+  interface HOOKS {
+    "loadStyles" : (systemModule: typeof SystemModule) => void;
+    "stylesLoaded": () => void;
+  }
+}
+
+Hooks.on("stylesLoaded", () => {
+  SystemModule.setActiveStyle();
+});
+
+type StyleObject = {
+  cssStyleClass: string;
+  name: string;
+  localizationString: string
+}
