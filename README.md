@@ -95,3 +95,19 @@ This is the unofficial Foundry System for City of Mist RPG by Son of Oak.
 * The narration box can add story tags using the same bracket syntax [tag-name] as for GM moves only the tag is added to the container instead.
 
 * Story tag container tags are always visible.
+
+
+# System API (for developers)
+
+I have recently starting adding more support for external modules. This is a new feature, so expect more to get added.
+
+### Custom Visual Styles
+
+You can use the "loadStyles" hook to setup a new visual style from a 3rd party module using the registerStyles function. You style will be added to the Body tag as a CSS class called style-yourStyleName, which you can then use to reference in your own CSS file.
+
+registerStyle(styleName: string, cssStyleClass ?: string, localizationString ?: string) : void
+
+Example: 
+Hooks.on("loadStyles", (systemModule) => {
+  systemModule.registerStyle("myStyle", "myCustomStyle", "CustomStylesModule.styleName");
+});
