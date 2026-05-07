@@ -108,6 +108,7 @@ You can use the "loadStyles" hook to setup a new visual style from a 3rd party m
 registerStyle(styleName: string, cssStyleClass ?: string, localizationString ?: string) : void
 
 Example: 
-Hooks.on("loadStyles", (systemModule) => {
+```Hooks.on("loadStyles", (systemModule) => {
   systemModule.registerStyle("myStyle", "myCustomStyle", "CustomStylesModule.styleName");
 });
+```
