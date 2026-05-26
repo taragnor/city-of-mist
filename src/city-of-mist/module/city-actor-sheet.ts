@@ -19,8 +19,6 @@ import {CityActor} from "./city-actor.js";
 
 export class CityActorSheet extends CitySheet {
 
-
-
 	/** @override */
 	static override get defaultOptions() {
 		return foundry.utils.mergeObject(super.defaultOptions, {

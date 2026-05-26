@@ -1,77 +1,54 @@
 <section data-move-id="{{move.id}}" data-owner-id="{{owner.id}}">
-	<div class="description-header"> {{localize "CityOfMist.terms.description"}} </div>
-	<textarea name="system.description" type="text">{{item.system.description}}</textarea>
-	<label class="type-header"> {{localize "CityOfMist.terms.type"}} </div>
-	<select name="system.subtype">
-		{{#select item.system.subtype}}
-		<option value="standard"> {{localize "CityOfMist.terms.standard"}} </option>
-		<option value="noroll"> {{localize "CityOfMist.terms.noRoll"}} </option>
-		<option value="themeclassroll"> {{localize "CityOfMist.terms.themeClassRoll"}} </option>
-		<option value="SHB">  {{localize "CityOfMist.terms.SHB"}} </option>
-		{{/select}}
-	</select>
-	<select name="system.theme_class">
-		{{selectOptions THEMESUBTYPES localize=true selected=move.system.theme_class}}
-	</select>
-	<label class="type-header"> {{localize "CityOfMist.terms.category"}} </div>
-	<select name="system.category">
-		{{#select move.system.category}}
-		<option value="Core"> {{localize "CityOfMist.terms.core"}} </option>
-		<option value="Advanced"> {{localize "CityOfMist.terms.advanced"}} </option>
-		<option value="SHB"> {{localize "CityOfMist.terms.SHB"}} </option>
-		{{/select}}
-	</select>
-	<div class="move-result-header"> {{localize "CityOfMist.terms.alwaysDisplayed"}} </div>
-	<textarea type="text" name="system.always">{{item.system.always}}</textarea>
-	<div class="move-result-header"> {{localize "CityOfMist.terms.onMiss"}} </div>
-	<textarea type="text" name="system.onMiss">{{item.system.onMiss}}</textarea>
-	<div class="move-result-header"> {{localize "CityOfMist.terms.onPartial"}} </div>
-	<textarea type="text" name="system.onPartial">{{item.system.onPartial}}</textarea>
-	<div class="move-result-header"> {{localize "CityOfMist.terms.onSuccess"}} </div>
-	<textarea type="text" name="system.onSuccess">{{item.system.onSuccess}}</textarea>
-	<div class="move-result-header"> {{localize "CityOfMist.terms.onDynamite"}} </div>
-	<textarea type="text" name="system.onDynamite">{{item.system.onDynamite}}</textarea>
-	<div class="move-list-section">
-		<div class="move-list-header"> {{localize "CityOfMist.command.listElements"}}
-			{{#if (eq locked false)}}
-			<a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
-			{{/if}}
-		</div>
-		{{#each item.system.listConditionals as |li index| }}
-		<div class="move-conditonal-block" data-index="{{index}}">
-			<select class="move-condition-input">
-				{{#select li.condition}}
-				<option value="gtPartial"> &gt;= {{localize "CityOfMist.terms.partial"}} </option>
-				<option value="gtSuccess"> &gt;= {{localize "CityOfMist.terms.success"}} </option>
-				<option value="eqDynamite"> {{localize "CityOfMist.terms.dynamite"}} </option>
-				<option value="eqPartial"> {{localize "CityOfMist.terms.partial"}} </option>
-				<option value="eqSuccess">  {{localize "CityOfMist.terms.success"}} </option>
-				<option value="Always">  {{localize "CityOfMist.terms.always"}} </option>
-				<option value="Miss" >  {{localize "CityOfMist.terms.miss"}} </option>
-				{{/select}}
-			</select>
-			<input class="move-list-input" type="text" value="{{li.text}}"/>
-			<select class="move-choiceAmt-input" title="Number of choices from list">
-				{{#select li.cost}}
-				<option value="1"> 1 </option>
-				<option value="2"> 2 </option>
-				<option value="3"> 3 </option>
-				<option value="0"> 0 </option>
-				<option value="-1"> {{localize "CityOfMist.terms.GM"}} </option>
-				{{/select}}
-			</select>
-			<a class="delete-move-list-element" title="Delete List Element"><i class="theme-trash fas fa-trash"></i></a>
-		</div>
-		{{/each}}
-	</div>
-	{{#if (devMode)}}
-	<hr>
-	<label> Move Special Identifiers </label>
-	<input type="text" value="{{item.system.effect_class}}" name="system.effect_class" title="Advanced Uses (special coded)">
-	<label> Move Abbreviation </label>
-	<input type="text" value="{{item.system.abbreviation}}" name="system.abbreviation" title="Abbreviation Code (All caps)">
-	<label class="dialog-label" for="free-content"> Allow Override </label>
-	<input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable move of same name"> <br>
+  <div class="description-header"> {{localize "CityOfMist.terms.description"}} </div>
+  <textarea name="system.description" type="text">{{item.system.description}}</textarea>
+  <label class="type-header"> {{localize "CityOfMist.terms.type"}} </div>
+  <select name="system.subtype">
+    {{selectOptions CONST.PLAYER_MOVE_SUBTYPES localize=true selected=item.system.subtype}}
+  </select>
+  <select name="system.theme_class">
+    {{selectOptions THEMESUBTYPES localize=true selected=move.system.theme_class}}
+  </select>
+  <label class="type-header"> {{localize "CityOfMist.terms.category"}} </div>
+  <select name="system.category">
+    {{selectOptions CONST.PLAYER_MOVE_CATEGORY localize=true selected=item.system.category}}
+  </select>
+  <div class="move-result-header"> {{localize "CityOfMist.terms.alwaysDisplayed"}} </div>
+  <textarea type="text" name="system.always">{{item.system.always}}</textarea>
+  <div class="move-result-header"> {{localize "CityOfMist.terms.onMiss"}} </div>
+  <textarea type="text" name="system.onMiss">{{item.system.onMiss}}</textarea>
+  <div class="move-result-header"> {{localize "CityOfMist.terms.onPartial"}} </div>
+  <textarea type="text" name="system.onPartial">{{item.system.onPartial}}</textarea>
+  <div class="move-result-header"> {{localize "CityOfMist.terms.onSuccess"}} </div>
+  <textarea type="text" name="system.onSuccess">{{item.system.onSuccess}}</textarea>
+  <div class="move-result-header"> {{localize "CityOfMist.terms.onDynamite"}} </div>
+  <textarea type="text" name="system.onDynamite">{{item.system.onDynamite}}</textarea>
+  <div class="move-list-section">
+    <div class="move-list-header"> {{localize "CityOfMist.command.listElements"}}
+      {{#if (eq locked false)}}
+      <a class="move-add-list-item"> <i class="fas fa-plus-square"></i></a></p>
+      {{/if}}
+    </div>
+    {{#each item.system.listConditionals as |li index| }}
+    <div class="move-conditonal-block" data-index="{{index}}">
+      <select class="move-condition-input">
+        {{selectOptions ../CONST.MOVE_COMPARISON localize=true selected=li.condition}}
+      </select>
+      <input class="move-list-input" type="text" value="{{li.text}}"/>
+      <select class="move-choiceAmt-input" title="Number of choices from list">
+        {{selectOptions ../CONST.MOVE_POINT_COST localize=true selected=li.cost}}
+      </select>
+      <a class="delete-move-list-element" title="Delete List Element"><i class="theme-trash fas fa-trash"></i></a>
+    </div>
+    {{/each}}
+  </div>
+  {{#if (devMode)}}
+  <hr>
+  <label> Move Special Identifiers </label>
+  <input type="text" value="{{item.system.effect_class}}" name="system.effect_class" title="Advanced Uses (special coded)">
+  <label> Move Abbreviation </label>
+  <input type="text" value="{{item.system.abbreviation}}" name="system.abbreviation" title="Abbreviation Code (All caps)">
+  <label class="dialog-label" for="free-content"> Allow Override </label>
+  <input type="checkbox" name="system.free_content" {{#if item.system.free_content}} checked {{/if}} title="Will be replaced by non-overrideable move of same name"> <br>
 
 	{{/if}}
 

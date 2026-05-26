@@ -446,8 +446,12 @@ export class CityDialogs {
 	}
 
 	static async getRollModifierBox (rollOptions : MistRoll["options"]) : Promise<typeof rollOptions | null> {
-		const moves = CityHelpers.getMoves();
-		const templateData = {moves,
+		const moves = Object.fromEntries(
+      CityHelpers.getMoves()
+      .map(move => [move.id, move.displayedName]) 
+    );
+		const templateData = {
+      moves,
 			...rollOptions};
 		let dynamiteAllowed = rollOptions.dynamiteAllowed;
 		const title = `Make Roll`;

@@ -1,15 +1,11 @@
 <form class="{{cssClass}} juice-sheet flex-col item-edit-dialog">
-	{{#if (isHelpHurt item)}}
-	<label class="dialog-label" for="target">
-		{{localize "CityOfMist.terms.target"}}
-	</label>
-	<select name="system.targetCharacterId" data-dtype="String">
-		{{#select item.system.targetCharacterId}}
-		{{#each (PCList) as |pc|}}
-		<option value="{{pc.id}}">{{displayAlias pc}}</option>
-	   {{/each}}
-		{{/select}}
-	</select>
+  {{#if (isHelpHurt item)}}
+  <label class="dialog-label" for="target">
+    {{localize "CityOfMist.terms.target"}}
+  </label>
+  <select name="system.targetCharacterId" data-dtype="String">
+    {{selectOptions (PCList) localize=false selected=item.system.targetCharacterId}}
+  </select>
 
 	{{else}}
 	<label class="dialog-label" for="name">

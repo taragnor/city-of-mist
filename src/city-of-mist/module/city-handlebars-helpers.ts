@@ -82,9 +82,12 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 			return actor.juice.filter( x=> !x.isHurt() && !x.isHelp());
 		},
 
-		"PCList": (_actor: CityActor) => {
-			return (game.actors.contents as CityActor[]).filter( x => x.isPC() && x.permission > 0);
-		},
+    "PCList": (_actor: CityActor) => {
+      const PCList= (game.actors.contents as CityActor[]).filter( x => x.isPC() && x.permission > 0);
+      return Object.fromEntries( PCList
+        .map ( pc => [pc.id, pc.getDisplayedName()])
+      );
+    },
 
 		"getHelpFor": (targetactor: CityActor) => {
 			return (game.actors.contents as CityActor[]).filter( x => x.isPC() &&

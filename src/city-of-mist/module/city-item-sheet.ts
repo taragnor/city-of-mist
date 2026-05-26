@@ -13,7 +13,7 @@ import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityItem } from "./city-item.js";
 import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
-import { GM_MOVE_HEADER_TYPES, GM_MOVE_TYPES } from "./config/move-types.js";
+import { GM_MOVE_HEADER_TYPES, GM_MOVE_TYPES, MOVE_COMPARISON, MOVE_POINT_COST, PLAYER_MOVE_CATEGORY, PLAYER_MOVE_SUBTYPES } from "./config/move-types.js";
 
 export class CityItemSheet extends ItemSheet<CityItem> {
 
@@ -37,6 +37,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
       STATUS_CATEGORIES,
       GM_MOVE_TYPES,
       GM_MOVE_HEADER_TYPES,
+      PLAYER_MOVE_SUBTYPES,
+      PLAYER_MOVE_CATEGORY,
+      MOVE_COMPARISON,
+      MOVE_POINT_COST,
     } as const;
   }
 
@@ -70,9 +74,12 @@ export class CityItemSheet extends ItemSheet<CityItem> {
     };
     data.MOTIVATIONLIST = MOTIVATIONLIST;
     data.SPECTRUM_VALUES= SPECTRUM_VALUES;
-    data.movelist = CityHelpers.getMoves()
+    const moveList = (data.movelist = CityHelpers.getMoves()
       .filter( x=> x.system.category == "Core")
-      .map( x=> x.name );
+      .map( x=> x.name ));
+    data.MOVE_LIST = Object.fromEntries( moveList
+      .map( move => [move, move])
+    );
     if (this.item.system.type == "tag") {
       const otherTagList = this.item.parent
         ?.getTags()
@@ -87,7 +94,11 @@ export class CityItemSheet extends ItemSheet<CityItem> {
       const baseTbs = this.item.parent
         ? this.item.parent.items.filter( x=> x.isThemeBook())
         : [];
-      data.themebooks = baseTbs.concat(CityDB.themebooks);
+      const themebooks = (data.themebooks = baseTbs.concat(CityDB.themebooks));
+      data.THEMEBOOK_LIST = Object.fromEntries(
+        themebooks
+        .map(tb => [tb.id, tb.displayedName + (tb.isLocal ? "*" : "")])
+      );
     }
     return data;
   }

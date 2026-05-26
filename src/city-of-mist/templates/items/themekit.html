@@ -1,41 +1,33 @@
 <form class="{{cssClass}} theme-kit-sheet" autocomplete="off">
-	<header class="sheet-header">
-		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		<div class="header-fields">
-			<h1 class="item-name"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-			<h1 class="item-name"><input name="system.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Locale Name"/></h1>
-		</div>
-	</header>
-	<section class="sheet-body flex-vertical">
-		<div>
-			<select name="system.subtype">
-				{{selectOptions THEMESUBTYPES localize=true selected=item.system.subtype}}
-			</select>
-			<select name="system.motivation">
-				{{selectOptions MOTIVATIONLIST localize=true selected=item.system.motivation}}
-			</select>
-		</div>
-		{{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
-		<label>
-			Basis Themebook
-		</label>
-		<select name="system.themebook_id">
-			<option value="">-</option>
-			{{#select item.system.themebook_id}}
-			{{#each themebooks as |themebook|}}
-			<option value="{{themebook.id}}">
-			{{themebook.displayedName}}
-			{{#if themebook.isLocal}} * {{/if}}
-			</option>
-			{{/each}}
-			{{/select}}
-		</select>
-		<textarea name="system.description">{{item.system.description}}</textarea>
-		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="power" tagList=item.system.power_tagstk}}
-		{{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="weakness" tagList=item.system.weakness_tagstk}}
-		{{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
-
-	</section>
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="item-name"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+      <h1 class="item-name"><input name="system.locale_name" type="text" value="{{item.system.locale_name}}" placeholder="Locale Name"/></h1>
+    </div>
+  </header>
+  <section class="sheet-body flex-vertical">
+    <div>
+      <select name="system.subtype">
+        {{selectOptions THEMESUBTYPES localize=true selected=item.system.subtype}}
+      </select>
+      <select name="system.motivation">
+        {{selectOptions MOTIVATIONLIST localize=true selected=item.system.motivation}}
+      </select>
+    </div>
+    {{> "systems/city-of-mist/templates/parts/systemComp.hbs" item=item TBSYSTEMLIST=TBSYSTEMLIST}}
+    <label>
+      Basis Themebook
+    </label>
+    <select name="system.themebook_id">
+      <option value="">-</option>
+      {{selectOptions THEMEBOOK_LIST localize=false selected=item.system.themebook_id}}
+    </select>
+    <textarea name="system.description">{{item.system.description}}</textarea>
+    {{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="power" tagList=item.system.power_tagstk}}
+    {{> "systems/city-of-mist/templates/parts/themekit-questions.hbs" item=item tagtype="weakness" tagList=item.system.weakness_tagstk}}
+    {{> "systems/city-of-mist/templates/parts/themekit-improvements.hbs" item=item data=data}}
+  </section>
 
 </form>
 
