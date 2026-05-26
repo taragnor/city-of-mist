@@ -9,10 +9,11 @@ import { SystemModule } from "./config/system-module.js";
 import { Tag } from "./city-item.js";
 import { localizeS } from "./tools/handlebars-helpers.js";
 import { CityHelpers } from "./city-helpers.js";
-import { HTMLTools } from "./tools/HTMLTools.js"
+import { HTMLTools } from "./tools/HTMLTools.js";
 import { CityItem } from "./city-item.js";
 import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
+import { GM_MOVE_HEADER_TYPES, GM_MOVE_TYPES } from "./config/move-types.js";
 
 export class CityItemSheet extends ItemSheet<CityItem> {
 
@@ -30,9 +31,18 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	/* -------------------------------------------- */
 
+  CONST()  {
+    return {
+      TAG_CATEGORIES,
+      STATUS_CATEGORIES,
+      GM_MOVE_TYPES,
+      GM_MOVE_HEADER_TYPES,
+    } as const;
+  }
+
   override async getData() {
     await CityDB.waitUntilLoaded();
-    let data = await super.getData();
+    const data = await super.getData();
     const sourcebooks = Array.from(SystemModule.systems.entries())
       .map ( ([_k,v]) => v)
       .filter(sys => "systemCompatiblity" in this.item ? this.item.systemCompatiblity == sys.name || this.item.systemCompatiblity == "any" : true)
@@ -41,10 +51,12 @@ export class CityItemSheet extends ItemSheet<CityItem> {
     const SysChoices :Record<string, string> = {...SYSTEM_CHOICES(),
       "any":  "CityOfMist.terms.any",
     } as const;
-    data.CONST = {
-      TAG_CATEGORIES,
-      STATUS_CATEGORIES,
-    };
+    data.CONST = this.CONST();
+    // data.CONST = {
+    //   TAG_CATEGORIES,
+    //   STATUS_CATEGORIES,
+    //   ...universalData,
+    // };
     data.FADE_TYPE_LIST = FADETYPELIST;
     data.TBSYSTEMLIST = SysChoices;
     data.SOURCEBOOKS = {"" : "-", ...sourcebooks};
@@ -62,9 +74,14 @@ export class CityItemSheet extends ItemSheet<CityItem> {
       .filter( x=> x.system.category == "Core")
       .map( x=> x.name );
     if (this.item.system.type == "tag") {
-      data.otherTagList = this.item.parent
+      const otherTagList = this.item.parent
         ?.getTags()
-        ?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId);
+        ?.filter(tag => tag.system.theme_id == (this.item as Tag).system?.theme_id && !tag.system.parentId)
+        ?? [];
+      data.PARENT_TAG_LIST = {
+        "" : "-",
+          ...Object.fromEntries(otherTagList.map( tag=> ([tag.id, tag.name])))
+      };
     }
     if (this.item.isThemeKit()) {
       const baseTbs = this.item.parent
@@ -95,7 +112,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	override _getSubmitData( updateData = {}) {
 		//Verify that status format includes dashes
-		let data = super._getSubmitData(updateData);
+		const data = super._getSubmitData(updateData);
 		if (this.item.system.type == "status") {
 			data.name = CityHelpers.replaceSpaces(data.name);
 		}

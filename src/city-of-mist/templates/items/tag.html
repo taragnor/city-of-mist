@@ -1,4 +1,4 @@
-<form class="{{cssClass}} tag-sheet flex-col" autocomplete="off" data-owner-id="{{actor._id}}" data-sheet-owner-id="{{actor._id}}" data-owner-class="actor">
+<form class="{{cssClass}} tag-sheet flex-col" autocomplete="off" data-owner-id="{{actor.id}}" data-sheet-owner-id="{{actor.id}}" data-owner-class="actor">
 	<label>
 		{{localize "CityOfMist.terms.name"}}
 	</label>
@@ -62,12 +62,7 @@
 	<textarea name="system.description">{{item.system.description}}</textarea>
 	<label> {{localize "CityOfMist.misc.subtagOf"}}</label>
 	<select class="" name="system.parentId" >
-		{{#select item.system.parentId}}
-		<option value=""> None </option>
-		{{#each otherTagList as |tag id|}}
-		<option value="{{tag.id}}"> {{tag.name}} </option>
-		{{/each}}
-		{{/select}}
+    {{selectOptions PARENT_TAG_LIST localize=false selected=item.system.parentId}}
 	</select>
 	<hr>
 	<section class="extra-questions">

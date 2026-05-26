@@ -423,7 +423,17 @@ static initCustomJqueryFunctions() {
 			return HTMLTools.getElementValue(this);
 		};
 	}
+
 }
+
+	/** creates a localiation object from an array. The localization header should contain all of the locatization string except for the ending '.name'*/
+	static createLocalizationObject<const T extends readonly string[]> ( array: T, localizationHeader: string) : Readonly<Record<T[number], LocalizationString>> {
+		const obj = Object.fromEntries(
+			array.map( x=> [x, `${localizationHeader}.${x}`])
+		);
+		return obj as Readonly<Record<T[number], LocalizationString>>;
+	}
+
 } // end of class
 
 // Jquery Addons
