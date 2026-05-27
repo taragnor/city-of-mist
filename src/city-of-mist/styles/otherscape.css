@@ -446,3 +446,27 @@ div.Noise-theme .theme-block {
   background-color: rgb(48, 40, 49);
   color: var(--green-OS-text);
 }
+
+.style-otherscape {
+  span.filled-circle {
+    border: 2px solid var(--green-OS-text);
+    background-color: var(--green-OS-text);
+  }
+
+  span.empty-circle{
+	border: 3px solid var(--mythos-bright);
+	background-color: rgba(0, 0, 0, 0);
+
+  }
+
+  /* .Logos-theme span.empty-circle { */
+  /*   border: 2px solid var(--logos-text); */
+  /*   background-color: rgba(0, 0, 0, 0); */
+  /* } */
+
+  /* .Mythos-theme span.filled-circle { */
+  /*   border: 2px solid var(--mythos-text); */
+  /*   background-color: var(--mythos-bright); */
+  /* } */
+
+}
