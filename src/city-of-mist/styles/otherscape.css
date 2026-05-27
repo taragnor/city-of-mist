@@ -454,9 +454,8 @@ div.Noise-theme .theme-block {
   }
 
   span.empty-circle{
-	border: 3px solid var(--mythos-bright);
-	background-color: rgba(0, 0, 0, 0);
-
+    border: 3px solid var(--mythos-bright);
+    background-color: rgba(0, 0, 0, 0);
   }
 
 }
