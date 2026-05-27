@@ -1,4 +1,4 @@
-export const DOWNTIME_CHOICES : Record<string, string> = {
+export const DOWNTIME_CHOICES = {
 	"logos": "CityOfMist.moves.downtime.0",
 	"workcase": "CityOfMist.moves.downtime.1",
 	"mythos": "CityOfMist.moves.downtime.2",
@@ -10,4 +10,4 @@ export const DOWNTIME_CHOICES : Record<string, string> = {
 	"os-quality": "Otherscape.moves.downtime.2",
 	"os-research" :  "Otherscape.moves.downtime.3",
 	"os-theme": "Otherscape.moves.downtime.4",
-} ;
+} satisfies Record<string, string> as unknown as Record<string, LocalizationString> ;

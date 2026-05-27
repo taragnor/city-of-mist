@@ -1,12 +1,11 @@
 class TextEditor {
 	static enrichHTML(str: string, options: TextEditorOptions);
-	static getDragEventData(event: JQuery.DropEvent | DropEvent): Record<any,any>;
-
-
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static getDragEventData(event: DragEvent): Record<string,any>;
 }
 
 interface TextEditorOptions {
 	secrets: boolean;
 		async: boolean;
-	relativeTo: Actor<any>;
+	relativeTo: Actor;
 }

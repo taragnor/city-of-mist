@@ -27,7 +27,7 @@ export type StatusCategory = typeof STATUS_CATEGORY_LIST[number];
 
 export const STATUS_CATEGORIES = Object.fromEntries(
 	STATUS_CATEGORY_LIST
-	.map( x=> [x, `MistEngine.status.category.${x}.name`])
+	.map( x=> [x, `MistEngine.status.category.${x}.name` as LocalizationString])
 );
 
 	export function statusesAffectedByCategory(list: Status[], newCategory: StatusCategory = "none", direction: "positive" | "negative" | "both" = "both"): Status[] {

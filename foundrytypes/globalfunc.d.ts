@@ -7,9 +7,15 @@ declare function renderTemplate(templatePath: string, templateData: Record<strin
 
 declare function deepClone<T>(cloneSource: T) : T;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 type DeepRequired<T> = T extends Function
   ? T // functions are left as-is
   : T extends object
     ? { [K in keyof T]-?: DeepRequired<T[K]> }
     : T;
 
+type PartialKeys<T, K extends PropertyKey> =
+  T extends unknown
+    ? Omit<T, Extract<K, keyof T>> &
+      Partial<Pick<T, Extract<K, keyof T>>>
+    : never;

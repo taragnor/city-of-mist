@@ -5,30 +5,31 @@ namespace Foundry {
 
 	}
 
-	// class TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends FoundryDocument<never>
-	interface TokenDocument<T extends Actor<any, any, any> = Actor> extends Document<never>
-		{
-			actorId: string;
-			actorLink: boolean;
-			get actor() : T | undefined;
-			parent: Scene;
-			name: string;
-			baseActor: T;
-			get object(): Token<T> | null
-			private _object: Token<T>;
-			documentName: "token";
-			get inCombat(): boolean;
-			get combatant(): Combatant;
-			get isLinked(): boolean;
-			sight: SightObject;
-			x: number;
-			y: number;
-			img: string
-			visible: boolean;
-			hidden: boolean;
-			position: Position;
-			move(waypoints: TokenMoveWaypoint | TokenMoveWaypoint[], optionsObj?: TokenMovementOptions);
-		}
+	 // class TokenDocument<T extends Actor<any, any, any> = Actor<any>> extends FoundryDocument<never>
+	 interface TokenDocument<T extends Actor<any, any, any> = Actor> extends Document<never>
+			{
+				 actorId: string;
+				 actorLink: boolean;
+				 get actor() : T | undefined;
+				 parent: Scene;
+				 name: string;
+				 baseActor: T;
+				 get object(): Token<T> | null;
+				 _object: Token<T>;
+				 documentName: "token";
+				 get inCombat(): boolean;
+				 get combatant(): Combatant;
+				 get isLinked(): boolean;
+				 sight: SightObject;
+				 x: number;
+				 y: number;
+				 img: string
+				 visible: boolean;
+				 hidden: boolean;
+				 alpha: number;
+				 position: Position;
+				 move(waypoints: TokenMoveWaypoint | TokenMoveWaypoint[], optionsObj?: TokenMovementOptions);
+			}
 
 	type SightObject = Record < string, any>;
 }
@@ -69,7 +70,9 @@ class Token<Act extends Actor = Actor<any,any,any>> extends PlaceableObject {
 	get w():number;
 	get h():number;
 	static create<A extends Actor>(td: TokenDocument<A>,parendData: {parent: Scene}): Promise<Token<A>>;
-
+	 /** sets token to be redrawn on next animation frame */
+	 refresh(): void;
+  async _drawEffect(src: string, tint: N<PIXI.ColorSource>): Promise<U<PIXI.Sprite>>;
 }
 
 

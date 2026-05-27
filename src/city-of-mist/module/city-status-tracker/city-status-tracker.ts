@@ -1,5 +1,3 @@
-/* global jQuery, Handlebars, Sortable */
-/* global game, loadTemplates, mergeObject, Application, FormApplication, Dialog */
 import { CityHelpers } from "../city-helpers.js";
 import { TrackerItem } from "./status-tracker.js";
 import { HTMLTools } from "../tools/HTMLTools.js";
@@ -7,15 +5,15 @@ import { CitySettings } from "../settings.js";
 import {HTMLHandlers} from "../universal-html-handlers.js";
 import { StatusTracker } from "./status-tracker.js";
 
-Hooks.on('updateActor', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('updateItem', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('createItem', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('deleteItem', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('deleteActor', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('createToken', async() => {StatusTrackerWindow._instance.render(false)});
-Hooks.on('updateToken', async()=> {StatusTrackerWindow._instance.render(false)});
-Hooks.on('deleteToken', async()=> {StatusTrackerWindow._instance.render(false)});
-Hooks.on('updateScene', async()=> {StatusTrackerWindow._instance.render(false)});
+Hooks.on('updateActor', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('updateItem', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('createItem', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('deleteItem', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('deleteActor', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('createToken', () => {StatusTrackerWindow._instance.render(false);});
+Hooks.on('updateToken', ()=> {StatusTrackerWindow._instance.render(false);});
+Hooks.on('deleteToken', ()=> {StatusTrackerWindow._instance.render(false);});
+Hooks.on('updateScene', ()=> {StatusTrackerWindow._instance.render(false);});
 
 export class StatusTrackerWindow extends Application {
 	static _instance: StatusTrackerWindow;
@@ -33,7 +31,7 @@ export class StatusTrackerWindow extends Application {
 			height: 630,
 			minimizable: true,
 			resizable: true,
-			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title"),
+			title: game.i18n.localize("CityOfMistTracker.trackerwindow.title" as LocalizationString),
 		});
 	}
 
@@ -42,17 +40,17 @@ export class StatusTrackerWindow extends Application {
 	 *
 	 * @param {JQuery} html is the rendered HTML provided by jQuery
 	 **/
-	override async activateListeners(html: JQuery): Promise<void> {
+	override activateListeners(html: JQuery): void {
 		super.activateListeners(html);
 		HTMLHandlers.applyBasicHandlers(html);
-		html.find(".actor-name").on( "click", this._openTokenSheet);
-		html.find(".actor-name").rightclick(this._centerOnToken);
+		html.find(".actor-name").on( "click", ev => void this._openTokenSheet(ev));
+		html.find(".actor-name").rightclick( ev => void this._centerOnToken(ev));
 	}
 
-	async _openTokenSheet(event: JQuery.Event) {
+	async _openTokenSheet(this: void, event: JQuery.Event) {
 		const indexActor = HTMLTools.getClosestData(event, "actor");
 		const tracker = (await StatusTrackerWindow._instance.getData()).statusTracker;
-		await tracker._openTokenSheet(Number(indexActor));
+		tracker._openTokenSheet(Number(indexActor));
 	}
 
 	async _centerOnToken(event: JQuery.Event) {
@@ -76,18 +74,20 @@ export class StatusTrackerWindow extends Application {
 	}
 
 	override async getData() {
-		const actors = await this.loadActorData();
-		const scene = await this.loadSceneData();
+    const data = await super.getData();
+		const actors = this.loadActorData();
+		const scene = this.loadSceneData();
 		const combined = actors.concat(scene);
 		const sortFn = this.sortFunction();
 		const sorted = combined.sort(sortFn);
 		const statusTracker = new StatusTracker(sorted as TrackerItem[]);
 		return {
+      ...data,
 			statusTracker: statusTracker
 		};
 	}
 
-	async loadActorData() {
+	loadActorData() {
 		const tokenActors = CityHelpers.getVisibleActiveSceneTokenActors().filter( x => x.type == "threat" || x.type == "character");
 		const actors = tokenActors.map( x=> {
 			return {
@@ -102,7 +102,7 @@ export class StatusTrackerWindow extends Application {
 		return actors;
 	}
 
-	async loadSceneData() {
+	loadSceneData() {
 		return []; //returning empty scene as changing scnee stuff with the tracker will cause errors as the hook won't get called properly (needs refactor)
 		// const scene = [ await SceneTags.getSceneContainer() ]
 		// 	.map( x=> {

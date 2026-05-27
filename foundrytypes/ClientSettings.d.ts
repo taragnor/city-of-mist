@@ -20,7 +20,9 @@ interface CoreKeys {
 
 }
 
-interface SettingConfig<T extends typeof String | typeof Number | typeof Boolean | typeof Object> {
+type SettingValue = typeof String | typeof Number | typeof Boolean | typeof Object;
+
+interface SettingConfig<T extends SettingValue = SettingValue> {
 	name: string;
 	hint: string;
 	scope: "client" | "world";

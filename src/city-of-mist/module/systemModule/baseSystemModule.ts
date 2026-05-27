@@ -103,8 +103,8 @@ export abstract class BaseSystemModule implements SystemModuleI {
         case "any":
           for (const [_name, sysChoice] of SystemModule.systems.entries()) {
             const newLocName = sysChoice.localizationStarterName;
-            const test2= this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}`)
-              ?? this._tryLocalize(`${newLocName}.${ItemType}.generic.${property}`);
+            const test2= this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}` as LocalizationString)
+              ?? this._tryLocalize(`${newLocName}.${ItemType}.generic.${property}` as LocalizationString);
             if (test2) {return test2;}
           }
           break;
@@ -112,7 +112,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
           const sysChoice = SystemModule.systems.get(sys);
           if (!sysChoice) {break;}
           const newLocName = sysChoice.localizationStarterName;
-          return this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}`)
+          return this._tryLocalize( `${newLocName}.${ItemType}.${systemName}.${property}` as LocalizationString)
             ?? this._tryLocalize(`${newLocName}.${ItemType}.generic.${property}`);
         }
       }
@@ -123,8 +123,8 @@ export abstract class BaseSystemModule implements SystemModuleI {
       ?? null;
   }
 
-  protected _tryLocalize(locStr: string) : string | null {
-    const x = localize(locStr);
+  protected _tryLocalize(locStr: LocalizationString | string) : string | null {
+    const x = localize(locStr as LocalizationString);
     if (x!= locStr) {return x;}
     return null;
   }
@@ -133,7 +133,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		return actor.name;
 	}
 
-	abstract gameTerms(): Record<keyof GameTerms, localizationString>;
+	abstract gameTerms(): Record<keyof GameTerms, LocalizationString>;
 	abstract downtimeTemplate(actor: CityActor): Promise<string>;
 	abstract name: keyof SYSTEM_NAMES;
 	abstract localizationString: string;
@@ -149,13 +149,13 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	abstract themeTypes(): Partial<Record<keyof ThemeTypes, ThemeTypeInfo>>;
 
 	loadoutThemeName(): string {
-		return localize(`${this.localizationStarterName}.terms.loadoutTheme.name`);
+		return localize(`${this.localizationStarterName}.terms.loadoutTheme.name` as LocalizationString);
 	}
 
 	abstract localizationStarterName: string;
 
 	collectiveTermName(): string {
-		return localize(`${this.localizationStarterName}.terms.collective`);
+		return localize(`${this.localizationStarterName}.terms.collective` as LocalizationString);
 	}
 
 	canCreateTags(move: Move): boolean {
@@ -167,25 +167,28 @@ export abstract class BaseSystemModule implements SystemModuleI {
 	}
 
 	loadTemplates() {
-		loadTemplates([this.themeCardTemplate]);
+    foundry.applications.handlebars.loadTemplates([this.themeCardTemplate]);
 	}
 
 	unregisterCoreSheets() {
-		Actors.unregisterSheet("core", ActorSheet);
-		Items.unregisterSheet("core", ItemSheet);
+    const {Actors, Items} = foundry.documents.collections;
+		Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+		Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
 	}
 
 	registerActorSheets() {
+    const {Actors} = foundry.documents.collections;
 		Actors.registerSheet("city", CityCharacterSheet, { types: ["character"], makeDefault: true });
 		Actors.registerSheet("city", CityCrewSheet, { types: ["crew"], makeDefault: true });
 		Actors.registerSheet("city", CityThreatSheet, { types: ["threat"], makeDefault: true });
 	}
 
-	registerItemSheets() {
-	Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "themekit", "move"], makeDefault: true});
-	Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
-	// Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
-	}
+  registerItemSheets() {
+    const {Items} = foundry.documents.collections;
+    Items.registerSheet("city", CityItemSheetLarge, {types: ["themebook", "themekit", "move"], makeDefault: true});
+    Items.registerSheet("city", CityItemSheetSmall, {types: ["tag", "improvement", "status", "juice", "clue", "gmmove", "spectrum" ], makeDefault: true});
+    // Items.registerSheet("city", CityItemSheet, {types: [], makeDefault: true});
+  }
 
 	registerSheets() {
 		this.registerActorSheets();
@@ -199,6 +202,7 @@ export abstract class BaseSystemModule implements SystemModuleI {
 		// SystemModule.setActiveStyle(this);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/require-await
 	protected async _setHooks(): Promise<void> {
 		Hooks.on("updateRollDialog", this.updateRollOptions.bind(this));
 		Hooks.on("renderRollDialog", this.renderRollDialog.bind(this));
@@ -250,7 +254,7 @@ export interface SystemModuleI {
 	canCreateTags(move: Move): boolean;
 	themeTypes(): Partial<Record<keyof ThemeTypes, ThemeTypeInfo>>;
 	directoryName(actor: CityActor): string;
-	gameTerms() : Record<keyof GameTerms, localizationString>;
+	gameTerms() : Record<keyof GameTerms, LocalizationString>;
 	localizedName(doc: CityActor | CityItem): string;
 	localizedDescription(doc: CityActor | CityItem) : string;
 	localizedThemeBookData(tb: Themebook, field: ThemebookField, numOrLetter: number | string): string;
@@ -258,7 +262,7 @@ export interface SystemModuleI {
 }
 
 export type ThemeTypeInfo = {
-	localization: string,
+	localization: LocalizationString,
 	sortOrder: number,
 	decreaseLocalization: string,
 	increaseLocalization: string,

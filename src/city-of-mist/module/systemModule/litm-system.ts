@@ -21,12 +21,12 @@ export class LitMSystem extends MistEngineSystem {
 
 	get name() {return "legend" as const;}
 
-	get localizationString() { return localize("CityOfMist.settings.system.2");}
+	get localizationString() { return localize("CityOfMist.settings.system.2" as LocalizationString);}
 
 	 themeTypes() {
 		return {
 			"Origin": {
-				localization: "Legend.terms.origin",
+				localization: "Legend.terms.origin" as LocalizationString,
 				sortOrder: 3,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
@@ -34,7 +34,7 @@ export class LitMSystem extends MistEngineSystem {
 				identityName: "Legend.terms.quest",
 			},
 			"Adventure": {
-				localization: "Legend.terms.adventure",
+				localization: "Legend.terms.adventure" as LocalizationString,
 				sortOrder: 2,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
@@ -42,7 +42,7 @@ export class LitMSystem extends MistEngineSystem {
 				identityName: "Legend.terms.quest",
 			},
 			"Greatness": {
-				localization: "Legend.terms.greatness",
+				localization: "Legend.terms.greatness" as LocalizationString,
 				sortOrder: 1,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
@@ -50,7 +50,7 @@ export class LitMSystem extends MistEngineSystem {
 				identityName: "Legend.terms.quest",
 			},
 			"Fellowship": {
-				localization: "Legend.terms.fellowship",
+				localization: "Legend.terms.fellowship" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				decreaseLocalization: "Legend.terms.abandon",
 				increaseLocalization: "Legend.terms.improve",
@@ -59,7 +59,7 @@ export class LitMSystem extends MistEngineSystem {
 				specials: ["crew"],
 			},
 			"Backpack": {
-				localization: "Legend.terms.loadoutTheme.name",
+				localization: "Legend.terms.loadoutTheme.name" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				decreaseLocalization: "",
 				increaseLocalization: "",
@@ -90,12 +90,12 @@ export class LitMSystem extends MistEngineSystem {
     await settings.set("visualStyle", name);
   }
 
-	gameTerms() : Record<keyof GameTerms, localizationString>{
+	gameTerms() : Record<keyof GameTerms, LocalizationString>{
 		return {
 			collective: "Legend.terms.collective",
 			buildUpPoints: "Legend.terms.promise",
 			evolution: "Legend.terms.fulfillment",
-		};
+		} satisfies Record<keyof GameTerms, string> as unknown as Record<keyof GameTerms, LocalizationString>;
 	}
 
 }

@@ -23,8 +23,8 @@ namespace Foundry {
 		started: boolean;
 		combatants: Collection<Combatant<T>>;
 		turns: CType[];
-		getCombatantByToken(tokenIdOrToken: string | TokenDocument<T>) : Combatant<T> | undefined;
-		getCombatantByActor(actorIdOrActor: string | T): Combatant<T> | undefined;
+		getCombatantByToken(tokenIdOrToken: TokenDocument<T>["id"] | TokenDocument<T>) : Combatant<T> | undefined;
+		getCombatantByActor(actorIdOrActor: Actor["id"] | T): Combatant<T> | undefined;
 		startCombat(): Promise<this>;
 		nextRound(): Promise<this>;
 		previousRound(): Promise<this>;
@@ -48,6 +48,7 @@ namespace Foundry {
 		combatant: undefined | Combatant<T>;
 
 	}
+
 
 	type CombatUpdateData = {
 		/** The current round of combat */

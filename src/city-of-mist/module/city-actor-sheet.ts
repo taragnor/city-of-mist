@@ -162,8 +162,8 @@ export class CityActorSheet extends CitySheet {
 				? (
 					CitySettings.autoAwardImpForWeakness()
 					|| await HTMLTools.confirmBox(
-						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title"),
-						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body"),
+						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.title" as LocalizationString),
+						localize("CityOfMist.dialog.addTag.confirmExtraImprovementOnWeakness.body" as LocalizationString),
 						{onClose : "reject"}
 					)
 				): false ;
@@ -247,9 +247,9 @@ export class CityActorSheet extends CitySheet {
 					await	actor.deleteTheme(themeId, true);
 					break;
 				case "delete":
-					if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title"), localize("CityOfMist.dialog.actorSheet.deleteTheme.title"))) {
+					if (await this.confirmBox(localize("CityOfMist.dialog.actorSheet.deleteTheme.title" as LocalizationString), localize("CityOfMist.dialog.actorSheet.deleteTheme.title" as LocalizationString))) {
 						await	actor.deleteTheme(themeId, false);
-						await this.render(false);
+						this.render(false);
 					}
 					break;
 				case null:
@@ -336,7 +336,7 @@ export class CityActorSheet extends CitySheet {
 		const uses_str = (uses < 9999) ? `(uses left ${uses})` : "";
 		const disable = (uses <= 0);
 		const options = {
-			label: `${localize("CityOfMist.command.use")} ${uses_str}`,
+			label: `${localize("CityOfMist.command.use" as LocalizationString)} ${uses_str}`,
 			disable,
 			speaker: {actor: this.actor, alias: this.actor.getDisplayedName() }
 		};

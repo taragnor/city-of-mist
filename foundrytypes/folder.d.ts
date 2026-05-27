@@ -1,6 +1,7 @@
-class Folder {
-	id: string;
-	folder: Folder | null;
-	name: string;
-
+namespace Foundry{
+  interface Folder {
+    id: string;
+    folder: Folder | null;
+    name: string;
+  }
 }

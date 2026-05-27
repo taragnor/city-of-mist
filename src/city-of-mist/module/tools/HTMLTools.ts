@@ -50,7 +50,7 @@ export class HTMLTools {
 	}
 
 	static async editItemWindow(item: Item<unknown>) {
-		await item.sheet.render(true);
+		item.sheet.render(true);
 		return await new Promise ( (keep, _brk) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
@@ -114,10 +114,10 @@ export class HTMLTools {
 				choices.map( x=> [String(x),String(x)])
 			);
 		}
-		label = localize ? game.i18n.localize(label): label;
+		label = localize ? game.i18n.localize(label as LocalizationString): label;
 		const selectItems = Object.entries(choices).map( ([k,v]) => {
 			if (v != k) {
-				v = game.i18n.localize(v);
+				v = game.i18n.localize(v as LocalizationString);
 			}
 			return `<option value="${k}"> ${v} </option>`;
 		});
@@ -132,7 +132,7 @@ export class HTMLTools {
 		for (const [k,v] of Object.entries(elements)) {
 			const initial = v.initial;
 			if (v.localize) {
-				v.label = game.i18n.localize(v.label);
+				v.label = game.i18n.localize(v.label as LocalizationString);
 			}
 			switch (typeof initial) {
 				case "string":

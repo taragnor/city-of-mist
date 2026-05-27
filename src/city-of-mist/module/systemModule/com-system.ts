@@ -44,33 +44,33 @@ export class CoMSystem extends CoMBasedSystem {
 		return await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/dialogs/pc-downtime-chooser-com.hbs`, templateData);
 	}
 	get name() {return  "city-of-mist" as const;}
-	get localizationString() {return localize("CityOfMist.settings.system.0");}
+	get localizationString() {return localize("CityOfMist.settings.system.0" as LocalizationString);}
 
 	override themeTypes() {
 		return {
 			"Logos": {
-				localization: "CityOfMist.terms.logos",
+				localization: "CityOfMist.terms.logos" as LocalizationString,
 				sortOrder : 3,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crack",
 				identityName: "CityOfMist.terms.identity",
 			},
 			"Mythos": {
-				localization: "CityOfMist.terms.mythos",
+				localization: "CityOfMist.terms.mythos" as LocalizationString,
 				sortOrder: 1,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.fade",
 				identityName: "CityOfMist.terms.mystery",
 			},
 			"Mist": {
-				localization: "CityOfMist.terms.mist",
+				localization: "CityOfMist.terms.mist" as LocalizationString,
 				sortOrder: 2,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.strike",
 				identityName: "CityOfMist.terms.directive",
 			},
 			"Crew": {
-				localization:"CityOfMist.themebook.crew.name",
+				localization:"CityOfMist.themebook.crew.name" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
@@ -78,7 +78,7 @@ export class CoMSystem extends CoMBasedSystem {
 				specials: ["crew"],
 			},
 			"Loadout-CoM": {
-				localization: " CityOfMist.terms.loadoutTheme.name",
+				localization: "CityOfMist.terms.loadoutTheme.name" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
@@ -86,7 +86,7 @@ export class CoMSystem extends CoMBasedSystem {
 				specials: ["loadout"],
 			},
 			"Extra": {
-				localization: "CityOfMist.terms.extra",
+				localization: "CityOfMist.terms.extra" as LocalizationString,
 				"increaseLocalization": "CityOfMist.terms.attention",
 				"decreaseLocalization":  "CityOfMist.terms.crew-fade",
 				sortOrder: SystemModule.SORT_ORDER.EXTRA_THEME,
@@ -96,12 +96,12 @@ export class CoMSystem extends CoMBasedSystem {
 		} as const satisfies Record<string, ThemeTypeInfo>;
 	}
 
-	gameTerms() : Record<keyof GameTerms, localizationString>{
+	gameTerms() : Record<keyof GameTerms, LocalizationString>{
 		return {
 			collective: "CityOfMist.terms.colllective",
 			buildUpPoints: "CityOfMist.terms.buildup",
 			evolution: "CityOfMist.terms.MoEs",
-		};
+		} satisfies Record<keyof GameTerms, string> as unknown as Record<keyof GameTerms, LocalizationString>;
 	}
 
 	override async activate() {

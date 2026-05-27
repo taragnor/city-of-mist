@@ -35,7 +35,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 	}
 
 	get name(){ return "otherscape" as const;}
-	get localizationString() { return localize("CityOfMist.settings.system.1");}
+	get localizationString() { return localize("CityOfMist.settings.system.1" as LocalizationString);}
 
 	headerTable = {
 		character: "systems/city-of-mist/templates/otherscape/pc-sheet-header.hbs",
@@ -47,7 +47,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 	override themeTypes() {
 		return {
 			"Loadout": {
-				localization: "Otherscape.terms.loadoutTheme.name",
+				localization: "Otherscape.terms.loadoutTheme.name" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.LOADOUT,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
@@ -55,21 +55,21 @@ export class OtherscapeSystem extends MistEngineSystem {
 				specials: ["loadout"],
 			},
 			"Noise": {
-				localization:	"Otherscape.terms.noise",
+				localization:	"Otherscape.terms.noise" as LocalizationString,
 				sortOrder: 2,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.itch",
 			},
 			"Self": {
-				localization: "Otherscape.terms.self",
+				localization: "Otherscape.terms.self" as LocalizationString,
 				sortOrder: 3,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.identity",
 			},
 			"Mythos-OS": {
-				localization: "Otherscape.terms.mythos",
+				localization: "Otherscape.terms.mythos" as LocalizationString,
 				sortOrder: 1,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
@@ -77,14 +77,14 @@ export class OtherscapeSystem extends MistEngineSystem {
 			},
 			//rewriting mythos is necessary due to a bug with older versions
 			"Mythos": {
-				localization: "Otherscape.terms.mythos",
+				localization: "Otherscape.terms.mythos" as LocalizationString,
 				sortOrder: 1,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
 				identityName: "Otherscape.terms.ritual",
 			},
 			"Crew-OS": {
-				localization: "Otherscape.terms.crew",
+				localization: "Otherscape.terms.crew" as LocalizationString,
 				sortOrder: SystemModule.SORT_ORDER.CREW_THEME,
 				increaseLocalization: "Otherscape.terms.upgrade",
 				decreaseLocalization: "Otherscape.terms.decay",
@@ -192,13 +192,12 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return actor.essence?.system.systemName as keyof EssenceNames;
 	}
 
-	gameTerms() : Record<keyof GameTerms, localizationString>{
+	gameTerms() : Record<keyof GameTerms, LocalizationString>{
 		return {
 			collective: "Otherscape.terms.scale",
 			buildUpPoints: "Otherscape.terms.evolutionPoints",
 			evolution: "Otherscape.terms.evolution",
-		};
-
+		} satisfies Record<keyof GameTerms, string> as unknown as Record<string, LocalizationString>;
 	}
 
 
@@ -226,9 +225,9 @@ export class OtherscapeSystem extends MistEngineSystem {
 		const move = CityDB.getMoveById(dialog.move_id);
 		if (!move) {return;}
 		if (move.system.category == "SHB") {return;}
-		const selfLoc = localize("Otherscape.dialog.addSelf");
-		const mythosLoc = localize("Otherscape.dialog.addMythos");
-		const noiseLoc = localize("Otherscape.dialog.addNoise");
+		const selfLoc = localize("Otherscape.dialog.addSelf" as LocalizationString);
+		const mythosLoc = localize("Otherscape.dialog.addMythos" as LocalizationString);
+		const noiseLoc = localize("Otherscape.dialog.addNoise" as LocalizationString);
 		const selfCheck = `
 		<div>
 		<label class="dialog-label" for="add-self"> ${selfLoc} </label>
@@ -293,8 +292,8 @@ export class OtherscapeSystem extends MistEngineSystem {
 		return {
 			...super.systemSettings(),
 			"autoEssence": {
-				name: localize("Otherscape.settings.autoEssence.name"),
-				hint: localize("Otherscape.settings.autoEssence.hint"),
+				name: localize("Otherscape.settings.autoEssence.name" as LocalizationString),
+				hint: localize("Otherscape.settings.autoEssence.hint" as LocalizationString),
 				scope: "client",
 				config: true,
 				type: Boolean,

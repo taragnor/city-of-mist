@@ -43,6 +43,6 @@ interface ButtonOptionsI {
 
 	icon?: string;
 	label?: string;
-	callback?: (html: string) => void;
+	callback?: (html: string) => unknown;
 
 }

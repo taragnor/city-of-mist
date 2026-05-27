@@ -11,7 +11,7 @@ import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityDB } from "./city-db.js";
 
-export class CitySheet extends ActorSheet<CityActor> {
+export class CitySheet extends foundry.appv1.sheets.ActorSheet<CityActor> {
 	scrollTop: number = 0;
 	flipped: boolean[] = [false, false, false, false, false, false, false, false ];
 
@@ -98,8 +98,8 @@ export class CitySheet extends ActorSheet<CityActor> {
 			return "main";
 		}
 		const choices = [
-			{ id: "main", data: [localize("CityOfMist.terms.mainTheme")]},
-			{ id: "extra", data: [localize("CityOfMist.terms.extra" )]},
+			{ id: "main", data: [localize("CityOfMist.terms.mainTheme" as LocalizationString)]},
+			{ id: "extra", data: [localize("CityOfMist.terms.extra" as LocalizationString )]},
 		];
 		const choice = await HTMLTools.singleChoiceBox(choices, "Choose");
 		switch (choice) {
@@ -132,7 +132,7 @@ export class CitySheet extends ActorSheet<CityActor> {
 		}
 		// const tk = this.actor.getThemeKit(TKId);
 		if (this.actor.isPC() && !game.user.isGM) {
-			const msg = localize("CityOfMist.error.MCEditOnly");
+			const msg = localize("CityOfMist.error.MCEditOnly" as LocalizationString);
 			ui.notifications.warn(msg);
 			return;
 		}
@@ -186,15 +186,15 @@ export class CitySheet extends ActorSheet<CityActor> {
 				content: `Destroy ${themename}`,
 				buttons: {
 					one: {
-						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.0"),
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.0" as LocalizationString),
 						callback: () => conf("delete")
 					},
 					two: {
-						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.1"),
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.1" as LocalizationString),
 						callback: () => conf("replace")
 					},
 					cancel: {
-						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.2"),
+						label: localize("CityOfMist.dialog.actorSheet.deleteTheme.option.2" as LocalizationString),
 						callback: () => conf (null)
 					}
 				},

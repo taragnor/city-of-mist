@@ -38,9 +38,9 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.spectrum-editable').on("click", ev=> void this._editSpectrum(ev));
 		html.find('.spectrum-delete').on("click", ev=>void  this._deleteSpectrum(ev));
 		html.find('.alias-input-unlinked-token').on("focusout", ev=> void this._changeunlinkedtokenName(ev));
-		html.find('.alias-input-unlinked-token').change( ev=> void this._changeunlinkedtokenName(ev));
+		html.find('.alias-input-unlinked-token').on("change", ev=> void this._changeunlinkedtokenName(ev));
 		html.find('.alias-input-unlinked-token').on("focusout", ev=> void this._changeunlinkedtokenName(ev));
-		html.find('.alias-input-prototype').change( ev=> void this._changelinkedtokenName(ev));
+		html.find('.alias-input-prototype').on("change", ev=> void this._changelinkedtokenName(ev));
 		html.find('.template-add').on("click", ev=> void this._addTemplate(ev));
 		html.find('.template-delete').on("click", ev=> void this._deleteTemplate(ev));
 		html.find('.template-name').on("click", ev=> void this._jumpToTemplate(ev));
@@ -58,7 +58,7 @@ export class CityThreatSheet extends CityActorSheet {
 
 	}
 
-	override _getSubmitData(options: SubmitOptions) {
+	override _getSubmitData(options: Foundry.SubmitOptions) {
 		const data = super._getSubmitData(options);
 		const tokenCheck = foundry.utils.expandObject(data) as { token ?: {name?: string}};
 		if (tokenCheck?.token?.name) {
@@ -83,7 +83,7 @@ export class CityThreatSheet extends CityActorSheet {
 			if (token.name == val) {continue;}
 			console.debug(`Re-aliasing: ${val}`);
 			await token.update({name: val});
-			await this.render(false);
+			this.render(false);
 		}}
 		return true;
 	}
@@ -99,7 +99,7 @@ export class CityThreatSheet extends CityActorSheet {
 			if (token && token.name != newName) {
 				console.debug(`Re-aliasing: ${newName}`);
 				await token.update({name: newName});
-				await this.render(false);
+				this.render(false);
 			}
 		}
 		return true;
@@ -218,11 +218,11 @@ export class CityThreatSheet extends CityActorSheet {
 		await this.actor.removeTemplate(id);
 	}
 
-	async _jumpToTemplate(event :JQuery.ClickEvent) {
+	_jumpToTemplate(event :JQuery.ClickEvent) {
 		event.stopImmediatePropagation();
 		const id = HTMLTools.getClosestData(event, "templateId");
 		const actors =  CityHelpers.getAllActorsByType("threat");
-		await actors.find(x => x.id == id)?.sheet?.render(true);
+		actors.find(x => x.id == id)?.sheet?.render(true);
 	}
 
 	//Override

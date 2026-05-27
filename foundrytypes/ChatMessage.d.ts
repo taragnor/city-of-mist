@@ -15,6 +15,7 @@ namespace Foundry {
 		/**deprecated as of V12, use author instead*/
 		user?: FoundryUser;
 		author: FoundryUser;
+    speaker: ChatSpeakerObject;
 		content: string;
 		whisper: unknown[];
 		rolls: R[];
@@ -31,9 +32,7 @@ namespace Foundry {
 	@deprecated Replaced use ChatMessage.style instead
 		 */
 		type?: (typeof CONST.CHAT_MESSAGE_TYPES)[ keyof (typeof CONST.CHAT_MESSAGE_TYPES)];
-
 		sound?: string;
-
 		rolls?: R[] | undefined;
 		whisper?: User[];
 	}
@@ -42,8 +41,6 @@ namespace Foundry {
 	interface DeprecatedMessageData<R extends Roll = Roll> extends Omit<MessageData<R>, "rolls"> {
 		/** @deprecated: use rolls instead*/
 		roll?: R;
-
-
 	}
 
 	type MessageOptions = Record<string, unknown>;
@@ -56,7 +53,6 @@ namespace Foundry {
 	}
 
 	type ChatLog = unknown;
-
 }
 
 const ChatMessage : Foundry.ChatMessageConstructor;

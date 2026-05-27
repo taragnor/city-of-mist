@@ -535,8 +535,8 @@ export class CityHelpers {
 
 	static async sessionEnd() {
 		if (!game.user.isGM) {return;}
-		const eos = localize("CityOfMist.dialog.endOfSession.name");
-		const eosQuery = localize("CityOfMist.dialog.endOfSession.query");
+		const eos = localize("CityOfMist.dialog.endOfSession.name" as LocalizationString);
+		const eosQuery = localize("CityOfMist.dialog.endOfSession.query" as LocalizationString);
 		if	(await HTMLTools.confirmBox(eos, eosQuery)) {
 			const move = CityHelpers.getMoves()
 				.find (x=> x.system.effect_class.includes("SESSION_END") );
@@ -567,7 +567,7 @@ export class CityHelpers {
 	/** displays dialog for selecting which PCs get downtime. Can return [actor], empty array for no one or null indicating a cancel
 	 */
 	static async selectPCsForDowntime(): Promise<CityActor[]> {
-		const downtime = localize("CityOfMist.moves.downtime.name");
+		const downtime = localize("CityOfMist.moves.downtime.name" as LocalizationString);
 		// const downtimeQuery = localize("CityOfMist.dialog.downtime.query");
 		const PCList: CityActor[] = game.actors.filter((x:CityActor)=>x.system.type == "character") as CityActor[];
 		const idList =  await HTMLTools.PCSelector(PCList, downtime);
@@ -595,12 +595,12 @@ export class CityHelpers {
 	}
 
 	static async downtimeActionChoice(choice: string, actor: CityActor) {
-		let moveText = DOWNTIME_CHOICES[choice];
-		if (!moveText) {
+		const moveLoc = DOWNTIME_CHOICES[choice];
+		if (!moveLoc) {
 				ui.notifications.warn(`Unknown Downtime Action ${choice}`);
 				return;
 		}
-		moveText = localize(moveText);
+		const moveText = localize(moveLoc);
 		const html = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/templates/pc-downtime-move.hbs", {actor, moveText});
 		const messageOptions = {};
 		const messageData : MessageData = {
@@ -756,7 +756,7 @@ export class CityHelpers {
 
 
 	static async sendToChatBox(title: string, text: string, options: {label?: string, disable?: boolean, speaker?: Foundry.ChatSpeakerObject} = {}) {
-		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat" as LocalizationString);
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const render = options?.disable ? (...args: any[]) => {
 			console.log("Trying to disable");
@@ -781,7 +781,7 @@ export class CityHelpers {
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
+						label: localize("CityOfMist.command.cancel" as LocalizationString),
 						callback: () => conf(null)
 					}
 				},

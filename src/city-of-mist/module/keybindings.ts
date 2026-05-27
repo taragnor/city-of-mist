@@ -3,7 +3,7 @@ import { CityHelpers } from "./city-helpers.js";
 import {StoryTagWindow} from "./story-tag-application.js";
 
 function localize( str: string)  {
-	return game.i18n.localize(str);
+	return game.i18n.localize(str as LocalizationString);
 }
 
 export class CityKeyBinds {

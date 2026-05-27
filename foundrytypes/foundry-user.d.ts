@@ -6,14 +6,14 @@ namespace Foundry {
 
 	// class FoundryUser extends FoundryDocument<never>{
 
-	interface FoundryUser extends Document<never>{
+	interface FoundryUser extends Document {
 		id: Branded<Document["id"], "UserId">;
 		get active(): boolean;
-		targets: Set<Token<any>> & {user: FoundryUser };
+		targets: Set<Token> & {user: FoundryUser };
 		role: number;
 		viewedScene: string;
 		get isGM(): boolean;
-		get character(): Actor<any, any, any> | null;
+		get character(): Actor | null;
 		can(permission: keyof FoundryPermission): boolean;
 	}
 

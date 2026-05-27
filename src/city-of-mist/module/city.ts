@@ -68,13 +68,13 @@ import {StoryTagWindow} from "./story-tag-application.js";
 /* -------------------------------------------- */
 console.log("COM preinit");
 
-export function localize(str: string) {
+export function localize(str: LocalizationString | string) {
 	if (!game?.i18n?.localize) {
 			console.log("Can't localize too early");
 		return "";
 	}
 
-	return game.i18n.localize(str);
+	return game.i18n.localize(str as LocalizationString);
 }
 
 Hooks.on('renderChatMessageHTML', (app, html, data) => CityRoll.diceModListeners(app, $(html), data));

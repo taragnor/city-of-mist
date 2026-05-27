@@ -370,7 +370,7 @@ export class CityDialogs {
 		return new Promise( (conf, _rej)  =>  {
 			const options = {};
 			const dialog = new Dialog(  {
-				title: localize("CityOfMist.dialog.pcdowntime.title") + actor.displayedName,
+				title: localize("CityOfMist.dialog.pcdowntime.title" as LocalizationString) + actor.displayedName,
 				content: html,
 				buttons: {
 					one: {
@@ -382,7 +382,7 @@ export class CityDialogs {
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
+						label: localize("CityOfMist.command.cancel" as LocalizationString),
 						callback: () => conf(null)
 					}
 				},
@@ -411,7 +411,7 @@ export class CityDialogs {
 	}
 
 	static async GMMoveTextBox(title: string, text: string, options : {label?: string, disable?: boolean, speaker ?: Foundry.ChatSpeakerObject} = {}) {
-		const label = options?.label ?? localize("CityOfMist.command.send_to_chat");
+		const label = options?.label ?? localize("CityOfMist.command.send_to_chat" as LocalizationString);
 		// const render = options?.disable ? (args: string[]) => {
 		// 	console.log("Trying to disable");
 		// 	$(args[2]).find(".one").prop('disabled', true).css("opacity", 0.5);
@@ -435,7 +435,7 @@ export class CityDialogs {
 					},
 					two: {
 						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
+						label: localize("CityOfMist.command.cancel" as LocalizationString),
 						callback: () => conf(null)
 					}
 				},
@@ -470,7 +470,7 @@ export class CityDialogs {
 							if (modifier != 0)
 								{(rollOptions.modifiers).push ( {
 									id: "MC Edit" + Math.random(),
-									name: localize("CityOfMist.terms.MCEdit"),
+									name: localize("CityOfMist.terms.MCEdit" as LocalizationString),
 									amount: modifier,
 									ownerId: null,
 									tagId: null,
@@ -528,24 +528,24 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 			const buttons : Record<string, ButtonOptions> = {
 				none: {
 					icon: '<i class="fas fa-times"></i>',
-					label: localize("CityOfMist.command.cancel"),
+					label: localize("CityOfMist.command.cancel" as LocalizationString),
 					callback: () => reject("No Juice for you!"),
 				},
 			};
 			if (myCharacter.hasHelpFor(actorId)) {
 				buttons.help = {
-					label: localize("CityOfMist.terms.help"),
+					label: localize("CityOfMist.terms.help" as LocalizationString),
 					callback: async () => void conf(await CityDialogs.chooseHelpHurt("help", dataObj, session)),
 				};
 			}
 			if (myCharacter.hasHurtFor(actorId)) {
 				buttons.hurt = {
-					label: localize("CityOfMist.terms.hurt"),
+					label: localize("CityOfMist.terms.hurt" as LocalizationString),
 					callback: async () => void conf(await CityDialogs.chooseHelpHurt("hurt", dataObj, session)),
 				};
 			}
 			const dialog = new Dialog({
-				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+				title:localize("CityOfMist.dialog.spendHelpHurt.Initial" as LocalizationString),
 				content: html,
 				buttons,
 				default: "none",
@@ -579,12 +579,12 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				return;
 			}
 			const dialog =   new Dialog( {
-				title:localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+				title:localize("CityOfMist.dialog.spendHelpHurt.Initial" as LocalizationString),
 				content: html,
 				buttons: {
 					one: {
 						icon: '<i class="fas fa-check"></i>',
-						label: localize("CityOfMist.dialog.spendHelpHurt.Initial"),
+						label: localize("CityOfMist.dialog.spendHelpHurt.Initial" as LocalizationString),
 						callback: (html : string) => {
 							const amount = Number($(html).find("#HH-slider").val());
 							if (amount > 0) {
@@ -600,7 +600,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 					},
 					cancel: {
 						icon: '<i class="fas fa-times"></i>',
-						label: localize("CityOfMist.command.cancel"),
+						label: localize("CityOfMist.command.cancel" as LocalizationString),
 						callback: () => reject ("No Juice for you!"),
 					},
 				},
@@ -615,8 +615,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 	static async itemEditDialog<T extends CityItem>(item : T) : Promise<T> {
-    //TODO:Cehck why this is happening on execMove
-		await item.sheet.render(true);
+		item.sheet.render(true);
 		return await new Promise ( (conf, _rej) => {
 			const checker = () =>  {
 				const isOpen = item.sheet._state != -1; //window state check
@@ -735,7 +734,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 		return await new Promise( (conf, _rej) => {
 			const options = {};
 			const dialog = new Dialog( {
-				title: localize("CityOfMist.dialog.downtime.title"),
+				title: localize("CityOfMist.dialog.downtime.title" as LocalizationString),
 				content: html,
 				render: (html) => {
 					// eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -773,7 +772,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				content: html,
 				buttons: {
 					one: {
-						label: localize("CityOfMist.dialog.SHB.yes"),
+						label: localize("CityOfMist.dialog.SHB.yes" as LocalizationString),
 						callback: (html: string) => {
 							const result = $(html).find(".SHB-selector:checked").val() as CRollOptions["newtype"];
 							const THEME_TYPES = SystemModule.themeTypes();
@@ -785,7 +784,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 						}
 					},
 					cancel: {
-						label: localize("CityOfMist.dialog.SHB.no"),
+						label: localize("CityOfMist.dialog.SHB.no" as LocalizationString),
 						callback: () => conf(null)
 					},
 				},
@@ -808,14 +807,14 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 				content: html,
 				buttons: {
 					one: {
-						label: localize("CityOfMist.dialog.SHB.yes"),
+						label: localize("CityOfMist.dialog.SHB.yes" as LocalizationString),
 						callback: (html: string) => {
 							const themeId = $(html).find(".blaze-theme-sacrifice :selected").val() as string;
 							conf(actor.getTheme(themeId));
 						}
 					},
 					cancel: {
-						label: localize("CityOfMist.dialog.SHB.no"),
+						label: localize("CityOfMist.dialog.SHB.no" as LocalizationString),
 						callback: () => conf(null)
 					},
 				},

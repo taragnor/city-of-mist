@@ -1,15 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare interface CONFIG {
 	Actor: {
 		dataModels: Record<string, typeof foundry.abstract.DataModel>;
-		documentClass: typeof Actor<any, any>;
+		documentClass: typeof Actor<any, any, any>;
 	};
 	Item: {
 		dataModels: Record<string, typeof foundry.abstract.DataModel>;
-		documentClass: typeof Item<any>;
+		documentClass: typeof Item<any, any, any>;
 	};
+	 Token: {
+			documentClass: typeof TokenDocument<any>;
+	 }
 	statusEffects: StatusEffectObject[];
 	ActiveEffect: {
-		documentClass: typeof ActiveEffect<any, any>;
+		documentClass: typeof ActiveEffect<any>;
 		legacyTransferral: boolean;
 	};
 	sounds: {
@@ -53,10 +57,14 @@ declare interface CONFIG {
 }
 
 interface StatusEffectObject {
-	id: string,
-	name: string,
-	icon: string,
-	changes ?: readonly AEChange[],
+  id: string;
+  name?: string;
+  img: string;
+  /** @deprecated*/
+  icon?: string;
+  //this exists only for lib-wrapper sorting?
+  label?: string;
+  changes ?: readonly AEChange[];
 }
 
 interface WeatherEffectData {}
@@ -73,5 +81,3 @@ interface DoorSound {
 }
 
 type FileNameAndPath = string;
-
-type LocalizationString = string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 namespace Foundry {
 
 	interface ActiveEffectConstructor extends DocumentConstructor {

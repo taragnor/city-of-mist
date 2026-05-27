@@ -35,6 +35,10 @@ namespace Foundry {
 			BLIND: "blindroll";
 			SELF: "selfroll";
 		}
+    DIRECTORY_SEARCH_MODES : {
+      NAME: string
+    }
+
 
 	};
 

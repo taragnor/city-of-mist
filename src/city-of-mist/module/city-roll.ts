@@ -95,7 +95,7 @@ export class CityRoll {
 				break;
 			default:
 				move.system.subtype satisfies never;
-				throw new Error(`Unknown Move Type ${move.system.subtype}`);
+				throw new Error(`Unknown Move Type ${move.system.subtype as string}`);
 		}
 		if (move.isAutoDynamite())
 			{options.dynamiteAllowed = true;}
@@ -191,7 +191,7 @@ export class CityRoll {
 		if (options.modifier && options.modifier != 0) {
 			modifiers.push({
 				id: "Custom",
-				name: localize("CityOfMist.terms.customModifier"),
+				name: localize("CityOfMist.terms.customModifier" as LocalizationString),
 				amount: options.modifier,
 				ownerId: null,
 				tagId: null,
@@ -648,7 +648,7 @@ export class CityRoll {
 		const choiceData= allowableCreations.flatMap( o=> 
 			Object.entries(o).map( ([k,v]) => ({
 				id: k,
-				data:[ game.i18n.localize(v)],
+				data:[ game.i18n.localize(v as LocalizationString)],
 			}))
 		);
 		result = await HTMLTools.singleChoiceBox(choiceData, "select Effect");
@@ -985,6 +985,6 @@ Hooks.on("ready", () => {
 
 export type RollResultType = "Success" | "Failure" | "Dynamite" | "Partial";
 
-Hooks.on("renderChatMessageHTML", async (msg, html, _data) => {
+Hooks.on("renderChatMessageHTML", (msg, html, _data) => {
 	CityRoll.createStoryTagHandlers(msg as MistChatMessage, $(html));
 });

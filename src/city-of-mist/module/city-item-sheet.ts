@@ -15,7 +15,7 @@ import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { GM_MOVE_HEADER_TYPES, GM_MOVE_TYPES, MOVE_COMPARISON, MOVE_POINT_COST, PLAYER_MOVE_CATEGORY, PLAYER_MOVE_SUBTYPES } from "./config/move-types.js";
 
-export class CityItemSheet extends ItemSheet<CityItem> {
+export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 
 	/** @override */
 		static override get defaultOptions() {
@@ -125,7 +125,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		//Verify that status format includes dashes
 		const data = super._getSubmitData(updateData);
 		if (this.item.system.type == "status") {
-			data.name = CityHelpers.replaceSpaces(data.name);
+			data.name = CityHelpers.replaceSpaces(typeof data.name == "string" ? data.name : "");
 		}
 		return data;
 	}
@@ -136,7 +136,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	override activateListeners(html: JQuery) {
 		super.activateListeners(html);
 		// Everything below here is only needed if the sheet is editable
-		if (!this.options.editable) return;
+		if (!this.options.editable) {return;}
 		html.find(".tk-create-imp").on("click", this._addTKImprovement.bind(this));
 		html.find(".tk-delete-imp").on("click", this._deleteTKImprovement.bind(this));
 		html.find(".item-create-power-tag-question").on("click", this._addPowerTagQuestion.bind(this));
@@ -254,10 +254,10 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	async _addImprovement (event: Event) {
 		event.preventDefault();
 		const item = this.item;
-		if (!item.isThemeBook() && !item.isTheme() && !item.isThemeKit()) return;;
+		if (!item.isThemeBook() && !item.isTheme() && !item.isThemeKit()) {return;};
 		let improvements = item.system.improvements;
 		if (improvements == undefined)
-			throw new Error("Improvement undefined");
+			{throw new Error("Improvement undefined");}
 		let i2 = Object.assign({}, improvements);
 		for (let i = 0; i< 10000; i++) {
 			//@ts-ignore
@@ -273,7 +273,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	async _deleteImprovement (event: Event) {
 		const index = $(event.currentTarget!).data("improvementIndex");
 		const item = this.item;
-		if (!item.isThemeBook() && !item.isTheme() && !item.isThemeKit()) return;
+		if (!item.isThemeBook() && !item.isTheme() && !item.isThemeKit()) {return;}
 		const improvements = item.system.improvements;
 		let i2 = Object.assign({}, improvements);
 		//@ts-ignore
@@ -285,7 +285,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 	async _addMoveListItem (_event: Event) {
 		// const moveId = HTMLTools.getClosestData(event, "ownerId");
 		const move = this.item;
-		if (move.system.type != "move") return;
+		if (move.system.type != "move") {return;}
 		let lists = move.system.listConditionals.slice();
 		lists.push( {condition: "gtPartial", text:"", cost: 1});
 		await move.update({"system.listConditionals": lists});
@@ -298,22 +298,22 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		// const moveId = HTMLTools.getClosestData(event, "ownerId");
 		const move = this.item;
 		// const move = game.items.get(moveId);
-		if (move.system.type != "move") return;
+		if (move.system.type != "move") {return;}
 		let lists = move.system.listConditionals.slice();
 		let elem = Object.assign({}, lists[index]);
 		lists[index] = elem;
 		if (!elem)
-			throw new Error(`List Error, item#${index} not found`);
+			{throw new Error(`List Error, item#${index} not found`);}
 		if (target.hasClass(	"move-condition-input"))
 			//@ts-ignore
-			elem.condition = val;
+			{elem.condition = val;}
 		else if (target.hasClass("move-list-input"))
 			//@ts-ignore
-			elem.text = val;
+			{elem.text = val;}
 		else if (target.hasClass("move-choiceAmt-input")) {
 			elem.cost = Number(val);
 		}
-		else throw new Error("Unknown Class for element");
+		else {throw new Error("Unknown Class for element");}
 		await move.update({"system.listConditionals": lists});
 	}
 
@@ -323,7 +323,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 		// const val = target.val();
 		// const moveId = HTMLTools.getClosestData(event, "ownerId");
 		const move = this.item;
-		if (move.system.type != "move") return;
+		if (move.system.type != "move") {return;}
 		let lists = move.system.listConditionals.slice();
 		lists.splice(index,1);
 		await move.update({"system.listConditionals": lists});
@@ -331,7 +331,7 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	quickClose(event: KeyboardEvent) {
 		//closes on Ctrl+S
-		if (!(event.which == 83 && event.ctrlKey)) return true;
+		if (!(event.which == 83 && event.ctrlKey)) {return true;}
 		this.close();
 		event.preventDefault();
 		return false;
@@ -339,14 +339,14 @@ export class CityItemSheet extends ItemSheet<CityItem> {
 
 	async _addTKImprovement() {
 		if (!this.item.isThemeKit())
-			throw new Error("Expecting Theme kit");
+			{throw new Error("Expecting Theme kit");}
 		await this.item.addImprovement();
 	}
 
 	async _deleteTKImprovement(event: JQuery.Event) {
 		const index = HTMLTools.getClosestData(event, "index");
 		if (!this.item.isThemeKit())
-			throw new Error("Expecting Theme kit");
+			{throw new Error("Expecting Theme kit");}
 		await this.item.deleteTagOrImprovement(Number(index), "improvement");
 	}
 

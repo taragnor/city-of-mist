@@ -1605,32 +1605,32 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		let icon;
 		switch (this.system.subtype) {
 			case "soft": {
-				local = localize("CityOfMist.terms.softMove");
+				local = localize("CityOfMist.terms.softMove" as LocalizationString);
 				icon = `<i class="fa-solid fa-chevron-right"></i>`;
 				break;
 			}
 			case "hard": {
-				local = localize("CityOfMist.terms.hardMove");
+				local = localize("CityOfMist.terms.hardMove" as LocalizationString);
 				icon = `<i class="fa-solid fa-angles-right"></i>`;
 				break;
 			}
 			case "intrusion": {
-				local = localize("CityOfMist.terms.intrusion");
+				local = localize("CityOfMist.terms.intrusion" as LocalizationString);
 				icon = `<i class="fa-solid fa-circle-exclamation"></i>`;
 				break;
 			}
 			case "custom": {
-				local = localize("CityOfMist.terms.customMove");
+				local = localize("CityOfMist.terms.customMove" as LocalizationString);
 				icon = `<i class="fa-solid fa-circle-dot"></i>`;
 				break;
 			}
 			case "downtime": {
-				local = localize("CityOfMist.terms.downtimeMoves");
+				local = localize("CityOfMist.terms.downtimeMoves" as LocalizationString);
 				icon = `<i class="fa-solid fa-bed"></i>`;
 				break;
 			}
 			case "entrance": {
-				local = localize("CityOfMist.terms.enterScene");
+				local = localize("CityOfMist.terms.enterScene" as LocalizationString);
 				icon = `<i class="fa-solid fa-door-open"></i>`;
 				break;
 			}
@@ -1645,21 +1645,21 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		let local;
 		switch (this.system.subtype) {
 			case "soft":
-				local = localize("CityOfMist.settings.gmmoveheaders.soft");
+				local = localize("CityOfMist.settings.gmmoveheaders.soft" as LocalizationString);
 				return local + " " + text;
 			case "hard":
-				local = localize("CityOfMist.settings.gmmoveheaders.hard");
+				local = localize("CityOfMist.settings.gmmoveheaders.hard" as LocalizationString);
 				return local + " " + text;
 			case "intrusion":
-				local = localize("CityOfMist.settings.gmmoveheaders.intrusion");
+				local = localize("CityOfMist.settings.gmmoveheaders.intrusion" as LocalizationString);
 				return local + " " + text;
 			case "custom":
 				return `${text}`;
 			case "downtime":
-				local = localize("CityOfMist.settings.gmmoveheaders.downtime");
+				local = localize("CityOfMist.settings.gmmoveheaders.downtime" as LocalizationString);
 				return local + " " + text;
 			case "entrance":
-				local = localize("CityOfMist.settings.gmmoveheaders.entrance");
+				local = localize("CityOfMist.settings.gmmoveheaders.entrance" as LocalizationString);
 				return local + " " + text;
 			default: console.error(`Unknown subtype: ${this.system.subtype as string}`);
 		}

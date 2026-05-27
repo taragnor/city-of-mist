@@ -1,7 +1,7 @@
 class Application {
 	constructor (options?: ApplicationV1Options);
 	get element(): JQuery<HTMLElement>;
-	render(force: boolean, options: Record<string, unknown> = {}) : this;
+	render(force ?: boolean, options: Record<string, unknown> = {}) : this;
 	static get defaultOptions() : ApplicationV1Options;
 	activateListeners(html: JQuery<HTMLElement>): void;
 	async getData(options : Record<string, unknown> = {}): Promise<Record<string, unknown>>;
@@ -11,11 +11,13 @@ class Application {
 	_scrollPositions: unknown[];
 	_searchFilters: unknown[];
 	_dragDrop: unknown[];
+  /** state of > 0 seems to be open*/
 	_state: number;
 	_getHeaderButtons() : HeaderButtons[];
 	template: string;
 	get title(): string;
 	setPosition(posData: Partial<PositionData>) : U<PositionData>;
+  close(options?: Record<string, unknown>) : Promise<void>;
 } ;
 
 

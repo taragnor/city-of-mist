@@ -52,7 +52,7 @@ export function localizeS (str :string): SafeString {
 	if (!str.startsWith("#"))
 		{return new Handlebars.SafeString(str);}
 	const localizeCode = str.trim().substring(1);
-	const localized = game.i18n.localize(localizeCode);
+	const localized = game.i18n.localize(localizeCode as LocalizationString);
 	return new Handlebars.SafeString(localized);
 }
 

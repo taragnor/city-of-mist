@@ -413,11 +413,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 			const theme = tag.theme;
 			if (tag.isPowerTag()) {
 				await theme.incUnspentUpgrades();
-				afterMsg = localize("CityOfMist.log.theme.addImp");
+				afterMsg = localize("CityOfMist.log.theme.addImp" as LocalizationString);
 			}
 			if (tag.isWeaknessTag() && options?.removeImprovement) {
 				await theme.decUnspentUpgrades();
-				afterMsg = localize("CityOfMist.log.theme.remImp");
+				afterMsg = localize("CityOfMist.log.theme.remImp" as LocalizationString);
 			}
 		}
 		await CityLogger.modificationLog(this, `Deleted` , tag, afterMsg);
@@ -773,9 +773,9 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 		let afterMsg = "";
 		if (upgrades > 0)
-			{afterMsg = localize("CityOfMist.log.theme.addImp" );}
+			{afterMsg = localize("CityOfMist.log.theme.addImp"  as LocalizationString);}
 		else if (upgrades < 0)
-			{afterMsg = localize("CityOfMist.log.theme.remImp" );}
+			{afterMsg = localize("CityOfMist.log.theme.remImp"  as LocalizationString);}
 		await CityLogger.modificationLog(this, "Created",  tag, afterMsg);
 
 	}
@@ -1064,8 +1064,8 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		if (!theme) {throw new Error(`Can't find theme id ${themeId}`);}
 		if (theme.crack == 2) {
 			if (! await HTMLTools.confirmBox(
-				localize("CityOfMist.dialog.actorSheet.addFade.title"),
-				localize("CityOfMist.dialog.actorSheet.addFade.body")
+				localize("CityOfMist.dialog.actorSheet.addFade.title" as LocalizationString),
+				localize("CityOfMist.dialog.actorSheet.addFade.body" as LocalizationString)
 			)) {return false;}
 		}
 		const theme_destroyed = await theme.addFade(amount);
@@ -1312,7 +1312,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const newId = newCrew.id;
 		await this.update({"system.activeCrewId": newId});
 		if (!game.user.isGM) {
-			const msg =localize("CityOfMist.logger.action.changeActiveCrew");
+			const msg =localize("CityOfMist.logger.action.changeActiveCrew" as LocalizationString);
 			await CityLogger.modificationLog(this, msg, newCrew);
 		}
 	}
@@ -1327,7 +1327,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		const newId = newExtra.id;
 		await this.update({"system.activeExtraId": newId});
 		if (!game.user.isGM) {
-			const msg =localize("CityOfMist.logger.action.changeActiveExtra");
+			const msg =localize("CityOfMist.logger.action.changeActiveExtra" as LocalizationString);
 			await CityLogger.modificationLog(this, msg, newExtra);
 		}
 	}

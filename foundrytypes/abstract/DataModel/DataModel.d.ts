@@ -18,7 +18,7 @@ interface SchemaData {
 
 }
 
-type SchemaReturnObject = Record<string, FoundryDMField<any>>;
+type SchemaReturnObject = Record<string, FoundryDMField>;
 
 declare abstract class TypeDataModelClass extends DataModelClass {
 	/** this function is weird, relying on interpreting this as system data of whatever object it represents. and directly modifying that system data in place instead of returning. */

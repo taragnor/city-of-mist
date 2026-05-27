@@ -12,7 +12,7 @@ class Canvas {
 	dimensions: CanvasDimensions;
 	get ready(): boolean;
 	fog: FogManager;
-
+  app: PIXI.Application;
 }
 
 interface FogManager {
@@ -30,7 +30,10 @@ class TokenLayer {
 }
 
 class Stage {
-	scale: {get y(): number, get x():number}
+	scale: {
+    get y(): number;
+    get x():number;
+  };
 }
 
 interface Grid{

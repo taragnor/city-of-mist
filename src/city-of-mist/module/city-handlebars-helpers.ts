@@ -39,11 +39,11 @@ export class CityHandlebarsHelpers extends HandlebarsHelpers {
 	static _cityhelpers = {
 		"getGMMoveTypes": function () {
 			const data = [
-				localize("CityOfMist.terms.soft"),
-				localize("CityOfMist.terms.hard"),
-				localize("CityOfMist.terms.intrusion"),
-				localize("CityOfMist.terms.custom"),
-				localize("CityOfMist.terms.enterScene"),
+				localize("CityOfMist.terms.soft" as LocalizationString),
+				localize("CityOfMist.terms.hard" as LocalizationString),
+				localize("CityOfMist.terms.intrusion" as LocalizationString),
+				localize("CityOfMist.terms.custom" as LocalizationString),
+				localize("CityOfMist.terms.enterScene" as LocalizationString),
 				// "Soft", "Hard", "Intrusion", "Custom", "Enter Scene"];
 			];
 			return data.map( x => {

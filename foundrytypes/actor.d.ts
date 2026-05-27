@@ -1,9 +1,17 @@
 namespace Foundry {
 
-	interface ActorConstructor extends DocumentConstructor {
-		new<const T extends SchemaDict = any, in ItemType extends Item<any, InstanceType<this>, any> = Item<any, InstanceType<this>>, in AEType extends ActiveEffect<InstanceType<this>, ItemType> = ActiveEffect<InstanceType<this>, ItemType>>
-			(...args: unknown[]): Actor<T, ItemType, AEType>;
-	}
+  // interface ActorConstructor<
+  //   const T extends SchemaDic = any,
+  //   ItemType extends Item<any, InstanceType<this>, any> = Item<any, InstanceType<this>>,
+  //   AEType extends ActiveEffect<InstanceType<this>, ItemType> = ActiveEffect<InstanceType<this>, ItemType>>
+  //   extends DocumentConstructor {
+  //     new (...args: unknown[]): Actor<T, ItemType, AEType>;
+  //   }
+
+  interface ActorConstructor extends DocumentConstructor {
+  	new<const T extends SchemaDict = SchemaDict, ItemType extends Item<any, InstanceType<this>, AEType> = Item<ISchema, InstanceType<this>>, AEType extends ActiveEffect<InstanceType<this>, ItemType> = ActiveEffect<InstanceType<this>, ItemType>>
+  		(...args: unknown[]): Actor<T, ItemType, AEType>;
+  }
 
 
 	// type FullActorType<const T extends SchemaDict = {}, ItemType extends Item = Item, AEType extends ActiveEffect<any, ItemType> = ActiveEffect<any, ItemType>> = Actor<T, ItemType, AEType>
@@ -11,15 +19,15 @@ namespace Foundry {
 		// & UnionizeTCSplit<T>;
 		// declare class Actor<const T extends SchemaDict = any, ItemType extends Item<any, this, any> = Item<any, this>, AEType extends ActiveEffect<this, ItemType> = ActiveEffect<this, ItemType>> extends FoundryDocument<ItemType | AEType>{
 
-		interface Actor<const T extends SchemaDict = any, in ItemType extends Item<any, this, any> = Item<any, this>, in AEType extends ActiveEffect<this, ItemType> = ActiveEffect<this, ItemType>> extends Document<ItemType | AEType>{
+		interface Actor<const T extends SchemaDict = any, in ItemType extends Item<any, this, any> = Item<any, this>, in AEType extends ActiveEffect<this, ItemType> = ActiveEffect<this, ItemType>> extends FoundryDocument<ItemType | AEType>{
 
-			/** @deprecated use system.type instead, as this will not promote TS narrowing */
 			type: keyof T;
 			id: Branded<Document["id"], "ActorId">;
 			system: TotalConvert<T>;
 			items: Collection<ItemType>;
 			getRollData(): TotalConvert<T>;
-			sheet: ActorSheet<Actor<T, ItemType, AEType>>;
+			sheet: ActorSheet<typeof this>;
+			// sheet: ActorSheet<Actor<T, ItemType, AEType>>;
 			statuses: Set<string>;
 			prototypeToken: PrototypeToken<typeof this>;
 			effects: Collection<AEType>;
@@ -33,17 +41,18 @@ namespace Foundry {
 			isToken: boolean;
 			get inCompendium(): boolean;
 			getTokenDocument(extraData: Record<string, any>, sceneData : {parent: Scene}) : Promise<TokenDocument<Actor<T, ItemType, AEType>>>;
-			_dependentTokens:WeakMap<Scene, WeakSet<TokenDocument<typeof Actor<T, ItemType, AEType>>>> ;
+			 getDependentTokens() : TokenDocument<typeof this>[];
+			_dependentTokens: WeakMap<Scene, WeakSet<TokenDocument<typeof Actor<T, ItemType, AEType>>>> ;
 			/** Retrieve an iterator over all effects that can apply to the actor.
   The effect might exist on the Actor, or it might exist on one of the Actor's Items.
-  If it's the latter, then its transfer value will be true.
+		 If it's the latter, then its transfer value will be true.
 			 */
 			allApplicableEffects() : Generator<AEType>
 			getActiveTokens(linked?: boolean, document?: boolean) : Token<Actor<T, ItemType, AEType>>[];
-			async toggleStatusEffect(statusId: string, options: ToggleStatusOptions = {}): Promise<AEType | boolean | undefined>;
+			toggleStatusEffect(statusId: string, options: ToggleStatusOptions = {}): Promise<AEType | boolean | undefined>;
 
 			/**refreshes list of status effects, and also applies status effect, is part of actorupdate loop */
-			protected applyActiveEffects();
+			applyActiveEffects();
 
 			// Get a list of all effects that are actually applied to the actor.
 			appliedEffects: AEType[];
@@ -89,5 +98,6 @@ namespace Foundry {
 }
 
 declare let Actor: Foundry.ActorConstructor;
+
 type Actor<const T extends SchemaDict = any, in ItemType extends Item<any, this, any> = Item<any, this>, in AEType extends ActiveEffect<this, ItemType> = ActiveEffect<this, ItemType>>
 	= Foundry.Actor<T, ItemType, AEType>;

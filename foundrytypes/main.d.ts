@@ -10,23 +10,31 @@ declare const foundry: FoundryStuff;
 declare const game: Game;
 
 interface FoundryStuff {
-	abstract: FoundryAbstract;
-	appv1: AppV1Stuff;
-	data: FoundryData;
-	documents: {
-
-		BaseCombat: Foundry.DocumentConstructor;
-		BaseActor: Foundry.DocumentConstructor;
-		BaseItem: Foundry.DocumentConstructor;
-	}
-	/** audio doesn't exist in v11 */
-	audio: {
-		AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
-		Sound: typeof Sound;
-	}
-	canvas: FoundryCanvasTools;
-	utils: FoundryUtil;
-	applications: foundryApps.Applications;
+  abstract: FoundryAbstract;
+  appv1: AppV1Stuff;
+  data: FoundryData;
+  documents: {
+    collections : {
+      Actors: typeof Foundry.Actors;
+      Items: typeof Foundry.Items;
+    };
+    BaseCombat: Foundry.DocumentConstructor;
+    BaseActor: Foundry.DocumentConstructor;
+    BaseItem: Foundry.DocumentConstructor;
+  };
+  /** audio doesn't exist in v11 */
+  audio: {
+    AudioHelper: typeof FOUNDRY.AUDIO.AudioHelper;
+    Sound: typeof Sound;
+  };
+  canvas: FoundryCanvasTools;
+  utils: FoundryUtil;
+  applications: foundryApps.Applications;
+  ux: {
+    DragDrop: {
+      implementation: typeof Foundry.DragDrop,
+    }
+  };
 }
 
 interface AppV1Stuff {
@@ -64,25 +72,41 @@ declare interface Game {
 	get paused(): boolean;
 }
 
+  /** @deprecated Use foundry.applications.sidebar.tabs.ActorDirectory instead */
+  const ActorDirectory : FoundryStuff["applications"]["sidebar"]["tabs"]["ActorDirectory"];
+
+  /** @deprecated Use foundry.applications.sidebar.tabs.ItemDirectory instead */
+  const ItemDirectory : FoundryStuff["applications"]["sidebar"]["tabs"]["ItemDirectory"];
+
 
 interface Localization{
-	localize(localizationString: string) : string;
+	localize(localizationString: LocalizationString) : string;
 	/** replaces {X} with substitution data using X as a keylookup*/
 	format(localizationString: string, substitutionData: Record<string, string>): string;
 }
 
+namespace Foundry {
+  declare class Actors {
+    static unregisterSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>): void;
+    static registerSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>, details: {
+      types: string[], makeDefault: boolean}) : void;
+  }
 
-declare class Actors {
-	static unregisterSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>): void;
-	static registerSheet<T extends Actor>(scope: string, sheetClass: typeof ActorSheet<T>, details: {
-		types: string[], makeDefault: boolean}) : void;
+  declare class Items {
+    static unregisterSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>): void;
+    static registerSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>, details: {
+      types: string[], makeDefault: boolean}) : void;
+  }
 }
 
-declare class Items {
-	static unregisterSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>): void;
-	static registerSheet<T extends Item>(scope: string, sheetClass: typeof ItemSheet<T>, details: {
-		types: string[], makeDefault: boolean}) : void;
-}
+/** @deprecated use  foundry.documents.collections.Items instead*/
+const Items : typeof Foundry.Items;
+
+/** @deprecated use  foundry.documents.collections.Actors instead*/
+const Actors : typeof Foundry.Actors;
+
+/** @deprecated use foundry.applications.ux.DragDrop.implementation*/
+const DragDrop: typeof Foundry.DragDrop;
 
 class Collection<T extends FoundryDocument> extends Map<T["id"], T> {
 	contents: T[];
@@ -92,6 +116,7 @@ class Collection<T extends FoundryDocument> extends Map<T["id"], T> {
 	getName(name: string): T | undefined;
 	find (fn : (item: T) => boolean): T | undefined;
 	fromCompendium (item: T) : T;
+  folders: Map<string, Foundry.Folder>;
 }
 
 class CombatCollection<T extends Combat> extends Collection<T> {
@@ -135,4 +160,5 @@ type N<T> = T | undefined;
 
 type UN<T> = T | undefined | null;
 
-ActorSheet
+
+type LocalizationString = Foundry.Branded<string, "localization_brand">

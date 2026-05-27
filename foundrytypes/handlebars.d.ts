@@ -4,7 +4,8 @@ declare class Handlebars {
 	static helpers: Record<string,(...x:unknown[]) => unknown>;
 }
 
-declare function loadTemplates(templatePaths: readonly string[]);
+/** @deprecated use foundry.applications.handlebars.loadTemplates instead*/
+declare function loadTemplates(templatePaths: readonly string[]) : void;
 
 type SafeString = Foundry.HandleBarsExtras.SafeString;
 

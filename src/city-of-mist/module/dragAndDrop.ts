@@ -138,7 +138,7 @@ export class DragAndDrop {
 				break;
 			default:
 				draggableType satisfies never;
-				console.warn(`Unknown draggableType: ${draggableType}`);
+				console.warn(`Unknown draggableType: ${draggableType as string}`);
 		}
 	}
 
@@ -147,13 +147,14 @@ export class DragAndDrop {
 			case "tag":
 				await this.dropTagOnActor(item.name, actor, dragOptions as TagCreationOptions);
 				break;
-			case "status":
+			case "status": {
 				const statusOptions = {
 					mergeStatus: dragOptions.mergeStatus,
 					tier: item.tier,
-				}
+				};
 				await this.statusDrop(actor, item.name, statusOptions);
 				break;
+      }
 			default:
 				throw new Error(`Unknown draggableType: ${item.system.type}`);
 		}
@@ -170,11 +171,12 @@ export class DragAndDrop {
 			return null;
 		}
 		switch (retval.action) {
-			case 'create':
+			case 'create':{
 				const {tier, pips} = retval;
 				const status = await actor.createNewStatus(retval.name,tier, pips);
 				await CityHelpers.modificationLog(actor, "Created", status, `tier  ${retval.tier}`);
 				return status;
+      }
 			case 'add':
 			case 'merge': {
 				const origStatus = actor.getStatus(retval.statusId!)!;
@@ -198,32 +200,33 @@ export class DragAndDrop {
 			}
 			default:
 				retval satisfies never;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
 				throw new Error(`Unknown action : ${(retval as any)?.action}`);
 		}
 	}
 
 	static addDragFunctionality(html: JQuery) {
-		html.find('.draggable').on("dragstart", DragAndDrop.dragStart);
-		html.find('.draggable').on("dragend", DragAndDrop.dragEnd);
+		html.find('.draggable').on("dragstart", ev=> void DragAndDrop.dragStart(ev));
+		html.find('.draggable').on("dragend", ev  => void DragAndDrop.dragEnd(ev));
 	}
 
-	static async dragStart(event: JQuery.DragStartEvent) {
+	static dragStart(event: JQuery.DragStartEvent) {
 		event.stopPropagation();
 		$(event.currentTarget).addClass("dragging");
 		return true;
 	}
 
-	static async dragEnd(event: JQuery.DragEndEvent) {
+	static dragEnd(event: JQuery.DragEndEvent) {
 		event.stopPropagation();
 		$(event.currentTarget).removeClass("dragging");
 		return true;
 	}
 
 	static initCanvasDropping() {
-		//@ts-ignore
+    const DragDrop = foundry.ux.DragDrop.implementation;
+		// eslint-disable-next-line @typescript-eslint/unbound-method
 		const old = DragDrop.prototype._handleDrop;
-		//@ts-ignore
-		DragDrop.prototype._handleDrop = function(event) {
+		DragDrop.prototype._handleDrop = function(event : JQuery.Event) {
 			const dragged = $(document).find(".dragging");
 			if (dragged.length == 0) {
 				old.call(this, event);
@@ -231,13 +234,16 @@ export class DragAndDrop {
 			}
 			event.preventDefault();
 			const {clientX:x,clientY :y} = event;
-			//@ts-ignore
+			//@ts-expect-error more stuff not covered
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y});
-			//@ts-ignore
-			const tokens = canvas.tokens.objects.children
+			//@ts-expect-error doing pixi stuff
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			const tokens = (canvas.tokens.objects.children as unknown[])
 			.filter( (maybeTok : unknown) => maybeTok instanceof Token);
 			const token = tokens.find( (tok: Token<CityActor>) => {
-				//@ts-ignore
+				//@ts-expect-error doing in depth stuff
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				const {x, y, width, height} = tok.bounds;
 				if (evX >= x && evX <x+width
 					&& evY >= y && evY <y+height)
@@ -245,9 +251,9 @@ export class DragAndDrop {
 				return false;
 			});
 			if (!token) {return;}
-			const actor = token.document.actor;
-			DragAndDrop.dropDraggableOnActor(dragged, actor);
-
+			const actor = token.document.actor as U<CityActor>;
+      if (!actor) {return;}
+			void DragAndDrop.dropDraggableOnActor(dragged, actor);
 		};
 	}
 
@@ -268,10 +274,10 @@ export class DragAndDrop {
 
 DragAndDrop.initCanvasDropping();
 
-Hooks.on("canvasReady", DragAndDrop.init);
+Hooks.on("canvasReady", () => DragAndDrop.init());
 
 
-//@ts-ignore
+//@ts-expect-error Adding to global scope
 window.DragAndDrop = DragAndDrop;
 
 

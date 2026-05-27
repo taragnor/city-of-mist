@@ -112,9 +112,9 @@ export class StatusTracker {
 		return await CityHelpers._statusAddSubDialog(status, title, type);
 	}
 
-	async _openTokenSheet(indexActor: number) {
+	_openTokenSheet(indexActor: number) {
 		const actor = this.actors[indexActor].actor;
-		await actor.sheet.render(true);
+		actor.sheet.render(true);
 	}
 
 	async _centerOnToken(indexActor: number) {
