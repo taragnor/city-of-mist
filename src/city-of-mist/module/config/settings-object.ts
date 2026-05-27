@@ -42,7 +42,7 @@ export function CITY_SETTINGS() {
 			default: "base",
 			choices: {
 				...STYLE_CHOICES(),
-				"custom": localize("CityOfMist.settings.visualStyle.custom"),
+          "custom": localize("CityOfMist.settings.visualStyle.custom"),
 				"base": localize("CityOfMist.settings.system.base"),
 			},
 			restricted: true,

@@ -965,17 +965,17 @@ export class CityRoll {
 	static createStoryTagHandlers(msg: MistChatMessage, html : JQuery) {
 		const options = msg?.rolls[0]?.options;
 		if (!options) {return;}
-		html.find(".city-roll .create-story-tag").on("click", _ev=> this.onCreateTag(msg));
-		html.find(".city-roll .create-status").on("click", _ev=> this.onCreateStatus(msg));
-		html.find(".city-roll .delete-created-item").on("click", ev => this.deleteCreatedItem(ev, msg));
-		html.find(".city-roll .delete-extra-feat").on("click", ev => this.deleteExtraFeat(ev, msg));
-		html.find(".city-roll .me-effects .me-effect").on("click", ev => this.onMEEffectButton(ev, msg));
-		html.find(".city-roll .show-effects-list").on("click", ev => this.showEffectsList(ev, msg));
+		html.find(".city-roll .create-story-tag").on("click", _ev=> void this.onCreateTag(msg));
+		html.find(".city-roll .create-status").on("click", _ev=> void this.onCreateStatus(msg));
+		html.find(".city-roll .delete-created-item").on("click", ev => void this.deleteCreatedItem(ev, msg));
+		html.find(".city-roll .delete-extra-feat").on("click", ev => void this.deleteExtraFeat(ev, msg));
+		html.find(".city-roll .me-effects .me-effect").on("click", ev => void this.onMEEffectButton(ev, msg));
+		html.find(".city-roll .show-effects-list").on("click", ev => void this.showEffectsList(ev, msg));
 	}
 
 } //end of class
 
-Hooks.on("ready", async () => {
+Hooks.on("ready", () => {
 	Object.freeze(CityRoll.prototype);
 	Object.freeze(CityRoll);
 	Object.seal(CityRoll.prototype);

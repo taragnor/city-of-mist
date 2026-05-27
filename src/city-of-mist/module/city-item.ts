@@ -284,6 +284,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		}
 	}
 
+  get choiceType() : "core_move" | "free" | undefined {
+    if (!this.isImprovement()) {return undefined;}
+    if (this.hasEffectClass("THEME_DYN_SELECT")) {
+      return "core_move";
+    }
+    return "free";
+  }
+
 	isWeaknessTag() : boolean {
 		return this.isTag() && this.subtype == "weakness";
 	}

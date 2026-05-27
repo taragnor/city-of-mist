@@ -615,6 +615,7 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 	static async itemEditDialog<T extends CityItem>(item : T) : Promise<T> {
+    //TODO:Cehck why this is happening on execMove
 		await item.sheet.render(true);
 		return await new Promise ( (conf, _rej) => {
 			const checker = () =>  {
@@ -629,8 +630,6 @@ static async getHelpHurt(dataObj: {actorId: string, actorName: string, moveId: s
 	}
 
 	/** generate lsit to choose improvement or new tag for a theme:
-	itemType: "tag" || "improvement"
-	subtype: "power" || "weakness"
 	*/
 	static async improvementOrTagChoiceList(actor: CityActor, theme: Theme, itemtype : "improvement" | "tag" = "tag", subtype: "power" | "weakness" = "power") {
 		if (!theme) {throw new Error("No theme provided");}

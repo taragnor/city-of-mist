@@ -205,7 +205,6 @@ class Improvement extends DataModel {
 			theme_id: new id(),
 			choice_item: new txt(),
 			chosen: new bool({initial: false}),
-			choice_type: new txt(),
 			effect_class: new txt(),
 			system_compatiblity: new txt<System | "any">({initial: "any"})
 		};
