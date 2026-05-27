@@ -166,6 +166,7 @@ export class OtherscapeSystem extends MistEngineSystem {
 
   override registerItemSheets() {
     super.registerItemSheets();
+    const {Items} = foundry.documents.collections;
     Items.registerSheet("city", CityItemSheetSmall, {types: ["essence"], makeDefault: true});
   }
 
