@@ -419,7 +419,7 @@ export class CityRoll {
 			speaker: ChatMessage.getSpeaker(),
 			content: this.#html,
 			user: game.user,
-			style: CONST.CHAT_MESSAGE_STYLES.ROLL,
+			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 			sound: this.#roll ? CONFIG.sounds.dice : undefined,
 			rolls: this.#roll ? [this.#roll] : undefined,
 		} satisfies MessageData;

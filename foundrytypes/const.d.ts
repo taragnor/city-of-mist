@@ -55,6 +55,7 @@ namespace Foundry {
 	type ChatMessageStyles =  {
 		WHISPER: number;
 		OOC: number;
+    /** @deprecated: Deprecated in favor of puttiong roll in message */
 		ROLL: number;
 		EMOTE: number;
 		OTHER: number;
