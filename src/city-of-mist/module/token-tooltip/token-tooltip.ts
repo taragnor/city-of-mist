@@ -17,7 +17,7 @@ export class TokenTooltip {
 	currentToken: null | Token<CityActor>;
 
 	static init() {
-		Hooks.once('ready', async () => {
+		Hooks.once('ready', () => {
 			new TokenTooltip();
 		});
 	}
@@ -37,30 +37,30 @@ export class TokenTooltip {
 		this.currentToken = null;
 		document.body.appendChild(this.element);
 		Hooks.on('hoverToken', (token: Token<CityActor>, hovered: boolean) => {
-			this.onHover(token, hovered);
+			void this.onHover(token, hovered);
 			return true;
 		});
 		Hooks.on('deleteToken',(token: TokenDocument<CityActor>) => {
 			if (token.id == this.currentToken?.id)
-				this.hide();
+				{this.hide();}
 			return true;
 		});
 	}
 
-	async onHover(token: Token<CityActor>, hovered: boolean) {
+	onHover(token: Token<CityActor>, hovered: boolean) {
 		if (hovered) {
 			try {
 				if (!game.settings.get("city-of-mist", "tokenToolTip"))
-					return true;
+					{return true;}
 			} catch (e) {
 				console.warn(e);
 				return true;
 			}
 			setTimeout( async () => {
 				if (! await this.updateData(token))
-					return true;
+					{return true;}
 				if (this._boxHover)
-					return;
+					{return;}
 				this.currentToken = token;
 				this._tokenHover = true;
 				this.updatePosition(token);
@@ -69,7 +69,7 @@ export class TokenTooltip {
 		} else {
 			const curr_token = this.currentToken;
 			setTimeout( () => {
-				if (this.currentToken != curr_token) return;
+				if (this.currentToken != curr_token) {return;}
 				this._tokenHover = false;
 				this.updateVisibility();
 			}, 500);
@@ -80,7 +80,7 @@ export class TokenTooltip {
 	updateVisibility() {
 		// console.log(`Updating Visibility ${this._tokenHover} ${this._boxHover}`);
 		if (this._tokenHover || this._boxHover)
-			this.show();
+			{this.show();}
 		else {
 			this.currentToken = null;
 			this.hide();
@@ -121,12 +121,12 @@ export class TokenTooltip {
 
 	async updateData(token: Token<CityActor>) {
 		this.nameElement.style.display = '';
-		const templateHTML = await renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
+		const templateHTML = await foundry.applications.handlebars.renderTemplate("systems/city-of-mist/module/token-tooltip/tooltip.html", {token, actor: token.actor, sheetowner:null });
 		this.nameElement.innerHTML = templateHTML;
 		HTMLHandlers.applyBasicHandlers($(this.element));
-		$(this.element).find(".toggle-combat").on("click", ev => CityHelpers.toggleCombat(ev))
-		$(this.element).on( "mouseenter", this.onBoxHover.bind(this));
-		$(this.element).on( "mouseleave", this.onBoxUnHover.bind(this));
+		$(this.element).find(".toggle-combat").on("click", ev => void CityHelpers.toggleCombat(ev));
+		$(this.element).on( "mouseenter", _ev=> void this.onBoxHover());
+		$(this.element).on( "mouseleave", _ev=> void this.onBoxUnHover());
 
 		//TODO: refersh window on delete tag or status
 		return true;

@@ -223,7 +223,7 @@ export class DragAndDrop {
 	}
 
 	static initCanvasDropping() {
-    const DragDrop = foundry.ux.DragDrop.implementation;
+    const DragDrop = foundry.applications.ux.DragDrop.implementation;
 		// eslint-disable-next-line @typescript-eslint/unbound-method
 		const old = DragDrop.prototype._handleDrop;
 		DragDrop.prototype._handleDrop = function(event : JQuery.Event) {

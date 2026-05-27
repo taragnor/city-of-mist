@@ -30,11 +30,6 @@ interface FoundryStuff {
   canvas: FoundryCanvasTools;
   utils: FoundryUtil;
   applications: foundryApps.Applications;
-  ux: {
-    DragDrop: {
-      implementation: typeof Foundry.DragDrop,
-    }
-  };
 }
 
 interface AppV1Stuff {

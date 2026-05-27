@@ -1,3 +1,4 @@
+namespace Foundry {
 class TextEditor {
 	static enrichHTML(str: string, options: TextEditorOptions);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -5,7 +6,11 @@ class TextEditor {
 }
 
 interface TextEditorOptions {
-	secrets: boolean;
-		async: boolean;
-	relativeTo: Actor;
+  secrets: boolean;
+  async: boolean;
+  relativeTo: Actor;
 }
+}
+
+/** @deprecated use foundry.applications.ux.TextEditor.implementation */
+const TextEditor = Foundry.TextEditor;

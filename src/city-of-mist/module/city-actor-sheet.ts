@@ -81,6 +81,7 @@ export class CityActorSheet extends CitySheet {
 			async: true,
 			relativeTo: this.actor
 		};
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 		data.gmnotes = await TextEditor.enrichHTML(this.actor.system.gmnotes, textOptions);
 		data.description = await TextEditor.enrichHTML(this.actor.system.description, textOptions);
 		data.biography = await TextEditor.enrichHTML(this.actor.system.biography, textOptions);

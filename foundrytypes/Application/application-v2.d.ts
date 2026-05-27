@@ -29,8 +29,13 @@ namespace foundryApps {
 	interface UXStuff{
 		Draggable : {
 			implementation: typeof Draggable;
-		}
-
+		};
+    DragDrop: {
+      implementation: typeof Foundry.DragDrop;
+    };
+    TextEditor: {
+      implementation: typeof Foundry.TextEditor;
+    };
 	}
 
 	class Draggable {
