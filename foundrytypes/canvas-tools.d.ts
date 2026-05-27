@@ -5,7 +5,7 @@ interface FoundryCanvasTools {
 
 namespace FoundryCanvasTools {
 	interface Placeables {
-		Token: typeof Token;
+		Token: typeof Foundry.Token;
 	}
 
 }

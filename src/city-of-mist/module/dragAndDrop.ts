@@ -222,40 +222,41 @@ export class DragAndDrop {
 		return true;
 	}
 
-	static initCanvasDropping() {
+  static initCanvasDropping() {
     const DragDrop = foundry.applications.ux.DragDrop.implementation;
-		// eslint-disable-next-line @typescript-eslint/unbound-method
-		const old = DragDrop.prototype._handleDrop;
-		DragDrop.prototype._handleDrop = function(event : JQuery.Event) {
-			const dragged = $(document).find(".dragging");
-			if (dragged.length == 0) {
-				old.call(this, event);
-				return;
-			}
-			event.preventDefault();
-			const {clientX:x,clientY :y} = event;
-			//@ts-expect-error more stuff not covered
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-			const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y});
-			//@ts-expect-error doing pixi stuff
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			const tokens = (canvas.tokens.objects.children as unknown[])
-			.filter( (maybeTok : unknown) => maybeTok instanceof Token);
-			const token = tokens.find( (tok: Token<CityActor>) => {
-				//@ts-expect-error doing in depth stuff
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const {x, y, width, height} = tok.bounds;
-				if (evX >= x && evX <x+width
-					&& evY >= y && evY <y+height)
-					{return true;}
-				return false;
-			});
-			if (!token) {return;}
-			const actor = token.document.actor as U<CityActor>;
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const old = DragDrop.prototype._handleDrop;
+    DragDrop.prototype._handleDrop = function(event : JQuery.Event) {
+      const dragged = $(document).find(".dragging");
+      if (dragged.length == 0) {
+        old.call(this, event);
+        return;
+      }
+      event.preventDefault();
+      const {clientX:x,clientY :y} = event;
+      //@ts-expect-error more stuff not covered
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+      const {x: evX, y: evY} = canvas.canvasCoordinatesFromClient({x,y});
+      const Token = foundry.canvas.placeables.Token;
+      //@ts-expect-error using things undefined in FTypes
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const tokens = (canvas.tokens.objects.children as unknown[])
+      .filter( (maybeTok : unknown) => maybeTok instanceof Token);
+      const token = tokens.find( (tok: Token<CityActor>) => {
+        //@ts-expect-error bounds doesn't exist
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const {x, y, width, height} = tok.bounds;
+        if (evX >= x && evX <x+width
+          && evY >= y && evY <y+height)
+        {return true;}
+        return false;
+      });
+      if (!token) {return;}
+      const actor = token.document.actor as U<CityActor>;
       if (!actor) {return;}
-			void DragAndDrop.dropDraggableOnActor(dragged, actor);
-		};
-	}
+      void DragAndDrop.dropDraggableOnActor(dragged, actor);
+    };
+  }
 
 	static htmlDraggableStatus(name: string, options: GMMoveOptions & StatusCreationOptions) {
 		const tier = options.tier;

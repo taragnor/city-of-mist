@@ -458,4 +458,29 @@ div.Noise-theme .theme-block {
     background-color: rgba(0, 0, 0, 0);
   }
 
+  .status span.filled-circle,
+  .status span.filled-circle-status {
+    border: 2px solid var(--mythos-bright);
+    background-color: var(--green-OS-text);
+  }
+
+  .status span.empty-circle,
+  .status span.empty-circle-status {
+    border: 3px solid var(--mythos-bright);
+    background-color: inherit;
+    /* background-color: rgba(0, 0, 0, 0); */
+  }
+
+  .city-of-mist--tooltip {
+    backdrop-filter: blur(6px);
+    background: var(--self-background);
+    border-radius: 2px;
+    border: 2px solid var(--self-border);
+  }
+
+  .city-of-mist--name {
+    color: var(--green-OS-text);
+    text-shadow: var(--green-OS-textShadow);
+  }
+
 }

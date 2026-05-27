@@ -52,27 +52,34 @@ interface Position {
 	shape: unknown;
 }
 
+type Token<T extends Actor = Actor> = Foundry.Token<T>;
+
+/** @deprecated use foundry.canvas.placeables.Token */
+const Token : typeof Foundry.Token;
+
 
 //this is canvas stuff so I've ignored it for now
-class Token<Act extends Actor = Actor<any,any,any>> extends PlaceableObject {
-	get actor(): U<Act>;
-	document: TokenDocument<Act>;
-	get scene(): Scene;
-	id: TokenDocument["id"];
-	x: number;
-	y: number;
-	scene: Scene;
-	get inCombat(): boolean;
-	get controlled(): boolean;
-	get name(): string;
-	get center(): {x: number, y:number};
-	get worldTransform(): {a: number, b:number, c: number, d: number, tx: number, ty: number, array: null | unknown[]};
-	get w():number;
-	get h():number;
-	static create<A extends Actor>(td: TokenDocument<A>,parendData: {parent: Scene}): Promise<Token<A>>;
-	 /** sets token to be redrawn on next animation frame */
-	 refresh(): void;
-  async _drawEffect(src: string, tint: N<PIXI.ColorSource>): Promise<U<PIXI.Sprite>>;
+namespace Foundry {
+  class Token<Act extends Actor = Actor> extends PlaceableObject {
+    get actor(): U<Act>;
+    document: TokenDocument<Act>;
+    get scene(): Scene;
+    id: TokenDocument["id"];
+    x: number;
+    y: number;
+    scene: Scene;
+    get inCombat(): boolean;
+    get controlled(): boolean;
+    get name(): string;
+    get center(): {x: number, y:number};
+    get worldTransform(): {a: number, b:number, c: number, d: number, tx: number, ty: number, array: null | unknown[]};
+    get w():number;
+    get h():number;
+    static create<A extends Actor>(td: TokenDocument<A>,parendData: {parent: Scene}): Promise<Token<A>>;
+    /** sets token to be redrawn on next animation frame */
+    refresh(): void;
+    async _drawEffect(src: string, tint: N<PIXI.ColorSource>): Promise<U<PIXI.Sprite>>;
+  }
 }
 
 
