@@ -16,12 +16,12 @@
 		{{/if}}
 	</div>
 	<div class="flex-row tool-tip">
-		{{#each actor.my_statuses as |status|}}
+		{{#each actor.my_visible_statuses as |status|}}
 		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=false}}
 		{{/each}}
 	</div>
 	<div class="flex-row tool-tip">
-		{{#each actor.my_story_tags as |tag|}}
+		{{#each actor.my_visible_story_tags as |tag|}}
 		{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=false}}
 		{{/each}}
 	</div>

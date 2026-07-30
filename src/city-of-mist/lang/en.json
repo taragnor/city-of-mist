@@ -17,6 +17,7 @@
 "TYPES.Item.essence" : "Essence",
 
 "Generic.term.varies": "Varies",
+"Generic.term.hidden": "Hidden",
 
 "CityOfMistTracker.trackerwindow.title": "City of Mist Status Tracker",
 "CityOfMistTracker.trackerwindow.empty": "Place a token on the scene to start the tracker.",

@@ -149,6 +149,7 @@ class TagDM extends DataModel {
 			burned: new bool({initial: false}),
 			crispy: new bool({initial: false}),
 			is_bonus: new bool({initial: false}),
+      hidden: new bool({initial: false}),
 			theme_id: new id(),
 			custom_tag:new bool({initial: false}),
 			broad: new bool({initial: false}),

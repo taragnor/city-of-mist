@@ -117,6 +117,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.getStatuses();
 	}
 
+  get my_visible_statuses() {
+    return this.my_statuses
+      .filter( st => st.visible);
+  }
+
 	get collectiveStatus(): Status[] {
 		return	this.getStatuses().filter(x=>x.system.specialType == "collective");
 	}
@@ -155,6 +160,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	get my_story_tags(): Tag[] {
 		return this.getStoryTags();
 	}
+
+  get my_visible_story_tags() : Tag[] {
+    return this.my_story_tags
+      .filter (tag => tag.visible);
+  }
 
 	get my_spectrums() : Spectrum[] {
 		return this.items
@@ -224,6 +234,11 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return (this.my_statuses as (Tag | Status)[])
 			.concat(this.my_story_tags);
 	}
+
+  get visibleStoryTagsAndStatuses() {
+    return this.storyTagsAndStatuses
+      .filter (x=> x.visible);
+  }
 
 	hasHelpFor(actorId: string) :boolean {
 		return this.helpPoints.some( x=> x.system.targetCharacterId == actorId && x.system.amount > 0);

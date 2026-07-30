@@ -47,10 +47,10 @@
 			</div>
 
 			<ul class="tag-or-status-list">
-				{{#each combatant.actor.my_story_tags as |tag|}}
+				{{#each combatant.actor.my_visible_story_tags as |tag|}}
 				{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=tag sheetowner=null locked=true}}
 				{{/each}}
-				{{#each combatant.actor.my_statuses as |status|}}
+				{{#each combatant.actor.my_visible_statuses as |status|}}
 				{{> "systems/city-of-mist/templates/parts/tag-or-status.hbs" item=status sheetowner=null locked=true}}
 				{{/each}}
 			</ul>

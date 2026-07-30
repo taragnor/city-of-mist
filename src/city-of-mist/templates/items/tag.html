@@ -12,6 +12,11 @@
 	<input type="text" class="tag-question-entry" name="system.question" value="{{item.system.question}}">
 	{{/if}}
 
+  <label>
+    {{localize "Generic.term.hidden"}}
+  </label>
+	<input type="checkbox" class="item-checkbox" name="system.hidden" {{#if item.system.hidden}} checked{{/if}}>
+
 	<label>
 		{{localize "CityOfMist.terms.category"}}
 	</label>

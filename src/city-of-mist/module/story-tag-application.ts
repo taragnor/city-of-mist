@@ -124,27 +124,27 @@ export class StoryTagWindow extends Application {
 
 	override async getData()  {
 		const data = await super.getData();
-		const tagsAndStatuses = await SceneTags.getSceneTagsAndStatuses();
+		const tagsAndStatuses = await SceneTags.getVisibleTagsAndStatuses();
 		const combat = game.combats.find( comb => comb.scene == game.scenes.current) || game.combat;
 		const combatants = (combat ? (combat.combatants.contents as Combatant<CityActor>[]) : [])
 			.filter(combatant => {
 				if (!combatant.actor || !combatant.token) {return false;}
 				if (CityHelpers.sceneTagWindowFilterEmpty())
-					{return combatant.actor.storyTagsAndStatuses.length > 0;}
+					{return combatant.actor.visibleStoryTagsAndStatuses.length > 0;}
 				else {return true;}
 			}
 			);
 		const combatActors = combatants.map( x=> x.actor!);
 		const showcasedActors = (game.actors.contents as CityActor[])
 			.filter( actor => !combatActors.includes(actor)
-				&& actor.items.contents.some( item=> item.isShowcased)
+				&& actor.items.contents.some( item=> item.isShowcased && item.visible)
 			);
 		const combatActorsSize= combatActors.reduce ( (acc, x) => {
 			return acc + 2 + x.storyTagsAndStatuses.length;
 		}, 3);
 		const showcasedActorsSize = showcasedActors.reduce ( (acc, x) => {
 			return acc + 2 + x.storyTagsAndStatuses
-				.filter ( item => item.isShowcased)
+				.filter ( item => item.isShowcased && item.visible)
 				.length;
 		}, 3);
 		const shrink = (combatActorsSize + showcasedActorsSize) > 50;
@@ -250,7 +250,7 @@ export class StoryTagWindow extends Application {
 			ui.notifications.error("Error with Drag and Drop");
 			return;
 		}
-		if (x instanceof Token) {
+		if (x instanceof (foundry?.canvas?.placeables?.Token ?? Token)) {
 			x = x.actor;
 		}
 		if (x == SceneTags) {

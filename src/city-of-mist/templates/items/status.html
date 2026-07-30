@@ -30,6 +30,12 @@
 		{{selectOptions CONST.STATUS_CATEGORIES localize=true selected=item.system.category}}
 	</select>
 
+  <label>
+    {{localize "Generic.term.hidden"}}
+  </label>
+	<input type="checkbox" class="item-checkbox" name="system.hidden" {{#if item.system.hidden}} checked{{/if}}>
+
+
 	<hr>
 	<label class="dialog-label" for="temp">
 		{{localize "CityOfMist.terms.temporary"}}

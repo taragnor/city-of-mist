@@ -1,63 +1,68 @@
 <!-- Template ::
-	tag
-	tagdirection
-	activated
-	-->
-	<span class="tag-name-block tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" >
-		<span class="tag-symbols">
-			{{#if (eq tag.system.subtype "story")}}
-			<a title="Story Tag" ><i class="fas fa-tag"></i> </a>
-			{{/if}}
-			{{#if (eq tag.system.subtype "power")}}
-			<a class="power-tag-icon" title="Power Tag" ><i class="fas fa-bolt"></i> </a>
-			{{/if}}
-			{{#if (eq tag.system.subtype "weakness")}}
-			<a title="Weakness Tag" ><i class="fas fa-angle-double-down"></i> </a>
-			{{/if}}
-			{{#if (eq tag.system.subtype "loadout")}}
-			<a title="Loadout Tag" >
-				<i class="fa-solid fa-briefcase"></i>
-			</a>
-			{{/if}}
-			{{#if tag.system.crispy }}
-			<a title="Crispy Tag" ><i class="fas fa-leaf"></i> </a>
-			{{/if}}
-			{{#if (and tag.system.custom_tag (neq tag.system.subtype "loadout")) }}
-			<a title="Bonus Tag" ><i class="fas fa-star"></i> </a>
-			{{/if}}
-			{{#if tag.system.broad }}
-			<a title="Broad Tag" ><i class="fas fa-globe"></i> </a>
-			{{/if}}
-			{{#if tag.system.temporary }}
-			<a title='{{localize "CityOfMist.terms.temporary"}}' ><i class="fas fa-hourglass"></i> </a>
-			{{/if}}
-			{{#if tag.system.permanent }}
-			<a title='{{localize "CityOfMist.terms.permanent"}}'><i class="fas fa-gem"></i> </a>
-			{{/if}}
-		</span>
-		<!-- dir: {{direction}} -->
-		<span class="flex-tag-name
-		itemName
-		{{tag.system.subtype}}-tag
-		name
-		{{#if tag.isMissingParent}} tag-error {{/if}}
-		{{#if (and tag.parent.system.locked (eq tag.system.burned 0))}} active-tag {{/if}}
-		{{#if (gt tagdirection 0)}} positive-selected{{/if}}
-		{{#if (lt tagdirection 0)}} negative-selected{{/if}}
-		{{#if (not tag.parent.system.locked)}} tag-edit-button unlocked-tag{{/if}}
-		{{#if (and (not tag.system.burned) tag.parent.system.locked)}} tag-select-button  {{/if}}
-		{{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
-		default-positive {{else}} default-negative
-		{{/if}}
-		{{#if (gt tag.system.burn_state 0)}} burned-tag burn-level-{{tag.system.burn_state}}  {{/if}}
-		" title= "
-		{{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
-		{{/if}}
-		{{#if (not tag.system.custom_tag)}} {{tag.system.question_letter}}. {{/if}} {{tag.system.question}} {{#if tag.description}}  &#013;{{tag.description}} {{/if}}" > {{tag.name}}
-		{{#if tag.location}}
-		<span class="story-tag-location">
-			( {{tag.parent.displayedName}} )
-		</span>
-			{{/if}}
-		</span>
-	</span>
+  tag
+  tagdirection
+  activated
+-->
+<span class="tag-name-block tag" data-tag-id="{{tag.id}}" data-owner-id="{{tag.parent.id}}" data-token-id="{{tag.parent.tokenId}}" data-scene-id="{{tag.parent.sceneId}}" >
+  <span class="tag-symbols">
+    {{#if tag.hidden}}
+    <a title='{{localize "Generic.term.hidden"}}' >
+      <i class="fa-solid fa-eye"></i>
+    </a>
+  {{/if}}
+  {{#if (eq tag.system.subtype "story")}}
+  <a title="Story Tag" ><i class="fas fa-tag"></i> </a>
+  {{/if}}
+  {{#if (eq tag.system.subtype "power")}}
+  <a class="power-tag-icon" title="Power Tag" ><i class="fas fa-bolt"></i> </a>
+  {{/if}}
+  {{#if (eq tag.system.subtype "weakness")}}
+  <a title="Weakness Tag" ><i class="fas fa-angle-double-down"></i> </a>
+  {{/if}}
+  {{#if (eq tag.system.subtype "loadout")}}
+  <a title="Loadout Tag" >
+    <i class="fa-solid fa-briefcase"></i>
+  </a>
+  {{/if}}
+  {{#if tag.system.crispy }}
+  <a title="Crispy Tag" ><i class="fas fa-leaf"></i> </a>
+  {{/if}}
+  {{#if (and tag.system.custom_tag (neq tag.system.subtype "loadout")) }}
+  <a title="Bonus Tag" ><i class="fas fa-star"></i> </a>
+  {{/if}}
+  {{#if tag.system.broad }}
+  <a title="Broad Tag" ><i class="fas fa-globe"></i> </a>
+  {{/if}}
+  {{#if tag.system.temporary }}
+  <a title='{{localize "CityOfMist.terms.temporary"}}' ><i class="fas fa-hourglass"></i> </a>
+  {{/if}}
+  {{#if tag.system.permanent }}
+  <a title='{{localize "CityOfMist.terms.permanent"}}'><i class="fas fa-gem"></i> </a>
+  {{/if}}
+  </span>
+  <!-- dir: {{direction}} -->
+  <span class="flex-tag-name
+  itemName
+  {{tag.system.subtype}}-tag
+  name
+  {{#if tag.isMissingParent}} tag-error {{/if}}
+  {{#if (and tag.parent.system.locked (eq tag.system.burned 0))}} active-tag {{/if}}
+  {{#if (gt tagdirection 0)}} positive-selected{{/if}}
+  {{#if (lt tagdirection 0)}} negative-selected{{/if}}
+  {{#if (not tag.parent.system.locked)}} tag-edit-button unlocked-tag{{/if}}
+  {{#if (and (not tag.system.burned) tag.parent.system.locked)}} tag-select-button  {{/if}}
+  {{#if (gt (defaultTagDirection tag.name tag.parent.id tag.id tag.parent.tokenId) 0)}}
+  default-positive {{else}} default-negative
+  {{/if}}
+  {{#if (gt tag.system.burn_state 0)}} burned-tag burn-level-{{tag.system.burn_state}}  {{/if}}
+  " title= "
+  {{#if tag.isMissingParent}} {{localize "CityOfMist.tooltip.error.missingParent"}} &#013
+  {{/if}}
+  {{#if (not tag.system.custom_tag)}} {{tag.system.question_letter}}. {{/if}} {{tag.system.question}} {{#if tag.description}}  &#013;{{tag.description}} {{/if}}" > {{tag.name}}
+  {{#if tag.location}}
+  <span class="story-tag-location">
+    ( {{tag.parent.displayedName}} )
+  </span>
+    {{/if}}
+  </span>
+</span>

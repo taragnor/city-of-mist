@@ -1838,6 +1838,17 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		return this.name;
 	}
 
+  get hidden() : boolean {
+    if (this.isTag() || this.isStatus()) {
+      return this.system.hidden ?? false;
+    }
+    return false;
+  }
+
+  get visible() : boolean {
+    return game.user.isGM || !this.hidden;
+  }
+
 }
 
 export type Theme = Subtype<CityItem, "theme">;

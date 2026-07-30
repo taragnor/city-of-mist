@@ -83,25 +83,32 @@ export class SceneTags {
 
 	}
 
-	/** Gets the current tags and statuses for the given scene, defaults to current scene
-	*/
-	static async getSceneTagsAndStatuses(scene = game.scenes.current) {
-		if (!scene) {
-			console.warn("Couldn't find tags and statuses: null scene");
-			return [];
-		}
-		const container = await this.#getSceneContainer(scene);
-		return container.items
-			.filter( (x: Tag)=> (x.system.type == "tag" || x.system.type == "status") && x.system.sceneId == scene.id)
-			.sort( (a: CityItem, b: CityItem) => {
-				if (a.system.type != b.system.type) {
-					if (a.system.type == "tag")
-						{return -1;}
-					else {return 1;}
-				}
-				return a.displayedName.localeCompare(b.displayedName);
-			});
-	}
+  static async getVisibleTagsAndStatuses(scene = game.scenes.current) {
+    return (await this.getSceneTagsAndStatuses(scene))
+      .filter( tag => tag.visible);
+  }
+
+  /** Gets the current tags and statuses for the given scene, defaults to current scene
+   */
+  static async getSceneTagsAndStatuses(scene = game.scenes.current) : Promise<(Tag | Status)[]> {
+    if (!scene) {
+      console.warn("Couldn't find tags and statuses: null scene");
+      return [];
+    }
+    const container = await this.#getSceneContainer(scene);
+    const items =       container.items
+    .filter( (x: CityItem)=> x.isTag() || x.isStatus()) as (Tag | Status)[];
+    return items
+    .filter( x => x.system.sceneId == scene.id)
+    .sort( (a: CityItem, b: CityItem) => {
+      if (a.system.type != b.system.type) {
+        if (a.isTag())
+        {return -1;}
+        else {return 1;}
+      }
+      return a.displayedName.localeCompare(b.displayedName);
+    });
+  }
 
 	static async getSceneStoryTags(scene = game.scenes.current) {
 		return (await this.getSceneTagsAndStatuses(scene))
