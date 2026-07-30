@@ -126,36 +126,33 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return	this.getStatuses().filter(x=>x.system.specialType == "collective");
 	}
 
-	async updateCollectiveStatus(this: Danger): Promise<void> {
-		const collective = this.collectiveStatus;
-		const useCollective = CitySettings.get("collectiveMechanics");
-		if (this.collective_size == 0 || useCollective == "city-of-mist") {
-			const promises = collective.map( status=> status.delete());
-			await Promise.allSettled(promises);
-			return;
-		} else {
-			if (collective.length == 0) {
-				const col_name = SystemModule.active.collectiveTermName();
-				await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
-				return;
-			}
-			if (this.collective_size != collective[0].system.tier) {
-				await collective[0].update( {"system.tier": this.collective_size, "system.pips": 0});
-			}
-		}
-	}
+  async updateCollectiveStatus(this: Danger): Promise<void> {
+    const collective = this.collectiveStatus;
+    const useCollective = CitySettings.get("collectiveMechanics");
+    if (this.collective_size == 0 || useCollective == "city-of-mist") {
+      const promises = collective.map( status=> status.delete());
+      await Promise.allSettled(promises);
+      return;
+    }
+    if (collective.length == 0) {
+      const col_name = SystemModule.active.collectiveTermName();
+      await this.createNewStatus(col_name, this.collective_size, this.collective_size, { "specialType": "collective"});
+      return;
+    }
+    if (this.collective_size != collective[0].system.tier) {
+      await collective[0].update( {"system.tier": this.collective_size, "system.pips": 0});
+    }
+  }
 
-	async getCollectiveStatus() : Promise<Status> {
-		let collective = this.collectiveStatus;
-		if (!collective.length) {
-			// const system = CitySettings.getBaseSystem();
-			// const col_name = localize(COLLECTIVE[system]);
-				const col_name = SystemModule.active.collectiveTermName();
-			await this.createNewStatus(col_name, this.collective_size, 0, { "specialType": "collective"});
-			collective = this.collectiveStatus;
-		}
-		return collective[0];
-	}
+  async getCollectiveStatus() : Promise<Status> {
+    let collective = this.collectiveStatus;
+    if (!collective.length) {
+      const col_name = SystemModule.active.collectiveTermName();
+      await this.createNewStatus(col_name, this.collective_size, 0, { "specialType": "collective"});
+      collective = this.collectiveStatus;
+    }
+    return collective[0];
+  }
 
 	get my_story_tags(): Tag[] {
 		return this.getStoryTags();
