@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 
 export type SocketTransmitData = {
 	type: string;
@@ -26,16 +28,17 @@ export class SocketInterface {
 	*/
 	#socketpath;
 	#sessionConstructors: Map<string, {new(...args:any[]): Session}> ;
-	#sessions;
+	#sessions : Map<string, Session> ;
 
 	constructor( moduleOrSystemName : string)  {
-		this.#socketpath = moduleOrSystemName
+		this.#socketpath = moduleOrSystemName;
 		this.#sessionConstructors = new Map();
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		game.socket.on(this.#socketpath, this.socketHandler.bind(this));
 		this.#sessions = new Map();
 	}
 
-	async send(typeStr : string, userIdArr :string[], sessionId: string, sessionType: string, dataObj : unknown = {}, metaObj: Record<string, unknown> = {}) {
+	send(typeStr : string, userIdArr :string[], sessionId: string, sessionType: string, dataObj : unknown = {}, metaObj: Record<string, unknown> = {}) {
 		const meta = {
 			SendTime: Date.now(),
 			senderId: game.user.id,
@@ -56,10 +59,10 @@ export class SocketInterface {
 
 	socketHandler(msg: SocketTransmitData) {
 		if (!msg.to.includes(game.user.id))
-			return;
+			{return;}
 		const sId = msg.sessionId;
 		if (this.#sessions.has(sId)) {
-			this.#sessions.get(sId).handleMessage(msg);
+			this.#sessions.get(sId)!.handleMessage(msg);
 			return;
 		} else {
 			if (this.#sessionConstructors.has(msg.sessionType)) {
@@ -77,10 +80,10 @@ export class SocketInterface {
 
 	/** arguments to factory (data, sender, metadata)
 	*/
-	addSlaveSessionConstructor<T extends Session>(SessionClass: {name: string}, SessionConstructor: {new(...args:any[]): T}) {
+	addSlaveSessionConstructor<T extends Session>(SessionClass: {name: string}, SessionConstructor: {new(...args:unknown[]): T}) {
 		const mainSessionName = SessionClass.name;
 		if (!mainSessionName){
-			throw new Error(`Couldn't resolve name for ${SessionClass}. Are you passing a class?`);
+			throw new Error(`Couldn't resolve name for ${SessionClass as unknown as string}. Are you passing a class?`);
 		}
 		this.#sessionConstructors.set(mainSessionName, SessionConstructor);
 	}
@@ -115,8 +118,8 @@ export class SocketInterface {
 
 
 export class Session {
-	#handlers;
-	#notificationHandlers;
+	#handlers : Map<string, Function>;
+	#notificationHandlers : Map< string, Function>;
 
 
 	static codes = {
@@ -127,7 +130,7 @@ export class Session {
 		timeExtension: "__TIMEREQUEST__",
 		replyError: "__REPLYERROR__",
 		notify: "__NOTIFY__",
-	}
+	};
 
 	sender: null | SocketInterface;
 	id: string;
@@ -150,7 +153,7 @@ export class Session {
 		}
 		this.sender = null;
 		if (!id)
-			id = Session.newId();
+			{id = Session.newId();}
 		this.id = id;
 		this.sessionType= this.constructor.name;
 		this.name = name;
@@ -183,10 +186,11 @@ export class Session {
 
 	setHandlers() {
 		//extensible virtual function
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.#handlers.set(Session.codes.notify, this.onNotify.bind(this));
 	}
 
-	async start (): Promise<unknown> {
+	start (): MaybePromise<unknown> {
 		return true;
 	}
 
@@ -195,9 +199,9 @@ export class Session {
 	}
 
 	/** sends a notification handled by addNotifyHandler which is a sort of oneway message **/
-	async notify(notifyType: string, dataObj :Record<string, unknown> = {}, metaObj : Partial<MetaDataObject> = {}) {
+	notify(notifyType: string, dataObj :Record<string, unknown> = {}, metaObj : Partial<MetaDataObject> = {}) {
 		metaObj.notifyType = notifyType;
-		await this.send(Session.codes.notify, dataObj, metaObj);
+		this.send(Session.codes.notify, dataObj, metaObj);
 	}
 
 	static counter = 0;
@@ -209,9 +213,9 @@ export class Session {
 	defaultTimeOut(userId :string) {
 		const user = game.users.find(x => x.id == userId);
 		if (user && user.isGM)
-			return Infinity;
+			{return Infinity;}
 		else
-			return 60;
+			{return 60;}
 	}
 
 	registerSubscribers(subListBase : FoundryUser[] ) {
@@ -247,9 +251,9 @@ export class Session {
 		return this.subscribers.map( x=> x.id);
 	}
 
-	async send(typeStr: string, dataObj : unknown, metaObj : Partial<MetaDataObject> = {}  ) {
+	send(typeStr: string, dataObj : unknown, metaObj : Partial<MetaDataObject> = {}  ) : MaybePromise<void> {
 		if (this.active && this.sender)
-			return await this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);
+			{return this.sender.send(typeStr, this.subscriberIds, this.id, this.sessionType, dataObj, metaObj);}
 		else {
 			console.debug("inacitve session can't send");
 		}
@@ -257,7 +261,7 @@ export class Session {
 
 	addHandler(type: string, handlerFn: Function) {
 		if (!type)
-			throw new Error(`Passed bad handler Type: ${type}`);
+			{throw new Error(`Passed bad handler Type: ${type}`);}
 		this.#handlers.set(type, handlerFn);
 	}
 
@@ -265,21 +269,24 @@ export class Session {
 		this.#notificationHandlers.set(notifyType, handlerFn);
 	}
 
-	handleMessage({type, data, meta} : SocketTransmitData) {
-		if (this.#handlers.has(type)) {
-			this.#handlers.get(type) (data, meta);
-		} else {
-			console.warn(`Unhandled Data Object Type in socekt ${type}`);
-		}
-	}
+  handleMessage({type, data, meta} : SocketTransmitData) : MaybePromise<void> {
+    if (this.#handlers.has(type)) {
+      const fn = this.#handlers.get(type)!;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      fn(data, meta);
+    } else {
+      console.warn(`Unhandled Data Object Type in socekt ${type}`);
+    }
+  }
 
 	onNotify(data: SocketTransmitData['data'], meta: SocketTransmitData['meta']) {
-		const notifyType = meta.notifyType;
-		const handler =this.#notificationHandlers.get(notifyType);
+		const notifyType = meta.notifyType ?? "";
+		const handler = this.#notificationHandlers.get(notifyType);
 		if (!handler) {
 			console.warn (`No notification for type: ${notifyType}`);
 			return;
 		} else  {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			handler(data, meta);
 		}
 	}
@@ -302,7 +309,7 @@ export abstract class MasterSession extends Session {
 	constructor( name = "Unnamed Master Session", id = undefined, userIdList = undefined) {
 		super(name, id, userIdList);
 		if (!name)
-			name = `${this.constructor.name} Session`;
+			{name = `${this.constructor.name} Session`;}
 		this.name = name;
 		this.#started =false;
 		this.setReplyHandlers();
@@ -316,13 +323,13 @@ export abstract class MasterSession extends Session {
 
 	setStarted() {
 		if (this.#started)
-			throw new Error("Session already started? Can't start twice");
+			{throw new Error("Session already started? Can't start twice");}
 		this.#started = true;
 	}
 
 	setEnded() {
 		if (!this.#started)
-			throw new Error("Session not started. can't end twice");
+			{throw new Error("Session not started. can't end twice");}
 		this.#started = false;
 
 	}
@@ -334,36 +341,36 @@ export abstract class MasterSession extends Session {
 		this.addHandler(Session.codes.timeExtension, this.extendTime.bind(this));
 	}
 
-	/** sends request to subscribers
-	dataObj is sent to subscribers
-	subscribers can return the request using reply
-	*/
-	async request(requestCode:string, dataObj : unknown, timeoutFn = (userId: string) => this.defaultTimeOut(userId) ) {
-		this.subscribers.forEach( sub => {
-			const timeout = timeoutFn(sub.id);
-			sub.awaitReply(timeout);
-		});
-		const meta = {  requestCode};
-		await this.send(Session.codes.request, dataObj, meta);
-		const promises = this.subscribers
-			.filter( x=> x.promise != null)
-			.map( x=>x.promise);
-		await Promise.allSettled(promises);
-		return this.subscribers.map(x=> {
-			return {
-				id: x.id,
-				value: x.value ?? null,
-				error: x.error ?? null,
-			}
-		});
-		//TODO: clean up session
-	}
+  /** sends request to subscribers
+  dataObj is sent to subscribers
+  subscribers can return the request using reply
+   */
+  async request(requestCode:string, dataObj : unknown, timeoutFn = (userId: string) => this.defaultTimeOut(userId) ) {
+    this.subscribers.forEach( sub => {
+      const timeout = timeoutFn(sub.id);
+      sub.awaitReply(timeout);
+    });
+    const meta = {  requestCode};
+    await this.send(Session.codes.request, dataObj, meta);
+    const promises = this.subscribers
+      .map (promwrapper => promwrapper.promise)
+      .filter( prom=> prom != null);
+    await Promise.allSettled(promises);
+    return this.subscribers.map(x=> {
+      return {
+        id: x.id,
+        value: x.value ?? null,
+        error: x.error ?? null,
+      };
+    });
+    //TODO: clean up session
+  }
 
-	override handleMessage(d: SocketTransmitData) {
+	override async handleMessage(d: SocketTransmitData) {
 		if (d.type == Session.codes.reply) {
-			this.recieveReply(d.data, d.meta);
+			await this.recieveReply(d.data, d.meta);
 		} else {
-			super.handleMessage(d);
+			await super.handleMessage(d);
 		}
 	}
 
@@ -401,10 +408,10 @@ export abstract class MasterSession extends Session {
 		const from = meta.from;
 		const amount = (data as any).amount as number ;
 		if (!from || !amount)
-			throw new Error("Malformed time request");
+			{throw new Error("Malformed time request");}
 		const sub = this.subscribers.find(x=> x.id == from)
 		if (!sub)
-			throw new Error("Couldn't find");
+			{throw new Error("Couldn't find");}
 		sub.timeExtend(amount);
 	}
 
@@ -426,9 +433,9 @@ export abstract class SlaveSession extends Session {
 	constructor( id: string, sender: string | FoundryUser) {
 		const name = "Slave Session";
 		if (typeof sender == "string")
-			sender = game.users.find( x=> x.id == sender)!;
+			{sender = game.users.find( x=> x.id == sender)!;}
 		if (!sender)
-			throw new Error("No sender Id Given?!");
+			{throw new Error("No sender Id Given?!");}
 		const userIdList = [sender as FoundryUser];
 		super(name, id, userIdList);
 		this.setRequestHandlers();
@@ -468,7 +475,7 @@ export abstract class SlaveSession extends Session {
 			try {
 				const dataObj = await handler( data, meta);
 				if (interactionNum == this.interactionNum)
-					return await this.reply(dataObj, null);
+					{return await this.reply(dataObj, null);}
 				else {
 					console.debug("invalid interaction num");
 					return;
@@ -546,7 +553,7 @@ class Subscriber {
 	*/
 	tickTimeout(): boolean {
 		// console.debug("Ticking Timeout");
-		if (this.#timeoutIntervalId == null) return false;
+		if (this.#timeoutIntervalId == null) {return false;}
 		if (!this.awaitingReply){
 			window.clearInterval(this.#timeoutIntervalId);
 			this.#timeoutIntervalId= null;
@@ -587,7 +594,7 @@ class Subscriber {
 
 		this.awaitingReply =true;
 		if (!this.#timeoutIntervalId)
-			this.#timeoutIntervalId = window.setInterval( this.tickTimeout.bind(this), 1000);
+			{this.#timeoutIntervalId = window.setInterval( this.tickTimeout.bind(this), 1000);}
 	}
 
 	/**grants more time before timeout

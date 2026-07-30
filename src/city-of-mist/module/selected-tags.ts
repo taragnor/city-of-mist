@@ -188,7 +188,7 @@ export class SelectedTagsAndStatus {
 	static activateStatus(status: Status, direction= 1) { return this.activateSelectedItem(status, direction); }
 
 
-	static async selectTagHandler_invert(event: JQuery.ClickEvent) {
+	static async selectTagHandler_invert(this: void, event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._selectTagHandler(event, true);
 	}
 
@@ -256,11 +256,11 @@ export class SelectedTagsAndStatus {
 		return true;
 	}
 
-	static async selectStatusHandler_invert(event: JQuery.ClickEvent) {
+	static async selectStatusHandler_invert(this: void, event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._statusSelect(event, true);
 	}
 
-	static async selectStatusHandler(event: JQuery.ClickEvent) {
+	static async selectStatusHandler(this: void, event: JQuery.ClickEvent) {
 		return await SelectedTagsAndStatus._statusSelect(event, false);
 	}
 

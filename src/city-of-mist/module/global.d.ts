@@ -9,3 +9,5 @@ type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 
 type N<T> = T | null;
 type U<T> = T | undefined;
+
+type MaybePromise<T> = Promise<T> | T;

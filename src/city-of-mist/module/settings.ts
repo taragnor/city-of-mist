@@ -8,9 +8,11 @@ export function registerSystemSettings() {
 	console.log("Registering Settings");
 
 	for (const [name, data] of Object.entries(CITY_SETTINGS())) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		game.settings.register<any>("city-of-mist", name, data);
 	}
 	for (const [name, data] of Object.entries(DEV_SETTINGS())) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		game.settings.register<any>("city-of-mist", name, data);
 	}
 

@@ -14,33 +14,33 @@ export class HTMLHandlers {
 	static applyBasicHandlers(htmlorJQueryElement: JQuery, allowCreation = true) {
 		const html = $( htmlorJQueryElement );
 		const unburnedTags = html.find(".item-selection-context .tag .name:not(.burned-tag)");
-		unburnedTags.on("click", SelectedTagsAndStatus.selectTagHandler);
+		unburnedTags.on("click", ev => void SelectedTagsAndStatus.selectTagHandler(ev) );
 		unburnedTags.rightclick(SelectedTagsAndStatus.selectTagHandler_invert);
 		html.find('.item-selection-context .tag .name').middleclick(HTMLHandlers.tagEdit);
 		const statuses = html.find(".item-selection-context .status .name");
-		statuses.on("click", SelectedTagsAndStatus.selectStatusHandler);
+		statuses.on("click", ev => void SelectedTagsAndStatus.selectStatusHandler(ev));
 		statuses.rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
 		statuses.middleclick(HTMLHandlers.statusEdit);
 		// html.find(".item-selection-context .status .name").on("click", SelectedTagsAndStatus.selectStatusHandler);
 		// html.find(".item-selection-context .status .name").rightclick(SelectedTagsAndStatus.selectStatusHandler_invert);
-		html.find('.status-delete').on("click",HTMLHandlers.deleteStatus);
+		html.find('.status-delete').on("click",ev => void HTMLHandlers.deleteStatus(ev) );
 		html.find('.status-delete').rightclick(ev => HTMLHandlers.deleteStatus(ev, true));
-		html.find('.tag-delete').on("click", HTMLHandlers.deleteTag);
+		html.find('.tag-delete').on("click", ev => void HTMLHandlers.deleteTag(ev) );
 		html.find('.tag-delete').rightclick( ev => HTMLHandlers.deleteTag(ev, true));
-		html.find('.status-add').on("click", HTMLHandlers.statusAdd);
-		html.find('.status-subtract').on("click", HTMLHandlers.statusSubtract);
-		html.find('.tag-burn').on("click", HTMLHandlers.burnTag);
-		html.find('.tag-unburn').on("click",HTMLHandlers.unburnTag);
-		html.find('.item-edit-context .tag .name').on("click", HTMLHandlers.tagEdit);
+		html.find('.status-add').on("click", ev => void HTMLHandlers.statusAdd(ev));
+		html.find('.status-subtract').on("click", ev => void HTMLHandlers.statusSubtract(ev));
+		html.find('.tag-burn').on("click", ev => void HTMLHandlers.burnTag(ev) );
+		html.find('.tag-unburn').on("click",ev => void HTMLHandlers.unburnTag(ev) );
+		html.find('.item-edit-context .tag .name').on("click", ev=> void HTMLHandlers.tagEdit(ev));
 		html.find('.item-edit-context .tag .name').middleclick(HTMLHandlers.tagEdit);
-		html.find('.item-edit-context .status .name').on("click", HTMLHandlers.statusEdit);
+		html.find('.item-edit-context .status .name').on("click", ev=> void HTMLHandlers.statusEdit(ev));
 		if (allowCreation) {
-			html.find('.create-status').on("click", HTMLHandlers.createStatus);
-			html.find('.create-story-tag').on("click", HTMLHandlers.createStoryTag);
+			html.find('.create-status').on("click", ev => void HTMLHandlers.createStatus(ev) );
+			html.find('.create-story-tag').on("click", ev=> void HTMLHandlers.createStoryTag(ev));
 		}
 	}
 
-	static async createStatus(event: JQuery.Event) {
+	static async createStatus(this: void, event: JQuery.Event) {
 		event.stopPropagation();
 		event.preventDefault();
 		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
@@ -75,7 +75,7 @@ export class HTMLHandlers {
 		return false;
 	}
 
-	static async deleteTag (event: JQuery.Event, autoDelete = false) {
+	static async deleteTag (this: void, event: JQuery.Event, autoDelete = false) {
 		const tagId = HTMLTools.getClosestData<CityItem["id"]>(event, "tagId");
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
@@ -106,7 +106,7 @@ export class HTMLHandlers {
 		await actor.deleteTag(tagId, {removeImprovement});
 	}
 
-	static async tagEdit(event: JQuery.Event) {
+	static async tagEdit(this: void, event: JQuery.Event) {
 		const id = HTMLTools.getClosestData(event, "tagId");
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
@@ -117,7 +117,8 @@ export class HTMLHandlers {
 			ui.notifications.error(msg);
 			return;
 		}
-		if (tag.themebook && tag.themebook.isThemeKit()) {
+    const themebook = tag.getThemebookOrTK();
+		if (themebook && themebook.isThemeKit()) {
 			const msg = localize("CityOfMist.error.themeKitTagEdit");
 			ui.notifications.notify(msg);
 			return;
@@ -125,7 +126,7 @@ export class HTMLHandlers {
 		return await CityDialogs.itemEditDialog(tag);
 	}
 
-	static async statusEdit (event: JQuery.Event) {
+	static async statusEdit (this: void, event: JQuery.Event) {
 		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
@@ -146,7 +147,7 @@ export class HTMLHandlers {
 		}
 	}
 
-	static async deleteStatus (event: JQuery.Event, autodelete = false) {
+	static async deleteStatus (this: void, event: JQuery.Event, autodelete = false) {
 		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
@@ -162,7 +163,7 @@ export class HTMLHandlers {
 		}
 	}
 
-	static async burnTag (event: JQuery.Event) {
+	static async burnTag (this: void, event: JQuery.Event) {
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
 		const actor =  CityHelpers.getOwner(actorId, tokenId) as CityActor;
@@ -175,7 +176,7 @@ export class HTMLHandlers {
 		await CityHelpers.modificationLog(actor, "Burned", tag);
 	}
 
-	static async unburnTag (event: JQuery.Event) {
+	static async unburnTag (this: void, event: JQuery.Event) {
 		const id = HTMLTools.getClosestData( event, "tagId");
 		const actorId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<Token["id"]>(event, "tokenId");
@@ -187,7 +188,7 @@ export class HTMLHandlers {
 		await CityHelpers.modificationLog(actor, `Unburned`, tag);
 	}
 
-	static async statusAdd (event: JQuery.Event) {
+	static async statusAdd (this: void, event: JQuery.Event) {
 		//adds a second status to existing
 		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
 		const ownerId = HTMLTools.getClosestData<CityActor["id"]>(event, "ownerId");
@@ -204,7 +205,7 @@ export class HTMLHandlers {
 		await status.addStatus(amt, {newName: newname, tier:amt});
 	}
 
-	static async statusSubtract (event: JQuery.Event) {
+	static async statusSubtract (this: void, event: JQuery.Event) {
 		const status_id = HTMLTools.getClosestData<CityItem["id"]>(event, "statusId");
 		const ownerId = HTMLTools.getClosestData<FoundryDocument["id"]>(event, "ownerId");
 		const tokenId = HTMLTools.getClosestData<FoundryDocument["id"]>(event, "tokenId");

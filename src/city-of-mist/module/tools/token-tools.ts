@@ -14,7 +14,7 @@ export class TokenTools {
 
 	static getSceneTokens( scene : Scene) {
 		if (!scene)
-			return [];
+			{return [];}
 		return scene.tokens.filter( (x:TokenDocument<CityActor>) =>!!x.actor);
 	}
 

@@ -4,34 +4,36 @@
 
 	static Debug(str :unknown ) {
 		if (this._DList == null)
-			this._DList= [];
+			{this._DList= [];}
 		this._DList.unshift(str);
 		// console.warn("Added to Debug");
 	}
 
 	static DLog (num ?: number | null) {
 		if (num == null)
-			return this._DList;
-		else return this._DList[num];
+			{return this._DList;}
+		else {return this._DList[num];}
 	}
 
 	static setDebugMode(bool: boolean) {
 		if (typeof bool != "boolean")
-			throw new Error(`Expected boolean and got ${typeof bool} :${bool}`);
+			{throw new Error(`Expected boolean and got ${typeof bool} :${bool as string}`);}
 		this.DEBUG = bool;
 		console.log(`Debug mode set to ${bool}`);
 	}
 }
 
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	window.Debug = DebugTools.Debug.bind(DebugTools);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	window.DLog = DebugTools.DLog.bind(DebugTools);
 
 
 declare global {
-	const Debug  : (item: any) => void;
+	const Debug  : (item: unknown) => void;
 	interface Window {
-		Debug(str: any) : void;
+		Debug(str: unknown) : void;
 		DLog(num ?: unknown) : void;
 	}
 }

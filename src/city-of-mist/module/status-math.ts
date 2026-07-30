@@ -21,7 +21,7 @@ export class StatusMath {
 				return this.addMistEngine(st1, st2tier);
 			default:
 				system satisfies never;
-				throw new Error(`Unknwon System ${system}`);
+				throw new Error(`Unknwon System ${system as string}`);
 		}
 
 	}
@@ -36,7 +36,7 @@ export class StatusMath {
 				return this.subMistEngine(st1, st2tier);
 			default:
 				system satisfies never;
-				throw new Error(`Unknwon System ${system}`);
+				throw new Error(`Unknwon System ${system as string}`);
 		}
 
 	}
@@ -78,7 +78,7 @@ export class StatusMath {
 		const pips = this.#convertToBinaryPips(st1);
  		while (pips & (1 << ntier - 1)) {
 			ntier++;
-			if (ntier > 10) throw new Error("Overflow");
+			if (ntier > 10) {throw new Error("Overflow");}
 		}
 		const newpips = pips + (1 << ntier - 1);
 		return this.#convertFromBinaryPips(newpips);
@@ -103,7 +103,7 @@ export class StatusMath {
 		const ntier = st2tier;
 		let {tier} = st1;
 		tier = Math.max(tier - ntier, 0);
-		return {tier, pips:0}
+		return {tier, pips:0};
 	}
 
 	static subMistEngine(st1: StatusLike, st2tier: number) : StatusLike {
@@ -115,7 +115,7 @@ export class StatusMath {
 	/** gets filled in status boxes by tier for Mist Engine Statuses */
 	static statusBoxesME(status: StatusLike): boolean[] {
 		let binary = this.#convertToBinaryPips(status);
-		let arr : boolean[] = [];
+		const arr : boolean[] = [];
 		while (arr.length < 6) {
 			arr.push( (binary & 1)  == 1);
 			binary >>= 1;
@@ -124,12 +124,12 @@ export class StatusMath {
 	}
 
 	static binaryToggle(status: StatusLike, index: number) : StatusLike {
-		let toggle = 1 << index;
+		const toggle = 1 << index;
 		let binary = this.#convertToBinaryPips(status);
 		binary ^= toggle;
 		return this.#convertFromBinaryPips(binary);
 	}
 }
 
-//@ts-ignore
+//@ts-expect-error adding to global scope
 window.StatusMath = StatusMath;

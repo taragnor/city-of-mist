@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { StatusMath } from "./status-math.js";
 import { Status } from "./city-item.js";
 import { FADETYPELIST } from "./datamodel/fade-types.js";
@@ -56,11 +57,6 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
       "any":  "CityOfMist.terms.any",
     } as const;
     data.CONST = this.CONST();
-    // data.CONST = {
-    //   TAG_CATEGORIES,
-    //   STATUS_CATEGORIES,
-    //   ...universalData,
-    // };
     data.FADE_TYPE_LIST = FADETYPELIST;
     data.TBSYSTEMLIST = SysChoices;
     data.SOURCEBOOKS = {"" : "-", ...sourcebooks};
@@ -149,15 +145,13 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		html.find('.delete-move-list-element').on ("click", this._deleteMoveListElement.bind(this));
 		html.on("keydown", this.quickClose.bind(this));
 		// html.keydown(this.quickClose.bind(this));
-		html.on("drop", (ev) => ev.originalEvent ? this._onDrop(ev.originalEvent) : undefined);
+		html.on("drop", (ev) => ev.originalEvent ? void this._onDrop(ev.originalEvent) : undefined);
 		html.find(".status-tier-circles .tracker-circle").on("click", this.clickStatusCircle.bind(this))
 	}
 
 	override async _onDrop(event: DragEvent) {
-		const data = TextEditor.getDragEventData(event);
-		// const allowed = Hooks.call("dropItemSheetData", item, this, data);
-		// if ( allowed === false ) return;
-
+    const editor = foundry?.applications?.ux?.TextEditor?.implementation ?? TextEditor;
+		const data = editor.getDragEventData(event);
     // Handle different data types
     switch ( data.type ) {
       case "ActiveEffect":
@@ -178,8 +172,9 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		return this.isEditable;
 	}
 
-	async _onDropItem(_event: DragEvent, o: any){
-		//@ts-ignore
+	async _onDropItem(_event: DragEvent, o: unknown){
+		//@ts-expect-error using not defined FN in FoundryTpes
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 		const item = await Item.implementation.fromDropData(o) as CityItem;
 		const thisItem = this.item;
 		switch (item.system.type) {
@@ -189,7 +184,7 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 					thisItem.system.type == "status") {
 					//create dependent Tag
 					const tagOrStatus = thisItem as Tag | Status;
-					tagOrStatus.addCreatingTagOrStatus(item as Tag | Status);
+					await tagOrStatus.addCreatingTagOrStatus(item as Tag | Status);
 					break;
 				}
 				return undefined;
@@ -230,7 +225,7 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		const type = $(event.currentTarget!).data("tagType");
 		event.preventDefault();
 		//@ts-ignore
-		let questions = this.item.system[type];
+		const questions = this.item.system[type];
 		const letters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let currlet = 0;
 		let pq2 = Object.assign({}, questions);
@@ -245,8 +240,8 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 				};
 			}
 		}
-		let obj = {system: {}};
-		//@ts-ignore
+		const obj = {system: {}};
+		//@ts-expect-error this probably could be worded better
 		obj.system[type] = pq2;
 		return await this.item.update(obj);
 	}
@@ -261,7 +256,7 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		let i2 = Object.assign({}, improvements);
 		for (let i = 0; i< 10000; i++) {
 			//@ts-ignore
-			if (i2[i] == undefined){
+			if (i2[i] == undefined) {
 			//@ts-ignore
 				i2[i] = {name: "", description: ""};
 				break;

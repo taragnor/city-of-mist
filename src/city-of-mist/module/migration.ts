@@ -14,8 +14,8 @@ export class CityDataMigration {
 	}
 
 	static async migrateFrom(oldVersion: string) {
-		if (!game.user.isGM) return;
-		if (game.actors.contents.length == 0 && game.items.contents.length == 0) return;
+		if (!game.user.isGM) {return;}
+		if (game.actors.contents.length == 0 && game.items.contents.length == 0) {return;}
 		const newVersion = game.system.version;
 		ui.notifications.notify("Migrating from older version... please wait");
 		console.log(`Migrating from ${oldVersion} to ${newVersion}`);
@@ -23,6 +23,7 @@ export class CityDataMigration {
 			await this.migrationScript(oldVersion);
 		} catch (a) {
 			ui.notifications.error( "Error in migration!");
+      Debug(a);
 			return;
 		}
 		ui.notifications.notify("Migration Complete!");
@@ -32,25 +33,30 @@ export class CityDataMigration {
 	static async migrationScript(oldVersion: string) {
 		if (oldVersion < "3.0.3") {
 			for (const actor of (game.actors.contents as CityActor[])) {
-				await this.actorTKFix(actor)
+				await this.actorTKFix(actor);
 				await this.actorloadoutDuplicationFix(actor);
 			}
 			for (const item of (game.items.contents as CityItem[])) {
 				if (item.isThemeKit())
-					await this.themekitFix(item);
+					{await this.themekitFix(item);}
 			}
 		}
 	}
 
-	/**repairs themekits missing letters due to handlebars hating arrays */
-	static async actorTKFix(actor: CityActor) {
-		for (const theme of actor.getThemes()) {
-			const maybe_themekit = theme.themebook;
-			if (maybe_themekit && maybe_themekit.isThemeKit()) {
-				await this.themekitFix(maybe_themekit);
-			}
-		}
-	}
+  /**repairs themekits missing letters due to handlebars hating arrays */
+  static async actorTKFix(actor: CityActor) {
+    for (const theme of actor.getThemes()) {
+      try {
+        const maybe_themekit = theme.getThemebookOrTK();
+        if (maybe_themekit && maybe_themekit.isThemeKit()) {
+          await this.themekitFix(maybe_themekit);
+        }
+      } catch (e) {
+        console.warn("Error in actorTKFix");
+        Debug(e);
+      }
+    }
+  }
 
 	static async themekitFix(themekit: ThemeKit) {
 		let change = false;
@@ -101,7 +107,7 @@ export class CityDataMigration {
 			.filter (x=> x.isTheme()
 				&& x.isLoadoutTheme()) as Theme[];
 		for (const theme of loadoutThemes) {
-			const tb = theme.themebook;
+			const tb = theme.getThemebookOrTK();
 			if (!tb) {
 				await theme.delete();
 				continue;
@@ -116,7 +122,7 @@ export class CityDataMigration {
 				&& x.isLoadoutTheme()) as Theme[];
 		while (remaining.length > 1) {
 			const item = remaining.pop();
-			item!.delete();
+			await item!.delete();
 		}
 	}
 

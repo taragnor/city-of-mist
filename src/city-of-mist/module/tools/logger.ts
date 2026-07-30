@@ -2,7 +2,7 @@ import { CityActor } from "../city-actor.js";
 
 export class Logger {
 
-	static async log(txt : string) {
+	static log(txt : string) : MaybePromise<void> {
 		console.log(txt);
 	}
 
@@ -39,7 +39,7 @@ export class Logger {
 	@param {string=} sender.actor ID of actor
 	@param {string=} sender.token ID of token
 	@param {string=} sender.alias enforced name for target
-	@param {string=] sender.altUser set an alternate user for the message sender
+	@param {string=} sender.altUser set an alternate user for the message sender
 	@param {string=} whisperTarget contains target of whisper
 	*/
 	static async sendToChat2(text: string, sender: {scene?: string | undefined; actor?: string | undefined; token?: string | undefined; alias?: string | undefined; altUser?: FoundryUser}={}, whisperTarget?: U<FoundryUser["id"]>) {
