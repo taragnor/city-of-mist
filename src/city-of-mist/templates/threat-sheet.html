@@ -60,6 +60,7 @@
 		<div class="tab tab-content" data-group="primary" data-tab="moves">
 			<div class="flex-row">
 				<div class="flex-overview-block">
+					{{> "systems/city-of-mist/templates/parts/default-tags-and-statuses.hbs" owner=actor sheetowner=actor}}
 					{{> "systems/city-of-mist/templates/parts/gmmoves-section.hbs" owner=actor locked=actor.system.locked sheetowner=actor}}
 					{{> "systems/city-of-mist/templates/parts/danger-template.html" owner=actor locked=actor.system.locked sheetowner=actor actor=actor}}
 				</div>

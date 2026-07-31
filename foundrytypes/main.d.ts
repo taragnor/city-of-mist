@@ -18,6 +18,8 @@ interface FoundryStuff {
       Actors: typeof Foundry.Actors;
       Items: typeof Foundry.Items;
     };
+    Actor: Actor;
+    Item: Actor;
     BaseCombat: Foundry.DocumentConstructor;
     BaseActor: Foundry.DocumentConstructor;
     BaseItem: Foundry.DocumentConstructor;

@@ -17,7 +17,7 @@ const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, 
 import { MOVETYPES } from "./move-types.js";
 import { TAGTYPES } from "./tag-types.js";
 
-const DataModel = foundry.abstract.DataModel;
+const {DataModel, TypeDataModel}= foundry.abstract;
 
 const VERSION ="1" ; //TODO: import real version number
 
@@ -99,7 +99,7 @@ function expendable() {
 	};
 }
 
-class Themebook extends DataModel {
+class Themebook extends TypeDataModel {
 	get type() {return "themebook" as const;}
 	static override defineSchema() {
 		return {
@@ -116,7 +116,7 @@ class Themebook extends DataModel {
 	}
 }
 
-class Themekit extends DataModel {
+class Themekit extends TypeDataModel {
 	get type() {return "themekit" as const;}
 	static override defineSchema() {
 		return {
@@ -136,20 +136,43 @@ class Themekit extends DataModel {
 	}
 }
 
-class TagDM extends DataModel {
+
+function tagCore() {
+  return {
+    ...defaultItem(),
+    subtype: new txt({choices: TAGTYPES, initial:"story"}),
+    crispy: new bool({initial: false}),
+    hidden: new bool({initial: false}),
+  };
+
+}
+
+export class EmbeddedTagDM extends DataModel {
+	get type() {return "tag" as const;}
+	static override defineSchema() { 
+    return {
+      name: new txt({initial: "New Tag"}),
+      ...tagCore(),
+    };
+  }
+
+}
+
+export class TagDM extends TypeDataModel {
 	get type() {return "tag" as const;}
 	static override defineSchema() {
 		return {
-			...defaultItem(),
+      ...tagCore(),
+			// ...defaultItem(),
 			question: new txt(),
 			question_letter: new txt(),
-			subtype: new txt({choices: TAGTYPES, initial:"story"}),
+			// subtype: new txt({choices: TAGTYPES, initial:"story"}),
 			category: new txt({choices: TAG_CATEGORY_LIST, initial: "none"}),
 			burn_state: new num({initial: 0}),
 			burned: new bool({initial: false}),
-			crispy: new bool({initial: false}),
+			// crispy: new bool({initial: false}),
 			is_bonus: new bool({initial: false}),
-      hidden: new bool({initial: false}),
+      // hidden: new bool({initial: false}),
 			theme_id: new id(),
 			custom_tag:new bool({initial: false}),
 			broad: new bool({initial: false}),
@@ -174,7 +197,7 @@ class TagDM extends DataModel {
 	}
 }
 
-class Theme extends DataModel {
+class Theme extends TypeDataModel {
 	get type() {return "theme" as const;}
 	static override defineSchema() {
 		return {
@@ -196,7 +219,7 @@ class Theme extends DataModel {
 	}
 }
 
-class Improvement extends DataModel {
+class Improvement extends TypeDataModel {
 	get type() {return "improvement" as const;}
 	static override defineSchema() {
 		return {
@@ -213,7 +236,7 @@ class Improvement extends DataModel {
 }
 
 
-class Spectrum extends DataModel {
+class Spectrum extends TypeDataModel {
 	get type() {return "spectrum" as const;}
 	static override defineSchema() {
 		return {
@@ -239,7 +262,7 @@ class Spectrum extends DataModel {
 	}
 }
 
-class Clue extends DataModel {
+class Clue extends TypeDataModel {
 	get type() {return "clue" as const;}
 	static override defineSchema() {
 		return {
@@ -254,7 +277,7 @@ class Clue extends DataModel {
 	}
 }
 
-class Juice extends DataModel {
+class Juice extends TypeDataModel {
 	get type() {return "juice" as const;}
 	static override defineSchema() {
 		return {
@@ -269,7 +292,7 @@ class Juice extends DataModel {
 	}
 }
 
-class Move extends DataModel {
+class Move extends TypeDataModel {
 	get type() {return "move" as const;}
 	static override defineSchema() {
 		return {
@@ -291,14 +314,29 @@ class Move extends DataModel {
 	}
 }
 
-class StatusDM extends DataModel {
+function coreStatus() {
+  return {
+    ...defaultItem(),
+    ...tiered(),
+    hidden: new bool({initial: false}),
+  };
+}
+
+export class EmbeddedStatusDM extends DataModel {
+  static override defineSchema() {
+    return {
+      name: new txt ({initial: "New Status"}),
+      ...coreStatus(),
+    };
+  }
+}
+
+class StatusDM extends TypeDataModel {
 	get type() {return "status" as const;}
 	static override defineSchema() {
 		return {
-			...defaultItem(),
-			...tiered(),
-			category: new txt({initial: "none", choices:STATUS_CATEGORY_LIST}),
-			hidden: new bool({initial: false}),
+      ...coreStatus(),
+			category: new txt({initial: "none", choices: STATUS_CATEGORY_LIST}),
 			spectrum_status: new txt(),
 			temporary: new bool({initial: false}),
 			permanent: new bool({initial: false}),
@@ -311,7 +349,7 @@ class StatusDM extends DataModel {
 	}
 }
 
-class EssenceDM extends DataModel {
+class EssenceDM extends TypeDataModel {
 	get type() {return "essence" as const;}
 	static override defineSchema() {
 		return {
@@ -324,7 +362,7 @@ class EssenceDM extends DataModel {
 	}
 }
 
-class GMMove extends DataModel {
+class GMMove extends TypeDataModel {
 	get type() {return "gmmove" as const;}
 	static override defineSchema() {
 		return {
@@ -348,7 +386,7 @@ class GMMove extends DataModel {
 	}
 }
 
-class Journal extends DataModel {
+class Journal extends TypeDataModel {
 	get type() {return "journal" as const;}
 	static override defineSchema() {
 		return {

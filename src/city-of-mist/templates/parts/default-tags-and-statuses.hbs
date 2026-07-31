@@ -1,0 +1,30 @@
+<section class="default-tags-and-statuses">
+  <h2>
+    {{localize "Generic.terms.defaultTagsAndStatuses"}}
+  </h2>
+  <div class="list">
+
+    {{#each actor.system.defaultTags as |tag i|}}
+    <div class="list-item default-tag" data-index="{{i}}">
+      {{#if tag.hidden}}
+      <a title='{{localize "Generic.term.hidden"}}' >
+        <i class="fa-solid fa-eye"></i>
+      </a>
+      {{/if}}
+      <input class="default-tag" name="system.defaultTags.{{i}}.name" type="text" value="{{tag.name}}">
+    </div>
+    {{/each}}
+
+    {{#each actor.system.defaultStatuses as |status i|}}
+    <div class="list-item default-status" data-index="{{i}}">
+      {{#if status.hidden}}
+      <a title='{{localize "Generic.term.hidden"}}' >
+        <i class="fa-solid fa-eye"></i>
+      </a>
+      {{/if}}
+      <input class="default-status" type="text" value="{{status.name}}-{{status.tier}}">
+    </div>
+
+  </div>
+  {{/each}}
+</section>

@@ -1,4 +1,5 @@
-const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj} = foundry.data.fields;
+const {StringField:txt, BooleanField: bool, NumberField: num, SchemaField: sch, HTMLField: html , ArrayField: arr, DocumentIdField: id, ObjectField: obj, EmbeddedDataField} = foundry.data.fields;
+import { EmbeddedStatusDM, EmbeddedTagDM } from "./item-types.js";
 const VERSION ="1" ; //TODO: import real version number
 
 function default_template() {
@@ -45,7 +46,7 @@ function person() {
 	};
 }
 
-export class CharacterSchema extends foundry.abstract.DataModel {
+export class CharacterSchema extends foundry.abstract.TypeDataModel {
 	get type() {return "character" as const;}
 	static override defineSchema() {
 		const ret = {
@@ -72,7 +73,7 @@ export class CharacterSchema extends foundry.abstract.DataModel {
 
 }
 
-export class ThreatSchema extends foundry.abstract.DataModel {
+export class ThreatSchema extends foundry.abstract.TypeDataModel {
 	get type() {return "threat" as const;}
 	static override defineSchema() {
 		return {
@@ -82,12 +83,14 @@ export class ThreatSchema extends foundry.abstract.DataModel {
 			...person(),
 			is_template: new bool({initial: false}),
 			template_ids: new arr(new id(), {initial: []}),
-			collectiveSize: new num({initial: 0})
+			collectiveSize: new num({initial: 0}),
+      defaultTags: new arr(new EmbeddedDataField(EmbeddedTagDM)),
+      defaultStatuses: new arr(new EmbeddedDataField(EmbeddedStatusDM)),
 		};
 	}
 }
 
-export class CrewSchema extends foundry.abstract.DataModel {
+export class CrewSchema extends foundry.abstract.TypeDataModel {
 	get type() {return "crew" as const;}
 	static override defineSchema() {
 		return {

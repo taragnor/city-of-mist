@@ -27,6 +27,7 @@ import { ClueJournal } from "./city-item.js";
 import { Theme } from "./city-item.js";
 import { Spectrum } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
+import {DocumentTools} from "./tools/foundry-document-helpers.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
@@ -1566,6 +1567,23 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return CityDB.getEssence(this.system.essence.systemName);
 	}
 
+
+  async createNewDefaultTag(this: Danger, name?: string) {
+    return await DocumentTools.arrayAdd(this, "system.defaultTags", {name: name ?? "New Tag"});
+  }
+
+  async deleteDefaultTag(this: Danger, index: number) {
+    return await DocumentTools.arrayDelete(this, "system.defaultTags", index);
+  }
+
+  async createNewDefaultStatus(this: Danger, name?: string, tier =1) {
+    const status = { name, tier};
+    return await DocumentTools.arrayAdd(this, "system.defaultStatuses", status);
+  }
+
+  async deleteDefaultStatus(this: Danger, index: number) {
+   return await DocumentTools.arrayDelete(this, "system.defaultStatuses", index);
+  }
 
 } //end of class
 

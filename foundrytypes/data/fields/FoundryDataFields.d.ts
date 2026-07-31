@@ -7,7 +7,7 @@ declare interface FoundryDataFields {
 	EmbeddedDataField: typeof EmbeddedDataField;
 	EmbeddedCollectionField: typeof EmbeddedCollectionField;
 	// EmbeddedCollectionDeltaField: any;
-	//EmbeddedDocumentField: any
+	EmbeddedDocumentField: typeof EmbeddedDocumentField;
 	//DocumentOwnershipField: any
 	DocumentIdField: typeof DocumentIdField;
 	FilePathField: typeof FilePathField;
@@ -34,6 +34,10 @@ class NumberField extends FoundryDMField<number> {
 
 class EmbeddedDataField<T extends typeof DataModelClass> extends FoundryDMField<T> {
 	constructor(dataModelClass: T);
+}
+
+class EmbeddedDocumentField<T extends typeof Foundry.Document> {
+  constructor(document: T, options ?: DataFieldOptions<T>, context?: DataFieldContext);
 }
 
 class AlphaFieldClass extends NumberField {
@@ -139,3 +143,4 @@ type AtLeastOne<const T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[key
 type ConstructorOf<T> = new (...args: any[]) => T;
 
 
+type DataFieldContext = unknown;

@@ -58,6 +58,7 @@ export const preloadHandlebarsTemplates = async function() {
 	  "systems/city-of-mist/templates/parts/systemComp.hbs",
 	  "systems/city-of-mist/templates/parts/systemComp.hbs",
 	  "systems/city-of-mist/templates/parts/themePointControls.hbs",
+    "systems/city-of-mist/templates/parts/default-tags-and-statuses.hbs",
   ];
 
   // Load the template parts

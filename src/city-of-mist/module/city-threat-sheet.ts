@@ -45,6 +45,8 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.template-delete').on("click", ev=> void this._deleteTemplate(ev));
 		html.find('.template-name').on("click", ev=> void this._jumpToTemplate(ev));
 		html.find('.add-sub-move').on("click", ev => void this.#addSubMove(ev));
+    html.find(".default-tags-and-statuses .list .default-tag").rightclick( ev => this.#deleteDefaultTag(ev));
+    html.find(".default-tags-and-statuses .list .default-status").rightclick( ev => this.#deleteDefaultStatus(ev));
 	}
 
 	override async getData() {
@@ -251,6 +253,16 @@ export class CityThreatSheet extends CityActorSheet {
 		const submove = await move.createSubMove();
 		await this.moveDialog(submove);
 	}
+
+  async #deleteDefaultTag(ev: JQuery.ClickEvent) {
+		const index =  Number(HTMLTools.getClosestData(ev, "index"));
+    await this.actor.deleteDefaultTag(index);
+  }
+
+  async #deleteDefaultStatus(ev: JQuery.ClickEvent) {
+		const index =  Number(HTMLTools.getClosestData(ev, "index"));
+    await this.actor.deleteDefaultStatus(index);
+  }
 
 
 } //end of class
