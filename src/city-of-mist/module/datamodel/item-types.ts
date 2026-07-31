@@ -151,6 +151,7 @@ export class EmbeddedTagDM extends DataModel {
 	get type() {return "tag" as const;}
 	static override defineSchema() { 
     return {
+      type: new txt({choices: ["tag"], initial: "tag"}),
       name: new txt({initial: "New Tag"}),
       ...tagCore(),
     };
@@ -325,6 +326,7 @@ function coreStatus() {
 export class EmbeddedStatusDM extends DataModel {
   static override defineSchema() {
     return {
+      type: new txt({choices: ["status"], initial: "status"}),
       name: new txt ({initial: "New Status"}),
       ...coreStatus(),
     };

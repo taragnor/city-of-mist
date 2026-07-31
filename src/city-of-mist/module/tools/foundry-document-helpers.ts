@@ -23,4 +23,19 @@ export class DocumentTools {
     return ret;
   }
 
+  static async arrayUpdate<T extends FoundryDocument, ItemType>(doc: T, path: string, index: number, mutator: (t: ItemType) =>ItemType ) {
+    const data = (foundry.utils.getProperty(doc, path) as unknown[] ?? []).slice();
+    if (typeof index != "number" || index < 0 || index >= data.length || Number.isNaN(index)) {
+      throw new Error(`Invalid index: ${index}`);
+    }
+    const item = data[index];
+    data[index] = mutator(item as ItemType);
+    const ret =await doc.update( {[path]: data.slice()});
+    //This didn't seem to work well for updates
+    // if (!ret) {
+    //   console.warn(`Array edit to ${path} on ${index} seems to have failed`);
+    // }
+    return ret;
+  }
+
 }

@@ -5,6 +5,7 @@ import { CityHelpers } from "./city-helpers.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import {CityDB} from "./city-db.js";
 import { CityActor, Danger } from "./city-actor.js";
+import {DocumentTools} from "./tools/foundry-document-helpers.js";
 
 export class CityThreatSheet extends CityActorSheet {
 	declare actor: Danger;
@@ -47,6 +48,7 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.add-sub-move').on("click", ev => void this.#addSubMove(ev));
     html.find(".default-tags-and-statuses .list .default-tag").rightclick( ev => this.#deleteDefaultTag(ev));
     html.find(".default-tags-and-statuses .list .default-status").rightclick( ev => this.#deleteDefaultStatus(ev));
+    html.find(".default-tags-and-statuses .list input").on("change",  ev => this.#onDefaultTagChange(ev));
 	}
 
 	override async getData() {
@@ -264,5 +266,64 @@ export class CityThreatSheet extends CityActorSheet {
     await this.actor.deleteDefaultStatus(index);
   }
 
+  async #onDefaultTagChange(ev: JQuery.ChangeEvent) {
+    const index =  Number(HTMLTools.getClosestData(ev, "index"));
+    const origType =  String(HTMLTools.getClosestData(ev, "type"));
+    const value = String($(ev.currentTarget).val());
+    const {name, tier} = parseTieredName(value);
+    const newType = tier ? "status" : "tag";
+    if (newType != origType) {
+      switch (origType) {
+        case "tag":
+          await this.actor.deleteDefaultTag(index);
+          await this.actor.createNewDefaultStatus(name, tier);
+          return;
+        case "status":
+          await this.actor.deleteDefaultStatus(index);
+          await this.actor.createNewDefaultTag(name);
+          return;
+        default:
+          throw new Error(`Unknown Type ${origType}`);
+      }
+    }
+    switch (newType) {
+      case "tag": {
+        await DocumentTools.arrayUpdate(
+          this.actor,
+          "system.defaultTags",
+          index,
+          (item: typeof this.actor["system"]["defaultTags"][number]) => {item.name = name; return item;});
+        return;
+      }
+      case "status": {
+        await DocumentTools.arrayUpdate(
+          this.actor,
+          "system.defaultStatuses",
+          index,
+          (item: typeof this.actor["system"]["defaultStatuses"][number]) => {item.name = name; item.tier = tier!; return item;});
+        return;
+      }
+      default:
+        throw new Error(`Unknown Type ${newType}`);
+    }
+  }
 
 } //end of class
+
+// function endsWithDashNumber(value: string): boolean {
+//   return /-\d+$/.test(value);
+// }
+function parseTieredName(value: string): { name: string; tier?: number } {
+    const match = value.match(/^(.*?)-(\d+)$/);
+
+    if (match) {
+        return {
+            name: match[1],
+            tier: Number(match[2])
+        };
+    }
+
+    return {
+        name: value
+    };
+}
