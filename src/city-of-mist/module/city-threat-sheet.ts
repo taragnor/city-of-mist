@@ -48,7 +48,9 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.add-sub-move').on("click", ev => void this.#addSubMove(ev));
     html.find(".default-tags-and-statuses .list .default-tag").rightclick( ev => this.#deleteDefaultTag(ev));
     html.find(".default-tags-and-statuses .list .default-status").rightclick( ev => this.#deleteDefaultStatus(ev));
-    html.find(".default-tags-and-statuses .list input").on("change",  ev => this.#onDefaultTagChange(ev));
+    html.find(".default-tags-and-statuses .list input").on("change",  ev => void this.#onDefaultTagChange(ev));
+    html.find(".default-tags-and-statuses .list .list-item").on("click",  ev => void this.#onDefaultHideToggle(ev));
+    html.find(".default-tags-and-statuses .create-default").on("click",  ev => void this.#createDefault(ev));
 	}
 
 	override async getData() {
@@ -304,9 +306,54 @@ export class CityThreatSheet extends CityActorSheet {
         return;
       }
       default:
-        throw new Error(`Unknown Type ${newType}`);
+        newType satisfies never;
+        throw new Error(`Unknown Type ${newType as string}`);
     }
   }
+
+  async #onDefaultHideToggle(ev: JQuery.ClickEvent) {
+    if (!this.actor.isLocked()) {return;}
+    ev.preventDefault();
+    ev.stopPropagation();
+    const index =  Number(HTMLTools.getClosestData(ev, "index"));
+    const type =  String(HTMLTools.getClosestData(ev, "type"));
+    switch (type) {
+      case "tag":
+        await DocumentTools.arrayUpdate(this.actor,
+          "system.defaultTags",
+          index,
+          (tag: this["actor"]["system"]["defaultTags"][number]) => {tag.hidden = !tag.hidden; return tag;});
+        break;
+      case "status":
+        await DocumentTools.arrayUpdate(this.actor,
+          "system.defaultStatuses",
+          index,
+          (st: this["actor"]["system"]["defaultStatuses"][number]) => {st.hidden = !st.hidden; return st;});
+        break;
+      default:
+        throw new Error(`Unknown Type ${type}`);
+    }
+    if (document.activeElement) {
+      $(document.activeElement).trigger("blur");
+    }
+    this.render(false);
+  }
+
+  async #createDefault(ev: JQuery.ClickEvent) {
+    //seems to be causing deletions for some reason
+    await this.actor.createNewDefaultTag("");
+    const index=  this.actor.system.defaultTags.length - 1;
+    const selector = ".default-tags-and-statuses .list .default-tag";
+    await CityHelpers.sleep(.3);
+    $(this.element).find(`${selector}[data-index="${index}"]`)
+      .find("input")
+      .trigger("click")
+      .trigger("focus")
+      .trigger("select");
+    ;
+  }
+
+
 
 } //end of class
 

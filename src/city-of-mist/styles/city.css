@@ -3164,10 +3164,10 @@ Flip Card code
         inset 0 1px 0 rgb(255 255 255 / 15%);
 
         font-weight: bold;
+        max-width: 10em;
+        min-width: 3em;
 
         input {
-          max-width: 10em;
-          min-width: 3em;
           appearance: none;
           border: none;
           outline: none;
