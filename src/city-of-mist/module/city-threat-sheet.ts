@@ -340,7 +340,7 @@ export class CityThreatSheet extends CityActorSheet {
   }
 
   async #createDefault(ev: JQuery.ClickEvent) {
-    //seems to be causing deletions for some reason
+    //TODO: fix this -> seems to be causing deletions for some reason
     await this.actor.createNewDefaultTag("");
     const index=  this.actor.system.defaultTags.length - 1;
     const selector = ".default-tags-and-statuses .list .default-tag";
