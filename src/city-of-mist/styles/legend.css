@@ -227,4 +227,18 @@
 }
 
 
+.style-legend {
+
+  .default-tags-and-statuses {
+    .list {
+      .list-item {
+        background: linear-gradient(#888, #999);
+      }
+      &.inherited {
+        opacity: 0.75;
+        background: linear-gradient(#777, #888);
+      }
+    }
+  }
+}
 

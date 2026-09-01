@@ -1632,8 +1632,6 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
     return defaults;
   }
 
-
-
   async refreshDefaultTagsAndStatus(this: Danger) {
     const defaults = this.allDefaultTagsAndStatuses();
     for (const item of defaults) {
