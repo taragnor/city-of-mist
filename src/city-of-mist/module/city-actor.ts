@@ -1581,6 +1581,15 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
     return await DocumentTools.arrayAdd(this, "system.defaultStatuses", status);
   }
 
+  async updateDefaultTagOrStatus(this: Danger, changes: {name: string, tier?: number}, index: number) {
+    const {tier, name} = changes;
+    const path = tier != undefined ? "system.defaultStatuses": "system.defaultTags";
+    await DocumentTools.arrayUpdate(this, path, index,
+      (elem: {name: string, tier?: number}) => {
+        return { ...elem, name, tier};
+      });
+  }
+
   async deleteDefaultStatus(this: Danger, index: number) {
    return await DocumentTools.arrayDelete(this, "system.defaultStatuses", index);
   }

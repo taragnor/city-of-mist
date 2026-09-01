@@ -1,9 +1,14 @@
 export class DocumentTools {
 
   static async arrayAdd<T extends FoundryDocument>(doc: T, path: string, newData: Record<string, unknown> = {}) {
-    const data = (foundry.utils.getProperty(doc, path) as unknown[] ?? []).slice();
-    data.push(newData);
-    const ret = await doc.update( {[path]: data});
+    const array = (foundry.utils.getProperty(doc, path) as unknown[])
+    .map( x=> x instanceof foundry.abstract.DataModel ? x.toJSON(): x);
+    const ret = await doc.update({
+        [path]: [...array, newData]
+    });
+    // const data = (foundry.utils.getProperty(doc, path) as unknown[] ?? []).slice();
+    // const newArr = [...data, newData];
+    // const ret = await doc.update( {[path]: newArr});
     if (!ret) {
       console.warn(`Array add to ${path} on ${doc.name} seems to have failed`);
     }
@@ -16,7 +21,7 @@ export class DocumentTools {
       throw new Error(`Invalid index: ${index}`);
     }
     data.splice(index, 1);
-    const ret =await doc.update( {[path]: data});
+    const ret = await doc.update( {[path]: data});
     if (!ret) {
       console.warn(`Array delete to ${path} on ${doc.name} seems to have failed`);
     }

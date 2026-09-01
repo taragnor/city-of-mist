@@ -274,6 +274,9 @@ export class CityThreatSheet extends CityActorSheet {
     const value = String($(ev.currentTarget).val());
     const {name, tier} = parseTieredName(value);
     const newType = tier ? "status" : "tag";
+    if (newType == origType) {
+      await this.actor.updateDefaultTagOrStatus({name, tier}, index);
+    }
     if (newType != origType) {
       switch (origType) {
         case "tag":
@@ -339,9 +342,9 @@ export class CityThreatSheet extends CityActorSheet {
     this.render(false);
   }
 
-  async #createDefault(ev: JQuery.ClickEvent) {
+  async #createDefault(_ev: JQuery.ClickEvent) {
     //TODO: fix this -> seems to be causing deletions for some reason
-    await this.actor.createNewDefaultTag("");
+    await this.actor.createNewDefaultTag("??");
     const index=  this.actor.system.defaultTags.length - 1;
     const selector = ".default-tags-and-statuses .list .default-tag";
     await CityHelpers.sleep(.3);
