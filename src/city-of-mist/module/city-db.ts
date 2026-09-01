@@ -303,10 +303,9 @@ export class CityDB extends DBAccessor {
 
 	static async onTokenCreate(token: TokenDocument<CityActor>) {
 		if (!token.actor) {return;}
-		const type = token.actor.system.type;
-		if (type == "character" || type == "crew" )
+		if (token.actor.isPC() || token.actor.isCrew())
 			{await CityHelpers.ensureTokenLinked(token.parent, token);}
-		if (type == "threat") {
+		if (token.actor.isDanger()) {
 			const danger = token as TokenDocument<Danger>;
 			await this.onTokenUpdate(danger);
 			if (danger.actor!.hasEntranceMoves()  && !danger.hidden) {
@@ -316,7 +315,7 @@ export class CityDB extends DBAccessor {
 		return true;
 	}
 
-	static async onSceneUpdate(scene: Scene, changes: {active?:boolean}) {
+	static onSceneUpdate(scene: Scene, changes: {active?:boolean}) {
 		if (!changes.active) {return;}
 		CityHelpers.refreshTokenActorsInScene(scene);
 		return true;

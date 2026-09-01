@@ -194,6 +194,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		return this.system.type == "character";
 	}
 
+  isCrew(): this is Crew {
+		return this.system.type ==  "crew";
+  }
+
 	is_scene_container() {
 		return this.name.includes(SceneTags.SCENE_CONTAINER_ACTOR_NAME);
 	}
@@ -1348,20 +1352,23 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 
 	hasEntranceMoves() {
 		return this.getGMMoves()
-			.some ( x=> x.system.subtype == "entrance");
+			.some ( x=> x.system.subtype == "entrance") ||
+      this.defaultTagsAndStatuses.length > 0;
 	}
 
-	async executeEntranceMoves(token : TokenDocument<Danger>) {
+	async executeEntranceMoves(this: Danger, token : TokenDocument<Danger>) {
 		if (!game.user.isGM) {return;}
 		if (!CityHelpers.entranceMovesEnabled())
 			{return;}
 		const moves =	this.getGMMoves()
 			.filter ( x=> x.system.subtype == "entrance");
+    if (moves.length == 0 && this.defaultTagsAndStatuses.length == 0) {return;}
 		if (CityHelpers.autoExecEntranceMoves()
 			|| await HTMLTools.confirmBox(`Run enter Scene Moves for ${token.name}`, `Run Enter scene moves for ${token.name}`) ) {
 			for (const move of moves) {
 				await this.executeGMMove(move);
 			}
+      await this.refreshDefaultTagsAndStatus();
 		}
 	}
 
