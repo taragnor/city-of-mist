@@ -28,9 +28,10 @@ import { Theme } from "./city-item.js";
 import { Spectrum } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import {DocumentTools} from "./tools/foundry-document-helpers.js";
-import {EmbeddedStatusDM, EmbeddedTagDM} from "./datamodel/item-types.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
+
+  static MAX_TEMPLATE_DEPTH = 4;
 
 	declare sheet: CityActorSheet;
 
@@ -278,7 +279,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 	}
 
 	getGMMoves(depth = 0) : GMMove[] {
-		if (depth > 2) {return [];}
+		if (depth > CityActor.MAX_TEMPLATE_DEPTH) {return [];}
 		if (!this.isDanger()) {return [];}
 		const GMMoves : GMMove[] = this.items
 			.filter( x => x.isGMMove()) as GMMove[];
@@ -1350,10 +1351,10 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
 		}
 	}
 
-	hasEntranceMoves() {
+	hasEntranceMoves(this: Danger) {
 		return this.getGMMoves()
 			.some ( x=> x.system.subtype == "entrance") ||
-      this.defaultTagsAndStatuses.length > 0;
+      this.allDefaultTagsAndStatuses().length > 0;
 	}
 
 	async executeEntranceMoves(this: Danger, token : TokenDocument<Danger>) {
@@ -1598,7 +1599,7 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
       });
   }
 
-  get defaultTagsAndStatuses() : (Danger["system"]["defaultTags"][number] | Danger["system"]["defaultStatuses"][number])[]{
+  get defaultTagsAndStatuses() : DefaultTagOrStatus[]{
     if (!this.isDanger()) {return [];}
     return [
       ...this.system.defaultTags,
@@ -1606,8 +1607,35 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
     ];
   }
 
+  allDefaultTagsAndStatuses(this: Danger, depth= 0): DefaultTagOrStatus [] 
+  {
+    if (depth++ > CityActor.MAX_TEMPLATE_DEPTH) {return [];}
+    const array = this.defaultTagsAndStatuses.slice();
+    const inheritedStuff = this._inheritedDefaultTagsAndStatuses(depth);
+    for (const inherited of inheritedStuff) {
+      if (array.some( x=> x.name == inherited.name && x.type == inherited.type)) {continue;}
+      array.push(inherited);
+    }
+    return array;
+  }
+
+  get inheritedDefaultTagsAndStatuses() : DefaultTagOrStatus[] {
+    if (!this.isDanger()) {return [];}
+    return this.allDefaultTagsAndStatuses()
+      .filter (x=> (x?.parent?.parent as unknown as CityActor) != this);
+  }
+
+  private _inheritedDefaultTagsAndStatuses(this: Danger, depth = 0): DefaultTagOrStatus[] {
+    if (depth++ > CityActor.MAX_TEMPLATE_DEPTH) {return [];}
+    const defaults =  this.templates
+      .flatMap( x=> x.allDefaultTagsAndStatuses(depth));
+    return defaults;
+  }
+
+
+
   async refreshDefaultTagsAndStatus(this: Danger) {
-    const defaults = this.defaultTagsAndStatuses;
+    const defaults = this.allDefaultTagsAndStatuses();
     for (const item of defaults) {
       if ("tier" in item) {
         //its a status
@@ -1651,3 +1679,6 @@ Hooks.on("updateActor", async (act) => {
 		await actor.updateCollectiveStatus();
 	}
 });
+
+
+type DefaultTagOrStatus = Danger["system"]["defaultTags"][number] | Danger["system"]["defaultStatuses"][number] ;

@@ -3171,14 +3171,19 @@ Flip Card code
   .default-tags-and-statuses {
 
     .list {
+      display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: flex-start;
 
       .list-item {
-        display: inline-block;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        /* display: inline-block; */
         padding: 0.4em 0.9em;
-
+        flex: 1 1 auto;
         color: white;
         background: linear-gradient(#444, #222);
 
@@ -3190,20 +3195,25 @@ Flip Card code
         inset 0 1px 0 rgb(255 255 255 / 15%);
 
         font-weight: bold;
-        max-width: 10em;
+        max-width: 20em;
         min-width: 3em;
 
         input {
+          width: 90%;
           appearance: none;
           border: none;
           outline: none;
           box-shadow: none;
           background: inherit;
         }
+
+        &.inherited {
+          opacity: 0.75;
+          background: linear-gradient(#333, #111);
+        }
+
       }
-
-
-    }
+     }
 
   }
 

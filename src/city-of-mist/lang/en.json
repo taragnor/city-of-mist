@@ -39,6 +39,7 @@
 "Generic.terms.compatibleWith": "Compatible With",
 "Generic.terms.sourcebook": "Sourcebook",
 "Generic.terms.defaultTagsAndStatuses": "Starting Tags And Statuses",
+"Generic.terms.inheritedFromTemplate": "Inherited from {parent}",
 
 "CityOfMist.terms.name": "Name",
 "CityOfMist.terms.description": "Description",
@@ -892,6 +893,7 @@
 
 
 "CityOfMist.themekit.html.inherit_improvements_checkbox": "Include Improvements  from base themebook",
+
 
 "CityOfMist.chatmessage.clue.use":"uses a clue.",
 

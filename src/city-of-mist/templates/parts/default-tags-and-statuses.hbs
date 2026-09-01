@@ -24,17 +24,40 @@
     </div>
       {{/each}}
 
-    {{#each actor.system.defaultStatuses as |status i|}}
-    <div class="list-item default-status" data-type="{{status.type}}" data-index="{{i}}">
-      {{#if status.hidden}}
-      <span>
-        <a title='{{localize "Generic.term.hidden"}}' >
-          <i class="fa-solid fa-eye"></i>
-        </a>
-      </span>
-      {{/if}}
-      <input class="default-status" type="text" value="{{status.name}}-{{status.tier}}" >
-    </div>
-      {{/each}}
+      {{#each actor.system.defaultStatuses as |status i|}}
+      <div class="list-item default-status" data-type="{{status.type}}" data-index="{{i}}">
+        {{#if status.hidden}}
+        <span>
+          <a title='{{localize "Generic.term.hidden"}}' >
+            <i class="fa-solid fa-eye"></i>
+          </a>
+        </span>
+        {{/if}}
+        <input class="default-status" type="text" value="{{status.name}}-{{status.tier}}" >
+      </div>
+        {{/each}}
+
+        {{#each actor.inheritedDefaultTagsAndStatuses as |inherited i|}}
+        <div class="list-item inherited" data-type="{{status.type}}" data-index="{{i}}" title="{{localize 'Generic.terms.inheritedFromTemplate' parent=inherited.parent.parent.name}}">
+          {{#if inherited.hidden}}
+          <span>
+            <a title='{{localize "Generic.term.hidden"}}' >
+              <i class="fa-solid fa-eye"></i>
+            </a>
+          </span>
+          {{/if}}
+          {{#if (eq inherited.type "tag")}}
+          <span class="inherited-tag" type="text">
+            {{inherited.name}}
+          </span>
+          {{else}}
+          <span class="inherited-status" type="text">
+            {{inherited.name}}-{{inherited.tier}}
+          </span>
+          {{/if}}
+
+      </div>
+        {{/each}}
+
   </div>
 </section>
