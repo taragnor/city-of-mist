@@ -650,6 +650,7 @@
 "CityOfMist.command.send_to_chat" : "Send To Chat",
 "CityOfMist.command.reveal_alias" : "Reveal Alias",
 "CityOfMist.command.listElements": "List Elements",
+"CityOfMist.command.refreshDefaultTagsAndStatus": "Refresh Default Tags and Statuses",
 
 "CityOfMist.message.rejectedQuestion" : "Question Invalid for Method (Clue Refunded)",
 "CityOfMist.message.waitingPlayer" : "Waiting for Player to Respond",

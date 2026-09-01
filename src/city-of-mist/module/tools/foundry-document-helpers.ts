@@ -6,9 +6,6 @@ export class DocumentTools {
     const ret = await doc.update({
         [path]: [...array, newData]
     });
-    // const data = (foundry.utils.getProperty(doc, path) as unknown[] ?? []).slice();
-    // const newArr = [...data, newData];
-    // const ret = await doc.update( {[path]: newArr});
     if (!ret) {
       console.warn(`Array add to ${path} on ${doc.name} seems to have failed`);
     }
@@ -35,11 +32,7 @@ export class DocumentTools {
     }
     const item = data[index];
     data[index] = mutator(item as ItemType);
-    const ret =await doc.update( {[path]: data.slice()});
-    //This didn't seem to work well for updates
-    // if (!ret) {
-    //   console.warn(`Array edit to ${path} on ${index} seems to have failed`);
-    // }
+    const ret = await doc.update( {[path]: data.slice()});
     return ret;
   }
 

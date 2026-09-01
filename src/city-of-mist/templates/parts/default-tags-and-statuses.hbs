@@ -6,9 +6,11 @@
       <i class="fas fa-plus-square"></i>
     </a>
     {{/if}}
+    <a class="refresh" title="{{localize 'CityOfMist.command.refreshDefaultTagsAndStatus'}}">
+      <i class="fa-solid fa-arrow-rotate-left"></i>
+    </a>
   </h2>
   <div class="list">
-
     {{#each actor.system.defaultTags as |tag i|}}
     <div class="list-item default-tag" data-type="{{tag.type}}" data-index="{{i}}">
       {{#if tag.hidden}}
@@ -20,7 +22,7 @@
       {{/if}}
       <input class="default-tag" type="text" value="{{tag.name}}" >
     </div>
-    {{/each}}
+      {{/each}}
 
     {{#each actor.system.defaultStatuses as |status i|}}
     <div class="list-item default-status" data-type="{{status.type}}" data-index="{{i}}">

@@ -1590,6 +1590,29 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
       });
   }
 
+  async refreshDefaultTagsAndStatus(this: Danger) {
+    const defaults = [
+      ...this.system.defaultTags,
+      ...this.system.defaultStatuses,
+    ];
+    for (const item of defaults) {
+      if ("tier" in item) {
+        //its a status
+        const existing=  this.my_statuses.find( x=> x.name == item.name);
+        if (existing) {
+          await existing.setTier(item.tier);
+          continue;
+        }
+        await this.createNewStatus(item.name, item.tier, 0);
+        continue;
+      } else {
+        //its a tag
+        await this.createStoryTag(item.name, true);
+      }
+    }
+  }
+
+
   async deleteDefaultStatus(this: Danger, index: number) {
    return await DocumentTools.arrayDelete(this, "system.defaultStatuses", index);
   }

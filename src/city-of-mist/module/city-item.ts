@@ -1849,6 +1849,14 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
     return game.user.isGM || !this.hidden;
   }
 
+  async setTier(this: Status, newtier: number, newpips= 0) {
+    const updateObj = {
+      tier: newtier,
+      pips: newpips,
+    };
+    await this.update({system: updateObj});
+  }
+
 }
 
 export type Theme = Subtype<CityItem, "theme">;

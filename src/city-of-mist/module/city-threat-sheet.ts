@@ -51,6 +51,7 @@ export class CityThreatSheet extends CityActorSheet {
     html.find(".default-tags-and-statuses .list input").on("change",  ev => void this.#onDefaultTagChange(ev));
     html.find(".default-tags-and-statuses .list .list-item").on("click",  ev => void this.#onDefaultHideToggle(ev));
     html.find(".default-tags-and-statuses .create-default").on("click",  ev => void this.#createDefault(ev));
+    html.find(".default-tags-and-statuses .refresh").on("click", ev => void this.#refreshDefaultTagsAndStatus(ev));
 	}
 
 	override async getData() {
@@ -356,7 +357,10 @@ export class CityThreatSheet extends CityActorSheet {
     ;
   }
 
+  async #refreshDefaultTagsAndStatus(_ev?: JQuery.ClickEvent) {
+    await this.actor.refreshDefaultTagsAndStatus();
 
+  }
 
 } //end of class
 
