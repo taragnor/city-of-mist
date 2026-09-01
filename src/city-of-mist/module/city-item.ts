@@ -1838,6 +1838,12 @@ export class CityItem extends Item<typeof ITEMMODELS, CityActor, ActiveEffect<Ci
 		return this.name;
 	}
 
+  async setHidden(this: Status | Tag, value: boolean) {
+    if (this.system.hidden != value) {
+      await this.update({"system.hidden": value});
+    }
+  }
+
   get hidden() : boolean {
     if (this.isTag() || this.isStatus()) {
       return this.system.hidden ?? false;

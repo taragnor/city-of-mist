@@ -28,6 +28,7 @@ import { Theme } from "./city-item.js";
 import { Spectrum } from "./city-item.js";
 import { CityActorSheet } from "./city-actor-sheet.js";
 import {DocumentTools} from "./tools/foundry-document-helpers.js";
+import {EmbeddedStatusDM, EmbeddedTagDM} from "./datamodel/item-types.js";
 
 export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<CityActor, CityItem>> {
 
@@ -1590,24 +1591,35 @@ export class CityActor extends Actor<typeof ACTORMODELS, CityItem, ActiveEffect<
       });
   }
 
-  async refreshDefaultTagsAndStatus(this: Danger) {
-    const defaults = [
+  get defaultTagsAndStatuses() : (Danger["system"]["defaultTags"][number] | Danger["system"]["defaultStatuses"][number])[]{
+    if (!this.isDanger()) {return [];}
+    return [
       ...this.system.defaultTags,
       ...this.system.defaultStatuses,
     ];
+  }
+
+  async refreshDefaultTagsAndStatus(this: Danger) {
+    const defaults = this.defaultTagsAndStatuses;
     for (const item of defaults) {
       if ("tier" in item) {
         //its a status
-        const existing=  this.my_statuses.find( x=> x.name == item.name);
+        const existing =  this.my_statuses.find( x=> x.name == item.name);
         if (existing) {
           await existing.setTier(item.tier);
+          await existing.setHidden(item.hidden);
           continue;
         }
-        await this.createNewStatus(item.name, item.tier, 0);
+        await this.createNewStatus(item.name, item.tier, 0, {hidden: item.hidden});
         continue;
       } else {
         //its a tag
-        await this.createStoryTag(item.name, true);
+        const existing =  this.my_story_tags.find( x=> x.name == item.name);
+        if (existing) {
+          await existing.setHidden(item.hidden);
+        } else {
+          await this.createStoryTag(item.name, true, {hidden: item.hidden});
+        }
       }
     }
   }

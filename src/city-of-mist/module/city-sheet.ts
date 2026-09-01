@@ -10,12 +10,14 @@ import { DragAndDrop } from "./dragAndDrop.js";
 import { CityActor } from "./city-actor.js";
 import { CityHelpers } from "./city-helpers.js";
 import { CityDB } from "./city-db.js";
+import {ContextMenu} from "./tools/context-menu.js";
 
 export class CitySheet extends foundry.appv1.sheets.ActorSheet<CityActor> {
 	scrollTop: number = 0;
 	flipped: boolean[] = [false, false, false, false, false, false, false, false ];
 
 	/* -------------------------------------------- */
+  contextMenu: ContextMenu;
 
 	override async getData(): Promise<SheetData> {
 		await CityDB.waitUntilLoaded();
@@ -26,11 +28,16 @@ export class CitySheet extends foundry.appv1.sheets.ActorSheet<CityActor> {
 		return data;
 	}
 
+  constructor(obj: object, options: object) {
+    super(obj, options );
+    this.contextMenu = new ContextMenu("actor-sheet-context-menu");
+  }
+
 	/** @override */
 	override activateListeners(html : JQuery<HTMLElement>) {
 		super.activateListeners(html);
 		if (!this.options.editable) {return;}
-
+    this.contextMenu.attachToContainer(html);
 		html.find(".item-create-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".add-theme").on("click", this._addThemeBook.bind(this));
 		html.find(".edit-themekit").on("click", this._editThemeKit.bind(this));

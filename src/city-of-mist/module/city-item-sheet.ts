@@ -15,8 +15,11 @@ import { CityItem } from "./city-item.js";
 import { TAG_CATEGORIES } from "./config/tag-categories.js";
 import { STATUS_CATEGORIES } from "./config/status-categories.js";
 import { GM_MOVE_HEADER_TYPES, GM_MOVE_TYPES, MOVE_COMPARISON, MOVE_POINT_COST, PLAYER_MOVE_CATEGORY, PLAYER_MOVE_SUBTYPES } from "./config/move-types.js";
+import {ContextMenu} from "./tools/context-menu.js";
 
 export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
+
+  contextMenu: ContextMenu;
 
 	/** @override */
 		static override get defaultOptions() {
@@ -29,6 +32,10 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		});
 	}
 
+  constructor(obj: object, options: object) {
+    super(obj, options );
+    this.contextMenu = new ContextMenu("item-sheet-context-menu");
+  }
 
 	/* -------------------------------------------- */
 
@@ -133,6 +140,7 @@ export class CityItemSheet extends foundry.appv1.sheets.ItemSheet<CityItem> {
 		super.activateListeners(html);
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) {return;}
+    this.contextMenu.attachToContainer(html);
 		html.find(".tk-create-imp").on("click", this._addTKImprovement.bind(this));
 		html.find(".tk-delete-imp").on("click", this._deleteTKImprovement.bind(this));
 		html.find(".item-create-power-tag-question").on("click", this._addPowerTagQuestion.bind(this));

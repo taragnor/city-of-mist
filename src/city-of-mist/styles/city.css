@@ -3142,6 +3142,32 @@ Flip Card code
     cursor: e-resize;
   }
 
+  .context-menu {
+    position: fixed;
+    display: none;
+
+    min-width: 180px;
+    background: #2b2b2b;
+    border: 1px solid #444;
+    border-radius: 6px;
+
+    padding: 4px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+
+    z-index: 10000;
+
+    .menu-item {
+      padding: 10px 14px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .menu-item:hover {
+      background: #3d3d3d;
+    }
+  }
+
   .default-tags-and-statuses {
 
     .list {

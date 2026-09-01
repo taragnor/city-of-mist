@@ -6,6 +6,7 @@ import { CityActorSheet } from "./city-actor-sheet.js";
 import {CityDB} from "./city-db.js";
 import { CityActor, Danger } from "./city-actor.js";
 import {DocumentTools} from "./tools/foundry-document-helpers.js";
+import {ContextMenuOptions} from "./tools/context-menu.js";
 
 export class CityThreatSheet extends CityActorSheet {
 	declare actor: Danger;
@@ -46,10 +47,12 @@ export class CityThreatSheet extends CityActorSheet {
 		html.find('.template-delete').on("click", ev=> void this._deleteTemplate(ev));
 		html.find('.template-name').on("click", ev=> void this._jumpToTemplate(ev));
 		html.find('.add-sub-move').on("click", ev => void this.#addSubMove(ev));
-    html.find(".default-tags-and-statuses .list .default-tag").rightclick( ev => this.#deleteDefaultTag(ev));
-    html.find(".default-tags-and-statuses .list .default-status").rightclick( ev => this.#deleteDefaultStatus(ev));
+    html.find(".default-tags-and-statuses .list .default-tag").on("contextmenu", ev => this.#openDefaultTagStatusContextMenu(ev));
+    html.find(".default-tags-and-statuses .list .default-status").on( "contextmenu", ev => this.#openDefaultTagStatusContextMenu(ev));
+    // html.find(".default-tags-and-statuses .list .default-tag").rightclick( ev => this.#deleteDefaultTag(ev));
+    // html.find(".default-tags-and-statuses .list .default-status").rightclick( ev => this.#deleteDefaultStatus(ev));
     html.find(".default-tags-and-statuses .list input").on("change",  ev => void this.#onDefaultTagChange(ev));
-    html.find(".default-tags-and-statuses .list .list-item").on("click",  ev => void this.#onDefaultHideToggle(ev));
+    // html.find(".default-tags-and-statuses .list .list-item").on("click",  ev => void this.#onDefaultHideToggle(ev));
     html.find(".default-tags-and-statuses .create-default").on("click",  ev => void this.#createDefault(ev));
     html.find(".default-tags-and-statuses .refresh").on("click", ev => void this.#refreshDefaultTagsAndStatus(ev));
 	}
@@ -316,7 +319,6 @@ export class CityThreatSheet extends CityActorSheet {
   }
 
   async #onDefaultHideToggle(ev: JQuery.ClickEvent) {
-    if (!this.actor.isLocked()) {return;}
     ev.preventDefault();
     ev.stopPropagation();
     const index =  Number(HTMLTools.getClosestData(ev, "index"));
@@ -326,13 +328,13 @@ export class CityThreatSheet extends CityActorSheet {
         await DocumentTools.arrayUpdate(this.actor,
           "system.defaultTags",
           index,
-          (tag: this["actor"]["system"]["defaultTags"][number]) => {tag.hidden = !tag.hidden; return tag;});
+          (tag: this["actor"]["system"]["defaultTags"][number]) => { return {...tag, hidden : !tag.hidden};});
         break;
       case "status":
         await DocumentTools.arrayUpdate(this.actor,
           "system.defaultStatuses",
           index,
-          (st: this["actor"]["system"]["defaultStatuses"][number]) => {st.hidden = !st.hidden; return st;});
+          (st: this["actor"]["system"]["defaultStatuses"][number]) => {return {...st, hidden : !st.hidden};});
         break;
       default:
         throw new Error(`Unknown Type ${type}`);
@@ -359,7 +361,25 @@ export class CityThreatSheet extends CityActorSheet {
 
   async #refreshDefaultTagsAndStatus(_ev?: JQuery.ClickEvent) {
     await this.actor.refreshDefaultTagsAndStatus();
+  }
 
+  #openDefaultTagStatusContextMenu(ev: JQuery.ContextMenuEvent) {
+    // const index =  Number(HTMLTools.getClosestData(ev, "index"));
+    const target = $(ev.currentTarget);
+    const isTag = target.hasClass("default-tag");
+    const options : ContextMenuOptions[] = [{
+      label: "Delete",
+      "action": (ev : JQuery.ClickEvent) => {
+        if (isTag) {void this.#deleteDefaultTag(ev);}
+        else {void this.#deleteDefaultStatus(ev);}
+      }
+    } , {
+      label: "toggle Hidden state",
+      action: (ev: JQuery.ClickEvent) => {
+        void this.#onDefaultHideToggle(ev);
+      },
+    } ];
+    this.contextMenu.show(ev, options);
   }
 
 } //end of class
