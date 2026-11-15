@@ -27,8 +27,12 @@ export function CITY_SETTINGS() {
 				"custom": localize("CityOfMist.settings.system.3"),
 			},
 			restricted: true,
-			onChange: async (newSystem: string) => {
-				await CitySettings.refreshSystem(newSystem as System);
+			onChange: async (newSystem: string, _options?: unknown, userId?: string) => {
+				// onChange fires on every connected client; only the user who
+				// made the change applies the preset, everyone else just reloads.
+				if (isLocalChange(userId)) {
+					await CitySettings.refreshSystem(newSystem as System);
+				}
 				delayedReload();
 			},
 		},
@@ -367,6 +371,26 @@ function showDevSettings() : boolean {
 
 }
 
+/** true if the setting change was made by this client (or the caller didn't say) */
+function isLocalChange(userId?: string) : boolean {
+	return !userId || userId == game.user.id;
+}
+
+/** Switch the "system" setting to "custom" after a manual edit of a rules
+setting. Ignored while a system preset is being applied (SystemModule.setActive)
+and on clients other than the one that made the change, otherwise selecting
+a system flips itself back to "custom".
+*/
+async function markCustom(userId?: string) : Promise<void> {
+	if (SystemModule.isApplyingPreset || !isLocalChange(userId)) {
+		return;
+	}
+	if (CitySettings.get("system") == "custom") {
+		return;
+	}
+	await CitySettings.set("system", "custom");
+}
+
 export function DEV_SETTINGS() {
 	const SHOW_DEV_SETTINGS = showDevSettings();
 	return {
@@ -379,11 +403,10 @@ export function DEV_SETTINGS() {
 			default: "city-of-mist",
 			choices: {...SYSTEM_CHOICES()},
 			restricted: true,
-			onChange: async (newval: string) => {
+			onChange: async (newval: string, _options?: unknown, userId?: string) => {
 				const curr = CitySettings.get("system");
-				if (curr != newval && curr != "custom") {
-					await CitySettings.set("system", "custom");
-					delayedReload();
+				if (curr != newval) {
+					await markCustom(userId);
 				}
 			}
 		},
@@ -437,8 +460,8 @@ export function DEV_SETTINGS() {
 				"none": localize("CityOfMist.settings.movesInclude.none"),
 			},
 			restricted: true,
-			onChange: async () => {
-				await CitySettings.set("system", "custom");
+			onChange: async (_newval: string, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 				delayedReload();
 			}
 		},
@@ -457,8 +480,8 @@ export function DEV_SETTINGS() {
 
 			},
 			restricted: true,
-			onChange: async (_newval:string) => {
-				await game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval: string, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 			}
 		},
 
@@ -485,8 +508,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.tagBurn.1"),
 			},
 			restricted: true,
-			onChange: async () => {
-				await game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval: unknown, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 			}
 		},
 
@@ -498,8 +521,8 @@ export function DEV_SETTINGS() {
 			type: Boolean,
 			default: false,
 			restricted: true,
-			onChange: async () => {
-				await game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval: unknown, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 			}
 		},
 
@@ -515,8 +538,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.themeStyle.1"),
 			},
 			restricted: true,
-			onChange: async () => {
-				await game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval: unknown, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 			}
 		},
 
@@ -532,8 +555,8 @@ export function DEV_SETTINGS() {
 				"mist-engine": localize("CityOfMist.settings.themeStyle.1"),
 			},
 			restricted: true,
-			onChange: async () => {
-				await game.settings.set('city-of-mist', "system", "custom");
+			onChange: async (_newval: unknown, _options?: unknown, userId?: string) => {
+				await markCustom(userId);
 			}
 		},
 
