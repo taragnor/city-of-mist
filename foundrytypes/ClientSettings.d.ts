@@ -32,7 +32,8 @@ interface SettingConfig<T extends SettingValue = SettingValue> {
 	type: T;
 	choices?: Record<T, string>;
 	default: InstanceType<T>;
-	onChange?: (newval: InstanceType<T>) => void;
+	/** Called on every connected client; userId is the user who made the change */
+	onChange?: (newval: InstanceType<T>, options?: unknown, userId?: string) => void;
 	/** Restrict this submenu to gamemaster only? */
 	restricted?: boolean
 }

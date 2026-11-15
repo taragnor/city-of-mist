@@ -58,7 +58,16 @@ export abstract class SystemModule {
 		}
 	}
 
+	static #applyingPreset = false;
+
+	/** true while setActive is writing a system's preset settings, so the
+	rules settings' onChange handlers don't flip the system to "custom" */
+	static get isApplyingPreset() : boolean {
+		return this.#applyingPreset;
+	}
+
 	static async setActive(systemName: keyof SYSTEM_NAMES) : Promise<boolean> {
+		this.#applyingPreset = true;
 		try {
 			await CitySettings.set("baseSystem", systemName);
 			await this.active.onChangeTo();
@@ -67,6 +76,8 @@ export abstract class SystemModule {
 			const err = e as Error;
 			console.log(`Error ${err.message}\n : ${err.stack} `);
 			return false;
+		} finally {
+			this.#applyingPreset = false;
 		}
 		return true;
 	}
